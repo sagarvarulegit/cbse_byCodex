@@ -141,3 +141,11 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# HyperFrames generated local assets
+videos/*/chrome-headless-shell/
+videos/*/.thumbnails/
+videos/*/.waveform-cache/
+
+# Local Codex hook config
+.codex/hooks.json

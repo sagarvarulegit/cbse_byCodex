@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  student
+  admin
+  teacher_reviewer
+  support
+}
+
+enum AccessLevel {
+  free
+  premium
+}
+
+enum PublishStatus {
+  draft
+  review
+  published
+  archived
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  phone     String?  @unique
+  role      UserRole @default(student)
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile       UserProfile?
+  subscriptions Subscription[]
+  progressEvents ProgressEvent[]
+}
+
+model UserProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  fullName        String
+  classLevel      Int      @default(10)
+  schoolName      String?
+  targetExamYear  Int?
+  preferredLanguage String @default("en")
+  themePreference String  @default("system")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  classLevel  Int
+  name        String
+  slug        String   @unique
+  description String?
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(false)
+
+  chapters Chapter[]
+}
+
+model Chapter {
+  id                 String  @id @default(cuid())
+  subjectId          String
+  title              String
+  slug               String
+  ncertChapterNumber Int
+  description        String?
+  sortOrder          Int     @default(0)
+  isPublished        Boolean @default(false)
+
+  subject Subject @relation(fields: [subjectId], references: [id])
+  topics  Topic[]
+
+  @@unique([subjectId, slug])
+}
+
+model Topic {
+  id               String  @id @default(cuid())
+  chapterId         String
+  title             String
+  slug              String
+  description       String?
+  sortOrder         Int     @default(0)
+  estimatedMinutes  Int?
+  isPublished       Boolean @default(false)
+
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+  lessons Lesson[]
+
+  @@unique([chapterId, slug])
+}
+
+model Lesson {
+  id                String        @id @default(cuid())
+  topicId           String
+  title             String
+  slug              String
+  description       String?
+  learningObjective String?
+  accessLevel       AccessLevel   @default(premium)
+  sortOrder         Int           @default(0)
+  estimatedMinutes  Int?
+  publishStatus     PublishStatus @default(draft)
+  publishedAt       DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  topic  Topic @relation(fields: [topicId], references: [id])
+  videos Video[]
+  notes  Note[]
+
+  @@unique([topicId, slug])
+}
+
+model Video {
+  id                 String   @id @default(cuid())
+  lessonId           String
+  provider           String   @default("bunny")
+  providerLibraryId  String?
+  providerVideoId    String?
+  playbackUrl        String?
+  embedUrl           String?
+  durationSeconds    Int?
+  thumbnailUrl       String?
+  drmRequired        Boolean  @default(false)
+  offlineAllowed     Boolean  @default(false)
+  processingStatus   String   @default("pending")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([provider, providerVideoId])
+}
+
+model Note {
+  id                    String   @id @default(cuid())
+  lessonId              String
+  title                 String
+  bodyMarkdown          String
+  summaryMarkdown       String?
+  formulaMarkdown       String?
+  commonMistakesMarkdown String?
+  boardTipsMarkdown     String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+}
+
+model Quiz {
+  id                  String   @id @default(cuid())
+  title               String
+  quizType            String
+  accessLevel         AccessLevel @default(premium)
+  timeLimitSeconds    Int?
+  passingScorePercent Int?
+  isPublished         Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Subscription {
+  id                     String   @id @default(cuid())
+  userId                 String
+  provider               String
+  providerCustomerId     String?
+  providerSubscriptionId String?
+  planCode               String
+  status                 String
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  cancelAtPeriodEnd      Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model ProgressEvent {
+  id         String   @id @default(cuid())
+  userId     String
+  eventType  String
+  subjectId  String?
+  chapterId  String?
+  topicId    String?
+  lessonId   String?
+  quizId     String?
+  metadata   Json?
+  occurredAt DateTime
+  receivedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
