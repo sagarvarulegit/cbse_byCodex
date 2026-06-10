@@ -153,3 +153,5 @@ videos/*/.waveform-cache/
 # Vercel local project metadata
 .vercel/
 **/.vercel/
+.vercel
+videos/
