@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getQuizContent } from '../../../lib/course-content';
+import { getQuizContent } from '../../../../lib/course-content';
 
 export default async function QuizPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
