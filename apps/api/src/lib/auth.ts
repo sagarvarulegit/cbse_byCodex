@@ -9,6 +9,10 @@ const PASSWORD_KEY_LENGTH = 64;
 type SessionTokenPayloadInput = {
   role: UserRole;
   userId: string;
+  fullName?: string;
+  classLevel?: number;
+  email?: string | null;
+  phone?: string | null;
 };
 
 export type SessionTokenPayload = SessionTokenPayloadInput & {

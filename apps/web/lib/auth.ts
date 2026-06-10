@@ -1,3 +1,4 @@
+import { createHmac, timingSafeEqual } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -82,11 +83,59 @@ export async function registerStudent(fullName: string, email: string, password:
   return data.user;
 }
 
+const AUTH_SECRET = process.env.AUTH_TOKEN_SECRET ?? 'local-dev-auth-secret';
+
+function signValue(value: string, secret: string) {
+  return createHmac('sha256', secret).update(value).digest('base64url');
+}
+
+function verifyLocalToken(token: string): any | null {
+  try {
+    const [encodedPayload, signature] = token.split('.');
+    if (!encodedPayload || !signature) {
+      return null;
+    }
+
+    const expectedSignature = signValue(encodedPayload, AUTH_SECRET);
+    const actualSignature = Buffer.from(signature, 'utf8');
+    const expectedSignatureBuffer = Buffer.from(expectedSignature, 'utf8');
+
+    if (actualSignature.length !== expectedSignatureBuffer.length) {
+      return null;
+    }
+
+    if (!timingSafeEqual(actualSignature, expectedSignatureBuffer)) {
+      return null;
+    }
+
+    const parsedPayload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
+    if (parsedPayload.exp <= Math.floor(Date.now() / 1000)) {
+      return null;
+    }
+
+    return parsedPayload;
+  } catch {
+    return null;
+  }
+}
+
 export async function getStudentSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
   if (!token) {
     return null;
+  }
+
+  const payload = verifyLocalToken(token);
+  if (payload && payload.userId && payload.fullName) {
+    return {
+      id: payload.userId,
+      role: payload.role,
+      fullName: payload.fullName,
+      classLevel: payload.classLevel ?? 10,
+      email: payload.email ?? null,
+      phone: payload.phone ?? null,
+    } as SessionUser;
   }
 
   const response = await fetch(`${API_BASE_URL}/v1/auth/session`, {

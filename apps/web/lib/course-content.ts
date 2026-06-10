@@ -156,6 +156,13 @@ const lessonDirectories: Partial<Record<keyof typeof chapters, string>> = {
   'real-numbers': path.join(process.cwd(), 'content', 'real-numbers', 'lessons'),
 };
 
+// Directory for quiz markdown (shared per chapter)
+const quizDirectories: Partial<Record<keyof typeof chapters, string>> = {
+  'real-numbers': path.join(process.cwd(), 'content', 'real-numbers', 'lessons'),
+};
+
+
+
 export function getChapter(slug: string) {
   return chapters[slug] ?? null;
 }
@@ -195,6 +202,22 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
     previousLesson: lessonIndex > 0 ? chapter.lessons[lessonIndex - 1] : null,
     nextLesson: lessonIndex < chapter.lessons.length - 1 ? chapter.lessons[lessonIndex + 1] : null,
   };
+}
+
+/**
+ * Load the chapter‑level quiz markdown.
+ * The file is expected at `${quizDirectories[chapterSlug]}/quiz.md`.
+ */
+export async function getQuizContent(chapterSlug: string): Promise<string | null> {
+  const directory = quizDirectories[chapterSlug as keyof typeof quizDirectories];
+  if (!directory) return null;
+  const quizPath = path.join(directory, 'quiz.md');
+  try {
+    const raw = await fs.readFile(quizPath, 'utf8');
+    return stripFrontmatter(raw);
+  } catch (e) {
+    return null;
+  }
 }
 
 function stripFrontmatter(source: string) {

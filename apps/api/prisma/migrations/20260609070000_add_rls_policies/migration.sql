@@ -39,11 +39,15 @@ BEGIN
   END LOOP;
 END $$;
 
--- Grant anon read access to catalog tables
-GRANT SELECT ON "Subject" TO anon;
-GRANT SELECT ON "Chapter" TO anon;
-GRANT SELECT ON "Topic" TO anon;
-GRANT SELECT ON "Lesson" TO anon;
-GRANT SELECT ON "Video" TO anon;
-GRANT SELECT ON "Note" TO anon;
-GRANT SELECT ON "Quiz" TO anon;
+-- Grant anon read access to catalog tables dynamically and safely
+DO $$
+DECLARE
+  t text;
+BEGIN
+  FOREACH t IN ARRAY ARRAY['Subject','Chapter','Topic','Lesson','Video','Note','Quiz']
+  LOOP
+    IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = t) THEN
+      EXECUTE format('GRANT SELECT ON %I TO anon', t);
+    END IF;
+  END LOOP;
+END $$;

@@ -4,6 +4,7 @@ import express from 'express';
 
 import { createSessionToken, readSessionToken, hashPassword, verifyPassword } from './lib/auth.js';
 import { prisma } from './lib/prisma.js';
+import { rateLimit } from './lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from './lib/registration.js';
 
 const allowedOrigins = process.env.CORS_ORIGIN
@@ -14,6 +15,12 @@ const allowedOrigins = process.env.CORS_ORIGIN
 const app = express();
 const DEFAULT_AUTH_SESSION_DAYS = 14;
 const MIN_PASSWORD_LENGTH = 8;
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Max 10 attempts
+  message: 'Too many registration or login attempts. Please try again after 15 minutes.',
+});
 
 app.use(cors(allowedOrigins?.length ? { origin: allowedOrigins, credentials: true } : undefined));
 app.use(express.json());
@@ -115,11 +122,12 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'cbse-api' });
 });
 
-app.post('/v1/auth/register', async (req, res) => {
+app.post('/v1/auth/register', authLimiter, async (req, res) => {
   try {
     const fullName = normalizeFullName(req.body?.fullName);
     const email = normalizeEmail(req.body?.email);
-    const passwordError = validatePassword(req.body?.password);
+    const password = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
+    const passwordError = validatePassword(password);
     const { classLevel, error: classLevelError } = normalizeRegistrationClassLevel(req.body?.classLevel);
 
     if (!fullName) {
@@ -143,7 +151,7 @@ app.post('/v1/auth/register', async (req, res) => {
       return res.status(409).json({ message: 'An account already exists for this email.' });
     }
 
-    const passwordHash = await hashPassword(req.body.password);
+    const passwordHash = await hashPassword(password);
     const user = await prisma.user.create({
       data: {
         email,
@@ -165,6 +173,9 @@ app.post('/v1/auth/register', async (req, res) => {
       {
         role: user.role,
         userId: user.id,
+        fullName: user.profile?.fullName ?? 'Student',
+        classLevel: user.profile?.classLevel ?? 10,
+        email: user.email,
       },
       getAuthSecret(),
       getAuthSessionDurationSeconds(),
@@ -177,10 +188,10 @@ app.post('/v1/auth/register', async (req, res) => {
   }
 });
 
-app.post('/v1/auth/login', async (req, res) => {
+app.post('/v1/auth/login', authLimiter, async (req, res) => {
   try {
     const email = normalizeEmail(req.body?.email);
-    const password = typeof req.body?.password === 'string' ? req.body.password : '';
+    const password = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
 
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required.' });
@@ -210,6 +221,9 @@ app.post('/v1/auth/login', async (req, res) => {
       {
         role: user.role,
         userId: user.id,
+        fullName: user.profile?.fullName ?? 'Student',
+        classLevel: user.profile?.classLevel ?? 10,
+        email: user.email,
       },
       getAuthSecret(),
       getAuthSessionDurationSeconds(),
@@ -256,20 +270,61 @@ app.post('/v1/auth/logout', (_req, res) => {
   res.status(204).send();
 });
 
-app.get('/v1/catalog/pilot', (_req, res) => {
-  res.json({
-    classLevel: 10,
-    subjects: [
-      {
-        name: 'Mathematics',
-        chapters: [{ title: 'Real Numbers', accessLevel: 'free-preview' }],
+app.get('/v1/catalog/pilot', async (_req, res) => {
+  try {
+    const subjects = await prisma.subject.findMany({
+      where: {
+        classLevel: 10,
+        isPublished: true,
       },
-      {
-        name: 'Science',
-        chapters: [{ title: 'Chemical Reactions and Equations', accessLevel: 'free-preview' }],
+      orderBy: {
+        sortOrder: 'asc',
       },
-    ],
-  });
+      include: {
+        chapters: {
+          where: {
+            isPublished: true,
+          },
+          orderBy: {
+            sortOrder: 'asc',
+          },
+          include: {
+            topics: {
+              where: {
+                isPublished: true,
+              },
+              include: {
+                lessons: {
+                  where: {
+                    publishStatus: 'published',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.json({
+      classLevel: 10,
+      subjects: subjects.map((subject) => ({
+        name: subject.name,
+        chapters: subject.chapters.map((chapter) => {
+          const hasFreeLesson = chapter.topics.some((topic) =>
+            topic.lessons.some((lesson) => lesson.accessLevel === 'free')
+          );
+          return {
+            title: chapter.title,
+            accessLevel: hasFreeLesson ? 'free-preview' : 'premium',
+          };
+        }),
+      })),
+    });
+  } catch (error) {
+    console.error('Failed to load pilot catalog', error);
+    return res.status(500).json({ message: 'Unable to load the catalog right now.' });
+  }
 });
 
 export default app;

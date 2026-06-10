@@ -49,7 +49,7 @@ test('readSessionToken rejects tampered tokens', () => {
   );
 
   const parts = token.split('.');
-  parts[1] = Buffer.from(JSON.stringify({ userId: 'admin_1', role: 'admin', exp: 9999999999 })).toString(
+  parts[0] = Buffer.from(JSON.stringify({ userId: 'admin_1', role: 'admin', exp: 9999999999 })).toString(
     'base64url',
   );
 

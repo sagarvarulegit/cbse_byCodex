@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getChapter } from '../../../lib/course-content';
+import { getChapter, getQuizContent } from '../../../lib/course-content';
 import { getStudentSession } from '../../../lib/auth';
 import { getChapterHomeHref } from '../../../lib/student-navigation';
 
 export default async function ChapterPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const quizContent = await getQuizContent(slug);
   const chapter = getChapter(slug);
   const session = await getStudentSession();
 
@@ -91,6 +92,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           <div>
             <p className="eyebrow">Lesson path</p>
             <h2>{hasLiveNotes ? 'Simple-English notes now live.' : 'Short videos, notes, quiz checkpoints.'}</h2>
+            {quizContent && (
+              <Link className="button-link" href={`/chapters/${slug}/quiz`}>Take chapter quiz</Link>
+            )}
           </div>
           {hasLiveNotes ? (
             <span className="section-badge">{chapter.lessons.length} notes ready for review</span>
