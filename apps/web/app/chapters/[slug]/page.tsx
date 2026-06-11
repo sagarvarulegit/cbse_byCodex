@@ -1,21 +1,19 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getChapter, getQuizContent } from '../../../lib/course-content';
-import { getStudentSession } from '../../../lib/auth';
-import { getChapterHomeHref } from '../../../lib/student-navigation';
+import { getChapter, getQuizContent, hasChapterPack } from '../../../lib/course-content';
 
 export default async function ChapterPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const quizContent = await getQuizContent(slug);
   const chapter = getChapter(slug);
-  const session = await getStudentSession();
 
   if (!chapter) {
     notFound();
   }
 
-  const hasLiveNotes = chapter.lessons.some((lesson) => lesson.fileName);
-  const homeHref = getChapterHomeHref(Boolean(session));
+  const hasLessonNotes = chapter.lessons.some((lesson) => lesson.fileName);
+  const hasPackNotes = hasChapterPack(slug);
+  const isLive = hasLessonNotes || hasPackNotes;
 
   return (
     <main>
@@ -24,9 +22,10 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           <span className="brand-mark">10</span>
           <span>CBSE Sprint</span>
         </Link>
-        <Link className="nav-cta" href={homeHref}>
-          Home
-        </Link>
+        <div className="nav-links">
+          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/subjects">Subjects</Link>
+        </div>
       </nav>
 
       <section className="chapter-hero section-shell">
@@ -36,11 +35,15 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           <p className="subtext">{chapter.summary}</p>
           <div className="hero-actions">
             <a className="button-link" href="#lesson-plan">
-              {hasLiveNotes ? 'Open lesson notes' : 'Start lesson plan'}
+              {isLive ? 'Open notes' : 'Start lesson plan'}
             </a>
-            {hasLiveNotes ? (
+            {hasLessonNotes ? (
               <Link className="ghost-link" href={`/chapters/${slug}/lessons/${chapter.lessons[0].slug}`}>
                 Start first lesson
+              </Link>
+            ) : hasPackNotes ? (
+              <Link className="ghost-link" href={`/chapters/${slug}/notes`}>
+                Read chapter notes
               </Link>
             ) : (
               <a className="ghost-link" href="#mastery">
@@ -61,46 +64,63 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
         </aside>
       </section>
 
-      <section className="section-shell chapter-definition-grid">
-        <article className="definition-card">
-          <p className="eyebrow">Start here</p>
-          <h2>What is a real number?</h2>
-          <p className="subtext compact">
-            A real number is any number that can be shown on the number line. That includes whole
-            numbers, negative numbers, fractions, decimals, and numbers like √2.
-          </p>
-        </article>
-        <article className="definition-card soft">
-          <p className="eyebrow">Tiny recall</p>
-          <ul>
-            <li>
-              <code>5</code>, <code>0</code>, <code>-3</code> → real numbers
-            </li>
-            <li>
-              <code>3/4</code>, <code>0.25</code> → real numbers
-            </li>
-            <li>
-              <code>√2</code>, <code>π</code> → also real numbers
-            </li>
-          </ul>
-          <p className="definition-note">If it sits somewhere on the number line, it belongs here. Nice and simple.</p>
-        </article>
-      </section>
+      {hasPackNotes ? (
+        <section className="section-shell chapter-definition-grid">
+          <article className="definition-card">
+            <p className="eyebrow">Chapter notes</p>
+            <h2>{chapter.title} notes are live.</h2>
+            <p className="subtext compact">
+              Read the complete chapter pack with goals, concept flow, exam-friendly points, common mistakes, and practice prompts.
+            </p>
+          </article>
+          <article className="definition-card soft">
+            <p className="eyebrow">Revision path</p>
+            <ul>
+              <li>Start with the chapter goal.</li>
+              <li>Revise each concept in order.</li>
+              <li>Finish with the practice and board tips.</li>
+            </ul>
+            <Link className="card-link" href={`/chapters/${slug}/notes`}>
+              Read chapter notes
+            </Link>
+          </article>
+        </section>
+      ) : null}
 
       <section className="section-shell" id="lesson-plan">
         <div className="section-heading">
           <div>
             <p className="eyebrow">Lesson path</p>
-            <h2>{hasLiveNotes ? 'Simple-English notes now live.' : 'Short videos, notes, quiz checkpoints.'}</h2>
+            <h2>{isLive ? 'Simple-English notes now live.' : 'Short videos, notes, quiz checkpoints.'}</h2>
             {quizContent && (
               <Link className="button-link" href={`/chapters/${slug}/quiz`}>Take chapter quiz</Link>
             )}
           </div>
-          {hasLiveNotes ? (
-            <span className="section-badge">{chapter.lessons.length} notes ready for review</span>
+          {isLive ? (
+            <span className="section-badge">
+              {hasLessonNotes ? `${chapter.lessons.length} lesson notes ready` : 'Chapter pack ready'}
+            </span>
           ) : null}
         </div>
-        <div className="lesson-list">
+        {hasPackNotes && !hasLessonNotes ? (
+          <div className="lesson-list">
+            <article className="lesson-row">
+              <span className="lesson-index">01</span>
+              <div>
+                <h3>Complete chapter notes</h3>
+                <p>Chapter pack · 15 min</p>
+                <p className="lesson-preview">{chapter.summary}</p>
+              </div>
+              <div className="lesson-actions">
+                <span className="access-pill free">Free</span>
+                <Link className="card-link lesson-open-link" href={`/chapters/${slug}/notes`}>
+                  Open notes
+                </Link>
+              </div>
+            </article>
+          </div>
+        ) : (
+          <div className="lesson-list">
           {chapter.lessons.map((lesson, index) => {
             const href = lesson.fileName ? `/chapters/${slug}/lessons/${lesson.slug}` : undefined;
 
@@ -129,7 +149,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
               </article>
             );
           })}
-        </div>
+          </div>
+        )}
       </section>
     </main>
   );

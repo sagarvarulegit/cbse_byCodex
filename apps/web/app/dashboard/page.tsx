@@ -21,8 +21,7 @@ export default async function DashboardPage() {
         </Link>
         <div className="nav-links">
           <Link href="/dashboard">Dashboard</Link>
-          <Link href="/chapters/real-numbers">Maths</Link>
-          <Link href="/chapters/chemical-reactions-and-equations">Science</Link>
+          <Link href="/subjects">Subjects</Link>
         </div>
         <form action={logoutAction} className="topbar-form">
           <button className="ghost-button" type="submit">
@@ -38,11 +37,8 @@ export default async function DashboardPage() {
             <h1>{session.fullName}</h1>
             <p className="subtext compact">Your student account is active for Class {session.classLevel}. Use this hub to enter the live pilot chapters and come back without hunting for links again.</p>
             <div className="auth-inline-actions">
-              <Link className="button-link" href="/chapters/real-numbers">
-                Open maths chapter
-              </Link>
-              <Link className="ghost-link" href="/chapters/chemical-reactions-and-equations">
-                Explore science
+              <Link className="button-link" href="/subjects">
+                Open Subjects
               </Link>
             </div>
           </div>

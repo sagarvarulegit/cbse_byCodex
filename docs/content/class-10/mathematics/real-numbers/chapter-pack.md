@@ -530,3 +530,13 @@ Created files:
 3. Admin-friendly structured JSON or seed data version
 4. Lesson summaries for free preview cards
 5. Topic-to-NCERT exercise mapping
+
+## comic style recap
+
+Panel 1: Prime Brick Builder breaks numbers into prime blocks: "Every composite has one fingerprint."
+
+Panel 2: HCF Hero hugs only the common factors: "Smallest shared powers are mine."
+
+Panel 3: LCM Loader collects all factors: "Biggest powers come with me."
+
+Panel 4: Irrational Imp refuses the fraction gate: "I cannot be written as `p/q`."
