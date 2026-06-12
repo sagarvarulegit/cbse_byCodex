@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { type Request } from 'express';
 
 import { createSessionToken, readSessionToken, hashPassword, verifyPassword } from './lib/auth.js';
-import { buildBunnyVideoUrls, getBunnyStreamConfig, signBunnyPlaybackUrl } from './lib/bunny.js';
+import { buildBunnyVideoUrls, getBunnyStreamConfig } from './lib/bunny.js';
 import { prisma } from './lib/prisma.js';
 import { rateLimit } from './lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from './lib/registration.js';
@@ -166,18 +166,9 @@ async function hasLessonAccess(req: Request, lesson: { accessLevel: string }) {
 }
 
 function getVideoPlaybackUrl(playbackUrl: string) {
-  const config = getBunnyStreamConfig();
-  if (!config.tokenAuthKey) {
-    return {
-      expiresAt: null,
-      playbackUrl,
-    };
-  }
-
-  const signedUrl = signBunnyPlaybackUrl(playbackUrl, config.tokenAuthKey, config.signedUrlTtlSeconds);
   return {
-    expiresAt: signedUrl.expiresAt,
-    playbackUrl: signedUrl.url,
+    expiresAt: null,
+    playbackUrl,
   };
 }
 
