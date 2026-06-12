@@ -15,6 +15,12 @@ type BunnyStreamVideo = {
   thumbnailFileName?: string;
 };
 
+export type BunnyStreamVideoStatus = {
+  durationSeconds: number | null;
+  processingStatus: string;
+  thumbnailUrl: string | null;
+};
+
 export type BunnyVideoUrls = {
   embedUrl: string;
   playbackUrl: string;
@@ -145,6 +151,26 @@ export async function createBunnyStreamVideo(title: string) {
     durationSeconds: typeof video.length === 'number' ? video.length : null,
     processingStatus: normalizeBunnyProcessingStatus(video.status, video.encodeProgress),
     videoId,
+  };
+}
+
+export async function fetchBunnyStreamVideo(videoId: string): Promise<BunnyStreamVideoStatus> {
+  const config = getBunnyStreamConfig();
+  const response = await fetch(`${STREAM_API_BASE_URL}/library/${config.libraryId}/videos/${encodePathSegment(videoId)}`, {
+    headers: {
+      Accept: 'application/json',
+      AccessKey: config.apiKey,
+    },
+  });
+
+  const video = await parseBunnyResponse(response) as BunnyStreamVideo;
+
+  return {
+    durationSeconds: typeof video.length === 'number' ? video.length : null,
+    processingStatus: normalizeBunnyProcessingStatus(video.status, video.encodeProgress),
+    thumbnailUrl: typeof video.thumbnailFileName === 'string' && video.thumbnailFileName
+      ? `https://${config.cdnHostname}/${encodePathSegment(videoId)}/${encodePathSegment(video.thumbnailFileName)}`
+      : null,
   };
 }
 

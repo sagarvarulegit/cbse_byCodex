@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { type Request } from 'express';
 
 import { createSessionToken, readSessionToken, hashPassword, verifyPassword } from './lib/auth.js';
-import { buildBunnyVideoUrls, getBunnyStreamConfig } from './lib/bunny.js';
+import { buildBunnyVideoUrls, fetchBunnyStreamVideo, getBunnyStreamConfig } from './lib/bunny.js';
 import { prisma } from './lib/prisma.js';
 import { rateLimit } from './lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from './lib/registration.js';
@@ -382,6 +382,40 @@ app.get('/v1/lessons/by-slug/:chapterSlug/:lessonSlug/video', async (req, res) =
       return res.status(404).json({ message: 'No video is attached to this lesson yet.' });
     }
 
+    let processingStatus = video.processingStatus;
+    let durationSeconds = video.durationSeconds;
+    let thumbnailUrl = video.thumbnailUrl;
+
+    if (video.provider === 'bunny') {
+      try {
+        const bunnyVideo = await fetchBunnyStreamVideo(video.providerVideoId);
+        processingStatus = bunnyVideo.processingStatus;
+        durationSeconds = bunnyVideo.durationSeconds ?? durationSeconds;
+        thumbnailUrl = bunnyVideo.thumbnailUrl ?? thumbnailUrl;
+
+        if (
+          bunnyVideo.processingStatus !== video.processingStatus ||
+          bunnyVideo.durationSeconds !== video.durationSeconds ||
+          bunnyVideo.thumbnailUrl !== video.thumbnailUrl
+        ) {
+          await prisma.video.update({
+            where: { id: video.id },
+            data: {
+              durationSeconds: bunnyVideo.durationSeconds ?? video.durationSeconds,
+              processingStatus: bunnyVideo.processingStatus,
+              thumbnailUrl: bunnyVideo.thumbnailUrl ?? video.thumbnailUrl,
+            },
+          });
+        }
+      } catch (error) {
+        console.error('Failed to refresh Bunny video status', {
+          error,
+          providerVideoId: video.providerVideoId,
+          videoId: video.id,
+        });
+      }
+    }
+
     const streamConfig = getBunnyStreamConfig();
     const urls = buildBunnyVideoUrls(
       video.providerLibraryId,
@@ -402,15 +436,15 @@ app.get('/v1/lessons/by-slug/:chapterSlug/:lessonSlug/video', async (req, res) =
         topicId: lesson.topicId,
       },
       video: {
-        durationSeconds: video.durationSeconds,
+        durationSeconds,
         embedUrl: video.embedUrl ?? urls.embedUrl,
         expiresAt: playback.expiresAt,
         id: video.id,
         playbackUrl: playback.playbackUrl,
-        processingStatus: video.processingStatus,
+        processingStatus,
         provider: video.provider,
         providerVideoId: video.providerVideoId,
-        thumbnailUrl: video.thumbnailUrl ?? urls.thumbnailUrl,
+        thumbnailUrl: thumbnailUrl ?? urls.thumbnailUrl,
       },
     });
   } catch (error) {
