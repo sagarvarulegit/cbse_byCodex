@@ -1,8 +1,9 @@
-import { UserRole } from '@prisma/client';
+import { Prisma, UserRole } from '@prisma/client';
 import cors from 'cors';
-import express from 'express';
+import express, { type Request } from 'express';
 
 import { createSessionToken, readSessionToken, hashPassword, verifyPassword } from './lib/auth.js';
+import { buildBunnyVideoUrls, getBunnyStreamConfig, signBunnyPlaybackUrl } from './lib/bunny.js';
 import { prisma } from './lib/prisma.js';
 import { rateLimit } from './lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from './lib/registration.js';
@@ -116,6 +117,77 @@ function formatUserResponse(user: {
     phone: user.phone,
     role: user.role,
   };
+}
+
+async function getSessionUser(req: Request) {
+  const token = readBearerToken(req.header('authorization'));
+  if (!token) {
+    return null;
+  }
+
+  const session = readSessionToken(token, getAuthSecret());
+  if (!session) {
+    return null;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    include: { profile: true },
+  });
+
+  if (!user || user.status !== 'active') {
+    return null;
+  }
+
+  return user;
+}
+
+async function requireSessionUser(req: Request) {
+  const user = await getSessionUser(req);
+  if (!user) {
+    return null;
+  }
+
+  return user;
+}
+
+async function hasLessonAccess(req: Request, lesson: { accessLevel: string }) {
+  if (lesson.accessLevel === 'free') {
+    return { allowed: true, user: await getSessionUser(req) };
+  }
+
+  const user = await requireSessionUser(req);
+  if (!user) {
+    return { allowed: false, reason: 'login_required' as const, user: null };
+  }
+
+  // TODO: replace this login-only MVP gate with subscription/entitlement checks.
+  return { allowed: true, user };
+}
+
+function getVideoPlaybackUrl(playbackUrl: string) {
+  const config = getBunnyStreamConfig();
+  if (!config.tokenAuthKey) {
+    return {
+      expiresAt: null,
+      playbackUrl,
+    };
+  }
+
+  const signedUrl = signBunnyPlaybackUrl(playbackUrl, config.tokenAuthKey, config.signedUrlTtlSeconds);
+  return {
+    expiresAt: signedUrl.expiresAt,
+    playbackUrl: signedUrl.url,
+  };
+}
+
+function normalizePercentComplete(value: unknown) {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) {
+    return null;
+  }
+
+  return Math.max(0, Math.min(100, Math.round(numericValue)));
 }
 
 app.get('/health', (_req, res) => {
@@ -268,6 +340,159 @@ app.get('/v1/auth/session', async (req, res) => {
 
 app.post('/v1/auth/logout', (_req, res) => {
   res.status(204).send();
+});
+
+app.get('/v1/lessons/by-slug/:chapterSlug/:lessonSlug/video', async (req, res) => {
+  try {
+    const lesson = await prisma.lesson.findFirst({
+      where: {
+        slug: req.params.lessonSlug,
+        publishStatus: 'published',
+        topic: {
+          chapter: {
+            slug: req.params.chapterSlug,
+            isPublished: true,
+          },
+        },
+      },
+      include: {
+        topic: {
+          include: {
+            chapter: {
+              include: {
+                subject: true,
+              },
+            },
+          },
+        },
+        videos: {
+          where: {
+            provider: 'bunny',
+          },
+          orderBy: {
+            updatedAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ message: 'Lesson video was not found.' });
+    }
+
+    const access = await hasLessonAccess(req, lesson);
+    if (!access.allowed) {
+      return res.status(401).json({ message: 'Please log in to watch this lesson.' });
+    }
+
+    const video = lesson.videos[0];
+    if (!video?.providerVideoId || !video.providerLibraryId) {
+      return res.status(404).json({ message: 'No video is attached to this lesson yet.' });
+    }
+
+    const streamConfig = getBunnyStreamConfig();
+    const urls = buildBunnyVideoUrls(
+      video.providerLibraryId,
+      streamConfig.cdnHostname,
+      video.providerVideoId,
+    );
+    const sourcePlaybackUrl = video.playbackUrl ?? urls.playbackUrl;
+    const playback = getVideoPlaybackUrl(sourcePlaybackUrl);
+
+    return res.json({
+      lesson: {
+        accessLevel: lesson.accessLevel,
+        chapterId: lesson.topic.chapter.id,
+        chapterSlug: lesson.topic.chapter.slug,
+        id: lesson.id,
+        subjectId: lesson.topic.chapter.subject.id,
+        title: lesson.title,
+        topicId: lesson.topicId,
+      },
+      video: {
+        durationSeconds: video.durationSeconds,
+        embedUrl: video.embedUrl ?? urls.embedUrl,
+        expiresAt: playback.expiresAt,
+        id: video.id,
+        playbackUrl: playback.playbackUrl,
+        processingStatus: video.processingStatus,
+        provider: video.provider,
+        providerVideoId: video.providerVideoId,
+        thumbnailUrl: video.thumbnailUrl ?? urls.thumbnailUrl,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to load lesson video', error);
+    return res.status(500).json({ message: 'Unable to load the lesson video right now.' });
+  }
+});
+
+app.post('/v1/progress/video', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to save video progress.' });
+    }
+
+    const lessonId = typeof req.body?.lessonId === 'string' ? req.body.lessonId : null;
+    const videoId = typeof req.body?.videoId === 'string' ? req.body.videoId : null;
+    const positionSeconds = Number(req.body?.positionSeconds ?? 0);
+    const durationSeconds = Number(req.body?.durationSeconds ?? 0);
+    const percentComplete = normalizePercentComplete(req.body?.percentComplete);
+
+    if (!lessonId || !videoId || percentComplete === null) {
+      return res.status(400).json({ message: 'lessonId, videoId, and percentComplete are required.' });
+    }
+
+    if (!Number.isFinite(positionSeconds) || positionSeconds < 0) {
+      return res.status(400).json({ message: 'positionSeconds must be a positive number.' });
+    }
+
+    const video = await prisma.video.findFirst({
+      where: {
+        id: videoId,
+        lessonId,
+      },
+      include: {
+        lesson: {
+          include: {
+            topic: {
+              include: {
+                chapter: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!video) {
+      return res.status(404).json({ message: 'Video was not found.' });
+    }
+
+    await prisma.progressEvent.create({
+      data: {
+        chapterId: video.lesson.topic.chapter.id,
+        eventType: percentComplete >= 30 ? 'video_checkpoint' : 'video_progress',
+        lessonId,
+        metadata: {
+          durationSeconds: Number.isFinite(durationSeconds) ? durationSeconds : null,
+          percentComplete,
+          positionSeconds,
+          videoId,
+        } satisfies Prisma.InputJsonValue,
+        occurredAt: new Date(),
+        topicId: video.lesson.topicId,
+        userId: user.id,
+      },
+    });
+
+    return res.status(202).json({ saved: true });
+  } catch (error) {
+    console.error('Failed to save video progress', error);
+    return res.status(500).json({ message: 'Unable to save video progress right now.' });
+  }
 });
 
 app.get('/v1/catalog/pilot', async (_req, res) => {

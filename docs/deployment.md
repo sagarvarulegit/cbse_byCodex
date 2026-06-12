@@ -49,6 +49,10 @@ BUNNY_STREAM_LIBRARY_ID=<bunny-stream-library-id>
 BUNNY_STREAM_API_KEY=<bunny-stream-library-api-key>
 BUNNY_STREAM_CDN_HOSTNAME=<pull-zone>.b-cdn.net
 BUNNY_STREAM_TOKEN_AUTH_KEY=<pull-zone-token-auth-key>
+BUNNY_STREAM_SIGNED_URL_TTL_SECONDS=1800
+BUNNY_STORAGE_ZONE_NAME=<bunny-storage-zone-name>
+BUNNY_STORAGE_ACCESS_KEY=<bunny-storage-zone-password>
+BUNNY_STORAGE_ENDPOINT=https://storage.bunnycdn.com
 ```
 
 Vercel's monorepo flow expects each deployable app to be imported as a separate project and assigned its own root directory. The API exports the Express app from `apps/api/src/app.ts`, which Vercel can run as a function, while `apps/api/src/main.ts` remains the local `npm run dev` listener.
@@ -72,16 +76,17 @@ Then open the student and admin Vercel URLs and confirm the pages load without c
 
 ## Bunny Stream
 
-Use Bunny Stream for final lesson videos. The API key, library ID, CDN hostname, and token auth key belong only in the API project environment variables. Do not add them to `NEXT_PUBLIC_` variables.
+Use Bunny Stream for final lesson videos and Bunny Storage for master MP4 archives. API keys, library IDs, CDN hostname, token auth key, and storage credentials belong only in the API project environment variables. Do not add them to `NEXT_PUBLIC_` variables.
 
 Recommended flow:
 
 1. Create a Bunny Stream video library.
 2. Copy the library ID and library API key into the Vercel API project.
 3. Configure the video CDN hostname/pull zone and token authentication key.
-4. Upload final animation MP4 files to Bunny Stream from the admin pipeline or a server-side script.
+4. Upload final animation MP4 files with the server-side helper:
+   `npm run bunny:upload-video -w apps/api -- --file ./lesson.mp4 --chapter-slug <chapter-slug> --lesson-slug <lesson-slug>`.
 5. Store the returned Bunny video ID in `Video.providerVideoId` and the library ID in `Video.providerLibraryId`.
 6. Build playback URLs with `https://<cdn-hostname>/<video-id>/playlist.m3u8` or embed URLs with `https://player.mediadelivery.net/embed/<library-id>/<video-id>`.
-7. For premium content, the API should verify the student's entitlement before returning a signed playback URL.
+7. For premium content, the API returns a signed playback URL after access checks. The MVP gate is login-only until subscription entitlements are implemented.
 
 For MVP, keep `drmRequired=false` and rely on token-authenticated streaming. Add DRM only when paid offline downloads or licensing require it.

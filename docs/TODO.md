@@ -1,10 +1,10 @@
 # Project TODO
 
-Last updated: 2026-06-05
+Last updated: 2026-06-12
 
 This backlog was assembled from the accessible local Codex transcripts for this
-project and the current repo docs. `graphify-out/` was not present in this
-checkout, so no graphify report/wiki was available.
+project, the current repo docs, and the git history through `d2040ac`.
+`graphify-out/` is present in this checkout.
 
 ## Current Priority
 
@@ -63,11 +63,11 @@ checkout, so no graphify report/wiki was available.
 - [ ] Configure `BUNNY_STREAM_API_KEY` in the Vercel API project only.
 - [ ] Configure `BUNNY_STREAM_CDN_HOSTNAME`.
 - [ ] Configure `BUNNY_STREAM_TOKEN_AUTH_KEY`.
-- [ ] Implement server-side Bunny upload flow or admin upload helper.
-- [ ] Store returned Bunny library/video IDs in `Video.providerLibraryId` and `Video.providerVideoId`.
-- [ ] Generate HLS playback URLs with `playlist.m3u8`.
-- [ ] Add entitlement check before returning premium playback URLs.
-- [ ] Add short-lived token-authenticated playback URL generation.
+- [x] Implement server-side Bunny upload flow or admin upload helper.
+- [x] Store returned Bunny library/video IDs in `Video.providerLibraryId` and `Video.providerVideoId`.
+- [x] Generate HLS playback URLs with `playlist.m3u8`.
+- [ ] Replace login-only premium gate with real subscription entitlement checks.
+- [x] Add short-lived token-authenticated playback URL generation.
 - [ ] Keep DRM off for MVP; revisit only when paid offline downloads or licensing require it.
 - [ ] Monitor Bunny bandwidth and storage weekly after launch.
 - [ ] Avoid autoplay on catalog pages to control bandwidth.
@@ -75,8 +75,8 @@ checkout, so no graphify report/wiki was available.
 
 ## Master Video Archive And Distribution
 
-- [ ] Choose storage for master MP4/source renders: Cloudflare R2, Bunny Storage, S3, or Supabase Storage.
-- [ ] Keep master MP4 files outside Git and outside Bunny Stream as the only copy.
+- [x] Choose storage for master MP4/source renders: Cloudflare R2, Bunny Storage, S3, or Supabase Storage.
+- [x] Keep master MP4 files outside Git and outside Bunny Stream as the only copy.
 - [ ] Define folder/naming convention for scripts, source files, renders, narration, captions, and thumbnails.
 - [ ] Add metadata for master render location to the content workflow.
 - [ ] Add a future `VideoPublication` model for YouTube and other distribution channels.
@@ -107,7 +107,7 @@ checkout, so no graphify report/wiki was available.
 - [ ] Implement real auth for students, admins, teacher/reviewers, and support users.
 - [ ] Add user profiles with class level, name, preferred language, and theme preference.
 - [ ] Replace hardcoded pilot catalog with database-backed subject/chapter/topic/lesson APIs.
-- [ ] Implement course catalog pages for Mathematics and Science.
+- [x] Implement course catalog pages for Mathematics and Science.
 - [ ] Implement chapter pages backed by API data.
 - [ ] Implement lesson page with video player, notes, examples, practice, quiz CTA, and next lesson.
 - [ ] Implement free vs premium access gating.
@@ -147,7 +147,7 @@ checkout, so no graphify report/wiki was available.
 
 ## Admin CMS
 
-- [ ] Implement admin authentication and role checks.
+- [x] Implement admin authentication and role checks.
 - [ ] Build admin dashboard with content counts, draft lessons, published lessons, quiz attempts summary, and video processing status.
 - [ ] Build content manager for subjects, chapters, topics, and lessons.
 - [ ] Build lesson editor with title, description, free/premium flag, Bunny video reference, notes, key points, examples, practice questions, and quiz association.
@@ -172,12 +172,12 @@ checkout, so no graphify report/wiki was available.
 
 ## Content Production Pipeline
 
-- [ ] Use HyperFrames as the main video engine for code-generated lesson videos.
+- [x] Use HyperFrames as the main video engine for code-generated lesson videos.
 - [ ] Use Manim when precise math animation is needed.
 - [ ] Use GSAP/CSS/SVG for whiteboard strokes, diagrams, arrows, number grids, and motion timelines.
 - [ ] Use Three.js for physics/science simulations where 3D helps.
-- [ ] Use ElevenLabs for narration, keeping the API key server-only.
-- [ ] Generate word-level captions from narration.
+- [x] Use ElevenLabs for narration, keeping the API key server-only.
+- [x] Generate word-level captions from narration.
 - [ ] Add reusable video template with intro, outro, watermark, captions, and quiz prompt.
 - [ ] Convert the prime-numbers prototype into a reusable production template.
 - [ ] Create a complete "Real Numbers" pilot lesson sequence.
@@ -202,7 +202,7 @@ checkout, so no graphify report/wiki was available.
 ## Developer Environment And Repo Hygiene
 
 - [ ] Fix local Codex/Linux sandbox setup by installing/configuring `bubblewrap` and user namespace support.
-- [ ] Add `.gitignore` entries for generated video render/cache directories if needed.
+- [x] Add `.gitignore` entries for generated video render/cache directories if needed.
 - [ ] Confirm large generated assets are not committed unless intentionally kept.
 - [ ] Decide whether rendered prototype MP4s should stay in Git or move to external storage.
 - [ ] Add root convenience scripts for Prisma if useful.

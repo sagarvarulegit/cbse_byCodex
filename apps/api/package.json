@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "prisma generate && tsc -p tsconfig.json",
+    "bunny:upload-video": "tsx src/scripts/upload-bunny-video.ts",
     "start": "node dist/main.js",
     "lint": "prisma generate && tsc -p tsconfig.json --noEmit",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:migrate:deploy": "prisma migrate deploy"
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "test": "node --import tsx --test src/**/*.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",

@@ -42,10 +42,40 @@ Do not expose `BUNNY_STREAM_API_KEY` or `BUNNY_STREAM_TOKEN_AUTH_KEY` to web/adm
 ## Upload Flow
 
 1. Render/export the final lesson MP4.
-2. Create the video object in Bunny Stream.
-3. Upload the file to the Bunny Stream video ID.
-4. Wait for processing completion via webhook or polling.
-5. Update the `Video` row with Bunny IDs, URLs, thumbnail, duration, and status.
+2. Upload the master MP4 to Bunny Storage so Bunny Stream is not the only copy.
+3. Create the video object in Bunny Stream.
+4. Upload the file to the Bunny Stream video ID.
+5. Wait for processing completion via webhook or polling.
+6. Update the `Video` row with Bunny IDs, URLs, thumbnail, duration, and status.
+
+The MVP upload helper is:
+
+```bash
+npm run bunny:upload-video -w apps/api -- \
+  --file ./path/to/lesson.mp4 \
+  --chapter-slug real-numbers \
+  --lesson-slug euclid-division-lemma
+```
+
+Required server-only API env:
+
+```text
+BUNNY_STREAM_LIBRARY_ID
+BUNNY_STREAM_API_KEY
+BUNNY_STREAM_CDN_HOSTNAME
+BUNNY_STREAM_TOKEN_AUTH_KEY
+BUNNY_STREAM_SIGNED_URL_TTL_SECONDS
+BUNNY_STORAGE_ZONE_NAME
+BUNNY_STORAGE_ACCESS_KEY
+BUNNY_STORAGE_ENDPOINT
+```
+
+## App Integration
+
+- `GET /v1/lessons/by-slug/:chapterSlug/:lessonSlug/video` returns signed HLS playback metadata.
+- `POST /v1/progress/video` records progress in `ProgressEvent`.
+- The student web app fetches signed playback server-side and reports progress through its local `/api/progress/video` route so browser JavaScript never sees the API session token.
+- Until subscription tables are implemented, premium playback is gated by login only. Replace that helper with real entitlement checks before paid launch.
 
 ## Cost Controls
 

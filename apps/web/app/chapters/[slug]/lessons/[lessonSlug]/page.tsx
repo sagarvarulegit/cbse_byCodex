@@ -3,10 +3,12 @@ import { notFound, redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
 import GlossaryTerm, { type GlossaryPayload } from '../../../../../components/GlossaryTerm';
 import LessonDemo from '../../../../../components/LessonDemo';
+import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
 import { getChapter, getLessonContent } from '../../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
+import { getLessonVideo } from '../../../../../lib/lesson-video';
 
 
 export default async function LessonPage({
@@ -36,6 +38,8 @@ export default async function LessonPage({
       redirect(`/login?next=${returnUrl}`);
     }
   }
+
+  const lessonVideo = await getLessonVideo(slug, lessonSlug);
 
   return (
     <main>
@@ -90,6 +94,30 @@ export default async function LessonPage({
           </div>
         </aside>
       </section>
+
+      {lessonVideo.status === 'ready' ? (
+        <LessonVideoPlayer
+          durationSeconds={lessonVideo.video.video.durationSeconds}
+          lessonId={lessonVideo.video.lesson.id}
+          playbackUrl={lessonVideo.video.video.playbackUrl}
+          posterUrl={lessonVideo.video.video.thumbnailUrl}
+          title={lessonVideo.video.lesson.title}
+          videoId={lessonVideo.video.video.id}
+        />
+      ) : (
+        <section className="section-shell lesson-video-section" aria-label="Lesson video status">
+          <div className="lesson-video-card empty">
+            <div className="lesson-video-copy">
+              <p className="eyebrow">Video coming next</p>
+              <h2>Lesson notes are ready.</h2>
+              <p>
+                Bunny playback is not attached to this lesson yet. Use the notes and practice below until the video
+                upload is processed.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="lesson-shell section-shell" id="lesson-notes">
         <article className="lesson-main" id="practice-zone">

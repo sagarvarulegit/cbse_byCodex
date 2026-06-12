@@ -51,6 +51,11 @@ export async function clearStudentSession() {
   });
 }
 
+export async function getStudentSessionToken() {
+  const cookieStore = await cookies();
+  return cookieStore.get(SESSION_COOKIE_NAME)?.value ?? null;
+}
+
 export async function loginStudent(email: string, password: string) {
   const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
     method: 'POST',
@@ -120,8 +125,7 @@ function verifyLocalToken(token: string): any | null {
 }
 
 export async function getStudentSession() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const token = await getStudentSessionToken();
   if (!token) {
     return null;
   }
