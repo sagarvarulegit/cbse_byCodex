@@ -91,7 +91,7 @@ model Chapter {
   id                 String  @id @default(cuid())
   subjectId          String
   title              String
-  slug               String
+  slug               String  @unique
   ncertChapterNumber Int
   description        String?
   sortOrder          Int     @default(0)
@@ -224,6 +224,7 @@ model QuizAttempt {
   topic   Topic?  @relation(fields: [topicId], references: [id])
   quiz    Quiz?   @relation(fields: [quizId], references: [id])
 
+  @@unique([userId, chapterId, attemptNumber])
   @@index([userId, chapterId, createdAt])
   @@index([chapterId, scorePercent])
   @@index([quizId, createdAt])

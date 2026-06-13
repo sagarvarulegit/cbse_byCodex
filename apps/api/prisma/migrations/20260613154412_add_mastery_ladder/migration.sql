@@ -64,6 +64,12 @@ CREATE INDEX "QuizAttempt_chapterId_scorePercent_idx" ON "QuizAttempt"("chapterI
 CREATE INDEX "QuizAttempt_quizId_createdAt_idx" ON "QuizAttempt"("quizId", "createdAt");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "QuizAttempt_userId_chapterId_attemptNumber_key" ON "QuizAttempt"("userId", "chapterId", "attemptNumber");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Chapter_slug_key" ON "Chapter"("slug");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "ChapterMastery_userId_chapterId_key" ON "ChapterMastery"("userId", "chapterId");
 
 -- CreateIndex
