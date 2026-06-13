@@ -1,0 +1,16 @@
+{
+  "description": "Refresh repo learning artifacts before agent-driven git pushes.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "functions.shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$inputJson = [Console]::In.ReadToEnd(); if ($inputJson -match 'git\\s+push') { graphify update . }\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+echo "Refreshing graphify knowledge before git push..."
+
+if ! command -v graphify >/dev/null 2>&1; then
+  echo "graphify is not available on PATH; skipping knowledge refresh."
+  exit 0
+fi
+
+graphify update .
+
+if ! git diff --quiet -- graphify-out; then
+  echo "graphify-out changed after refresh."
+  echo "Commit the updated graphify knowledge artifacts, then push again."
+  exit 1
+fi
+
+if ! git diff --cached --quiet -- graphify-out; then
+  echo "graphify-out has staged changes."
+  echo "Commit the updated graphify knowledge artifacts, then push again."
+  exit 1
+fi

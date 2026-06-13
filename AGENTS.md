@@ -33,3 +33,5 @@ Never commit real secrets. Use `.env.example` files for names only. Keep `ELEVEN
 ## Agent-Specific Instructions
 
 This project may have a graphify knowledge graph at `graphify-out/`. Before architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` when present. If `graphify-out/wiki/index.md` exists, use it before raw-file browsing. For cross-module relationship questions, prefer `graphify query`, `graphify path`, or `graphify explain` over grep. After modifying code files, run `graphify update .`.
+
+The repo includes `.githooks/pre-push` to refresh `graphify-out/` before pushes. Enable it in a checkout with `git config core.hooksPath .githooks`. If a push is blocked because `graphify-out` changed, commit the refreshed graph artifacts and push again.

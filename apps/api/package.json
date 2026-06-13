@@ -6,6 +6,7 @@
     "dev": "tsx watch src/main.ts",
     "build": "prisma generate && tsc -p tsconfig.json",
     "bunny:upload-video": "tsx src/scripts/upload-bunny-video.ts",
+    "elevenlabs:voiceover": "tsx src/scripts/generate-elevenlabs-voiceover.ts",
     "start": "node dist/main.js",
     "lint": "prisma generate && tsc -p tsconfig.json --noEmit",
     "prisma:generate": "prisma generate",

@@ -77,7 +77,7 @@ project, the current repo docs, and the git history through `d2040ac`.
 
 - [x] Choose storage for master MP4/source renders: Cloudflare R2, Bunny Storage, S3, or Supabase Storage.
 - [x] Keep master MP4 files outside Git and outside Bunny Stream as the only copy.
-- [ ] Define folder/naming convention for scripts, source files, renders, narration, captions, and thumbnails.
+- [x] Define folder/naming convention for scripts, source files, renders, narration, captions, and thumbnails.
 - [ ] Add metadata for master render location to the content workflow.
 - [ ] Add a future `VideoPublication` model for YouTube and other distribution channels.
 - [ ] Start with manual YouTube uploads if needed.

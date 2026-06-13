@@ -35,7 +35,7 @@ Create three Vercel projects from the same Git repository.
 | --- | --- | --- | --- | --- |
 | Student web | `apps/web` | Next.js | `npm run build` | `NEXT_PUBLIC_API_BASE_URL` |
 | Admin web | `apps/admin` | Next.js | `npm run build` | `NEXT_PUBLIC_API_BASE_URL` |
-| API | `apps/api` | Express / Other | `npm run build` | `DATABASE_URL`, `DIRECT_URL`, `CORS_ORIGIN`, `ELEVENLABS_API_KEY`, Bunny Stream env |
+| API | `apps/api` | Express / Other | `npm run build` | `DATABASE_URL`, `DIRECT_URL`, `CORS_ORIGIN`, `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`, Bunny Stream env |
 
 Recommended production values:
 
@@ -45,6 +45,7 @@ CORS_ORIGIN=https://<web-project>.vercel.app,https://<admin-project>.vercel.app
 DATABASE_URL=postgresql://prisma.<project-ref>:<password>@<region>.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
 DIRECT_URL=postgresql://prisma.<project-ref>:<password>@<region>.pooler.supabase.com:5432/postgres
 ELEVENLABS_API_KEY=<server-only key>
+ELEVENLABS_VOICE_ID=g14YnDYCsy3k7XLlcKlO
 BUNNY_STREAM_LIBRARY_ID=<bunny-stream-library-id>
 BUNNY_STREAM_API_KEY=<bunny-stream-library-api-key>
 BUNNY_STREAM_CDN_HOSTNAME=<pull-zone>.b-cdn.net
