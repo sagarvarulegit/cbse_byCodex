@@ -78,6 +78,9 @@ CREATE INDEX "RevisionMission_userId_status_updatedAt_idx" ON "RevisionMission"(
 -- CreateIndex
 CREATE INDEX "RevisionMission_chapterId_status_idx" ON "RevisionMission"("chapterId", "status");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "RevisionMission_userId_chapterId_active_key" ON "RevisionMission"("userId", "chapterId") WHERE "status" = 'active';
+
 -- AddForeignKey
 ALTER TABLE "QuizAttempt" ADD CONSTRAINT "QuizAttempt_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
