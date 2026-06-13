@@ -11,6 +11,14 @@ Last updated: 2026-06-13
 - Bunny Storage is used for master MP4 archives.
 - Supabase/Postgres stores metadata only.
 
+## Agent Knowledge Workflow
+
+- `graphify-out/` is for generated code graph knowledge only.
+- Durable project learnings belong in `docs/project-memory.md`.
+- Stable agent operating rules belong in `AGENTS.md`.
+- `.githooks/pre-push` refreshes graphify and blocks meaningful source pushes when neither `docs/project-memory.md` nor `AGENTS.md` is included in the outgoing commits.
+- `.codex/hooks.json` delegates git-push checks to `.githooks/pre-push` for agent-driven pushes.
+
 ## Bunny Video Learnings
 
 - Bunny Stream library ID: `681662`
@@ -38,6 +46,7 @@ Last updated: 2026-06-13
 - Keep route logic split by feature as new work lands.
 - Add payment/subscription logic behind the same access helper path used by lesson video gating.
 - Add gamification through event aggregation, not ad hoc counters inside request handlers.
+- V1 gamification is planned as a personal Chapter Mastery Ladder: video completion contributes limited effort credit, quiz performance drives most mastery, low quiz scores create Revision Missions, and level rewards unlock revision tools rather than public competition.
 - Prefer cached or aggregated reads for high-traffic endpoints.
 - Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
 

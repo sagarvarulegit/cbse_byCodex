@@ -21,3 +21,19 @@ if ! git diff --cached --quiet -- graphify-out; then
   echo "Commit the updated graphify knowledge artifacts, then push again."
   exit 1
 fi
+
+upstream="$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)"
+
+if [ -n "$upstream" ]; then
+  changed_files="$(git diff --name-only "$upstream"..HEAD)"
+
+  meaningful_changes="$(printf '%s\n' "$changed_files" | grep -Ev '^(graphify-out/|docs/project-memory\.md$|AGENTS\.md$|\.codex/|\.githooks/|$)' || true)"
+  memory_changes="$(printf '%s\n' "$changed_files" | grep -E '^(docs/project-memory\.md|AGENTS\.md)$' || true)"
+
+  if [ -n "$meaningful_changes" ] && [ -z "$memory_changes" ]; then
+    echo "Project memory was not updated for this push."
+    echo "Add durable learnings to docs/project-memory.md, or update AGENTS.md for stable agent rules."
+    echo "Then commit that memory update and push again."
+    exit 1
+  fi
+fi

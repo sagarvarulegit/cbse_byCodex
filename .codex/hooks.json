@@ -1,5 +1,5 @@
 {
-  "description": "Refresh repo learning artifacts before agent-driven git pushes.",
+  "description": "Run the repo pre-push knowledge checks before agent-driven git pushes.",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$inputJson = [Console]::In.ReadToEnd(); if ($inputJson -match 'git\\s+push') { graphify update . }\""
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$inputJson = [Console]::In.ReadToEnd(); if ($inputJson -match 'git\\s+push') { if (Test-Path '.githooks/pre-push') { & 'C:\\Program Files\\Git\\usr\\bin\\sh.exe' '.githooks/pre-push' } }\""
           }
         ]
       }
