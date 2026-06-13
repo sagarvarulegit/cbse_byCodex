@@ -50,6 +50,8 @@ BUNNY_STREAM_API_KEY=<bunny-stream-library-api-key>
 BUNNY_STREAM_CDN_HOSTNAME=<pull-zone>.b-cdn.net
 BUNNY_STREAM_TOKEN_AUTH_KEY=<pull-zone-token-auth-key>
 BUNNY_STREAM_SIGNED_URL_TTL_SECONDS=1800
+VIDEO_ACTIVE_STATUS_SYNC_TTL_SECONDS=30
+VIDEO_TERMINAL_STATUS_SYNC_TTL_SECONDS=21600
 BUNNY_STORAGE_ZONE_NAME=<bunny-storage-zone-name>
 BUNNY_STORAGE_ACCESS_KEY=<bunny-storage-zone-password>
 BUNNY_STORAGE_ENDPOINT=https://storage.bunnycdn.com
@@ -87,6 +89,6 @@ Recommended flow:
    `npm run bunny:upload-video -w apps/api -- --file ./lesson.mp4 --chapter-slug <chapter-slug> --lesson-slug <lesson-slug>`.
 5. Store the returned Bunny video ID in `Video.providerVideoId` and the library ID in `Video.providerLibraryId`.
 6. Build playback URLs with `https://<cdn-hostname>/<video-id>/playlist.m3u8` or embed URLs with `https://player.mediadelivery.net/embed/<library-id>/<video-id>`.
-7. For premium content, the API returns a signed playback URL after access checks. The MVP gate is login-only until subscription entitlements are implemented.
+7. For premium content, enforce access in the API before returning metadata. The MVP gate is login-only until subscription entitlements are implemented.
 
-For MVP, keep `drmRequired=false` and rely on token-authenticated streaming. Add DRM only when paid offline downloads or licensing require it.
+For MVP, keep `drmRequired=false` and use Bunny Stream playback URLs after API access checks. Add DRM or provider-level token authentication only when paid licensing requires it and after validating HLS playback end to end.

@@ -14,6 +14,7 @@ Supabase/Postgres stores metadata only:
 - `thumbnailUrl`
 - `durationSeconds`
 - `processingStatus`
+- `statusSyncedAt`
 
 The MP4/HLS files are not stored in Postgres, Vercel, or the Git repo.
 
@@ -34,10 +35,11 @@ For free preview lessons, public playback is acceptable. For premium lessons, th
 
 1. Authenticate the student.
 2. Check subscription entitlement.
-3. Generate a short-lived Bunny token-authenticated URL.
-4. Return that URL to the player.
+3. Return playback metadata only after access checks pass.
 
 Do not expose `BUNNY_STREAM_API_KEY` or `BUNNY_STREAM_TOKEN_AUTH_KEY` to web/admin clients.
+
+Provider-level token authentication and DRM are deferred until the paid-content launch path is validated end to end. The current production path uses API access checks plus Bunny Stream HLS playback URLs.
 
 ## Upload Flow
 
@@ -65,6 +67,8 @@ BUNNY_STREAM_API_KEY
 BUNNY_STREAM_CDN_HOSTNAME
 BUNNY_STREAM_TOKEN_AUTH_KEY
 BUNNY_STREAM_SIGNED_URL_TTL_SECONDS
+VIDEO_ACTIVE_STATUS_SYNC_TTL_SECONDS
+VIDEO_TERMINAL_STATUS_SYNC_TTL_SECONDS
 BUNNY_STORAGE_ZONE_NAME
 BUNNY_STORAGE_ACCESS_KEY
 BUNNY_STORAGE_ENDPOINT
@@ -72,9 +76,10 @@ BUNNY_STORAGE_ENDPOINT
 
 ## App Integration
 
-- `GET /v1/lessons/by-slug/:chapterSlug/:lessonSlug/video` returns signed HLS playback metadata.
+- `GET /v1/lessons/by-slug/:chapterSlug/:lessonSlug/video` returns HLS playback metadata after access checks.
+- The API refreshes Bunny processing metadata only when `Video.statusSyncedAt` is stale, avoiding a provider API call on every lesson page load.
 - `POST /v1/progress/video` records progress in `ProgressEvent`.
-- The student web app fetches signed playback server-side and reports progress through its local `/api/progress/video` route so browser JavaScript never sees the API session token.
+- The student web app fetches playback metadata server-side and reports progress through its local `/api/progress/video` route so browser JavaScript never sees the API session token.
 - Until subscription tables are implemented, premium playback is gated by login only. Replace that helper with real entitlement checks before paid launch.
 
 ## Cost Controls

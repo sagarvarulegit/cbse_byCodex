@@ -7,11 +7,17 @@ import { buildBunnyVideoUrls, fetchBunnyStreamVideo, getBunnyStreamConfig } from
 import { prisma } from './lib/prisma.js';
 import { rateLimit } from './lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from './lib/registration.js';
+import { shouldRefreshVideoStatus } from './lib/video-status.js';
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ?.split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+const corsOptions = allowedOrigins?.length
+  ? { origin: allowedOrigins, credentials: true }
+  : process.env.NODE_ENV === 'production'
+    ? { origin: false }
+    : undefined;
 
 const app = express();
 const DEFAULT_AUTH_SESSION_DAYS = 14;
@@ -23,8 +29,10 @@ const authLimiter = rateLimit({
   message: 'Too many registration or login attempts. Please try again after 15 minutes.',
 });
 
-app.use(cors(allowedOrigins?.length ? { origin: allowedOrigins, credentials: true } : undefined));
-app.use(express.json());
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '1mb' }));
 
 function getAuthSecret() {
   if (process.env.AUTH_TOKEN_SECRET) {
@@ -386,24 +394,43 @@ app.get('/v1/lessons/by-slug/:chapterSlug/:lessonSlug/video', async (req, res) =
     let durationSeconds = video.durationSeconds;
     let thumbnailUrl = video.thumbnailUrl;
 
-    if (video.provider === 'bunny') {
+    if (
+      video.provider === 'bunny' &&
+      shouldRefreshVideoStatus({
+        processingStatus: video.processingStatus,
+        statusSyncedAt: video.statusSyncedAt,
+      })
+    ) {
       try {
         const bunnyVideo = await fetchBunnyStreamVideo(video.providerVideoId);
+        const statusSyncedAt = new Date();
+        const nextDurationSeconds = bunnyVideo.durationSeconds ?? video.durationSeconds;
+        const nextThumbnailUrl = bunnyVideo.thumbnailUrl ?? video.thumbnailUrl;
+
         processingStatus = bunnyVideo.processingStatus;
-        durationSeconds = bunnyVideo.durationSeconds ?? durationSeconds;
-        thumbnailUrl = bunnyVideo.thumbnailUrl ?? thumbnailUrl;
+        durationSeconds = nextDurationSeconds;
+        thumbnailUrl = nextThumbnailUrl;
 
         if (
           bunnyVideo.processingStatus !== video.processingStatus ||
-          bunnyVideo.durationSeconds !== video.durationSeconds ||
-          bunnyVideo.thumbnailUrl !== video.thumbnailUrl
+          nextDurationSeconds !== video.durationSeconds ||
+          nextThumbnailUrl !== video.thumbnailUrl ||
+          video.statusSyncedAt === null
         ) {
           await prisma.video.update({
             where: { id: video.id },
             data: {
-              durationSeconds: bunnyVideo.durationSeconds ?? video.durationSeconds,
+              durationSeconds: nextDurationSeconds,
               processingStatus: bunnyVideo.processingStatus,
-              thumbnailUrl: bunnyVideo.thumbnailUrl ?? video.thumbnailUrl,
+              statusSyncedAt,
+              thumbnailUrl: nextThumbnailUrl,
+            },
+          });
+        } else {
+          await prisma.video.update({
+            where: { id: video.id },
+            data: {
+              statusSyncedAt,
             },
           });
         }
