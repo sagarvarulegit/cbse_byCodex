@@ -1,0 +1,48 @@
+# Project Memory
+
+Last updated: 2026-06-13
+
+## Current Architecture
+
+- `apps/web` is the student-facing Next.js app.
+- `apps/admin` is the admin CMS.
+- `apps/api` is the Express + Prisma API and is the main place for backend feature work.
+- Bunny Stream is the video delivery layer.
+- Bunny Storage is used for master MP4 archives.
+- Supabase/Postgres stores metadata only.
+
+## Bunny Video Learnings
+
+- Bunny Stream library ID: `681662`
+- Bunny Stream CDN hostname: `vz-02672d82-a18.b-cdn.net`
+- Bunny Storage zone: `cbse-class10`
+- The uploaded lesson video is stored in Bunny Stream as GUID `ebf723e8-6d88-4dcf-95b0-17f43da79080`.
+- Live playback uses the raw HLS playlist URL returned by Bunny Stream.
+- The API no longer signs the playlist URL for playback.
+- `Video.processingStatus` is refreshed from Bunny only when `Video.statusSyncedAt` is stale, so the API does not hit Bunny on every lesson request.
+
+## Backend Structure
+
+- `apps/api/src/app.ts` is now a small bootstrap file that mounts feature routers.
+- Feature routes live in:
+  - `apps/api/src/routes/auth.ts`
+  - `apps/api/src/routes/catalog.ts`
+  - `apps/api/src/routes/video.ts`
+  - `apps/api/src/routes/progress.ts`
+- Shared auth/session helpers live in:
+  - `apps/api/src/lib/session.ts`
+  - `apps/api/src/lib/access.ts`
+
+## Scaling Notes
+
+- Keep route logic split by feature as new work lands.
+- Add payment/subscription logic behind the same access helper path used by lesson video gating.
+- Add gamification through event aggregation, not ad hoc counters inside request handlers.
+- Prefer cached or aggregated reads for high-traffic endpoints.
+- Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
+
+## Next Work
+
+1. Add the payments and subscription foundation.
+2. Add gamification models and aggregates.
+3. Keep extending the API through feature routers rather than expanding `app.ts`.
