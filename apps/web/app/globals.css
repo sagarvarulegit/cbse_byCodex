@@ -1957,7 +1957,7 @@ h3 {
 
 .weak-topic-list label {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   gap: 10px;
   color: var(--foreground);
   font-weight: 800;
@@ -2078,7 +2078,7 @@ h3 {
   }
 
   .quiz-score-preview {
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
   }
 }
