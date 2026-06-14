@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { logoutAction } from '../auth-actions';
 import { requireStudentSession } from '../../lib/auth';
+import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../lib/mastery';
 
 const dashboardCards = [
   { label: 'Account status', value: 'Active', hint: 'Your student login is ready for the live pilot.' },
@@ -11,6 +12,8 @@ const dashboardCards = [
 
 export default async function DashboardPage() {
   const session = await requireStudentSession();
+  const mastery = await getStudentMastery();
+  const activeMissions = mastery.revisionMissions.slice(0, 3);
 
   return (
     <main>
@@ -44,14 +47,47 @@ export default async function DashboardPage() {
           </div>
 
           <div className="dashboard-grid">
-            {dashboardCards.map((card) => (
-              <article className="dashboard-card" key={card.label}>
-                <p>{card.label}</p>
-                <strong>{card.value}</strong>
-                <span>{card.hint}</span>
-              </article>
-            ))}
+            {mastery.masteries.length > 0
+              ? mastery.masteries.slice(0, 3).map((chapter) => (
+                  <article className="dashboard-card mastery-card" key={chapter.chapterSlug}>
+                    <p>{chapter.subjectName}</p>
+                    <strong>{chapter.masteryScore}%</strong>
+                    <span>{chapter.chapterTitle}</span>
+                    <span className="mastery-level">{formatMasteryLevel(chapter.level)}</span>
+                    <div className="progress-track" aria-label={`${chapter.masteryScore}% mastered`}>
+                      <span style={{ width: `${chapter.masteryScore}%` }} />
+                    </div>
+                    <Link className="card-link" href={`/chapters/${chapter.chapterSlug}`}>
+                      {getNextMasteryLabel(chapter.masteryScore)}
+                    </Link>
+                  </article>
+                ))
+              : dashboardCards.map((card) => (
+                  <article className="dashboard-card" key={card.label}>
+                    <p>{card.label}</p>
+                    <strong>{card.value}</strong>
+                    <span>{card.hint}</span>
+                  </article>
+                ))}
           </div>
+
+          {activeMissions.length > 0 ? (
+            <section className="dashboard-profile mastery-mission-panel">
+              <div>
+                <p className="eyebrow">Revision missions</p>
+                <h2>Active mastery targets</h2>
+              </div>
+              <div className="mission-list compact">
+                {activeMissions.map((mission) => (
+                  <Link className="mission-row" href={`/chapters/${mission.chapterSlug}/quiz`} key={mission.id}>
+                    <span>{mission.subjectName}</span>
+                    <strong>{mission.chapterTitle}</strong>
+                    <small>{mission.reason}</small>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="dashboard-profile">
             <div>

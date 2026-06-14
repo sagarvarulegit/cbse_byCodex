@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getChapter, getQuizContent, hasChapterPack } from '../../../lib/course-content';
+import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../../lib/mastery';
 
 export default async function ChapterPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,6 +15,11 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   const hasLessonNotes = chapter.lessons.some((lesson) => lesson.fileName);
   const hasPackNotes = hasChapterPack(slug);
   const isLive = hasLessonNotes || hasPackNotes;
+  const mastery = await getStudentMastery(slug);
+  const chapterMastery = mastery.masteries[0];
+  const activeMission = mastery.revisionMissions[0];
+  const masteryScore = chapterMastery?.masteryScore ?? chapter.progress;
+  const masteryLabel = chapterMastery ? formatMasteryLevel(chapterMastery.level) : chapter.mastery;
 
   return (
     <main>
@@ -55,14 +61,30 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
 
         <aside className="mastery-panel" id="mastery">
           <p className="eyebrow">Chapter mastery</p>
-          <strong>{chapter.progress}%</strong>
-          <span>{chapter.mastery}</span>
-          <div className="progress-track large" aria-label={`${chapter.progress}% complete`}>
-            <span style={{ width: `${chapter.progress}%` }} />
+          <strong>{masteryScore}%</strong>
+          <span>{masteryLabel}</span>
+          <div className="progress-track large" aria-label={`${masteryScore}% mastered`}>
+            <span style={{ width: `${masteryScore}%` }} />
           </div>
+          {chapterMastery ? (
+            <p className="streak-task">Next target: {getNextMasteryLabel(chapterMastery.masteryScore)}</p>
+          ) : null}
           <p className="streak-task">Today: {chapter.streakTask}</p>
         </aside>
       </section>
+
+      {activeMission ? (
+        <section className="section-shell chapter-mission-callout">
+          <div>
+            <p className="eyebrow">Revision mission</p>
+            <h2>{activeMission.chapterTitle}</h2>
+            <p className="subtext compact">{activeMission.reason}</p>
+          </div>
+          <Link className="button-link" href={`/chapters/${slug}/quiz`}>
+            Retry quiz
+          </Link>
+        </section>
+      ) : null}
 
       {hasPackNotes ? (
         <section className="section-shell chapter-definition-grid">
@@ -108,7 +130,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
               <span className="lesson-index">01</span>
               <div>
                 <h3>Complete chapter notes</h3>
-                <p>Chapter pack · 15 min</p>
+                <p>Chapter pack - 15 min</p>
                 <p className="lesson-preview">{chapter.summary}</p>
               </div>
               <div className="lesson-actions">
@@ -130,7 +152,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
                 <div>
                   <h3>{lesson.title}</h3>
                   <p>
-                    {lesson.type} · {lesson.minutes} min
+                    {lesson.type} - {lesson.minutes} min
                   </p>
                   <p className="lesson-preview">{lesson.preview}</p>
                 </div>
