@@ -51,6 +51,7 @@ Last updated: 2026-06-14
 - The Real Numbers quiz route depends on `apps/web/content/real-numbers/lessons/quiz.md`; keep at least one chapter quiz markdown file committed so the deployed quiz page does not 404.
 - Quiz coverage is expected for every catalog chapter returned by `getChapterEntries()`. The web quiz loader first checks explicit quiz directories, then falls back to `apps/web/content/<chapter-slug>/lessons/quiz.md` so generated chapter-pack slugs can have quizzes without extra route wiring.
 - Vercel serverless tracing must include `apps/web/content/**/*` for `/chapters/[slug]/quiz`; otherwise local quiz routes can pass while deployed fallback quiz markdown returns 404.
+- The student quiz page parses numbered markdown questions into selectable answer cards. Add `Answer: <option number>` after options whenever the correct option is not option 1, because unkeyed generated quizzes currently fall back to option 1 for scoring.
 - Prefer cached or aggregated reads for high-traffic endpoints.
 - Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
 

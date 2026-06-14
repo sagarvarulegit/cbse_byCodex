@@ -19,6 +19,7 @@ When we divide a number `a` by `b`, the remainder must be:
 1. any whole number
 2. smaller than `b`
 3. greater than `a`
+Answer: 2
 
 ## 2. Fundamental theorem of arithmetic
 
@@ -27,6 +28,7 @@ Which statement is correct?
 1. Every composite number has exactly one prime factorisation
 2. Every number has no prime factors
 3. Prime numbers are never used in factorisation
+Answer: 1
 
 ## 3. HCF and LCM
 
@@ -35,6 +37,7 @@ To find the `HCF` of numbers by prime factorisation, we take:
 1. all common prime factors with the lowest powers
 2. only the biggest prime factor
 3. all prime factors with the highest powers
+Answer: 1
 
 ## 4. Irrational numbers
 
@@ -44,6 +47,8 @@ Which of these is irrational?
 2. `0.25`
 3. `âˆš2`
 
+Answer: 3
+
 ## 5. Decimal expansion
 
 A rational number has a terminating decimal expansion when the denominator, in lowest form, has only:
@@ -51,6 +56,7 @@ A rational number has a terminating decimal expansion when the denominator, in l
 1. `2` and `5` as prime factors
 2. `3` and `7` as prime factors
 3. any prime factor at all
+Answer: 1
 
 ## revision reminder
 
