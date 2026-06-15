@@ -1,7 +1,12 @@
 import { Prisma } from '@prisma/client';
 import { Router } from 'express';
 
-import { createOrRefreshRevisionMission, refreshChapterMastery } from '../lib/mastery-aggregation.js';
+import { awardQuizBadges, refreshDailyPracticeStreak } from '../lib/gamification.js';
+import {
+  createOrRefreshRevisionMission,
+  isRevisionMissionSatisfied,
+  refreshChapterMastery,
+} from '../lib/mastery-aggregation.js';
 import { prisma } from '../lib/prisma.js';
 import { requireSessionUser } from '../lib/session.js';
 
@@ -234,8 +239,21 @@ progressRouter.post('/quiz', async (req, res) => {
               db: tx,
               userId: user.id,
             });
+            const studyStreak = await refreshDailyPracticeStreak({
+              db: tx,
+              occurredAt: attempt.createdAt,
+              userId: user.id,
+            });
+            const awardedBadges = await awardQuizBadges({
+              attemptNumber: attempt.attemptNumber,
+              chapterId: chapter.id,
+              db: tx,
+              scorePercent: derivedScorePercent,
+              userId: user.id,
+              weakTopicSlugs,
+            });
 
-            return { attempt, mastery, mission };
+            return { attempt, awardedBadges, mastery, mission, studyStreak };
           },
           { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
         );
@@ -263,6 +281,13 @@ progressRouter.post('/quiz', async (req, res) => {
         level: result.mastery.level,
         masteryScore: result.mastery.masteryScore,
         videoCompletionPercent: result.mastery.videoCompletionPercent,
+      },
+      gamification: {
+        awardedBadges: result.awardedBadges,
+        streak: {
+          currentStreakDays: result.studyStreak.currentStreakDays,
+          longestStreakDays: result.studyStreak.longestStreakDays,
+        },
       },
       revisionMission: result.mission
         ? {
@@ -296,7 +321,7 @@ progressRouter.get('/mastery', async (req, res) => {
         }
       : {};
 
-    const [masteries, missions] = await Promise.all([
+    const [masteries, missions, studyStreak, userBadges] = await Promise.all([
       prisma.chapterMastery.findMany({
         where: {
           userId: user.id,
@@ -328,9 +353,37 @@ progressRouter.get('/mastery', async (req, res) => {
           updatedAt: 'desc',
         },
       }),
+      prisma.studyStreak.findUnique({
+        where: {
+          userId: user.id,
+        },
+      }),
+      prisma.userBadge.findMany({
+        where: {
+          userId: user.id,
+        },
+        include: {
+          badge: true,
+          chapter: true,
+        },
+        orderBy: {
+          awardedAt: 'desc',
+        },
+        take: 8,
+      }),
     ]);
 
+    const visibleMissions = missions.filter((mission) => !isRevisionMissionSatisfied(mission, masteries));
+
     return res.json({
+      badges: userBadges.map((userBadge) => ({
+        awardedAt: userBadge.awardedAt.toISOString(),
+        chapterSlug: userBadge.chapter?.slug ?? null,
+        chapterTitle: userBadge.chapter?.title ?? null,
+        code: userBadge.badge.code,
+        description: userBadge.badge.description,
+        name: userBadge.badge.name,
+      })),
       masteries: masteries.map((mastery) => ({
         bestQuizScorePercent: mastery.bestQuizScorePercent,
         chapterSlug: mastery.chapter.slug,
@@ -341,7 +394,7 @@ progressRouter.get('/mastery', async (req, res) => {
         subjectName: mastery.chapter.subject.name,
         videoCompletionPercent: mastery.videoCompletionPercent,
       })),
-      revisionMissions: missions.map((mission) => ({
+      revisionMissions: visibleMissions.map((mission) => ({
         chapterSlug: mission.chapter.slug,
         chapterTitle: mission.chapter.title,
         id: mission.id,
@@ -351,6 +404,13 @@ progressRouter.get('/mastery', async (req, res) => {
         subjectName: mission.chapter.subject.name,
         targetScore: mission.targetScore,
       })),
+      streak: studyStreak
+        ? {
+            currentStreakDays: studyStreak.currentStreakDays,
+            lastActivityDate: studyStreak.lastActivityDate?.toISOString() ?? null,
+            longestStreakDays: studyStreak.longestStreakDays,
+          }
+        : null,
     });
   } catch (error) {
     console.error('Failed to load mastery progress', error);

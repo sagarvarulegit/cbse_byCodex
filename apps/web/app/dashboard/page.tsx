@@ -14,6 +14,7 @@ export default async function DashboardPage() {
   const session = await requireStudentSession();
   const mastery = await getStudentMastery();
   const activeMissions = mastery.revisionMissions.slice(0, 3);
+  const recentBadges = mastery.badges.slice(0, 3);
 
   return (
     <main>
@@ -45,6 +46,23 @@ export default async function DashboardPage() {
               </Link>
             </div>
           </div>
+
+          {mastery.streak || recentBadges.length > 0 ? (
+            <section className="dashboard-grid">
+              <article className="dashboard-card gamification-card">
+                <p>Daily practice streak</p>
+                <strong>{mastery.streak?.currentStreakDays ?? 0} day{mastery.streak?.currentStreakDays === 1 ? '' : 's'}</strong>
+                <span>Longest streak: {mastery.streak?.longestStreakDays ?? 0} day{mastery.streak?.longestStreakDays === 1 ? '' : 's'}</span>
+              </article>
+              {recentBadges.map((badge) => (
+                <article className="dashboard-card gamification-card" key={`${badge.code}-${badge.awardedAt}`}>
+                  <p>{badge.chapterTitle ?? 'Achievement'}</p>
+                  <strong>{badge.name}</strong>
+                  <span>{badge.description}</span>
+                </article>
+              ))}
+            </section>
+          ) : null}
 
           <div className="dashboard-grid">
             {mastery.masteries.length > 0

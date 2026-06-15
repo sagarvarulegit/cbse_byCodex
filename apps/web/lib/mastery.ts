@@ -26,14 +26,33 @@ export type RevisionMissionSummary = {
   targetScore: number;
 };
 
+export type StudyStreakSummary = {
+  currentStreakDays: number;
+  lastActivityDate: string | null;
+  longestStreakDays: number;
+};
+
+export type BadgeSummary = {
+  awardedAt: string;
+  chapterSlug: string | null;
+  chapterTitle: string | null;
+  code: string;
+  description: string;
+  name: string;
+};
+
 export type MasteryPayload = {
+  badges: BadgeSummary[];
   masteries: ChapterMasterySummary[];
   revisionMissions: RevisionMissionSummary[];
+  streak: StudyStreakSummary | null;
 };
 
 const EMPTY_MASTERY_PAYLOAD: MasteryPayload = {
+  badges: [],
   masteries: [],
   revisionMissions: [],
+  streak: null,
 };
 
 export function formatMasteryLevel(level: MasteryLevel) {

@@ -28,6 +28,17 @@ type QuizScoreFormProps = {
 };
 
 type QuizProgressResponse = {
+  gamification?: {
+    awardedBadges?: Array<{
+      code: string;
+      description: string;
+      name: string;
+    }>;
+    streak?: {
+      currentStreakDays?: number;
+      longestStreakDays?: number;
+    };
+  };
   mastery?: {
     masteryScore?: number;
   };
@@ -37,9 +48,22 @@ type QuizProgressResponse = {
   } | null;
 };
 
+type GamificationResult = {
+  awardedBadges: Array<{
+    code: string;
+    description: string;
+    name: string;
+  }>;
+  streak: {
+    currentStreakDays: number;
+    longestStreakDays: number;
+  } | null;
+};
+
 export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions }: QuizScoreFormProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [gamificationResult, setGamificationResult] = useState<GamificationResult | null>(null);
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -76,8 +100,7 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
 
   function selectAnswer(questionId: string, optionIndex: number) {
     if (hasSubmitted) {
-      setHasSubmitted(false);
-      setResultMessage(null);
+      return;
     }
 
     setSelectedAnswers((current) => ({
@@ -89,6 +112,7 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
   async function submitQuizScore(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage(null);
+    setGamificationResult(null);
     setResultMessage(null);
 
     if (!isComplete) {
@@ -122,7 +146,16 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
 
       const masteryScore = data?.mastery?.masteryScore ?? scorePercent;
       const missionText = data?.revisionMission ? 'A revision mission was created.' : 'No revision mission was needed.';
+      const awardedBadges = data?.gamification?.awardedBadges ?? [];
+      const streak = data?.gamification?.streak?.currentStreakDays
+        ? {
+            currentStreakDays: data.gamification.streak.currentStreakDays,
+            longestStreakDays: data.gamification.streak.longestStreakDays ?? data.gamification.streak.currentStreakDays,
+          }
+        : null;
+
       setHasSubmitted(true);
+      setGamificationResult({ awardedBadges, streak });
       setResultMessage(`Submitted and saved. Mastery score is ${masteryScore}%. ${missionText}`);
     } catch {
       setErrorMessage('Unable to save quiz progress right now.');
@@ -181,6 +214,7 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
                     >
                       <input
                         checked={isSelected}
+                        disabled={hasSubmitted}
                         id={inputId}
                         name={question.id}
                         onChange={() => selectAnswer(question.id, optionIndex)}
@@ -202,7 +236,7 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
         <div>
           <p className="eyebrow">Save mastery</p>
           <h2>Submit quiz</h2>
-          <p className="subtext compact">Your score is calculated from selected answers and saved to chapter mastery.</p>
+          <p className="subtext compact">Your score is calculated from selected answers and this saved attempt is locked for review.</p>
         </div>
 
         <div className="quiz-score-preview" aria-live="polite">
@@ -219,8 +253,44 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
           </div>
         ) : null}
 
-        <button className="button-link" disabled={isSubmitting || !isComplete} type="submit">
-          {isSubmitting ? 'Saving...' : isComplete ? 'Submit answers' : 'Answer all questions'}
+        {hasSubmitted && gamificationResult ? (
+          <section className="quiz-celebration" aria-live="polite">
+            <div className="celebration-burst" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div>
+              <p className="eyebrow">Saved score</p>
+              <h3>Practice counted</h3>
+            </div>
+            {gamificationResult.streak ? (
+              <div className="streak-summary">
+                <span>Daily streak</span>
+                <strong>{gamificationResult.streak.currentStreakDays} day{gamificationResult.streak.currentStreakDays === 1 ? '' : 's'}</strong>
+                <small>Best: {gamificationResult.streak.longestStreakDays} day{gamificationResult.streak.longestStreakDays === 1 ? '' : 's'}</small>
+              </div>
+            ) : null}
+            {gamificationResult.awardedBadges.length > 0 ? (
+              <div className="badge-award-list">
+                {gamificationResult.awardedBadges.map((badge) => (
+                  <article className="badge-award" key={badge.code}>
+                    <span aria-hidden="true">+</span>
+                    <div>
+                      <strong>{badge.name}</strong>
+                      <small>{badge.description}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="quiz-celebration-note">Keep improving to unlock the next badge.</p>
+            )}
+          </section>
+        ) : null}
+
+        <button className="button-link" disabled={isSubmitting || !isComplete || hasSubmitted} type="submit">
+          {isSubmitting ? 'Saving...' : hasSubmitted ? 'Score saved' : isComplete ? 'Submit answers' : 'Answer all questions'}
         </button>
 
         {resultMessage ? (

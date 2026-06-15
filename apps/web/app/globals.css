@@ -2036,6 +2036,14 @@ h3 {
   background: rgba(240, 68, 115, 0.12);
 }
 
+.quiz-option:has(input:disabled) {
+  cursor: default;
+}
+
+.quiz-option:has(input:disabled):hover {
+  transform: none;
+}
+
 .quiz-score-card {
   position: sticky;
   top: 88px;
@@ -2174,6 +2182,118 @@ h3 {
 .quiz-result-message[role="alert"] {
   border-color: rgba(240, 68, 115, 0.32);
   background: rgba(240, 68, 115, 0.12);
+}
+
+.quiz-celebration {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  overflow: hidden;
+  padding: 16px;
+  border: 1px solid rgba(246, 199, 68, 0.54);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(246, 199, 68, 0.16), transparent 48%),
+    linear-gradient(180deg, rgba(11, 149, 216, 0.08), var(--card));
+}
+
+.celebration-burst {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 8px);
+  gap: 6px;
+  width: 36px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.celebration-burst span {
+  width: 8px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--yellow);
+  transform-origin: bottom center;
+}
+
+.celebration-burst span:nth-child(2) {
+  background: var(--primary);
+  transform: translateY(-4px);
+}
+
+.celebration-burst span:nth-child(3) {
+  background: var(--pink);
+  transform: translateY(2px);
+}
+
+.streak-summary,
+.badge-award,
+.gamification-card {
+  min-width: 0;
+}
+
+.streak-summary {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid rgba(11, 149, 216, 0.22);
+  border-radius: 8px;
+  background: var(--card-soft);
+}
+
+.streak-summary span,
+.streak-summary small,
+.badge-award small,
+.quiz-celebration-note {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.streak-summary strong {
+  color: var(--primary-strong);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.badge-award-list {
+  display: grid;
+  gap: 10px;
+}
+
+.badge-award {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.badge-award > span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 2px solid var(--foreground);
+  border-radius: 8px;
+  background: var(--yellow);
+  color: #101816;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 var(--foreground);
+}
+
+.badge-award strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--foreground);
+}
+
+.quiz-celebration-note {
+  margin: 0;
 }
 
 .quiz-score-card .button-link {

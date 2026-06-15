@@ -23,6 +23,21 @@ export function buildRevisionMissionSteps(weakTopicSlugs: string[]) {
   ];
 }
 
+export function isRevisionMissionSatisfied(
+  mission: {
+    chapterId: string;
+    targetScore: number;
+  },
+  masteries: Array<{
+    bestQuizScorePercent: number;
+    chapterId: string;
+  }>,
+) {
+  const matchingMastery = masteries.find((mastery) => mastery.chapterId === mission.chapterId);
+
+  return (matchingMastery?.bestQuizScorePercent ?? 0) >= mission.targetScore;
+}
+
 function readPercentComplete(metadata: Prisma.JsonValue | null) {
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
     return 0;
@@ -171,11 +186,23 @@ export async function createOrRefreshRevisionMission(params: {
   userId: string;
   weakTopicSlugs: string[];
 }) {
+  const db = params.db ?? prisma;
+
   if (!shouldCreateRevisionMission(params.scorePercent)) {
+    const existingMission = await findActiveRevisionMission(db, params);
+    if (existingMission) {
+      await db.revisionMission.update({
+        where: { id: existingMission.id },
+        data: {
+          completedAt: new Date(),
+          status: 'completed',
+        },
+      });
+    }
+
     return null;
   }
 
-  const db = params.db ?? prisma;
   const existingMission = await findActiveRevisionMission(db, params);
 
   const data = {

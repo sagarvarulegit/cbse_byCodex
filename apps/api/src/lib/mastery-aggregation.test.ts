@@ -6,6 +6,7 @@ import { Prisma } from '@prisma/client';
 import {
   buildRevisionMissionSteps,
   createOrRefreshRevisionMission,
+  isRevisionMissionSatisfied,
   refreshChapterMastery,
   shouldCreateRevisionMission,
 } from './mastery-aggregation.js';
@@ -126,4 +127,51 @@ test('createOrRefreshRevisionMission updates active mission after unique create 
 
   assert.deepEqual(result, { id: 'mission-1' });
   assert.equal(updateCalls[0]?.where.id, 'mission-1');
+});
+
+test('createOrRefreshRevisionMission completes active mission after passing retry score', async () => {
+  const completedMission = { id: 'mission-1', status: 'completed' };
+  const updateCalls: Array<{ data: { completedAt: Date; status: string }; where: { id: string } }> = [];
+  const db = {
+    revisionMission: {
+      findFirst: async () => ({ id: 'mission-1' }),
+      update: async (args: { data: { completedAt: Date; status: string }; where: { id: string } }) => {
+        updateCalls.push(args);
+        return completedMission;
+      },
+    },
+  } as unknown as RevisionMissionDb;
+
+  const result = await createOrRefreshRevisionMission({
+    chapterId: 'chapter-1',
+    db,
+    scorePercent: 80,
+    userId: 'user-1',
+    weakTopicSlugs: [],
+  });
+
+  assert.equal(result, null);
+  assert.equal(updateCalls[0]?.where.id, 'mission-1');
+  assert.equal(updateCalls[0]?.data.status, 'completed');
+  assert.ok(updateCalls[0]?.data.completedAt instanceof Date);
+});
+
+test('isRevisionMissionSatisfied hides active missions when best quiz score already reached target', () => {
+  assert.equal(
+    isRevisionMissionSatisfied(
+      { chapterId: 'chapter-1', targetScore: 60 },
+      [
+        { bestQuizScorePercent: 100, chapterId: 'chapter-1' },
+        { bestQuizScorePercent: 20, chapterId: 'chapter-2' },
+      ],
+    ),
+    true,
+  );
+
+  assert.equal(
+    isRevisionMissionSatisfied({ chapterId: 'chapter-1', targetScore: 60 }, [
+      { bestQuizScorePercent: 59, chapterId: 'chapter-1' },
+    ]),
+    false,
+  );
 });
