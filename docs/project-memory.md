@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-14
+Last updated: 2026-06-20
 
 ## Current Architecture
 
@@ -50,6 +50,7 @@ Last updated: 2026-06-14
 - Mastery Ladder V1 stores raw quiz/video activity separately from `ChapterMastery`, so the score can be recalculated later if the video/quiz weighting changes.
 - Gamification Phase 2 adds quiz-save aggregates through `StudyStreak`, `Badge`, and `UserBadge`: daily streaks use India calendar days, quiz badges are awarded for first quiz, score improvement, topic mastery, and comeback after a weak score, and newly earned badges are returned in the quiz-save response for the celebration UI.
 - Saved quiz attempts are locked for review after answers are revealed; students should not be able to correct a revealed answer and resubmit the same attempt. Active revision missions should be completed or hidden once the student's best quiz score reaches the mission target, so dashboards do not show stale weak-score missions beside high mastery.
+- Quiz Attempt Lifecycle V1 treats every retry as a new immutable saved attempt. The quiz page loads prior attempts, shows best/latest score history, and uses a separate retry action that clears local answers instead of re-enabling submit on a revealed attempt.
 - The Real Numbers quiz route depends on `apps/web/content/real-numbers/lessons/quiz.md`; keep at least one chapter quiz markdown file committed so the deployed quiz page does not 404.
 - Quiz coverage is expected for every catalog chapter returned by `getChapterEntries()`. The web quiz loader first checks explicit quiz directories, then falls back to `apps/web/content/<chapter-slug>/lessons/quiz.md` so generated chapter-pack slugs can have quizzes without extra route wiring.
 - Vercel serverless tracing must include `apps/web/content/**/*` for `/chapters/[slug]/quiz`; otherwise local quiz routes can pass while deployed fallback quiz markdown returns 404.

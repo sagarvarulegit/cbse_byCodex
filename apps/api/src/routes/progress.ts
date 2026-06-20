@@ -8,6 +8,7 @@ import {
   refreshChapterMastery,
 } from '../lib/mastery-aggregation.js';
 import { prisma } from '../lib/prisma.js';
+import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { requireSessionUser } from '../lib/session.js';
 
 const MAX_QUIZ_TRANSACTION_ATTEMPTS = 3;
@@ -273,8 +274,10 @@ progressRouter.post('/quiz', async (req, res) => {
       attempt: {
         attemptNumber: result.attempt.attemptNumber,
         correctAnswers: result.attempt.correctAnswers,
+        createdAt: result.attempt.createdAt.toISOString(),
         scorePercent: result.attempt.scorePercent,
         totalQuestions: result.attempt.totalQuestions,
+        weakTopicSlugs: result.attempt.weakTopicSlugs,
       },
       mastery: {
         bestQuizScorePercent: result.mastery.bestQuizScorePercent,
@@ -302,6 +305,64 @@ progressRouter.post('/quiz', async (req, res) => {
   } catch (error) {
     console.error('Failed to save quiz progress', error);
     return res.status(500).json({ message: 'Unable to save quiz progress right now.' });
+  }
+});
+
+progressRouter.get('/quiz-attempts', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to view quiz attempts.' });
+    }
+
+    const chapterSlug = typeof req.query.chapterSlug === 'string' ? req.query.chapterSlug.trim() : null;
+    if (!chapterSlug) {
+      return res.status(400).json({ message: 'chapterSlug is required.' });
+    }
+
+    const chapter = await prisma.chapter.findFirst({
+      where: {
+        isPublished: true,
+        slug: chapterSlug,
+      },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+      },
+    });
+
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter was not found.' });
+    }
+
+    const attempts = await prisma.quizAttempt.findMany({
+      where: {
+        chapterId: chapter.id,
+        userId: user.id,
+      },
+      orderBy: [{ attemptNumber: 'desc' }, { createdAt: 'desc' }],
+      select: {
+        attemptNumber: true,
+        correctAnswers: true,
+        createdAt: true,
+        scorePercent: true,
+        totalQuestions: true,
+        weakTopicSlugs: true,
+      },
+    });
+    const history = summarizeQuizAttempts(attempts);
+
+    return res.json({
+      chapter: {
+        slug: chapter.slug,
+        title: chapter.title,
+      },
+      ...history,
+    });
+  } catch (error) {
+    console.error('Failed to load quiz attempts', error);
+    return res.status(500).json({ message: 'Unable to load quiz attempts right now.' });
   }
 });
 

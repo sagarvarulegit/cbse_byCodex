@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from 'react';
 
+import type { QuizAttemptHistory, QuizAttemptSummary } from '../lib/quiz-attempts';
+
 type WeakTopicOption = {
   label: string;
   slug: string;
@@ -23,11 +25,13 @@ type QuizQuestion = {
 
 type QuizScoreFormProps = {
   chapterSlug: string;
+  initialAttemptHistory: QuizAttemptHistory;
   questions: QuizQuestion[];
   weakTopicOptions: WeakTopicOption[];
 };
 
 type QuizProgressResponse = {
+  attempt?: QuizAttemptSummary;
   gamification?: {
     awardedBadges?: Array<{
       code: string;
@@ -60,9 +64,67 @@ type GamificationResult = {
   } | null;
 };
 
-export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions }: QuizScoreFormProps) {
+function buildAttemptHistory(attempts: QuizAttemptSummary[], currentHistory: QuizAttemptHistory): QuizAttemptHistory {
+  const attemptsByNumber = new Map<number, QuizAttemptSummary>();
+  for (const attempt of attempts) {
+    const existingAttempt = attemptsByNumber.get(attempt.attemptNumber);
+    if (!existingAttempt || new Date(attempt.createdAt).getTime() >= new Date(existingAttempt.createdAt).getTime()) {
+      attemptsByNumber.set(attempt.attemptNumber, attempt);
+    }
+  }
+
+  const sortedAttempts = Array.from(attemptsByNumber.values()).sort((left, right) => {
+    if (left.attemptNumber !== right.attemptNumber) {
+      return right.attemptNumber - left.attemptNumber;
+    }
+
+    return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
+  });
+  const [latestAttempt] = sortedAttempts;
+  const [bestAttempt] = [...sortedAttempts].sort((left, right) => {
+    if (left.scorePercent !== right.scorePercent) {
+      return right.scorePercent - left.scorePercent;
+    }
+
+    return right.attemptNumber - left.attemptNumber;
+  });
+
+  return {
+    ...currentHistory,
+    attempts: sortedAttempts,
+    stats: {
+      attemptCount: sortedAttempts.length,
+      bestAttemptNumber: bestAttempt?.attemptNumber ?? null,
+      bestScorePercent: bestAttempt?.scorePercent ?? null,
+      latestAttemptNumber: latestAttempt?.attemptNumber ?? null,
+      latestScorePercent: latestAttempt?.scorePercent ?? null,
+    },
+  };
+}
+
+function formatAttemptDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return 'Saved';
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    month: 'short',
+  }).format(date);
+}
+
+export default function QuizScoreForm({
+  chapterSlug,
+  initialAttemptHistory,
+  questions,
+  weakTopicOptions,
+}: QuizScoreFormProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [attemptHistory, setAttemptHistory] = useState(initialAttemptHistory);
   const [gamificationResult, setGamificationResult] = useState<GamificationResult | null>(null);
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -97,6 +159,7 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
 
     return Array.from(new Set(slugs));
   }, [questions, selectedAnswers, weakTopicOptions]);
+  const visibleAttempts = attemptHistory.attempts.slice(0, 5);
 
   function selectAnswer(questionId: string, optionIndex: number) {
     if (hasSubmitted) {
@@ -154,6 +217,18 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
           }
         : null;
 
+      setAttemptHistory((currentHistory) => {
+        const savedAttempt = data?.attempt ?? {
+          attemptNumber: (currentHistory.stats.latestAttemptNumber ?? 0) + 1,
+          correctAnswers,
+          createdAt: new Date().toISOString(),
+          scorePercent,
+          totalQuestions,
+          weakTopicSlugs,
+        };
+
+        return buildAttemptHistory([savedAttempt, ...currentHistory.attempts], currentHistory);
+      });
       setHasSubmitted(true);
       setGamificationResult({ awardedBadges, streak });
       setResultMessage(`Submitted and saved. Mastery score is ${masteryScore}%. ${missionText}`);
@@ -162,6 +237,14 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  function startNewAttempt() {
+    setSelectedAnswers({});
+    setErrorMessage(null);
+    setGamificationResult(null);
+    setResultMessage(null);
+    setHasSubmitted(false);
   }
 
   return (
@@ -253,6 +336,51 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
           </div>
         ) : null}
 
+        <section className="quiz-attempt-history" aria-label="Saved quiz attempts">
+          <div className="quiz-history-header">
+            <div>
+              <p className="eyebrow">Attempt history</p>
+              <h3>{attemptHistory.stats.attemptCount > 0 ? `${attemptHistory.stats.attemptCount} saved` : 'No saved attempts'}</h3>
+            </div>
+          </div>
+
+          {attemptHistory.stats.attemptCount > 0 ? (
+            <>
+              <div className="quiz-history-summary" aria-label="Quiz attempt summary">
+                <div>
+                  <span>Best</span>
+                  <strong>{attemptHistory.stats.bestScorePercent}%</strong>
+                  <small>Attempt {attemptHistory.stats.bestAttemptNumber}</small>
+                </div>
+                <div>
+                  <span>Latest</span>
+                  <strong>{attemptHistory.stats.latestScorePercent}%</strong>
+                  <small>Attempt {attemptHistory.stats.latestAttemptNumber}</small>
+                </div>
+              </div>
+
+              <div className="quiz-attempt-list">
+                {visibleAttempts.map((attempt) => (
+                  <article className="quiz-attempt-row" key={attempt.attemptNumber}>
+                    <div>
+                      <strong>Attempt {attempt.attemptNumber}</strong>
+                      <span>{formatAttemptDate(attempt.createdAt)}</span>
+                    </div>
+                    <div>
+                      <strong>{attempt.scorePercent}%</strong>
+                      <span>
+                        {attempt.correctAnswers}/{attempt.totalQuestions} correct
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="quiz-history-empty">Your saved attempts will appear here.</p>
+          )}
+        </section>
+
         {hasSubmitted && gamificationResult ? (
           <section className="quiz-celebration" aria-live="polite">
             <div className="celebration-burst" aria-hidden="true">
@@ -289,9 +417,16 @@ export default function QuizScoreForm({ chapterSlug, questions, weakTopicOptions
           </section>
         ) : null}
 
-        <button className="button-link" disabled={isSubmitting || !isComplete || hasSubmitted} type="submit">
-          {isSubmitting ? 'Saving...' : hasSubmitted ? 'Score saved' : isComplete ? 'Submit answers' : 'Answer all questions'}
-        </button>
+        <div className="quiz-action-stack">
+          <button className="button-link" disabled={isSubmitting || !isComplete || hasSubmitted} type="submit">
+            {isSubmitting ? 'Saving...' : hasSubmitted ? 'Score saved' : isComplete ? 'Submit answers' : 'Answer all questions'}
+          </button>
+          {hasSubmitted ? (
+            <button className="ghost-button" onClick={startNewAttempt} type="button">
+              Retry quiz
+            </button>
+          ) : null}
+        </div>
 
         {resultMessage ? (
           <p className="quiz-result-message" role="status">

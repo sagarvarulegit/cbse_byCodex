@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import QuizScoreForm from '../../../../components/QuizScoreForm';
 import { getChapter, getQuizContent } from '../../../../lib/course-content';
+import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
 
 type ParsedQuizQuestion = {
   correctOptionIndex: number;
@@ -97,6 +98,8 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  const quizAttemptHistory = await getStudentQuizAttempts(slug);
+
   const weakTopicOptions =
     chapter.lessons.length > 0
       ? chapter.lessons.map((lesson) => ({
@@ -131,7 +134,12 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
       </div>
 
       <div className="quiz-shell">
-        <QuizScoreForm chapterSlug={slug} questions={quizQuestions} weakTopicOptions={weakTopicOptions} />
+        <QuizScoreForm
+          chapterSlug={slug}
+          initialAttemptHistory={quizAttemptHistory}
+          questions={quizQuestions}
+          weakTopicOptions={weakTopicOptions}
+        />
       </div>
     </main>
   );
