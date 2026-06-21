@@ -5,6 +5,7 @@ import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import { logoutAction } from '../auth-actions';
 import { requireStudentSession } from '../../lib/auth';
 import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../lib/mastery';
+import { buildMasteryRewards } from '../../lib/mastery-rewards';
 import { getPilotChapterCards } from '../../lib/pilot';
 
 const dashboardCards = [
@@ -18,6 +19,8 @@ export default async function DashboardPage() {
   const mastery = await getStudentMastery();
   const activeMissions = mastery.revisionMissions.slice(0, 3);
   const recentBadges = mastery.badges.slice(0, 3);
+  const bestMasteryScore = mastery.masteries.reduce((best, chapter) => Math.max(best, chapter.masteryScore), 0);
+  const masteryRewards = buildMasteryRewards({ badges: mastery.badges, masteryScore: bestMasteryScore });
   const pilotChapters = getPilotChapterCards();
   const [pilotPath] = pilotChapters;
 
@@ -109,6 +112,31 @@ export default async function DashboardPage() {
               ))}
             </section>
           ) : null}
+
+          <section className="reward-panel" aria-label="Personal mastery rewards">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Reward unlocks</p>
+                <h2>Personal tools, not public ranks.</h2>
+              </div>
+              <span className="section-badge">{mastery.badges.length} badge{mastery.badges.length === 1 ? '' : 's'} earned</span>
+            </div>
+            <div className="reward-grid">
+              {masteryRewards.map((reward) => (
+                <article className={`reward-card ${reward.state}`} key={reward.level}>
+                  <div>
+                    <span className="reward-state">{reward.state === 'unlocked' ? 'Unlocked' : reward.isNext ? 'Next unlock' : 'Locked'}</span>
+                    <strong>{reward.rewardName}</strong>
+                  </div>
+                  <p>{reward.description}</p>
+                  <div className="reward-meta">
+                    <span>{formatMasteryLevel(reward.level)}</span>
+                    <span>{reward.progressLabel}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
           <div className="dashboard-grid">
             {mastery.masteries.length > 0
