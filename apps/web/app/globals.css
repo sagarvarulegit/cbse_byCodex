@@ -1942,6 +1942,24 @@ h3 {
   font-size: 1.26rem;
 }
 
+.quiz-question-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quiz-question-meta span {
+  min-height: 28px;
+  padding: 6px 9px;
+  border: 1px solid rgba(11, 149, 216, 0.22);
+  border-radius: 999px;
+  background: var(--card-soft);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
 .quiz-question-card p {
   margin: 0;
   color: var(--foreground);
@@ -2042,6 +2060,29 @@ h3 {
 
 .quiz-option:has(input:disabled):hover {
   transform: none;
+}
+
+.quiz-review-note {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid rgba(4, 150, 111, 0.22);
+  border-radius: 8px;
+  background: var(--card-soft);
+}
+
+.quiz-review-note span {
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.quiz-review-note p {
+  color: var(--foreground);
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .quiz-score-card {

@@ -4,16 +4,15 @@ Last updated: 2026-06-21
 
 ## Next Task
 
-Refine the Mastery Ladder with richer quiz authoring, mission completion, and unlock surfaces.
+Add mastery reward unlock surfaces for the student dashboard and chapter pages.
 
 ## Scope
 
-- Add richer quiz authoring support for answer explanations, topic tags, difficulty, and source coverage.
-- Complete or hide revision missions immediately when best quiz score reaches the mission target.
-- Add clear unlock surfaces for mastery rewards without introducing public competition.
-- Improve dashboard and chapter surfaces so students can see what to do next after a weak or improved attempt.
-- Keep retries immutable and preserve locked review after each submitted attempt.
-- Use pilot feedback and engagement events to prioritize the first refinement pass.
+- Show personal, non-competitive reward progress from existing badge and mastery data.
+- Add a clear locked/unlocked reward surface without introducing leaderboards or public ranking.
+- Tie reward copy to the mastery ladder levels: Learner, Skilled, Exam Ready, and Topper Track.
+- Keep dashboard and chapter next-step actions focused on weak-topic recovery and score improvement.
+- Use the first pilot feedback and engagement events to decide which reward hints deserve more polish.
 
 ## After Push Rule
 

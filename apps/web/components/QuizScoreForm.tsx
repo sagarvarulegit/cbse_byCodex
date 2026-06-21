@@ -16,11 +16,15 @@ type QuizOption = {
 
 type QuizQuestion = {
   correctOptionIndex: number;
+  difficulty?: string;
+  explanation?: string;
   id: string;
   options: QuizOption[];
   prompt: string;
+  sourceCoverage?: string;
   title: string;
   topicSlug?: string;
+  topicTags?: string[];
 };
 
 type QuizScoreFormProps = {
@@ -264,6 +268,11 @@ export default function QuizScoreForm({
           const selectedOptionIndex = selectedAnswers[question.id];
           const isAnswered = selectedOptionIndex !== undefined;
           const isCorrect = selectedOptionIndex === question.correctOptionIndex;
+          const metadataChips = [
+            question.difficulty ? `Difficulty: ${question.difficulty}` : null,
+            question.sourceCoverage ? `Source: ${question.sourceCoverage}` : null,
+            ...(question.topicTags ?? []).map((topicTag) => `Topic: ${topicTag}`),
+          ].filter((chip): chip is string => Boolean(chip));
 
           return (
             <fieldset className="quiz-question-card" key={question.id}>
@@ -274,6 +283,13 @@ export default function QuizScoreForm({
                 ) : null}
               </legend>
               <h3>{question.title}</h3>
+              {metadataChips.length > 0 ? (
+                <div className="quiz-question-meta" aria-label={`Question ${questionIndex + 1} metadata`}>
+                  {metadataChips.map((chip) => (
+                    <span key={chip}>{chip}</span>
+                  ))}
+                </div>
+              ) : null}
               <p>{question.prompt}</p>
               <div className="quiz-option-list">
                 {question.options.map((option, optionIndex) => {
@@ -310,6 +326,12 @@ export default function QuizScoreForm({
                   );
                 })}
               </div>
+              {hasSubmitted && question.explanation ? (
+                <div className="quiz-review-note">
+                  <span>Explanation</span>
+                  <p>{question.explanation}</p>
+                </div>
+              ) : null}
             </fieldset>
           );
         })}
