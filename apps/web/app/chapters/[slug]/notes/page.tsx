@@ -2,8 +2,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
+import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
+import PilotEngagementTracker, { PilotCompletionButton } from '../../../../components/PilotEngagementTracker';
 import { getChapterPackContent } from '../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../lib/course-content';
+import { isPilotChapter } from '../../../../lib/pilot';
 
 export default async function ChapterNotesPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -13,8 +16,19 @@ export default async function ChapterNotesPage({ params }: { params: Promise<{ s
     notFound();
   }
 
+  const isPilot = isPilotChapter(slug);
+
   return (
     <main>
+      {isPilot ? (
+        <PilotEngagementTracker
+          chapterSlug={slug}
+          eventType="lesson_start"
+          lessonSlug="chapter-notes"
+          surface="lesson"
+        />
+      ) : null}
+
       <nav className="topbar" aria-label="Chapter notes navigation">
         <Link className="brand" href="/">
           <span className="brand-mark">10</span>
@@ -79,6 +93,13 @@ export default async function ChapterNotesPage({ params }: { params: Promise<{ s
           <div className="lesson-prose">{renderBlocks(content.blocks)}</div>
         </article>
       </section>
+
+      {isPilot ? (
+        <section className="section-shell pilot-feedback-section">
+          <PilotCompletionButton chapterSlug={slug} lessonSlug="chapter-notes" surface="lesson" />
+          <PilotFeedbackForm chapterSlug={slug} lessonSlug="chapter-notes" surface="lesson" />
+        </section>
+      ) : null}
     </main>
   );
 }

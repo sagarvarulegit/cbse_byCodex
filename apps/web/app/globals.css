@@ -2403,6 +2403,181 @@ h3 {
   opacity: 0.66;
 }
 
+.pilot-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pilot-card-actions .card-link,
+.pilot-card-actions .ghost-link {
+  width: 100%;
+}
+
+.pilot-path-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.pilot-path-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pilot-path-strip a {
+  display: grid;
+  min-height: 86px;
+  align-content: center;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-soft);
+}
+
+.pilot-path-strip span {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 2px solid var(--foreground);
+  border-radius: 8px;
+  background: var(--yellow);
+  color: #101816;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 var(--foreground);
+}
+
+.pilot-path-strip strong {
+  color: var(--foreground);
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.pilot-dashboard-grid .dashboard-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.pilot-dashboard-grid .dashboard-card strong {
+  margin-top: 0;
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.pilot-feedback-section {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.quiz-feedback-section {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 22px;
+}
+
+.pilot-completion-row,
+.pilot-feedback-form {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.pilot-completion-row {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.pilot-completion-row span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.pilot-feedback-form {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.pilot-feedback-form h3 {
+  font-size: 1.28rem;
+}
+
+.feedback-category-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-soft);
+}
+
+.feedback-category-row button,
+.feedback-field textarea,
+.feedback-field select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+}
+
+.feedback-category-row button {
+  min-height: 42px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.feedback-category-row button.selected {
+  border-color: var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.feedback-field {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.feedback-field textarea,
+.feedback-field select {
+  width: 100%;
+  padding: 12px;
+  resize: vertical;
+}
+
+.feedback-field textarea {
+  min-height: 112px;
+}
+
+.compact-field {
+  max-width: 260px;
+}
+
+.feedback-status {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(4, 150, 111, 0.28);
+  border-radius: 8px;
+  background: rgba(4, 150, 111, 0.12);
+  font-weight: 800;
+}
+
+.feedback-status[role="alert"] {
+  border-color: rgba(240, 68, 115, 0.32);
+  background: rgba(240, 68, 115, 0.12);
+}
+
 @media (prefers-color-scheme: dark) {
   .ghost-button {
     background: rgba(20, 29, 25, 0.86);
@@ -2412,11 +2587,13 @@ h3 {
   .dashboard-shell,
   .dashboard-card,
   .dashboard-profile,
-  .chapter-mission-callout,
-  .quiz-content-card,
-  .quiz-intro-card,
-  .quiz-question-card,
-  .quiz-score-card {
+    .chapter-mission-callout,
+    .quiz-content-card,
+    .quiz-intro-card,
+    .quiz-question-card,
+    .quiz-score-card,
+    .pilot-completion-row,
+    .pilot-feedback-form {
     background: rgba(20, 29, 25, 0.92);
   }
 
@@ -2439,7 +2616,9 @@ h3 {
   }
 
   .mission-list.compact .mission-row,
-  .interactive-quiz-form {
+  .interactive-quiz-form,
+  .pilot-path-strip,
+  .pilot-feedback-section {
     grid-template-columns: 1fr;
   }
 
@@ -2493,7 +2672,8 @@ h3 {
   }
 
   .quiz-score-grid,
-  .quiz-score-preview {
+  .quiz-score-preview,
+  .pilot-card-actions {
     grid-template-columns: 1fr;
   }
 

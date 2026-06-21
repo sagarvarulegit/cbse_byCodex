@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getSubjectEntries, hasChapterPack } from '../../../lib/course-content';
 import { requireStudentSession } from '../../../lib/auth';
+import { isPilotChapter } from '../../../lib/pilot';
 import { logoutAction } from '../../auth-actions';
 
 export default async function SubjectPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -78,6 +79,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
           <div className="chapter-grid" aria-label={`Chapters of ${subjectName}`}>
             {subjectChapters.map(([chapterSlug, chapter]) => {
               const isLive = chapter.lessons.length > 0 || hasChapterPack(chapterSlug);
+              const isPilot = isPilotChapter(chapterSlug);
               return (
                 <article
                   className={`chapter-card ${accentColor} ${!isLive ? 'soft' : ''}`}
@@ -87,7 +89,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                   <div className="chapter-topline">
                     <span>{chapter.subject}</span>
                     <strong style={!isLive ? { background: 'var(--border)', color: 'var(--muted)' } : undefined}>
-                      {isLive ? chapter.mastery : 'Coming soon'}
+                      {isPilot ? 'Free pilot' : isLive ? chapter.mastery : 'Coming soon'}
                     </strong>
                   </div>
                   <h3>{chapter.title}</h3>
@@ -109,7 +111,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
 
                   {isLive ? (
                     <Link className="card-link" href={`/chapters/${chapterSlug}`} style={{ textAlign: 'center', display: 'block', padding: '10px 0' }}>
-                      Open chapter
+                      {isPilot ? 'Open pilot chapter' : 'Open chapter'}
                     </Link>
                   ) : (
                     <div

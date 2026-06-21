@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
+import PilotEngagementTracker from '../../../../components/PilotEngagementTracker';
 import QuizScoreForm from '../../../../components/QuizScoreForm';
 import { getChapter, getQuizContent } from '../../../../lib/course-content';
+import { isPilotChapter } from '../../../../lib/pilot';
 import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
 
 type ParsedQuizQuestion = {
@@ -93,6 +96,7 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const chapter = getChapter(slug);
   const quizContent = await getQuizContent(slug);
+  const isPilot = isPilotChapter(slug);
 
   if (!chapter || !quizContent) {
     notFound();
@@ -123,6 +127,8 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
 
   return (
     <main className="section-shell quiz-page">
+      {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="quiz_start" surface="quiz" /> : null}
+
       <div className="section-heading">
         <div>
           <p className="eyebrow">{chapter.subject}</p>
@@ -141,6 +147,12 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
           weakTopicOptions={weakTopicOptions}
         />
       </div>
+
+      {isPilot ? (
+        <section className="pilot-feedback-section quiz-feedback-section">
+          <PilotFeedbackForm chapterSlug={slug} surface="quiz" />
+        </section>
+      ) : null}
     </main>
   );
 }

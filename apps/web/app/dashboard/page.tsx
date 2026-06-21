@@ -1,8 +1,11 @@
 import Link from 'next/link';
 
+import PilotFeedbackForm from '../../components/PilotFeedbackForm';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import { logoutAction } from '../auth-actions';
 import { requireStudentSession } from '../../lib/auth';
 import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../lib/mastery';
+import { getPilotChapterCards } from '../../lib/pilot';
 
 const dashboardCards = [
   { label: 'Account status', value: 'Active', hint: 'Your student login is ready for the live pilot.' },
@@ -15,9 +18,13 @@ export default async function DashboardPage() {
   const mastery = await getStudentMastery();
   const activeMissions = mastery.revisionMissions.slice(0, 3);
   const recentBadges = mastery.badges.slice(0, 3);
+  const pilotChapters = getPilotChapterCards();
+  const [pilotPath] = pilotChapters;
 
   return (
     <main>
+      <PilotEngagementTracker eventType="dashboard_view" surface="dashboard" />
+
       <nav className="topbar" aria-label="Student account navigation">
         <Link className="brand" href="/">
           <span className="brand-mark">10</span>
@@ -46,6 +53,45 @@ export default async function DashboardPage() {
               </Link>
             </div>
           </div>
+
+          {pilotPath ? (
+            <section className="pilot-path-panel" aria-label="Free pilot study path">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Free pilot path</p>
+                  <h2>Start, study, quiz, review.</h2>
+                </div>
+                <Link className="ghost-link" href="/subjects">
+                  Choose chapter
+                </Link>
+              </div>
+              <div className="pilot-path-strip">
+                {pilotPath.pathSteps.map((step, index) => (
+                  <Link href={step.href} key={step.label}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <strong>{step.label}</strong>
+                  </Link>
+                ))}
+              </div>
+              <div className="dashboard-grid pilot-dashboard-grid">
+                {pilotChapters.map((chapter) => (
+                  <article className="dashboard-card" key={chapter.slug}>
+                    <p>{chapter.subject}</p>
+                    <strong>{chapter.title}</strong>
+                    <span>{chapter.summary}</span>
+                    <div className="pilot-card-actions">
+                      <Link className="card-link" href={chapter.notesHref}>
+                        Study notes
+                      </Link>
+                      <Link className="ghost-link" href={chapter.quizHref}>
+                        Take quiz
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           {mastery.streak || recentBadges.length > 0 ? (
             <section className="dashboard-grid">
@@ -106,6 +152,8 @@ export default async function DashboardPage() {
               </div>
             </section>
           ) : null}
+
+          <PilotFeedbackForm surface="dashboard" />
 
           <section className="dashboard-profile">
             <div>

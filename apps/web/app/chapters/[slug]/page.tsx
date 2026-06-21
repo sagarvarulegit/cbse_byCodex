@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import { getChapter, getQuizContent, hasChapterPack } from '../../../lib/course-content';
 import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../../lib/mastery';
+import { isPilotChapter } from '../../../lib/pilot';
 
 export default async function ChapterPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -15,6 +17,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   const hasLessonNotes = chapter.lessons.some((lesson) => lesson.fileName);
   const hasPackNotes = hasChapterPack(slug);
   const isLive = hasLessonNotes || hasPackNotes;
+  const isPilot = isPilotChapter(slug);
   const mastery = await getStudentMastery(slug);
   const chapterMastery = mastery.masteries[0];
   const activeMission = mastery.revisionMissions[0];
@@ -23,6 +26,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main>
+      {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="chapter_open" surface="chapter" /> : null}
+
       <nav className="topbar" aria-label="Chapter navigation">
         <Link className="brand" href="/">
           <span className="brand-mark">10</span>

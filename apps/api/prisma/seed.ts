@@ -78,6 +78,20 @@ async function main() {
   });
   console.log(`Seeded subject: ${scienceSubject.name}`);
 
+  const englishSubject = await prisma.subject.upsert({
+    where: { slug: 'english' },
+    update: {},
+    create: {
+      name: 'English',
+      slug: 'english',
+      classLevel: 10,
+      description: 'CBSE Class 10 English',
+      isPublished: true,
+      sortOrder: 3,
+    }
+  });
+  console.log(`Seeded subject: ${englishSubject.name}`);
+
   // 3. Create Chapters
   const mathChapter = await prisma.chapter.upsert({
     where: { subjectId_slug: { subjectId: mathSubject.id, slug: 'real-numbers' } },
@@ -108,6 +122,21 @@ async function main() {
     }
   });
   console.log(`Seeded chapter: ${scienceChapter.title}`);
+
+  const englishChapter = await prisma.chapter.upsert({
+    where: { subjectId_slug: { subjectId: englishSubject.id, slug: 'two-stories-about-flying' } },
+    update: {},
+    create: {
+      subjectId: englishSubject.id,
+      title: 'Two Stories about Flying',
+      slug: 'two-stories-about-flying',
+      ncertChapterNumber: 3,
+      description: 'Revise courage, fear, mystery, and inference skills through the Class 10 First Flight flying stories.',
+      isPublished: true,
+      sortOrder: 3,
+    }
+  });
+  console.log(`Seeded chapter: ${englishChapter.title}`);
 
   // 4. Create Topics, Lessons under Mathematics (Real Numbers)
   const mathTopics = [
@@ -258,6 +287,40 @@ async function main() {
           estimatedMinutes: 20,
         }
       ]
+    },
+    {
+      title: "Balancing equations",
+      slug: "balancing-equations",
+      description: "Balance chemical equations step by step.",
+      sortOrder: 2,
+      estimatedMinutes: 20,
+      lessons: [
+        {
+          title: "Balancing equations pilot note",
+          slug: "balancing-equations-pilot-note",
+          description: "A free pilot note for balancing chemical equations.",
+          learningObjective: "Balance a simple chemical equation and explain why atoms must be conserved.",
+          accessLevel: AccessLevel.free,
+          sortOrder: 1,
+          estimatedMinutes: 20,
+        }
+      ]
+    },
+    {
+      title: "Reaction types",
+      slug: "reaction-types",
+      description: "Identify combination, decomposition, displacement, and double-displacement reactions.",
+      sortOrder: 3,
+      estimatedMinutes: 20,
+      lessons: []
+    },
+    {
+      title: "Oxidation and reduction",
+      slug: "oxidation-and-reduction",
+      description: "Understand oxidation, reduction, corrosion, and rancidity.",
+      sortOrder: 4,
+      estimatedMinutes: 20,
+      lessons: []
     }
   ];
 
@@ -296,6 +359,80 @@ async function main() {
     }
   }
   console.log('Science Chemical Reactions topics and lessons seeded.');
+
+  // 6. Create Topics, Lessons under English (Two Stories about Flying)
+  const englishTopics = [
+    {
+      title: "Young seagull's courage",
+      slug: "young-seagulls-courage",
+      description: "Track the young seagull's fear and first flight.",
+      sortOrder: 1,
+      estimatedMinutes: 12,
+      lessons: [
+        {
+          title: "Courage and first flight pilot note",
+          slug: "courage-and-first-flight-pilot-note",
+          description: "A free pilot note for courage and first-flight inference questions.",
+          learningObjective: "Explain how fear turns into action in the first flying story.",
+          accessLevel: AccessLevel.free,
+          sortOrder: 1,
+          estimatedMinutes: 12,
+        }
+      ]
+    },
+    {
+      title: "The mysterious pilot helper",
+      slug: "the-mysterious-pilot-helper",
+      description: "Understand suspense and uncertainty in The Black Aeroplane.",
+      sortOrder: 2,
+      estimatedMinutes: 12,
+      lessons: []
+    },
+    {
+      title: "Overcoming fear",
+      slug: "overcoming-fear",
+      description: "Compare courage, action, and confidence across the stories.",
+      sortOrder: 3,
+      estimatedMinutes: 11,
+      lessons: []
+    }
+  ];
+
+  for (const topicData of englishTopics) {
+    const topic = await prisma.topic.upsert({
+      where: { chapterId_slug: { chapterId: englishChapter.id, slug: topicData.slug } },
+      update: {},
+      create: {
+        chapterId: englishChapter.id,
+        title: topicData.title,
+        slug: topicData.slug,
+        description: topicData.description,
+        sortOrder: topicData.sortOrder,
+        estimatedMinutes: topicData.estimatedMinutes,
+        isPublished: true,
+      }
+    });
+
+    for (const lessonData of topicData.lessons) {
+      await prisma.lesson.upsert({
+        where: { topicId_slug: { topicId: topic.id, slug: lessonData.slug } },
+        update: {},
+        create: {
+          topicId: topic.id,
+          title: lessonData.title,
+          slug: lessonData.slug,
+          description: lessonData.description,
+          learningObjective: lessonData.learningObjective,
+          accessLevel: lessonData.accessLevel,
+          sortOrder: lessonData.sortOrder,
+          estimatedMinutes: lessonData.estimatedMinutes,
+          publishStatus: PublishStatus.published,
+          publishedAt: new Date(),
+        }
+      });
+    }
+  }
+  console.log('English Two Stories about Flying topics and lessons seeded.');
 
   console.log('Database seeding finished.');
 }

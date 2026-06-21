@@ -7,6 +7,7 @@ import {
   isRevisionMissionSatisfied,
   refreshChapterMastery,
 } from '../lib/mastery-aggregation.js';
+import { normalizePilotEngagementPayload, normalizePilotFeedbackPayload } from '../lib/pilot-progress.js';
 import { prisma } from '../lib/prisma.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { requireSessionUser } from '../lib/session.js';
@@ -63,6 +64,24 @@ function isRetryableQuizTransactionError(error: unknown) {
   }
 
   return false;
+}
+
+async function findPublishedChapterId(chapterSlug: string | null) {
+  if (!chapterSlug) {
+    return null;
+  }
+
+  const chapter = await prisma.chapter.findFirst({
+    where: {
+      isPublished: true,
+      slug: chapterSlug,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return chapter?.id ?? null;
 }
 
 export const progressRouter = Router();
@@ -131,6 +150,85 @@ progressRouter.post('/video', async (req, res) => {
   } catch (error) {
     console.error('Failed to save video progress', error);
     return res.status(500).json({ message: 'Unable to save video progress right now.' });
+  }
+});
+
+progressRouter.post('/engagement', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to save pilot activity.' });
+    }
+
+    const payload = normalizePilotEngagementPayload(req.body);
+    if (!payload.data) {
+      return res.status(400).json({ message: payload.error ?? 'Invalid engagement payload.' });
+    }
+
+    const engagement = payload.data;
+    const chapterId = await findPublishedChapterId(engagement.chapterSlug);
+
+    await prisma.progressEvent.create({
+      data: {
+        chapterId,
+        eventType: engagement.eventType,
+        metadata: {
+          chapterSlug: engagement.chapterSlug,
+          lessonSlug: engagement.lessonSlug,
+          path: engagement.path,
+          source: 'free_student_pilot',
+          surface: engagement.surface,
+        } satisfies Prisma.InputJsonValue,
+        occurredAt: new Date(),
+        userId: user.id,
+      },
+    });
+
+    return res.status(202).json({ saved: true });
+  } catch (error) {
+    console.error('Failed to save pilot engagement', error);
+    return res.status(500).json({ message: 'Unable to save pilot activity right now.' });
+  }
+});
+
+progressRouter.post('/feedback', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to send feedback.' });
+    }
+
+    const payload = normalizePilotFeedbackPayload(req.body);
+    if (!payload.data) {
+      return res.status(400).json({ message: payload.error ?? 'Invalid feedback payload.' });
+    }
+
+    const feedback = payload.data;
+    const chapterId = await findPublishedChapterId(feedback.chapterSlug);
+
+    await prisma.progressEvent.create({
+      data: {
+        chapterId,
+        eventType: 'feedback_submission',
+        metadata: {
+          category: feedback.category,
+          chapterSlug: feedback.chapterSlug,
+          lessonSlug: feedback.lessonSlug,
+          message: feedback.message,
+          path: feedback.path,
+          rating: feedback.rating,
+          source: 'free_student_pilot',
+          surface: feedback.surface,
+        } satisfies Prisma.InputJsonValue,
+        occurredAt: new Date(),
+        userId: user.id,
+      },
+    });
+
+    return res.status(201).json({ saved: true });
+  } catch (error) {
+    console.error('Failed to save pilot feedback', error);
+    return res.status(500).json({ message: 'Unable to send feedback right now.' });
   }
 });
 

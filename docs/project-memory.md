@@ -55,12 +55,13 @@ Last updated: 2026-06-21
 - Quiz coverage is expected for every catalog chapter returned by `getChapterEntries()`. The web quiz loader first checks explicit quiz directories, then falls back to `apps/web/content/<chapter-slug>/lessons/quiz.md` so generated chapter-pack slugs can have quizzes without extra route wiring.
 - Vercel serverless tracing must include `apps/web/content/**/*` for `/chapters/[slug]/quiz`; otherwise local quiz routes can pass while deployed fallback quiz markdown returns 404.
 - The student quiz page parses numbered markdown questions into selectable answer cards. Add `Answer: <option number>` after options whenever the correct option is not option 1, because unkeyed generated quizzes currently fall back to option 1 for scoring.
+- Free Student Pilot V1 centralizes the selected pilot chapters in `apps/web/lib/pilot.ts`: Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying. Lesson starts, lesson completions, quiz starts, dashboard views, chapter opens, and feedback submissions are recorded as `ProgressEvent` rows through `/v1/progress/engagement` and `/v1/progress/feedback`; the DB migration `20260621120000_add_free_pilot_catalog_rows` keeps the selected pilot catalog DB-backed for production quiz saves.
 - Prefer cached or aggregated reads for high-traffic endpoints.
 - Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
 
 ## Next Work
 
-1. Launch a free student pilot and feedback loop.
-2. Refine the Mastery Ladder with richer quiz authoring, mission completion, and unlock surfaces.
+1. Refine the Mastery Ladder with richer quiz authoring, mission completion, and unlock surfaces.
+2. Review the first free-pilot feedback and engagement events before widening chapter access.
 3. Add the payments and subscription foundation after real student usage and platform hardening.
 4. Keep extending the API through feature routers rather than expanding `app.ts`.
