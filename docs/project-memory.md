@@ -63,7 +63,7 @@ Last updated: 2026-06-21
 
 ## Next Work
 
-1. Refine the Mastery Ladder with richer quiz authoring, mission completion, and unlock surfaces.
+1. Complete revision mission lifecycle and weak-topic recovery polish now that reward unlock surfaces are in place.
 2. Review the first free-pilot feedback and engagement events before widening chapter access.
 3. Add the payments and subscription foundation after real student usage and platform hardening.
 4. Keep extending the API through feature routers rather than expanding `app.ts`.
