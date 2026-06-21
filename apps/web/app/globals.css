@@ -2273,6 +2273,34 @@ h3 {
   line-height: 1.45;
 }
 
+.quiz-score-detail small {
+  color: var(--foreground);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.quiz-recovery-note {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(28, 122, 76, 0.28);
+  border-radius: 8px;
+  background: rgba(28, 122, 76, 0.08);
+}
+
+.quiz-recovery-note p,
+.quiz-recovery-note span {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.quiz-recovery-note strong {
+  color: var(--foreground);
+  line-height: 1.45;
+}
+
 .quiz-attempt-history {
   display: grid;
   gap: 12px;

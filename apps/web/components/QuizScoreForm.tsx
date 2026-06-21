@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 
 import type { QuizAttemptHistory, QuizAttemptSummary } from '../lib/quiz-attempts';
+import { buildQuizRecoveryMessage, getWeakTopicLabels } from '../lib/quiz-recovery';
 
 type WeakTopicOption = {
   label: string;
@@ -53,8 +54,21 @@ type QuizProgressResponse = {
   message?: string;
   revisionMission?: {
     id: string;
+    recommendedSteps?: string[];
+    state: 'created' | 'refreshed' | 'completed';
+    targetScore?: number;
+  } | {
+    mission: null;
+    state: 'not_needed';
   } | null;
 };
+
+type RecoveryMissionState = NonNullable<QuizProgressResponse['revisionMission']>;
+
+type RecoveryResult = {
+  mission: RecoveryMissionState | null;
+  weakTopicLabels: string[];
+} | null;
 
 type GamificationResult = {
   awardedBadges: Array<{
@@ -130,6 +144,7 @@ export default function QuizScoreForm({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [attemptHistory, setAttemptHistory] = useState(initialAttemptHistory);
   const [gamificationResult, setGamificationResult] = useState<GamificationResult | null>(null);
+  const [recoveryResult, setRecoveryResult] = useState<RecoveryResult>(null);
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -163,6 +178,10 @@ export default function QuizScoreForm({
 
     return Array.from(new Set(slugs));
   }, [questions, selectedAnswers, weakTopicOptions]);
+  const weakTopicLabels = useMemo(
+    () => getWeakTopicLabels(weakTopicSlugs, weakTopicOptions),
+    [weakTopicSlugs, weakTopicOptions],
+  );
   const visibleAttempts = attemptHistory.attempts.slice(0, 5);
 
   function selectAnswer(questionId: string, optionIndex: number) {
@@ -180,6 +199,7 @@ export default function QuizScoreForm({
     event.preventDefault();
     setErrorMessage(null);
     setGamificationResult(null);
+    setRecoveryResult(null);
     setResultMessage(null);
 
     if (!isComplete) {
@@ -212,7 +232,6 @@ export default function QuizScoreForm({
       }
 
       const masteryScore = data?.mastery?.masteryScore ?? scorePercent;
-      const missionText = data?.revisionMission ? 'A revision mission was created.' : 'No revision mission was needed.';
       const awardedBadges = data?.gamification?.awardedBadges ?? [];
       const streak = data?.gamification?.streak?.currentStreakDays
         ? {
@@ -235,7 +254,8 @@ export default function QuizScoreForm({
       });
       setHasSubmitted(true);
       setGamificationResult({ awardedBadges, streak });
-      setResultMessage(`Submitted and saved. Mastery score is ${masteryScore}%. ${missionText}`);
+      setRecoveryResult({ mission: data?.revisionMission ?? null, weakTopicLabels });
+      setResultMessage(buildQuizRecoveryMessage({ masteryScore, revisionMission: data?.revisionMission }));
     } catch {
       setErrorMessage('Unable to save quiz progress right now.');
     } finally {
@@ -247,6 +267,7 @@ export default function QuizScoreForm({
     setSelectedAnswers({});
     setErrorMessage(null);
     setGamificationResult(null);
+    setRecoveryResult(null);
     setResultMessage(null);
     setHasSubmitted(false);
   }
@@ -355,7 +376,27 @@ export default function QuizScoreForm({
               {correctAnswers} of {totalQuestions} correct
             </strong>
             <span>{weakTopicSlugs.length > 0 ? `${weakTopicSlugs.length} topic(s) marked for revision` : 'No weak topics marked'}</span>
+            {weakTopicLabels.length > 0 ? <small>{weakTopicLabels.join(', ')}</small> : null}
           </div>
+        ) : null}
+
+        {hasSubmitted && recoveryResult?.mission && 'state' in recoveryResult.mission ? (
+          <section className="quiz-recovery-note" aria-label="Weak-topic recovery">
+            <p className="eyebrow">
+              {recoveryResult.mission.state === 'completed' ? 'Mission complete' : 'Recovery plan'}
+            </p>
+            {recoveryResult.weakTopicLabels.length > 0 ? (
+              <p>Review focus: {recoveryResult.weakTopicLabels.join(', ')}</p>
+            ) : (
+              <p>Review focus: chapter practice and common mistakes.</p>
+            )}
+            {'recommendedSteps' in recoveryResult.mission && recoveryResult.mission.recommendedSteps?.[0] ? (
+              <strong>{recoveryResult.mission.recommendedSteps[0]}</strong>
+            ) : null}
+            {'targetScore' in recoveryResult.mission && recoveryResult.mission.targetScore ? (
+              <span>Target score: {recoveryResult.mission.targetScore}%</span>
+            ) : null}
+          </section>
         ) : null}
 
         <section className="quiz-attempt-history" aria-label="Saved quiz attempts">

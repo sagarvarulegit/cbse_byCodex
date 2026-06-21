@@ -113,6 +113,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
             <p className="eyebrow">Revision mission</p>
             <h2>{activeMission.chapterTitle}</h2>
             <p className="subtext compact">{activeMission.reason}</p>
+            <p className="subtext compact">
+              Target: {activeMission.targetScore}% · {activeMission.recommendedSteps[0] ?? 'Retry the quiz after revision.'}
+            </p>
           </div>
           <Link className="button-link" href={`/chapters/${slug}/quiz`}>
             Retry quiz

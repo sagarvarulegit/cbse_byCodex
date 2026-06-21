@@ -175,6 +175,7 @@ export default async function DashboardPage() {
                     <span>{mission.subjectName}</span>
                     <strong>{mission.chapterTitle}</strong>
                     <small>{mission.reason}</small>
+                    <small>Target: {mission.targetScore}% · {mission.recommendedSteps[0] ?? 'Retry the quiz after revision.'}</small>
                   </Link>
                 ))}
               </div>

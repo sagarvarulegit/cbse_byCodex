@@ -58,12 +58,13 @@ Last updated: 2026-06-21
 - The student quiz page parses numbered markdown questions into selectable answer cards. Add `Answer: <option number>` after options whenever the correct option is not option 1, because unkeyed generated quizzes currently fall back to option 1 for scoring.
 - Quiz markdown now supports optional per-question `Topic:`, `Difficulty:`, `Source:`, and `Explanation:` lines through `apps/web/lib/quiz-content.ts`. `Topic:` drives weak-topic tracking only when it matches a valid chapter topic/lesson slug; explanations render after a locked submission for review.
 - Free Student Pilot V1 centralizes the selected pilot chapters in `apps/web/lib/pilot.ts`: Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying. Lesson starts, lesson completions, quiz starts, dashboard views, chapter opens, and feedback submissions are recorded as `ProgressEvent` rows through `/v1/progress/engagement` and `/v1/progress/feedback`; the DB migration `20260621120000_add_free_pilot_catalog_rows` keeps the selected pilot catalog DB-backed for production quiz saves.
+- Revision Mission Lifecycle V1 completes active missions when a retry reaches the mission target and also persists completion during mastery reads when a best quiz score already satisfies a stale active mission. Quiz-save responses now distinguish `created`, `refreshed`, `completed`, and `not_needed` so the web quiz review can show topic labels, first recovery action, target score, or completion copy without re-enabling a locked attempt.
 - Prefer cached or aggregated reads for high-traffic endpoints.
 - Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
 
 ## Next Work
 
-1. Complete revision mission lifecycle and weak-topic recovery polish now that reward unlock surfaces are in place.
-2. Review the first free-pilot feedback and engagement events before widening chapter access.
+1. Review the first free-pilot feedback and engagement events before widening chapter access.
+2. Add a simple pilot-review surface or report for feedback submissions, chapter opens, lesson starts, lesson completions, quiz starts, and dashboard views.
 3. Add the payments and subscription foundation after real student usage and platform hardening.
 4. Keep extending the API through feature routers rather than expanding `app.ts`.

@@ -3,8 +3,8 @@ import { Router } from 'express';
 
 import { awardQuizBadges, refreshDailyPracticeStreak } from '../lib/gamification.js';
 import {
+  completeSatisfiedRevisionMissions,
   createOrRefreshRevisionMission,
-  isRevisionMissionSatisfied,
   refreshChapterMastery,
 } from '../lib/mastery-aggregation.js';
 import { normalizePilotEngagementPayload, normalizePilotFeedbackPayload } from '../lib/pilot-progress.js';
@@ -325,7 +325,7 @@ progressRouter.post('/quiz', async (req, res) => {
               },
             });
 
-            const mission = await createOrRefreshRevisionMission({
+            const revisionMission = await createOrRefreshRevisionMission({
               chapterId: chapter.id,
               db: tx,
               scorePercent: derivedScorePercent,
@@ -352,7 +352,7 @@ progressRouter.post('/quiz', async (req, res) => {
               weakTopicSlugs,
             });
 
-            return { attempt, awardedBadges, mastery, mission, studyStreak };
+            return { attempt, awardedBadges, mastery, revisionMission, studyStreak };
           },
           { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
         );
@@ -390,15 +390,19 @@ progressRouter.post('/quiz', async (req, res) => {
           longestStreakDays: result.studyStreak.longestStreakDays,
         },
       },
-      revisionMission: result.mission
+      revisionMission: result.revisionMission.mission
         ? {
-            id: result.mission.id,
-            reason: result.mission.reason,
-            recommendedSteps: normalizeRecommendedSteps(result.mission.recommendedSteps),
-            status: result.mission.status,
-            targetScore: result.mission.targetScore,
+            id: result.revisionMission.mission.id,
+            reason: result.revisionMission.mission.reason,
+            recommendedSteps: normalizeRecommendedSteps(result.revisionMission.mission.recommendedSteps),
+            state: result.revisionMission.state,
+            status: result.revisionMission.mission.status,
+            targetScore: result.revisionMission.mission.targetScore,
           }
-        : null,
+        : {
+            mission: null,
+            state: result.revisionMission.state,
+          },
     });
   } catch (error) {
     console.error('Failed to save quiz progress', error);
@@ -532,7 +536,10 @@ progressRouter.get('/mastery', async (req, res) => {
       }),
     ]);
 
-    const visibleMissions = missions.filter((mission) => !isRevisionMissionSatisfied(mission, masteries));
+    const visibleMissions = await completeSatisfiedRevisionMissions({
+      masteries,
+      missions,
+    });
 
     return res.json({
       badges: userBadges.map((userBadge) => ({

@@ -38,6 +38,37 @@ export function isRevisionMissionSatisfied(
   return (matchingMastery?.bestQuizScorePercent ?? 0) >= mission.targetScore;
 }
 
+export async function completeSatisfiedRevisionMissions<TMission extends { chapterId: string; id: string; targetScore: number }>(params: {
+  completedAt?: Date;
+  db?: PrismaExecutor;
+  masteries: Array<{
+    bestQuizScorePercent: number;
+    chapterId: string;
+  }>;
+  missions: TMission[];
+}) {
+  const db = params.db ?? prisma;
+  const completedAt = params.completedAt ?? new Date();
+  const visibleMissions: TMission[] = [];
+
+  for (const mission of params.missions) {
+    if (!isRevisionMissionSatisfied(mission, params.masteries)) {
+      visibleMissions.push(mission);
+      continue;
+    }
+
+    await db.revisionMission.update({
+      where: { id: mission.id },
+      data: {
+        completedAt,
+        status: 'completed',
+      },
+    });
+  }
+
+  return visibleMissions;
+}
+
 function readPercentComplete(metadata: Prisma.JsonValue | null) {
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
     return 0;
@@ -191,16 +222,24 @@ export async function createOrRefreshRevisionMission(params: {
   if (!shouldCreateRevisionMission(params.scorePercent)) {
     const existingMission = await findActiveRevisionMission(db, params);
     if (existingMission) {
-      await db.revisionMission.update({
+      const completedMission = await db.revisionMission.update({
         where: { id: existingMission.id },
         data: {
           completedAt: new Date(),
           status: 'completed',
         },
       });
+
+      return {
+        mission: completedMission,
+        state: 'completed' as const,
+      };
     }
 
-    return null;
+    return {
+      mission: null,
+      state: 'not_needed' as const,
+    };
   }
 
   const existingMission = await findActiveRevisionMission(db, params);
@@ -213,20 +252,30 @@ export async function createOrRefreshRevisionMission(params: {
   };
 
   if (existingMission) {
-    return db.revisionMission.update({
+    const mission = await db.revisionMission.update({
       where: { id: existingMission.id },
       data,
     });
+
+    return {
+      mission,
+      state: 'refreshed' as const,
+    };
   }
 
   try {
-    return await db.revisionMission.create({
+    const mission = await db.revisionMission.create({
       data: {
         ...data,
         chapterId: params.chapterId,
         userId: params.userId,
       },
     });
+
+    return {
+      mission,
+      state: 'created' as const,
+    };
   } catch (error) {
     if (!isUniqueConflictError(error)) {
       throw error;
@@ -237,9 +286,14 @@ export async function createOrRefreshRevisionMission(params: {
       throw error;
     }
 
-    return db.revisionMission.update({
+    const mission = await db.revisionMission.update({
       where: { id: activeMission.id },
       data,
     });
+
+    return {
+      mission,
+      state: 'refreshed' as const,
+    };
   }
 }

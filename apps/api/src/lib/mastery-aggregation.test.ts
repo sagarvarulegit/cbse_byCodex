@@ -5,6 +5,7 @@ import { Prisma } from '@prisma/client';
 
 import {
   buildRevisionMissionSteps,
+  completeSatisfiedRevisionMissions,
   createOrRefreshRevisionMission,
   isRevisionMissionSatisfied,
   refreshChapterMastery,
@@ -13,6 +14,7 @@ import {
 
 type RefreshDb = NonNullable<Parameters<typeof refreshChapterMastery>[0]['db']>;
 type RevisionMissionDb = NonNullable<Parameters<typeof createOrRefreshRevisionMission>[0]['db']>;
+type CompleteMissionDb = NonNullable<Parameters<typeof completeSatisfiedRevisionMissions>[0]['db']>;
 
 test('shouldCreateRevisionMission is true below 60 percent', () => {
   assert.equal(shouldCreateRevisionMission(59), true);
@@ -125,7 +127,7 @@ test('createOrRefreshRevisionMission updates active mission after unique create 
     weakTopicSlugs: ['euclid-division-lemma'],
   });
 
-  assert.deepEqual(result, { id: 'mission-1' });
+  assert.deepEqual(result, { mission: { id: 'mission-1' }, state: 'refreshed' });
   assert.equal(updateCalls[0]?.where.id, 'mission-1');
 });
 
@@ -150,10 +152,60 @@ test('createOrRefreshRevisionMission completes active mission after passing retr
     weakTopicSlugs: [],
   });
 
-  assert.equal(result, null);
+  assert.equal(result.state, 'completed');
+  assert.equal(result.mission?.id, 'mission-1');
   assert.equal(updateCalls[0]?.where.id, 'mission-1');
   assert.equal(updateCalls[0]?.data.status, 'completed');
   assert.ok(updateCalls[0]?.data.completedAt instanceof Date);
+});
+
+test('createOrRefreshRevisionMission reports not needed when no active mission exists', async () => {
+  const db = {
+    revisionMission: {
+      findFirst: async () => null,
+    },
+  } as unknown as RevisionMissionDb;
+
+  const result = await createOrRefreshRevisionMission({
+    chapterId: 'chapter-1',
+    db,
+    scorePercent: 80,
+    userId: 'user-1',
+    weakTopicSlugs: [],
+  });
+
+  assert.equal(result.state, 'not_needed');
+  assert.equal(result.mission, null);
+});
+
+test('completeSatisfiedRevisionMissions completes stale active missions and returns only visible missions', async () => {
+  const completedAt = new Date('2026-06-21T12:00:00.000Z');
+  const updateCalls: Array<{ data: { completedAt: Date; status: string }; where: { id: string } }> = [];
+  const staleMission = { chapterId: 'chapter-1', id: 'mission-1', targetScore: 60 };
+  const activeMission = { chapterId: 'chapter-2', id: 'mission-2', targetScore: 60 };
+  const db = {
+    revisionMission: {
+      update: async (args: { data: { completedAt: Date; status: string }; where: { id: string } }) => {
+        updateCalls.push(args);
+        return { ...staleMission, ...args.data };
+      },
+    },
+  } as unknown as CompleteMissionDb;
+
+  const visibleMissions = await completeSatisfiedRevisionMissions({
+    completedAt,
+    db,
+    masteries: [
+      { bestQuizScorePercent: 75, chapterId: 'chapter-1' },
+      { bestQuizScorePercent: 55, chapterId: 'chapter-2' },
+    ],
+    missions: [staleMission, activeMission],
+  });
+
+  assert.deepEqual(visibleMissions, [activeMission]);
+  assert.equal(updateCalls[0]?.where.id, 'mission-1');
+  assert.equal(updateCalls[0]?.data.status, 'completed');
+  assert.equal(updateCalls[0]?.data.completedAt.toISOString(), completedAt.toISOString());
 });
 
 test('isRevisionMissionSatisfied hides active missions when best quiz score already reached target', () => {
