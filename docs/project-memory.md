@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-20
+Last updated: 2026-06-21
 
 ## Current Architecture
 
@@ -44,7 +44,7 @@ Last updated: 2026-06-20
 ## Scaling Notes
 
 - Keep route logic split by feature as new work lands.
-- Add payment/subscription logic behind the same access helper path used by lesson video gating.
+- Defer payment/subscription logic until after a free student pilot produces real usage, feedback, bug fixes, and platform-hardening work. When payments return, keep them behind the same access helper path used by lesson video gating.
 - Add gamification through event aggregation, not ad hoc counters inside request handlers.
 - V1 gamification is planned as a personal Chapter Mastery Ladder: video completion contributes limited effort credit, quiz performance drives most mastery, low quiz scores create Revision Missions, and level rewards unlock revision tools rather than public competition.
 - Mastery Ladder V1 stores raw quiz/video activity separately from `ChapterMastery`, so the score can be recalculated later if the video/quiz weighting changes.
@@ -60,6 +60,7 @@ Last updated: 2026-06-20
 
 ## Next Work
 
-1. Add the payments and subscription foundation.
+1. Launch a free student pilot and feedback loop.
 2. Refine the Mastery Ladder with richer quiz authoring, mission completion, and unlock surfaces.
-3. Keep extending the API through feature routers rather than expanding `app.ts`.
+3. Add the payments and subscription foundation after real student usage and platform hardening.
+4. Keep extending the API through feature routers rather than expanding `app.ts`.
