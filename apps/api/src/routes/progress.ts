@@ -8,6 +8,11 @@ import {
   refreshChapterMastery,
 } from '../lib/mastery-aggregation.js';
 import { normalizePilotEngagementPayload, normalizePilotFeedbackPayload } from '../lib/pilot-progress.js';
+import {
+  buildPilotReviewPayload,
+  canViewPilotReview,
+  normalizePilotReviewWindowDays,
+} from '../lib/pilot-review.js';
 import { prisma } from '../lib/prisma.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { requireSessionUser } from '../lib/session.js';
@@ -229,6 +234,51 @@ progressRouter.post('/feedback', async (req, res) => {
   } catch (error) {
     console.error('Failed to save pilot feedback', error);
     return res.status(500).json({ message: 'Unable to send feedback right now.' });
+  }
+});
+
+progressRouter.get('/pilot-review', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!canViewPilotReview(user)) {
+      return res.status(403).json({ message: 'Admin access is required to review pilot activity.' });
+    }
+
+    const windowDays = normalizePilotReviewWindowDays(req.query.windowDays);
+    const since = new Date(Date.now() - windowDays * 24 * 60 * 60 * 1000);
+    const events = await prisma.progressEvent.findMany({
+      where: {
+        occurredAt: {
+          gte: since,
+        },
+        OR: [
+          {
+            eventType: 'feedback_submission',
+          },
+          {
+            metadata: {
+              path: ['source'],
+              equals: 'free_student_pilot',
+            },
+          },
+        ],
+      },
+      orderBy: {
+        occurredAt: 'desc',
+      },
+      select: {
+        eventType: true,
+        metadata: true,
+        occurredAt: true,
+        userId: true,
+      },
+      take: 500,
+    });
+
+    return res.json(buildPilotReviewPayload({ events, windowDays }));
+  } catch (error) {
+    console.error('Failed to load pilot review', error);
+    return res.status(500).json({ message: 'Unable to load pilot review right now.' });
   }
 });
 

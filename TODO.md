@@ -4,40 +4,57 @@ Last updated: 2026-06-21
 
 ## Next Task
 
-Review the first free-pilot feedback and engagement events before widening chapter access.
+Run the first pilot review, fix the highest-friction signal, and add a production pilot smoke checklist.
 
 ## Why This Is Next
 
-The weak-topic recovery loop is now complete enough for pilot students to use: low scores create or refresh recovery missions, passing retries complete them, stale missions are completed during mastery reads, and quiz review explains the next action without unlocking the submitted attempt.
+The admin dashboard now has a pilot review surface backed by `GET /v1/progress/pilot-review`. The next risk is whether real student activity confirms the pilot loop works end to end: login, dashboard arrival, chapter opening, lesson start/completion, quiz start, feedback submission, and admin visibility.
 
-The next useful step is to inspect whether students are actually starting chapters, completing lessons, taking quizzes, and sending feedback. Keep payments deferred until this usage and bug-fix loop has produced enough confidence.
+Payments remain deferred until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
 
-## Scope
+## Product Goal
 
-- Add a small pilot-review surface or report for feedback submissions and engagement events.
-- Include dashboard views, chapter opens, lesson starts, lesson completions, quiz starts, and feedback submissions.
-- Make the review useful for deciding whether to improve copy, fix bugs, add content, or widen chapter access.
-- Keep it internal/admin-focused; do not add leaderboard, public ranking, payment, subscription, or entitlement work.
+As an admin, I should use real pilot review data to choose the next fix before widening access, then verify the core pilot loop in production so student feedback is not lost.
 
-## Code To Inspect First
+## Questions This Task Should Answer
 
-- `apps/api/src/routes/progress.ts`
-  - Records `/v1/progress/engagement` and `/v1/progress/feedback` as `ProgressEvent` rows.
-- `apps/web/components/PilotEngagementTracker.tsx`
-  - Sends student pilot activity from dashboard, chapter, lesson, and quiz surfaces.
-- `apps/web/components/PilotFeedbackForm.tsx`
-  - Sends student feedback submissions.
-- `apps/web/lib/pilot.ts`
-  - Owns the selected free pilot chapter list.
-- `apps/admin`
-  - Likely home for an internal pilot-review UI if this becomes more than a script/report.
+- Are real students reaching the dashboard after login?
+- Which chapter, surface, or feedback category shows the strongest friction?
+- Is the friction caused by broken tracking, confusing UX copy, content quality, mobile layout, or an API failure?
+- Can a production smoke test prove that engagement and feedback events appear in the admin pilot review?
+- Should access stay narrow, or is there enough healthy signal to invite more students?
+
+## Suggested Implementation Plan
+
+1. Seed or collect a small real pilot session.
+   - Use a student account to open the dashboard, a pilot chapter, a lesson, the quiz entry point, and the feedback form.
+   - Submit one realistic feedback message with rating/category/surface context.
+
+2. Review the admin pilot dashboard.
+   - Check total events, active students, event breakdown, chapter breakdown, surface breakdown, and recent feedback.
+   - Confirm the most important friction signal before making changes.
+
+3. Fix the highest-friction issue.
+   - Keep the fix small and pilot-first.
+   - Prefer copy, layout, tracking reliability, or content repair over adding new features.
+   - Do not add payments, subscriptions, entitlements, leaderboards, coins, or public rankings.
+
+4. Add a production pilot smoke checklist.
+   - Document the exact login, dashboard, chapter, lesson, quiz, feedback, and admin review checks.
+   - Include expected API/event outcomes and screenshots only where useful.
+
+5. Capture durable learning.
+   - Update `docs/project-memory.md` with any production gotcha, broken flow, route behavior, or pilot decision.
+   - Keep `TODO.md` updated after the next successful push with the next task.
+   - Run `graphify update .` after source changes.
 
 ## Acceptance Criteria
 
-- The project has a clear way to review recent pilot feedback and engagement events.
-- The review groups activity by event type, chapter, and surface where practical.
-- The output helps choose the next product fix before widening access.
-- Payments remain deferred.
+- One real or production-like pilot session is reviewed through the admin dashboard.
+- The highest-friction signal is identified and fixed or clearly documented as the next fix.
+- A production pilot smoke checklist exists in `docs/`.
+- The smoke checklist covers engagement tracking, feedback submission, and admin pilot-review visibility.
+- No monetization or vanity gamification work is introduced.
 
 ## Verification
 
