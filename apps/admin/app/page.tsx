@@ -21,6 +21,12 @@ function getDecisionHint(review: Awaited<ReturnType<typeof getPilotReview>>) {
     return 'No pilot signal yet. Keep the current chapter access narrow and invite a small student batch to use the flow.';
   }
 
+  if (review.frictionSignals.length > 0) {
+    const [signal] = review.frictionSignals;
+    const location = signal.chapterSlug ? ` in ${formatLabel(signal.chapterSlug)}` : '';
+    return `Start with the ${formatLabel(signal.surface)} feedback${location}: "${signal.message}"`;
+  }
+
   if (review.summary.feedbackCount > 0 && review.summary.averageRating !== null && review.summary.averageRating < 3) {
     return 'Feedback is pointing to friction. Fix the reported flow or content before widening access.';
   }
@@ -46,6 +52,7 @@ export default async function AdminPage() {
   const topEvents = pilotReview.eventBreakdown.slice(0, 5);
   const topChapters = pilotReview.chapterBreakdown.slice(0, 5);
   const topSurfaces = pilotReview.surfaceBreakdown.slice(0, 5);
+  const frictionSignals = pilotReview.frictionSignals.slice(0, 3);
 
   return (
     <main className="admin-shell">
@@ -136,6 +143,36 @@ export default async function AdminPage() {
         </div>
 
         <section className="pilot-feedback-section">
+          <h3>Highest-friction signals</h3>
+          {frictionSignals.length > 0 ? (
+            <div className="pilot-feedback-list friction-list">
+              {frictionSignals.map((feedback) => (
+                <article key={`${feedback.occurredAt}-${feedback.message}`}>
+                  <div>
+                    <span>{formatLabel(feedback.category)}</span>
+                    <strong>{feedback.rating === null ? 'No rating' : `${feedback.rating}/5`}</strong>
+                  </div>
+                  <p>{feedback.message}</p>
+                  <small>
+                    {[
+                      formatLabel(feedback.surface),
+                      feedback.chapterSlug,
+                      feedback.lessonSlug,
+                      feedback.path,
+                      new Date(feedback.occurredAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+                    ]
+                      .filter(Boolean)
+                      .join(' / ')}
+                  </small>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="pilot-empty">No bug reports or 1-2 rating feedback in this review window.</p>
+          )}
+        </section>
+
+        <section className="pilot-feedback-section">
           <h3>Recent feedback</h3>
           {pilotReview.recentFeedback.length > 0 ? (
             <div className="pilot-feedback-list">
@@ -147,7 +184,15 @@ export default async function AdminPage() {
                   </div>
                   <p>{feedback.message}</p>
                   <small>
-                    {[formatLabel(feedback.surface), feedback.chapterSlug, feedback.lessonSlug].filter(Boolean).join(' / ')}
+                    {[
+                      formatLabel(feedback.surface),
+                      feedback.chapterSlug,
+                      feedback.lessonSlug,
+                      feedback.path,
+                      new Date(feedback.occurredAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+                    ]
+                      .filter(Boolean)
+                      .join(' / ')}
                   </small>
                 </article>
               ))}

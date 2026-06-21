@@ -4,57 +4,61 @@ Last updated: 2026-06-21
 
 ## Next Task
 
-Run the first pilot review, fix the highest-friction signal, and add a production pilot smoke checklist.
+Deploy or sync the current API progress routes, then rerun the free-pilot smoke checklist against production or preview.
 
 ## Why This Is Next
 
-The admin dashboard now has a pilot review surface backed by `GET /v1/progress/pilot-review`. The next risk is whether real student activity confirms the pilot loop works end to end: login, dashboard arrival, chapter opening, lesson start/completion, quiz start, feedback submission, and admin visibility.
+The pilot review loop now has a repeatable smoke checklist at `docs/pilot-smoke-checklist.md`, and the admin review payload/dashboard can surface highest-friction feedback separately from general recent feedback.
+
+The first production-like API smoke confirmed that the deployed API is reachable for:
+
+- `GET /health`
+- `GET /v1/catalog/pilot`
+
+But the same deployed API returned `404 Cannot POST /v1/progress/engagement`, which means the deployed API route surface is stale or not synced with the local pilot-progress implementation.
+
+Until `/v1/progress/engagement`, `/v1/progress/feedback`, and `/v1/progress/pilot-review` are live in the tested environment, an empty admin pilot review cannot be interpreted as low student activity.
 
 Payments remain deferred until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
 
 ## Product Goal
 
-As an admin, I should use real pilot review data to choose the next fix before widening access, then verify the core pilot loop in production so student feedback is not lost.
+As an admin, I should be able to run the smoke checklist against the deployed or preview environment and see the student event trail appear in the admin pilot review.
 
-## Questions This Task Should Answer
+## Scope
 
-- Are real students reaching the dashboard after login?
-- Which chapter, surface, or feedback category shows the strongest friction?
-- Is the friction caused by broken tracking, confusing UX copy, content quality, mobile layout, or an API failure?
-- Can a production smoke test prove that engagement and feedback events appear in the admin pilot review?
-- Should access stay narrow, or is there enough healthy signal to invite more students?
+1. Confirm which environment should be tested:
+   - production
+   - preview
+   - local production-like
+2. Deploy or otherwise sync the current `apps/api` progress routes.
+3. Verify these deployed API endpoints:
+   - `GET /health`
+   - `GET /v1/catalog/pilot`
+   - `POST /v1/progress/engagement`
+   - `POST /v1/progress/feedback`
+   - `GET /v1/progress/pilot-review?windowDays=14`
+4. Run `docs/pilot-smoke-checklist.md` from student login through admin review.
+5. Fix exactly one highest-friction signal if the smoke produces a narrow code/content issue.
+6. Record durable gotchas in `docs/project-memory.md`.
+7. Update `TODO.md` again after the successful push.
 
-## Suggested Implementation Plan
+## Evidence From Last Smoke Attempt
 
-1. Seed or collect a small real pilot session.
-   - Use a student account to open the dashboard, a pilot chapter, a lesson, the quiz entry point, and the feedback form.
-   - Submit one realistic feedback message with rating/category/surface context.
-
-2. Review the admin pilot dashboard.
-   - Check total events, active students, event breakdown, chapter breakdown, surface breakdown, and recent feedback.
-   - Confirm the most important friction signal before making changes.
-
-3. Fix the highest-friction issue.
-   - Keep the fix small and pilot-first.
-   - Prefer copy, layout, tracking reliability, or content repair over adding new features.
-   - Do not add payments, subscriptions, entitlements, leaderboards, coins, or public rankings.
-
-4. Add a production pilot smoke checklist.
-   - Document the exact login, dashboard, chapter, lesson, quiz, feedback, and admin review checks.
-   - Include expected API/event outcomes and screenshots only where useful.
-
-5. Capture durable learning.
-   - Update `docs/project-memory.md` with any production gotcha, broken flow, route behavior, or pilot decision.
-   - Keep `TODO.md` updated after the next successful push with the next task.
-   - Run `graphify update .` after source changes.
+- API base checked: `https://cbse-bycodex-api.vercel.app`
+- `GET /health`: passed with `{ "status": "ok", "service": "cbse-api" }`
+- `GET /v1/catalog/pilot`: passed and returned the pilot catalog.
+- `POST /v1/progress/engagement`: failed with `404 Cannot POST /v1/progress/engagement`
+- Highest-friction issue: deployed API is stale or missing the local progress route surface.
 
 ## Acceptance Criteria
 
-- One real or production-like pilot session is reviewed through the admin dashboard.
-- The highest-friction signal is identified and fixed or clearly documented as the next fix.
-- A production pilot smoke checklist exists in `docs/`.
-- The smoke checklist covers engagement tracking, feedback submission, and admin pilot-review visibility.
-- No monetization or vanity gamification work is introduced.
+- Deployed or preview API exposes the progress endpoints listed above.
+- A student pilot session can save engagement and feedback.
+- An admin can load pilot review data from the same environment.
+- The admin pilot review shows event, chapter, surface, recent-feedback, and highest-friction signal evidence.
+- `docs/project-memory.md` records any deployment or smoke-test gotcha.
+- No payment, subscription, entitlement, public ranking, leaderboard, coin, or vanity gamification work is introduced.
 
 ## Verification
 
@@ -62,7 +66,15 @@ As an admin, I should use real pilot review data to choose the next fix before w
 - `npm.cmd run test -w apps/web`
 - `npm.cmd run lint`
 - `npm.cmd run build`
-- `graphify update .`
+- `graphify update .` after source changes.
+
+## Master TODO Alignment
+
+This task advances these `master_todo.md` areas without treating that file as the source of truth:
+
+- `[ ] Add progress event tracking for video, notes, quizzes, practice, revision, and downloads.`
+- `[ ] Add basic aggregate analytics for student engagement.`
+- `[ ] Smoke test deployed API endpoints, student web, and admin web.`
 
 ## After Push Rule
 

@@ -5,6 +5,17 @@ export type PilotReviewEvent = {
   userId: string;
 };
 
+export type PilotReviewFeedback = {
+  category: string | null;
+  chapterSlug: string | null;
+  lessonSlug: string | null;
+  message: string;
+  occurredAt: string;
+  path: string | null;
+  rating: number | null;
+  surface: string | null;
+};
+
 export type PilotReviewPayload = {
   generatedAt: string;
   windowDays: number;
@@ -29,16 +40,8 @@ export type PilotReviewPayload = {
     surface: string | null;
     count: number;
   }>;
-  recentFeedback: Array<{
-    category: string | null;
-    chapterSlug: string | null;
-    lessonSlug: string | null;
-    message: string;
-    occurredAt: string;
-    path: string | null;
-    rating: number | null;
-    surface: string | null;
-  }>;
+  recentFeedback: PilotReviewFeedback[];
+  frictionSignals: PilotReviewFeedback[];
 };
 
 const DEFAULT_WINDOW_DAYS = 14;
@@ -109,6 +112,25 @@ function getTopKey(counts: Map<string, number>) {
   return sortedBreakdown(counts)[0]?.key ?? null;
 }
 
+function isFrictionSignal(feedback: PilotReviewFeedback) {
+  return feedback.category === 'bug' || (feedback.rating !== null && feedback.rating <= 2);
+}
+
+function compareFrictionSignals(left: PilotReviewFeedback, right: PilotReviewFeedback) {
+  const leftRating = left.rating ?? Number.POSITIVE_INFINITY;
+  const rightRating = right.rating ?? Number.POSITIVE_INFINITY;
+
+  if (leftRating !== rightRating) {
+    return leftRating - rightRating;
+  }
+
+  if (left.category !== right.category) {
+    return left.category === 'bug' ? -1 : 1;
+  }
+
+  return right.occurredAt.localeCompare(left.occurredAt);
+}
+
 export function buildPilotReviewPayload({
   events,
   generatedAt = new Date(),
@@ -173,6 +195,7 @@ export function buildPilotReviewPayload({
     ratings.length > 0 ? Math.round((ratings.reduce((total, rating) => total + rating, 0) / ratings.length) * 10) / 10 : null;
 
   recentFeedback.sort((left, right) => right.occurredAt.localeCompare(left.occurredAt));
+  const frictionSignals = recentFeedback.filter(isFrictionSignal).sort(compareFrictionSignals).slice(0, 5);
 
   return {
     generatedAt: generatedAt.toISOString(),
@@ -199,5 +222,6 @@ export function buildPilotReviewPayload({
       surface: item.key === '__none__' ? null : item.key,
     })),
     recentFeedback: recentFeedback.slice(0, 12),
+    frictionSignals,
   };
 }

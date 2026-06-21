@@ -210,6 +210,13 @@ button {
   border-bottom: 1px solid var(--border);
 }
 
+.friction-list article {
+  padding-inline: 14px;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  background: #fff7ed;
+}
+
 .pilot-feedback-list p {
   margin: 8px 0;
   line-height: 1.5;

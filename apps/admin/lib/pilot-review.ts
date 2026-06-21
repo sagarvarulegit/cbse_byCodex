@@ -24,7 +24,11 @@ export type PilotReviewPayload = {
     surface: string | null;
     count: number;
   }>;
-  recentFeedback: Array<{
+  recentFeedback: PilotReviewFeedback[];
+  frictionSignals: PilotReviewFeedback[];
+};
+
+export type PilotReviewFeedback = {
     category: string | null;
     chapterSlug: string | null;
     lessonSlug: string | null;
@@ -33,7 +37,6 @@ export type PilotReviewPayload = {
     path: string | null;
     rating: number | null;
     surface: string | null;
-  }>;
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
@@ -52,6 +55,7 @@ export function createEmptyPilotReview(windowDays = 14): PilotReviewPayload {
     },
     eventBreakdown: [],
     chapterBreakdown: [],
+    frictionSignals: [],
     surfaceBreakdown: [],
     recentFeedback: [],
   };

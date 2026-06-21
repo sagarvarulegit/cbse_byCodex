@@ -117,6 +117,10 @@ test('buildPilotReviewPayload aggregates pilot engagement and feedback events', 
     rating: 2,
     surface: 'quiz',
   });
+  assert.deepEqual(
+    payload.frictionSignals.map((item) => item.message),
+    ['The second quiz option is hidden on mobile.'],
+  );
 });
 
 test('buildPilotReviewPayload returns useful empty state data', () => {
