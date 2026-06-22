@@ -1,76 +1,118 @@
 # TODO
 
-Last updated: 2026-06-21
+Last updated: 2026-06-22
 
 ## Next Task
 
-Deploy or sync the current API progress routes, then rerun the free-pilot smoke checklist against production or preview.
+Run the browser-facing free-pilot smoke through the deployed student web and admin apps, confirm both use `https://cbse-bycodex-api.vercel.app`, then choose the first real pilot-review fix from actual student feedback.
 
 ## Why This Is Next
 
-The pilot review loop now has a repeatable smoke checklist at `docs/pilot-smoke-checklist.md`, and the admin review payload/dashboard can surface highest-friction feedback separately from general recent feedback.
+The previous blocker was the deployed API route surface. That is now resolved:
 
-The first production-like API smoke confirmed that the deployed API is reachable for:
+- `npx.cmd vercel --cwd apps/api --prod --yes` deployed the linked `cbse-bycodex-api` project.
+- The production alias is `https://cbse-bycodex-api.vercel.app`.
+- `GET /health` returned `ok`.
+- `GET /v1/catalog/pilot` returned the deployed pilot catalog.
+- Seeded student and admin smoke logins worked against production.
+- `POST /v1/progress/engagement` saved dashboard, chapter, lesson, lesson-complete, and quiz-start events.
+- `POST /v1/progress/feedback` saved feedback.
+- Student access to `GET /v1/progress/pilot-review?windowDays=14` returned `403`.
+- Admin access to pilot review returned event, chapter, surface, recent-feedback, and friction-signal evidence.
 
-- `GET /health`
-- `GET /v1/catalog/pilot`
+Smoke evidence:
 
-But the same deployed API returned `404 Cannot POST /v1/progress/engagement`, which means the deployed API route surface is stale or not synced with the local pilot-progress implementation.
+- API base: `https://cbse-bycodex-api.vercel.app`
+- Smoke marker: `pilot-smoke-20260622-120257`
+- Review window: 14 days
+- Total events before: 8
+- Total events after: 14
+- Active students before: 1
+- Active students after: 1
+- Friction signals contained the smoke marker: yes
+- Recent feedback contained the smoke marker: yes
 
-Until `/v1/progress/engagement`, `/v1/progress/feedback`, and `/v1/progress/pilot-review` are live in the tested environment, an empty admin pilot review cannot be interpreted as low student activity.
+Vercel project visibility from `vercel ls`:
 
-Payments remain deferred until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
+- `cbse-bycodex-api`: production deployment refreshed on 2026-06-22.
+- `cbse-bycodex-web`: latest visible production deployment was about 2 days old during this smoke.
+- `cbse-bycodex-admin`: latest visible production deployment was about 12 days old during this smoke.
+
+Payments, subscriptions, entitlements, public rankings, leaderboards, coins, and vanity gamification remain out of scope until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
 
 ## Product Goal
 
-As an admin, I should be able to run the smoke checklist against the deployed or preview environment and see the student event trail appear in the admin pilot review.
+As an admin, I should be able to watch a real or smoke student use the deployed web app and then see that same trail in the deployed admin pilot-review section.
 
 ## Scope
 
-1. Confirm which environment should be tested:
-   - production
-   - preview
-   - local production-like
-2. Deploy or otherwise sync the current `apps/api` progress routes.
-3. Verify these deployed API endpoints:
-   - `GET /health`
-   - `GET /v1/catalog/pilot`
-   - `POST /v1/progress/engagement`
-   - `POST /v1/progress/feedback`
-   - `GET /v1/progress/pilot-review?windowDays=14`
-4. Run `docs/pilot-smoke-checklist.md` from student login through admin review.
-5. Fix exactly one highest-friction signal if the smoke produces a narrow code/content issue.
-6. Record durable gotchas in `docs/project-memory.md`.
-7. Update `TODO.md` again after the successful push.
+1. Confirm deployed student web and admin URLs.
+2. Confirm both deployments point to `https://cbse-bycodex-api.vercel.app`.
+3. Redeploy student web and/or admin only if their production env or deployed code is stale.
+4. Run `docs/pilot-smoke-checklist.md` in the browser:
+   - student login
+   - dashboard open
+   - pilot chapter open
+   - lesson or notes open
+   - lesson completion when practical
+   - quiz open
+   - feedback submission with a unique marker
+   - admin login
+   - admin pilot-review confirmation
+5. Capture event counts, active student counts, event/chapter/surface breakdowns, and feedback evidence.
+6. If a narrow UI or content issue appears, fix exactly that highest-friction issue.
+7. Update `docs/project-memory.md` with durable deployment or smoke-test gotchas.
+8. Update `TODO.md` again after the successful push.
 
-## Evidence From Last Smoke Attempt
+## Files To Inspect First
 
-- API base checked: `https://cbse-bycodex-api.vercel.app`
-- `GET /health`: passed with `{ "status": "ok", "service": "cbse-api" }`
-- `GET /v1/catalog/pilot`: passed and returned the pilot catalog.
-- `POST /v1/progress/engagement`: failed with `404 Cannot POST /v1/progress/engagement`
-- Highest-friction issue: deployed API is stale or missing the local progress route surface.
-
-## Acceptance Criteria
-
-- Deployed or preview API exposes the progress endpoints listed above.
-- A student pilot session can save engagement and feedback.
-- An admin can load pilot review data from the same environment.
-- The admin pilot review shows event, chapter, surface, recent-feedback, and highest-friction signal evidence.
-- `docs/project-memory.md` records any deployment or smoke-test gotcha.
-- No payment, subscription, entitlement, public ranking, leaderboard, coin, or vanity gamification work is introduced.
+- `docs/pilot-smoke-checklist.md`
+- `apps/web/.vercel/project.json`
+- `apps/admin/.vercel/project.json`, if present
+- `apps/web/lib/auth.ts`
+- `apps/web/app/api/progress/engagement/route.ts`
+- `apps/web/app/api/progress/feedback/route.ts`
+- `apps/admin/lib/auth.ts`
+- `apps/admin/lib/pilot-review.ts`
+- `docs/project-memory.md`
 
 ## Verification
 
-- `npm.cmd run test -w apps/api`
-- `npm.cmd run test -w apps/web`
-- `npm.cmd run lint`
-- `npm.cmd run build`
-- `graphify update .` after source changes.
+Run before commit:
+
+```powershell
+npm.cmd run test -w apps/api
+npm.cmd run test -w apps/web
+npm.cmd run lint
+npm.cmd run build
+```
+
+If source files change, run:
+
+```powershell
+graphify update .
+```
+
+Before pushing, inspect:
+
+```powershell
+git status --short --branch
+git diff --stat
+```
+
+## Acceptance Criteria
+
+- Student web login works in the deployed or preview browser environment.
+- Student engagement and feedback requests save successfully from the web app.
+- Admin login works in the deployed or preview browser environment.
+- Admin pilot review shows the student session within the selected review window.
+- The feedback context is specific enough to choose one next fix.
+- `docs/project-memory.md` records any durable deployment, env, or smoke gotcha.
+- No monetization, entitlement, payment, leaderboard, coin, or public-rank work is introduced.
 
 ## Master TODO Alignment
 
-This task advances these `master_todo.md` areas without treating that file as the source of truth:
+This advances these `master_todo.md` areas without treating that file as the source of truth:
 
 - `[ ] Add progress event tracking for video, notes, quizzes, practice, revision, and downloads.`
 - `[ ] Add basic aggregate analytics for student engagement.`
