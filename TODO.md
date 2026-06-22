@@ -4,76 +4,75 @@ Last updated: 2026-06-22
 
 ## Next Task
 
-Invite a very small real student pilot, then use the deployed admin pilot-review dashboard to choose and fix the first highest-friction chapter, surface, or feedback theme before widening access.
+Fix answer, explanation, and topic metadata for the three free-pilot quizzes so quiz scoring and review are trustworthy before the next student batch.
 
 ## Why This Is Next
 
-The browser-facing production smoke is complete.
+The chapter-pack notes and Comic Style Recap rendering have been polished for the pilot notes pages. The next biggest pilot risk is quiz quality:
 
-Completed production evidence:
+- Many generated quiz files still rely on the parser fallback that treats missing `Answer:` metadata as option 1.
+- Missing explanations weaken locked quiz review after submit.
+- Missing `Topic:` metadata weakens weak-topic tracking, revision missions, and mastery recovery copy.
+- The free pilot should not collect student evidence from quizzes that may score or explain answers incorrectly.
 
-- API alias: `https://cbse-bycodex-api.vercel.app`
-- Student web alias: `https://cbse-bycodex-web.vercel.app`
-- Admin alias: `https://cbse-bycodex-admin.vercel.app`
-- `cbse-bycodex-web` was redeployed to production on 2026-06-22 because the stale 2-day-old deployment did not show the existing pilot `Mark studied` and feedback controls.
-- `cbse-bycodex-admin` was linked locally to the existing Vercel project and redeployed to production on 2026-06-22.
-- Browser smoke marker: `browser-pilot-smoke-20260622-125900`
-- Student dashboard, pilot chapter, lesson, lesson completion, quiz, and feedback flows saved through the deployed web app.
-- Admin dashboard loaded the free pilot review section and showed the browser smoke marker in both recent feedback and highest-friction signals.
-
-Last browser smoke evidence:
-
-- Total events before: 14
-- Total events after: 18
-- Active students before: 1
-- Active students after: 1
-- Event breakdown after:
-  - `dashboard_view`: 3
-  - `chapter_open`: 3
-  - `lesson_start`: 3
-  - `lesson_complete`: 3
-  - `quiz_start`: 3
-  - `feedback_submission`: 3
-- Chapter breakdown after:
-  - `real-numbers`: 15
-  - no chapter context: 3
-- Surface breakdown after:
-  - `lesson`: 7
-  - `quiz`: 5
-  - `chapter`: 3
-  - `dashboard`: 3
-
-Payments, subscriptions, entitlements, public rankings, leaderboards, coins, and vanity gamification remain out of scope until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
+Payments, subscriptions, mobile/offline, leaderboards, coins, and public ranking remain out of scope until real usage, feedback, bug fixing, and platform hardening produce enough confidence.
 
 ## Product Goal
 
-As an admin, I should be able to review actual student pilot sessions and choose one narrow fix from real friction evidence instead of guessing from smoke data.
+As a Class 10 student, I should be able to take a free-pilot quiz, see a reliable score, and review explanations that help me improve without wondering whether the answer key is missing or wrong.
 
-## Files To Inspect First
+## Scope
 
-- `docs/project-memory.md`
-- `docs/pilot-smoke-checklist.md`
-- `apps/admin/app/page.tsx`
-- `apps/admin/lib/pilot-review.ts`
-- `apps/web/components/PilotFeedbackForm.tsx`
-- `apps/web/components/PilotEngagementTracker.tsx`
+Start with the three free-pilot chapters:
 
-## Execution Plan
+- `real-numbers`
+- `chemical-reactions-and-equations`
+- `two-stories-about-flying`
 
-1. Invite only a small real pilot group.
-2. Let students use the deployed web app naturally.
-3. Open the deployed admin dashboard and review `GET /v1/progress/pilot-review?windowDays=14` evidence.
-4. Pick exactly one highest-friction issue from real feedback or event patterns.
-5. Fix that narrow issue.
-6. Verify with `npm.cmd run test -w apps/web`, `npm.cmd run lint`, and `npm.cmd run build`.
-7. Update `docs/project-memory.md` with any durable pilot finding.
+Keep the work focused on quiz metadata and validation. Do not add payments, subscriptions, mobile/offline, public competition, or broad content rewrites.
+
+## Implementation Notes
+
+- Inspect the current quiz markdown files used by `/chapters/[slug]/quiz`.
+- Add explicit `Answer: <option number>` metadata for every pilot quiz question.
+- Add concise `Explanation:` metadata for every pilot quiz question.
+- Add `Topic:` metadata that matches valid chapter topic/lesson slugs where available.
+- Add or update tests so missing answer metadata cannot silently score option 1 for pilot-quality quizzes.
+- Prefer a small validation helper/script if it prevents this class of content issue from returning.
+- Preserve immutable quiz-attempt behavior and locked review after submit.
+
+## Verification
+
+Run:
+
+```powershell
+npm.cmd run test -w apps/web
+npm.cmd run lint
+npm.cmd run build -w apps/web
+```
+
+If source files change, run:
+
+```powershell
+graphify update .
+```
 
 ## Acceptance Criteria
 
-- The next fix is based on real student pilot evidence, not only smoke-test data.
-- The fix is narrow and tied to one chapter, surface, or feedback theme.
-- Admin review still shows event, chapter, surface, recent-feedback, and highest-friction evidence.
-- No monetization, entitlement, payment, leaderboard, coin, or public-rank work is introduced.
+- All three pilot quizzes have explicit answer metadata.
+- All three pilot quizzes have explanations.
+- Pilot quiz topic metadata maps to useful chapter topics where practical.
+- Tests or validation cover missing-answer metadata so option 1 is not silently treated as correct in pilot-quality content.
+- Quiz review still locks after submit and retry remains a new immutable attempt.
+- No monetization, entitlement, mobile/offline, leaderboard, coin, or public-rank work is introduced.
+
+## After This Task
+
+After pilot quiz quality is verified, the next product task should be one of:
+
+1. Polish Chemical Reactions and Two Stories into stronger lesson-wise pilot chapters.
+2. Run the tiny real-student pilot and choose one feedback-driven fix from admin evidence.
+3. Add a content style QA checklist for chapter notes and quizzes.
 
 ## After Push Rule
 

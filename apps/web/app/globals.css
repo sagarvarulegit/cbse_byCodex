@@ -941,6 +941,326 @@ h3 {
   background: transparent;
 }
 
+.chapter-pack-prose {
+  gap: 18px;
+}
+
+.chapter-pack-intro {
+  padding: 4px 0 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chapter-pack-section {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.chapter-pack-section.standard {
+  padding: 4px 0 8px;
+  border-color: transparent;
+  border-bottom-color: var(--border);
+  border-radius: 0;
+  background: transparent;
+}
+
+.chapter-pack-section.standard .prose-section-heading {
+  margin-top: 0;
+}
+
+.chapter-pack-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.chapter-pack-section-header h3 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.chapter-pack-section-body {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.chapter-pack-section-body .prose-subheading {
+  margin: 4px 0 0;
+}
+
+.chapter-pack-callout-list .prose-list {
+  margin: 0;
+}
+
+.chapter-pack-section.goals {
+  border-color: rgba(4, 150, 111, 0.28);
+  background: linear-gradient(135deg, rgba(4, 150, 111, 0.1), var(--card));
+}
+
+.chapter-pack-section.flow {
+  border-color: rgba(11, 149, 216, 0.28);
+  background: linear-gradient(135deg, rgba(11, 149, 216, 0.1), var(--card));
+}
+
+.chapter-pack-section.summary {
+  border-color: rgba(246, 199, 68, 0.48);
+  background: linear-gradient(135deg, rgba(246, 199, 68, 0.18), var(--card));
+}
+
+.chapter-pack-section.mistakes {
+  border-color: rgba(240, 68, 115, 0.28);
+  background: linear-gradient(135deg, rgba(240, 68, 115, 0.1), var(--card));
+}
+
+.chapter-pack-section.tips {
+  border-color: rgba(246, 199, 68, 0.52);
+  background: linear-gradient(135deg, rgba(246, 199, 68, 0.14), rgba(11, 149, 216, 0.08), var(--card));
+}
+
+.chapter-pack-section.practice {
+  border-color: rgba(4, 150, 111, 0.24);
+  background: linear-gradient(135deg, rgba(4, 150, 111, 0.08), rgba(246, 199, 68, 0.1), var(--card));
+}
+
+.chapter-pack-section.quiz {
+  border-color: rgba(11, 149, 216, 0.3);
+  background: linear-gradient(135deg, rgba(11, 149, 216, 0.09), rgba(240, 68, 115, 0.08), var(--card));
+}
+
+.chapter-pack-section.goals .prose-list,
+.chapter-pack-section.mistakes .prose-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.chapter-pack-section.goals .prose-list li,
+.chapter-pack-section.mistakes .prose-list li {
+  position: relative;
+  padding-left: 30px;
+}
+
+.chapter-pack-section.goals .prose-list li::before {
+  position: absolute;
+  top: 0.68em;
+  left: 4px;
+  width: 12px;
+  height: 7px;
+  border-bottom: 3px solid var(--primary-strong);
+  border-left: 3px solid var(--primary-strong);
+  transform: rotate(-45deg);
+  content: '';
+}
+
+.chapter-pack-section.mistakes .prose-list li::before {
+  position: absolute;
+  top: 0.62em;
+  left: 5px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  content: '';
+}
+
+.chapter-pack-section.flow .prose-list.ordered {
+  counter-reset: study-step;
+  padding-left: 0;
+  list-style: none;
+}
+
+.chapter-pack-section.flow .prose-list.ordered li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  counter-increment: study-step;
+}
+
+.chapter-pack-section.flow .prose-list.ordered li::before {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid rgba(11, 149, 216, 0.45);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--primary-strong);
+  font-size: 0.82rem;
+  font-weight: 900;
+  content: counter(study-step);
+}
+
+.chapter-comic-recap {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  margin: 8px 0;
+  padding: 22px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  border: 2px solid var(--foreground);
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(246, 199, 68, 0.22), transparent 34%),
+    linear-gradient(135deg, rgba(11, 149, 216, 0.12), rgba(240, 68, 115, 0.1), var(--card));
+  box-shadow: 8px 8px 0 rgba(16, 24, 22, 0.14);
+}
+
+.chapter-comic-recap::before {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(16, 24, 22, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 24, 22, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
+  pointer-events: none;
+  content: '';
+}
+
+.chapter-comic-header,
+.chapter-comic-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.chapter-comic-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.chapter-comic-header h3 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.18;
+}
+
+.chapter-comic-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 2px dashed var(--foreground);
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #101816;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.chapter-comic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.chapter-comic-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  min-height: 190px;
+  padding: 16px;
+  border: 2px solid var(--foreground);
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: 5px 5px 0 rgba(16, 24, 22, 0.12);
+}
+
+.chapter-comic-panel-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.chapter-comic-panel-topline span {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0 10px;
+  border: 2px solid var(--foreground);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary), var(--cyan));
+  color: #101816;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.chapter-comic-panel strong {
+  color: var(--foreground);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.chapter-comic-panel p {
+  position: relative;
+  margin: 0;
+  padding: 14px 16px;
+  border: 2px solid var(--foreground);
+  border-radius: 16px;
+  background: var(--card-soft);
+  color: var(--foreground);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+.chapter-comic-panel p::after {
+  position: absolute;
+  bottom: -10px;
+  left: 22px;
+  width: 16px;
+  height: 16px;
+  border-right: 2px solid var(--foreground);
+  border-bottom: 2px solid var(--foreground);
+  background: var(--card-soft);
+  transform: rotate(45deg);
+  content: '';
+}
+
+@media (prefers-color-scheme: dark) {
+  .chapter-pack-section.goals,
+  .chapter-pack-section.flow,
+  .chapter-pack-section.summary,
+  .chapter-pack-section.mistakes,
+  .chapter-pack-section.tips,
+  .chapter-pack-section.practice,
+  .chapter-pack-section.quiz {
+    background: var(--card);
+  }
+
+  .chapter-comic-recap {
+    background:
+      linear-gradient(90deg, rgba(255, 218, 107, 0.12), transparent 34%),
+      linear-gradient(135deg, rgba(90, 200, 255, 0.1), rgba(255, 111, 152, 0.08), var(--card));
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .chapter-comic-recap::before {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+
+  .chapter-comic-panel {
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+}
+
 .lesson-sidebar {
   display: grid;
   gap: 16px;
@@ -1436,7 +1756,8 @@ h3 {
     min-height: auto;
   }
 
-  .comic-recap-grid {
+  .comic-recap-grid,
+  .chapter-comic-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1535,8 +1856,21 @@ h3 {
     box-shadow: 6px 6px 0 rgba(16, 24, 22, 0.16);
   }
 
+  .chapter-pack-section,
+  .chapter-comic-recap {
+    padding: 16px;
+  }
+
+  .chapter-comic-recap {
+    box-shadow: 5px 5px 0 rgba(16, 24, 22, 0.14);
+  }
+
   .comic-recap-header h3 {
     font-size: 1.45rem;
+  }
+
+  .chapter-comic-header h3 {
+    font-size: 1.35rem;
   }
 
   .comic-recap-stamp {
@@ -1546,6 +1880,11 @@ h3 {
   }
 
   .comic-panel {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .chapter-comic-panel {
     min-height: auto;
     padding: 14px;
   }
