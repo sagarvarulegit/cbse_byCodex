@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { getCurriculumContentEvidence } from '../course-content';
+import {
+  getAvailableLessons,
+  getChapter,
+  getCurriculumContentEvidence,
+  hasChapterPack,
+} from '../course-content';
 import { buildSubjectCoverage } from './coverage';
 import type { CurriculumSubject } from './types';
 
@@ -117,6 +122,8 @@ test('buildSubjectCoverage reports deterministic curriculum percentages and bloc
   assert.equal(report.dimensions.questionType.numerator, 2);
   assert.equal(report.dimensions.questionType.denominator, 3);
   assert.equal(report.dimensions.questionType.percent, 67);
+  assert.equal(report.dimensions.reviewedAnswer.numerator, 0);
+  assert.equal(report.dimensions.reviewedAnswer.denominator, 0);
   assert.equal(report.dimensions.reviewedAnswer.percent, 100);
   assert.equal(report.dimensions.paperGeneration.percent, 67);
   assert.equal(report.dimensions.studentPublication.percent, 50);
@@ -180,9 +187,51 @@ test('buildSubjectCoverage ignores internal-only and excluded topics for board-e
   assert.equal(report.blockers.includes('Missing platform mapping for topic-excluded'), false);
 });
 
-test('getCurriculumContentEvidence exposes live chapter-pack and available-lesson evidence', () => {
-  const evidence = getCurriculumContentEvidence();
+test('buildSubjectCoverage counts only reviewed valid non-retired structured questions for reviewedAnswer', () => {
+  const report = buildSubjectCoverage(createSubjectFixture(), {
+    content: {
+      availableLessonCounts: {
+        'chapter-1': 1,
+        'chapter-2': 1,
+      },
+      chapterPacks: {
+        'chapter-1': true,
+        'chapter-2': true,
+      },
+    },
+    questionCoverage: {
+      questions: [
+        { id: 'q-1', questionType: 'short-answer', reviewed: true, topicId: 'topic-1', valid: true },
+        { id: 'q-2', questionType: 'long-answer', reviewed: false, topicId: 'topic-1', valid: true },
+        { id: 'q-3', questionType: 'proof', reviewed: true, topicId: 'topic-2', valid: false },
+        { id: 'q-4', questionType: 'case-study', reviewed: true, retired: true, topicId: 'topic-2', valid: true },
+        { id: 'q-5', questionType: 'mcq', reviewed: true, topicId: 'topic-2', valid: true },
+      ],
+      reviewedCountByTopicId: {
+        'topic-1': 2,
+        'topic-2': 3,
+      },
+    },
+  });
 
-  assert.equal(evidence.chapterPacks['real-numbers'], true);
-  assert.equal(evidence.availableLessonCounts['chemical-reactions-and-equations'], 2);
+  assert.equal(report.dimensions.reviewedAnswer.numerator, 1);
+  assert.equal(report.dimensions.reviewedAnswer.denominator, 3);
+  assert.equal(report.dimensions.reviewedAnswer.percent, 33);
+});
+
+test('getCurriculumContentEvidence mirrors source-of-truth chapter-pack and lesson evidence helpers', () => {
+  const evidence = getCurriculumContentEvidence();
+  const chemicalChapter = getChapter('chemical-reactions-and-equations');
+
+  assert.ok(chemicalChapter);
+  assert.equal(evidence.chapterPacks['real-numbers'], hasChapterPack('real-numbers'));
+  assert.equal(
+    evidence.availableLessonCounts['chemical-reactions-and-equations'],
+    getAvailableLessons(chemicalChapter).length,
+  );
+  assert.equal(typeof evidence.chapterPacks['chemical-reactions-and-equations'], 'boolean');
+  assert.equal(
+    typeof evidence.availableLessonCounts['chemical-reactions-and-equations'],
+    'number',
+  );
 });

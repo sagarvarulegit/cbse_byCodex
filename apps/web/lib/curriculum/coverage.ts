@@ -1,5 +1,23 @@
 import type { BoardQuestionType, CurriculumChapter, CurriculumSubject, CurriculumTopic } from './types';
 
+const STRUCTURED_QUESTION_TYPES: ReadonlySet<BoardQuestionType> = new Set([
+  'very-short-answer',
+  'short-answer',
+  'long-answer',
+  'case-study',
+  'source-based',
+  'extract-based',
+  'numerical',
+  'proof',
+  'construction',
+  'diagram',
+  'map-skill',
+  'picture-interpretation',
+  'data-interpretation',
+  'grammar',
+  'creative-writing',
+]);
+
 export type CurriculumContentEvidence = {
   chapterPacks: Record<string, boolean>;
   availableLessonCounts: Record<string, number>;
@@ -147,7 +165,9 @@ export function buildSubjectCoverage(
     questionTypeTotals.blockers,
   );
 
-  const activeStructuredQuestions = questions.filter((question) => !question.retired);
+  const activeStructuredQuestions = questions.filter(
+    (question) => !question.retired && isStructuredQuestionType(question.questionType),
+  );
   const reviewedValidQuestions = activeStructuredQuestions.filter(
     (question) => question.reviewed && isValidQuestion(question),
   );
@@ -255,6 +275,10 @@ function hasQuestionTypeCoverage(
 
 function isValidQuestion(question: CoverageQuestionEvidence) {
   return question.valid !== false;
+}
+
+function isStructuredQuestionType(questionType: BoardQuestionType) {
+  return STRUCTURED_QUESTION_TYPES.has(questionType);
 }
 
 function createResult(
