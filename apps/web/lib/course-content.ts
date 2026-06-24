@@ -240,26 +240,28 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Getting started',
     streakTask: 'Balance 6 equations without hints',
     summary:
-      'A visual Science chapter experience with animated reactions, activity explanations, sharp notes, quizzes, and revision checkpoints.',
+      'Start with reaction signs, formula equations, and guided balancing practice, then use the chapter notes and quiz to revise reaction types.',
     topics: ['Balancing equations', 'Reaction types', 'Oxidation and reduction'],
     lessons: [
       {
         slug: 'chemical-equations',
-        fileName: '',
+        fileName: '01-chemical-equations.md',
         title: 'Chemical equations',
-        type: 'Animated intro',
-        minutes: 7,
+        type: 'Concept foundation',
+        minutes: 10,
         free: true,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Read reactions as reactants, products, formula equations, and state symbols before learning to balance them.',
       },
       {
         slug: 'balancing-equations',
-        fileName: '',
+        fileName: '02-balancing-equations.md',
         title: 'Balancing equations',
-        type: 'Interactive practice',
+        type: 'Guided balancing practice',
         minutes: 11,
         free: false,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Use conservation of mass, coefficients, and a repeatable atom-counting method to balance equations safely.',
       },
       {
         slug: 'combination-and-decomposition-reactions',
@@ -847,6 +849,12 @@ const chapters: Record<string, ChapterContent> = {
 
 const lessonDirectories: Partial<Record<keyof typeof chapters, string>> = {
   'real-numbers': path.join(process.cwd(), 'content', 'real-numbers', 'lessons'),
+  'chemical-reactions-and-equations': path.join(
+    process.cwd(),
+    'content',
+    'chemical-reactions-and-equations',
+    'lessons',
+  ),
 };
 
 // Directory for quiz markdown (shared per chapter)
@@ -1017,6 +1025,10 @@ export function getChapter(slug: string): ChapterContent | null {
   return chapters[slug] ?? getGeneratedChapter(slug);
 }
 
+export function getAvailableLessons(chapter: ChapterContent) {
+  return chapter.lessons.filter((lesson) => Boolean(lesson.fileName));
+}
+
 export function getChapterEntries() {
   const entries = new Map<string, ChapterContent>(Object.entries(chapters));
 
@@ -1088,9 +1100,29 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
     chapter,
     lesson,
     blocks: parseMarkdown(markdown),
-    previousLesson: lessonIndex > 0 ? chapter.lessons[lessonIndex - 1] : null,
-    nextLesson: lessonIndex < chapter.lessons.length - 1 ? chapter.lessons[lessonIndex + 1] : null,
+    previousLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, -1),
+    nextLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, 1),
   };
+}
+
+function getAdjacentAvailableLesson(
+  lessons: LessonMeta[],
+  lessonIndex: number,
+  direction: -1 | 1,
+) {
+  for (
+    let adjacentIndex = lessonIndex + direction;
+    adjacentIndex >= 0 && adjacentIndex < lessons.length;
+    adjacentIndex += direction
+  ) {
+    const lesson = lessons[adjacentIndex];
+
+    if (lesson.fileName) {
+      return lesson;
+    }
+  }
+
+  return null;
 }
 
 /**

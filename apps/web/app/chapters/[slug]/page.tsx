@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
-import { getChapter, getQuizContent, hasChapterPack } from '../../../lib/course-content';
+import { getAvailableLessons, getChapter, getQuizContent, hasChapterPack } from '../../../lib/course-content';
 import { formatMasteryLevel, getNextMasteryLabel, getStudentMastery } from '../../../lib/mastery';
 import { buildMasteryRewards } from '../../../lib/mastery-rewards';
 import { isPilotChapter } from '../../../lib/pilot';
@@ -15,7 +15,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
-  const hasLessonNotes = chapter.lessons.some((lesson) => lesson.fileName);
+  const availableLessons = getAvailableLessons(chapter);
+  const hasLessonNotes = availableLessons.length > 0;
   const hasPackNotes = hasChapterPack(slug);
   const isLive = hasLessonNotes || hasPackNotes;
   const isPilot = isPilotChapter(slug);
@@ -51,7 +52,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
               {isLive ? 'Open notes' : 'Start lesson plan'}
             </a>
             {hasLessonNotes ? (
-              <Link className="ghost-link" href={`/chapters/${slug}/lessons/${chapter.lessons[0].slug}`}>
+              <Link className="ghost-link" href={`/chapters/${slug}/lessons/${availableLessons[0].slug}`}>
                 Start first lesson
               </Link>
             ) : hasPackNotes ? (
@@ -157,7 +158,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           </div>
           {isLive ? (
             <span className="section-badge">
-              {hasLessonNotes ? `${chapter.lessons.length} lesson notes ready` : 'Chapter pack ready'}
+              {hasLessonNotes ? `${availableLessons.length} lesson notes ready` : 'Chapter pack ready'}
             </span>
           ) : null}
         </div>

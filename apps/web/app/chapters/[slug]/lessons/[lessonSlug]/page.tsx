@@ -6,7 +6,7 @@ import LessonDemo from '../../../../../components/LessonDemo';
 import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
 import PilotFeedbackForm from '../../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../../components/PilotEngagementTracker';
-import { getChapter, getLessonContent } from '../../../../../lib/course-content';
+import { getAvailableLessons, getChapter, getLessonContent } from '../../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
@@ -31,6 +31,8 @@ export default async function LessonPage({
   if (!content) {
     notFound();
   }
+
+  const availableLessonCount = getAvailableLessons(chapter).length;
 
   // Check authentication for premium lessons
   if (!content.lesson.free) {
@@ -93,7 +95,7 @@ export default async function LessonPage({
               <span>{content.lesson.type}</span>
             </li>
             <li>
-              <strong>{chapter.lessons.length} lesson notes</strong>
+              <strong>{availableLessonCount} lesson notes</strong>
               <span>Now live in this chapter</span>
             </li>
           </ul>

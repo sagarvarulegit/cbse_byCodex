@@ -43,6 +43,7 @@ Last updated: 2026-06-21
 
 ## Scaling Notes
 
+- Lesson-wise chapter content is considered live only when a catalog lesson has a non-empty `fileName` and its chapter directory is registered in `lessonDirectories`. UI counts and previous/next navigation use available lessons only, while unpublished catalog lessons remain visible as Coming soon.
 - Free-pilot quiz routes use strict authoring validation: every question must have a valid explicit answer, explanation, and chapter-matching topic slug before it can reach `QuizScoreForm`. Non-pilot generated quizzes retain the legacy parser fallback until their content is migrated.
 - Keep route logic split by feature as new work lands.
 - Defer payment/subscription logic until after a free student pilot produces real usage, feedback, bug fixes, and platform-hardening work. When payments return, keep them behind the same access helper path used by lesson video gating.
