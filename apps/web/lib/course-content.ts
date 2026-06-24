@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { chapterPacks } from './chapter-packs.generated';
+import type { CurriculumContentEvidence } from './curriculum/coverage';
 
 export type LessonMeta = {
   slug: string;
@@ -1051,6 +1052,21 @@ export function getSubjectSlug(subject: string) {
 
 export function getSubjectEntries(subjectSlug: string) {
   return getChapterEntries().filter(([, chapter]) => getSubjectSlug(chapter.subject) === subjectSlug);
+}
+
+export function getCurriculumContentEvidence(): CurriculumContentEvidence {
+  const chapterPacks: CurriculumContentEvidence['chapterPacks'] = {};
+  const availableLessonCounts: CurriculumContentEvidence['availableLessonCounts'] = {};
+
+  for (const [slug, chapter] of getChapterEntries()) {
+    chapterPacks[slug] = hasChapterPack(slug);
+    availableLessonCounts[slug] = getAvailableLessons(chapter).length;
+  }
+
+  return {
+    chapterPacks,
+    availableLessonCounts,
+  };
 }
 
 export function hasChapterPack(slug: string) {
