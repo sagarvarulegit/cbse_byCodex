@@ -109,6 +109,7 @@ export type CurriculumSubject = {
   title: string;
   assessmentMode: AssessmentMode;
   status: CurriculumStatus;
+  visibleInCatalog?: boolean;
   examProfile: ExamProfile | null;
   books: PrescribedBook[];
   units: CurriculumUnit[];

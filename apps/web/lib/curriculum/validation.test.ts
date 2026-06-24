@@ -7,6 +7,75 @@ import {
   SOURCE_VERIFIED_ON,
   getOfficialSource,
 } from './official-sources';
+import type { CurriculumSubject } from './types';
+import { validateCurriculumSubject } from './validation';
+
+function createValidSubject(): CurriculumSubject {
+  return {
+    academicSession: '2026-27',
+    assessmentMode: 'board',
+    books: [
+      {
+        id: 'ncert-science',
+        publisher: 'NCERT',
+        role: 'primary',
+        sourceId: 'cbse-science-086-2026-27',
+        title: 'Science Textbook',
+      },
+    ],
+    classLevel: 10,
+    examProfile: {
+      allowedMarkValues: [1, 2, 3, 5],
+      blueprintSourceIds: ['cbse-science-086-2026-27'],
+      durationMinutes: 180,
+      maximumMarks: 80,
+      readingTimeMinutes: 15,
+      sectionRules: [
+        {
+          allowedQuestionTypes: ['mcq', 'short-answer'],
+          id: 'section-a',
+          marks: 40,
+          title: 'Section A',
+        },
+        {
+          allowedQuestionTypes: ['long-answer'],
+          id: 'section-b',
+          marks: 40,
+          title: 'Section B',
+        },
+      ],
+    },
+    officialSourceIds: ['cbse-science-086-2026-27'],
+    slug: 'science',
+    status: 'active',
+    subjectCode: '086',
+    title: 'Science',
+    units: [
+      {
+        chapters: [
+          {
+            id: 'chemical-reactions',
+            platformChapterSlugs: ['chemical-reactions-and-equations'],
+            scope: 'board-exam',
+            title: 'Chemical Reactions and Equations',
+            topics: [
+              {
+                id: 'balancing-equations',
+                minimumReviewedQuestionCount: 1,
+                platformTopicSlugs: ['balancing-equations'],
+                requiredQuestionTypes: ['mcq'],
+                scope: 'board-exam',
+                title: 'Balancing Equations',
+              },
+            ],
+          },
+        ],
+        id: 'unit-1',
+        title: 'Chemical Reactions',
+      },
+    ],
+  };
+}
 
 test('official sources register current and historical curriculum evidence', () => {
   assert.equal(ACTIVE_CURRICULUM_SESSION, '2026-27');
@@ -29,4 +98,120 @@ test('every official source record has required provenance metadata', () => {
     assert.ok(source.publishedBy);
     assert.match(source.verifiedOn, isoDate);
   }
+});
+
+test('validateCurriculumSubject reports missing source, missing exam profile, and invalid basic profile in code order', () => {
+  const subject: CurriculumSubject = {
+    ...createValidSubject(),
+    examProfile: null,
+    officialSourceIds: ['missing-source-id'],
+    slug: 'mathematics-standard',
+    subjectCode: '041',
+    title: 'Mathematics Basic',
+  };
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => issue.code),
+    ['missing-source', 'missing-exam-profile', 'invalid-basic-profile'],
+  );
+});
+
+test('validateCurriculumSubject reports mark totals, duplicate ids, question-type gaps, and scope contradictions in code order', () => {
+  const subject: CurriculumSubject = {
+    ...createValidSubject(),
+    examProfile: {
+      ...createValidSubject().examProfile!,
+      sectionRules: [
+        {
+          allowedQuestionTypes: ['mcq', 'short-answer'],
+          id: 'section-a',
+          marks: 40,
+          title: 'Section A',
+        },
+        {
+          allowedQuestionTypes: ['long-answer'],
+          id: 'section-b',
+          marks: 39,
+          title: 'Section B',
+        },
+      ],
+    },
+    units: [
+      {
+        chapters: [
+          {
+            id: 'duplicate-chapter',
+            platformChapterSlugs: ['shared-chapter-pack'],
+            scope: 'board-exam',
+            title: 'Chapter One',
+            topics: [
+              {
+                id: 'duplicate-topic',
+                minimumReviewedQuestionCount: 1,
+                platformTopicSlugs: ['shared-topic'],
+                requiredQuestionTypes: [],
+                scope: 'board-exam',
+                title: 'Topic One',
+              },
+            ],
+          },
+        ],
+        id: 'duplicate-unit',
+        title: 'Unit One',
+      },
+      {
+        chapters: [
+          {
+            id: 'duplicate-chapter',
+            platformChapterSlugs: ['shared-chapter-pack'],
+            scope: 'internal-only',
+            title: 'Chapter Two',
+            topics: [
+              {
+                id: 'duplicate-topic',
+                minimumReviewedQuestionCount: 0,
+                platformTopicSlugs: ['shared-topic-two'],
+                requiredQuestionTypes: [],
+                scope: 'internal-only',
+                title: 'Topic Two',
+              },
+            ],
+          },
+        ],
+        id: 'duplicate-unit',
+        title: 'Unit Two',
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => issue.code),
+    [
+      'invalid-total-marks',
+      'duplicate-unit-id',
+      'duplicate-chapter-id',
+      'duplicate-topic-id',
+      'missing-required-question-types',
+      'contradictory-platform-scope',
+    ],
+  );
+});
+
+test('validateCurriculumSubject rejects a future subject that is visible in the catalog', () => {
+  const subject = {
+    ...createValidSubject(),
+    assessmentMode: 'optional-skill',
+    examProfile: null,
+    officialSourceIds: ['cbse-it-402-2026-27'],
+    slug: 'information-technology',
+    status: 'future',
+    subjectCode: '402',
+    title: 'Information Technology',
+    visibleInCatalog: true,
+  } as CurriculumSubject & { visibleInCatalog: boolean };
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => issue.code),
+    ['future-subject-visible'],
+  );
 });
