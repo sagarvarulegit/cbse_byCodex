@@ -91,6 +91,21 @@ export function validateCurriculumSubject(
 function getMissingSourceIssues(subject: CurriculumSubject): CurriculumValidationIssue[] {
   const issues: CurriculumValidationIssue[] = [];
 
+  if (
+    subject.officialSourceIds.length === 0 &&
+    !(
+      subject.status === 'future' &&
+      (subject.activationBlockers?.some((blocker) => blocker.trim().length > 0) ?? false)
+    )
+  ) {
+    issues.push({
+      code: 'missing-source',
+      message:
+        'Subjects require an official source unless a future subject records an explicit activation blocker.',
+      path: 'officialSourceIds',
+    });
+  }
+
   for (const [index, sourceId] of subject.officialSourceIds.entries()) {
     if (getOfficialSource(sourceId) === undefined) {
       issues.push({

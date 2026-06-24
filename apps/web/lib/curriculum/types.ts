@@ -114,4 +114,5 @@ export type CurriculumSubject = {
   books: PrescribedBook[];
   units: CurriculumUnit[];
   officialSourceIds: string[];
+  activationBlockers?: string[];
 };
