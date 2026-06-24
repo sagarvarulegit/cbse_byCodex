@@ -14,6 +14,7 @@ export type CurriculumValidationCode =
   | 'duplicate-chapter-id'
   | 'duplicate-topic-id'
   | 'missing-required-question-types'
+  | 'unsupported-required-question-type'
   | 'contradictory-platform-scope'
   | 'future-subject-visible'
   | 'invalid-basic-profile';
@@ -62,6 +63,7 @@ export function validateCurriculumSubject(
   issues.push(...getDuplicateChapterIssues(subject));
   issues.push(...getDuplicateTopicIssues(subject));
   issues.push(...getMissingRequiredQuestionTypeIssues(subject));
+  issues.push(...getUnsupportedRequiredQuestionTypeIssues(subject));
   issues.push(...getContradictoryPlatformScopeIssues(subject));
 
   if (subject.status === 'future' && subject.visibleInCatalog === true) {
@@ -95,7 +97,7 @@ function getMissingSourceIssues(subject: CurriculumSubject): CurriculumValidatio
     subject.officialSourceIds.length === 0 &&
     !(
       subject.status === 'future' &&
-      (subject.activationBlockers?.some((blocker) => blocker.trim().length > 0) ?? false)
+      subject.activationBlockers.some((blocker) => blocker.trim().length > 0)
     )
   ) {
     issues.push({
@@ -228,6 +230,56 @@ function getMissingRequiredQuestionTypeIssues(
             code: 'missing-required-question-types',
             message: 'Board-exam topics must declare at least one required question type.',
             path: `units[${unitIndex}].chapters[${chapterIndex}].topics[${topicIndex}].requiredQuestionTypes`,
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
+function getUnsupportedRequiredQuestionTypeIssues(
+  subject: CurriculumSubject,
+): CurriculumValidationIssue[] {
+  if (subject.examProfile === null) {
+    return [];
+  }
+
+  const issues: CurriculumValidationIssue[] = [];
+
+  for (const [unitIndex, unit] of subject.units.entries()) {
+    for (const [chapterIndex, chapter] of unit.chapters.entries()) {
+      for (const [topicIndex, topic] of chapter.topics.entries()) {
+        if (topic.scope !== 'board-exam') {
+          continue;
+        }
+
+        const applicableSections = subject.examProfile.sectionRules.filter(
+          (sectionRule) =>
+            sectionRule.id === unit.id ||
+            sectionRule.curriculumRefs?.some(
+              (curriculumRef) =>
+                curriculumRef === unit.id ||
+                curriculumRef === chapter.id ||
+                curriculumRef === topic.id,
+            ) === true,
+        );
+        const allowedQuestionTypes = new Set(
+          applicableSections.flatMap(
+            (sectionRule) => sectionRule.allowedQuestionTypes,
+          ),
+        );
+
+        for (const [questionTypeIndex, questionType] of topic.requiredQuestionTypes.entries()) {
+          if (allowedQuestionTypes.has(questionType)) {
+            continue;
+          }
+
+          issues.push({
+            code: 'unsupported-required-question-type',
+            message: `Question type ${questionType} is not allowed by an applicable top-level exam section.`,
+            path: `units[${unitIndex}].chapters[${chapterIndex}].topics[${topicIndex}].requiredQuestionTypes[${questionTypeIndex}]`,
           });
         }
       }

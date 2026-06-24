@@ -23,13 +23,25 @@ export const science: CurriculumSubject = {
       id: 'chemical-substances',
       title: 'Chemical Substances - Nature and Behaviour',
       marks: 25,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'numerical'],
+      allowedQuestionTypes: [
+        'mcq',
+        'short-answer',
+        'long-answer',
+        'case-study',
+        'numerical',
+      ],
     },
     {
       id: 'world-of-living',
       title: 'World of Living',
       marks: 25,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'diagram'],
+      allowedQuestionTypes: [
+        'mcq',
+        'short-answer',
+        'long-answer',
+        'case-study',
+        'diagram',
+      ],
     },
     {
       id: 'natural-phenomena',
@@ -41,7 +53,7 @@ export const science: CurriculumSubject = {
       id: 'effects-of-current',
       title: 'Effects of Current',
       marks: 13,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'numerical', 'diagram'],
+      allowedQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'numerical', 'diagram'],
     },
     {
       id: 'natural-resources',

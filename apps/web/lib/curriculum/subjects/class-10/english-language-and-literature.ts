@@ -64,13 +64,18 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
       id: 'reading',
       title: 'Reading',
       marks: 20,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'source-based'],
+      allowedQuestionTypes: [
+        'mcq',
+        'short-answer',
+        'source-based',
+        'data-interpretation',
+      ],
     },
     {
       id: 'writing-and-grammar',
       title: 'Writing Skills and Grammar',
       marks: 20,
-      allowedQuestionTypes: ['grammar', 'creative-writing'],
+      allowedQuestionTypes: ['grammar', 'creative-writing', 'data-interpretation'],
     },
     {
       id: 'literature',

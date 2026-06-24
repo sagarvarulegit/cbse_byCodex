@@ -6,6 +6,7 @@ import type { CurriculumSubject } from './types';
 
 test('CurriculumSubject supports a versioned active board subject', () => {
   const subject: CurriculumSubject = {
+    activationBlockers: [],
     academicSession: '2026-27',
     assessmentMode: 'board',
     books: [],
@@ -28,4 +29,5 @@ test('CurriculumSubject supports a versioned active board subject', () => {
 
   assert.equal(subject.subjectCode, '041');
   assert.equal(subject.examProfile?.maximumMarks, 80);
+  assert.deepEqual(subject.activationBlockers, []);
 });

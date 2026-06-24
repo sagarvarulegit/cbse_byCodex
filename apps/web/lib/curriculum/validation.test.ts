@@ -12,6 +12,7 @@ import { validateCurriculumSubject } from './validation';
 
 function createValidSubject(): CurriculumSubject {
   return {
+    activationBlockers: [],
     academicSession: '2026-27',
     assessmentMode: 'board',
     books: [
@@ -33,7 +34,7 @@ function createValidSubject(): CurriculumSubject {
       sectionRules: [
         {
           allowedQuestionTypes: ['mcq', 'short-answer'],
-          id: 'section-a',
+          id: 'unit-1',
           marks: 40,
           title: 'Section A',
         },
@@ -186,6 +187,14 @@ test('validateCurriculumSubject reports mark totals, duplicate ids, question-typ
                 scope: 'board-exam',
                 title: 'Topic One',
               },
+              {
+                id: 'unsupported-topic',
+                minimumReviewedQuestionCount: 1,
+                platformTopicSlugs: [],
+                requiredQuestionTypes: ['diagram'],
+                scope: 'board-exam',
+                title: 'Unsupported Topic',
+              },
             ],
           },
         ],
@@ -225,7 +234,82 @@ test('validateCurriculumSubject reports mark totals, duplicate ids, question-typ
       'duplicate-chapter-id',
       'duplicate-topic-id',
       'missing-required-question-types',
+      'unsupported-required-question-type',
       'contradictory-platform-scope',
+    ],
+  );
+});
+
+test('validateCurriculumSubject reports unsupported board question types after missing question types', () => {
+  const subject: CurriculumSubject = {
+    ...createValidSubject(),
+    examProfile: {
+      ...createValidSubject().examProfile!,
+      sectionRules: [
+        {
+          allowedQuestionTypes: ['mcq', 'case-study'],
+          curriculumRefs: ['unsupported-types'],
+          id: 'section-a',
+          marks: 40,
+          title: 'Section A',
+        },
+        {
+          allowedQuestionTypes: ['short-answer'],
+          curriculumRefs: ['missing-types'],
+          id: 'section-b',
+          marks: 40,
+          title: 'Section B',
+        },
+      ],
+    },
+    units: [
+      {
+        chapters: [
+          {
+            id: 'chemical-reactions',
+            platformChapterSlugs: ['chemical-reactions-and-equations'],
+            scope: 'board-exam',
+            title: 'Chemical Reactions and Equations',
+            topics: [
+              {
+                id: 'missing-types',
+                minimumReviewedQuestionCount: 1,
+                platformTopicSlugs: [],
+                requiredQuestionTypes: [],
+                scope: 'board-exam',
+                title: 'Missing Types',
+              },
+              {
+                id: 'unsupported-types',
+                minimumReviewedQuestionCount: 1,
+                platformTopicSlugs: [],
+                requiredQuestionTypes: ['mcq', 'case-study', 'diagram'],
+                scope: 'board-exam',
+                title: 'Unsupported Types',
+              },
+            ],
+          },
+        ],
+        id: 'unit-1',
+        title: 'Chemical Reactions',
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => ({
+      code: issue.code,
+      path: issue.path,
+    })),
+    [
+      {
+        code: 'missing-required-question-types',
+        path: 'units[0].chapters[0].topics[0].requiredQuestionTypes',
+      },
+      {
+        code: 'unsupported-required-question-type',
+        path: 'units[0].chapters[0].topics[1].requiredQuestionTypes[2]',
+      },
     ],
   );
 });

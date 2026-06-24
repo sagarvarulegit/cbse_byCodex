@@ -3,6 +3,7 @@ import {
   CLASS_10_CURRICULUM_SESSION,
   chapter,
   examProfile,
+  topic,
   unit,
 } from './helpers';
 
@@ -93,9 +94,19 @@ export const socialScience: CurriculumSubject = {
         id: 'making-of-a-global-world',
         title: 'The Making of a Global World',
         platformChapterSlugs: ['making-of-a-global-world'],
-        questionTypes: [...socialQuestionTypes],
-        requiredSkills: [
-          'Board examination covers subtopics 1 to 1.3; remaining content supports the interdisciplinary project.',
+        topics: [
+          topic(
+            'making-of-a-global-world-board-exam',
+            'Pre-modern World to Conquest, Disease and Trade',
+            'board-exam',
+            [...socialQuestionTypes],
+          ),
+          topic(
+            'making-of-a-global-world-interdisciplinary-project',
+            'The Nineteenth Century to Globalisation Interdisciplinary Project',
+            'project-only',
+            [],
+          ),
         ],
       }),
       chapter({
@@ -152,9 +163,19 @@ export const socialScience: CurriculumSubject = {
         id: 'lifelines-of-national-economy',
         title: 'Lifelines of National Economy',
         platformChapterSlugs: ['lifelines-of-national-economy'],
-        questionTypes: ['map-skill'],
-        requiredSkills: [
-          'Only map pointing is evaluated in the board examination; the chapter also supports the interdisciplinary project.',
+        topics: [
+          topic(
+            'lifelines-of-national-economy-map-skill',
+            'Board Map Pointing',
+            'board-exam',
+            ['map-skill'],
+          ),
+          topic(
+            'lifelines-of-national-economy-interdisciplinary-project',
+            'Interdisciplinary Project',
+            'project-only',
+            [],
+          ),
         ],
       }),
     ]),
@@ -213,9 +234,19 @@ export const socialScience: CurriculumSubject = {
         id: 'globalisation',
         title: 'Globalisation and the Indian Economy',
         platformChapterSlugs: ['globalisation'],
-        questionTypes: [...socialQuestionTypes, 'case-study'],
-        requiredSkills: [
-          'The board examination covers the prescribed globalisation subtopics; remaining content supports the interdisciplinary project.',
+        topics: [
+          topic(
+            'globalisation-board-exam',
+            'What is Globalisation and Factors Enabling Globalisation',
+            'board-exam',
+            [...socialQuestionTypes, 'case-study'],
+          ),
+          topic(
+            'globalisation-interdisciplinary-project',
+            'Production, WTO, Chinese Toys, and Fair Globalisation Project',
+            'project-only',
+            [],
+          ),
         ],
       }),
       chapter({

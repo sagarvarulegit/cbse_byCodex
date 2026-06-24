@@ -47,7 +47,7 @@ export const mathematicsStandard: CurriculumSubject = {
       id: 'trigonometry',
       title: 'Trigonometry',
       marks: 12,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'numerical', 'proof'],
+      allowedQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'numerical', 'proof'],
     },
     {
       id: 'mensuration',
@@ -59,7 +59,13 @@ export const mathematicsStandard: CurriculumSubject = {
       id: 'statistics-and-probability',
       title: 'Statistics and Probability',
       marks: 11,
-      allowedQuestionTypes: ['mcq', 'short-answer', 'numerical', 'data-interpretation'],
+      allowedQuestionTypes: [
+        'mcq',
+        'short-answer',
+        'long-answer',
+        'numerical',
+        'data-interpretation',
+      ],
     },
   ]),
   books: [

@@ -28,6 +28,22 @@ function getPlatformChapterSlugs(subjectSlug: string) {
   );
 }
 
+function getChapterRegistry(subjectSlug: string) {
+  const subject = getCurriculumSubject(subjectSlug);
+
+  assert.ok(subject);
+
+  return subject.units.map((unit) => ({
+    id: unit.id,
+    chapters: unit.chapters.map((chapter) => ({
+      id: chapter.id,
+      title: chapter.title,
+      scope: chapter.scope,
+      platformChapterSlugs: chapter.platformChapterSlugs,
+    })),
+  }));
+}
+
 test('registry exposes the active Class 10 subject identities', () => {
   assert.equal(getActiveCurriculumSession(), '2026-27');
   assert.equal(getCurriculumSubject('mathematics-standard')?.subjectCode, '041');
@@ -134,74 +150,551 @@ test('Mathematics and Science map every existing platform chapter', () => {
   ]);
 });
 
-test('Social Science classifies board, periodic, project, and excluded packs explicitly', () => {
+test('Social Science registers the exact complete chapter set', () => {
   const subject = getCurriculumSubject('social-science');
 
   assert.ok(subject);
 
-  const chapters = subject.units.flatMap((unit) => unit.chapters);
-  const scopeById = new Map(chapters.map((chapter) => [chapter.id, chapter.scope]));
-
-  assert.equal(scopeById.get('the-age-of-industrialisation'), 'periodic-only');
-  assert.equal(scopeById.get('consumer-rights'), 'project-only');
-  assert.equal(scopeById.get('the-rise-of-nationalism-in-europe-pack'), 'excluded');
-  assert.equal(scopeById.get('globalisation-and-the-indian-economy-pack'), 'excluded');
+  assert.deepEqual(getChapterRegistry('social-science'), [
+    {
+      id: 'history',
+      chapters: [
+        {
+          id: 'rise-of-nationalism-in-europe',
+          title: 'The Rise of Nationalism in Europe',
+          scope: 'board-exam',
+          platformChapterSlugs: ['rise-of-nationalism-in-europe'],
+        },
+        {
+          id: 'nationalism-in-india',
+          title: 'Nationalism in India',
+          scope: 'board-exam',
+          platformChapterSlugs: ['nationalism-in-india'],
+        },
+        {
+          id: 'making-of-a-global-world',
+          title: 'The Making of a Global World',
+          scope: 'board-exam',
+          platformChapterSlugs: ['making-of-a-global-world'],
+        },
+        {
+          id: 'the-age-of-industrialisation',
+          title: 'The Age of Industrialisation',
+          scope: 'periodic-only',
+          platformChapterSlugs: ['the-age-of-industrialisation'],
+        },
+        {
+          id: 'print-culture',
+          title: 'Print Culture and the Modern World',
+          scope: 'board-exam',
+          platformChapterSlugs: ['print-culture'],
+        },
+      ],
+    },
+    {
+      id: 'geography',
+      chapters: [
+        {
+          id: 'resources-and-development',
+          title: 'Resources and Development',
+          scope: 'board-exam',
+          platformChapterSlugs: ['resources-and-development'],
+        },
+        {
+          id: 'forest-and-wildlife-resources',
+          title: 'Forest and Wildlife Resources',
+          scope: 'board-exam',
+          platformChapterSlugs: ['forest-and-wildlife-resources'],
+        },
+        {
+          id: 'water-resources',
+          title: 'Water Resources',
+          scope: 'board-exam',
+          platformChapterSlugs: ['water-resources'],
+        },
+        {
+          id: 'agriculture',
+          title: 'Agriculture',
+          scope: 'board-exam',
+          platformChapterSlugs: ['agriculture'],
+        },
+        {
+          id: 'minerals-and-energy-resources',
+          title: 'Minerals and Energy Resources',
+          scope: 'board-exam',
+          platformChapterSlugs: ['minerals-and-energy-resources'],
+        },
+        {
+          id: 'manufacturing-industries',
+          title: 'Manufacturing Industries',
+          scope: 'board-exam',
+          platformChapterSlugs: ['manufacturing-industries'],
+        },
+        {
+          id: 'lifelines-of-national-economy',
+          title: 'Lifelines of National Economy',
+          scope: 'board-exam',
+          platformChapterSlugs: ['lifelines-of-national-economy'],
+        },
+      ],
+    },
+    {
+      id: 'political-science',
+      chapters: [
+        {
+          id: 'power-sharing',
+          title: 'Power Sharing',
+          scope: 'board-exam',
+          platformChapterSlugs: ['power-sharing'],
+        },
+        {
+          id: 'federalism',
+          title: 'Federalism',
+          scope: 'board-exam',
+          platformChapterSlugs: ['federalism'],
+        },
+        {
+          id: 'gender-religion-and-caste',
+          title: 'Gender, Religion and Caste',
+          scope: 'board-exam',
+          platformChapterSlugs: ['gender-religion-and-caste'],
+        },
+        {
+          id: 'political-parties',
+          title: 'Political Parties',
+          scope: 'board-exam',
+          platformChapterSlugs: ['political-parties'],
+        },
+        {
+          id: 'outcomes-of-democracy',
+          title: 'Outcomes of Democracy',
+          scope: 'board-exam',
+          platformChapterSlugs: ['outcomes-of-democracy'],
+        },
+      ],
+    },
+    {
+      id: 'economics',
+      chapters: [
+        {
+          id: 'development',
+          title: 'Development',
+          scope: 'board-exam',
+          platformChapterSlugs: ['development'],
+        },
+        {
+          id: 'sectors-of-indian-economy',
+          title: 'Sectors of the Indian Economy',
+          scope: 'board-exam',
+          platformChapterSlugs: ['sectors-of-indian-economy'],
+        },
+        {
+          id: 'money-and-credit',
+          title: 'Money and Credit',
+          scope: 'board-exam',
+          platformChapterSlugs: ['money-and-credit'],
+        },
+        {
+          id: 'globalisation',
+          title: 'Globalisation and the Indian Economy',
+          scope: 'board-exam',
+          platformChapterSlugs: ['globalisation'],
+        },
+        {
+          id: 'consumer-rights',
+          title: 'Consumer Rights',
+          scope: 'project-only',
+          platformChapterSlugs: ['consumer-rights'],
+        },
+      ],
+    },
+    {
+      id: 'excluded-platform-packs',
+      chapters: [
+        {
+          id: 'the-rise-of-nationalism-in-europe-pack',
+          title: 'The Rise of Nationalism in Europe (duplicate pack)',
+          scope: 'excluded',
+          platformChapterSlugs: ['the-rise-of-nationalism-in-europe'],
+        },
+        {
+          id: 'the-making-of-a-global-world-pack',
+          title: 'The Making of a Global World (duplicate pack)',
+          scope: 'excluded',
+          platformChapterSlugs: ['the-making-of-a-global-world'],
+        },
+        {
+          id: 'print-culture-and-the-modern-world-pack',
+          title: 'Print Culture and the Modern World (duplicate pack)',
+          scope: 'excluded',
+          platformChapterSlugs: ['print-culture-and-the-modern-world'],
+        },
+        {
+          id: 'sectors-of-the-indian-economy-pack',
+          title: 'Sectors of the Indian Economy (duplicate pack)',
+          scope: 'excluded',
+          platformChapterSlugs: ['sectors-of-the-indian-economy'],
+        },
+        {
+          id: 'globalisation-and-the-indian-economy-pack',
+          title: 'Globalisation and the Indian Economy (duplicate pack)',
+          scope: 'excluded',
+          platformChapterSlugs: ['globalisation-and-the-indian-economy'],
+        },
+      ],
+    },
+  ]);
 });
 
-test('English registers all assessed texts and leaves poem platform mappings empty', () => {
+test('Social Science splits mixed board and project scope into exact topics', () => {
+  const subject = getCurriculumSubject('social-science');
+
+  assert.ok(subject);
+
+  const mixedChapters = subject.units
+    .flatMap((unit) => unit.chapters)
+    .filter((chapter) =>
+      [
+        'making-of-a-global-world',
+        'lifelines-of-national-economy',
+        'globalisation',
+      ].includes(chapter.id),
+    )
+    .map((chapter) => ({
+      id: chapter.id,
+      topics: chapter.topics.map((topic) => ({
+        id: topic.id,
+        title: topic.title,
+        scope: topic.scope,
+        requiredQuestionTypes: topic.requiredQuestionTypes,
+      })),
+    }));
+
+  assert.deepEqual(mixedChapters, [
+    {
+      id: 'making-of-a-global-world',
+      topics: [
+        {
+          id: 'making-of-a-global-world-board-exam',
+          title: 'Pre-modern World to Conquest, Disease and Trade',
+          scope: 'board-exam',
+          requiredQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'source-based'],
+        },
+        {
+          id: 'making-of-a-global-world-interdisciplinary-project',
+          title: 'The Nineteenth Century to Globalisation Interdisciplinary Project',
+          scope: 'project-only',
+          requiredQuestionTypes: [],
+        },
+      ],
+    },
+    {
+      id: 'lifelines-of-national-economy',
+      topics: [
+        {
+          id: 'lifelines-of-national-economy-map-skill',
+          title: 'Board Map Pointing',
+          scope: 'board-exam',
+          requiredQuestionTypes: ['map-skill'],
+        },
+        {
+          id: 'lifelines-of-national-economy-interdisciplinary-project',
+          title: 'Interdisciplinary Project',
+          scope: 'project-only',
+          requiredQuestionTypes: [],
+        },
+      ],
+    },
+    {
+      id: 'globalisation',
+      topics: [
+        {
+          id: 'globalisation-board-exam',
+          title: 'What is Globalisation and Factors Enabling Globalisation',
+          scope: 'board-exam',
+          requiredQuestionTypes: [
+            'mcq',
+            'short-answer',
+            'long-answer',
+            'source-based',
+            'case-study',
+          ],
+        },
+        {
+          id: 'globalisation-interdisciplinary-project',
+          title: 'Production, WTO, Chinese Toys, and Fair Globalisation Project',
+          scope: 'project-only',
+          requiredQuestionTypes: [],
+        },
+      ],
+    },
+  ]);
+});
+
+test('English registers the exact complete domain and text set', () => {
   const subject = getCurriculumSubject('english-language-and-literature');
 
   assert.ok(subject);
 
-  const literature = subject.units.find((unit) => unit.id === 'literature');
-  assert.ok(literature);
-
-  const prose = literature.chapters.filter((chapter) => chapter.id.startsWith('prose-'));
-  const poems = literature.chapters.filter((chapter) => chapter.id.startsWith('poem-'));
-  const supplementary = literature.chapters.filter((chapter) =>
-    chapter.id.startsWith('supplementary-'),
-  );
-
-  assert.equal(prose.length, 9);
-  assert.equal(poems.length, 10);
-  assert.equal(supplementary.length, 9);
-  assert.equal(poems.every((chapter) => chapter.platformChapterSlugs.length === 0), true);
+  assert.deepEqual(getChapterRegistry('english-language-and-literature'), [
+    {
+      id: 'reading',
+      chapters: [
+        {
+          id: 'discursive-passage',
+          title: 'Discursive Passage',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+        {
+          id: 'case-based-factual-passage',
+          title: 'Case-based Factual Passage',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+      ],
+    },
+    {
+      id: 'writing-and-grammar',
+      chapters: [
+        {
+          id: 'grammar',
+          title: 'Grammar',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+        {
+          id: 'formal-letter',
+          title: 'Formal Letter',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+        {
+          id: 'analytical-paragraph',
+          title: 'Analytical Paragraph',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+      ],
+    },
+    {
+      id: 'literature',
+      chapters: [
+        ['prose-a-letter-to-god', 'A Letter to God', ['a-letter-to-god']],
+        [
+          'prose-nelson-mandela-long-walk-to-freedom',
+          'Nelson Mandela - Long Walk to Freedom',
+          ['nelson-mandela-long-walk-to-freedom'],
+        ],
+        ['prose-stories-about-flying', 'Stories About Flying', ['two-stories-about-flying']],
+        [
+          'prose-from-the-diary-of-anne-frank',
+          'From the Diary of Anne Frank',
+          ['from-the-diary-of-anne-frank'],
+        ],
+        ['prose-glimpses-of-india', 'Glimpses of India', ['glimpses-of-india']],
+        ['prose-mijbil-the-otter', 'Mijbil the Otter', ['mijbil-the-otter']],
+        ['prose-madam-rides-the-bus', 'Madam Rides the Bus', ['madam-rides-the-bus']],
+        [
+          'prose-the-sermon-at-benares',
+          'The Sermon at Benares',
+          ['the-sermon-at-benares'],
+        ],
+        ['prose-the-proposal', 'The Proposal', ['the-proposal']],
+        ['poem-dust-of-snow', 'Dust of Snow', []],
+        ['poem-fire-and-ice', 'Fire and Ice', []],
+        ['poem-a-tiger-in-the-zoo', 'A Tiger in the Zoo', []],
+        ['poem-how-to-tell-wild-animals', 'How to Tell Wild Animals', []],
+        ['poem-the-ball-poem', 'The Ball Poem', []],
+        ['poem-amanda', 'Amanda!', []],
+        ['poem-the-trees', 'The Trees', []],
+        ['poem-fog', 'Fog', []],
+        ['poem-the-tale-of-custard-the-dragon', 'The Tale of Custard the Dragon', []],
+        ['poem-for-anne-gregory', 'For Anne Gregory', []],
+        [
+          'supplementary-a-triumph-of-surgery',
+          'A Triumph of Surgery',
+          ['a-triumph-of-surgery'],
+        ],
+        ['supplementary-the-thiefs-story', "The Thief's Story", ['the-thiefs-story']],
+        [
+          'supplementary-the-midnight-visitor',
+          'The Midnight Visitor',
+          ['the-midnight-visitor'],
+        ],
+        ['supplementary-a-question-of-trust', 'A Question of Trust', ['a-question-of-trust']],
+        [
+          'supplementary-footprints-without-feet',
+          'Footprints Without Feet',
+          ['footprints-without-feet-story'],
+        ],
+        [
+          'supplementary-the-making-of-a-scientist',
+          'The Making of a Scientist',
+          ['the-making-of-a-scientist'],
+        ],
+        ['supplementary-the-necklace', 'The Necklace', ['the-necklace']],
+        ['supplementary-bholi', 'Bholi', ['bholi']],
+        [
+          'supplementary-the-book-that-saved-the-earth',
+          'The Book that Saved the Earth',
+          ['the-book-that-saved-the-earth'],
+        ],
+      ].map(([id, title, platformChapterSlugs]) => ({
+        id,
+        title,
+        scope: 'board-exam',
+        platformChapterSlugs,
+      })),
+    },
+  ]);
 });
 
-test('Hindi registers all assessment domains without inventing platform mappings', () => {
+test('Hindi registers the exact complete domain and prescribed text set', () => {
   const subject = getCurriculumSubject('hindi-course-b');
 
   assert.ok(subject);
 
-  const literature = subject.units.find((unit) => unit.id === 'literature');
-  assert.ok(literature);
-
-  const excludedTitles = literature.chapters
-    .filter((chapter) => chapter.scope === 'excluded')
-    .map((chapter) => chapter.title);
-
-  assert.deepEqual(excludedTitles, [
-    'बिहारी के दोहे',
-    'मधुर-मधुर मेरे दीपक जल',
-    'गिरगिट',
+  assert.deepEqual(getChapterRegistry('hindi-course-b'), [
+    {
+      id: 'unseen-comprehension',
+      chapters: [
+        {
+          id: 'unseen-prose-passages',
+          title: 'अपठित गद्यांश',
+          scope: 'board-exam',
+          platformChapterSlugs: [],
+        },
+      ],
+    },
+    {
+      id: 'grammar',
+      chapters: [
+        ['padbandh', 'पदबंध'],
+        ['vakya-rupantaran', 'रचना के आधार पर वाक्य रूपांतरण'],
+        ['samaas', 'समास'],
+        ['muhavare', 'मुहावरे'],
+      ].map(([id, title]) => ({
+        id,
+        title,
+        scope: 'board-exam',
+        platformChapterSlugs: [],
+      })),
+    },
+    {
+      id: 'literature',
+      chapters: [
+        ['bade-bhai-sahab', 'बड़े भाई साहब', 'board-exam', ['bade-bhai-sahab']],
+        ['diary-ka-ek-panna', 'डायरी का एक पन्ना', 'board-exam', ['diary-ka-ek-panna']],
+        [
+          'tantara-vamiro-katha',
+          'तताँरा-वामीरो कथा',
+          'board-exam',
+          ['tantara-vamiro-katha'],
+        ],
+        [
+          'teesri-kasam-ke-shilpkar-shailendra',
+          'तीसरी कसम के शिल्पकार शैलेंद्र',
+          'board-exam',
+          ['teesri-kasam-shailendra'],
+        ],
+        [
+          'ab-kahan-doosron-ke-dukh-se-dukhi-hone-wale',
+          'अब कहाँ दूसरे के दुख से दुखी होने वाले',
+          'board-exam',
+          ['ab-kahan-doosre-ke-dukh'],
+        ],
+        [
+          'patjhar-mein-tooti-pattiyan',
+          'पतझर में टूटी पत्तियाँ',
+          'board-exam',
+          ['patjhar-me-tooti-pattiya'],
+        ],
+        ['kartoos', 'कारतूस', 'board-exam', ['kartoos']],
+        ['sakhiyaan', 'साखियाँ', 'board-exam', ['sakhi']],
+        ['pad', 'पद', 'board-exam', ['pad']],
+        ['manushyata', 'मनुष्यता', 'board-exam', ['manushyata']],
+        ['parvat-pradesh-mein-pavas', 'पर्वत प्रदेश में पावस', 'board-exam', []],
+        ['tope', 'तोप', 'board-exam', []],
+        ['kar-chale-hum-fida', 'कर चले हम फ़िदा', 'board-exam', []],
+        ['aatmatran', 'आत्मत्राण', 'board-exam', []],
+        ['harihar-kaka', 'हरिहर काका', 'board-exam', []],
+        ['topi-shukla', 'टोपी शुक्ला', 'board-exam', []],
+        ['sapnon-ke-se-din', 'सपनों के-से दिन', 'board-exam', []],
+        ['bihari-ke-dohe', 'बिहारी के दोहे', 'excluded', []],
+        ['madhur-madhur-mere-deepak-jal', 'मधुर-मधुर मेरे दीपक जल', 'excluded', []],
+        ['girgit', 'गिरगिट', 'excluded', []],
+      ].map(([id, title, scope, platformChapterSlugs]) => ({
+        id,
+        title,
+        scope,
+        platformChapterSlugs,
+      })),
+    },
+    {
+      id: 'creative-writing',
+      chapters: [
+        ['anucched-lekhan', 'अनुच्छेद लेखन'],
+        ['patra-lekhan', 'पत्र लेखन'],
+        ['soochna-lekhan', 'सूचना लेखन'],
+        ['vigyapan-lekhan', 'विज्ञापन लेखन'],
+        ['email-or-laghukatha', 'ई-मेल अथवा लघुकथा लेखन'],
+      ].map(([id, title]) => ({
+        id,
+        title,
+        scope: 'board-exam',
+        platformChapterSlugs: [],
+      })),
+    },
   ]);
+});
 
-  const unmappedAssessedTitles = literature.chapters
-    .filter(
-      (chapter) =>
-        chapter.scope === 'board-exam' && chapter.platformChapterSlugs.length === 0,
-    )
-    .map((chapter) => chapter.title);
+test('every board-exam topic uses question types allowed by its unit section', () => {
+  const unsupported = CURRICULUM_SUBJECTS.flatMap((subject) => {
+    if (subject.examProfile === null) {
+      return [];
+    }
 
-  assert.deepEqual(unmappedAssessedTitles, [
-    'पर्वत प्रदेश में पावस',
-    'तोप',
-    'कर चले हम फ़िदा',
-    'आत्मत्राण',
-    'हरिहर काका',
-    'टोपी शुक्ला',
-    'सपनों के-से दिन',
-  ]);
+    const sectionById = new Map(
+      subject.examProfile.sectionRules.map((section) => [section.id, section]),
+    );
+
+    return subject.units.flatMap((unit) => {
+      const section = sectionById.get(unit.id);
+
+      return unit.chapters.flatMap((chapter) =>
+        chapter.topics.flatMap((topic) =>
+          topic.scope !== 'board-exam'
+            ? []
+            : topic.requiredQuestionTypes
+                .filter(
+                  (questionType) =>
+                    section === undefined ||
+                    !section.allowedQuestionTypes.includes(questionType),
+                )
+                .map((questionType) => ({
+                  subject: subject.slug,
+                  unit: unit.id,
+                  topic: topic.id,
+                  questionType,
+                })),
+        ),
+      );
+    });
+  });
+
+  assert.deepEqual(unsupported, []);
+});
+
+test('every registered subject declares its activation blocker contract', () => {
+  for (const subject of CURRICULUM_SUBJECTS) {
+    assert.ok(Array.isArray(subject.activationBlockers), subject.slug);
+    assert.equal(
+      subject.status === 'active' ? subject.activationBlockers.length : true,
+      subject.status === 'active' ? 0 : true,
+      subject.slug,
+    );
+  }
 });
 
 test('future subjects require a source or an explicit activation blocker', () => {

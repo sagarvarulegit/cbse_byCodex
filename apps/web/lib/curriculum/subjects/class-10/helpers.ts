@@ -2,6 +2,7 @@ import type {
   BoardQuestionType,
   CurriculumChapter,
   CurriculumScope,
+  CurriculumTopic,
   CurriculumUnit,
   ExamProfile,
 } from '../../types';
@@ -16,6 +17,7 @@ type ChapterDefinition = {
   questionTypes?: BoardQuestionType[];
   requiredSkills?: string[];
   requiredAssets?: string[];
+  topics?: CurriculumTopic[];
 };
 
 export function chapter({
@@ -26,6 +28,7 @@ export function chapter({
   questionTypes = ['mcq', 'short-answer'],
   requiredSkills,
   requiredAssets,
+  topics,
 }: ChapterDefinition): CurriculumChapter {
   return {
     id,
@@ -34,16 +37,34 @@ export function chapter({
     platformChapterSlugs,
     requiredSkills,
     requiredAssets,
-    topics: [
-      {
-        id: `${id}-coverage`,
-        title,
-        scope,
-        platformTopicSlugs: [],
-        requiredQuestionTypes: scope === 'board-exam' ? questionTypes : [],
-        minimumReviewedQuestionCount: 0,
-      },
-    ],
+    topics:
+      topics ??
+      [
+        {
+          id: `${id}-coverage`,
+          title,
+          scope,
+          platformTopicSlugs: [],
+          requiredQuestionTypes: scope === 'board-exam' ? questionTypes : [],
+          minimumReviewedQuestionCount: 0,
+        },
+      ],
+  };
+}
+
+export function topic(
+  id: string,
+  title: string,
+  scope: CurriculumScope,
+  requiredQuestionTypes: BoardQuestionType[],
+): CurriculumTopic {
+  return {
+    id,
+    title,
+    scope,
+    platformTopicSlugs: [],
+    requiredQuestionTypes,
+    minimumReviewedQuestionCount: 0,
   };
 }
 
