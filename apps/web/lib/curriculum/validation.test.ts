@@ -116,6 +116,39 @@ test('validateCurriculumSubject reports missing source, missing exam profile, an
   );
 });
 
+test('validateCurriculumSubject reports missing book and blueprint sources in deterministic order', () => {
+  const subject: CurriculumSubject = {
+    ...createValidSubject(),
+    books: [
+      {
+        ...createValidSubject().books[0],
+        sourceId: 'missing-book-source-id',
+      },
+    ],
+    examProfile: {
+      ...createValidSubject().examProfile!,
+      blueprintSourceIds: ['missing-blueprint-source-id'],
+    },
+  };
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => ({
+      code: issue.code,
+      path: issue.path,
+    })),
+    [
+      {
+        code: 'missing-source',
+        path: 'books[0].sourceId',
+      },
+      {
+        code: 'missing-source',
+        path: 'examProfile.blueprintSourceIds[0]',
+      },
+    ],
+  );
+});
+
 test('validateCurriculumSubject reports mark totals, duplicate ids, question-type gaps, and scope contradictions in code order', () => {
   const subject: CurriculumSubject = {
     ...createValidSubject(),
