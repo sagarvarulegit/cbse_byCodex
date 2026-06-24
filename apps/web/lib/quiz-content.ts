@@ -14,11 +14,37 @@ export type ParsedQuizQuestion = {
   topicTags?: string[];
 };
 
+export type QuizParseOptions = {
+  strictMetadata?: boolean;
+};
+
+export type QuizContentValidationIssue = {
+  code:
+    | 'missing-answer'
+    | 'invalid-answer'
+    | 'missing-explanation'
+    | 'missing-topic'
+    | 'invalid-topic';
+  message: string;
+  questionId: string;
+  title: string;
+};
+
+export class QuizContentValidationError extends Error {
+  issues: QuizContentValidationIssue[];
+
+  constructor(issues: QuizContentValidationIssue[]) {
+    super(issues.map((issue) => issue.message).join('\n'));
+    this.name = 'QuizContentValidationError';
+    this.issues = issues;
+  }
+}
+
 function stripInlineCode(value: string) {
   return value.replace(/`([^`]+)`/g, '$1').trim();
 }
 
-function slugifyTopic(label: string) {
+export function slugifyQuizTopic(label: string) {
   return label
     .toLowerCase()
     .trim()
@@ -36,7 +62,7 @@ function splitTopicTags(value: string) {
 
 function findMatchingTopicSlug(topicTags: string[], validTopicSlugs: string[], fallbackTopicSlug?: string) {
   for (const tag of topicTags) {
-    const candidates = [tag, slugifyTopic(tag)];
+    const candidates = [tag, slugifyQuizTopic(tag)];
     const matchingTopicSlug = candidates.find((candidate) => validTopicSlugs.includes(candidate));
     if (matchingTopicSlug) {
       return matchingTopicSlug;
@@ -46,13 +72,19 @@ function findMatchingTopicSlug(topicTags: string[], validTopicSlugs: string[], f
   return fallbackTopicSlug;
 }
 
-export function parseQuizContent(markdown: string, topicSlugs: string[]): ParsedQuizQuestion[] {
+export function parseQuizContent(
+  markdown: string,
+  topicSlugs: string[],
+  parseOptions: QuizParseOptions = {},
+): ParsedQuizQuestion[] {
   const contentWithoutFrontmatter = markdown.replace(/^---[\s\S]*?---\s*/, '');
   const blocks = contentWithoutFrontmatter
     .split(/\n(?=##\s+\d+\.\s+)/)
     .filter((block) => /^##\s+\d+\.\s+/.test(block.trim()));
+  const questions: ParsedQuizQuestion[] = [];
+  const issues: QuizContentValidationIssue[] = [];
 
-  return blocks.flatMap((block, index) => {
+  for (const [index, block] of blocks.entries()) {
     const lines = block
       .split('\n')
       .map((line) => line.trim())
@@ -60,7 +92,7 @@ export function parseQuizContent(markdown: string, topicSlugs: string[]): Parsed
     const heading = lines[0]?.replace(/^##\s+\d+\.\s+/, '').trim();
 
     if (!heading) {
-      return [];
+      continue;
     }
 
     const options: ParsedQuizQuestion['options'] = [];
@@ -119,26 +151,78 @@ export function parseQuizContent(markdown: string, topicSlugs: string[]): Parsed
     }
 
     if (options.length < 2 || promptLines.length === 0) {
-      return [];
+      continue;
     }
 
-    const answerOptionIndex = answerValue ? options.findIndex((option) => option.value === answerValue) : -1;
-    const fallbackTopicSlug = topicSlugs[index];
-    const topicSlug = findMatchingTopicSlug(topicTags, topicSlugs, fallbackTopicSlug);
+    const questionId = `question-${index + 1}`;
+    const title = stripInlineCode(heading);
+    const answerOptionIndex =
+      answerValue !== null ? options.findIndex((option) => option.value === answerValue) : -1;
+    const matchingTopicSlug = findMatchingTopicSlug(topicTags, topicSlugs);
+    const topicSlug = parseOptions.strictMetadata
+      ? matchingTopicSlug
+      : matchingTopicSlug ?? topicSlugs[index];
 
-    return [
-      {
-        correctOptionIndex: answerOptionIndex >= 0 ? answerOptionIndex : 0,
-        ...(difficulty ? { difficulty } : {}),
-        ...(explanation ? { explanation } : {}),
-        id: `question-${index + 1}`,
-        options,
-        prompt: promptLines.join(' '),
-        ...(sourceCoverage ? { sourceCoverage } : {}),
-        title: stripInlineCode(heading),
-        ...(topicTags.length > 0 ? { topicTags } : {}),
-        ...(topicSlug ? { topicSlug } : {}),
-      },
-    ];
-  });
+    if (parseOptions.strictMetadata) {
+      if (answerValue === null) {
+        issues.push({
+          code: 'missing-answer',
+          message: `${questionId} (${heading}) is missing Answer metadata.`,
+          questionId,
+          title,
+        });
+      } else if (answerOptionIndex < 0) {
+        issues.push({
+          code: 'invalid-answer',
+          message: `${questionId} (${heading}) has Answer: ${answerValue}, but no option uses that value.`,
+          questionId,
+          title,
+        });
+      }
+
+      if (!explanation) {
+        issues.push({
+          code: 'missing-explanation',
+          message: `${questionId} (${heading}) is missing Explanation metadata.`,
+          questionId,
+          title,
+        });
+      }
+
+      if (topicTags.length === 0) {
+        issues.push({
+          code: 'missing-topic',
+          message: `${questionId} (${heading}) is missing Topic metadata.`,
+          questionId,
+          title,
+        });
+      } else if (!matchingTopicSlug) {
+        issues.push({
+          code: 'invalid-topic',
+          message: `${questionId} (${heading}) has no Topic matching the chapter topic slugs.`,
+          questionId,
+          title,
+        });
+      }
+    }
+
+    questions.push({
+      correctOptionIndex: answerOptionIndex >= 0 ? answerOptionIndex : 0,
+      ...(difficulty ? { difficulty } : {}),
+      ...(explanation ? { explanation } : {}),
+      id: questionId,
+      options,
+      prompt: promptLines.join(' '),
+      ...(sourceCoverage ? { sourceCoverage } : {}),
+      title,
+      ...(topicTags.length > 0 ? { topicTags } : {}),
+      ...(topicSlug ? { topicSlug } : {}),
+    });
+  }
+
+  if (parseOptions.strictMetadata && issues.length > 0) {
+    throw new QuizContentValidationError(issues);
+  }
+
+  return questions;
 }

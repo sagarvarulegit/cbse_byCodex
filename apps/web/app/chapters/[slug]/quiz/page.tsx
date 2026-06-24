@@ -5,16 +5,8 @@ import PilotEngagementTracker from '../../../../components/PilotEngagementTracke
 import QuizScoreForm from '../../../../components/QuizScoreForm';
 import { getChapter, getQuizContent } from '../../../../lib/course-content';
 import { isPilotChapter } from '../../../../lib/pilot';
-import { parseQuizContent } from '../../../../lib/quiz-content';
+import { parseQuizContent, slugifyQuizTopic } from '../../../../lib/quiz-content';
 import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
-
-function slugifyTopic(label: string) {
-  return label
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 export default async function QuizPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -37,12 +29,13 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
       : (chapter.topics ?? [])
           .map((topic) => ({
             label: topic,
-            slug: slugifyTopic(topic),
+            slug: slugifyQuizTopic(topic),
           }))
           .filter((topic) => topic.slug.length > 0);
   const quizQuestions = parseQuizContent(
     quizContent,
     weakTopicOptions.map((topic) => topic.slug),
+    { strictMetadata: isPilot },
   );
 
   if (quizQuestions.length === 0) {

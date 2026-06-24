@@ -59,7 +59,7 @@ Explanation: The narrator is guided through the storm, but the control room late
 
 ## 4. Wild animals
 
-Topic: wild-animals
+Topic: how-to-tell-wild-animals
 Difficulty: Easy
 Source: NCERT First Flight poem, How to Tell Wild Animals
 
@@ -74,7 +74,7 @@ Explanation: The poem uses funny, exaggerated clues for identifying animals, so 
 
 ## 5. Ball poem
 
-Topic: ball-poem
+Topic: the-ball-poem
 Difficulty: Medium
 Source: NCERT First Flight poem, The Ball Poem
 

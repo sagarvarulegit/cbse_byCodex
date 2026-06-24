@@ -1,7 +1,58 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { parseQuizContent } from './quiz-content';
+import { parseQuizContent, QuizContentValidationError } from './quiz-content';
+
+const invalidPilotMarkdown = `---
+title: Invalid pilot quiz
+---
+
+# Invalid pilot quiz
+
+## 1. Missing answer
+
+Topic: valid-topic
+Explanation: This explanation exists.
+
+Choose the second option.
+
+1. first
+2. second
+
+## 2. Invalid answer and missing explanation
+
+Topic: valid-topic
+
+Choose an available option.
+
+1. first
+2. second
+
+Answer: 3
+
+## 3. Invalid topic
+
+Topic: unknown-topic
+Explanation: This explanation exists.
+
+Choose the first option.
+
+1. first
+2. second
+
+Answer: 1
+
+## 4. Missing topic
+
+Explanation: This explanation exists.
+
+Choose the first option.
+
+1. first
+2. second
+
+Answer: 1
+`;
 
 test('parseQuizContent reads authoring metadata for review-ready questions', () => {
   const markdown = `---
@@ -57,4 +108,34 @@ Answer: 1
   });
   assert.equal(questions[1]?.topicSlug, 'fallback-topic');
   assert.equal(questions[1]?.correctOptionIndex, 0);
+});
+
+test('parseQuizContent rejects incomplete metadata in strict mode', () => {
+  assert.throws(
+    () => parseQuizContent(invalidPilotMarkdown, ['valid-topic'], { strictMetadata: true }),
+    (error: unknown) => {
+      assert.ok(error instanceof QuizContentValidationError);
+      assert.deepEqual(
+        error.issues.map((issue) => issue.code),
+        ['missing-answer', 'invalid-answer', 'missing-explanation', 'invalid-topic', 'missing-topic'],
+      );
+      return true;
+    },
+  );
+});
+
+test('parseQuizContent keeps the legacy answer fallback outside strict mode', () => {
+  const [question] = parseQuizContent(
+    `## 1. Legacy question
+
+Choose one.
+
+1. first
+2. second
+`,
+    ['fallback-topic'],
+  );
+
+  assert.equal(question?.correctOptionIndex, 0);
+  assert.equal(question?.topicSlug, 'fallback-topic');
 });

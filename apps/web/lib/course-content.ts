@@ -438,7 +438,13 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
     summary: 'Two stories representing the courage and mystery of flying: "His First Flight" and "Black Aeroplane".',
-    topics: ['Young seagull\'s courage', 'The mysterious pilot helper', 'Overcoming fear'],
+    topics: [
+      'Young seagull\'s courage',
+      'The mysterious pilot helper',
+      'Overcoming fear',
+      'How to Tell Wild Animals',
+      'The Ball Poem',
+    ],
     lessons: [],
   },
   'from-the-diary-of-anne-frank': {
