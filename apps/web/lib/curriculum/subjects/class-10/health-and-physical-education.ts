@@ -1,11 +1,17 @@
 import type { CurriculumSubject } from '../../types';
-import { CLASS_10_CURRICULUM_SESSION, chapter, unit } from './helpers';
+import { CLASS_10_2026_27_SESSION } from '../../sessions/2026-27';
+import {
+  chapter,
+  chapterPackTopic,
+  topic,
+  unit,
+} from './helpers';
 
 const SOURCE_ID = 'cbse-hpe-2026-27';
 
 export const healthAndPhysicalEducation: CurriculumSubject = {
   classLevel: 10,
-  academicSession: CLASS_10_CURRICULUM_SESSION,
+  academicSession: CLASS_10_2026_27_SESSION,
   subjectCode: 'HPE',
   slug: 'health-and-physical-education',
   title: 'Health and Physical Education',
@@ -13,39 +19,98 @@ export const healthAndPhysicalEducation: CurriculumSubject = {
   status: 'active',
   visibleInCatalog: true,
   activationBlockers: [],
+  readinessBlockers: [],
   examProfile: null,
   books: [],
   units: [
-    unit('health-and-physical-education', 'Health and Physical Education', undefined, [
+    unit('games-and-sports', 'Games / Sports', 50, [
       chapter({
-        id: 'health-and-diseases',
-        title: 'Health and Diseases',
-        platformChapterSlugs: ['health-and-diseases'],
-        scope: 'internal-only',
-      }),
-      chapter({
-        id: 'physical-fitness-and-wellness',
-        title: 'Physical Fitness and Wellness',
-        platformChapterSlugs: ['physical-fitness-and-wellness'],
-        scope: 'internal-only',
-      }),
-      chapter({
-        id: 'sports-and-games',
-        title: 'Sports and Games',
+        id: 'games-and-sports-participation',
+        title: 'Games and Sports Participation',
         platformChapterSlugs: ['sports-and-games'],
         scope: 'internal-only',
+        topics: [
+          chapterPackTopic(
+            'sports-and-games',
+            'games-and-sports-skills-strategies-fitness',
+            'Skills, strategies, tactics, fitness and performance improvement',
+            'internal-only',
+            [],
+          ),
+        ],
       }),
+    ]),
+    unit('health-and-fitness', 'Health and Fitness', 25, [
       chapter({
-        id: 'nutrition-and-diet',
-        title: 'Nutrition and Diet',
-        platformChapterSlugs: ['nutrition-and-diet'],
+        id: 'health-and-fitness-assessment',
+        title: 'Health and Fitness Assessment',
+        platformChapterSlugs: [
+          'physical-fitness-and-wellness',
+          'health-and-diseases',
+          'nutrition-and-diet',
+          'first-aid-and-safety',
+        ],
         scope: 'internal-only',
+        topics: [
+          chapterPackTopic(
+            'physical-fitness-and-wellness',
+            'health-and-fitness-tests',
+            'Health, physical fitness and the prescribed fitness tests',
+            'internal-only',
+            [],
+          ),
+          chapterPackTopic(
+            'health-and-diseases',
+            'health-and-diseases-support',
+            'Health and diseases platform resource',
+            'supporting-resource',
+            [],
+          ),
+          chapterPackTopic(
+            'nutrition-and-diet',
+            'nutrition-and-diet-support',
+            'Nutrition and diet platform resource',
+            'supporting-resource',
+            [],
+          ),
+          chapterPackTopic(
+            'first-aid-and-safety',
+            'first-aid-and-safety-support',
+            'Safety education and first aid platform resource',
+            'supporting-resource',
+            [],
+          ),
+        ],
       }),
+    ]),
+    unit('sewa', 'SEWA', 25, [
       chapter({
-        id: 'first-aid-and-safety',
-        title: 'Safety Education and First Aid',
-        platformChapterSlugs: ['first-aid-and-safety'],
+        id: 'sewa-project',
+        title: 'Social Empowerment through Work Education and Action',
         scope: 'internal-only',
+        topics: [
+          topic(
+            'sewa-project-planning-evidence-reflection',
+            'Project planning, action, evidence, communication and reflection',
+            'internal-only',
+            [],
+          ),
+        ],
+      }),
+    ]),
+    unit('health-and-activity-card', 'Health and Activity Card', 0, [
+      chapter({
+        id: 'health-and-activity-card-record',
+        title: 'Health and Activity Card',
+        scope: 'supporting-resource',
+        topics: [
+          topic(
+            'health-and-activity-card-recording',
+            'Recording health, fitness and activity observations',
+            'supporting-resource',
+            [],
+          ),
+        ],
       }),
     ]),
   ],

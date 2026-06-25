@@ -3,10 +3,12 @@ import test from 'node:test';
 
 import {
   CURRICULUM_SUBJECTS,
+  createCurriculumRegistry,
   getActiveCurriculumSession,
   getCurriculumSubject,
   getVisibleCurriculumSubjects,
 } from './registry';
+import { CLASS_10_2026_27_SESSION } from './sessions/2026-27';
 import type { CurriculumSubject } from './types';
 import { validateCurriculumSubject } from './validation';
 
@@ -44,8 +46,23 @@ function getChapterRegistry(subjectSlug: string) {
   }));
 }
 
+function getTopic(subjectSlug: string, topicId: string) {
+  const subject = getCurriculumSubject(subjectSlug);
+
+  assert.ok(subject);
+
+  const topic = subject.units
+    .flatMap((unit) => unit.chapters)
+    .flatMap((chapter) => chapter.topics)
+    .find((candidate) => candidate.id === topicId);
+
+  assert.ok(topic, `${subjectSlug} is missing ${topicId}`);
+
+  return topic;
+}
+
 test('registry exposes the active Class 10 subject identities', () => {
-  assert.equal(getActiveCurriculumSession(), '2026-27');
+  assert.equal(getActiveCurriculumSession(), CLASS_10_2026_27_SESSION);
   assert.equal(getCurriculumSubject('mathematics-standard')?.subjectCode, '041');
   assert.equal(getCurriculumSubject('mathematics-basic')?.subjectCode, '241');
   assert.equal(getCurriculumSubject('science')?.subjectCode, '086');
@@ -64,6 +81,38 @@ test('registry exposes the active Class 10 subject identities', () => {
   assert.equal(getCurriculumSubject('unknown-subject'), null);
 });
 
+test('registry selection does not mutate subjects from another session', () => {
+  const current = getCurriculumSubject('mathematics-standard');
+  assert.ok(current);
+
+  const historical: CurriculumSubject = {
+    ...current,
+    academicSession: '2025-26',
+    title: 'Historical Mathematics Standard',
+  };
+  const currentRegistry = createCurriculumRegistry(
+    [historical, current],
+    CLASS_10_2026_27_SESSION,
+  );
+  const historicalRegistry = createCurriculumRegistry(
+    [historical, current],
+    '2025-26',
+  );
+
+  assert.equal(currentRegistry.getActiveSession(), '2026-27');
+  assert.equal(historicalRegistry.getActiveSession(), '2025-26');
+  assert.equal(
+    currentRegistry.getSubject('mathematics-standard')?.academicSession,
+    '2026-27',
+  );
+  assert.equal(
+    historicalRegistry.getSubject('mathematics-standard')?.academicSession,
+    '2025-26',
+  );
+  assert.equal(current.academicSession, '2026-27');
+  assert.equal(historical.academicSession, '2025-26');
+});
+
 test('registry keeps future and not-yet-activated subjects out of the catalog', () => {
   const visibleSlugs = getVisibleCurriculumSubjects().map((subject) => subject.slug);
 
@@ -78,6 +127,40 @@ test('registry keeps future and not-yet-activated subjects out of the catalog', 
     'hindi-course-b',
     'health-and-physical-education',
   ]);
+});
+
+test('Mathematics Basic remains a future hidden profile until activation is completed', () => {
+  const subject = getCurriculumSubject('mathematics-basic');
+
+  assert.ok(subject);
+  assert.equal(subject.status, 'future');
+  assert.equal(subject.visibleInCatalog, false);
+  assert.ok(subject.activationBlockers.length > 0);
+  assert.equal(subject.subjectCode, '241');
+});
+
+test('current blueprint readiness is truthful per subject', () => {
+  const expected = {
+    'mathematics-standard': 'ready',
+    science: 'blocked',
+    'social-science': 'ready',
+    'english-language-and-literature': 'blocked',
+    'hindi-course-b': 'blocked',
+  } as const;
+
+  for (const [slug, blueprintStatus] of Object.entries(expected)) {
+    const subject = getCurriculumSubject(slug);
+
+    assert.ok(subject);
+    assert.equal(subject.examProfile?.blueprintStatus, blueprintStatus, slug);
+    assert.equal(
+      blueprintStatus === 'ready'
+        ? subject.examProfile?.blueprintSourceIds.length
+        : subject.examProfile?.blueprintBlockers.length,
+      1,
+      slug,
+    );
+  }
 });
 
 test('board subjects register the exact current unit weights', () => {
@@ -107,6 +190,7 @@ test('board subjects register the exact current unit weights', () => {
     ['reading', 20],
     ['writing-and-grammar', 20],
     ['literature', 40],
+    ['words-and-expressions-2', undefined],
   ]);
   assert.deepEqual(getUnitMarks('hindi-course-b'), [
     ['unseen-comprehension', 14],
@@ -148,6 +232,213 @@ test('Mathematics and Science map every existing platform chapter', () => {
     'magnetic-effects-of-electric-current',
     'our-environment',
   ]);
+});
+
+test('core curriculum topics are explicit official entries with topic-level platform evidence', () => {
+  for (const slug of [
+    'mathematics-standard',
+    'science',
+    'social-science',
+    'english-language-and-literature',
+    'hindi-course-b',
+  ]) {
+    const subject = getCurriculumSubject(slug);
+
+    assert.ok(subject);
+
+    const topics = subject.units.flatMap((unit) =>
+      unit.chapters.flatMap((chapter) => chapter.topics),
+    );
+
+    assert.ok(topics.length > subject.units.length, slug);
+    assert.equal(
+      topics.some((topic) => topic.id.endsWith('-coverage')),
+      false,
+      slug,
+    );
+
+    for (const topic of topics.filter((candidate) => candidate.scope === 'board-exam')) {
+      assert.ok(topic.minimumReviewedQuestionCount >= 3, topic.id);
+      assert.ok(topic.requiredQuestionTypes.length > 0, topic.id);
+    }
+  }
+});
+
+test('known stale Mathematics content is excluded from the 2026-27 board scope', () => {
+  assert.equal(
+    getTopic('mathematics-standard', 'real-numbers-euclid-division-algorithm').scope,
+    'excluded',
+  );
+  assert.equal(
+    getTopic('mathematics-standard', 'quadratic-equations-completing-square').scope,
+    'excluded',
+  );
+  assert.equal(
+    getTopic('mathematics-standard', 'coordinate-geometry-area-of-triangle').scope,
+    'excluded',
+  );
+});
+
+test('known formative Science content is internal-only and never board-exam coverage', () => {
+  for (const topicId of [
+    'periodic-classification-of-elements',
+    'evolution',
+    'electric-motor',
+    'electromagnetic-induction',
+    'electric-generator',
+  ]) {
+    assert.equal(getTopic('science', topicId).scope, 'internal-only', topicId);
+  }
+
+  assert.equal(getTopic('science', 'heredity').scope, 'internal-only');
+  assert.equal(
+    getTopic('science', 'domestic-electric-circuits').scope,
+    'board-exam',
+  );
+});
+
+test('HPE uses the official internal strands and exact assessment weighting', () => {
+  const subject = getCurriculumSubject('health-and-physical-education');
+
+  assert.ok(subject);
+  assert.equal(subject.assessmentMode, 'internal');
+  assert.equal(subject.examProfile, null);
+  assert.deepEqual(
+    subject.units.map((unit) => ({
+      id: unit.id,
+      marks: unit.marks,
+      title: unit.title,
+    })),
+    [
+      { id: 'games-and-sports', marks: 50, title: 'Games / Sports' },
+      { id: 'health-and-fitness', marks: 25, title: 'Health and Fitness' },
+      { id: 'sewa', marks: 25, title: 'SEWA' },
+      {
+        id: 'health-and-activity-card',
+        marks: 0,
+        title: 'Health and Activity Card',
+      },
+    ],
+  );
+  assert.deepEqual(
+    subject.units.map((unit) =>
+      unit.chapters.flatMap((chapter) =>
+        chapter.topics.map((topic) => topic.scope),
+      ),
+    ),
+    [
+      ['internal-only'],
+      [
+        'internal-only',
+        'supporting-resource',
+        'supporting-resource',
+        'supporting-resource',
+      ],
+      ['internal-only'],
+      ['supporting-resource'],
+    ],
+  );
+});
+
+test('Words and Expressions II has the exact prescribed, excluded, and missing unit set', () => {
+  const subject = getCurriculumSubject('english-language-and-literature');
+
+  assert.ok(subject);
+
+  const workbook = subject.units.find((unit) => unit.id === 'words-and-expressions-2');
+  assert.ok(workbook);
+
+  assert.deepEqual(
+    workbook.chapters.map((chapter) => ({
+      id: chapter.id,
+      scope: chapter.scope,
+      platformChapterSlugs: chapter.platformChapterSlugs,
+    })),
+    [
+      ['unit-1', 'supporting-resource', ['words-and-expressions-a-letter-to-god']],
+      [
+        'unit-2',
+        'supporting-resource',
+        ['words-and-expressions-nelson-mandela-long-walk-to-freedom'],
+      ],
+      [
+        'unit-3',
+        'supporting-resource',
+        ['words-and-expressions-two-stories-about-flying'],
+      ],
+      [
+        'unit-4',
+        'supporting-resource',
+        ['words-and-expressions-from-the-diary-of-anne-frank'],
+      ],
+      ['unit-5', 'excluded', ['words-and-expressions-glimpses-of-india']],
+      ['unit-6', 'excluded', ['words-and-expressions-mijbil-the-otter']],
+      [
+        'unit-7',
+        'supporting-resource',
+        ['words-and-expressions-madam-rides-the-bus'],
+      ],
+      [
+        'unit-8',
+        'supporting-resource',
+        ['words-and-expressions-the-sermon-at-benares'],
+      ],
+      ['unit-9', 'supporting-resource', ['words-and-expressions-the-proposal']],
+      ['unit-10', 'supporting-resource', []],
+      ['unit-11', 'supporting-resource', []],
+    ].map(([id, scope, platformChapterSlugs]) => ({
+      id,
+      scope,
+      platformChapterSlugs,
+    })),
+  );
+  assert.deepEqual(subject.readinessBlockers, [
+    'Words and Expressions II Unit 10 has no platform content mapping.',
+    'Words and Expressions II Unit 11 has no platform content mapping.',
+    'Current 2026-27 English blueprint evidence has not been officially verified.',
+  ]);
+});
+
+test('prescribed-resource provenance is complete for current core sources', () => {
+  const expectedBookIds = {
+    'mathematics-standard': [
+      'ncert-mathematics-class-10',
+      'cbse-mathematics-laboratory-guidelines-class-10',
+      'ncert-mathematics-laboratory-manual-secondary',
+      'ncert-mathematics-exemplar-class-10',
+    ],
+    science: [
+      'ncert-science-class-10',
+      'cbse-assessment-of-practical-skills-science-class-10',
+      'ncert-laboratory-manual-science-class-10',
+      'ncert-science-exemplar-class-10',
+      'cbse-reading-material-science-class-10-2026-27',
+    ],
+    'social-science': [
+      'ncert-india-and-contemporary-world-2',
+      'ncert-contemporary-india-2',
+      'ncert-democratic-politics-2',
+      'ncert-understanding-economic-development',
+    ],
+    'english-language-and-literature': [
+      'first-flight',
+      'footprints-without-feet',
+      'words-and-expressions-2',
+    ],
+    'hindi-course-b': ['sparsh-part-2', 'sanchayan-part-2'],
+  } as const;
+
+  for (const [slug, bookIds] of Object.entries(expectedBookIds)) {
+    const subject = getCurriculumSubject(slug);
+
+    assert.ok(subject);
+    assert.deepEqual(
+      subject.books.map((book) => book.id),
+      bookIds,
+      slug,
+    );
+    assert.ok(subject.books.every((book) => subject.officialSourceIds.includes(book.sourceId)));
+  }
 });
 
 test('Social Science registers the exact complete chapter set', () => {
@@ -375,14 +666,20 @@ test('Social Science splits mixed board and project scope into exact topics', ()
       id: 'making-of-a-global-world',
       topics: [
         {
-          id: 'making-of-a-global-world-board-exam',
-          title: 'Pre-modern World to Conquest, Disease and Trade',
+          id: 'making-of-a-global-world-pre-modern-world',
+          title: 'The pre-modern world',
+          scope: 'board-exam',
+          requiredQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'source-based'],
+        },
+        {
+          id: 'making-of-a-global-world-conquest-disease-trade',
+          title: 'Conquest, disease and trade',
           scope: 'board-exam',
           requiredQuestionTypes: ['mcq', 'short-answer', 'long-answer', 'source-based'],
         },
         {
           id: 'making-of-a-global-world-interdisciplinary-project',
-          title: 'The Nineteenth Century to Globalisation Interdisciplinary Project',
+          title: 'The nineteenth century to globalisation interdisciplinary project',
           scope: 'project-only',
           requiredQuestionTypes: [],
         },
@@ -393,13 +690,13 @@ test('Social Science splits mixed board and project scope into exact topics', ()
       topics: [
         {
           id: 'lifelines-of-national-economy-map-skill',
-          title: 'Board Map Pointing',
+          title: 'Board map pointing',
           scope: 'board-exam',
           requiredQuestionTypes: ['map-skill'],
         },
         {
           id: 'lifelines-of-national-economy-interdisciplinary-project',
-          title: 'Interdisciplinary Project',
+          title: 'Interdisciplinary project',
           scope: 'project-only',
           requiredQuestionTypes: [],
         },
@@ -410,7 +707,7 @@ test('Social Science splits mixed board and project scope into exact topics', ()
       topics: [
         {
           id: 'globalisation-board-exam',
-          title: 'What is Globalisation and Factors Enabling Globalisation',
+          title: 'What is globalisation and factors enabling globalisation',
           scope: 'board-exam',
           requiredQuestionTypes: [
             'mcq',
@@ -422,7 +719,7 @@ test('Social Science splits mixed board and project scope into exact topics', ()
         },
         {
           id: 'globalisation-interdisciplinary-project',
-          title: 'Production, WTO, Chinese Toys, and Fair Globalisation Project',
+          title: 'Production across countries, WTO and the struggle for fair globalisation',
           scope: 'project-only',
           requiredQuestionTypes: [],
         },
@@ -431,12 +728,12 @@ test('Social Science splits mixed board and project scope into exact topics', ()
   ]);
 });
 
-test('English registers the exact complete domain and text set', () => {
+test('English registers the exact prescribed domain and literature text set', () => {
   const subject = getCurriculumSubject('english-language-and-literature');
 
   assert.ok(subject);
 
-  assert.deepEqual(getChapterRegistry('english-language-and-literature'), [
+  assert.deepEqual(getChapterRegistry('english-language-and-literature').slice(0, 3), [
     {
       id: 'reading',
       chapters: [

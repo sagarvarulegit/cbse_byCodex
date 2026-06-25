@@ -56,8 +56,12 @@ export const mathematicsBasic: CurriculumSubject = {
   subjectCode: '241',
   slug: 'mathematics-basic',
   title: 'Mathematics Basic',
+  status: 'future',
   visibleInCatalog: false,
-  activationBlockers: [],
+  readinessBlockers: [],
+  activationBlockers: [
+    'Activate Mathematics Basic only after its separate paper-generation and student-catalog readiness review is complete.',
+  ],
   examProfile: examProfile(SOURCE_ID, mathematicsBasicSectionRules),
   books: mathematicsStandard.books.map((book) => ({ ...book })),
   units: mathematicsStandard.units.map((curriculumUnit) => {
@@ -81,7 +85,9 @@ export const mathematicsBasic: CurriculumSubject = {
         platformChapterSlugs: [...curriculumChapter.platformChapterSlugs],
         topics: curriculumChapter.topics.map((topic) => ({
           ...topic,
-          platformTopicSlugs: [...topic.platformTopicSlugs],
+          platformContentRefs: topic.platformContentRefs.map((reference) => ({
+            ...reference,
+          })),
           requiredQuestionTypes: topic.requiredQuestionTypes.filter(
             (questionType) =>
               standardAllowed.has(questionType) && basicAllowed.has(questionType),

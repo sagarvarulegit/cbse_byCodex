@@ -7,8 +7,6 @@ import type {
   ExamProfile,
 } from '../../types';
 
-export const CLASS_10_CURRICULUM_SESSION = '2026-27';
-
 type ChapterDefinition = {
   id: string;
   title: string;
@@ -44,9 +42,12 @@ export function chapter({
           id: `${id}-coverage`,
           title,
           scope,
-          platformTopicSlugs: [],
+          platformContentRefs: platformChapterSlugs.map((chapterSlug) => ({
+            chapterSlug,
+            kind: 'chapter-pack' as const,
+          })),
           requiredQuestionTypes: scope === 'board-exam' ? questionTypes : [],
-          minimumReviewedQuestionCount: 0,
+          minimumReviewedQuestionCount: scope === 'board-exam' ? 3 : 0,
         },
       ],
   };
@@ -57,15 +58,49 @@ export function topic(
   title: string,
   scope: CurriculumScope,
   requiredQuestionTypes: BoardQuestionType[],
+  platformContentRefs: CurriculumTopic['platformContentRefs'] = [],
+  minimumReviewedQuestionCount = scope === 'board-exam' ? 3 : 0,
 ): CurriculumTopic {
   return {
     id,
     title,
     scope,
-    platformTopicSlugs: [],
+    platformContentRefs,
     requiredQuestionTypes,
-    minimumReviewedQuestionCount: 0,
+    minimumReviewedQuestionCount,
   };
+}
+
+export function chapterPackTopic(
+  chapterSlug: string,
+  id: string,
+  title: string,
+  scope: CurriculumScope,
+  requiredQuestionTypes: BoardQuestionType[],
+): CurriculumTopic {
+  return topic(id, title, scope, requiredQuestionTypes, [
+    {
+      chapterSlug,
+      kind: 'chapter-pack',
+    },
+  ]);
+}
+
+export function lessonTopic(
+  chapterSlug: string,
+  lessonSlug: string,
+  id: string,
+  title: string,
+  scope: CurriculumScope,
+  requiredQuestionTypes: BoardQuestionType[],
+): CurriculumTopic {
+  return topic(id, title, scope, requiredQuestionTypes, [
+    {
+      chapterSlug,
+      kind: 'lesson',
+      lessonSlug,
+    },
+  ]);
 }
 
 export function unit(
@@ -90,6 +125,14 @@ export function examProfile(
     marks: number;
     allowedQuestionTypes: BoardQuestionType[];
   }>,
+  blueprint:
+    | {
+        status: 'ready';
+      }
+    | {
+        status: 'blocked';
+        blockers: string[];
+      } = { status: 'ready' },
 ): ExamProfile {
   return {
     maximumMarks: 80,
@@ -97,6 +140,9 @@ export function examProfile(
     readingTimeMinutes: 15,
     sectionRules: sections,
     allowedMarkValues: [1, 2, 3, 4, 5, 6],
-    blueprintSourceIds: [sourceId],
+    blueprintStatus: blueprint.status,
+    blueprintBlockers:
+      blueprint.status === 'blocked' ? [...blueprint.blockers] : [],
+    blueprintSourceIds: blueprint.status === 'ready' ? [sourceId] : [],
   };
 }

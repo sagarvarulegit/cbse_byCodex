@@ -14,7 +14,12 @@ export type CurriculumValidationCode =
   | 'duplicate-chapter-id'
   | 'duplicate-topic-id'
   | 'missing-required-question-types'
+  | 'invalid-board-question-minimum'
   | 'unsupported-required-question-type'
+  | 'missing-blueprint-source'
+  | 'invalid-blueprint-source-type'
+  | 'invalid-blueprint-source-session'
+  | 'invalid-blueprint-source-role'
   | 'contradictory-platform-scope'
   | 'future-subject-visible'
   | 'invalid-basic-profile';
@@ -63,6 +68,7 @@ export function validateCurriculumSubject(
   issues.push(...getDuplicateChapterIssues(subject));
   issues.push(...getDuplicateTopicIssues(subject));
   issues.push(...getMissingRequiredQuestionTypeIssues(subject));
+  issues.push(...getInvalidBoardQuestionMinimumIssues(subject));
   issues.push(...getUnsupportedRequiredQuestionTypeIssues(subject));
   issues.push(...getContradictoryPlatformScopeIssues(subject));
 
@@ -133,13 +139,69 @@ function getMissingSourceIssues(subject: CurriculumSubject): CurriculumValidatio
   }
 
   for (const [index, sourceId] of subject.examProfile.blueprintSourceIds.entries()) {
-    if (getOfficialSource(sourceId) === undefined) {
+    const source = getOfficialSource(sourceId);
+
+    if (source === undefined) {
       issues.push({
         code: 'missing-source',
         message: `Unknown official source: ${sourceId}`,
         path: `examProfile.blueprintSourceIds[${index}]`,
       });
+      continue;
     }
+
+    const path = `examProfile.blueprintSourceIds[${index}]`;
+
+    if (!['curriculum', 'sample-paper', 'marking-scheme'].includes(source.sourceType)) {
+      issues.push({
+        code: 'invalid-blueprint-source-type',
+        message: `Source ${sourceId} has type ${source.sourceType}, which cannot drive a current blueprint.`,
+        path,
+      });
+      continue;
+    }
+
+    if (source.academicSession !== subject.academicSession) {
+      issues.push({
+        code: 'invalid-blueprint-source-session',
+        message: `Source ${sourceId} belongs to ${source.academicSession}, not ${subject.academicSession}.`,
+        path,
+      });
+      continue;
+    }
+
+    if (
+      source.mayDriveCurrentBlueprint !== true ||
+      !source.subjectCodes.some(
+        (subjectCode) =>
+          subjectCode === 'ALL' || subjectCode === subject.subjectCode,
+      )
+    ) {
+      issues.push({
+        code: 'invalid-blueprint-source-role',
+        message: `Source ${sourceId} is not eligible to drive this subject's current blueprint.`,
+        path,
+      });
+    }
+  }
+
+  const hasReadyBlueprint =
+    subject.examProfile.blueprintStatus === 'ready' &&
+    subject.examProfile.blueprintSourceIds.length > 0;
+  const hasBlockedBlueprint =
+    subject.examProfile.blueprintStatus === 'blocked' &&
+    subject.examProfile.blueprintSourceIds.length === 0 &&
+    subject.examProfile.blueprintBlockers.some(
+      (blocker) => blocker.trim().length > 0,
+    );
+
+  if (!hasReadyBlueprint && !hasBlockedBlueprint) {
+    issues.push({
+      code: 'missing-blueprint-source',
+      message:
+        'Blueprint readiness must have eligible current source IDs or an explicit blocked-state reason.',
+      path: 'examProfile.blueprintSourceIds',
+    });
   }
 
   return issues;
@@ -230,6 +292,32 @@ function getMissingRequiredQuestionTypeIssues(
             code: 'missing-required-question-types',
             message: 'Board-exam topics must declare at least one required question type.',
             path: `units[${unitIndex}].chapters[${chapterIndex}].topics[${topicIndex}].requiredQuestionTypes`,
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
+function getInvalidBoardQuestionMinimumIssues(
+  subject: CurriculumSubject,
+): CurriculumValidationIssue[] {
+  const issues: CurriculumValidationIssue[] = [];
+
+  for (const [unitIndex, unit] of subject.units.entries()) {
+    for (const [chapterIndex, chapter] of unit.chapters.entries()) {
+      for (const [topicIndex, topic] of chapter.topics.entries()) {
+        if (
+          topic.scope === 'board-exam' &&
+          topic.minimumReviewedQuestionCount <= 0
+        ) {
+          issues.push({
+            code: 'invalid-board-question-minimum',
+            message:
+              'Board-exam topics require a positive reviewed-question minimum.',
+            path: `units[${unitIndex}].chapters[${chapterIndex}].topics[${topicIndex}].minimumReviewedQuestionCount`,
           });
         }
       }

@@ -19,6 +19,12 @@ export type OfficialSourceType =
   | 'map-list'
   | 'circular';
 
+export type OfficialSourceRole =
+  | 'current-curriculum'
+  | 'current-curriculum-and-blueprint'
+  | 'future-curriculum'
+  | 'historical-comparison';
+
 export type BoardQuestionType =
   | 'mcq'
   | 'assertion-reason'
@@ -41,11 +47,15 @@ export type BoardQuestionType =
 export type OfficialSource = {
   id: string;
   sourceType: OfficialSourceType;
+  role: OfficialSourceRole;
   title: string;
   academicSession: string;
+  subjectCodes: string[];
   url: string;
   publishedBy: 'CBSE' | 'NCERT';
   verifiedOn: string;
+  mayDriveCurrentCurriculum: boolean;
+  mayDriveCurrentBlueprint: boolean;
   notes?: string;
 };
 
@@ -64,14 +74,27 @@ export type ExamProfile = {
   readingTimeMinutes: number;
   sectionRules: ExamSectionRule[];
   allowedMarkValues: number[];
+  blueprintStatus: 'ready' | 'blocked';
+  blueprintBlockers: string[];
   blueprintSourceIds: string[];
 };
+
+export type PlatformContentRef =
+  | {
+      kind: 'chapter-pack';
+      chapterSlug: string;
+    }
+  | {
+      kind: 'lesson';
+      chapterSlug: string;
+      lessonSlug: string;
+    };
 
 export type CurriculumTopic = {
   id: string;
   title: string;
   scope: CurriculumScope;
-  platformTopicSlugs: string[];
+  platformContentRefs: PlatformContentRef[];
   requiredQuestionTypes: BoardQuestionType[];
   minimumReviewedQuestionCount: number;
 };
@@ -115,4 +138,5 @@ export type CurriculumSubject = {
   units: CurriculumUnit[];
   officialSourceIds: string[];
   activationBlockers: string[];
+  readinessBlockers: string[];
 };

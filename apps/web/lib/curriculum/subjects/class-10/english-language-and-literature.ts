@@ -1,8 +1,14 @@
-import type { CurriculumSubject } from '../../types';
+import type {
+  BoardQuestionType,
+  CurriculumScope,
+  CurriculumSubject,
+} from '../../types';
+import { CLASS_10_2026_27_SESSION } from '../../sessions/2026-27';
 import {
-  CLASS_10_CURRICULUM_SESSION,
   chapter,
+  chapterPackTopic,
   examProfile,
+  topic,
   unit,
 } from './helpers';
 
@@ -49,9 +55,91 @@ const supplementary = [
   ['the-book-that-saved-the-earth', 'The Book that Saved the Earth', 'the-book-that-saved-the-earth'],
 ] as const;
 
+const workbook = [
+  ['unit-1', 'Words and Expressions II - Unit 1', 'supporting-resource', 'words-and-expressions-a-letter-to-god'],
+  [
+    'unit-2',
+    'Words and Expressions II - Unit 2',
+    'supporting-resource',
+    'words-and-expressions-nelson-mandela-long-walk-to-freedom',
+  ],
+  [
+    'unit-3',
+    'Words and Expressions II - Unit 3',
+    'supporting-resource',
+    'words-and-expressions-two-stories-about-flying',
+  ],
+  [
+    'unit-4',
+    'Words and Expressions II - Unit 4',
+    'supporting-resource',
+    'words-and-expressions-from-the-diary-of-anne-frank',
+  ],
+  ['unit-5', 'Words and Expressions II - Unit 5', 'excluded', 'words-and-expressions-glimpses-of-india'],
+  ['unit-6', 'Words and Expressions II - Unit 6', 'excluded', 'words-and-expressions-mijbil-the-otter'],
+  [
+    'unit-7',
+    'Words and Expressions II - Unit 7',
+    'supporting-resource',
+    'words-and-expressions-madam-rides-the-bus',
+  ],
+  [
+    'unit-8',
+    'Words and Expressions II - Unit 8',
+    'supporting-resource',
+    'words-and-expressions-the-sermon-at-benares',
+  ],
+  ['unit-9', 'Words and Expressions II - Unit 9', 'supporting-resource', 'words-and-expressions-the-proposal'],
+  ['unit-10', 'Words and Expressions II - Unit 10', 'supporting-resource', null],
+  ['unit-11', 'Words and Expressions II - Unit 11', 'supporting-resource', null],
+] as const satisfies readonly [
+  string,
+  string,
+  CurriculumScope,
+  string | null,
+][];
+
+function boardDomainTopic(
+  id: string,
+  title: string,
+  questionTypes: BoardQuestionType[],
+) {
+  return topic(id, title, 'board-exam', questionTypes);
+}
+
+function textChapter(
+  prefix: 'prose' | 'poem' | 'supplementary',
+  id: string,
+  title: string,
+  platformSlug: string | null,
+) {
+  const questionTypes: BoardQuestionType[] =
+    prefix === 'supplementary'
+      ? ['short-answer', 'long-answer']
+      : ['extract-based', 'short-answer', 'long-answer'];
+  const topicId = `${prefix}-${id}-official-text`;
+
+  return chapter({
+    id: `${prefix}-${id}`,
+    title,
+    platformChapterSlugs: platformSlug ? [platformSlug] : [],
+    topics: [
+      platformSlug
+        ? chapterPackTopic(
+            platformSlug,
+            topicId,
+            title,
+            'board-exam',
+            questionTypes,
+          )
+        : topic(topicId, title, 'board-exam', questionTypes),
+    ],
+  });
+}
+
 export const englishLanguageAndLiterature: CurriculumSubject = {
   classLevel: 10,
-  academicSession: CLASS_10_CURRICULUM_SESSION,
+  academicSession: CLASS_10_2026_27_SESSION,
   subjectCode: '184',
   slug: 'english-language-and-literature',
   title: 'English Language and Literature',
@@ -59,31 +147,45 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
   status: 'active',
   visibleInCatalog: true,
   activationBlockers: [],
-  examProfile: examProfile(SOURCE_ID, [
+  readinessBlockers: [
+    'Words and Expressions II Unit 10 has no platform content mapping.',
+    'Words and Expressions II Unit 11 has no platform content mapping.',
+    'Current 2026-27 English blueprint evidence has not been officially verified.',
+  ],
+  examProfile: examProfile(
+    SOURCE_ID,
+    [
+      {
+        id: 'reading',
+        title: 'Reading',
+        marks: 20,
+        allowedQuestionTypes: [
+          'mcq',
+          'short-answer',
+          'source-based',
+          'data-interpretation',
+        ],
+      },
+      {
+        id: 'writing-and-grammar',
+        title: 'Writing Skills and Grammar',
+        marks: 20,
+        allowedQuestionTypes: ['grammar', 'creative-writing', 'data-interpretation'],
+      },
+      {
+        id: 'literature',
+        title: 'Language through Literature',
+        marks: 40,
+        allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer'],
+      },
+    ],
     {
-      id: 'reading',
-      title: 'Reading',
-      marks: 20,
-      allowedQuestionTypes: [
-        'mcq',
-        'short-answer',
-        'source-based',
-        'data-interpretation',
+      status: 'blocked',
+      blockers: [
+        'The current curriculum PDF embeds section-wise weightage labelled 2025-26.',
       ],
     },
-    {
-      id: 'writing-and-grammar',
-      title: 'Writing Skills and Grammar',
-      marks: 20,
-      allowedQuestionTypes: ['grammar', 'creative-writing', 'data-interpretation'],
-    },
-    {
-      id: 'literature',
-      title: 'Language through Literature',
-      marks: 40,
-      allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer'],
-    },
-  ]),
+  ),
   books: [
     {
       id: 'first-flight',
@@ -112,57 +214,102 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
       chapter({
         id: 'discursive-passage',
         title: 'Discursive Passage',
-        questionTypes: ['mcq', 'short-answer', 'source-based'],
+        topics: [
+          boardDomainTopic(
+            'reading-discursive-passage',
+            'Discursive passage of 400-450 words',
+            ['mcq', 'short-answer', 'source-based'],
+          ),
+        ],
       }),
       chapter({
         id: 'case-based-factual-passage',
         title: 'Case-based Factual Passage',
-        questionTypes: ['mcq', 'short-answer', 'source-based', 'data-interpretation'],
+        topics: [
+          boardDomainTopic(
+            'reading-case-based-factual-passage',
+            'Case-based factual passage with visual or statistical input',
+            ['mcq', 'short-answer', 'source-based', 'data-interpretation'],
+          ),
+        ],
       }),
     ]),
     unit('writing-and-grammar', 'Writing and Grammar', 20, [
       chapter({
         id: 'grammar',
         title: 'Grammar',
-        questionTypes: ['grammar'],
+        topics: [
+          boardDomainTopic('grammar-determiners', 'Determiners', ['grammar']),
+          boardDomainTopic('grammar-tenses', 'Tenses', ['grammar']),
+          boardDomainTopic('grammar-modals', 'Modals', ['grammar']),
+          boardDomainTopic(
+            'grammar-subject-verb-concord',
+            'Subject-verb concord',
+            ['grammar'],
+          ),
+          boardDomainTopic(
+            'grammar-reported-speech',
+            'Reported speech: commands, requests, statements and questions',
+            ['grammar'],
+          ),
+        ],
       }),
       chapter({
         id: 'formal-letter',
         title: 'Formal Letter',
-        questionTypes: ['creative-writing'],
+        topics: [
+          boardDomainTopic(
+            'writing-formal-letter',
+            'Formal letter based on a given situation',
+            ['creative-writing'],
+          ),
+        ],
       }),
       chapter({
         id: 'analytical-paragraph',
         title: 'Analytical Paragraph',
-        questionTypes: ['creative-writing', 'data-interpretation'],
+        topics: [
+          boardDomainTopic(
+            'writing-analytical-paragraph',
+            'Analytical paragraph from map, chart, graph or cues',
+            ['creative-writing', 'data-interpretation'],
+          ),
+        ],
       }),
     ]),
     unit('literature', 'Literature', 40, [
       ...prose.map(([id, title, platformSlug]) =>
-        chapter({
-          id: `prose-${id}`,
-          title,
-          platformChapterSlugs: [platformSlug],
-          questionTypes: ['extract-based', 'short-answer', 'long-answer'],
-        }),
+        textChapter('prose', id, title, platformSlug),
       ),
-      ...poems.map(([id, title]) =>
-        chapter({
-          id: `poem-${id}`,
-          title,
-          platformChapterSlugs: [],
-          questionTypes: ['extract-based', 'short-answer', 'long-answer'],
-        }),
-      ),
+      ...poems.map(([id, title]) => textChapter('poem', id, title, null)),
       ...supplementary.map(([id, title, platformSlug]) =>
-        chapter({
-          id: `supplementary-${id}`,
-          title,
-          platformChapterSlugs: [platformSlug],
-          questionTypes: ['short-answer', 'long-answer'],
-        }),
+        textChapter('supplementary', id, title, platformSlug),
       ),
     ]),
+    unit(
+      'words-and-expressions-2',
+      'Words and Expressions - II',
+      undefined,
+      workbook.map(([id, title, scope, platformSlug]) =>
+        chapter({
+          id,
+          title,
+          scope,
+          platformChapterSlugs: platformSlug ? [platformSlug] : [],
+          topics: [
+            platformSlug
+              ? chapterPackTopic(
+                  platformSlug,
+                  `words-and-expressions-${id}`,
+                  title,
+                  scope,
+                  [],
+                )
+              : topic(`words-and-expressions-${id}`, title, scope, []),
+          ],
+        }),
+      ),
+    ),
   ],
   officialSourceIds: [SOURCE_ID],
 };

@@ -130,8 +130,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Solve quadratic equations using factorization, completing the square, and quadratic formula.',
-    topics: ['Factorization method', 'Quadratic formula', 'Nature of roots'],
+    summary: 'Solve quadratic equations using factorization and the quadratic formula; completing the square remains available as support-only material.',
+    topics: ['Factorization method', 'Quadratic formula', 'Nature of roots', 'Completing the square (support only)'],
     lessons: [],
   },
   'arithmetic-progressions': {
@@ -160,8 +160,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Find distance between points, section formula, and area of triangles on a Cartesian plane.',
-    topics: ['Distance formula', 'Section formula', 'Area of triangle'],
+    summary: 'Find distance between points and use the internal section formula; coordinate-triangle area remains support-only material.',
+    topics: ['Distance formula', 'Section formula', 'Area of triangle (support only)'],
     lessons: [],
   },
   'introduction-to-trigonometry': {
@@ -399,8 +399,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Magnetic field lines, solenoid, electromagnetic induction, motor, and generator.',
-    topics: ['Solenoid magnetic field', 'Electromagnetic induction', 'Domestic electric circuits'],
+    summary: 'Study magnetic fields, force on conductors, AC/DC, and domestic circuits; motor, induction, and generator content is formative-only.',
+    topics: ['Solenoid magnetic field', 'Domestic electric circuits', 'Motor and induction (formative only)'],
     lessons: [],
   },
   'our-environment': {
@@ -1056,16 +1056,18 @@ export function getSubjectEntries(subjectSlug: string) {
 
 export function getCurriculumContentEvidence(): CurriculumContentEvidence {
   const chapterPacks: CurriculumContentEvidence['chapterPacks'] = {};
-  const availableLessonCounts: CurriculumContentEvidence['availableLessonCounts'] = {};
+  const availableLessonSlugs: CurriculumContentEvidence['availableLessonSlugs'] = {};
 
   for (const [slug, chapter] of getChapterEntries()) {
     chapterPacks[slug] = hasChapterPack(slug);
-    availableLessonCounts[slug] = getAvailableLessons(chapter).length;
+    availableLessonSlugs[slug] = getAvailableLessons(chapter).map(
+      (lesson) => lesson.slug,
+    );
   }
 
   return {
     chapterPacks,
-    availableLessonCounts,
+    availableLessonSlugs,
   };
 }
 

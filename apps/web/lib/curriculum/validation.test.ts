@@ -2,11 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
-  ACTIVE_CURRICULUM_SESSION,
   OFFICIAL_SOURCES,
-  SOURCE_VERIFIED_ON,
   getOfficialSource,
 } from './official-sources';
+import { CLASS_10_2026_27_SESSION } from './sessions/2026-27';
 import type { CurriculumSubject } from './types';
 import { validateCurriculumSubject } from './validation';
 
@@ -27,7 +26,9 @@ function createValidSubject(): CurriculumSubject {
     classLevel: 10,
     examProfile: {
       allowedMarkValues: [1, 2, 3, 5],
-      blueprintSourceIds: ['cbse-science-086-2026-27'],
+      blueprintBlockers: [],
+      blueprintSourceIds: ['cbse-mathematics-041-2026-27'],
+      blueprintStatus: 'ready',
       durationMinutes: 180,
       maximumMarks: 80,
       readingTimeMinutes: 15,
@@ -46,11 +47,12 @@ function createValidSubject(): CurriculumSubject {
         },
       ],
     },
-    officialSourceIds: ['cbse-science-086-2026-27'],
-    slug: 'science',
+    officialSourceIds: ['cbse-mathematics-041-2026-27'],
+    readinessBlockers: [],
+    slug: 'mathematics-standard',
     status: 'active',
-    subjectCode: '086',
-    title: 'Science',
+    subjectCode: '041',
+    title: 'Mathematics Standard',
     units: [
       {
         chapters: [
@@ -63,7 +65,12 @@ function createValidSubject(): CurriculumSubject {
               {
                 id: 'balancing-equations',
                 minimumReviewedQuestionCount: 1,
-                platformTopicSlugs: ['balancing-equations'],
+                platformContentRefs: [
+                  {
+                    chapterSlug: 'chemical-reactions-and-equations',
+                    kind: 'chapter-pack',
+                  },
+                ],
                 requiredQuestionTypes: ['mcq'],
                 scope: 'board-exam',
                 title: 'Balancing Equations',
@@ -79,8 +86,7 @@ function createValidSubject(): CurriculumSubject {
 }
 
 test('official sources register current and historical curriculum evidence', () => {
-  assert.equal(ACTIVE_CURRICULUM_SESSION, '2026-27');
-  assert.equal(SOURCE_VERIFIED_ON, '2026-06-24');
+  assert.equal(CLASS_10_2026_27_SESSION, '2026-27');
 
   assert.equal(
     getOfficialSource('cbse-curriculum-index-2026-27')?.academicSession,
@@ -89,6 +95,18 @@ test('official sources register current and historical curriculum evidence', () 
   assert.equal(getOfficialSource('cbse-sqp-index-2025-26')?.academicSession, '2025-26');
   assert.equal(getOfficialSource('cbse-board-papers-2026')?.sourceType, 'question-paper');
   assert.equal(getOfficialSource('cbse-hpe-2026-27')?.sourceType, 'curriculum');
+  assert.equal(
+    getOfficialSource('cbse-mathematics-041-2026-27')?.mayDriveCurrentBlueprint,
+    true,
+  );
+  assert.equal(
+    getOfficialSource('cbse-science-086-2026-27')?.mayDriveCurrentBlueprint,
+    false,
+  );
+  assert.equal(
+    getOfficialSource('cbse-sqp-index-2025-26')?.role,
+    'historical-comparison',
+  );
 });
 
 test('every official source record has required provenance metadata', () => {
@@ -98,7 +116,111 @@ test('every official source record has required provenance metadata', () => {
     assert.match(source.url, /^https:\/\//);
     assert.ok(source.publishedBy);
     assert.match(source.verifiedOn, isoDate);
+    assert.ok(source.role);
+    assert.equal(typeof source.mayDriveCurrentCurriculum, 'boolean');
+    assert.equal(typeof source.mayDriveCurrentBlueprint, 'boolean');
+    assert.ok(source.subjectCodes.length > 0);
   }
+});
+
+test('source verification dates remain record-specific historical evidence', () => {
+  const current = getOfficialSource('cbse-mathematics-041-2026-27');
+  const historical = getOfficialSource('cbse-sqp-index-2025-26');
+
+  assert.ok(current);
+  assert.ok(historical);
+  assert.equal(current.academicSession, '2026-27');
+  assert.equal(current.verifiedOn, '2026-06-24');
+  assert.equal(historical.academicSession, '2025-26');
+  assert.equal(historical.verifiedOn, '2026-06-24');
+  assert.notEqual(current, historical);
+});
+
+test('blueprint validation rejects source type, session, and role independently', () => {
+  const cases = [
+    {
+      code: 'invalid-blueprint-source-type',
+      sourceId: 'cbse-board-papers-2026',
+    },
+    {
+      code: 'invalid-blueprint-source-session',
+      sourceId: 'cbse-sqp-index-2025-26',
+    },
+    {
+      code: 'invalid-blueprint-source-role',
+      sourceId: 'cbse-curriculum-index-2026-27',
+    },
+    {
+      code: 'invalid-blueprint-source-role',
+      sourceId: 'cbse-science-086-2026-27',
+    },
+  ] as const;
+
+  for (const { code, sourceId } of cases) {
+    const subject: CurriculumSubject = {
+      ...createValidSubject(),
+      examProfile: {
+        ...createValidSubject().examProfile!,
+        blueprintSourceIds: [sourceId],
+      },
+    };
+
+    assert.deepEqual(
+      validateCurriculumSubject(subject)
+        .filter((issue) => issue.path.startsWith('examProfile.blueprintSourceIds'))
+        .map((issue) => issue.code),
+      [code],
+      sourceId,
+    );
+  }
+});
+
+test('blocked blueprint readiness is valid only with an explicit blocker and no source ids', () => {
+  const blockedSubject: CurriculumSubject = {
+    ...createValidSubject(),
+    examProfile: {
+      ...createValidSubject().examProfile!,
+      blueprintBlockers: [
+        'Current 2026-27 Science blueprint has not been officially verified.',
+      ],
+      blueprintSourceIds: [],
+      blueprintStatus: 'blocked',
+    },
+  };
+
+  assert.deepEqual(validateCurriculumSubject(blockedSubject), []);
+
+  assert.deepEqual(
+    validateCurriculumSubject({
+      ...blockedSubject,
+      examProfile: {
+        ...blockedSubject.examProfile!,
+        blueprintBlockers: [],
+      },
+    }).map((issue) => issue.code),
+    ['missing-blueprint-source'],
+  );
+
+  assert.deepEqual(
+    validateCurriculumSubject({
+      ...createValidSubject(),
+      examProfile: {
+        ...createValidSubject().examProfile!,
+        blueprintSourceIds: [],
+      },
+    }).map((issue) => issue.code),
+    ['missing-blueprint-source'],
+  );
+});
+
+test('board topics require a meaningful reviewed-question minimum', () => {
+  const subject = createValidSubject();
+  subject.units[0]!.chapters[0]!.topics[0]!.minimumReviewedQuestionCount = 0;
+
+  assert.deepEqual(
+    validateCurriculumSubject(subject).map((issue) => issue.code),
+    ['invalid-board-question-minimum'],
+  );
 });
 
 test('validateCurriculumSubject reports missing source, missing exam profile, and invalid basic profile in code order', () => {
@@ -182,7 +304,12 @@ test('validateCurriculumSubject reports mark totals, duplicate ids, question-typ
               {
                 id: 'duplicate-topic',
                 minimumReviewedQuestionCount: 1,
-                platformTopicSlugs: ['shared-topic'],
+                platformContentRefs: [
+                  {
+                    chapterSlug: 'shared-chapter-pack',
+                    kind: 'chapter-pack',
+                  },
+                ],
                 requiredQuestionTypes: [],
                 scope: 'board-exam',
                 title: 'Topic One',
@@ -190,7 +317,7 @@ test('validateCurriculumSubject reports mark totals, duplicate ids, question-typ
               {
                 id: 'unsupported-topic',
                 minimumReviewedQuestionCount: 1,
-                platformTopicSlugs: [],
+                platformContentRefs: [],
                 requiredQuestionTypes: ['diagram'],
                 scope: 'board-exam',
                 title: 'Unsupported Topic',
@@ -212,7 +339,12 @@ test('validateCurriculumSubject reports mark totals, duplicate ids, question-typ
               {
                 id: 'duplicate-topic',
                 minimumReviewedQuestionCount: 0,
-                platformTopicSlugs: ['shared-topic-two'],
+                platformContentRefs: [
+                  {
+                    chapterSlug: 'shared-chapter-pack',
+                    kind: 'chapter-pack',
+                  },
+                ],
                 requiredQuestionTypes: [],
                 scope: 'internal-only',
                 title: 'Topic Two',
@@ -274,7 +406,7 @@ test('validateCurriculumSubject reports unsupported board question types after m
               {
                 id: 'missing-types',
                 minimumReviewedQuestionCount: 1,
-                platformTopicSlugs: [],
+                platformContentRefs: [],
                 requiredQuestionTypes: [],
                 scope: 'board-exam',
                 title: 'Missing Types',
@@ -282,7 +414,7 @@ test('validateCurriculumSubject reports unsupported board question types after m
               {
                 id: 'unsupported-types',
                 minimumReviewedQuestionCount: 1,
-                platformTopicSlugs: [],
+                platformContentRefs: [],
                 requiredQuestionTypes: ['mcq', 'case-study', 'diagram'],
                 scope: 'board-exam',
                 title: 'Unsupported Types',

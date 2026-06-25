@@ -6,15 +6,18 @@ import {
   getChapter,
   getChapterEntries,
   getLessonContent,
+  type ChapterContent,
   type MarkdownBlock,
 } from './course-content';
 import { getCurriculumSubject, getVisibleCurriculumSubjects } from './curriculum/registry';
 import {
   buildSubjectCatalog,
+  buildCurriculumChapterCards,
   getCurriculumSubjectChapterEntries,
   resolveCurriculumSubjectSlug,
   SUBJECT_ROUTE_ALIASES,
 } from './curriculum/subject-navigation';
+import type { CurriculumSubject } from './curriculum/types';
 
 const chapterSlug = 'chemical-reactions-and-equations';
 
@@ -233,4 +236,120 @@ test('subject catalog does not let excluded Social Science duplicate packs infla
   assert.ok(socialScienceCatalogItem);
   assert.equal(socialScienceCatalogItem.chapterCount, 22);
   assert.equal(socialScienceCatalogItem.liveCount, 17);
+});
+
+test('subject catalog live status uses available lessons rather than unpublished lesson metadata', () => {
+  const subject: CurriculumSubject = {
+    activationBlockers: [],
+    academicSession: '2026-27',
+    assessmentMode: 'board',
+    books: [],
+    classLevel: 10,
+    examProfile: {
+      allowedMarkValues: [1],
+      blueprintBlockers: [],
+      blueprintSourceIds: ['fixture'],
+      blueprintStatus: 'ready',
+      durationMinutes: 180,
+      maximumMarks: 80,
+      readingTimeMinutes: 15,
+      sectionRules: [],
+    },
+    officialSourceIds: ['fixture'],
+    readinessBlockers: [],
+    slug: 'fixture-subject',
+    status: 'active',
+    subjectCode: '999',
+    title: 'Fixture Subject',
+    units: [
+      {
+        chapters: [
+          {
+            id: 'unpublished-chapter',
+            platformChapterSlugs: ['unpublished-chapter'],
+            scope: 'board-exam',
+            title: 'Unpublished Chapter',
+            topics: [
+              {
+                id: 'official-topic',
+                minimumReviewedQuestionCount: 3,
+                platformContentRefs: [],
+                requiredQuestionTypes: ['mcq'],
+                scope: 'board-exam',
+                title: 'Official Topic',
+              },
+            ],
+          },
+        ],
+        id: 'unit',
+        title: 'Unit',
+      },
+    ],
+  };
+  const chapter: ChapterContent = {
+    lessons: [
+      {
+        fileName: '',
+        free: false,
+        minutes: 10,
+        preview: 'Not published',
+        slug: 'unpublished',
+        title: 'Unpublished',
+        type: 'Draft',
+      },
+    ],
+    mastery: 'Coming soon',
+    progress: 0,
+    streakTask: 'Coming soon',
+    subject: 'Fixture',
+    summary: 'Fixture',
+    title: 'Unpublished Chapter',
+  };
+
+  assert.equal(
+    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.liveCount,
+    0,
+  );
+
+  chapter.lessons[0]!.fileName = 'published.md';
+
+  assert.equal(
+    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.liveCount,
+    1,
+  );
+});
+
+test('subject chapter cards expose official registry topics and scopes, not legacy topic metadata', () => {
+  const science = getCurriculumSubject('science');
+
+  assert.ok(science);
+
+  const cards = buildCurriculumChapterCards(science, getChapterEntries());
+  const magneticEffects = cards.find(
+    (card) => card.chapterSlug === 'magnetic-effects-of-electric-current',
+  );
+
+  assert.ok(magneticEffects);
+  assert.equal(magneticEffects.curriculumScope, 'board-exam');
+  assert.equal(
+    magneticEffects.curriculumTopics.some(
+      (topic) =>
+        topic.id === 'electric-motor' && topic.scope === 'internal-only',
+    ),
+    true,
+  );
+  assert.equal(
+    magneticEffects.curriculumTopics.some(
+      (topic) =>
+        topic.id === 'domestic-electric-circuits' &&
+        topic.scope === 'board-exam',
+    ),
+    true,
+  );
+  assert.equal(
+    magneticEffects.curriculumTopics.some(
+      (topic) => topic.id === 'electromagnetic-induction',
+    ),
+    true,
+  );
 });

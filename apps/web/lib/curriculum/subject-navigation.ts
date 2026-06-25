@@ -1,5 +1,13 @@
-import { hasChapterPack, type ChapterContent } from '../course-content';
-import type { AssessmentMode, CurriculumSubject } from './types';
+import {
+  getAvailableLessons,
+  hasChapterPack,
+  type ChapterContent,
+} from '../course-content';
+import type {
+  AssessmentMode,
+  CurriculumScope,
+  CurriculumSubject,
+} from './types';
 
 type ChapterEntry = ReturnType<typeof import('../course-content').getChapterEntries>[number];
 
@@ -13,6 +21,19 @@ export type SubjectCatalogItem = {
   liveCount: number;
   accent: 'blue' | 'green';
   description: string;
+};
+
+export type CurriculumChapterCard = {
+  chapterSlug: string;
+  content: ChapterContent;
+  curriculumChapterId: string;
+  curriculumTitle: string;
+  curriculumScope: CurriculumScope;
+  curriculumTopics: Array<{
+    id: string;
+    title: string;
+    scope: CurriculumScope;
+  }>;
 };
 
 export const SUBJECT_ROUTE_ALIASES: Record<string, string> = {
@@ -107,6 +128,51 @@ export function buildSubjectCatalog(
   });
 }
 
+export function buildCurriculumChapterCards(
+  subject: CurriculumSubject,
+  chapterEntries: ChapterEntry[],
+): CurriculumChapterCard[] {
+  const chapterBySlug = new Map(chapterEntries);
+  const cards: CurriculumChapterCard[] = [];
+  const seenSlugs = new Set<string>();
+
+  for (const unit of subject.units) {
+    for (const curriculumChapter of unit.chapters) {
+      if (curriculumChapter.scope === 'excluded') {
+        continue;
+      }
+
+      for (const chapterSlug of curriculumChapter.platformChapterSlugs) {
+        if (seenSlugs.has(chapterSlug)) {
+          continue;
+        }
+
+        const content = chapterBySlug.get(chapterSlug);
+
+        if (!content) {
+          continue;
+        }
+
+        seenSlugs.add(chapterSlug);
+        cards.push({
+          chapterSlug,
+          content,
+          curriculumChapterId: curriculumChapter.id,
+          curriculumTitle: curriculumChapter.title,
+          curriculumScope: curriculumChapter.scope,
+          curriculumTopics: curriculumChapter.topics.map((topic) => ({
+            id: topic.id,
+            title: topic.title,
+            scope: topic.scope,
+          })),
+        });
+      }
+    }
+  }
+
+  return cards;
+}
+
 function getCurriculumSubjectChapterSlugs(subject: CurriculumSubject): string[] {
   return subject.units.flatMap((unit) =>
     unit.chapters.flatMap((chapter) =>
@@ -116,5 +182,5 @@ function getCurriculumSubjectChapterSlugs(subject: CurriculumSubject): string[] 
 }
 
 function isLiveChapterEntry([slug, chapter]: [string, ChapterContent]): boolean {
-  return chapter.lessons.length > 0 || hasChapterPack(slug);
+  return getAvailableLessons(chapter).length > 0 || hasChapterPack(slug);
 }

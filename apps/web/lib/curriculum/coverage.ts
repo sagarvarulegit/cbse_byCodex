@@ -1,26 +1,14 @@
-import type { BoardQuestionType, CurriculumChapter, CurriculumSubject, CurriculumTopic } from './types';
-
-const STRUCTURED_QUESTION_TYPES: ReadonlySet<BoardQuestionType> = new Set([
-  'very-short-answer',
-  'short-answer',
-  'long-answer',
-  'case-study',
-  'source-based',
-  'extract-based',
-  'numerical',
-  'proof',
-  'construction',
-  'diagram',
-  'map-skill',
-  'picture-interpretation',
-  'data-interpretation',
-  'grammar',
-  'creative-writing',
-]);
+import { BOARD_QUESTION_TYPE_METADATA } from './question-types';
+import type {
+  BoardQuestionType,
+  CurriculumSubject,
+  CurriculumTopic,
+  PlatformContentRef,
+} from './types';
 
 export type CurriculumContentEvidence = {
   chapterPacks: Record<string, boolean>;
-  availableLessonCounts: Record<string, number>;
+  availableLessonSlugs: Record<string, string[]>;
 };
 
 export type CoverageQuestionEvidence = {
@@ -57,10 +45,17 @@ export type CoverageEvidence = {
   studentPublication?: StudentPublicationEvidence;
 };
 
+export type CoverageDimensionStatus =
+  | 'complete'
+  | 'incomplete'
+  | 'not-configured'
+  | 'not-applicable';
+
 export type CoverageDimensionResult = {
   numerator: number;
   denominator: number;
-  percent: number;
+  percent: number | null;
+  status: CoverageDimensionStatus;
   blockers: string[];
 };
 
@@ -84,113 +79,79 @@ export function buildSubjectCoverage(
   subject: CurriculumSubject,
   evidence: CoverageEvidence,
 ): SubjectCoverageReport {
-  const boardChapters = getBoardExamChapters(subject);
-  const boardTopics = boardChapters.flatMap((chapter) => getBoardExamTopics(chapter));
+  const assessedTopics = getAssessedTopics(subject);
   const questions = evidence.questionCoverage?.questions ?? [];
 
-  const curriculum = createResult(
-    boardTopics.length,
-    boardTopics.length,
-    getMissingPlatformTopicBlockers(boardTopics),
+  const mappedTopics = assessedTopics.filter(
+    (topic) => topic.platformContentRefs.length > 0,
+  );
+  const curriculum = createConfiguredResult(
+    mappedTopics.length,
+    assessedTopics.length,
+    assessedTopics
+      .filter((topic) => topic.platformContentRefs.length === 0)
+      .map((topic) => `Missing platform mapping for ${topic.id}`),
+    'No assessed curriculum topics are configured.',
   );
 
-  const mappedBoardChapters = boardChapters.filter((chapter) => chapter.platformChapterSlugs.length > 0);
-  const chapterPackHits = mappedBoardChapters.filter((chapter) =>
-    chapter.platformChapterSlugs.some((slug) => evidence.content.chapterPacks[slug] === true),
-  );
-  const chapterPack = createResult(
-    chapterPackHits.length,
-    mappedBoardChapters.length,
-    [
-      ...getMissingPlatformChapterBlockers(boardChapters),
-      ...mappedBoardChapters
-        .filter((chapter) => !chapterPackHits.includes(chapter))
-        .map((chapter) => `Missing chapter pack for ${chapter.id}`),
-    ],
+  const chapterPack = buildContentEvidenceDimension(
+    assessedTopics,
+    'chapter-pack',
+    (reference) => evidence.content.chapterPacks[reference.chapterSlug] === true,
+    (topic) => `Missing chapter-pack evidence for ${topic.id}`,
+    'No chapter-pack topic mappings are configured.',
   );
 
-  const lessonWiseHits = mappedBoardChapters.filter((chapter) =>
-    chapter.platformChapterSlugs.some((slug) => (evidence.content.availableLessonCounts[slug] ?? 0) > 0),
-  );
-  const lessonWise = createResult(
-    lessonWiseHits.length,
-    mappedBoardChapters.length,
-    mappedBoardChapters
-      .filter((chapter) => !lessonWiseHits.includes(chapter))
-      .map((chapter) => `No available lessons for ${chapter.id}`),
-  );
-
-  const questionBankTotals = boardTopics.reduce(
-    (totals, topic) => {
-      const minimum = topic.minimumReviewedQuestionCount;
-      const reviewedCount = getReviewedCountForTopic(topic.id, evidence.questionCoverage, questions);
-
-      totals.numerator += Math.min(reviewedCount, minimum);
-      totals.denominator += minimum;
-
-      if (reviewedCount < minimum) {
-        totals.blockers.push(`Need ${minimum - reviewedCount} more reviewed questions for ${topic.id}`);
-      }
-
-      return totals;
-    },
-    { blockers: [] as string[], denominator: 0, numerator: 0 },
-  );
-  const questionBank = createResult(
-    questionBankTotals.numerator,
-    questionBankTotals.denominator,
-    questionBankTotals.blockers,
+  const lessonWise = buildContentEvidenceDimension(
+    assessedTopics,
+    'lesson',
+    (reference) =>
+      reference.kind === 'lesson' &&
+      (evidence.content.availableLessonSlugs[reference.chapterSlug] ?? []).includes(
+        reference.lessonSlug,
+      ),
+    (topic) => `Missing lesson evidence for ${topic.id}`,
+    'No lesson-level topic mappings are configured.',
   );
 
-  const questionTypeTotals = boardTopics.reduce(
-    (totals, topic) => {
-      for (const questionType of topic.requiredQuestionTypes) {
-        totals.denominator += 1;
+  const questionBank =
+    subject.assessmentMode !== 'board'
+      ? createNotApplicable()
+      : evidence.questionCoverage === undefined
+        ? createNotConfigured('Question-bank evidence is not configured.')
+        : buildQuestionBankDimension(
+            assessedTopics,
+            evidence.questionCoverage,
+            questions,
+          );
 
-        if (hasQuestionTypeCoverage(topic.id, questionType, questions)) {
-          totals.numerator += 1;
-          continue;
-        }
+  const questionType =
+    subject.assessmentMode !== 'board'
+      ? createNotApplicable()
+      : evidence.questionCoverage === undefined
+        ? createNotConfigured('Question-type evidence is not configured.')
+        : buildQuestionTypeDimension(assessedTopics, questions);
 
-        totals.blockers.push(`Missing ${questionType} questions for ${topic.id}`);
-      }
+  const reviewedAnswer =
+    subject.assessmentMode !== 'board'
+      ? createNotApplicable()
+      : evidence.questionCoverage === undefined
+        ? createNotConfigured('Reviewed-answer evidence is not configured.')
+        : buildReviewedAnswerDimension(questions);
 
-      return totals;
-    },
-    { blockers: [] as string[], denominator: 0, numerator: 0 },
-  );
-  const questionType = createResult(
-    questionTypeTotals.numerator,
-    questionTypeTotals.denominator,
-    questionTypeTotals.blockers,
-  );
+  const paperGeneration =
+    subject.assessmentMode !== 'board'
+      ? createNotApplicable()
+      : evidence.paperGeneration === undefined ||
+          evidence.paperGeneration.validSeedIds.length === 0
+        ? createNotConfigured('Paper-generation evidence is not configured.')
+        : buildPaperGenerationDimension(evidence.paperGeneration);
 
-  const activeStructuredQuestions = questions.filter(
-    (question) => !question.retired && isStructuredQuestionType(question.questionType),
-  );
-  const reviewedValidQuestions = activeStructuredQuestions.filter(
-    (question) => question.reviewed && isValidQuestion(question),
-  );
-  const reviewedAnswer = createResult(
-    reviewedValidQuestions.length,
-    activeStructuredQuestions.length,
-    [],
-  );
-
-  const validSeedCount = Math.min(new Set(evidence.paperGeneration?.validSeedIds ?? []).size, 3);
-  const paperGeneration = createResult(
-    validSeedCount,
-    3,
-    validSeedCount >= 3 ? [] : [`Need ${3 - validSeedCount} more valid paper seeds`],
-  );
-
-  const publicationGates = evidence.studentPublication?.gates ?? [];
-  const passedPublicationGates = publicationGates.filter((gate) => gate.passed);
-  const studentPublication = createResult(
-    passedPublicationGates.length,
-    publicationGates.length,
-    publicationGates.filter((gate) => !gate.passed).map((gate) => `Publication gate failed: ${gate.id}`),
-  );
+  const studentPublication =
+    evidence.studentPublication === undefined ||
+    evidence.studentPublication.gates.length === 0
+      ? createNotConfigured('Student-publication evidence is not configured.')
+      : buildStudentPublicationDimension(evidence.studentPublication);
 
   const dimensions = {
     curriculum,
@@ -209,53 +170,191 @@ export function buildSubjectCoverage(
     dimensions,
     blockers: uniqueStrings([
       ...subject.activationBlockers,
-      ...curriculum.blockers,
-      ...chapterPack.blockers,
-      ...lessonWise.blockers,
-      ...questionBank.blockers,
-      ...questionType.blockers,
-      ...reviewedAnswer.blockers,
-      ...paperGeneration.blockers,
-      ...studentPublication.blockers,
+      ...subject.readinessBlockers,
+      ...Object.values(dimensions).flatMap((dimension) => dimension.blockers),
     ]),
   };
 }
 
-function getBoardExamChapters(subject: CurriculumSubject): CurriculumChapter[] {
+function getAssessedTopics(subject: CurriculumSubject): CurriculumTopic[] {
+  const scope =
+    subject.assessmentMode === 'internal' ? 'internal-only' : 'board-exam';
+
   return subject.units.flatMap((unit) =>
-    unit.chapters.filter((chapter) => chapter.scope === 'board-exam'),
+    unit.chapters.flatMap((chapter) =>
+      chapter.topics.filter((topic) => topic.scope === scope),
+    ),
   );
 }
 
-function getBoardExamTopics(chapter: CurriculumChapter): CurriculumTopic[] {
-  return chapter.topics.filter((topic) => topic.scope === 'board-exam');
+function buildContentEvidenceDimension(
+  topics: CurriculumTopic[],
+  kind: PlatformContentRef['kind'],
+  hasEvidence: (reference: PlatformContentRef) => boolean,
+  blockerForTopic: (topic: CurriculumTopic) => string,
+  notConfiguredMessage: string,
+): CoverageDimensionResult {
+  const configuredTopics = topics.filter((topic) =>
+    topic.platformContentRefs.some((reference) => reference.kind === kind),
+  );
+
+  if (configuredTopics.length === 0) {
+    return createNotConfigured(notConfiguredMessage);
+  }
+
+  const coveredTopics = configuredTopics.filter((topic) =>
+    topic.platformContentRefs
+      .filter((reference) => reference.kind === kind)
+      .some(hasEvidence),
+  );
+
+  return createConfiguredResult(
+    coveredTopics.length,
+    configuredTopics.length,
+    configuredTopics
+      .filter((topic) => !coveredTopics.includes(topic))
+      .map(blockerForTopic),
+  );
 }
 
-function getMissingPlatformTopicBlockers(topics: CurriculumTopic[]) {
-  return topics
-    .filter((topic) => topic.platformTopicSlugs.length === 0)
-    .map((topic) => `Missing platform mapping for ${topic.id}`);
+function buildQuestionBankDimension(
+  topics: CurriculumTopic[],
+  questionCoverage: QuestionCoverageEvidence,
+  questions: CoverageQuestionEvidence[],
+): CoverageDimensionResult {
+  const totals = topics.reduce(
+    (result, topic) => {
+      const minimum = topic.minimumReviewedQuestionCount;
+      const reviewedCount = getReviewedCountForTopic(
+        topic.id,
+        questionCoverage,
+        questions,
+      );
+
+      result.numerator += Math.min(reviewedCount, minimum);
+      result.denominator += minimum;
+
+      if (reviewedCount < minimum) {
+        result.blockers.push(
+          `Need ${minimum - reviewedCount} more reviewed questions for ${topic.id}`,
+        );
+      }
+
+      return result;
+    },
+    { blockers: [] as string[], denominator: 0, numerator: 0 },
+  );
+
+  return createConfiguredResult(
+    totals.numerator,
+    totals.denominator,
+    totals.blockers,
+    'No reviewed-question minima are configured.',
+  );
 }
 
-function getMissingPlatformChapterBlockers(chapters: CurriculumChapter[]) {
-  return chapters
-    .filter((chapter) => chapter.platformChapterSlugs.length === 0)
-    .map((chapter) => `Missing platform mapping for ${chapter.id}`);
+function buildQuestionTypeDimension(
+  topics: CurriculumTopic[],
+  questions: CoverageQuestionEvidence[],
+): CoverageDimensionResult {
+  const totals = topics.reduce(
+    (result, topic) => {
+      for (const questionType of topic.requiredQuestionTypes) {
+        result.denominator += 1;
+
+        if (hasQuestionTypeCoverage(topic.id, questionType, questions)) {
+          result.numerator += 1;
+        } else {
+          result.blockers.push(
+            `Missing ${questionType} questions for ${topic.id}`,
+          );
+        }
+      }
+
+      return result;
+    },
+    { blockers: [] as string[], denominator: 0, numerator: 0 },
+  );
+
+  return createConfiguredResult(
+    totals.numerator,
+    totals.denominator,
+    totals.blockers,
+    'No required question types are configured.',
+  );
+}
+
+function buildReviewedAnswerDimension(
+  questions: CoverageQuestionEvidence[],
+): CoverageDimensionResult {
+  const activeStructuredQuestions = questions.filter(
+    (question) =>
+      !question.retired &&
+      BOARD_QUESTION_TYPE_METADATA[question.questionType].hasStructuredAnswer,
+  );
+
+  if (activeStructuredQuestions.length === 0) {
+    return createNotConfigured(
+      'No active structured-answer questions are configured.',
+    );
+  }
+
+  const reviewedValidQuestions = activeStructuredQuestions.filter(
+    (question) => question.reviewed && isValidQuestion(question),
+  );
+
+  return createConfiguredResult(
+    reviewedValidQuestions.length,
+    activeStructuredQuestions.length,
+    [],
+  );
+}
+
+function buildPaperGenerationDimension(
+  evidence: PaperGenerationEvidence,
+): CoverageDimensionResult {
+  const validSeedCount = Math.min(new Set(evidence.validSeedIds).size, 3);
+
+  return createConfiguredResult(
+    validSeedCount,
+    3,
+    validSeedCount >= 3
+      ? []
+      : [`Need ${3 - validSeedCount} more valid paper seeds`],
+  );
+}
+
+function buildStudentPublicationDimension(
+  evidence: StudentPublicationEvidence,
+): CoverageDimensionResult {
+  const passedGates = evidence.gates.filter((gate) => gate.passed);
+
+  return createConfiguredResult(
+    passedGates.length,
+    evidence.gates.length,
+    evidence.gates
+      .filter((gate) => !gate.passed)
+      .map((gate) => `Publication gate failed: ${gate.id}`),
+  );
 }
 
 function getReviewedCountForTopic(
   topicId: string,
-  questionCoverage: QuestionCoverageEvidence | undefined,
+  questionCoverage: QuestionCoverageEvidence,
   questions: CoverageQuestionEvidence[],
 ) {
-  const explicitCount = questionCoverage?.reviewedCountByTopicId?.[topicId];
+  const explicitCount = questionCoverage.reviewedCountByTopicId?.[topicId];
 
   if (explicitCount !== undefined) {
     return explicitCount;
   }
 
   return questions.filter(
-    (question) => question.topicId === topicId && question.reviewed && isValidQuestion(question) && !question.retired,
+    (question) =>
+      question.topicId === topicId &&
+      question.reviewed &&
+      isValidQuestion(question) &&
+      !question.retired,
   ).length;
 }
 
@@ -277,20 +376,44 @@ function isValidQuestion(question: CoverageQuestionEvidence) {
   return question.valid !== false;
 }
 
-function isStructuredQuestionType(questionType: BoardQuestionType) {
-  return STRUCTURED_QUESTION_TYPES.has(questionType);
-}
-
-function createResult(
+function createConfiguredResult(
   numerator: number,
   denominator: number,
   blockers: string[],
+  notConfiguredMessage?: string,
 ): CoverageDimensionResult {
+  if (denominator === 0) {
+    return createNotConfigured(
+      notConfiguredMessage ?? 'This readiness dimension is not configured.',
+    );
+  }
+
   return {
     numerator,
     denominator,
-    percent: denominator === 0 ? 100 : Math.round((numerator / denominator) * 100),
+    percent: Math.round((numerator / denominator) * 100),
+    status: numerator >= denominator ? 'complete' : 'incomplete',
     blockers: uniqueStrings(blockers),
+  };
+}
+
+function createNotConfigured(message: string): CoverageDimensionResult {
+  return {
+    numerator: 0,
+    denominator: 0,
+    percent: null,
+    status: 'not-configured',
+    blockers: [message],
+  };
+}
+
+function createNotApplicable(): CoverageDimensionResult {
+  return {
+    numerator: 0,
+    denominator: 0,
+    percent: null,
+    status: 'not-applicable',
+    blockers: [],
   };
 }
 

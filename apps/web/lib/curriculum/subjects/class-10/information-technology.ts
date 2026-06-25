@@ -1,11 +1,13 @@
 import type { CurriculumSubject } from '../../types';
-import { CLASS_10_CURRICULUM_SESSION, chapter, unit } from './helpers';
+import { CLASS_10_2026_27_SESSION } from '../../sessions/2026-27';
+import { chapter, unit } from './helpers';
 
 const SOURCE_ID = 'cbse-it-402-2026-27';
 
 export const informationTechnology: CurriculumSubject = {
   classLevel: 10,
-  academicSession: CLASS_10_CURRICULUM_SESSION,
+  academicSession: CLASS_10_2026_27_SESSION,
+  readinessBlockers: [],
   subjectCode: '402',
   slug: 'information-technology',
   title: 'Information Technology',

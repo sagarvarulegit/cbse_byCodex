@@ -1,11 +1,15 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getChapterEntries, hasChapterPack } from '../../../lib/course-content';
+import {
+  getAvailableLessons,
+  getChapterEntries,
+  hasChapterPack,
+} from '../../../lib/course-content';
 import { requireStudentSession } from '../../../lib/auth';
 import { getCurriculumSubject } from '../../../lib/curriculum/registry';
 import {
   buildSubjectCatalog,
-  getCurriculumSubjectChapterEntries,
+  buildCurriculumChapterCards,
   resolveCurriculumSubjectSlug,
 } from '../../../lib/curriculum/subject-navigation';
 import { isPilotChapter } from '../../../lib/pilot';
@@ -23,7 +27,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
   const session = await requireStudentSession();
   const chapterEntries = getChapterEntries();
   const [subjectCatalogItem] = buildSubjectCatalog([subject], chapterEntries);
-  const subjectChapters = getCurriculumSubjectChapterEntries(subject, chapterEntries);
+  const subjectChapters = buildCurriculumChapterCards(subject, chapterEntries);
 
   if (!subjectCatalogItem) {
     notFound();
@@ -76,8 +80,17 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <div className="chapter-grid" aria-label={`Chapters of ${subjectCatalogItem.title}`}>
-            {subjectChapters.map(([chapterSlug, chapter]) => {
-              const isLive = chapter.lessons.length > 0 || hasChapterPack(chapterSlug);
+            {subjectChapters.map((chapterCard) => {
+              const {
+                chapterSlug,
+                content: chapter,
+                curriculumScope,
+                curriculumTitle,
+                curriculumTopics,
+              } = chapterCard;
+              const isLive =
+                getAvailableLessons(chapter).length > 0 ||
+                hasChapterPack(chapterSlug);
               const isPilot = isPilotChapter(chapterSlug);
               return (
                 <article
@@ -86,12 +99,12 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                   style={!isLive ? { opacity: 0.8 } : undefined}
                 >
                   <div className="chapter-topline">
-                    <span>{chapter.subject}</span>
+                    <span>{formatCurriculumScope(curriculumScope)}</span>
                     <strong style={!isLive ? { background: 'var(--border)', color: 'var(--muted)' } : undefined}>
                       {isPilot ? 'Free pilot' : isLive ? chapter.mastery : 'Coming soon'}
                     </strong>
                   </div>
-                  <h3>{chapter.title}</h3>
+                  <h3>{curriculumTitle}</h3>
                   <p>{chapter.summary}</p>
 
                   {isLive && chapter.progress > 0 && (
@@ -100,10 +113,12 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                     </div>
                   )}
 
-                  {chapter.topics && chapter.topics.length > 0 && (
+                  {curriculumTopics.length > 0 && (
                     <ul>
-                      {chapter.topics.map((topic) => (
-                        <li key={topic}>{topic}</li>
+                      {curriculumTopics.map((topic) => (
+                        <li key={topic.id}>
+                          {topic.title} · {formatCurriculumScope(topic.scope)}
+                        </li>
                       ))}
                     </ul>
                   )}
@@ -139,4 +154,11 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
       </section>
     </main>
   );
+}
+
+function formatCurriculumScope(scope: string): string {
+  return scope
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
