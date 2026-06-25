@@ -11,6 +11,7 @@ import {
 import { getCurriculumSubject, getVisibleCurriculumSubjects } from './curriculum/registry';
 import {
   buildSubjectCatalog,
+  getCurriculumSubjectChapterEntries,
   resolveCurriculumSubjectSlug,
   SUBJECT_ROUTE_ALIASES,
 } from './curriculum/subject-navigation';
@@ -178,4 +179,58 @@ test('subject routes resolve the exact curriculum aliases and preserve canonical
     getCurriculumSubject(resolveCurriculumSubjectSlug('mathematics'))?.subjectCode,
     '041',
   );
+});
+
+test('subject navigation excludes duplicate Social Science mappings from excluded registry chapters', () => {
+  const socialScience = getCurriculumSubject('social-science');
+
+  assert.ok(socialScience);
+
+  const subjectChapterEntries = getCurriculumSubjectChapterEntries(
+    socialScience,
+    getChapterEntries(),
+  );
+  const subjectChapterSlugs = subjectChapterEntries.map(([slug]) => slug);
+
+  assert.deepEqual(subjectChapterSlugs, [
+    'rise-of-nationalism-in-europe',
+    'nationalism-in-india',
+    'making-of-a-global-world',
+    'the-age-of-industrialisation',
+    'print-culture',
+    'resources-and-development',
+    'forest-and-wildlife-resources',
+    'water-resources',
+    'agriculture',
+    'minerals-and-energy-resources',
+    'manufacturing-industries',
+    'lifelines-of-national-economy',
+    'power-sharing',
+    'federalism',
+    'gender-religion-and-caste',
+    'political-parties',
+    'outcomes-of-democracy',
+    'development',
+    'sectors-of-indian-economy',
+    'money-and-credit',
+    'globalisation',
+    'consumer-rights',
+  ]);
+  assert.equal(subjectChapterSlugs.length, 22);
+  assert.equal(subjectChapterSlugs.includes('the-rise-of-nationalism-in-europe'), false);
+  assert.equal(subjectChapterSlugs.includes('the-making-of-a-global-world'), false);
+  assert.equal(subjectChapterSlugs.includes('print-culture-and-the-modern-world'), false);
+  assert.equal(subjectChapterSlugs.includes('sectors-of-the-indian-economy'), false);
+  assert.equal(subjectChapterSlugs.includes('globalisation-and-the-indian-economy'), false);
+});
+
+test('subject catalog does not let excluded Social Science duplicate packs inflate live counts', () => {
+  const socialScienceCatalogItem = buildSubjectCatalog(
+    getVisibleCurriculumSubjects(),
+    getChapterEntries(),
+  ).find((subject) => subject.slug === 'social-science');
+
+  assert.ok(socialScienceCatalogItem);
+  assert.equal(socialScienceCatalogItem.chapterCount, 22);
+  assert.equal(socialScienceCatalogItem.liveCount, 17);
 });

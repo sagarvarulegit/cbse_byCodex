@@ -109,7 +109,9 @@ export function buildSubjectCatalog(
 
 function getCurriculumSubjectChapterSlugs(subject: CurriculumSubject): string[] {
   return subject.units.flatMap((unit) =>
-    unit.chapters.flatMap((chapter) => chapter.platformChapterSlugs),
+    unit.chapters.flatMap((chapter) =>
+      chapter.scope === 'excluded' ? [] : chapter.platformChapterSlugs,
+    ),
   );
 }
 
