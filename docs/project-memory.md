@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-21
+Last updated: 2026-06-25
 
 ## Current Architecture
 
@@ -43,6 +43,11 @@ Last updated: 2026-06-21
 
 ## Scaling Notes
 
+- Curriculum source of truth for Class 10 subject definitions lives under `apps/web/lib/curriculum`, with session-aware sources in `official-sources.ts`, active lookups in `registry.ts`, validation in `validation.ts`, coverage formulas in `coverage.ts`, and per-subject data in `subjects/class-10/*.ts`.
+- The active curriculum session is explicit, not inferred: `ACTIVE_CURRICULUM_SESSION` in `apps/web/lib/curriculum/official-sources.ts` feeds `getActiveCurriculumSession()` and the registry helpers.
+- Historical sample papers and board paper archives can support comparison, but they must stay explicitly historical and cannot silently define the active blueprint for the current session.
+- The student subject pages consume the registry instead of hard-coded subject lists: `apps/web/app/subjects/page.tsx` uses `getVisibleCurriculumSubjects()` plus `buildSubjectCatalog()`, and `apps/web/app/subjects/[slug]/page.tsx` resolves a registry subject before rendering mapped chapter routes.
+- On 2026-06-25, `graphify update .` re-extracted 365 files, rebuilt `4282 nodes, 4665 edges, 325 communities`, backed up `graphify-out/2026-06-25/`, and warned twice: `skill is from graphify 0.4.23, package is 0.8.47. Run 'graphify install' to update.` For this repo, record the warning and restore Graphify-only drift instead of committing the incompatible refresh output.
 - Lesson-wise chapter content is considered live only when a catalog lesson has a non-empty `fileName` and its chapter directory is registered in `lessonDirectories`. UI counts and previous/next navigation use available lessons only, while unpublished catalog lessons remain visible as Coming soon.
 - Free-pilot quiz routes use strict authoring validation: every question must have a valid explicit answer, explanation, and chapter-matching topic slug before it can reach `QuizScoreForm`. Non-pilot generated quizzes retain the legacy parser fallback until their content is migrated.
 - Keep route logic split by feature as new work lands.
