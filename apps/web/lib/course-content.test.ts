@@ -4,9 +4,16 @@ import test from 'node:test';
 import {
   getAvailableLessons,
   getChapter,
+  getChapterEntries,
   getLessonContent,
   type MarkdownBlock,
 } from './course-content';
+import { getCurriculumSubject, getVisibleCurriculumSubjects } from './curriculum/registry';
+import {
+  buildSubjectCatalog,
+  resolveCurriculumSubjectSlug,
+  SUBJECT_ROUTE_ALIASES,
+} from './curriculum/subject-navigation';
 
 const chapterSlug = 'chemical-reactions-and-equations';
 
@@ -116,4 +123,59 @@ test('balancing equations lesson loads with worked examples and no unpublished n
   assert.match(lessonText, /Na2SO4 \+ BaCl2 -> BaSO4 \+ 2NaCl/);
   assert.match(lessonText, /4Al \+ 3O2 -> 2Al2O3/);
   assertFourPanelComic(content.blocks);
+});
+
+test('subject catalog stays aligned to the visible curriculum registry', async () => {
+  const catalog = buildSubjectCatalog(
+    getVisibleCurriculumSubjects(),
+    getChapterEntries(),
+  );
+
+  assert.equal(catalog.find((subject) => subject.slug === 'health-and-physical-education')?.assessmentLabel, 'Internal assessment');
+  assert.equal(catalog.some((subject) => subject.slug === 'artificial-intelligence'), false);
+  assert.equal(catalog.some((subject) => subject.slug === 'information-technology'), false);
+  assert.equal(catalog.filter((subject) => subject.slug === 'social-science').length, 1);
+
+  const mathematicsStandard = catalog.find(
+    (subject) => subject.slug === 'mathematics-standard',
+  );
+
+  assert.ok(mathematicsStandard);
+  assert.equal(mathematicsStandard.title, 'Mathematics Standard');
+  assert.equal(mathematicsStandard.subjectCode, '041');
+  assert.equal(mathematicsStandard.assessmentLabel, 'Board exam');
+  assert.equal(mathematicsStandard.academicSession, '2026-27');
+  assert.equal(mathematicsStandard.chapterCount, 14);
+  assert.equal(mathematicsStandard.accent, 'blue');
+});
+
+test('subject routes resolve the exact curriculum aliases and preserve canonical slugs', () => {
+  assert.deepEqual(SUBJECT_ROUTE_ALIASES, {
+    english: 'english-language-and-literature',
+    hindi: 'hindi-course-b',
+    mathematics: 'mathematics-standard',
+  });
+  assert.equal(resolveCurriculumSubjectSlug('english'), 'english-language-and-literature');
+  assert.equal(resolveCurriculumSubjectSlug('hindi'), 'hindi-course-b');
+  assert.equal(resolveCurriculumSubjectSlug('mathematics'), 'mathematics-standard');
+  assert.equal(
+    resolveCurriculumSubjectSlug('english-language-and-literature'),
+    'english-language-and-literature',
+  );
+  assert.equal(resolveCurriculumSubjectSlug('hindi-course-b'), 'hindi-course-b');
+  assert.equal(resolveCurriculumSubjectSlug('mathematics-standard'), 'mathematics-standard');
+  assert.equal(resolveCurriculumSubjectSlug('science'), 'science');
+
+  assert.equal(
+    getCurriculumSubject(resolveCurriculumSubjectSlug('english'))?.subjectCode,
+    '184',
+  );
+  assert.equal(
+    getCurriculumSubject(resolveCurriculumSubjectSlug('hindi'))?.subjectCode,
+    '085',
+  );
+  assert.equal(
+    getCurriculumSubject(resolveCurriculumSubjectSlug('mathematics'))?.subjectCode,
+    '041',
+  );
 });
