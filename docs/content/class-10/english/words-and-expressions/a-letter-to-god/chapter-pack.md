@@ -3,7 +3,7 @@ title: Words and Expressions Unit 1 - A Letter to God
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 1
-chapter_slug: a-letter-to-god
+chapter_slug: words-and-expressions-a-letter-to-god
 status: draft
 content_type: chapter-pack
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe201.pdf

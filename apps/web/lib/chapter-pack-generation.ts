@@ -1,3 +1,6 @@
+import { readFile, readdir } from 'node:fs/promises';
+import path from 'node:path';
+
 export type ChapterPackSource = { path: string; markdown: string };
 
 export type GeneratedChapterPackRecord = {
@@ -9,6 +12,37 @@ export type GeneratedChapterPackRecord = {
 };
 
 const REQUIRED_FRONTMATTER_FIELDS = ['title', 'subject', 'chapter_slug'] as const;
+
+export type GeneratedChapterPacksModule = {
+  moduleSource: string;
+  records: GeneratedChapterPackRecord[];
+  sources: ChapterPackSource[];
+};
+
+export async function collectChapterPackSources(contentRoot: string, repoRoot: string): Promise<ChapterPackSource[]> {
+  const chapterPackPaths = await findChapterPackPaths(contentRoot);
+
+  return Promise.all(
+    chapterPackPaths.map(async (chapterPackPath) => ({
+      markdown: await readFile(chapterPackPath, 'utf8'),
+      path: toPosixPath(path.relative(repoRoot, chapterPackPath)),
+    })),
+  );
+}
+
+export async function generateChapterPacksModule(
+  contentRoot: string,
+  repoRoot: string,
+): Promise<GeneratedChapterPacksModule> {
+  const sources = await collectChapterPackSources(contentRoot, repoRoot);
+  const records = buildChapterPackRecords(sources);
+
+  return {
+    moduleSource: renderChapterPacksModule(records),
+    records,
+    sources,
+  };
+}
 
 export function buildChapterPackRecords(sources: ChapterPackSource[]): GeneratedChapterPackRecord[] {
   const records = sources.map((source) => {
@@ -70,19 +104,40 @@ export const chapterPacks = ${JSON.stringify(chapterPacks, null, 2)} as const sa
 }
 
 function compareRecordsBySlug(left: GeneratedChapterPackRecord, right: GeneratedChapterPackRecord): number {
-  if (left.slug < right.slug) {
+  return compareStrings(left.slug, right.slug) || compareStrings(left.sourcePath, right.sourcePath);
+}
+
+async function findChapterPackPaths(rootDirectory: string): Promise<string[]> {
+  const entries = await readdir(rootDirectory, { withFileTypes: true });
+  const sortedEntries = [...entries].sort((left, right) => compareStrings(left.name, right.name));
+  const paths: string[] = [];
+
+  for (const entry of sortedEntries) {
+    const entryPath = path.join(rootDirectory, entry.name);
+
+    if (entry.isDirectory()) {
+      paths.push(...(await findChapterPackPaths(entryPath)));
+      continue;
+    }
+
+    if (entry.isFile() && entry.name === 'chapter-pack.md') {
+      paths.push(entryPath);
+    }
+  }
+
+  return paths;
+}
+
+function toPosixPath(filePath: string): string {
+  return filePath.split(path.sep).join('/');
+}
+
+function compareStrings(left: string, right: string): number {
+  if (left < right) {
     return -1;
   }
 
-  if (left.slug > right.slug) {
-    return 1;
-  }
-
-  if (left.sourcePath < right.sourcePath) {
-    return -1;
-  }
-
-  if (left.sourcePath > right.sourcePath) {
+  if (left > right) {
     return 1;
   }
 

@@ -3,7 +3,7 @@ title: Words and Expressions Unit 7 - Madam Rides the Bus
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 7
-chapter_slug: madam-rides-the-bus
+chapter_slug: words-and-expressions-madam-rides-the-bus
 status: draft
 content_type: chapter-pack
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe207.pdf

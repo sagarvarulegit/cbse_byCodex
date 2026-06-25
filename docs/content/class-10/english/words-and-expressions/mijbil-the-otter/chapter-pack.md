@@ -3,7 +3,7 @@ title: Words and Expressions Unit 6 - Mijbil the Otter
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 6
-chapter_slug: mijbil-the-otter
+chapter_slug: words-and-expressions-mijbil-the-otter
 status: draft
 content_type: chapter-pack
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe206.pdf

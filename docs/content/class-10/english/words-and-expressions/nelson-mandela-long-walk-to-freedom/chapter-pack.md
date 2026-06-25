@@ -3,7 +3,7 @@ title: Words and Expressions Unit 2 - Nelson Mandela: Long Walk to Freedom
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 2
-chapter_slug: nelson-mandela-long-walk-to-freedom
+chapter_slug: words-and-expressions-nelson-mandela-long-walk-to-freedom
 status: draft
 content_type: chapter-pack
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe202.pdf
