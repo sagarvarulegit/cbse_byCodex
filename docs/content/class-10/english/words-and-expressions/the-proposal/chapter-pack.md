@@ -6,6 +6,7 @@ chapter_number: 9
 chapter_slug: words-and-expressions-the-proposal
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe209..pdf
 ---
 

@@ -6,6 +6,7 @@ chapter_number: 6
 chapter_slug: words-and-expressions-mijbil-the-otter
 status: draft
 content_type: chapter-pack
+curriculum_scope: excluded
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe206.pdf
 ---
 

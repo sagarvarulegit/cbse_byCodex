@@ -6,10 +6,13 @@ chapter_number: 12
 chapter_slug: magnetic-effects-of-electric-current
 status: draft
 content_type: chapter-pack
+curriculum_scope_note: Motor electromagnetic induction and generator are formative-only in 2026-27
 source_textbook: textbooks/textbooks/science/extracted/jesc112.pdf
 ---
 
 # Magnetic Effects of Electric Current
+
+> 2026-27 curriculum scope: magnetic fields, force on a current-carrying conductor, AC/DC and domestic circuits are board-exam topics. Electric motor, electromagnetic induction and electric generator are formative/internal-only and must not be counted as board coverage.
 
 ## chapter goal
 
@@ -18,11 +21,12 @@ By the end of this chapter, a student should be able to:
 - apply right-hand thumb rule
 - understand magnetic field due to straight conductor, circular loop, and solenoid
 - explain force on current-carrying conductor and Fleming's left-hand rule
-- understand electric motor and domestic electric circuits
+- understand domestic electric circuits for board preparation
+- use electric motor, electromagnetic induction and generator material only for formative/internal learning
 
 ## teacher note on textbook alignment
 
-This pack follows `jesc112.pdf`: magnetic field, field lines, current-carrying conductors, right-hand thumb rule, solenoid, force on conductor, Fleming's left-hand rule, electric motor, and domestic circuits.
+This pack follows `jesc112.pdf`, while the curriculum registry applies the narrower 2026-27 assessment scope: motor, electromagnetic induction and generator content is formative/internal-only.
 
 ## chapter flow for the platform
 

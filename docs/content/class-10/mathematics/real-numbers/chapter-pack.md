@@ -6,9 +6,12 @@ chapter_number: 1
 chapter_slug: real-numbers
 status: draft
 content_type: chapter-pack
+curriculum_scope_note: Euclid division algorithm and decimal expansions are support-only, not 2026-27 board topics
 ---
 
 # Real Numbers
+
+> 2026-27 curriculum scope: the Fundamental Theorem of Arithmetic and irrationality proofs are board-exam topics. Euclid's division algorithm and decimal-expansion material remain support resources and must not be counted as board coverage.
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 1. The language is kept very simple on purpose. The goal is not to sound fancy. The goal is to make the student understand.
 
@@ -29,7 +32,7 @@ The current NCERT Class 10 chapter text strongly focuses on:
 - HCF and LCM applications
 - irrational numbers
 
-The product also plans support lessons on Euclid division lemma and decimal expansion of rational numbers. Those are included here as easy support sections because they fit naturally into this chapter journey.
+The product also keeps support lessons on Euclid division lemma and decimal expansion of rational numbers. They fit the learning journey, but the 2026-27 registry classifies them as excluded from board-exam scope.
 
 ## chapter flow for the platform
 

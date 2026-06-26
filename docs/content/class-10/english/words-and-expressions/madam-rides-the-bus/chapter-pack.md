@@ -6,6 +6,7 @@ chapter_number: 7
 chapter_slug: words-and-expressions-madam-rides-the-bus
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe207.pdf
 ---
 

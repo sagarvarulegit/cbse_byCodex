@@ -6,6 +6,7 @@ chapter_number: 2
 chapter_slug: words-and-expressions-nelson-mandela-long-walk-to-freedom
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe202.pdf
 ---
 

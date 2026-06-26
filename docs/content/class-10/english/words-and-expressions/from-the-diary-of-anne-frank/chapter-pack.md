@@ -6,6 +6,7 @@ chapter_number: 4
 chapter_slug: words-and-expressions-from-the-diary-of-anne-frank
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe204..pdf
 ---
 

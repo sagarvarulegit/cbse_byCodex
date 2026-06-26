@@ -6,6 +6,7 @@ chapter_number: 3
 chapter_slug: words-and-expressions-two-stories-about-flying
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe203.pdf
 ---
 

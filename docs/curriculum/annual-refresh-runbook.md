@@ -22,6 +22,8 @@ This runbook is for the curriculum source of truth that drives:
 - Do not overwrite old source IDs. Add new session-specific IDs and keep prior sessions for historical comparison.
 - Do not activate a new academic session until every active subject has zero validation issues.
 - Historical sample papers and board papers may help comparison, but they cannot silently define the active blueprint.
+- Keep subject availability separate from blueprint readiness. A current subject may remain visible with a blocked blueprint when current-session paper-design evidence is unavailable.
+- Every official source record owns its own verification date, session, role, subject-code applicability, and curriculum/blueprint eligibility flags.
 - Preserve existing chapter and quiz routes unless a deliberate migration plan also updates mapped platform slugs and route tests.
 
 ## Pre-refresh checklist
@@ -34,7 +36,7 @@ This runbook is for the curriculum source of truth that drives:
 
 ## Step 1: Verify the new curriculum index
 
-Goal: prove that the new session exists in official CBSE sources before touching the active session constant.
+Goal: prove that the new session exists in official CBSE sources before changing the registry's explicit active-session selection.
 
 Checklist:
 
@@ -46,8 +48,9 @@ Checklist:
 
 Operational notes:
 
-- The active session is controlled explicitly by `ACTIVE_CURRICULUM_SESSION` in `apps/web/lib/curriculum/official-sources.ts`.
-- The registry reads that value through `getActiveCurriculumSession()` in `apps/web/lib/curriculum/registry.ts`.
+- Add an immutable per-session module such as `apps/web/lib/curriculum/sessions/2027-28.ts`.
+- Subject definitions for that session must import the per-session constant directly.
+- The registry may then select that explicit session through `getActiveCurriculumSession()`; do not make historical subject records depend on a mutable global active-session constant.
 
 Acceptance criteria:
 
@@ -69,8 +72,9 @@ Checklist:
 - Add a new index source ID for the target session.
 - Add new subject curriculum source IDs for each current Class 10 subject.
 - Keep prior sample-paper and board-paper records as historical evidence.
-- Update notes so every record clearly says whether it drives the current curriculum, the current blueprint, or historical comparison only.
-- Keep `SOURCE_VERIFIED_ON` aligned with the refresh review date if all current-session sources were rechecked together.
+- Set `role`, `subjectCodes`, `mayDriveCurrentCurriculum`, and `mayDriveCurrentBlueprint` explicitly on every source.
+- Set `verifiedOn` on each record. Do not use one mutable verification-date constant that rewrites the apparent provenance of historical records.
+- Inspect embedded section headings and dates. A current curriculum PDF containing a historical question-paper design may drive curriculum scope but not the current blueprint.
 
 Required comparison targets:
 
@@ -110,6 +114,8 @@ Per-subject checklist:
 2. Prescribed texts and books
    - Recheck English and Hindi text lists.
    - Recheck `books` and `officialSourceIds` for every affected subject.
+   - Capture every officially listed textbook, laboratory manual, exemplar, workbook, and reading resource with a stable ID.
+   - If the curriculum PDF only lists a resource, use that curriculum source ID as provenance; do not invent a direct download URL.
 
 3. Map work and mixed scope
    - Recheck Social Science map-skill topics.
@@ -118,15 +124,23 @@ Per-subject checklist:
 4. Excluded topics and duplicate packs
    - Recheck excluded duplicate Social Science pack mappings so Social Science still appears once in the catalog.
    - Recheck that excluded chapters do not inflate live counts or duplicate route slugs.
+   - Recheck stale platform content at topic level. A chapter pack may support selected board topics while other topics in the same pack are formative, supporting, or excluded.
+   - Recheck Mathematics Euclid algorithm, completing-the-square, and coordinate-triangle-area scope.
+   - Recheck Science periodic classification, heredity/evolution, motor, electromagnetic induction, and generator scope.
+   - Recheck Words and Expressions - II exactly: Units 1-4 and 7-11 supporting; Units 5-6 excluded.
 
 5. Question design
    - Recheck `requiredQuestionTypes`, `minimumReviewedQuestionCount`, and section-level allowed question types.
    - Recheck blueprint source references used by each `examProfile`.
+   - A `ready` blueprint must reference only an eligible source with matching session, subject code, source type, and role.
+   - A `blocked` blueprint must have no blueprint source IDs and must record a precise blocker.
 
 Current invariants that must survive the refresh:
 
 - Mathematics Standard and Mathematics Basic remain separate profiles.
+- Mathematics Basic remains `future` and hidden until a deliberate activation review changes it.
 - HPE remains an internal-assessment subject, not a board-paper subject.
+- HPE keeps the exact internal strands Games / Sports (50), Health and Fitness (25), SEWA (25), and Health and Activity Card (0).
 - Information Technology and Artificial Intelligence stay hidden future subjects unless activation is explicitly completed.
 - Social Science appears once in the subject catalog even though excluded duplicate platform packs exist for some chapters.
 
@@ -146,6 +160,8 @@ Checklist:
 
 - Review every chapter and topic whose scope changed between sessions.
 - Resolve all `board-exam`, `internal-only`, `project-only`, `periodic-only`, `supporting-resource`, and `excluded` changes intentionally.
+- Replace synthetic one-topic-per-chapter placeholders with explicit official topic IDs and titles.
+- Map platform evidence at topic level with chapter-pack or exact lesson references.
 - If a platform chapter slug is reused across scopes, verify `validateCurriculumSubject()` still reports zero contradictory scope issues.
 - If CBSE removes a chapter from board scope, move it deliberately instead of leaving stale board mappings behind.
 - If a chapter now needs no platform route, remove or re-scope the mapping explicitly rather than leaving dead coverage expectations.
@@ -154,7 +170,8 @@ Acceptance criteria:
 
 - No changed scope is left unresolved.
 - No active subject has contradictory platform scope mappings.
-- Board-only coverage formulas still reflect only board-exam chapters and topics.
+- Board coverage reflects board-exam topics only; internal subjects reflect internal-only topics.
+- Excluded, formative/internal-only, project-only, periodic-only, and supporting-resource topics cannot become board-complete merely because a chapter pack exists.
 
 ## Step 5: Mark previous sample papers historical
 
@@ -206,6 +223,10 @@ Specific things to confirm from the test evidence:
 - Current sources are registered and validated.
 - Historical evidence is clearly marked.
 - Coverage dimensions still use explicit numerator and denominator formulas from `apps/web/lib/curriculum/coverage.ts`.
+- Zero denominators and absent evidence report `not-configured` or `not-applicable`, never a misleading 100%.
+- Board paper generation is not applicable to internal HPE.
+- Student publication without configured gates is `not-configured`.
+- Live chapter status uses `getAvailableLessons(chapter).length > 0`, not the presence of unpublished lesson metadata.
 - Subject routes still resolve aliases through `SUBJECT_ROUTE_ALIASES`.
 - Existing chapter and quiz routes still work with the current mapped slugs.
 - Hard-coded valid subject slugs do not need to be reintroduced; the registry and subject-navigation helpers remain the source of truth.

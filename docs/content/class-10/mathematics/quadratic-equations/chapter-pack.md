@@ -6,9 +6,12 @@ chapter_number: 4
 chapter_slug: quadratic-equations
 status: draft
 content_type: chapter-pack
+curriculum_scope_note: Completing the square is support-only, not a 2026-27 board topic
 ---
 
 # Quadratic Equations
+
+> 2026-27 curriculum scope: factorisation, the quadratic formula, the discriminant and situational problems are board-exam topics. Completing the square remains a support method and must not be counted as board coverage.
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 4. The purpose is to make quadratic equations feel like a set of clean methods, not a chapter of memorised tricks.
 
@@ -17,7 +20,7 @@ This is an original teaching draft for Class 10 Mathematics, Chapter 4. The purp
 By the end of this chapter, a student should be able to:
 - identify a quadratic equation in standard form
 - solve quadratic equations by factorisation
-- solve quadratic equations by completing the square
+- recognise completing the square as a support method outside current board scope
 - use the quadratic formula correctly
 - choose the suitable method in a board question
 
@@ -26,7 +29,7 @@ By the end of this chapter, a student should be able to:
 The current NCERT Class 10 chapter strongly focuses on:
 - meaning of a quadratic equation
 - factorisation method
-- completing the square
+- completing the square (support-only)
 - quadratic formula
 - application problems leading to quadratic equations
 

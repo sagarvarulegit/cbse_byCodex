@@ -6,6 +6,7 @@ chapter_number: 8
 chapter_slug: words-and-expressions-the-sermon-at-benares
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe208.pdf
 ---
 

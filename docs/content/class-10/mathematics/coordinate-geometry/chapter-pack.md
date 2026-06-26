@@ -6,9 +6,12 @@ chapter_number: 7
 chapter_slug: coordinate-geometry
 status: draft
 content_type: chapter-pack
+curriculum_scope_note: Coordinate-triangle area and collinearity are support-only, not 2026-27 board topics
 ---
 
 # Coordinate Geometry
+
+> 2026-27 curriculum scope: the distance formula and internal section formula are board-exam topics. Coordinate-triangle area and area-based collinearity remain support material and must not be counted as board coverage.
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 7. The chapter becomes easier when students connect geometry to point positions on the plane.
 
@@ -19,7 +22,7 @@ By the end of this chapter, a student should be able to:
 - use the distance formula
 - use the section formula
 - find the midpoint of a line segment
-- find the area of a triangle using coordinates
+- recognise coordinate-triangle area as a support method outside current board scope
 
 ## teacher note on textbook alignment
 
@@ -27,7 +30,7 @@ The current NCERT Class 10 chapter strongly focuses on:
 - distance between two points
 - internal division of a line segment
 - midpoint as a special case of section formula
-- area of a triangle from coordinates
+- area of a triangle from coordinates (support-only)
 
 ## chapter flow for the platform
 

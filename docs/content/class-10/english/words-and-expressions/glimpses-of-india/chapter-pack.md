@@ -6,6 +6,7 @@ chapter_number: 5
 chapter_slug: words-and-expressions-glimpses-of-india
 status: draft
 content_type: chapter-pack
+curriculum_scope: excluded
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe205.pdf
 ---
 
