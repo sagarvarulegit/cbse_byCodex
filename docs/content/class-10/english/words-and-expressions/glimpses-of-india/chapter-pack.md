@@ -3,9 +3,10 @@ title: Words and Expressions Unit 5 - Glimpses of India
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 5
-chapter_slug: glimpses-of-india
+chapter_slug: words-and-expressions-glimpses-of-india
 status: draft
 content_type: chapter-pack
+curriculum_scope: excluded
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe205.pdf
 ---
 

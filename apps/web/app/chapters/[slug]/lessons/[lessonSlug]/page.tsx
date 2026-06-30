@@ -4,11 +4,14 @@ import type { ReactNode } from 'react';
 import GlossaryTerm, { type GlossaryPayload } from '../../../../../components/GlossaryTerm';
 import LessonDemo from '../../../../../components/LessonDemo';
 import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
-import { getChapter, getLessonContent } from '../../../../../lib/course-content';
+import PilotFeedbackForm from '../../../../../components/PilotFeedbackForm';
+import PilotEngagementTracker, { PilotCompletionButton } from '../../../../../components/PilotEngagementTracker';
+import { getAvailableLessons, getChapter, getLessonContent } from '../../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
 import { getLessonVideo } from '../../../../../lib/lesson-video';
+import { isPilotChapter } from '../../../../../lib/pilot';
 
 
 export default async function LessonPage({
@@ -29,6 +32,8 @@ export default async function LessonPage({
     notFound();
   }
 
+  const availableLessonCount = getAvailableLessons(chapter).length;
+
   // Check authentication for premium lessons
   if (!content.lesson.free) {
     const session = await getStudentSession();
@@ -40,9 +45,14 @@ export default async function LessonPage({
   }
 
   const lessonVideo = await getLessonVideo(slug, lessonSlug);
+  const isPilot = isPilotChapter(slug);
 
   return (
     <main>
+      {isPilot ? (
+        <PilotEngagementTracker chapterSlug={slug} eventType="lesson_start" lessonSlug={lessonSlug} surface="lesson" />
+      ) : null}
+
       <nav className="topbar" aria-label="Lesson navigation">
         <Link className="brand" href="/">
           <span className="brand-mark">10</span>
@@ -85,7 +95,7 @@ export default async function LessonPage({
               <span>{content.lesson.type}</span>
             </li>
             <li>
-              <strong>{chapter.lessons.length} lesson notes</strong>
+              <strong>{availableLessonCount} lesson notes</strong>
               <span>Now live in this chapter</span>
             </li>
           </ul>
@@ -196,6 +206,13 @@ export default async function LessonPage({
           </div>
         </aside>
       </section>
+
+      {isPilot ? (
+        <section className="section-shell pilot-feedback-section">
+          <PilotCompletionButton chapterSlug={slug} lessonSlug={lessonSlug} surface="lesson" />
+          <PilotFeedbackForm chapterSlug={slug} lessonSlug={lessonSlug} surface="lesson" />
+        </section>
+      ) : null}
     </main>
   );
 }

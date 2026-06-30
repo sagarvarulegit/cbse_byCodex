@@ -3,9 +3,10 @@ title: Words and Expressions Unit 8 - The Sermon at Benares
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 8
-chapter_slug: the-sermon-at-benares
+chapter_slug: words-and-expressions-the-sermon-at-benares
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe208.pdf
 ---
 

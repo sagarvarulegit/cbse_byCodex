@@ -1,0 +1,57 @@
+---
+title: Power Sharing chapter quiz
+subject: Social Science
+class_level: 10
+chapter: Power Sharing
+chapter_slug: power-sharing
+content_type: quiz
+status: draft
+---
+
+# Power Sharing chapter quiz
+
+Answer these quick questions after revising the chapter notes.
+
+## 1. Meaning
+
+Power sharing means:
+
+1. distributing power among different groups or levels
+2. keeping all power with one person
+3. ending democracy
+
+## 2. Belgium
+
+Belgium used power sharing to manage:
+
+1. linguistic and regional differences
+2. crop seasons only
+3. mineral exports
+
+## 3. Sri Lanka
+
+Sri Lanka followed:
+
+1. majoritarianism
+2. equal power sharing from the start
+3. no language policy
+
+## 4. Democracy
+
+Power sharing is desirable because it:
+
+1. reduces conflict and supports democracy
+2. increases dictatorship
+3. removes all elections
+
+## 5. Forms
+
+Power can be shared among:
+
+1. organs of government, levels, groups, and parties
+2. only one family
+3. only one village
+
+## revision reminder
+
+Recheck Belgium, Sri Lanka, and forms of power sharing before retrying.

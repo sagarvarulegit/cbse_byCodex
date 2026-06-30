@@ -3,9 +3,10 @@ title: Words and Expressions Unit 3 - Two Stories about Flying
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 3
-chapter_slug: two-stories-about-flying
+chapter_slug: words-and-expressions-two-stories-about-flying
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe203.pdf
 ---
 

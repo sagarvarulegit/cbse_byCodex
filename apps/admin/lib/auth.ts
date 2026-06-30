@@ -65,8 +65,7 @@ export async function loginAdmin(email: string, password: string) {
 }
 
 export async function getAdminSession() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const token = await getAdminSessionToken();
   if (!token) {
     return null;
   }
@@ -88,6 +87,16 @@ export async function getAdminSession() {
   }
 
   return data.user;
+}
+
+export async function getAdminSessionToken() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  if (!token) {
+    return null;
+  }
+
+  return token;
 }
 
 export async function requireAdminSession() {

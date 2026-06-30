@@ -3,9 +3,10 @@ title: Words and Expressions Unit 4 - From the Diary of Anne Frank
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 4
-chapter_slug: from-the-diary-of-anne-frank
+chapter_slug: words-and-expressions-from-the-diary-of-anne-frank
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe204..pdf
 ---
 

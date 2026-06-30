@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
@@ -27,6 +27,19 @@ enum PublishStatus {
   archived
 }
 
+enum MasteryLevel {
+  learner
+  skilled
+  exam_ready
+  topper_track
+}
+
+enum RevisionMissionStatus {
+  active
+  completed
+  expired
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String?  @unique
@@ -37,34 +50,39 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  profile        UserProfile?
-  subscriptions  Subscription[]
-  progressEvents ProgressEvent[]
+  profile          UserProfile?
+  subscriptions    Subscription[]
+  progressEvents   ProgressEvent[]
+  quizAttempts     QuizAttempt[]
+  chapterMasteries ChapterMastery[]
+  revisionMissions RevisionMission[]
+  studyStreak      StudyStreak?
+  userBadges       UserBadge[]
 }
 
 model UserProfile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  fullName        String
-  classLevel      Int      @default(10)
-  schoolName      String?
-  targetExamYear  Int?
-  preferredLanguage String @default("en")
-  themePreference String  @default("system")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  fullName          String
+  classLevel        Int      @default(10)
+  schoolName        String?
+  targetExamYear    Int?
+  preferredLanguage String   @default("en")
+  themePreference   String   @default("system")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 }
 
 model Subject {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   classLevel  Int
   name        String
-  slug        String   @unique
+  slug        String  @unique
   description String?
-  sortOrder   Int      @default(0)
-  isPublished Boolean  @default(false)
+  sortOrder   Int     @default(0)
+  isPublished Boolean @default(false)
 
   chapters Chapter[]
 
@@ -75,14 +93,18 @@ model Chapter {
   id                 String  @id @default(cuid())
   subjectId          String
   title              String
-  slug               String
+  slug               String  @unique
   ncertChapterNumber Int
   description        String?
   sortOrder          Int     @default(0)
   isPublished        Boolean @default(false)
 
-  subject Subject @relation(fields: [subjectId], references: [id])
-  topics  Topic[]
+  subject          Subject           @relation(fields: [subjectId], references: [id])
+  topics           Topic[]
+  quizAttempts     QuizAttempt[]
+  chapterMasteries ChapterMastery[]
+  revisionMissions RevisionMission[]
+  userBadges       UserBadge[]
 
   @@unique([subjectId, slug])
   @@index([subjectId, isPublished, sortOrder])
@@ -91,16 +113,18 @@ model Chapter {
 
 model Topic {
   id               String  @id @default(cuid())
-  chapterId         String
-  title             String
-  slug              String
-  description       String?
-  sortOrder         Int     @default(0)
-  estimatedMinutes  Int?
-  isPublished       Boolean @default(false)
+  chapterId        String
+  title            String
+  slug             String
+  description      String?
+  sortOrder        Int     @default(0)
+  estimatedMinutes Int?
+  isPublished      Boolean @default(false)
 
-  chapter Chapter @relation(fields: [chapterId], references: [id])
-  lessons Lesson[]
+  chapter          Chapter           @relation(fields: [chapterId], references: [id])
+  lessons          Lesson[]
+  quizAttempts     QuizAttempt[]
+  revisionMissions RevisionMission[]
 
   @@unique([chapterId, slug])
   @@index([chapterId, isPublished, sortOrder])
@@ -121,7 +145,7 @@ model Lesson {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  topic  Topic @relation(fields: [topicId], references: [id])
+  topic  Topic   @relation(fields: [topicId], references: [id])
   videos Video[]
   notes  Note[]
 
@@ -131,21 +155,21 @@ model Lesson {
 }
 
 model Video {
-  id                 String   @id @default(cuid())
-  lessonId           String
-  provider           String   @default("bunny")
-  providerLibraryId  String?
-  providerVideoId    String?
-  playbackUrl        String?
-  embedUrl           String?
-  durationSeconds    Int?
-  thumbnailUrl       String?
-  drmRequired        Boolean  @default(false)
-  offlineAllowed     Boolean  @default(false)
-  processingStatus   String   @default("pending")
-  statusSyncedAt     DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                String    @id @default(cuid())
+  lessonId          String
+  provider          String    @default("bunny")
+  providerLibraryId String?
+  providerVideoId   String?
+  playbackUrl       String?
+  embedUrl          String?
+  durationSeconds   Int?
+  thumbnailUrl      String?
+  drmRequired       Boolean   @default(false)
+  offlineAllowed    Boolean   @default(false)
+  processingStatus  String    @default("pending")
+  statusSyncedAt    DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   lesson Lesson @relation(fields: [lessonId], references: [id])
 
@@ -155,16 +179,16 @@ model Video {
 }
 
 model Note {
-  id                    String   @id @default(cuid())
-  lessonId              String
-  title                 String
-  bodyMarkdown          String
-  summaryMarkdown       String?
-  formulaMarkdown       String?
+  id                     String   @id @default(cuid())
+  lessonId               String
+  title                  String
+  bodyMarkdown           String
+  summaryMarkdown        String?
+  formulaMarkdown        String?
   commonMistakesMarkdown String?
-  boardTipsMarkdown     String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  boardTipsMarkdown      String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 
   lesson Lesson @relation(fields: [lessonId], references: [id])
 
@@ -172,19 +196,135 @@ model Note {
 }
 
 model Quiz {
-  id                  String   @id @default(cuid())
+  id                  String      @id @default(cuid())
   title               String
   quizType            String
   accessLevel         AccessLevel @default(premium)
   timeLimitSeconds    Int?
   passingScorePercent Int?
-  isPublished         Boolean  @default(false)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  isPublished         Boolean     @default(false)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  attempts QuizAttempt[]
+}
+
+model QuizAttempt {
+  id             String   @id @default(cuid())
+  userId         String
+  chapterId      String
+  topicId        String?
+  quizId         String?
+  scorePercent   Int
+  totalQuestions Int
+  correctAnswers Int
+  weakTopicSlugs String[] @default([])
+  attemptNumber  Int
+  createdAt      DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+  topic   Topic?  @relation(fields: [topicId], references: [id])
+  quiz    Quiz?   @relation(fields: [quizId], references: [id])
+
+  @@unique([userId, chapterId, attemptNumber])
+  @@index([userId, chapterId, createdAt])
+  @@index([chapterId, scorePercent])
+  @@index([quizId, createdAt])
+}
+
+model ChapterMastery {
+  id                     String       @id @default(cuid())
+  userId                 String
+  chapterId              String
+  masteryScore           Int          @default(0)
+  level                  MasteryLevel @default(learner)
+  videoCompletionPercent Int          @default(0)
+  bestQuizScorePercent   Int          @default(0)
+  lastActivityAt         DateTime?
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+
+  @@unique([userId, chapterId])
+  @@index([userId, level, updatedAt])
+  @@index([chapterId, masteryScore])
+}
+
+model RevisionMission {
+  id               String                @id @default(cuid())
+  userId           String
+  chapterId        String
+  topicId          String?
+  status           RevisionMissionStatus @default(active)
+  reason           String
+  targetScore      Int                   @default(60)
+  recommendedSteps Json
+  createdAt        DateTime              @default(now())
+  completedAt      DateTime?
+  updatedAt        DateTime              @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+  topic   Topic?  @relation(fields: [topicId], references: [id])
+
+  @@index([userId, status, updatedAt])
+  @@index([chapterId, status])
+}
+
+model StudyStreak {
+  id                      String   @id @default(cuid())
+  userId                  String   @unique
+  currentStreakDays       Int      @default(0)
+  longestStreakDays       Int      @default(0)
+  lastActivityDate        DateTime?
+  recoveryTokensAvailable Int      @default(0)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, updatedAt])
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  description String
+  iconName    String
+  criteria    Json
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userBadges UserBadge[]
+
+  @@index([isActive, code])
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  chapterId String?
+  scopeKey  String   @default("global")
+  awardedAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id])
+  badge   Badge    @relation(fields: [badgeId], references: [id])
+  chapter Chapter? @relation(fields: [chapterId], references: [id])
+
+  @@unique([userId, badgeId, scopeKey])
+  @@index([userId, awardedAt])
+  @@index([badgeId, awardedAt])
+  @@index([chapterId, awardedAt])
 }
 
 model Subscription {
-  id                     String   @id @default(cuid())
+  id                     String    @id @default(cuid())
   userId                 String
   provider               String
   providerCustomerId     String?
@@ -193,9 +333,9 @@ model Subscription {
   status                 String
   currentPeriodStart     DateTime?
   currentPeriodEnd       DateTime?
-  cancelAtPeriodEnd      Boolean  @default(false)
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  cancelAtPeriodEnd      Boolean   @default(false)
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 

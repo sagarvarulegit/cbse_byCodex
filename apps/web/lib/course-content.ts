@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { chapterPacks } from './chapter-packs.generated';
+import type { CurriculumContentEvidence } from './curriculum/coverage';
 
 export type LessonMeta = {
   slug: string;
@@ -129,8 +130,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Solve quadratic equations using factorization, completing the square, and quadratic formula.',
-    topics: ['Factorization method', 'Quadratic formula', 'Nature of roots'],
+    summary: 'Solve quadratic equations using factorization and the quadratic formula; completing the square remains available as support-only material.',
+    topics: ['Factorization method', 'Quadratic formula', 'Nature of roots', 'Completing the square (support only)'],
     lessons: [],
   },
   'arithmetic-progressions': {
@@ -159,8 +160,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Find distance between points, section formula, and area of triangles on a Cartesian plane.',
-    topics: ['Distance formula', 'Section formula', 'Area of triangle'],
+    summary: 'Find distance between points and use the internal section formula; coordinate-triangle area remains support-only material.',
+    topics: ['Distance formula', 'Section formula', 'Area of triangle (support only)'],
     lessons: [],
   },
   'introduction-to-trigonometry': {
@@ -240,26 +241,28 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Getting started',
     streakTask: 'Balance 6 equations without hints',
     summary:
-      'A visual Science chapter experience with animated reactions, activity explanations, sharp notes, quizzes, and revision checkpoints.',
+      'Start with reaction signs, formula equations, and guided balancing practice, then use the chapter notes and quiz to revise reaction types.',
     topics: ['Balancing equations', 'Reaction types', 'Oxidation and reduction'],
     lessons: [
       {
         slug: 'chemical-equations',
-        fileName: '',
+        fileName: '01-chemical-equations.md',
         title: 'Chemical equations',
-        type: 'Animated intro',
-        minutes: 7,
+        type: 'Concept foundation',
+        minutes: 10,
         free: true,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Read reactions as reactants, products, formula equations, and state symbols before learning to balance them.',
       },
       {
         slug: 'balancing-equations',
-        fileName: '',
+        fileName: '02-balancing-equations.md',
         title: 'Balancing equations',
-        type: 'Interactive practice',
+        type: 'Guided balancing practice',
         minutes: 11,
         free: false,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Use conservation of mass, coefficients, and a repeatable atom-counting method to balance equations safely.',
       },
       {
         slug: 'combination-and-decomposition-reactions',
@@ -396,8 +399,8 @@ const chapters: Record<string, ChapterContent> = {
     progress: 0,
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
-    summary: 'Magnetic field lines, solenoid, electromagnetic induction, motor, and generator.',
-    topics: ['Solenoid magnetic field', 'Electromagnetic induction', 'Domestic electric circuits'],
+    summary: 'Study magnetic fields, force on conductors, AC/DC, and domestic circuits; motor, induction, and generator content is formative-only.',
+    topics: ['Solenoid magnetic field', 'Domestic electric circuits', 'Motor and induction (formative only)'],
     lessons: [],
   },
   'our-environment': {
@@ -438,7 +441,13 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Coming soon',
     streakTask: 'Will unlock soon',
     summary: 'Two stories representing the courage and mystery of flying: "His First Flight" and "Black Aeroplane".',
-    topics: ['Young seagull\'s courage', 'The mysterious pilot helper', 'Overcoming fear'],
+    topics: [
+      'Young seagull\'s courage',
+      'The mysterious pilot helper',
+      'Overcoming fear',
+      'How to Tell Wild Animals',
+      'The Ball Poem',
+    ],
     lessons: [],
   },
   'from-the-diary-of-anne-frank': {
@@ -841,17 +850,184 @@ const chapters: Record<string, ChapterContent> = {
 
 const lessonDirectories: Partial<Record<keyof typeof chapters, string>> = {
   'real-numbers': path.join(process.cwd(), 'content', 'real-numbers', 'lessons'),
+  'chemical-reactions-and-equations': path.join(
+    process.cwd(),
+    'content',
+    'chemical-reactions-and-equations',
+    'lessons',
+  ),
 };
 
 // Directory for quiz markdown (shared per chapter)
 const quizDirectories: Partial<Record<keyof typeof chapters, string>> = {
   'real-numbers': path.join(process.cwd(), 'content', 'real-numbers', 'lessons'),
+  polynomials: path.join(process.cwd(), 'content', 'polynomials', 'lessons'),
+  'pair-of-linear-equations-in-two-variables': path.join(
+    process.cwd(),
+    'content',
+    'pair-of-linear-equations-in-two-variables',
+    'lessons',
+  ),
+  'quadratic-equations': path.join(process.cwd(), 'content', 'quadratic-equations', 'lessons'),
+  'arithmetic-progressions': path.join(process.cwd(), 'content', 'arithmetic-progressions', 'lessons'),
+  triangles: path.join(process.cwd(), 'content', 'triangles', 'lessons'),
+  'coordinate-geometry': path.join(process.cwd(), 'content', 'coordinate-geometry', 'lessons'),
+  'introduction-to-trigonometry': path.join(process.cwd(), 'content', 'introduction-to-trigonometry', 'lessons'),
+  'some-applications-of-trigonometry': path.join(
+    process.cwd(),
+    'content',
+    'some-applications-of-trigonometry',
+    'lessons',
+  ),
+  circles: path.join(process.cwd(), 'content', 'circles', 'lessons'),
+  'areas-related-to-circles': path.join(process.cwd(), 'content', 'areas-related-to-circles', 'lessons'),
+  'surface-areas-and-volumes': path.join(process.cwd(), 'content', 'surface-areas-and-volumes', 'lessons'),
+  statistics: path.join(process.cwd(), 'content', 'statistics', 'lessons'),
+  probability: path.join(process.cwd(), 'content', 'probability', 'lessons'),
+  'chemical-reactions-and-equations': path.join(
+    process.cwd(),
+    'content',
+    'chemical-reactions-and-equations',
+    'lessons',
+  ),
+  'acids-bases-and-salts': path.join(process.cwd(), 'content', 'acids-bases-and-salts', 'lessons'),
+  'metals-and-non-metals': path.join(process.cwd(), 'content', 'metals-and-non-metals', 'lessons'),
+  'carbon-and-its-compounds': path.join(process.cwd(), 'content', 'carbon-and-its-compounds', 'lessons'),
+  'life-processes': path.join(process.cwd(), 'content', 'life-processes', 'lessons'),
+  'control-and-coordination': path.join(process.cwd(), 'content', 'control-and-coordination', 'lessons'),
+  'how-do-organisms-reproduce': path.join(process.cwd(), 'content', 'how-do-organisms-reproduce', 'lessons'),
+  heredity: path.join(process.cwd(), 'content', 'heredity', 'lessons'),
+  'light-reflection-and-refraction': path.join(
+    process.cwd(),
+    'content',
+    'light-reflection-and-refraction',
+    'lessons',
+  ),
+  'the-human-eye-and-the-colourful-world': path.join(
+    process.cwd(),
+    'content',
+    'the-human-eye-and-the-colourful-world',
+    'lessons',
+  ),
+  electricity: path.join(process.cwd(), 'content', 'electricity', 'lessons'),
+  'magnetic-effects-of-electric-current': path.join(
+    process.cwd(),
+    'content',
+    'magnetic-effects-of-electric-current',
+    'lessons',
+  ),
+  'our-environment': path.join(process.cwd(), 'content', 'our-environment', 'lessons'),
+  'a-letter-to-god': path.join(process.cwd(), 'content', 'a-letter-to-god', 'lessons'),
+  'from-the-diary-of-anne-frank': path.join(process.cwd(), 'content', 'from-the-diary-of-anne-frank', 'lessons'),
+  'glimpses-of-india': path.join(process.cwd(), 'content', 'glimpses-of-india', 'lessons'),
+  'madam-rides-the-bus': path.join(process.cwd(), 'content', 'madam-rides-the-bus', 'lessons'),
+  'mijbil-the-otter': path.join(process.cwd(), 'content', 'mijbil-the-otter', 'lessons'),
+  'nelson-mandela-long-walk-to-freedom': path.join(
+    process.cwd(),
+    'content',
+    'nelson-mandela-long-walk-to-freedom',
+    'lessons',
+  ),
+  'the-proposal': path.join(process.cwd(), 'content', 'the-proposal', 'lessons'),
+  'the-sermon-at-benares': path.join(process.cwd(), 'content', 'the-sermon-at-benares', 'lessons'),
+  'two-stories-about-flying': path.join(process.cwd(), 'content', 'two-stories-about-flying', 'lessons'),
+  'a-question-of-trust': path.join(process.cwd(), 'content', 'a-question-of-trust', 'lessons'),
+  'a-triumph-of-surgery': path.join(process.cwd(), 'content', 'a-triumph-of-surgery', 'lessons'),
+  'bholi': path.join(process.cwd(), 'content', 'bholi', 'lessons'),
+  'footprints-without-feet-story': path.join(process.cwd(), 'content', 'footprints-without-feet-story', 'lessons'),
+  'the-necklace': path.join(process.cwd(), 'content', 'the-necklace', 'lessons'),
+  'the-thiefs-story': path.join(process.cwd(), 'content', 'the-thiefs-story', 'lessons'),
+  'the-book-that-saved-the-earth': path.join(process.cwd(), 'content', 'the-book-that-saved-the-earth', 'lessons'),
+  'the-making-of-a-scientist': path.join(process.cwd(), 'content', 'the-making-of-a-scientist', 'lessons'),
+  'the-midnight-visitor': path.join(process.cwd(), 'content', 'the-midnight-visitor', 'lessons'),
+  'words-and-expressions-a-letter-to-god': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'a-letter-to-god',
+    'lessons',
+  ),
+  'words-and-expressions-from-the-diary-of-anne-frank': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'from-the-diary-of-anne-frank',
+    'lessons',
+  ),
+  'words-and-expressions-glimpses-of-india': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'glimpses-of-india',
+    'lessons',
+  ),
+  'words-and-expressions-madam-rides-the-bus': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'madam-rides-the-bus',
+    'lessons',
+  ),
+  'words-and-expressions-mijbil-the-otter': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'mijbil-the-otter',
+    'lessons',
+  ),
+  'words-and-expressions-nelson-mandela-long-walk-to-freedom': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'nelson-mandela-long-walk-to-freedom',
+    'lessons',
+  ),
+  'words-and-expressions-the-proposal': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'the-proposal',
+    'lessons',
+  ),
+  'words-and-expressions-the-sermon-at-benares': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'the-sermon-at-benares',
+    'lessons',
+  ),
+  'words-and-expressions-two-stories-about-flying': path.join(
+    process.cwd(),
+    'content',
+    'words-and-expressions',
+    'two-stories-about-flying',
+    'lessons',
+  ),
+  'rise-of-nationalism-in-europe': path.join(process.cwd(), 'content', 'rise-of-nationalism-in-europe', 'lessons'),
+  'nationalism-in-india': path.join(process.cwd(), 'content', 'nationalism-in-india', 'lessons'),
+  'making-of-a-global-world': path.join(process.cwd(), 'content', 'making-of-a-global-world', 'lessons'),
+  'print-culture': path.join(process.cwd(), 'content', 'print-culture', 'lessons'),
+  'resources-and-development': path.join(process.cwd(), 'content', 'resources-and-development', 'lessons'),
+  'water-resources': path.join(process.cwd(), 'content', 'water-resources', 'lessons'),
+  agriculture: path.join(process.cwd(), 'content', 'agriculture', 'lessons'),
+  'minerals-and-energy-resources': path.join(process.cwd(), 'content', 'minerals-and-energy-resources', 'lessons'),
+  'power-sharing': path.join(process.cwd(), 'content', 'power-sharing', 'lessons'),
+  federalism: path.join(process.cwd(), 'content', 'federalism', 'lessons'),
+  'political-parties': path.join(process.cwd(), 'content', 'political-parties', 'lessons'),
+  development: path.join(process.cwd(), 'content', 'development', 'lessons'),
+  'sectors-of-indian-economy': path.join(process.cwd(), 'content', 'sectors-of-indian-economy', 'lessons'),
+  'money-and-credit': path.join(process.cwd(), 'content', 'money-and-credit', 'lessons'),
+  globalisation: path.join(process.cwd(), 'content', 'globalisation', 'lessons'),
 };
 
 
 
 export function getChapter(slug: string): ChapterContent | null {
   return chapters[slug] ?? getGeneratedChapter(slug);
+}
+
+export function getAvailableLessons(chapter: ChapterContent) {
+  return chapter.lessons.filter((lesson) => Boolean(lesson.fileName));
 }
 
 export function getChapterEntries() {
@@ -876,6 +1052,23 @@ export function getSubjectSlug(subject: string) {
 
 export function getSubjectEntries(subjectSlug: string) {
   return getChapterEntries().filter(([, chapter]) => getSubjectSlug(chapter.subject) === subjectSlug);
+}
+
+export function getCurriculumContentEvidence(): CurriculumContentEvidence {
+  const chapterPacks: CurriculumContentEvidence['chapterPacks'] = {};
+  const availableLessonSlugs: CurriculumContentEvidence['availableLessonSlugs'] = {};
+
+  for (const [slug, chapter] of getChapterEntries()) {
+    chapterPacks[slug] = hasChapterPack(slug);
+    availableLessonSlugs[slug] = getAvailableLessons(chapter).map(
+      (lesson) => lesson.slug,
+    );
+  }
+
+  return {
+    chapterPacks,
+    availableLessonSlugs,
+  };
 }
 
 export function hasChapterPack(slug: string) {
@@ -925,9 +1118,29 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
     chapter,
     lesson,
     blocks: parseMarkdown(markdown),
-    previousLesson: lessonIndex > 0 ? chapter.lessons[lessonIndex - 1] : null,
-    nextLesson: lessonIndex < chapter.lessons.length - 1 ? chapter.lessons[lessonIndex + 1] : null,
+    previousLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, -1),
+    nextLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, 1),
   };
+}
+
+function getAdjacentAvailableLesson(
+  lessons: LessonMeta[],
+  lessonIndex: number,
+  direction: -1 | 1,
+) {
+  for (
+    let adjacentIndex = lessonIndex + direction;
+    adjacentIndex >= 0 && adjacentIndex < lessons.length;
+    adjacentIndex += direction
+  ) {
+    const lesson = lessons[adjacentIndex];
+
+    if (lesson.fileName) {
+      return lesson;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -935,8 +1148,9 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
  * The file is expected at `${quizDirectories[chapterSlug]}/quiz.md`.
  */
 export async function getQuizContent(chapterSlug: string): Promise<string | null> {
-  const directory = quizDirectories[chapterSlug as keyof typeof quizDirectories];
-  if (!directory) return null;
+  const directory =
+    quizDirectories[chapterSlug as keyof typeof quizDirectories] ??
+    path.join(process.cwd(), 'content', chapterSlug, 'lessons');
   const quizPath = path.join(directory, 'quiz.md');
   try {
     const raw = await fs.readFile(quizPath, 'utf8');

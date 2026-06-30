@@ -36,4 +36,6 @@ This project may have a graphify knowledge graph at `graphify-out/`. Before arch
 
 Read `docs/project-memory.md` before picking up implementation work. Update it when a session discovers durable project knowledge such as architecture decisions, platform IDs, deployment constraints, media workflow choices, or important gotchas. Keep `AGENTS.md` for stable operating rules and `docs/project-memory.md` for evolving project learnings.
 
+After every successful git push, update `TODO.md` with the next task before ending the session.
+
 The repo includes `.githooks/pre-push` to refresh `graphify-out/` before pushes and to enforce project-memory updates for meaningful source changes. Enable it in a checkout with `git config core.hooksPath .githooks`. If a push is blocked because `graphify-out` changed, commit the refreshed graph artifacts and push again. If a push is blocked because project memory was not updated, add a concise learning to `docs/project-memory.md` or update `AGENTS.md`, then commit and push again.

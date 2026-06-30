@@ -3,9 +3,10 @@ title: Words and Expressions Unit 9 - The Proposal
 audience: CBSE Class 10
 subject: English - Words and Expressions 2
 chapter_number: 9
-chapter_slug: the-proposal
+chapter_slug: words-and-expressions-the-proposal
 status: draft
 content_type: chapter-pack
+curriculum_scope: supporting-resource
 source_textbook: textbooks/textbooks/english-wordsandexpresseion/jewe209..pdf
 ---
 

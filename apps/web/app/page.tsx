@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { logoutAction } from './auth-actions';
 import { getStudentSession } from '../lib/auth';
+import { getPilotChapterCards } from '../lib/pilot';
 
 const signupReasons = [
   {
@@ -38,29 +39,6 @@ const signupReasons = [
   },
 ];
 
-const sampleChapters = [
-  {
-    name: 'Mathematics',
-    chapter: 'Real Numbers',
-    progress: 100,
-    mastery: 'Live now',
-    minutes: '46 min',
-    accent: 'blue',
-    href: '/chapters/real-numbers',
-    topics: ['Euclid division lemma', 'HCF and LCM', 'Irrational numbers'],
-  },
-  {
-    name: 'Science',
-    chapter: 'Chemical Reactions and Equations',
-    progress: 100,
-    mastery: 'Live now',
-    minutes: '44 min',
-    accent: 'green',
-    href: '/chapters/chemical-reactions-and-equations',
-    topics: ['Balancing equations', 'Reaction types', 'Oxidation and reduction'],
-  },
-];
-
 const modernStudyMoves = [
   {
     label: 'Concept first, memorization second',
@@ -81,6 +59,7 @@ const modernStudyMoves = [
 
 export default async function HomePage() {
   const session = await getStudentSession();
+  const sampleChapters = getPilotChapterCards();
 
   return (
     <main>
@@ -203,24 +182,29 @@ export default async function HomePage() {
         </div>
         <div className="chapter-grid" aria-label="Live pilot chapters">
           {sampleChapters.map((subject) => (
-            <article className={`chapter-card ${subject.accent}`} key={subject.name}>
+            <article className={`chapter-card ${subject.accent}`} key={subject.slug}>
               <div className="chapter-topline">
-                <span>{subject.name}</span>
-                <strong>{subject.mastery}</strong>
+                <span>{subject.subject}</span>
+                <strong>{subject.status}</strong>
               </div>
-              <h3>{subject.chapter}</h3>
-              <p>{subject.minutes} of bite-sized notes, examples, and revision-friendly structure.</p>
-              <div className="progress-track" aria-label={`${subject.progress}% available now`}>
-                <span style={{ width: `${subject.progress}%` }} />
+              <h3>{subject.title}</h3>
+              <p>{subject.minutesLabel} of notes, examples, quiz practice, and progress review.</p>
+              <div className="progress-track" aria-label="100% pilot path available now">
+                <span style={{ width: '100%' }} />
               </div>
               <ul>
                 {subject.topics.map((topic) => (
                   <li key={topic}>{topic}</li>
                 ))}
               </ul>
-              <Link className="card-link" href={subject.href}>
-                View chapter
-              </Link>
+              <div className="pilot-card-actions">
+                <Link className="card-link" href={subject.notesHref}>
+                  Study notes
+                </Link>
+                <Link className="ghost-link" href={subject.quizHref}>
+                  Take quiz
+                </Link>
+              </div>
             </article>
           ))}
         </div>
