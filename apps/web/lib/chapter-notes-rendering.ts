@@ -6,10 +6,26 @@ export type ChapterSection = {
   normalizedTitle: string;
 };
 
+export type ChapterSectionVariant =
+  | 'goals'
+  | 'flow'
+  | 'concept'
+  | 'example'
+  | 'formula'
+  | 'summary'
+  | 'mistakes'
+  | 'tips'
+  | 'practice'
+  | 'quiz'
+  | 'comic'
+  | 'standard';
+
 export type ComicPanel = {
   number: string;
   scene: string;
+  speaker: string;
   dialogue: string;
+  visualHint: 'action' | 'idea' | 'warning' | 'memory';
   raw: string;
 };
 
@@ -57,6 +73,56 @@ function isH2Block(block: MarkdownBlock | undefined): block is MarkdownBlock & {
   return block?.type === 'h2';
 }
 
+export function getChapterSectionVariant(section: ChapterSection): ChapterSectionVariant {
+  const title = section.normalizedTitle;
+
+  if (title.includes('comic') && title.includes('recap')) {
+    return 'comic';
+  }
+
+  if (title === 'chapter goal') {
+    return 'goals';
+  }
+
+  if (title === 'chapter flow for the platform' || title.startsWith('chapter flow')) {
+    return 'flow';
+  }
+
+  if (title.includes('summary')) {
+    return 'summary';
+  }
+
+  if (title.includes('common mistake')) {
+    return 'mistakes';
+  }
+
+  if (title === 'board tips') {
+    return 'tips';
+  }
+
+  if (title.includes('practice') && !title.includes('solved')) {
+    return 'practice';
+  }
+
+  if (title.includes('mini quiz')) {
+    return 'quiz';
+  }
+
+  if (title.includes('example') || title.includes('solved')) {
+    return 'example';
+  }
+
+  if (section.blocks.some((block) => block.type === 'code' && isFormulaLikeText(block.text))) {
+    return 'formula';
+  }
+
+  if (/^\d+\s/.test(title) || /^\d+\)/.test(section.heading.text.trim())) {
+    return 'concept';
+  }
+
+  return 'standard';
+}
+
 export function getSectionTextLines(blocks: MarkdownBlock[]) {
   return blocks
     .flatMap((block) => {
@@ -79,6 +145,27 @@ export function getSectionTextLines(blocks: MarkdownBlock[]) {
     .filter(Boolean);
 }
 
+export function isFormulaLikeText(value: string) {
+  const text = value.trim();
+
+  if (!text) {
+    return false;
+  }
+
+  if (/^Panel\s+\d+\s*:/i.test(text)) {
+    return false;
+  }
+
+  const tokens = text.match(/\b(?:\d+)?(?:[A-Z][a-z]?|\([A-Za-z0-9]+\))(?:[A-Za-z0-9()]*\d*)*\b/g) ?? [];
+  const hasChemicalToken = tokens.some((token) => /\d/.test(token) || /[()]/.test(token) || /[A-Z]{2,}/.test(token));
+
+  if (text.includes('->') || text.includes('=') || text.includes('+')) {
+    return hasChemicalToken;
+  }
+
+  return hasChemicalToken;
+}
+
 export function parseComicPanel(line: string, index: number): ComicPanel {
   const raw = line.trim();
   const fallbackNumber = String(index + 1).padStart(2, '0');
@@ -88,7 +175,9 @@ export function parseComicPanel(line: string, index: number): ComicPanel {
     return {
       number: fallbackNumber,
       scene: 'Recap moment',
+      speaker: 'Memory Guide',
       dialogue: raw,
+      visualHint: 'memory',
       raw,
     };
   }
@@ -98,12 +187,19 @@ export function parseComicPanel(line: string, index: number): ComicPanel {
   const quoteMatch = body.match(/"([^"]+)"/);
 
   if (quoteMatch) {
-    const scene = body.replace(quoteMatch[0], '').replace(/[:,\\-]\s*$/, '').trim();
+    const beforeQuote = body.replace(quoteMatch[0], '').replace(/[,:-]\s*$/, '').trim();
+    const speakerMatch = beforeQuote.match(
+      /^([^:,.]+?)\s+(says|asks|shouts|cries|points|shows|builds|joins|splits|pushes|attacks|blocks)\b/i,
+    );
+    const speaker = speakerMatch?.[1]?.trim() || beforeQuote || 'Memory Guide';
+    const scene = speakerMatch ? beforeQuote.slice(speaker.length).trim() : beforeQuote;
 
     return {
       number,
       scene: scene || 'Recap moment',
+      speaker,
       dialogue: quoteMatch[1].trim(),
+      visualHint: getComicVisualHint(body),
       raw,
     };
   }
@@ -111,10 +207,14 @@ export function parseComicPanel(line: string, index: number): ComicPanel {
   const colonIndex = body.indexOf(':');
 
   if (colonIndex !== -1) {
+    const speaker = body.slice(0, colonIndex).trim() || 'Memory Guide';
+
     return {
       number,
-      scene: body.slice(0, colonIndex).trim() || 'Recap moment',
+      scene: 'Recap moment',
+      speaker,
       dialogue: body.slice(colonIndex + 1).trim(),
+      visualHint: getComicVisualHint(body),
       raw,
     };
   }
@@ -122,7 +222,27 @@ export function parseComicPanel(line: string, index: number): ComicPanel {
   return {
     number,
     scene: 'Recap moment',
+    speaker: 'Memory Guide',
     dialogue: body,
+    visualHint: getComicVisualHint(body),
     raw,
   };
+}
+
+function getComicVisualHint(value: string): ComicPanel['visualHint'] {
+  const text = value.toLowerCase();
+
+  if (text.includes('mistake') || text.includes('warning') || text.includes('stop') || text.includes('confus')) {
+    return 'warning';
+  }
+
+  if (text.includes('remember') || text.includes('recap') || text.includes('revision')) {
+    return 'memory';
+  }
+
+  if (text.includes('says') || text.includes('asks') || text.includes('idea') || text.includes('means')) {
+    return 'idea';
+  }
+
+  return 'action';
 }

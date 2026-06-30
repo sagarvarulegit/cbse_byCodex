@@ -942,34 +942,113 @@ h3 {
 }
 
 .chapter-pack-prose {
-  gap: 18px;
+  gap: 20px;
 }
 
 .chapter-pack-intro {
-  padding: 4px 0 10px;
+  padding: 4px 0 14px;
   border-bottom: 1px solid var(--border);
 }
 
 .chapter-pack-section {
+  position: relative;
   display: grid;
-  gap: 14px;
-  padding: 20px;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
   overflow-wrap: anywhere;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 14px;
   background: var(--card);
+  box-shadow: 0 16px 40px rgba(9, 54, 42, 0.1);
 }
 
 .chapter-pack-section.standard {
-  padding: 4px 0 8px;
-  border-color: transparent;
-  border-bottom-color: var(--border);
-  border-radius: 0;
-  background: transparent;
+  border-color: rgba(93, 111, 104, 0.22);
 }
 
-.chapter-pack-section.standard .prose-section-heading {
-  margin-top: 0;
+.chapter-pack-section-accent {
+  display: grid;
+  min-height: 100%;
+  place-items: start center;
+  padding-top: 20px;
+  background:
+    radial-gradient(circle at 50% 26px, rgba(255, 255, 255, 0.72), transparent 23px),
+    linear-gradient(180deg, rgba(4, 150, 111, 0.18), rgba(11, 149, 216, 0.14));
+  color: var(--foreground);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.chapter-pack-section.standard .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(93, 111, 104, 0.16), rgba(11, 149, 216, 0.06));
+}
+
+.chapter-pack-section.goals {
+  border-color: rgba(4, 150, 111, 0.34);
+}
+
+.chapter-pack-section.flow {
+  border-color: rgba(11, 149, 216, 0.34);
+}
+
+.chapter-pack-section.concept,
+.chapter-pack-section.formula {
+  border-color: rgba(4, 150, 111, 0.22);
+}
+
+.chapter-pack-section.example,
+.chapter-pack-section.practice {
+  border-color: rgba(246, 199, 68, 0.48);
+}
+
+.chapter-pack-section.summary {
+  border-color: rgba(246, 199, 68, 0.5);
+}
+
+.chapter-pack-section.mistakes {
+  border-color: rgba(240, 68, 115, 0.34);
+}
+
+.chapter-pack-section.tips,
+.chapter-pack-section.quiz {
+  border-color: rgba(11, 149, 216, 0.32);
+}
+
+.chapter-pack-section.goals .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(4, 150, 111, 0.24), rgba(4, 150, 111, 0.08));
+}
+
+.chapter-pack-section.flow .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(11, 149, 216, 0.24), rgba(11, 149, 216, 0.08));
+}
+
+.chapter-pack-section.concept .chapter-pack-section-accent,
+.chapter-pack-section.formula .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(4, 150, 111, 0.2), rgba(4, 150, 111, 0.06));
+}
+
+.chapter-pack-section.example .chapter-pack-section-accent,
+.chapter-pack-section.practice .chapter-pack-section-accent,
+.chapter-pack-section.summary .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(246, 199, 68, 0.34), rgba(246, 199, 68, 0.1));
+}
+
+.chapter-pack-section.mistakes .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(240, 68, 115, 0.24), rgba(240, 68, 115, 0.08));
+}
+
+.chapter-pack-section.tips .chapter-pack-section-accent,
+.chapter-pack-section.quiz .chapter-pack-section-accent {
+  background: linear-gradient(180deg, rgba(11, 149, 216, 0.24), rgba(11, 149, 216, 0.08));
+}
+
+.chapter-pack-section-content {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 22px;
 }
 
 .chapter-pack-section-header {
@@ -980,11 +1059,29 @@ h3 {
   gap: 12px;
 }
 
+.chapter-pack-section-header > div {
+  min-width: 0;
+}
+
 .chapter-pack-section-header h3 {
   margin: 0;
   color: var(--foreground);
-  font-size: 1.35rem;
-  line-height: 1.25;
+  font-size: 1.38rem;
+  line-height: 1.22;
+}
+
+.chapter-pack-section-chip {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid rgba(16, 24, 22, 0.14);
+  border-radius: 999px;
+  background: var(--card-soft);
+  color: var(--primary-strong);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .chapter-pack-section-body {
@@ -997,98 +1094,78 @@ h3 {
   margin: 4px 0 0;
 }
 
-.chapter-pack-callout-list .prose-list {
+.chapter-pack-list {
   margin: 0;
 }
 
-.chapter-pack-section.goals {
-  border-color: rgba(4, 150, 111, 0.28);
-  background: linear-gradient(135deg, rgba(4, 150, 111, 0.1), var(--card));
-}
-
-.chapter-pack-section.flow {
-  border-color: rgba(11, 149, 216, 0.28);
-  background: linear-gradient(135deg, rgba(11, 149, 216, 0.1), var(--card));
-}
-
-.chapter-pack-section.summary {
-  border-color: rgba(246, 199, 68, 0.48);
-  background: linear-gradient(135deg, rgba(246, 199, 68, 0.18), var(--card));
-}
-
-.chapter-pack-section.mistakes {
-  border-color: rgba(240, 68, 115, 0.28);
-  background: linear-gradient(135deg, rgba(240, 68, 115, 0.1), var(--card));
-}
-
-.chapter-pack-section.tips {
-  border-color: rgba(246, 199, 68, 0.52);
-  background: linear-gradient(135deg, rgba(246, 199, 68, 0.14), rgba(11, 149, 216, 0.08), var(--card));
-}
-
-.chapter-pack-section.practice {
-  border-color: rgba(4, 150, 111, 0.24);
-  background: linear-gradient(135deg, rgba(4, 150, 111, 0.08), rgba(246, 199, 68, 0.1), var(--card));
-}
-
-.chapter-pack-section.quiz {
-  border-color: rgba(11, 149, 216, 0.3);
-  background: linear-gradient(135deg, rgba(11, 149, 216, 0.09), rgba(240, 68, 115, 0.08), var(--card));
-}
-
-.chapter-pack-section.goals .prose-list,
-.chapter-pack-section.mistakes .prose-list {
+.chapter-pack-list.goals,
+.chapter-pack-list.summary,
+.chapter-pack-list.mistakes,
+.chapter-pack-list.tips,
+.chapter-pack-list.practice,
+.chapter-pack-list.quiz {
   padding-left: 0;
   list-style: none;
 }
 
-.chapter-pack-section.goals .prose-list li,
-.chapter-pack-section.mistakes .prose-list li {
+.chapter-pack-list.goals li,
+.chapter-pack-list.summary li,
+.chapter-pack-list.mistakes li,
+.chapter-pack-list.tips li,
+.chapter-pack-list.practice li,
+.chapter-pack-list.quiz li {
   position: relative;
-  padding-left: 30px;
+  padding: 12px 12px 12px 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card-soft);
 }
 
-.chapter-pack-section.goals .prose-list li::before {
+.chapter-pack-list.goals li::before,
+.chapter-pack-list.summary li::before,
+.chapter-pack-list.tips li::before,
+.chapter-pack-list.practice li::before,
+.chapter-pack-list.quiz li::before {
   position: absolute;
-  top: 0.68em;
-  left: 4px;
-  width: 12px;
-  height: 7px;
+  top: 16px;
+  left: 14px;
+  width: 14px;
+  height: 8px;
   border-bottom: 3px solid var(--primary-strong);
   border-left: 3px solid var(--primary-strong);
   transform: rotate(-45deg);
   content: '';
 }
 
-.chapter-pack-section.mistakes .prose-list li::before {
+.chapter-pack-list.mistakes li::before {
   position: absolute;
-  top: 0.62em;
-  left: 5px;
-  width: 11px;
-  height: 11px;
+  top: 15px;
+  left: 14px;
+  width: 16px;
+  height: 16px;
   border: 2px solid var(--pink);
   border-radius: 999px;
   content: '';
 }
 
-.chapter-pack-section.flow .prose-list.ordered {
+.chapter-pack-list.flow.ordered {
   counter-reset: study-step;
   padding-left: 0;
   list-style: none;
 }
 
-.chapter-pack-section.flow .prose-list.ordered li {
+.chapter-pack-list.flow.ordered li {
   display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
   align-items: start;
   counter-increment: study-step;
 }
 
-.chapter-pack-section.flow .prose-list.ordered li::before {
+.chapter-pack-list.flow.ordered li::before {
   display: grid;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   place-items: center;
   border: 1px solid rgba(11, 149, 216, 0.45);
   border-radius: 999px;
@@ -1097,6 +1174,33 @@ h3 {
   font-size: 0.82rem;
   font-weight: 900;
   content: counter(study-step);
+}
+
+.chapter-pack-formula-card {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(11, 149, 216, 0.28);
+  background:
+    linear-gradient(135deg, rgba(11, 149, 216, 0.12), rgba(246, 199, 68, 0.1)),
+    var(--card-soft);
+}
+
+.chapter-pack-formula-card span {
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.chapter-pack-formula-card code {
+  font-size: 1.08rem;
+  font-weight: 900;
+  white-space: pre-wrap;
 }
 
 .chapter-comic-recap {
@@ -1169,7 +1273,8 @@ h3 {
 
 .chapter-comic-panel {
   display: grid;
-  gap: 12px;
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 10px;
   min-width: 0;
   min-height: 190px;
   padding: 16px;
@@ -1177,6 +1282,18 @@ h3 {
   border-radius: 10px;
   background: var(--card);
   box-shadow: 5px 5px 0 rgba(16, 24, 22, 0.12);
+}
+
+.chapter-comic-panel.idea {
+  background: linear-gradient(180deg, rgba(11, 149, 216, 0.1), var(--card));
+}
+
+.chapter-comic-panel.warning {
+  background: linear-gradient(180deg, rgba(240, 68, 115, 0.1), var(--card));
+}
+
+.chapter-comic-panel.memory {
+  background: linear-gradient(180deg, rgba(246, 199, 68, 0.16), var(--card));
 }
 
 .chapter-comic-panel-topline {
@@ -1201,10 +1318,55 @@ h3 {
   text-transform: uppercase;
 }
 
+.chapter-comic-panel-topline small {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.chapter-comic-visual {
+  display: grid;
+  min-height: 76px;
+  place-items: center;
+  border: 2px solid var(--foreground);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.8), transparent 18px),
+    linear-gradient(135deg, var(--yellow), rgba(11, 149, 216, 0.28));
+}
+
+.chapter-comic-visual span {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 2px solid var(--foreground);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--foreground);
+  font-weight: 900;
+}
+
 .chapter-comic-panel strong {
   color: var(--foreground);
   font-size: 1.02rem;
   line-height: 1.45;
+}
+
+.chapter-comic-panel em {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
 .chapter-comic-panel p {
@@ -1234,16 +1396,6 @@ h3 {
 }
 
 @media (prefers-color-scheme: dark) {
-  .chapter-pack-section.goals,
-  .chapter-pack-section.flow,
-  .chapter-pack-section.summary,
-  .chapter-pack-section.mistakes,
-  .chapter-pack-section.tips,
-  .chapter-pack-section.practice,
-  .chapter-pack-section.quiz {
-    background: var(--card);
-  }
-
   .chapter-comic-recap {
     background:
       linear-gradient(90deg, rgba(255, 218, 107, 0.12), transparent 34%),
@@ -1258,6 +1410,17 @@ h3 {
 
   .chapter-comic-panel {
     box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+
+  .chapter-pack-section,
+  .chapter-pack-formula-card,
+  .chapter-pack-list.goals li,
+  .chapter-pack-list.summary li,
+  .chapter-pack-list.mistakes li,
+  .chapter-pack-list.tips li,
+  .chapter-pack-list.practice li,
+  .chapter-pack-list.quiz li {
+    background-color: var(--card);
   }
 }
 
@@ -1732,6 +1895,20 @@ h3 {
 }
 
 @media (max-width: 920px) {
+  .chapter-pack-section {
+    grid-template-columns: 1fr;
+  }
+
+  .chapter-pack-section-accent {
+    min-height: 48px;
+    place-items: center start;
+    padding: 0 18px;
+  }
+
+  .chapter-comic-grid {
+    grid-template-columns: 1fr;
+  }
+
   .topbar {
     position: static;
   }
@@ -1856,12 +2033,12 @@ h3 {
     box-shadow: 6px 6px 0 rgba(16, 24, 22, 0.16);
   }
 
-  .chapter-pack-section,
-  .chapter-comic-recap {
+  .chapter-pack-section-content {
     padding: 16px;
   }
 
   .chapter-comic-recap {
+    padding: 18px;
     box-shadow: 5px 5px 0 rgba(16, 24, 22, 0.14);
   }
 
@@ -1887,6 +2064,24 @@ h3 {
   .chapter-comic-panel {
     min-height: auto;
     padding: 14px;
+  }
+
+  .chapter-pack-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chapter-pack-list.goals li,
+  .chapter-pack-list.summary li,
+  .chapter-pack-list.mistakes li,
+  .chapter-pack-list.tips li,
+  .chapter-pack-list.practice li,
+  .chapter-pack-list.quiz li {
+    padding-right: 10px;
+  }
+
+  .chapter-pack-formula-card code {
+    font-size: 0.98rem;
   }
 
   .comic-speech-bubble {

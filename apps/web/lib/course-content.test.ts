@@ -54,18 +54,27 @@ function assertFourPanelComic(blocks: MarkdownBlock[]) {
   }
 }
 
-test('chemical pilot catalog exposes exactly the first two available lessons', () => {
+test('chemical pilot catalog exposes all five available lessons', () => {
   const chapter = getChapter(chapterSlug);
   assert.ok(chapter);
 
   assert.deepEqual(
     getAvailableLessons(chapter).map((lesson) => lesson.slug),
-    ['chemical-equations', 'balancing-equations'],
+    [
+      'chemical-equations',
+      'balancing-equations',
+      'combination-and-decomposition-reactions',
+      'displacement-and-double-displacement-reactions',
+      'oxidation-and-reduction',
+    ],
   );
   assert.equal(chapter.lessons[0]?.fileName, '01-chemical-equations.md');
   assert.equal(chapter.lessons[0]?.free, true);
   assert.equal(chapter.lessons[1]?.fileName, '02-balancing-equations.md');
   assert.equal(chapter.lessons[1]?.free, false);
+  assert.equal(chapter.lessons[2]?.fileName, '03-combination-and-decomposition-reactions.md');
+  assert.equal(chapter.lessons[3]?.fileName, '04-displacement-and-double-displacement-reactions.md');
+  assert.equal(chapter.lessons[4]?.fileName, '05-oxidation-and-reduction.md');
 });
 
 test('chemical equations lesson loads with required structure and navigation', async () => {
@@ -97,12 +106,12 @@ test('chemical equations lesson loads with required structure and navigation', a
   assertFourPanelComic(content.blocks);
 });
 
-test('balancing equations lesson loads with worked examples and no unpublished next link', async () => {
+test('balancing equations lesson loads with worked examples and the next lesson link', async () => {
   const content = await getLessonContent(chapterSlug, 'balancing-equations');
   assert.ok(content);
 
   assert.equal(content.previousLesson?.slug, 'chemical-equations');
-  assert.equal(content.nextLesson, null);
+  assert.equal(content.nextLesson?.slug, 'combination-and-decomposition-reactions');
 
   assertRequiredHeadings(content.blocks, [
     'learning goals',
@@ -126,6 +135,99 @@ test('balancing equations lesson loads with worked examples and no unpublished n
   assert.match(lessonText, /3Fe \+ 4H2O -> Fe3O4 \+ 4H2/);
   assert.match(lessonText, /Na2SO4 \+ BaCl2 -> BaSO4 \+ 2NaCl/);
   assert.match(lessonText, /4Al \+ 3O2 -> 2Al2O3/);
+  assertFourPanelComic(content.blocks);
+});
+
+test('combination and decomposition lesson loads with reaction type coverage', async () => {
+  const content = await getLessonContent(chapterSlug, 'combination-and-decomposition-reactions');
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'balancing-equations');
+  assert.equal(content.nextLesson?.slug, 'displacement-and-double-displacement-reactions');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'combination reactions',
+    'decomposition reactions',
+    'types of decomposition',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /CaO \+ H2O -> Ca\(OH\)2/);
+  assert.match(lessonText, /CaCO3 -> CaO \+ CO2/);
+  assert.match(lessonText, /2Pb\(NO3\)2 -> 2PbO \+ 4NO2 \+ O2/);
+  assert.match(lessonText, /2AgCl -> 2Ag \+ Cl2/);
+  assert.match(lessonText, /2H2O -> 2H2 \+ O2/);
+  assertFourPanelComic(content.blocks);
+});
+
+test('displacement and double displacement lesson loads with reactivity and precipitation', async () => {
+  const content = await getLessonContent(
+    chapterSlug,
+    'displacement-and-double-displacement-reactions',
+  );
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'combination-and-decomposition-reactions');
+  assert.equal(content.nextLesson?.slug, 'oxidation-and-reduction');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'displacement reactions',
+    'reactivity series clue',
+    'double displacement reactions',
+    'precipitation reactions',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /Fe \+ CuSO4 -> FeSO4 \+ Cu/);
+  assert.match(lessonText, /Zn \+ CuSO4 -> ZnSO4 \+ Cu/);
+  assert.match(lessonText, /Na2SO4 \+ BaCl2 -> BaSO4 \+ 2NaCl/);
+  assert.match(lessonText, /AgNO3 \+ NaCl -> AgCl \+ NaNO3/);
+  assertFourPanelComic(content.blocks);
+});
+
+test('oxidation and reduction lesson loads with redox and prevention coverage', async () => {
+  const content = await getLessonContent(chapterSlug, 'oxidation-and-reduction');
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'displacement-and-double-displacement-reactions');
+  assert.equal(content.nextLesson, null);
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'oxidation',
+    'reduction',
+    'redox reaction',
+    'corrosion',
+    'rancidity',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /2Cu \+ O2 -> 2CuO/);
+  assert.match(lessonText, /CuO \+ H2 -> Cu \+ H2O/);
+  assert.match(lessonText, /Nitrogen Keeper/);
   assertFourPanelComic(content.blocks);
 });
 

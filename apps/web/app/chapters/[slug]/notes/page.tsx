@@ -8,14 +8,15 @@ import { getChapterPackContent } from '../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../lib/course-content';
 import {
   collectChapterSection,
+  getChapterSectionVariant,
   getSectionTextLines,
+  isFormulaLikeText,
   parseComicPanel,
   toSectionId,
   type ChapterSection,
+  type ChapterSectionVariant,
 } from '../../../../lib/chapter-notes-rendering';
 import { isPilotChapter } from '../../../../lib/pilot';
-
-type SectionVariant = 'goals' | 'flow' | 'summary' | 'mistakes' | 'tips' | 'practice' | 'quiz';
 
 export default async function ChapterNotesPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -163,74 +164,45 @@ function renderChapterIntro(block: { text: string; type: string }, index: number
 }
 
 function renderChapterSection(section: ChapterSection, index: number): ReactNode {
-  const title = section.normalizedTitle;
+  const variant = getChapterSectionVariant(section);
 
-  if (title.includes('comic') && title.includes('recap')) {
+  if (variant === 'comic') {
     return renderComicStyleRecap(section, index);
   }
 
-  if (title === 'chapter goal') {
-    return renderFeatureSection(section, index, 'goals');
-  }
-
-  if (title === 'chapter flow for the platform' || title === 'chapter flow') {
-    return renderFeatureSection(section, index, 'flow');
-  }
-
-  if (title.includes('summary')) {
-    return renderFeatureSection(section, index, 'summary');
-  }
-
-  if (title.includes('common mistake')) {
-    return renderFeatureSection(section, index, 'mistakes');
-  }
-
-  if (title === 'board tips') {
-    return renderFeatureSection(section, index, 'tips');
-  }
-
-  if (title.includes('practice')) {
-    return renderFeatureSection(section, index, 'practice');
-  }
-
-  if (title.includes('mini quiz')) {
-    return renderFeatureSection(section, index, 'quiz');
-  }
-
-  return renderStandardSection(section, index);
+  return renderFeatureSection(section, index, variant);
 }
 
-function renderFeatureSection(section: ChapterSection, index: number, variant: SectionVariant) {
+function renderFeatureSection(section: ChapterSection, index: number, variant: ChapterSectionVariant) {
+  const meta = getSectionMeta(variant);
+
   return (
     <section
       className={`chapter-pack-section ${variant}`}
       id={toSectionId(section.heading.text)}
       key={`${variant}-${section.heading.text}-${index}`}
     >
-      <div className="chapter-pack-section-header">
-        <p className="eyebrow">{getSectionEyebrow(variant)}</p>
-        <h3>{renderInline(section.heading.text)}</h3>
+      <div className="chapter-pack-section-accent" aria-hidden="true">
+        {meta.mark}
       </div>
-      <div className="chapter-pack-section-body chapter-pack-callout-list">
-        {section.blocks.map((block, blockIndex) => renderBlock(block, blockIndex))}
+      <div className="chapter-pack-section-content">
+        <div className="chapter-pack-section-header">
+          <div>
+            <p className="eyebrow">{meta.eyebrow}</p>
+            <h3>{renderInline(section.heading.text)}</h3>
+          </div>
+          <span className="chapter-pack-section-chip">{meta.chip}</span>
+        </div>
+        <div className={`chapter-pack-section-body ${meta.bodyClass}`}>
+          {section.blocks.map((block, blockIndex) => renderBlock(block, blockIndex, variant))}
+        </div>
       </div>
     </section>
   );
 }
 
 function renderStandardSection(section: ChapterSection, index: number) {
-  return (
-    <section
-      className="chapter-pack-section standard"
-      id={toSectionId(section.heading.text)}
-      key={`standard-${section.heading.text}-${index}`}
-    >
-      <h3 className="prose-section-heading">{renderInline(section.heading.text)}</h3>
-      <div className="chapter-pack-section-body">
-        {section.blocks.map((block, blockIndex) => renderBlock(block, blockIndex))}
-      </div>
-    </section>
-  );
+  return renderFeatureSection(section, index, 'standard');
 }
 
 function renderComicStyleRecap(section: ChapterSection, index: number) {
@@ -259,11 +231,16 @@ function renderComicStyleRecap(section: ChapterSection, index: number) {
       </div>
       <div className="chapter-comic-grid">
         {panels.map((panel) => (
-          <article className="chapter-comic-panel" key={`${panel.number}-${panel.raw}`}>
+          <article className={`chapter-comic-panel ${panel.visualHint}`} key={`${panel.number}-${panel.raw}`}>
             <div className="chapter-comic-panel-topline">
               <span>Panel {panel.number}</span>
+              <small>{panel.visualHint}</small>
             </div>
-            <strong>{renderInline(panel.scene)}</strong>
+            <div className="chapter-comic-visual" aria-hidden="true">
+              <span>{panel.speaker.slice(0, 2).toUpperCase()}</span>
+            </div>
+            <strong>{renderInline(panel.speaker)}</strong>
+            <em>{renderInline(panel.scene)}</em>
             <p>{renderInline(panel.dialogue)}</p>
           </article>
         ))}
@@ -272,26 +249,40 @@ function renderComicStyleRecap(section: ChapterSection, index: number) {
   );
 }
 
-function getSectionEyebrow(variant: SectionVariant) {
+function getSectionMeta(variant: ChapterSectionVariant) {
   switch (variant) {
     case 'goals':
-      return 'Learning target';
+      return { eyebrow: 'Learning target', chip: 'Start here', mark: 'GO', bodyClass: 'chapter-pack-goal-list' };
     case 'flow':
-      return 'Study path';
+      return { eyebrow: 'Study path', chip: 'Sequence', mark: '01', bodyClass: 'chapter-pack-flow-list' };
+    case 'concept':
+      return { eyebrow: 'Concept block', chip: 'Learn', mark: 'CN', bodyClass: 'chapter-pack-concept-body' };
+    case 'example':
+      return { eyebrow: 'Worked examples', chip: 'Solved', mark: 'EX', bodyClass: 'chapter-pack-example-body' };
+    case 'formula':
+      return { eyebrow: 'Formula and reaction focus', chip: 'Remember', mark: 'FX', bodyClass: 'chapter-pack-formula-body' };
     case 'summary':
-      return 'Quick revision';
+      return { eyebrow: 'Quick revision', chip: 'Revise', mark: 'RV', bodyClass: 'chapter-pack-summary-list' };
     case 'mistakes':
-      return 'Avoid these';
+      return { eyebrow: 'Avoid these', chip: 'Careful', mark: 'NO', bodyClass: 'chapter-pack-mistake-list' };
     case 'tips':
-      return 'Board exam';
+      return { eyebrow: 'Board exam', chip: 'Score', mark: 'BT', bodyClass: 'chapter-pack-tip-list' };
     case 'practice':
-      return 'Practice';
+      return { eyebrow: 'Short answer practice', chip: 'Try', mark: 'PR', bodyClass: 'chapter-pack-practice-list' };
     case 'quiz':
-      return 'Self check';
+      return { eyebrow: 'Self check', chip: 'Quiz', mark: 'QZ', bodyClass: 'chapter-pack-quiz-list' };
+    case 'comic':
+      return { eyebrow: 'Visual memory strip', chip: 'Comic', mark: 'CM', bodyClass: 'chapter-pack-comic-body' };
+    case 'standard':
+      return { eyebrow: 'Study note', chip: 'Read', mark: 'NT', bodyClass: 'chapter-pack-standard-body' };
   }
+
+  return { eyebrow: 'Study note', chip: 'Read', mark: 'NT', bodyClass: 'chapter-pack-standard-body' };
 }
 
-function renderBlock(block: MarkdownBlock, index: number): ReactNode {
+function renderBlock(block: MarkdownBlock, index: number, sectionVariant: ChapterSectionVariant = 'standard'): ReactNode {
+  const listClassName = `prose-list chapter-pack-list ${sectionVariant}`;
+
   switch (block.type) {
     case 'h1':
       return renderChapterIntro(block, index);
@@ -315,7 +306,7 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
       );
     case 'unordered-list':
       return (
-        <ul className="prose-list" key={`${block.type}-${index}`}>
+        <ul className={listClassName} key={`${block.type}-${index}`}>
           {block.items.map((item, itemIndex) => (
             <li key={`${item}-${itemIndex}`}>{renderInline(item)}</li>
           ))}
@@ -323,17 +314,24 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
       );
     case 'ordered-list':
       return (
-        <ol className="prose-list ordered" key={`${block.type}-${index}`}>
+        <ol className={`${listClassName} ordered`} key={`${block.type}-${index}`}>
           {block.items.map((item, itemIndex) => (
             <li key={`${item}-${itemIndex}`}>{renderInline(item)}</li>
           ))}
         </ol>
       );
     case 'code':
-      return (
-        <pre className="formula-block" key={`${block.type}-${index}`}>
-          <code>{block.text}</code>
-        </pre>
-      );
+      {
+        const formulaLike = isFormulaLikeText(block.text);
+
+        return (
+          <pre className={formulaLike ? 'formula-block chapter-pack-formula-card' : 'formula-block'} key={`${block.type}-${index}`}>
+            {formulaLike ? <span>Key line</span> : null}
+            <code>{block.text}</code>
+          </pre>
+        );
+      }
   }
+
+  return null;
 }

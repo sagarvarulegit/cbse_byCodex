@@ -237,11 +237,11 @@ const chapters: Record<string, ChapterContent> = {
   'chemical-reactions-and-equations': {
     subject: 'Science',
     title: 'Chemical Reactions and Equations',
-    progress: 28,
-    mastery: 'Getting started',
-    streakTask: 'Balance 6 equations without hints',
+    progress: 56,
+    mastery: 'Notes live',
+    streakTask: 'Finish one lesson note and balance 3 equations without hints',
     summary:
-      'Start with reaction signs, formula equations, and guided balancing practice, then use the chapter notes and quiz to revise reaction types.',
+      'All five lesson notes are now live: reaction basics, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.',
     topics: ['Balancing equations', 'Reaction types', 'Oxidation and reduction'],
     lessons: [
       {
@@ -266,30 +266,33 @@ const chapters: Record<string, ChapterContent> = {
       },
       {
         slug: 'combination-and-decomposition-reactions',
-        fileName: '',
+        fileName: '03-combination-and-decomposition-reactions.md',
         title: 'Combination and decomposition reactions',
         type: 'Visual explainer',
         minutes: 9,
         free: false,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Learn how combination and decomposition reactions work, plus the difference between thermal, electrolytic, and photolytic breakdown.',
       },
       {
         slug: 'displacement-and-double-displacement-reactions',
-        fileName: '',
+        fileName: '04-displacement-and-double-displacement-reactions.md',
         title: 'Displacement and double displacement reactions',
         type: 'Activity breakdown',
         minutes: 10,
         free: false,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Use the reactivity series and ion exchange to spot displacement, double displacement, and precipitate-forming reactions.',
       },
       {
         slug: 'oxidation-and-reduction',
-        fileName: '',
+        fileName: '05-oxidation-and-reduction.md',
         title: 'Oxidation and reduction',
         type: 'Revision sprint',
         minutes: 8,
         free: false,
-        preview: 'Science lesson notes are still being prepared.',
+        preview:
+          'Revise oxidation, reduction, redox, corrosion, and rancidity with prevention methods and quick examples.',
       },
     ],
   },
