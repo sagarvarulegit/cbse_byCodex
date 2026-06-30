@@ -182,6 +182,7 @@ project, the current repo docs, and the git history through `d2040ac`.
 - [ ] Convert the prime-numbers prototype into a reusable production template.
 - [ ] Create a complete "Real Numbers" pilot lesson sequence.
 - [x] Create a complete "Chemical Reactions and Equations" pilot lesson sequence.
+- [ ] Create a complete "Two Stories about Flying" pilot lesson sequence.
 - [ ] For each pilot chapter, produce 5-8 topic videos.
 - [ ] For each pilot topic, produce notes and 10-20 quiz questions.
 - [ ] Add NCERT exercise mapping for each pilot chapter.
