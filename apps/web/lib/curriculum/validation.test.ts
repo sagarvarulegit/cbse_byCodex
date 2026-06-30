@@ -175,6 +175,57 @@ test('blueprint validation rejects source type, session, and role independently'
   }
 });
 
+test('blueprint validation requires the explicit current blueprint source role', () => {
+  const sourceId = 'test-current-curriculum-with-blueprint-flag';
+  const sources = OFFICIAL_SOURCES as Record<string, unknown>;
+
+  sources[sourceId] = {
+    academicSession: '2026-27',
+    id: sourceId,
+    mayDriveCurrentBlueprint: true,
+    mayDriveCurrentCurriculum: true,
+    notes: 'Test-only inconsistent source: blueprint flag true but role is curriculum-only.',
+    publishedBy: 'CBSE',
+    role: 'current-curriculum',
+    sourceType: 'curriculum',
+    subjectCodes: ['041'],
+    title: 'Test Current Curriculum With Blueprint Flag',
+    url: 'https://cbseacademic.nic.in/test-current-curriculum.pdf',
+    verifiedOn: '2026-06-24',
+  };
+
+  try {
+    const subject: CurriculumSubject = {
+      ...createValidSubject(),
+      examProfile: {
+        ...createValidSubject().examProfile!,
+        blueprintSourceIds: [sourceId],
+      },
+    };
+
+    assert.deepEqual(
+      validateCurriculumSubject(subject)
+        .filter((issue) => issue.path.startsWith('examProfile.blueprintSourceIds'))
+        .map((issue) => issue.code),
+      ['invalid-blueprint-source-role'],
+    );
+  } finally {
+    delete sources[sourceId];
+  }
+});
+
+test('only current curriculum-and-blueprint sources may set the blueprint eligibility flag', () => {
+  const eligibleSources = Object.values(OFFICIAL_SOURCES).filter(
+    (source) => source.mayDriveCurrentBlueprint,
+  );
+
+  assert.ok(eligibleSources.length > 0);
+  assert.deepEqual(
+    eligibleSources.map((source) => source.role),
+    eligibleSources.map(() => 'current-curriculum-and-blueprint'),
+  );
+});
+
 test('blocked blueprint readiness is valid only with an explicit blocker and no source ids', () => {
   const blockedSubject: CurriculumSubject = {
     ...createValidSubject(),

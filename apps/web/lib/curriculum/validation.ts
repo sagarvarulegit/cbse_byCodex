@@ -172,6 +172,7 @@ function getMissingSourceIssues(subject: CurriculumSubject): CurriculumValidatio
 
     if (
       source.mayDriveCurrentBlueprint !== true ||
+      source.role !== 'current-curriculum-and-blueprint' ||
       !source.subjectCodes.some(
         (subjectCode) =>
           subjectCode === 'ALL' || subjectCode === subject.subjectCode,
