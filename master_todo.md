@@ -220,7 +220,7 @@ These are the highest priority items before inviting more than a handful of stud
 
 ### Pilot Chapter Completeness
 
-- [ ] Upgrade Chemical Reactions and Equations from chapter-pack-only to lesson-wise pilot content.
+- [x] Upgrade Chemical Reactions and Equations from chapter-pack-only to lesson-wise pilot content.
 - [ ] Upgrade Two Stories about Flying from chapter-pack-only to lesson-wise pilot content.
 - [ ] Remove or fix "Science lesson notes are still being prepared" placeholders for pilot entry points.
 - [ ] Ensure each pilot chapter has:
@@ -281,7 +281,7 @@ These are the highest priority items before inviting more than a handful of stud
 
 - [ ] Choose the first public-beta subject scope. Recommended: Mathematics + Science only.
 - [ ] Complete Real Numbers to full pilot quality.
-- [ ] Complete Chemical Reactions and Equations to full pilot quality.
+- [x] Complete Chemical Reactions and Equations to full pilot quality.
 - [ ] Decide whether Two Stories about Flying remains in pilot or waits for English beta.
 - [ ] For each launch chapter, add:
   - lesson-wise split
