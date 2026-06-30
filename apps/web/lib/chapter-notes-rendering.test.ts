@@ -4,10 +4,13 @@ import test from 'node:test';
 import type { MarkdownBlock } from './course-content';
 import {
   collectChapterSection,
+  getChapterSectionVariant,
   getSectionTextLines,
   normalizeSectionTitle,
+  isFormulaLikeText,
   parseComicPanel,
   toSectionId,
+  type ChapterSection,
 } from './chapter-notes-rendering';
 
 test('collectChapterSection groups h2 content until the next h2', () => {
@@ -54,11 +57,53 @@ test('getSectionTextLines flattens recap-friendly text blocks', () => {
 });
 
 test('parseComicPanel extracts panel number, scene, and quoted dialogue', () => {
-  assert.deepEqual(parseComicPanel('Panel 1: Captain Atom says, "Nobody disappears in my city."', 0), {
-    dialogue: 'Nobody disappears in my city.',
-    number: '01',
-    raw: 'Panel 1: Captain Atom says, "Nobody disappears in my city."',
-    scene: 'Captain Atom says',
+  assert.deepEqual(parseComicPanel('Panel 2: Combo Kid joins two reactants and shouts, "One big product coming up!"', 1), {
+    dialogue: 'One big product coming up!',
+    number: '02',
+    raw: 'Panel 2: Combo Kid joins two reactants and shouts, "One big product coming up!"',
+    scene: 'joins two reactants and shouts',
+    speaker: 'Combo Kid',
+    visualHint: 'action',
+  });
+});
+
+test('getChapterSectionVariant maps generated h2 titles to product sections', () => {
+  const section = (heading: string): ChapterSection => ({
+    heading: { type: 'h2', text: heading },
+    normalizedTitle: normalizeSectionTitle(heading),
+    blocks: [],
+  });
+
+  assert.equal(getChapterSectionVariant(section('chapter goal')), 'goals');
+  assert.equal(getChapterSectionVariant(section('chapter flow for the platform')), 'flow');
+  assert.equal(getChapterSectionVariant(section('1) chemical reactions')), 'concept');
+  assert.equal(getChapterSectionVariant(section('2) balanced chemical equations')), 'concept');
+  assert.equal(getChapterSectionVariant(section('solved practice set')), 'example');
+  assert.equal(getChapterSectionVariant(section('exam-friendly summary notes')), 'summary');
+  assert.equal(getChapterSectionVariant(section('common mistakes students make')), 'mistakes');
+  assert.equal(getChapterSectionVariant(section('board tips')), 'tips');
+  assert.equal(getChapterSectionVariant(section('short answer practice')), 'practice');
+  assert.equal(getChapterSectionVariant(section('mini quiz with answers')), 'quiz');
+  assert.equal(getChapterSectionVariant(section('comic style recap')), 'comic');
+  assert.equal(getChapterSectionVariant(section('teacher note on textbook alignment')), 'standard');
+});
+
+test('isFormulaLikeText detects equations, reactions, and formula-heavy lines without catching normal prose', () => {
+  assert.equal(isFormulaLikeText('CaO + H2O -> Ca(OH)2'), true);
+  assert.equal(isFormulaLikeText('2H2 + O2 -> 2H2O'), true);
+  assert.equal(isFormulaLikeText('BaSO4 is a white precipitate.'), true);
+  assert.equal(isFormulaLikeText('A chemical equation represents a reaction using symbols and formulae.'), false);
+  assert.equal(isFormulaLikeText('Panel 1: Captain Atom says, "Balance both sides!"'), false);
+});
+
+test('parseComicPanel extracts speaker and visual hint for comic cards', () => {
+  assert.deepEqual(parseComicPanel('Panel 2: Combo Kid joins two reactants and shouts, "One big product coming up!"', 1), {
+    dialogue: 'One big product coming up!',
+    number: '02',
+    raw: 'Panel 2: Combo Kid joins two reactants and shouts, "One big product coming up!"',
+    scene: 'joins two reactants and shouts',
+    speaker: 'Combo Kid',
+    visualHint: 'action',
   });
 });
 
@@ -67,7 +112,9 @@ test('parseComicPanel handles colon and no-prefix fallbacks', () => {
     dialogue: 'More reactive metals get the seat.',
     number: '04',
     raw: 'Panel 4: Reactive Raja: More reactive metals get the seat.',
-    scene: 'Reactive Raja',
+    scene: 'Recap moment',
+    speaker: 'Reactive Raja',
+    visualHint: 'action',
   });
 
   assert.deepEqual(parseComicPanel('Valli sees the dead cow and becomes quiet.', 4), {
@@ -75,5 +122,7 @@ test('parseComicPanel handles colon and no-prefix fallbacks', () => {
     number: '05',
     raw: 'Valli sees the dead cow and becomes quiet.',
     scene: 'Recap moment',
+    speaker: 'Memory Guide',
+    visualHint: 'memory',
   });
 });
