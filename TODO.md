@@ -1,1 +1,1 @@
-Create a content style QA checklist for chapter-pack notes and apply it to the three pilot chapters: Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying. The checklist must cover scanning, section length, examples after concepts, memory tricks, common mistakes, board tips, practice prompts, comic recap quality, and mobile rendering.
+Upgrade Chemical Reactions and Equations from chapter-pack-only to lesson-wise pilot content.
