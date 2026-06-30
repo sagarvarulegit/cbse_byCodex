@@ -1,8 +1,10 @@
 # TODO
 
-Last updated: 2026-06-24
+Last updated: 2026-06-30
 
 ## Next Task
+
+Confirmed after the curriculum source-of-truth branch push: the next detailed executable task remains the Chemical Reactions pilot lesson expansion below.
 
 Create the next two complete lesson-wise pilot notes for Chemical Reactions and Equations:
 
