@@ -30,6 +30,7 @@
 - The second legacy batch is already complete for `the-necklace`, `the-proposal`, `the-thiefs-story`, `the-sermon-at-benares`, and `the-midnight-visitor`.
 - The current validator state is 0 missing-answer / 0 missing-explanation issues after the remaining legacy sweep.
 - The three pilot quizzes already parse in strict mode in `apps/web/lib/pilot-quiz-content.test.ts`, but they still need explicit manual review before the next student batch.
+- Production API was redeployed on 2026-07-01 after a Prisma `P2028` quiz-save transaction timeout during manual review; retry the deployed quiz submit flow before marking manual review complete.
 
 ## Files And Responsibilities
 

@@ -18,6 +18,8 @@ import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { requireSessionUser } from '../lib/session.js';
 
 const MAX_QUIZ_TRANSACTION_ATTEMPTS = 3;
+const QUIZ_TRANSACTION_MAX_WAIT_MS = 5000;
+const QUIZ_TRANSACTION_TIMEOUT_MS = 15000;
 
 function normalizePercentComplete(value: unknown) {
   const numericValue = Number(value);
@@ -65,7 +67,7 @@ function normalizeRecommendedSteps(value: Prisma.JsonValue) {
 
 function isRetryableQuizTransactionError(error: unknown) {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    return error.code === 'P2034' || error.code === 'P2002';
+    return error.code === 'P2028' || error.code === 'P2034' || error.code === 'P2002';
   }
 
   return false;
@@ -404,7 +406,11 @@ progressRouter.post('/quiz', async (req, res) => {
 
             return { attempt, awardedBadges, mastery, revisionMission, studyStreak };
           },
-          { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+            maxWait: QUIZ_TRANSACTION_MAX_WAIT_MS,
+            timeout: QUIZ_TRANSACTION_TIMEOUT_MS,
+          },
         );
         break;
       } catch (error) {
