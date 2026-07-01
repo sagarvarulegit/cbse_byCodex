@@ -1,4 +1,4 @@
-# Next Task: Make Every Pilot Chapter Fully Pilot-Ready
+# Next Task: Run The Tiny Real Student Pilot
 
 ## Recommended Low-Cost AI Model
 
@@ -19,16 +19,9 @@ Fallbacks:
 
 ## Goal
 
-Ensure each free pilot chapter has a complete student-ready learning loop:
+Invite 2 to 5 known students, have them use the live pilot naturally for 20 to 30 minutes, then review the deployed admin pilot-review dashboard and fix the single highest-friction learning issue.
 
-- Chapter overview
-- 3 to 5 high-quality lesson notes
-- Quiz with explicit answer key
-- Explanation for every quiz question
-- Topic mapping for weak-topic tracking
-- Feedback form with the correct chapter context
-
-Pilot chapters are defined in `apps/web/lib/pilot.ts`:
+Pilot chapters remain:
 
 - `real-numbers`
 - `chemical-reactions-and-equations`
