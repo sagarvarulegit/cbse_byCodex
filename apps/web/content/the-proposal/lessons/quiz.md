@@ -20,6 +20,9 @@ Lomov visits Chubukov to:
 2. buy a horse
 3. borrow a book
 
+Answer: 1
+Explanation: Lomov comes to propose to Natalya, even though the meeting quickly turns into an argument.
+
 ## 2. Natalya
 
 Natalya is:
@@ -27,6 +30,9 @@ Natalya is:
 1. Chubukov's daughter
 2. Lomov's teacher
 3. the servant
+
+Answer: 1
+Explanation: Natalya is Chubukov's daughter and the person Lomov wants to marry.
 
 ## 3. First quarrel
 
@@ -36,6 +42,9 @@ The first quarrel is about:
 2. a necklace
 3. a bus ride
 
+Answer: 1
+Explanation: Lomov and Natalya start arguing over the land called Oxen Meadows.
+
 ## 4. Second quarrel
 
 The second quarrel is about:
@@ -44,6 +53,9 @@ The second quarrel is about:
 2. crops
 3. diaries
 
+Answer: 1
+Explanation: The second argument starts when they fight over whose dog is better.
+
 ## 5. Genre
 
 The play is a:
@@ -51,6 +63,9 @@ The play is a:
 1. farce
 2. tragedy only
 3. travel essay
+
+Answer: 1
+Explanation: The play is a comic farce because the quarrels are exaggerated and funny.
 
 ## revision reminder
 

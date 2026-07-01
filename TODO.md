@@ -1,443 +1,98 @@
-# Next Task: Harden Quiz Metadata Validation
-
-## Recommended Low-Cost AI Model
+# Quiz Metadata Completion Implementation Plan
 
-Use `gpt-5.4-mini` with `reasoning.effort: medium`.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-Why this is the best cost/quality fit:
+**Goal:** Finish quiz metadata quality for the next student batch by validating the existing script, closing pilot topic metadata, backfilling all legacy quiz answers and explanations, manually reviewing the three pilot quiz pages, and verifying locked retry behavior.
 
-- This task touches content, parser behavior, scripts, package commands, tests, and one existing quiz UX invariant.
-- A cheap model can add obvious `Answer:` lines, but the dangerous part is preventing missing answers from silently scoring option 1.
-- `gpt-5.4-mini` is the lowest-cost safe default for this task because it can follow the exact file-level plan below and still reason about parser/test failures.
-- Use `reasoning.effort: medium` for the implementation pass because the work has several connected contracts.
+**Architecture:** Keep parser behavior unchanged: strict metadata is required for pilot/validation flows, while the legacy non-strict fallback remains available until every legacy quiz is migrated. Use the existing CLI validator as the source of truth for metadata cleanup, and use focused tests/browser review for retry and locked-review behavior.
 
-Fallbacks:
+**Tech Stack:** Next.js app under `apps/web`, TypeScript, Node test runner with `tsx`, markdown quiz files under `apps/web/content`, Express API tests under `apps/api`.
 
-- Cheapest safe review pass: `gpt-5.4-mini` with `reasoning.effort: low`, only after the validation script and tests already exist.
-- Cheapest content-only pass: `gpt-5.4-nano` with `reasoning.effort: low`, only for adding missing `Explanation:` or `Topic:` metadata reported by the script.
-- Higher confidence: `gpt-5.4` with `reasoning.effort: medium`, only if the parser behavior, package scripts, or quiz-attempt immutability tests become confusing.
-- Avoid flagship/high-effort models for the first attempt. The plan below is intentionally detailed enough for a smaller model.
+## Global Constraints
 
-## Goal
+- Do not implement payments or subscriptions.
+- Do not widen the student pilot.
+- Do not remove the legacy non-strict quiz parser fallback.
+- Do not make revealed quiz attempts editable.
+- Do not guess quiz answers; verify from the question, options, chapter context, or lesson notes.
+- Keep pilot-first priority: Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying are the student-facing pilot chapters.
+- Use `Get-Content -LiteralPath` for bracketed route paths in PowerShell.
+- After source-code changes, run `graphify update .`; content-only markdown batches do not need graphify unless code changes too.
 
-Make quiz markdown safe for the next student batch by requiring explicit answer metadata, warning on missing explanations, validating pilot topic metadata first, proving that missing answers cannot silently score option 1 in strict validation, and confirming immutable retry/review behavior remains unchanged.
+---
 
-This task comes from `master_todo.md` under `Quiz Quality Fixes`:
+## Current Known State
 
-- Add explicit `Answer:` metadata to every quiz question.
-- Add `Explanation:` metadata to every quiz question.
-- Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
-- Add a validation script that fails when a quiz question has no answer.
-- Add a validation script that warns when a quiz question has no explanation.
-- Add tests to prove missing answer metadata cannot silently score option 1.
-- Review all three pilot quizzes manually before the next student batch.
-- Keep each retry immutable and locked after review.
+- `apps/web/lib/quiz-content-validation.ts` exists and exposes `validateQuizMetadata`.
+- `apps/web/scripts/validate-quiz-metadata.ts` exists and is wired through `npm.cmd run validate:quizzes -w apps/web`.
+- `apps/web/lib/quiz-content.test.ts` already has a strict missing-answer regression.
+- The first legacy batch is already complete for `a-letter-to-god`, `a-question-of-trust`, `a-triumph-of-surgery`, `bade-bhai-sahab`, and `bholi`.
+- The second legacy batch is already complete for `the-necklace`, `the-proposal`, `the-thiefs-story`, `the-sermon-at-benares`, and `the-midnight-visitor`.
+- The current validator state after two batches is 380 missing-answer / 380 missing-explanation issues.
+- The three pilot quizzes already parse in strict mode in `apps/web/lib/pilot-quiz-content.test.ts`, but they still need explicit manual review before the next student batch.
 
-## Current Repo Facts To Preserve
+## Files And Responsibilities
 
-- Student app: `apps/web`.
-- Pilot chapter slugs live in `apps/web/lib/pilot.ts` as `PILOT_CHAPTER_SLUGS`.
-- Quiz markdown files live at `apps/web/content/<chapter-slug>/lessons/quiz.md`.
-- Parser lives in `apps/web/lib/quiz-content.ts`.
-- Parser tests live in `apps/web/lib/quiz-content.test.ts`.
-- Pilot file-backed quiz tests live in `apps/web/lib/pilot-quiz-content.test.ts`.
-- Quiz page lives in `apps/web/app/chapters/[slug]/quiz/page.tsx`.
-- Web retry UI state lives in `apps/web/components/QuizScoreForm.tsx`.
-- Web quiz-attempt fetch helpers live in `apps/web/lib/quiz-attempts.ts`.
-- API immutable attempt summary helper lives in `apps/api/src/lib/quiz-attempts.ts`.
-- API attempt summary tests live in `apps/api/src/lib/quiz-attempts.test.ts`.
-- Durable project learnings live in `docs/project-memory.md`.
+- `apps/web/lib/quiz-content.ts`: Markdown quiz parser and strict metadata errors. Preserve existing behavior.
+- `apps/web/lib/quiz-content-validation.ts`: Reusable validation helper for tests and CLI. Verify only unless a regression is found.
+- `apps/web/scripts/validate-quiz-metadata.ts`: CLI scanner for all chapter quiz files. Verify only unless a regression is found.
+- `apps/web/package.json`: Contains `validate:quizzes`. Verify only unless missing.
+- `apps/web/lib/quiz-content.test.ts`: Parser and validator regression tests.
+- `apps/web/lib/pilot-quiz-content.test.ts`: File-backed strict pilot quiz test.
+- `apps/web/content/*/lessons/quiz.md`: Legacy quiz files that need answer and explanation metadata.
+- `apps/web/components/QuizScoreForm.tsx`: Locked review and retry UI behavior.
+- `apps/web/lib/quiz-attempts.ts`: Web attempt fetch helpers.
+- `apps/api/src/lib/quiz-attempts.ts`: Attempt history summary helper.
+- `apps/api/src/lib/quiz-attempts.test.ts`: API attempt history tests.
+- `master_todo.md`: Mark completed items only after verification evidence exists.
 
-Important current parser behavior:
+---
 
-- `parseQuizContent(markdown, topicSlugs)` keeps legacy fallback behavior outside strict mode.
-- `parseQuizContent(markdown, topicSlugs, { strictMetadata: true })` already throws `QuizContentValidationError` for missing/invalid answer, missing explanation, missing topic, and invalid topic.
-- Outside strict mode, a missing answer currently falls back to `correctOptionIndex: 0`. Do not remove this legacy fallback for non-pilot quizzes unless all legacy quiz content is migrated and tested.
-- Pilot quizzes already call strict mode in `apps/web/lib/pilot-quiz-content.test.ts`.
+## Task 1: Verify Validation Infrastructure
 
-## Files To Inspect First
+**Files:**
+- Inspect: `apps/web/lib/quiz-content-validation.ts`
+- Inspect: `apps/web/scripts/validate-quiz-metadata.ts`
+- Inspect: `apps/web/package.json`
+- Test: `apps/web/lib/quiz-content.test.ts`
 
-Read these before editing:
+**Interfaces:**
+- Consumes: `parseQuizContent(markdown, topicSlugs, { strictMetadata: true })`
+- Produces: trusted validator output for later content batches
 
-1. `master_todo.md`
-2. `TODO.md`
-3. `docs/project-memory.md`
-4. `apps/web/lib/quiz-content.ts`
-5. `apps/web/lib/quiz-content.test.ts`
-6. `apps/web/lib/pilot-quiz-content.test.ts`
-7. `apps/web/lib/pilot.ts`
-8. `apps/web/lib/course-content.ts`
-9. `apps/web/app/chapters/[slug]/quiz/page.tsx`
-10. `apps/web/components/QuizScoreForm.tsx`
-11. `apps/web/package.json`
-12. `package.json`
-13. `apps/api/src/lib/quiz-attempts.ts`
-14. `apps/api/src/lib/quiz-attempts.test.ts`
+- [ ] **Step 1: Confirm package script exists**
 
-Use PowerShell `-LiteralPath` for bracketed Next.js route paths:
-
-```powershell
-Get-Content -LiteralPath "apps/web/app/chapters/[slug]/quiz/page.tsx"
-```
-
-## Pilot Quiz Files To Review Manually
-
-Review these three files line by line before the next student batch:
-
-```text
-apps/web/content/real-numbers/lessons/quiz.md
-apps/web/content/chemical-reactions-and-equations/lessons/quiz.md
-apps/web/content/two-stories-about-flying/lessons/quiz.md
-```
-
-For each pilot quiz question, confirm:
-
-- `Answer:` exists.
-- `Answer:` points to the correct option number.
-- `Explanation:` exists and explains why the correct option is correct.
-- `Topic:` exists and maps to one of that chapter's lesson slugs.
-- The quiz still has exactly 5 questions.
-- The expected answer order in `apps/web/lib/pilot-quiz-content.test.ts` matches the file.
-
-## Required Quiz Metadata Format
-
-Use this exact shape for every markdown quiz question when editing content:
-
-```markdown
-## 1. Short question title
-
-Topic: exact-topic-slug
-Difficulty: Easy
-Source: NCERT-aligned lesson note
-
-Question text goes here.
-
-1. First option
-2. Second option
-3. Third option
-4. Fourth option
-
-Answer: 2
-Explanation: One or two student-friendly sentences explaining why the answer is correct and why a tempting wrong option is not correct.
-```
-
-Rules:
-
-- `Answer:` must be a number matching one existing option.
-- `Explanation:` must not be empty.
-- For pilot quizzes, `Topic:` must match one lesson slug from the chapter metadata.
-- Keep the parser tolerant of metadata order; existing parser already handles metadata before or after options.
-- Do not change correct answers casually. If an answer value changes, read the question and options first, then update tests only after confirming the new answer is genuinely correct.
-
-## Valid Pilot Topic Slugs
-
-Real Numbers:
-
-- `euclid-division-lemma`
-- `fundamental-theorem-of-arithmetic`
-- `hcf-and-lcm-by-prime-factorisation`
-- `irrational-numbers`
-- `decimal-expansion-of-rational-numbers`
-
-Chemical Reactions and Equations:
-
-- `chemical-equations`
-- `balancing-equations`
-- `combination-and-decomposition-reactions`
-- `displacement-and-double-displacement-reactions`
-- `oxidation-and-reduction`
-
-Two Stories about Flying:
-
-- `his-first-flight-fear-and-hunger`
-- `his-first-flight-courage-and-family-pressure`
-- `the-black-aeroplane-storm-and-mystery`
-- `the-black-aeroplane-unknown-helper`
-- `poems-wild-animals-and-the-ball-poem`
-
-## Implementation Plan
-
-### Task 1: Add A Reusable Quiz Metadata Validator
-
-Files:
-
-- Create: `apps/web/lib/quiz-content-validation.ts`
-- Modify: `apps/web/lib/quiz-content.test.ts`
-
-Purpose:
-
-- Keep validation logic importable by both tests and the CLI script.
-- Fail for missing `Answer:`.
-- Fail for invalid `Answer:`.
-- Warn for missing `Explanation:` when `requireExplanation` is false.
-- Fail for missing `Explanation:` when `requireExplanation` is true.
-- Ignore `Topic:` issues when `requireTopicSlugs` is empty.
-- Fail for missing/invalid `Topic:` only when a caller provides required topic slugs.
-
-Implementation shape:
-
-```ts
-import { parseQuizContent, QuizContentValidationError, type QuizContentValidationIssue } from './quiz-content';
-
-export type QuizMetadataValidationLevel = 'error' | 'warning';
-
-export type QuizMetadataValidationMessage = QuizContentValidationIssue & {
-  level: QuizMetadataValidationLevel;
-};
-
-export type QuizMetadataValidationResult = {
-  errors: QuizMetadataValidationMessage[];
-  questionsParsed: number;
-  warnings: QuizMetadataValidationMessage[];
-};
-
-export type ValidateQuizMetadataOptions = {
-  requireExplanation?: boolean;
-  requireTopicSlugs?: string[];
-};
-
-export function validateQuizMetadata(
-  markdown: string,
-  options: ValidateQuizMetadataOptions = {},
-): QuizMetadataValidationResult {
-  const requiredTopicSlugs = options.requireTopicSlugs ?? [];
-  const requireExplanation = options.requireExplanation ?? false;
-  const requireTopic = requiredTopicSlugs.length > 0;
-  const errors: QuizMetadataValidationMessage[] = [];
-  const warnings: QuizMetadataValidationMessage[] = [];
-  let questionsParsed = 0;
-
-  try {
-    const questions = parseQuizContent(markdown, requiredTopicSlugs, { strictMetadata: true });
-    questionsParsed = questions.length;
-  } catch (error) {
-    if (!(error instanceof QuizContentValidationError)) {
-      throw error;
-    }
-
-    for (const issue of error.issues) {
-      if ((issue.code === 'missing-topic' || issue.code === 'invalid-topic') && !requireTopic) {
-        continue;
-      }
-
-      const isExplanationWarning = issue.code === 'missing-explanation' && !requireExplanation;
-      const target = isExplanationWarning ? warnings : errors;
-      target.push({ ...issue, level: isExplanationWarning ? 'warning' : 'error' });
-    }
-
-    questionsParsed = parseQuizContent(markdown, requiredTopicSlugs).length;
-  }
-
-  return { errors, questionsParsed, warnings };
-}
-```
-
-Important notes:
-
-- If TypeScript complains because `instanceof QuizContentValidationError` is unreliable across module contexts, use `error instanceof QuizContentValidationError || (error instanceof Error && error.name === 'QuizContentValidationError')`.
-- Do not delete `QuizContentValidationError` from `apps/web/lib/quiz-content.ts`.
-- Do not change non-strict parser fallback yet.
-
-### Task 2: Add Parser Regression Tests
-
-File:
-
-- Modify: `apps/web/lib/quiz-content.test.ts`
-
-Add a test proving strict validation blocks missing answers instead of silently scoring option 1:
-
-```ts
-test('strict quiz metadata rejects missing answers instead of silently scoring option 1', () => {
-  const markdown = `## 1. Missing explicit answer
-
-Topic: valid-topic
-Explanation: This explanation exists.
-
-Which option should be correct?
-
-1. tempting first option
-2. actual correct option
-`;
-
-  assert.throws(
-    () => parseQuizContent(markdown, ['valid-topic'], { strictMetadata: true }),
-    (error: unknown) => {
-      assert.ok(error instanceof QuizContentValidationError);
-      assert.deepEqual(
-        error.issues.map((issue) => issue.code),
-        ['missing-answer'],
-      );
-      return true;
-    },
-  );
-});
-```
-
-Add a companion test for the reusable validator:
-
-```ts
-test('validateQuizMetadata fails missing answers and warns missing explanations by default', () => {
-  const markdown = `## 1. Missing answer and explanation
-
-Topic: valid-topic
-
-Choose the second option.
-
-1. first
-2. second
-`;
-
-  const result = validateQuizMetadata(markdown, { requireTopicSlugs: ['valid-topic'] });
-
-  assert.deepEqual(
-    result.errors.map((issue) => issue.code),
-    ['missing-answer'],
-  );
-  assert.deepEqual(
-    result.warnings.map((issue) => issue.code),
-    ['missing-explanation'],
-  );
-  assert.equal(result.questionsParsed, 1);
-});
-```
-
-Remember to import the new helper:
-
-```ts
-import { validateQuizMetadata } from './quiz-content-validation';
-```
-
-Expected command:
-
-```powershell
-npm.cmd run test -w apps/web -- lib/quiz-content.test.ts
-```
-
-Expected result:
-
-- The new tests pass.
-- Existing tests still pass.
-
-### Task 3: Add A CLI Validation Script
-
-Files:
-
-- Create: `apps/web/scripts/validate-quiz-metadata.ts`
-- Modify: `apps/web/package.json`
-
-Create the `apps/web/scripts` folder if it does not exist.
-
-Script responsibilities:
-
-- Discover all `content/*/lessons/quiz.md` files under `apps/web`.
-- Fail with exit code `1` when any question is missing `Answer:` or has invalid `Answer:`.
-- Warn, but do not fail, when a non-pilot quiz question has no `Explanation:`.
-- Fail missing `Explanation:` for pilot quizzes only, because pilot quizzes must be review-ready before students use them.
-- Require valid `Topic:` for pilot quizzes only in this task.
-- Print a short summary with file path, issue level, issue code, question id, and title.
-
-Use this implementation skeleton:
-
-```ts
-import { readdir, readFile } from 'node:fs/promises';
-import path from 'node:path';
-import process from 'node:process';
-
-import { getChapter } from '../lib/course-content';
-import { PILOT_CHAPTER_SLUGS } from '../lib/pilot';
-import { slugifyQuizTopic } from '../lib/quiz-content';
-import { validateQuizMetadata } from '../lib/quiz-content-validation';
-
-function isPilotChapterSlug(slug: string): slug is (typeof PILOT_CHAPTER_SLUGS)[number] {
-  return PILOT_CHAPTER_SLUGS.includes(slug as (typeof PILOT_CHAPTER_SLUGS)[number]);
-}
-
-function getValidTopicSlugs(chapterSlug: string) {
-  const chapter = getChapter(chapterSlug);
-
-  if (!chapter) {
-    return [];
-  }
-
-  return chapter.lessons.length > 0
-    ? chapter.lessons.map((lesson) => lesson.slug)
-    : (chapter.topics ?? []).map((topic) => slugifyQuizTopic(topic)).filter(Boolean);
-}
-
-async function getQuizFiles(contentRoot: string) {
-  const chapterDirectories = await readdir(contentRoot, { withFileTypes: true });
-  const quizFiles: string[] = [];
-
-  for (const chapterDirectory of chapterDirectories) {
-    if (!chapterDirectory.isDirectory()) {
-      continue;
-    }
-
-    quizFiles.push(path.join(contentRoot, chapterDirectory.name, 'lessons', 'quiz.md'));
-  }
-
-  return quizFiles;
-}
-
-async function main() {
-  const contentRoot = path.join(process.cwd(), 'content');
-  const quizFiles = await getQuizFiles(contentRoot);
-  let errorCount = 0;
-  let warningCount = 0;
-  let checkedCount = 0;
-
-  for (const quizFile of quizFiles) {
-    let markdown = '';
-
-    try {
-      markdown = await readFile(quizFile, 'utf8');
-    } catch {
-      continue;
-    }
-
-    checkedCount += 1;
-
-    const chapterSlug = path.basename(path.dirname(path.dirname(quizFile)));
-    const isPilot = isPilotChapterSlug(chapterSlug);
-    const result = validateQuizMetadata(markdown, {
-      requireExplanation: isPilot,
-      requireTopicSlugs: isPilot ? getValidTopicSlugs(chapterSlug) : [],
-    });
-
-    for (const issue of result.errors) {
-      errorCount += 1;
-      console.error(`[error] ${path.relative(process.cwd(), quizFile)} ${issue.code} ${issue.questionId}: ${issue.title}`);
-    }
-
-    for (const issue of result.warnings) {
-      warningCount += 1;
-      console.warn(`[warning] ${path.relative(process.cwd(), quizFile)} ${issue.code} ${issue.questionId}: ${issue.title}`);
-    }
-  }
-
-  console.log(`Checked ${checkedCount} quiz files. Errors: ${errorCount}. Warnings: ${warningCount}.`);
-
-  if (errorCount > 0) {
-    process.exitCode = 1;
-  }
-}
-
-void main();
-```
-
-Potential TypeScript issue:
-
-- If `process.cwd()` inside the npm workspace is not `apps/web`, this script will look in the wrong `content` folder.
-- The script should be run with `npm.cmd run validate:quizzes -w apps/web`, so `process.cwd()` should be `apps/web`.
-- If local output proves otherwise, replace `const contentRoot = path.join(process.cwd(), 'content');` with a robust file-relative root using `import.meta.url`.
-
-Add this package script to `apps/web/package.json`:
+Open `apps/web/package.json` and confirm:
 
 ```json
 "validate:quizzes": "tsx scripts/validate-quiz-metadata.ts"
 ```
 
-Keep JSON indentation at 2 spaces.
+- [ ] **Step 2: Confirm missing-answer test exists**
+
+Open `apps/web/lib/quiz-content.test.ts` and confirm a test named:
+
+```ts
+test('strict quiz metadata rejects missing answers instead of silently scoring option 1', () => {
+```
+
+Expected assertion:
+
+```ts
+assert.deepEqual(error.issues.map((issue) => issue.code), ['missing-answer']);
+```
+
+- [ ] **Step 3: Run targeted parser tests**
+
+Run:
+
+```powershell
+npm.cmd run test -w apps/web -- lib/quiz-content.test.ts
+```
+
+Expected: all web lib tests pass, including the strict missing-answer regression.
+
+- [ ] **Step 4: Run validator once and capture counts**
 
 Run:
 
@@ -445,106 +100,318 @@ Run:
 npm.cmd run validate:quizzes -w apps/web
 ```
 
-Expected result before all content is migrated:
+Expected before full cleanup: exit code `1` while legacy quiz files still report missing metadata. Record the final summary line, for example:
 
-- Exit code `1` if any quiz lacks `Answer:`.
-- Warning lines for quizzes missing `Explanation:`.
-- No pilot quiz errors or warnings.
-- To finish the full backlog item, warnings should be reduced to zero by adding explanations to every quiz question.
+```text
+Checked 89 quiz files. Errors: <number>. Warnings: <number>.
+```
 
-### Task 4: Add Explicit Answer Metadata To Every Quiz Question
+Do not treat validator failure as a blocker until every legacy quiz file has been migrated.
 
-Files:
+---
 
-- Modify as needed: `apps/web/content/*/lessons/quiz.md`
+## Task 2: Close Pilot Topic Metadata First
 
-Process:
+**Files:**
+- Inspect/modify if needed: `apps/web/content/real-numbers/lessons/quiz.md`
+- Inspect/modify if needed: `apps/web/content/chemical-reactions-and-equations/lessons/quiz.md`
+- Inspect/modify if needed: `apps/web/content/two-stories-about-flying/lessons/quiz.md`
+- Test: `apps/web/lib/pilot-quiz-content.test.ts`
 
-1. Run the validation script:
+**Interfaces:**
+- Consumes: `PILOT_CHAPTER_SLUGS` from `apps/web/lib/pilot.ts`
+- Produces: strict pilot quiz metadata with valid `topicSlug` values for weak-topic tracking
 
-   ```powershell
-   npm.cmd run validate:quizzes -w apps/web
-   ```
+Valid pilot topic slugs:
 
-2. For each `[error] ... missing-answer ...` line, open that quiz file.
-3. Read the question, options, chapter context, and nearby explanation if present.
-4. Add `Answer: <number>` after the option list.
-5. The number must match the correct option value shown in the markdown, not the zero-based index.
-6. If the correct option is not obvious, do not guess. Add a clear note in the final handoff listing the blocked file and question title.
-7. Re-run the validation script after each batch of 5 to 10 quiz files.
+```text
+real-numbers:
+euclid-division-lemma
+fundamental-theorem-of-arithmetic
+hcf-and-lcm-by-prime-factorisation
+irrational-numbers
+decimal-expansion-of-rational-numbers
 
-Do not use a blind text replacement for answers. This is content correctness work.
+chemical-reactions-and-equations:
+chemical-equations
+balancing-equations
+combination-and-decomposition-reactions
+displacement-and-double-displacement-reactions
+oxidation-and-reduction
 
-### Task 5: Add Explanation Metadata To Every Quiz Question
+two-stories-about-flying:
+his-first-flight-fear-and-hunger
+his-first-flight-courage-and-family-pressure
+the-black-aeroplane-storm-and-mystery
+the-black-aeroplane-unknown-helper
+poems-wild-animals-and-the-ball-poem
+```
 
-Files:
+- [ ] **Step 1: Inspect pilot quiz topics**
 
-- Modify as needed: `apps/web/content/*/lessons/quiz.md`
+For each pilot quiz, confirm every question has:
 
-Process:
+```markdown
+Topic: exact-topic-slug
+```
 
-1. Use validation warnings to find missing explanations:
+- [ ] **Step 2: Fix only invalid or missing pilot topics**
 
-   ```powershell
-   npm.cmd run validate:quizzes -w apps/web
-   ```
+If a pilot question is missing or has an invalid topic, set it to the lesson slug that best matches the question. Example:
 
-2. For each `[warning] ... missing-explanation ...` line, add:
+```markdown
+Topic: balancing-equations
+```
 
-   ```markdown
-   Explanation: One sentence explaining the concept in simple Class 10 language.
-   ```
+- [ ] **Step 3: Run pilot strict test**
 
-3. Keep explanations short, accurate, and student-friendly.
-4. Mention why the correct option is correct. If useful, mention why a tempting wrong option is wrong.
-5. Do not add long textbook paragraphs.
+Run:
 
-For pilot quizzes, missing explanations are errors and must be fixed before completion.
+```powershell
+npm.cmd run test -w apps/web -- lib/pilot-quiz-content.test.ts
+```
 
-### Task 6: Add Pilot Topic Metadata First
+Expected: all three pilot quizzes parse with 5 questions, valid answers, explanations, and valid topic slugs.
 
-Files:
+- [ ] **Step 4: Update `master_todo.md` only after the test passes**
 
-- Modify only if needed:
+After the command above passes, mark this item complete:
+
+```markdown
+- [x] Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
+```
+
+---
+
+## Task 3: Backfill `Answer:` Metadata For Every Legacy Quiz
+
+**Files:**
+- Modify: `apps/web/content/*/lessons/quiz.md`
+- Use validator: `apps/web/scripts/validate-quiz-metadata.ts`
+
+**Interfaces:**
+- Consumes: validator output lines with `missing-answer`
+- Produces: all quiz questions with explicit `Answer: <option number>`
+
+- [ ] **Step 1: Generate the missing-answer queue**
+
+Run:
+
+```powershell
+npm.cmd run validate:quizzes -w apps/web
+```
+
+Collect files from lines like:
+
+```text
+[error] content\a-letter-to-god\lessons\quiz.md missing-answer question-1: Lencho
+```
+
+- [ ] **Step 2: Work in batches of 5 to 10 files**
+
+Pick the first 5 to 10 files from the validator output. Do not edit every quiz file in one giant pass.
+
+- [ ] **Step 3: Read each question before adding an answer**
+
+For every question, read:
+
+```markdown
+## N. Title
+
+Question text
+
+1. First option
+2. Second option
+3. Third option
+```
+
+Add the answer after the option list:
+
+```markdown
+Answer: 1
+```
+
+Use the option number from the markdown, not a zero-based index.
+
+- [ ] **Step 4: Stop on ambiguous answers**
+
+If the correct option is not clear, inspect the matching lesson or chapter pack. If it is still unclear, leave that question unchanged and record it under a handoff note:
+
+```markdown
+Blocked answer checks:
+- `apps/web/content/<chapter>/lessons/quiz.md`, question N, because <reason>.
+```
+
+- [ ] **Step 5: Re-run validator after each batch**
+
+Run:
+
+```powershell
+npm.cmd run validate:quizzes -w apps/web
+```
+
+Expected: `missing-answer` errors decrease by the number of fixed questions.
+
+- [ ] **Step 6: Repeat until no missing-answer errors remain**
+
+Completion signal:
+
+```text
+Errors: 0.
+```
+
+If warnings remain, continue to Task 4.
+
+---
+
+## Task 4: Backfill `Explanation:` Metadata For Every Legacy Quiz
+
+**Files:**
+- Modify: `apps/web/content/*/lessons/quiz.md`
+- Use validator: `apps/web/scripts/validate-quiz-metadata.ts`
+
+**Interfaces:**
+- Consumes: validator output lines with `missing-explanation`
+- Produces: all quiz questions with short review explanations
+
+- [ ] **Step 1: Generate the missing-explanation queue**
+
+Run:
+
+```powershell
+npm.cmd run validate:quizzes -w apps/web
+```
+
+Collect files from lines like:
+
+```text
+[warning] content\a-letter-to-god\lessons\quiz.md missing-explanation question-1: Lencho
+```
+
+- [ ] **Step 2: Add one or two sentence explanations**
+
+Add the explanation immediately after `Answer:`:
+
+```markdown
+Answer: 1
+Explanation: Lencho is the farmer in the story, and the question asks for the main character rather than the setting or event.
+```
+
+- [ ] **Step 3: Keep explanations student-facing**
+
+Each explanation must:
+
+- State why the selected answer is correct.
+- Mention a tempting wrong option only when it helps learning.
+- Stay short enough to be useful in locked review mode.
+
+- [ ] **Step 4: Re-run validator after each batch**
+
+Run:
+
+```powershell
+npm.cmd run validate:quizzes -w apps/web
+```
+
+Expected: warnings decrease.
+
+- [ ] **Step 5: Repeat until no warnings remain**
+
+Completion signal:
+
+```text
+Checked 89 quiz files. Errors: 0. Warnings: 0.
+```
+
+---
+
+## Task 5: Manually Review All Three Pilot Quiz Pages
+
+**Files:**
+- Review route: `apps/web/app/chapters/[slug]/quiz/page.tsx`
+- Review UI: `apps/web/components/QuizScoreForm.tsx`
+- Review content:
   - `apps/web/content/real-numbers/lessons/quiz.md`
   - `apps/web/content/chemical-reactions-and-equations/lessons/quiz.md`
   - `apps/web/content/two-stories-about-flying/lessons/quiz.md`
-  - `apps/web/lib/pilot-quiz-content.test.ts`
 
-Process:
+**Interfaces:**
+- Consumes: rendered quiz pages and submit/retry UI
+- Produces: manual evidence that pilot quiz review is student-ready
 
-1. Confirm each pilot quiz question has `Topic:`.
-2. Confirm each topic is one of the valid pilot topic slugs listed above.
-3. Run:
+- [ ] **Step 1: Start local student web**
 
-   ```powershell
-   npm.cmd run test -w apps/web -- lib/pilot-quiz-content.test.ts
-   ```
+Run:
 
-4. If a topic is invalid, fix the quiz file before changing tests.
-5. Only change `expectedAnswerValues` in `apps/web/lib/pilot-quiz-content.test.ts` if the actual correct answer changes after manual review.
+```powershell
+npm.cmd run dev -w apps/web
+```
 
-### Task 7: Preserve Immutable Retry And Locked Review Behavior
+Open:
 
-Files to inspect:
+```text
+http://localhost:3000/chapters/real-numbers/quiz
+http://localhost:3000/chapters/chemical-reactions-and-equations/quiz
+http://localhost:3000/chapters/two-stories-about-flying/quiz
+```
 
-- `apps/web/components/QuizScoreForm.tsx`
-- `apps/web/lib/quiz-attempts.ts`
-- `apps/api/src/lib/quiz-attempts.ts`
-- `apps/api/src/lib/quiz-attempts.test.ts`
-- Any API progress route that creates saved quiz attempts.
+- [ ] **Step 2: Review each pilot quiz page**
 
-Required behavior:
+For each page, confirm:
 
-- After a student submits a quiz, the revealed attempt stays locked for review.
-- The student cannot edit answers inside that revealed attempt and resubmit it as the same attempt.
-- Retry starts a new local attempt.
-- Saved attempt history remains immutable.
-- Weak-topic slugs continue to come from incorrect questions with valid topic metadata.
+- The route loads without 404.
+- Exactly 5 questions render.
+- Every question has selectable options.
+- Submit reveals correct/incorrect state.
+- Explanation text appears after submit.
+- Weak-topic/revision copy uses readable topic labels.
+- Feedback form still has the right chapter context.
 
-If existing tests already cover this behavior, do not invent a large new test suite. Add only a focused regression if you find a gap.
+- [ ] **Step 3: Record review evidence**
 
-Suggested focused API test if needed:
+Add a short dated note to `master_todo.md` under `Quiz Quality Fixes`:
+
+```markdown
+Pilot quiz manual review evidence:
+- 2026-07-01 local review passed for Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying.
+```
+
+Use the actual date of review.
+
+- [ ] **Step 4: Mark manual review complete**
+
+After all three pages pass, update:
+
+```markdown
+- [x] Review all three pilot quizzes manually before the next student batch.
+```
+
+---
+
+## Task 6: Verify Immutable Retry And Locked Review Behavior
+
+**Files:**
+- Inspect: `apps/web/components/QuizScoreForm.tsx`
+- Inspect: `apps/web/lib/quiz-attempts.ts`
+- Inspect: `apps/api/src/lib/quiz-attempts.ts`
+- Test: `apps/api/src/lib/quiz-attempts.test.ts`
+
+**Interfaces:**
+- Consumes: saved quiz attempt history and web retry behavior
+- Produces: evidence that retry creates a new attempt and revealed review stays locked
+
+- [ ] **Step 1: Inspect web locked-review state**
+
+Open `apps/web/components/QuizScoreForm.tsx` and confirm:
+
+- Revealed answers remain visible after submit.
+- Inputs are not editable as the same attempt after reveal.
+- `Retry quiz` clears local answers for a new attempt.
+- Retry does not mutate a previously saved attempt.
+
+- [ ] **Step 2: Add focused API regression if missing**
+
+Open `apps/api/src/lib/quiz-attempts.test.ts`. If there is no test for separate retry attempts, add:
 
 ```ts
 test('summarizeQuizAttempts preserves separate immutable retry attempts', () => {
@@ -577,135 +444,173 @@ test('summarizeQuizAttempts preserves separate immutable retry attempts', () => 
 });
 ```
 
-### Task 8: Manual Pilot Quiz Review
+- [ ] **Step 3: Run focused API helper tests**
 
-Before completion, manually review all three pilot quiz pages locally:
+Run:
 
 ```powershell
-npm.cmd run dev -w apps/web
+npm.cmd run test -w apps/api -- src/lib/quiz-attempts.test.ts
 ```
 
-Open:
+Expected: quiz-attempt helper tests pass without requiring DB connectivity.
 
-```text
-http://localhost:3000/chapters/real-numbers/quiz
-http://localhost:3000/chapters/chemical-reactions-and-equations/quiz
-http://localhost:3000/chapters/two-stories-about-flying/quiz
+- [ ] **Step 4: Include retry behavior in manual browser review**
+
+On one pilot quiz page:
+
+- Submit an attempt.
+- Confirm the revealed attempt stays locked.
+- Click `Retry quiz`.
+- Confirm a fresh unanswered attempt appears.
+- Confirm the old revealed review was not edited.
+
+- [ ] **Step 5: Mark retry item complete**
+
+After focused test and manual review pass, update:
+
+```markdown
+- [x] Keep each retry immutable and locked after review.
 ```
 
-Checklist:
+---
 
-- [ ] Each page loads without a 404.
-- [ ] Each quiz has exactly 5 questions.
-- [ ] Submit flow reveals answers.
-- [ ] Explanations appear in review mode.
-- [ ] Weak-topic/revision copy still uses the intended topic labels.
-- [ ] Retry does not unlock the already revealed review attempt.
-- [ ] Retry starts a fresh attempt.
-- [ ] No pilot quiz question has missing or obviously wrong metadata.
+## Task 7: Final Verification And Backlog Update
 
-If using the deployed Vercel URL instead of local review, first confirm production is deployed from the current branch/main before treating a 404 as a content bug.
+**Files:**
+- Modify: `master_todo.md`
+- Modify if durable learning changed: `docs/project-memory.md`
+- Run graph refresh if code changed: `graphify update .`
 
-### Task 9: Update Durable Memory If New Rules Are Discovered
+**Interfaces:**
+- Consumes: all prior task evidence
+- Produces: clean backlog state and verified repo handoff
 
-File:
+- [ ] **Step 1: Run full metadata validator**
 
-- Modify only if a durable rule or gotcha is discovered: `docs/project-memory.md`
-
-Examples worth recording:
-
-- A new quiz metadata contract that future agents must follow.
-- A validation-script limitation.
-- A deployment gotcha for quiz content tracing.
-
-Do not update `docs/project-memory.md` just to say the task was completed.
-
-## Verification Commands
-
-Run from repo root:
+Run:
 
 ```powershell
 npm.cmd run validate:quizzes -w apps/web
-npm.cmd run test -w apps/web -- lib/quiz-content.test.ts
-npm.cmd run test -w apps/web -- lib/pilot-quiz-content.test.ts
-npm.cmd run test -w apps/web
-npm.cmd run test -w apps/api
-npm.cmd run lint -w apps/web
-git diff --check
 ```
 
-If `npm.cmd run lint -w apps/web` fails because `.next/types` is missing:
+Expected final:
+
+```text
+Checked 89 quiz files. Errors: 0. Warnings: 0.
+```
+
+- [ ] **Step 2: Run web tests**
+
+Run:
+
+```powershell
+npm.cmd run test -w apps/web
+```
+
+Expected: all tests pass.
+
+- [ ] **Step 3: Run focused API attempt tests**
+
+Run:
+
+```powershell
+npm.cmd run test -w apps/api -- src/lib/quiz-attempts.test.ts
+```
+
+Expected: tests pass. Do not use full API test failure from Supabase connectivity to judge this helper unless the focused test fails.
+
+- [ ] **Step 4: Run lint if code changed**
+
+Run:
+
+```powershell
+npm.cmd run lint -w apps/web
+```
+
+If it fails because `.next/types` is missing, run:
 
 ```powershell
 npm.cmd run build -w apps/web
 npm.cmd run lint -w apps/web
 ```
 
-Do not treat missing `.next/types` as a source regression until lint is retried after a successful web build.
+- [ ] **Step 5: Run diff whitespace check**
 
-After modifying code files, run:
+Run:
 
 ```powershell
-graphify update .
+git diff --check
 ```
 
-If graphify produces broad unrelated drift because of the known local version mismatch, record that in the final handoff and avoid mixing unrelated generated churn into the main change unless the pre-push hook requires it.
+Expected: exit code `0`.
+
+- [ ] **Step 6: Update `master_todo.md` checkboxes**
+
+Only after verification evidence exists, mark:
+
+```markdown
+- [x] Add explicit `Answer:` metadata to every quiz question.
+- [x] Add `Explanation:` metadata to every quiz question.
+- [x] Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
+- [x] Add a validation script that fails when a quiz question has no answer.
+- [x] Add a validation script that warns when a quiz question has no explanation.
+- [x] Add tests to prove missing answer metadata cannot silently score option 1.
+- [x] Review all three pilot quizzes manually before the next student batch.
+- [x] Keep each retry immutable and locked after review.
+```
+
+Replace the open note:
+
+```markdown
+- [ ] The remaining backlog is legacy non-pilot quiz migration and any manual content cleanup the validator surfaces.
+```
+
+with:
+
+```markdown
+- [x] Legacy non-pilot quiz migration completed for validator-covered answer and explanation metadata.
+```
+
+---
 
 ## Acceptance Criteria
 
-- [ ] `apps/web/scripts/validate-quiz-metadata.ts` exists.
-- [ ] `apps/web/package.json` has `validate:quizzes`.
-- [ ] The validation script fails when a quiz question has no `Answer:`.
-- [ ] The validation script fails when `Answer:` points to a non-existing option.
-- [ ] The validation script warns when a non-pilot quiz question has no `Explanation:`.
-- [ ] The validation script fails when a pilot quiz question has no `Explanation:`.
-- [ ] The validation script fails when a pilot quiz question has no valid `Topic:`.
-- [ ] `apps/web/lib/quiz-content.test.ts` proves strict mode rejects missing answers instead of silently scoring option 1.
-- [ ] All pilot quiz questions have explicit `Answer:`, `Explanation:`, and valid `Topic:` metadata.
-- [ ] All three pilot quizzes were manually reviewed before the next student batch.
-- [ ] Existing non-strict legacy parser fallback remains available for unmigrated non-pilot quiz routes.
-- [ ] Immutable retry/review behavior remains unchanged.
-- [ ] `npm.cmd run validate:quizzes -w apps/web` has no errors.
-- [ ] `npm.cmd run validate:quizzes -w apps/web` has no warnings by the end of the metadata cleanup.
+- [ ] `npm.cmd run validate:quizzes -w apps/web` reports `Errors: 0. Warnings: 0.`
+- [ ] Every quiz question in `apps/web/content/*/lessons/quiz.md` has explicit `Answer:` metadata.
+- [ ] Every quiz question in `apps/web/content/*/lessons/quiz.md` has `Explanation:` metadata.
+- [ ] Pilot quiz topic metadata is verified against lesson slugs.
+- [ ] Three pilot quiz pages are manually reviewed before the next student batch.
+- [ ] Retry creates a new attempt and does not unlock the revealed review attempt.
+- [ ] Existing non-strict legacy parser fallback remains in place until deliberately removed in a future task.
 - [ ] `npm.cmd run test -w apps/web` passes.
-- [ ] `npm.cmd run test -w apps/api` passes or any DB/network blocker is clearly documented.
-- [ ] `npm.cmd run lint -w apps/web` passes after build retry if needed.
+- [ ] `npm.cmd run test -w apps/api -- src/lib/quiz-attempts.test.ts` passes.
 - [ ] `git diff --check` passes.
+- [ ] `master_todo.md` checkboxes match verified reality.
 
 ## Out Of Scope
 
 - Do not implement payments or subscriptions.
 - Do not widen the student pilot.
 - Do not add leaderboards, ranks, coins, or competition.
-- Do not remove legacy non-strict parser fallback until all non-pilot quizzes are migrated.
-- Do not rewrite all quiz questions stylistically.
-- Do not change lesson content unless a quiz answer cannot be verified without checking the lesson.
-- Do not change scoring weights, mastery thresholds, badge rules, or revision mission business logic.
-- Do not make revealed quiz attempts editable.
-- Do not fake manual review or real student pilot evidence.
+- Do not remove the legacy parser fallback in this task.
+- Do not rewrite quiz questions for style only.
+- Do not change mastery thresholds, scoring weights, badge rules, or revision mission business logic.
+- Do not claim production readiness from local-only checks.
 
 ## Suggested Commit Scope
 
-If the implementation includes script, tests, and quiz metadata edits, use one focused commit:
+For content-only batches:
 
 ```powershell
-git add TODO.md apps/web/package.json apps/web/scripts/validate-quiz-metadata.ts apps/web/lib/quiz-content-validation.ts apps/web/lib/quiz-content.test.ts apps/web/lib/pilot-quiz-content.test.ts apps/web/content
-git commit -m "chore: validate quiz metadata"
+git add apps/web/content TODO.md master_todo.md
+git commit -m "chore: backfill quiz metadata"
 ```
 
-If only this handoff file changes, commit only this file:
+For the final retry test and backlog closeout:
 
 ```powershell
-git add TODO.md
-git commit -m "docs: detail quiz metadata validation task"
+git add apps/api/src/lib/quiz-attempts.test.ts master_todo.md docs/project-memory.md TODO.md
+git commit -m "test: verify quiz retry immutability"
 ```
 
-On Windows, `todo.md` and `TODO.md` may refer to the same file. If `git status --short` shows only `TODO.md`, that is expected.
-
-## After Successful Push
-
-After this task is implemented, committed, and pushed:
-
-1. Re-read `master_todo.md`, `docs/TODO.md`, and `docs/project-memory.md`.
-2. Choose the next pilot-first task, not a payment/subscription task unless the user explicitly changes priority.
-3. Rewrite `TODO.md` with the next detailed execution playbook before ending that future session.
+After a successful push, rewrite `TODO.md` with the next pilot-first task before ending the session.

@@ -239,18 +239,23 @@ These are the highest priority items before inviting more than a handful of stud
 - [ ] Add explicit `Answer:` metadata to every quiz question.
 - [ ] Add `Explanation:` metadata to every quiz question.
 - [ ] Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
-- [ ] Add a validation script that fails when a quiz question has no answer.
-- [ ] Add a validation script that warns when a quiz question has no explanation.
-- [ ] Add tests to prove missing answer metadata cannot silently score option 1.
+- [x] Add a validation script that fails when a quiz question has no answer.
+- [x] Add a validation script that warns when a quiz question has no explanation.
+- [x] Add tests to prove missing answer metadata cannot silently score option 1.
 - [ ] Review all three pilot quizzes manually before the next student batch.
 - [ ] Keep each retry immutable and locked after review.
 
 Validation infra landed in the web app:
 
-- `apps/web/lib/quiz-content-validation.ts` now exposes reusable metadata checks for tests and CLI use.
-- `apps/web/scripts/validate-quiz-metadata.ts` now scans chapter quiz files and reports missing answer/explanation/topic metadata.
-- `apps/web/lib/quiz-content.test.ts` now proves strict parsing rejects a missing answer instead of silently falling back to option 1.
-- Pilot quizzes already pass strict metadata review; the remaining backlog is legacy non-pilot quiz migration and any manual content cleanup the validator surfaces.
+- [x] `apps/web/lib/quiz-content-validation.ts` now exposes reusable metadata checks for tests and CLI use.
+- [x] `apps/web/scripts/validate-quiz-metadata.ts` now scans chapter quiz files and reports missing answer/explanation/topic metadata.
+- [x] `apps/web/lib/quiz-content.test.ts` now proves strict parsing rejects a missing answer instead of silently falling back to option 1.
+- [x] Pilot quizzes already pass strict metadata review.
+- [x] First legacy metadata batch is complete for `a-letter-to-god`, `a-question-of-trust`, `a-triumph-of-surgery`, `bade-bhai-sahab`, and `bholi`.
+- [x] Second legacy metadata batch is complete for `the-necklace`, `the-proposal`, `the-thiefs-story`, `the-sermon-at-benares`, and `the-midnight-visitor`.
+- [ ] The remaining backlog is legacy non-pilot quiz migration and any manual content cleanup the validator surfaces. Current validator state after two batches: 380 errors / 380 warnings.
+
+Execution plan: `TODO.md` now contains the step-by-step plan for closing the remaining quiz metadata, pilot manual review, and retry immutability items.
 
 ### Tiny Pilot Operating Loop
 

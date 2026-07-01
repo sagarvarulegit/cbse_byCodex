@@ -20,6 +20,9 @@ Buddha was born as:
 2. Gautama Singh
 3. Ananda Kumar
 
+Answer: 1
+Explanation: Buddha's birth name was Siddhartha Gautama before he became the Buddha.
+
 ## 2. Kisa Gotami
 
 Kisa Gotami loses her:
@@ -27,6 +30,9 @@ Kisa Gotami loses her:
 1. only son
 2. house
 3. books
+
+Answer: 1
+Explanation: Her only son dies, and that loss drives the lesson in the story.
 
 ## 3. Mustard seed
 
@@ -36,6 +42,9 @@ The mustard seed task teaches:
 2. seeds cure everything
 3. grief ends instantly
 
+Answer: 1
+Explanation: Buddha makes Kisa Gotami see that death touches every household, not just hers.
+
 ## 4. Enlightenment
 
 Buddha attained enlightenment under the:
@@ -44,6 +53,9 @@ Buddha attained enlightenment under the:
 2. mango tree
 3. neem tree
 
+Answer: 1
+Explanation: Buddha reached enlightenment under the Bodhi tree.
+
 ## 5. Theme
 
 The chapter teaches:
@@ -51,6 +63,9 @@ The chapter teaches:
 1. acceptance of death
 2. winning battles
 3. building roads
+
+Answer: 1
+Explanation: The sermon teaches that grief is natural, but acceptance of death brings peace.
 
 ## revision reminder
 

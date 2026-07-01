@@ -20,6 +20,9 @@ Tricki is a:
 2. horse
 3. cat
 
+Answer: 1
+Explanation: Tricki is Mrs. Pumphrey's pet dog, and the story follows his illness and recovery.
+
 ## 2. Cause
 
 Tricki falls ill mainly because of:
@@ -27,6 +30,9 @@ Tricki falls ill mainly because of:
 1. overfeeding and lack of exercise
 2. too much running
 3. sleeping outside
+
+Answer: 1
+Explanation: He eats too much rich food and does not get enough exercise, which makes him sick and weak.
 
 ## 3. Doctor
 
@@ -36,6 +42,9 @@ The veterinary surgeon uses:
 2. magic
 3. no treatment
 
+Answer: 1
+Explanation: The vet uses simple practical care, exercise, and proper food rather than anything fancy.
+
 ## 4. Mrs. Pumphrey
 
 Mrs. Pumphrey is:
@@ -44,6 +53,9 @@ Mrs. Pumphrey is:
 2. indifferent
 3. angry and absent
 
+Answer: 1
+Explanation: She spoils Tricki with rich food and treats him like a child, which shows her indulgence.
+
 ## 5. Theme
 
 The story highlights the value of:
@@ -51,6 +63,9 @@ The story highlights the value of:
 1. proper care and simple discipline
 2. fancy food
 3. ignoring health
+
+Answer: 1
+Explanation: Tricki gets better when his care becomes simple and disciplined, which shows that health needs balance.
 
 ## revision reminder
 

@@ -20,6 +20,9 @@ Ausable is:
 2. a school principal
 3. a mechanic
 
+Answer: 1
+Explanation: Ausable works as a secret agent, which is why the intruder is interested in him.
+
 ## 2. Fowler
 
 Fowler visits because he wants:
@@ -27,6 +30,9 @@ Fowler visits because he wants:
 1. adventure and a story
 2. a new house
 3. a train ticket
+
+Answer: 1
+Explanation: Fowler wants to see the life of a secret agent and have an exciting experience.
 
 ## 3. Intruder
 
@@ -36,6 +42,9 @@ The intruder is:
 2. Anil
 3. Griffin
 
+Answer: 1
+Explanation: The intruder who enters Ausable's room is Max.
+
 ## 4. Trick
 
 Ausable defeats Max by:
@@ -44,6 +53,9 @@ Ausable defeats Max by:
 2. fighting with a sword
 3. calling the police immediately
 
+Answer: 1
+Explanation: Ausable scares Max by pretending there is a dangerous balcony, which makes Max panic.
+
 ## 5. Theme
 
 The story shows the value of:
@@ -51,6 +63,9 @@ The story shows the value of:
 1. quick thinking
 2. loud shouting
 3. running away only
+
+Answer: 1
+Explanation: Ausable wins because he thinks quickly and calmly instead of panicking.
 
 ## revision reminder
 
