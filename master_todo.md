@@ -1,6 +1,6 @@
 # Master Product TODO
 
-Last updated: 2026-06-30
+Last updated: 2026-07-01
 
 Role: Product Owner assessment
 
@@ -209,7 +209,7 @@ These are the highest priority items before inviting more than a handful of stud
   - mobile-safe layout
 - [x] Apply the comic recap renderer to `/chapters/[slug]/notes`, not only lesson-wise Real Numbers pages.
 - [x] Make sure comic recap does not remain just text.
-- [ ] Create a content style QA checklist for each chapter:
+- [x] Create a content style QA checklist for each chapter:
   - easy scanning
   - short sections
   - example after concept

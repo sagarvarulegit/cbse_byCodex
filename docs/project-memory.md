@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-25
+Last updated: 2026-07-01
 
 ## Current Architecture
 
@@ -56,6 +56,7 @@ Last updated: 2026-06-25
 - The student subject pages consume the registry instead of hard-coded subject lists: `apps/web/app/subjects/page.tsx` uses `getVisibleCurriculumSubjects()` plus `buildSubjectCatalog()`, and `apps/web/app/subjects/[slug]/page.tsx` resolves a registry subject before rendering mapped chapter routes.
 - This repository's Graphify artifacts and skill expect `0.4.23`, while the installed package is `0.8.47`. `graphify update .` can produce incompatible broad drift in that state; record the warning and restore only generated Graphify drift until the versions are intentionally aligned.
 - Lesson-wise chapter content is considered live only when a catalog lesson has a non-empty `fileName` and its chapter directory is registered in `lessonDirectories`. UI counts and previous/next navigation use available lessons only, while unpublished catalog lessons remain visible as Coming soon.
+- Chapter content QA now uses `docs/content-style-qa-checklist.md`; pilot-ready chapters should pass easy scanning, short sections, example-after-concept, memory trick where useful, common mistake, board tip, practice prompt, and recap checks before widening access.
 - Chemical Reactions and Equations is now the second lesson-wise pilot chapter after Real Numbers. Its five visible lesson rows are driven by `apps/web/lib/course-content.ts` plus the markdown files under `apps/web/content/chemical-reactions-and-equations/lessons/`, so chapter page counts and lesson navigation should treat all five as live.
 - Two Stories about Flying is now the third lesson-wise free-pilot chapter. Its five visible lesson rows are driven by `apps/web/lib/course-content.ts` plus markdown files under `apps/web/content/two-stories-about-flying/lessons/`, and its pilot quiz topics now map to lesson slugs rather than the old chapter-pack topic strings.
 - Free-pilot quiz routes use strict authoring validation: every question must have a valid explicit answer, explanation, and chapter-matching topic slug before it can reach `QuizScoreForm`. Non-pilot generated quizzes retain the legacy parser fallback until their content is migrated.

@@ -1,117 +1,83 @@
-# Next Task: Create a Chapter Content Style QA Checklist
+# Next Task: Make Pilot Chapter Entry Points Say What To Do First
 
 ## Recommended Low-Cost AI Model
 
-Use `gpt-5.4-mini` for the implementation.
+Use `gpt-5.4-mini` with `reasoning.effort: low`.
 
-Why: this task is mostly structured documentation work with light repo inspection. A smaller model is enough to compare existing lesson-note styles, draft a reusable checklist, and keep the wording short and practical.
+Why this is the best fit: the task is mostly targeted UI copy and small chapter-entry logic, with light inspection of existing chapter and subject pages.
+
+Fallbacks:
+
+- Cheapest acceptable option: `gpt-5.4-nano` with `reasoning.effort: low`, only if the change stays to copy and link text.
+- Higher-confidence option: `gpt-5.4-mini` with `reasoning.effort: medium`, only if the entry-point logic needs a small layout rethink.
+- Avoid for this task: `gpt-5.5` at `medium` or higher effort, because the task is narrow and does not justify the extra cost.
 
 ## Goal
 
-Create a reusable content-style QA checklist for lesson notes and chapter packs so future pilot chapters stay easy to scan, exam-friendly, and consistent.
+Make every pilot chapter entry point tell the student the best first action clearly, without forcing them to guess whether they should read notes, open the first lesson, or take the quiz.
 
 ## Why This Is Next
 
-- `master_todo.md` has an open P0 item for a chapter content style QA checklist.
-- The current pilot chapters now have mixed authoring styles, so a shared checklist will help keep future notes consistent.
-- The checklist should support both chapter-pack notes and lesson-wise pages without forcing a new product feature.
+- `master_todo.md` still has an open P0 item for pilot chapter completeness.
+- The current chapter pages already know whether a chapter has lesson notes, chapter-pack notes, or a quiz.
+- Pilot chapters should feel guided, not like a catalog page with generic links.
 
-## Files To Inspect First
+## Keep This Task Focused
 
-Read these before editing:
+Do not rewrite chapter content, quiz questions, or mastery logic for this task.
+
+Keep the work limited to the chapter entry surfaces and any small helper copy needed to make the first action obvious.
+
+## Files To Inspect Before Editing
+
+Read these files first:
 
 1. `docs/project-memory.md`
 2. `master_todo.md`
-3. `apps/web/content/real-numbers/lessons/01-euclid-division-lemma.md`
-4. `apps/web/content/chemical-reactions-and-equations/lessons/01-chemical-equations.md`
-5. `apps/web/content/two-stories-about-flying/lessons/01-his-first-flight-fear-and-hunger.md`
-6. One chapter-pack note for comparison, such as:
-   - `docs/content/class-10/science/chemical-reactions-and-equations/chapter-pack.md`
-   - or `docs/content/class-10/english/first-flight/two-stories-about-flying/chapter-pack.md`
+3. `TODO.md`
+4. `apps/web/app/chapters/[slug]/page.tsx`
+5. `apps/web/app/chapters/[slug]/notes/page.tsx`
+6. `apps/web/app/subjects/[slug]/page.tsx`
+7. `apps/web/lib/course-content.ts`
+8. `apps/web/lib/pilot.ts`
 
-## Step 1: Define The Checklist Scope
+If you need to compare the live chapter surfaces, also inspect the current pilot chapter data for:
 
-Make the checklist cover both of these content types:
+- Real Numbers
+- Chemical Reactions and Equations
+- Two Stories about Flying
 
-- lesson-wise pilot pages in `apps/web/content/<chapter>/lessons/*.md`
-- chapter-pack notes in `docs/content/**/chapter-pack.md`
+## Expected Behavior
 
-The checklist should be short enough to use during editing, but specific enough to catch weak content early.
+- Pilot chapter pages should show a single obvious best first action near the top.
+- If lesson notes are live, the first action should guide the student to the first lesson.
+- If only chapter-pack notes are live, the first action should guide the student to the chapter notes.
+- If a quiz is the best next step, the page should say that directly.
+- Non-pilot chapters should keep truthful `Coming soon` behavior.
 
-## Step 2: Draft The Checklist Sections
+## Acceptance Criteria
 
-Include checklist items for these areas:
+- Each pilot chapter has a clear first action without scrolling through the whole page.
+- The action label matches the real content state.
+- The copy does not overpromise unavailable lessons or notes.
+- The chapter card or hero still keeps the secondary action visible.
+- The change does not introduce broken links or hide the quiz path.
 
-- easy scanning
-- short sections
-- example after concept
-- memory trick
-- common mistake
-- board tip
-- practice prompt
-- answer key
-- recap or comic recap
+## Verification
 
-Add one or two pilot-specific items:
-
-- keep tone simple and direct
-- avoid copying textbook passages verbatim
-- keep uncertain story endings uncertain
-
-## Step 3: Pick The File Location
-
-Prefer a single durable docs file, such as:
-
-- `docs/content-style-qa-checklist.md`
-
-If another docs path already fits the repo better, keep it in `docs/` and explain the choice in the commit message or handoff note.
-
-## Step 4: Add Useful Examples
-
-Add a tiny example for each checklist section so the next author knows what "good" looks like.
-
-Keep examples short and domain-neutral. Use the existing pilot chapters only as inspiration, not as long copied excerpts.
-
-## Step 5: Update Project Memory If Needed
-
-If the work uncovers a durable rule about lesson style, add a concise note to `docs/project-memory.md`.
-
-Good candidates:
-
-- section order that students actually scan well
-- a consistent rule for comic recap wording
-- a reminder about keeping mystery stories uncertain
-
-## Step 6: Verification Commands
-
-Run these from repo root in this order:
+Run:
 
 ```powershell
 git diff --check
 ```
 
-If the checklist file is linked from another doc, verify that the link target exists and the markdown renders cleanly in the surrounding docs.
+Then verify the chapter pages still behave correctly for the three pilot chapters on both the chapter overview and the lesson path.
 
-## Acceptance Criteria
-
-- A reusable checklist exists in `docs/`.
-- The checklist covers both lesson-wise notes and chapter-pack notes.
-- The checklist is short, practical, and easy to reuse during content editing.
-- Any durable new rule is recorded in `docs/project-memory.md`.
-- `git diff --check` passes.
+If the change touches app code, also run the normal repo checks for the affected surface.
 
 ## Out Of Scope
 
-- Do not rewrite the whole curriculum.
-- Do not add new runtime behavior.
-- Do not change quiz scoring or lesson loading.
-- Do not widen the pilot scope.
-
-## Suggested Commit Message
-
-```bash
-git add TODO.md docs/content-style-qa-checklist.md docs/project-memory.md
-git commit -m "Add chapter content style checklist"
-```
-
-After the checklist is committed and pushed, replace this TODO with the next highest-priority pilot hardening task.
+- Do not add payments or subscriptions.
+- Do not change quiz scoring or answer validation.
+- Do not rewrite the pilot chapter content packs.
+- Do not add a new database table.
