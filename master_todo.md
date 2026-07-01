@@ -245,6 +245,13 @@ These are the highest priority items before inviting more than a handful of stud
 - [ ] Review all three pilot quizzes manually before the next student batch.
 - [ ] Keep each retry immutable and locked after review.
 
+Validation infra landed in the web app:
+
+- `apps/web/lib/quiz-content-validation.ts` now exposes reusable metadata checks for tests and CLI use.
+- `apps/web/scripts/validate-quiz-metadata.ts` now scans chapter quiz files and reports missing answer/explanation/topic metadata.
+- `apps/web/lib/quiz-content.test.ts` now proves strict parsing rejects a missing answer instead of silently falling back to option 1.
+- Pilot quizzes already pass strict metadata review; the remaining backlog is legacy non-pilot quiz migration and any manual content cleanup the validator surfaces.
+
 ### Tiny Pilot Operating Loop
 
 - [ ] Invite only 2 to 5 real students.

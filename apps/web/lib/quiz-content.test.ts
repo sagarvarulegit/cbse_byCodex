@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { parseQuizContent, QuizContentValidationError } from './quiz-content';
+import { validateQuizMetadata } from './quiz-content-validation';
 
 const invalidPilotMarkdown = `---
 title: Invalid pilot quiz
@@ -138,4 +139,44 @@ Choose one.
 
   assert.equal(question?.correctOptionIndex, 0);
   assert.equal(question?.topicSlug, 'fallback-topic');
+});
+
+test('strict quiz metadata rejects missing answers instead of silently scoring option 1', () => {
+  const markdown = `## 1. Missing explicit answer
+
+Topic: valid-topic
+Explanation: This explanation exists.
+
+Which option should be correct?
+
+1. tempting first option
+2. actual correct option
+`;
+
+  assert.throws(
+    () => parseQuizContent(markdown, ['valid-topic'], { strictMetadata: true }),
+    (error: unknown) => {
+      assert.ok(error instanceof QuizContentValidationError);
+      assert.deepEqual(error.issues.map((issue) => issue.code), ['missing-answer']);
+      return true;
+    },
+  );
+});
+
+test('validateQuizMetadata fails missing answers and warns missing explanations by default', () => {
+  const markdown = `## 1. Missing answer and explanation
+
+Topic: valid-topic
+
+Choose the second option.
+
+1. first
+2. second
+`;
+
+  const result = validateQuizMetadata(markdown, { requireTopicSlugs: ['valid-topic'] });
+
+  assert.deepEqual(result.errors.map((issue) => issue.code), ['missing-answer']);
+  assert.deepEqual(result.warnings.map((issue) => issue.code), ['missing-explanation']);
+  assert.equal(result.questionsParsed, 1);
 });

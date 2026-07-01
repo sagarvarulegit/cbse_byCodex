@@ -8,6 +8,7 @@
     "start": "next start -p 3000",
     "lint": "tsc --noEmit",
     "test": "node --import tsx --test lib/**/*.test.ts",
+    "validate:quizzes": "tsx scripts/validate-quiz-metadata.ts",
     "content:generate": "tsx scripts/generate-chapter-packs.ts"
   },
   "dependencies": {
