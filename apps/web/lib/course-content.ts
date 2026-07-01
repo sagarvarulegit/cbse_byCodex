@@ -54,8 +54,14 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Notes live',
     streakTask: 'Finish one lesson note and solve 3 practice questions',
     summary:
-      'Now live with simple-English lesson notes, glossary help, board-style long-division demos, comic recaps, and quick practice for every key concept in Chapter 1.',
-    topics: ['Euclid division lemma', 'HCF and LCM', 'Irrational numbers'],
+      'Five live lesson notes now cover Euclid division lemma, prime factorisation, HCF and LCM, irrational numbers, and decimal expansion in simple English.',
+    topics: [
+      'Euclid division lemma',
+      'Fundamental theorem of arithmetic',
+      'HCF and LCM by prime factorisation',
+      'Irrational numbers',
+      'Decimal expansion of rational numbers',
+    ],
     lessons: [
       {
         slug: 'euclid-division-lemma',
@@ -241,8 +247,14 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Notes live',
     streakTask: 'Finish one lesson note and balance 3 equations without hints',
     summary:
-      'All five lesson notes are now live: reaction basics, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.',
-    topics: ['Balancing equations', 'Reaction types', 'Oxidation and reduction'],
+      'Five live lesson notes now cover chemical equations, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.',
+    topics: [
+      'Chemical equations',
+      'Balancing equations',
+      'Combination and decomposition reactions',
+      'Displacement and double displacement reactions',
+      'Oxidation and reduction',
+    ],
     lessons: [
       {
         slug: 'chemical-equations',
@@ -444,13 +456,13 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Notes live',
     streakTask: 'Finish one lesson note and answer 3 short questions',
     summary:
-      'Now live with five simple-English lesson notes covering courage in His First Flight, mystery in The Black Aeroplane, and poem revision for humour, loss, symbols, and tone.',
+      'Five live lesson notes now cover fear, courage, mystery, and poem revision for humour, loss, symbols, and tone.',
     topics: [
-      'Young seagull\'s courage',
-      'The mysterious pilot helper',
-      'Overcoming fear',
-      'How to Tell Wild Animals',
-      'The Ball Poem',
+      'His First Flight: fear and hunger',
+      'His First Flight: courage and family pressure',
+      'The Black Aeroplane: storm and mystery',
+      'The Black Aeroplane: unknown helper',
+      'Poems: Wild Animals and The Ball Poem',
     ],
     lessons: [
       {

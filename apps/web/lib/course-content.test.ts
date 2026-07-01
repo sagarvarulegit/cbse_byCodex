@@ -9,6 +9,7 @@ import {
   type ChapterContent,
   type MarkdownBlock,
 } from './course-content';
+import { PILOT_CHAPTER_SLUGS } from './pilot';
 import { getCurriculumSubject, getVisibleCurriculumSubjects } from './curriculum/registry';
 import {
   buildSubjectCatalog,
@@ -54,6 +55,20 @@ function assertFourPanelComic(blocks: MarkdownBlock[]) {
     assert.ok(comicList.items.every((item) => /^[^:]+:\s*"[^"]+"$/.test(item)));
   }
 }
+
+test('pilot chapters expose clear overviews and at least three live lessons', () => {
+  for (const chapterSlug of PILOT_CHAPTER_SLUGS) {
+    const chapter = getChapter(chapterSlug);
+
+    assert.ok(chapter, `Expected chapter metadata for ${chapterSlug}`);
+    assert.ok(chapter.summary.trim().length > 0, `${chapterSlug} needs a summary`);
+    assert.ok((chapter.topics ?? []).length > 0, `${chapterSlug} needs topic labels`);
+    assert.ok(
+      getAvailableLessons(chapter).length >= 3,
+      `${chapterSlug} needs at least three live lessons`,
+    );
+  }
+});
 
 test('chemical pilot catalog exposes all five available lessons', () => {
   const chapter = getChapter(chapterSlug);

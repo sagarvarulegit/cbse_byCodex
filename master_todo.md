@@ -46,6 +46,7 @@ Product decision: Continue with the tiny free pilot first. Do not add payments, 
 - [x] Admin pilot review shows events, active students, breakdowns, recent feedback, and highest-friction signals.
 - [x] Product memory and smoke checklist now correctly defer payments until after real usage and platform hardening.
 - [x] Two Stories about Flying has 5 lesson-wise note files in the student app.
+- [x] Pilot chapter entry points now call out the best first action, and pilot chapter cards use lesson-level topic labels.
 
 ## Main Product Readiness Gaps
 
@@ -86,9 +87,9 @@ Impact:
 Current state:
 
 - Real Numbers is the strongest pilot chapter because it has lesson-wise notes.
-- Chemical Reactions and Equations has a chapter pack and quiz, but the app still contains lesson placeholders saying notes are being prepared.
-- Two Stories about Flying now has lesson-wise notes, but its English pilot quality still needs polish and feedback review.
-- The pilot path works technically, but the learning depth is inconsistent across the three pilot chapters.
+- Chemical Reactions and Equations now has lesson-wise notes and a direct first-action path from the chapter page.
+- Two Stories about Flying now has lesson-wise notes and consistent pilot entry guidance.
+- The pilot path works technically, and the three pilot chapters now surface direct first actions and live lesson notes.
 
 Impact:
 
@@ -223,15 +224,15 @@ These are the highest priority items before inviting more than a handful of stud
 
 - [x] Upgrade Chemical Reactions and Equations from chapter-pack-only to lesson-wise pilot content.
 - [x] Upgrade Two Stories about Flying from chapter-pack-only to lesson-wise pilot content.
-- [ ] Remove or fix "Science lesson notes are still being prepared" placeholders for pilot entry points.
-- [ ] Ensure each pilot chapter has:
+- [x] Remove or fix "Science lesson notes are still being prepared" placeholders for pilot entry points.
+- [x] Ensure each pilot chapter has:
   - chapter overview
   - 3 to 5 high-quality lesson notes
   - quiz with answer key
   - explanations
   - topic mapping
   - feedback form with correct chapter context
-- [ ] Add a "best first action" on every pilot chapter page so students know whether to read notes, open first lesson, or take quiz.
+- [x] Add a "best first action" on every pilot chapter page so students know whether to read notes, open first lesson, or take quiz.
 
 ### Quiz Quality Fixes
 

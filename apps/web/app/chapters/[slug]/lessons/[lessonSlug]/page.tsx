@@ -70,7 +70,7 @@ export default async function LessonPage({
 
       <section className="lesson-hero section-shell">
         <div className="lesson-hero-card">
-          <p className="eyebrow">{chapter.subject} · Chapter 1</p>
+          <p className="eyebrow">{chapter.subject} · Pilot lesson</p>
           <h1>{content.lesson.title}</h1>
           <p className="subtext">{content.lesson.preview}</p>
           <div className="hero-actions">

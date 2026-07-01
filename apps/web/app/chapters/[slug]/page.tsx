@@ -20,6 +20,29 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   const hasPackNotes = hasChapterPack(slug);
   const isLive = hasLessonNotes || hasPackNotes;
   const isPilot = isPilotChapter(slug);
+  const bestFirstAction = hasLessonNotes
+    ? {
+        href: `/chapters/${slug}/lessons/${availableLessons[0].slug}`,
+        label: 'Start first lesson',
+        helper: `Begin with ${availableLessons[0].title}, then move to the remaining notes and quiz.`,
+      }
+    : hasPackNotes
+      ? {
+          href: `/chapters/${slug}/notes`,
+          label: 'Read chapter notes',
+          helper: 'Open the chapter notes first, then move to the quiz when you are ready.',
+        }
+      : quizContent
+        ? {
+            href: `/chapters/${slug}/quiz`,
+            label: 'Take chapter quiz',
+            helper: 'Use the quiz as a quick revision check for this chapter.',
+          }
+        : {
+            href: '#mastery',
+            label: 'View mastery',
+            helper: 'Check your current mastery score and the next target.',
+          };
   const mastery = await getStudentMastery(slug);
   const chapterMastery = mastery.masteries[0];
   const activeMission = mastery.revisionMissions[0];
@@ -48,23 +71,14 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           <h1>{chapter.title}</h1>
           <p className="subtext">{chapter.summary}</p>
           <div className="hero-actions">
-            <a className="button-link" href="#lesson-plan">
-              {isLive ? 'Open notes' : 'Start lesson plan'}
+            <Link className="button-link" href={bestFirstAction.href}>
+              {bestFirstAction.label}
+            </Link>
+            <a className="ghost-link" href={quizContent ? `/chapters/${slug}/quiz` : '#lesson-plan'}>
+              {quizContent ? 'Take chapter quiz' : 'See lesson plan'}
             </a>
-            {hasLessonNotes ? (
-              <Link className="ghost-link" href={`/chapters/${slug}/lessons/${availableLessons[0].slug}`}>
-                Start first lesson
-              </Link>
-            ) : hasPackNotes ? (
-              <Link className="ghost-link" href={`/chapters/${slug}/notes`}>
-                Read chapter notes
-              </Link>
-            ) : (
-              <a className="ghost-link" href="#mastery">
-                View mastery
-              </a>
-            )}
           </div>
+          <p className="subtext compact">Best first action: {bestFirstAction.helper}</p>
         </div>
 
         <aside className="mastery-panel" id="mastery">
