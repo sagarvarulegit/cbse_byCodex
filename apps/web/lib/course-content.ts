@@ -440,10 +440,11 @@ const chapters: Record<string, ChapterContent> = {
   'two-stories-about-flying': {
     subject: 'English',
     title: 'Two Stories about Flying',
-    progress: 0,
-    mastery: 'Coming soon',
-    streakTask: 'Will unlock soon',
-    summary: 'Two stories representing the courage and mystery of flying: "His First Flight" and "Black Aeroplane".',
+    progress: 48,
+    mastery: 'Notes live',
+    streakTask: 'Finish one lesson note and answer 3 short questions',
+    summary:
+      'Now live with five simple-English lesson notes covering courage in His First Flight, mystery in The Black Aeroplane, and poem revision for humour, loss, symbols, and tone.',
     topics: [
       'Young seagull\'s courage',
       'The mysterious pilot helper',
@@ -451,7 +452,58 @@ const chapters: Record<string, ChapterContent> = {
       'How to Tell Wild Animals',
       'The Ball Poem',
     ],
-    lessons: [],
+    lessons: [
+      {
+        slug: 'his-first-flight-fear-and-hunger',
+        fileName: '01-his-first-flight-fear-and-hunger.md',
+        title: 'His First Flight: fear and hunger',
+        type: 'Story foundation',
+        minutes: 8,
+        free: true,
+        preview:
+          'Understand why the young seagull is afraid, how hunger pushes him forward, and why fear is different from laziness.',
+      },
+      {
+        slug: 'his-first-flight-courage-and-family-pressure',
+        fileName: '02-his-first-flight-courage-and-family-pressure.md',
+        title: 'His First Flight: courage and family pressure',
+        type: 'Theme and character note',
+        minutes: 9,
+        free: false,
+        preview:
+          'See how family pressure, the mother seagull, and one risky dive turn fear into confidence.',
+      },
+      {
+        slug: 'the-black-aeroplane-storm-and-mystery',
+        fileName: '03-the-black-aeroplane-storm-and-mystery.md',
+        title: 'The Black Aeroplane: storm and mystery',
+        type: 'Suspense reading note',
+        minutes: 9,
+        free: false,
+        preview:
+          'Follow the pilot into storm clouds, failed instruments, and the suspense that makes the rescue feel urgent.',
+      },
+      {
+        slug: 'the-black-aeroplane-unknown-helper',
+        fileName: '04-the-black-aeroplane-unknown-helper.md',
+        title: 'The Black Aeroplane: unknown helper',
+        type: 'Inference and theme note',
+        minutes: 9,
+        free: false,
+        preview:
+          'Understand the mystery of the black aeroplane, the control room reveal, and how to answer without inventing certainty.',
+      },
+      {
+        slug: 'poems-wild-animals-and-the-ball-poem',
+        fileName: '05-poems-wild-animals-and-the-ball-poem.md',
+        title: 'Poems: Wild Animals and The Ball Poem',
+        type: 'Poem revision note',
+        minutes: 10,
+        free: false,
+        preview:
+          'Revise humour and exaggeration in How to Tell Wild Animals, plus loss, symbol, and growing up in The Ball Poem.',
+      },
+    ],
   },
   'from-the-diary-of-anne-frank': {
     subject: 'English',
@@ -859,6 +911,7 @@ const lessonDirectories: Partial<Record<keyof typeof chapters, string>> = {
     'chemical-reactions-and-equations',
     'lessons',
   ),
+  'two-stories-about-flying': path.join(process.cwd(), 'content', 'two-stories-about-flying', 'lessons'),
 };
 
 // Directory for quiz markdown (shared per chapter)

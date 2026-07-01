@@ -20,6 +20,7 @@ import {
 import type { CurriculumSubject } from './curriculum/types';
 
 const chapterSlug = 'chemical-reactions-and-equations';
+const englishPilotChapterSlug = 'two-stories-about-flying';
 
 function getH2Headings(blocks: MarkdownBlock[]) {
   return blocks.flatMap((block) => (block.type === 'h2' ? [block.text.toLowerCase()] : []));
@@ -77,6 +78,29 @@ test('chemical pilot catalog exposes all five available lessons', () => {
   assert.equal(chapter.lessons[4]?.fileName, '05-oxidation-and-reduction.md');
 });
 
+test('two stories pilot catalog exposes all five available lessons', () => {
+  const chapter = getChapter(englishPilotChapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(
+    getAvailableLessons(chapter).map((lesson) => lesson.slug),
+    [
+      'his-first-flight-fear-and-hunger',
+      'his-first-flight-courage-and-family-pressure',
+      'the-black-aeroplane-storm-and-mystery',
+      'the-black-aeroplane-unknown-helper',
+      'poems-wild-animals-and-the-ball-poem',
+    ],
+  );
+  assert.equal(chapter.lessons[0]?.fileName, '01-his-first-flight-fear-and-hunger.md');
+  assert.equal(chapter.lessons[0]?.free, true);
+  assert.equal(chapter.lessons[1]?.fileName, '02-his-first-flight-courage-and-family-pressure.md');
+  assert.equal(chapter.lessons[1]?.free, false);
+  assert.equal(chapter.lessons[2]?.fileName, '03-the-black-aeroplane-storm-and-mystery.md');
+  assert.equal(chapter.lessons[3]?.fileName, '04-the-black-aeroplane-unknown-helper.md');
+  assert.equal(chapter.lessons[4]?.fileName, '05-poems-wild-animals-and-the-ball-poem.md');
+});
+
 test('chemical equations lesson loads with required structure and navigation', async () => {
   const content = await getLessonContent(chapterSlug, 'chemical-equations');
   assert.ok(content);
@@ -103,6 +127,167 @@ test('chemical equations lesson loads with required structure and navigation', a
   assert.match(lessonText, /Mg \+ O2 -> MgO/);
   assert.match(lessonText, /Zn \+ H2SO4 -> ZnSO4 \+ H2/);
   assert.match(lessonText, /Na2SO4\(aq\) \+ BaCl2\(aq\) -> BaSO4\(s\) \+ 2NaCl\(aq\)/);
+  assertFourPanelComic(content.blocks);
+});
+
+test('his first flight fear lesson loads with required structure and navigation', async () => {
+  const content = await getLessonContent(englishPilotChapterSlug, 'his-first-flight-fear-and-hunger');
+  assert.ok(content);
+
+  assert.equal(content.previousLesson, null);
+  assert.equal(content.nextLesson?.slug, 'his-first-flight-courage-and-family-pressure');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'story context',
+    'key idea',
+    'important moments',
+    'character or speaker insight',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+    'remember this line',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /young seagull/i);
+  assert.match(lessonText, /afraid/i);
+  assert.match(lessonText, /hunger/i);
+  assert.match(lessonText, /not lazy/i);
+  assertFourPanelComic(content.blocks);
+});
+
+test('his first flight courage lesson loads with required structure and navigation', async () => {
+  const content = await getLessonContent(
+    englishPilotChapterSlug,
+    'his-first-flight-courage-and-family-pressure',
+  );
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'his-first-flight-fear-and-hunger');
+  assert.equal(content.nextLesson?.slug, 'the-black-aeroplane-storm-and-mystery');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'story context',
+    'key idea',
+    'important moments',
+    'character or speaker insight',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+    'remember this line',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /mother/i);
+  assert.match(lessonText, /food/i);
+  assert.match(lessonText, /dive/i);
+  assert.match(lessonText, /confidence/i);
+  assertFourPanelComic(content.blocks);
+});
+
+test('black aeroplane storm lesson loads with required structure and navigation', async () => {
+  const content = await getLessonContent(
+    englishPilotChapterSlug,
+    'the-black-aeroplane-storm-and-mystery',
+  );
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'his-first-flight-courage-and-family-pressure');
+  assert.equal(content.nextLesson?.slug, 'the-black-aeroplane-unknown-helper');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'story context',
+    'key idea',
+    'important moments',
+    'character or speaker insight',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+    'remember this line',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /England/i);
+  assert.match(lessonText, /storm/i);
+  assert.match(lessonText, /instruments/i);
+  assert.match(lessonText, /suspense/i);
+  assertFourPanelComic(content.blocks);
+});
+
+test('black aeroplane unknown helper lesson loads with required structure and navigation', async () => {
+  const content = await getLessonContent(englishPilotChapterSlug, 'the-black-aeroplane-unknown-helper');
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'the-black-aeroplane-storm-and-mystery');
+  assert.equal(content.nextLesson?.slug, 'poems-wild-animals-and-the-ball-poem');
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'story context',
+    'key idea',
+    'important moments',
+    'character or speaker insight',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+    'remember this line',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /black aeroplane/i);
+  assert.match(lessonText, /control room/i);
+  assert.match(lessonText, /no other aeroplane/i);
+  assert.match(lessonText, /mystery/i);
+  assertFourPanelComic(content.blocks);
+});
+
+test('poems lesson loads with required structure and navigation', async () => {
+  const content = await getLessonContent(englishPilotChapterSlug, 'poems-wild-animals-and-the-ball-poem');
+  assert.ok(content);
+
+  assert.equal(content.previousLesson?.slug, 'the-black-aeroplane-unknown-helper');
+  assert.equal(content.nextLesson, null);
+
+  assertRequiredHeadings(content.blocks, [
+    'learning goals',
+    'story context',
+    'key idea',
+    'important moments',
+    'character or speaker insight',
+    'solved examples',
+    'common mistakes',
+    'board tips',
+    'quick practice',
+    'answer check',
+    'one-minute revision',
+    'comic recap',
+    'remember this line',
+  ]);
+
+  const lessonText = getAllText(content.blocks);
+  assert.match(lessonText, /How to Tell Wild Animals/i);
+  assert.match(lessonText, /humour/i);
+  assert.match(lessonText, /The Ball Poem/i);
+  assert.match(lessonText, /loss and growing up/i);
   assertFourPanelComic(content.blocks);
 });
 

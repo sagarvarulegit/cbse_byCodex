@@ -14,7 +14,7 @@ Answer these quick questions after revising the chapter notes.
 
 ## 1. First story
 
-Topic: young-seagull-s-courage
+Topic: his-first-flight-fear-and-hunger
 Difficulty: Easy
 Source: NCERT First Flight, Two Stories about Flying, His First Flight
 
@@ -29,7 +29,7 @@ Explanation: The first story begins with the young seagull afraid to leave the l
 
 ## 2. Courage
 
-Topic: young-seagull-s-courage
+Topic: his-first-flight-fear-and-hunger
 Difficulty: Easy
 Source: NCERT First Flight, Two Stories about Flying, His First Flight
 
@@ -44,7 +44,7 @@ Explanation: Hunger pushes the young seagull toward food, and that desperate mov
 
 ## 3. Black aeroplane
 
-Topic: the-mysterious-pilot-helper
+Topic: the-black-aeroplane-storm-and-mystery
 Difficulty: Medium
 Source: NCERT First Flight, Two Stories about Flying, The Black Aeroplane
 
@@ -59,7 +59,7 @@ Explanation: The narrator is guided through the storm, but the control room late
 
 ## 4. Wild animals
 
-Topic: how-to-tell-wild-animals
+Topic: poems-wild-animals-and-the-ball-poem
 Difficulty: Easy
 Source: NCERT First Flight poem, How to Tell Wild Animals
 
@@ -74,7 +74,7 @@ Explanation: The poem uses funny, exaggerated clues for identifying animals, so 
 
 ## 5. Ball poem
 
-Topic: the-ball-poem
+Topic: poems-wild-animals-and-the-ball-poem
 Difficulty: Medium
 Source: NCERT First Flight poem, The Ball Poem
 
