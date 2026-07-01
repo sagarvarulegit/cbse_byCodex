@@ -20,6 +20,9 @@ Health means:
 2. only absence from school
 3. only eating sweets
 
+Answer: 1
+Explanation: Health includes physical, mental, and social well-being.
+
 ## 2. Communicable disease
 
 A communicable disease can:
@@ -27,6 +30,9 @@ A communicable disease can:
 1. spread from one person to another
 2. never spread
 3. only affect machines
+
+Answer: 1
+Explanation: Communicable diseases can pass from one person to another.
 
 ## 3. Hygiene
 
@@ -36,6 +42,9 @@ Personal hygiene helps:
 2. spread infection
 3. remove all exercise
 
+Answer: 1
+Explanation: Clean habits reduce the chance of disease.
+
 ## 4. Immunization
 
 Immunization helps:
@@ -44,6 +53,9 @@ Immunization helps:
 2. reduce water intake
 3. stop all nutrition
 
+Answer: 1
+Explanation: Immunization protects the body against specific diseases.
+
 ## 5. Community health
 
 Community health improves when:
@@ -51,6 +63,9 @@ Community health improves when:
 1. sanitation and awareness improve
 2. waste is left open
 3. clean water is ignored
+
+Answer: 1
+Explanation: Better sanitation and awareness improve community health.
 
 ## revision reminder
 

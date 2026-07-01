@@ -20,6 +20,9 @@ A political party is a group that:
 2. only grows crops
 3. only prints books
 
+Answer: 1
+Explanation: Political parties contest elections and try to form government.
+
 ## 2. Function
 
 Political parties help:
@@ -27,6 +30,9 @@ Political parties help:
 1. form governments
 2. stop all voting
 3. remove public debate
+
+Answer: 1
+Explanation: One key function of parties is to form and run governments.
 
 ## 3. National party
 
@@ -36,6 +42,9 @@ A national party operates:
 2. only in one classroom
 3. only in one family
 
+Answer: 1
+Explanation: A national party has presence across many states.
+
 ## 4. Regional party
 
 A regional party mainly works in:
@@ -44,6 +53,9 @@ A regional party mainly works in:
 2. all continents
 3. no election area
 
+Answer: 1
+Explanation: Regional parties focus on a state or a specific region.
+
 ## 5. Reform
 
 Party reforms aim to improve:
@@ -51,6 +63,9 @@ Party reforms aim to improve:
 1. transparency and democracy
 2. pollution only
 3. crop yield only
+
+Answer: 1
+Explanation: Reforms are meant to make parties more transparent and democratic.
 
 ## revision reminder
 

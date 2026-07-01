@@ -20,6 +20,9 @@ Money works as:
 2. only a crop
 3. only a mineral
 
+Answer: 1
+Explanation: Money is used as a medium of exchange.
+
 ## 2. Double coincidence
 
 Double coincidence of wants is needed in:
@@ -27,6 +30,9 @@ Double coincidence of wants is needed in:
 1. barter system
 2. banking system only
 3. online payment only
+
+Answer: 1
+Explanation: Barter works only when both people want what the other offers.
 
 ## 3. Banks
 
@@ -36,6 +42,9 @@ Banks accept deposits and:
 2. grow crops
 3. make laws
 
+Answer: 1
+Explanation: Banks accept deposits and provide loans.
+
 ## 4. Formal credit
 
 Formal credit usually comes from:
@@ -44,6 +53,9 @@ Formal credit usually comes from:
 2. only moneylenders
 3. only friends
 
+Answer: 1
+Explanation: Formal credit is provided by regulated institutions such as banks and cooperatives.
+
 ## 5. SHG
 
 Self Help Groups are often useful for:
@@ -51,6 +63,9 @@ Self Help Groups are often useful for:
 1. poor households and small borrowers
 2. only large companies
 3. only foreign trade
+
+Answer: 1
+Explanation: SHGs help small borrowers and households access credit together.
 
 ## revision reminder
 

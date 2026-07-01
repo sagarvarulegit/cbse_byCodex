@@ -20,6 +20,9 @@ Similar triangles have:
 2. same shape, possibly different size
 3. different shape, same size
 
+Answer: 2
+Explanation: Similar triangles have the same shape, but their sizes may differ.
+
 ## 2. Basic proportionality
 
 The theorem used for a line parallel to one side of a triangle is:
@@ -27,6 +30,9 @@ The theorem used for a line parallel to one side of a triangle is:
 1. Basic Proportionality Theorem
 2. Pythagoras theorem
 3. Heron theorem
+
+Answer: 1
+Explanation: The theorem is the Basic Proportionality Theorem.
 
 ## 3. Areas ratio
 
@@ -36,6 +42,9 @@ For similar triangles, the ratio of areas equals:
 2. the square of the ratio of corresponding sides
 3. the cube of the ratio of corresponding sides
 
+Answer: 2
+Explanation: The ratio of areas equals the square of the ratio of corresponding sides.
+
 ## 4. Congruence
 
 Triangles are congruent when:
@@ -44,6 +53,9 @@ Triangles are congruent when:
 2. they match exactly in shape and size
 3. they have equal perimeters only
 
+Answer: 2
+Explanation: Congruent triangles match exactly in shape and size.
+
 ## 5. Key idea
 
 If two triangles are similar, corresponding angles are:
@@ -51,6 +63,9 @@ If two triangles are similar, corresponding angles are:
 1. equal
 2. always complementary
 3. always obtuse
+
+Answer: 1
+Explanation: Similar triangles have equal corresponding angles.
 
 ## revision reminder
 

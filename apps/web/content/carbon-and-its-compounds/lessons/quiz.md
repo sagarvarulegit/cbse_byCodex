@@ -20,6 +20,9 @@ Carbon mostly forms:
 2. covalent bonds
 3. no bonds at all
 
+Answer: 2
+Explanation: Carbon mainly forms covalent bonds by sharing electrons.
+
 ## 2. Tetravalency
 
 Carbon is tetravalent because it has:
@@ -27,6 +30,9 @@ Carbon is tetravalent because it has:
 1. one valence electron
 2. four valence electrons
 3. eight valence electrons
+
+Answer: 2
+Explanation: Carbon has four valence electrons, so it can form four bonds.
 
 ## 3. Versatility
 
@@ -36,6 +42,9 @@ Carbon can form many compounds because it shows:
 2. magnetism
 3. evaporation
 
+Answer: 1
+Explanation: Carbon chains with itself through catenation, which creates many compounds.
+
 ## 4. Functional group
 
 A functional group is:
@@ -44,6 +53,9 @@ A functional group is:
 2. the whole molecule name only
 3. a metal atom only
 
+Answer: 1
+Explanation: A functional group controls the characteristic properties of an organic compound.
+
 ## 5. Soap
 
 Soap helps mainly in:
@@ -51,6 +63,9 @@ Soap helps mainly in:
 1. cleaning by forming micelles
 2. increasing hardness of water
 3. changing carbon into metal
+
+Answer: 1
+Explanation: Soap cleans by trapping grease in micelles.
 
 ## revision reminder
 

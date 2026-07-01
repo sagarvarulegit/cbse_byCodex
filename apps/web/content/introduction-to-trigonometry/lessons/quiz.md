@@ -20,6 +20,9 @@ Trigonometry is the study of:
 2. only circles
 3. only coordinates
 
+Answer: 1
+Explanation: Trigonometry studies relationships between sides and angles in triangles.
+
 ## 2. Ratios
 
 Sin, cos, and tan are called:
@@ -27,6 +30,9 @@ Sin, cos, and tan are called:
 1. trigonometric ratios
 2. arithmetic averages
 3. algebraic constants
+
+Answer: 1
+Explanation: Sine, cosine, and tangent are trigonometric ratios.
 
 ## 3. Hypotenuse
 
@@ -36,6 +42,9 @@ In a right triangle, the hypotenuse is:
 2. the side opposite the right angle
 3. always equal to base
 
+Answer: 2
+Explanation: The hypotenuse is the side opposite the right angle.
+
 ## 4. Value idea
 
 The value of `sin 90` is:
@@ -44,6 +53,9 @@ The value of `sin 90` is:
 2. `1`
 3. `1/2`
 
+Answer: 2
+Explanation: `sin 90` equals `1`.
+
 ## 5. Complement relation
 
 `sin theta` is equal to:
@@ -51,6 +63,9 @@ The value of `sin 90` is:
 1. `cos (90 - theta)`
 2. `tan (90 - theta)`
 3. `1 / theta`
+
+Answer: 1
+Explanation: The complementary identity is `sin theta = cos (90 - theta)`.
 
 ## revision reminder
 

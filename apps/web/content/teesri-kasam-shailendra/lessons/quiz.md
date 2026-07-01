@@ -20,6 +20,9 @@ Shailendra is remembered as a:
 2. scientist
 3. farmer
 
+Answer: 1
+Explanation: Shailendra is remembered as a lyricist and artist.
+
 ## 2. Film
 
 The chapter is linked with the film:
@@ -27,6 +30,9 @@ The chapter is linked with the film:
 1. Teesri Kasam
 2. Sholay
 3. Pather Panchali only
+
+Answer: 1
+Explanation: The chapter is linked with the film Teesri Kasam.
 
 ## 3. Main value
 
@@ -36,6 +42,9 @@ Shailendra is praised for:
 2. greed only
 3. silence
 
+Answer: 1
+Explanation: He is praised for artistic integrity.
+
 ## 4. Theme
 
 The chapter contrasts:
@@ -44,6 +53,9 @@ The chapter contrasts:
 2. acids and bases
 3. farming seasons
 
+Answer: 1
+Explanation: The chapter contrasts art with commercialism.
+
 ## 5. Culture
 
 The film represents:
@@ -51,6 +63,9 @@ The film represents:
 1. folk culture
 2. industrial pollution only
 3. lens power
+
+Answer: 1
+Explanation: The film represents folk culture.
 
 ## revision reminder
 

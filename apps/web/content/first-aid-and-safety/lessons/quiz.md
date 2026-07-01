@@ -20,6 +20,9 @@ First aid means:
 2. ignoring injury
 3. only hospital billing
 
+Answer: 1
+Explanation: First aid is the immediate care given before professional medical help arrives.
+
 ## 2. Safety
 
 Safety rules help:
@@ -27,6 +30,9 @@ Safety rules help:
 1. prevent accidents
 2. increase danger
 3. stop awareness
+
+Answer: 1
+Explanation: Safety rules are meant to prevent accidents and reduce harm.
 
 ## 3. Bleeding
 
@@ -36,6 +42,9 @@ For minor bleeding, first aid often includes:
 2. rubbing dirt on the wound
 3. ignoring it always
 
+Answer: 1
+Explanation: Clean pressure helps control minor bleeding.
+
 ## 4. Emergency
 
 In a serious emergency, we should:
@@ -44,6 +53,9 @@ In a serious emergency, we should:
 2. hide the injury
 3. delay without reason
 
+Answer: 1
+Explanation: Serious emergencies need prompt professional help.
+
 ## 5. Calm response
 
 A good first-aider should:
@@ -51,6 +63,9 @@ A good first-aider should:
 1. stay calm and act safely
 2. panic and run away
 3. create crowding
+
+Answer: 1
+Explanation: Calm action helps the first-aider respond safely and effectively.
 
 ## revision reminder
 

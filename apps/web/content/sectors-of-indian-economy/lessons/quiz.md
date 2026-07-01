@@ -20,6 +20,9 @@ The primary sector includes:
 2. only banking
 3. only software
 
+Answer: 1
+Explanation: The primary sector includes activities that use natural resources directly.
+
 ## 2. Secondary sector
 
 The secondary sector includes:
@@ -27,6 +30,9 @@ The secondary sector includes:
 1. manufacturing and construction
 2. only farming
 3. only forests
+
+Answer: 1
+Explanation: Manufacturing and construction belong to the secondary sector.
 
 ## 3. Tertiary sector
 
@@ -36,6 +42,9 @@ The tertiary sector provides:
 2. raw minerals only
 3. crops only
 
+Answer: 1
+Explanation: The tertiary sector is the service sector.
+
 ## 4. GDP
 
 GDP measures:
@@ -44,6 +53,9 @@ GDP measures:
 2. rainfall in a region
 3. number of political parties
 
+Answer: 1
+Explanation: GDP measures the value of goods and services produced in an economy.
+
 ## 5. Organised sector
 
 The organised sector usually has:
@@ -51,6 +63,9 @@ The organised sector usually has:
 1. formal rules and job security
 2. no rules at all
 3. only unpaid work
+
+Answer: 1
+Explanation: The organised sector has formal rules and more job security.
 
 ## revision reminder
 

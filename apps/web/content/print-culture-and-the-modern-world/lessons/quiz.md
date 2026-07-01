@@ -20,6 +20,9 @@ Print culture means:
 2. only crop production
 3. only mineral extraction
 
+Answer: 1
+Explanation: Print culture includes printed material and the reading practices around it.
+
 ## 2. Gutenberg
 
 Gutenberg is linked with:
@@ -27,6 +30,9 @@ Gutenberg is linked with:
 1. movable type printing in Europe
 2. globalisation only
 3. salt law
+
+Answer: 1
+Explanation: Gutenberg is associated with movable type printing in Europe.
 
 ## 3. Reading public
 
@@ -36,6 +42,9 @@ Printing helped create:
 2. fewer books always
 3. no public debate
 
+Answer: 1
+Explanation: Printing helped create a wider reading public.
+
 ## 4. Reform
 
 Print helped social reform by:
@@ -44,6 +53,9 @@ Print helped social reform by:
 2. ending discussion
 3. removing newspapers
 
+Answer: 1
+Explanation: Print spread ideas and arguments that supported reform.
+
 ## 5. Censorship
 
 Censorship is:
@@ -51,6 +63,9 @@ Censorship is:
 1. control over publishing and circulation
 2. a farming tool
 3. a weather pattern
+
+Answer: 1
+Explanation: Censorship controls what can be published or circulated.
 
 ## revision reminder
 

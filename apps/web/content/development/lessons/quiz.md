@@ -20,6 +20,9 @@ Different people may have:
 2. exactly the same goals always
 3. no goals
 
+Answer: 1
+Explanation: People have different needs, so their development goals can differ.
+
 ## 2. Income
 
 Average income is also called:
@@ -27,6 +30,9 @@ Average income is also called:
 1. per capita income
 2. life expectancy
 3. literacy rate
+
+Answer: 1
+Explanation: Per capita income means average income per person.
 
 ## 3. HDI
 
@@ -36,6 +42,9 @@ Human Development Index considers:
 2. only rainfall
 3. only minerals
 
+Answer: 1
+Explanation: HDI combines income, health, and education to compare development.
+
 ## 4. Sustainability
 
 Sustainable development means:
@@ -44,6 +53,9 @@ Sustainable development means:
 2. using all resources now
 3. stopping all human activity
 
+Answer: 1
+Explanation: Sustainable development protects resources so future generations can also use them.
+
 ## 5. Non-income goals
 
 Non-income goals include:
@@ -51,6 +63,9 @@ Non-income goals include:
 1. security, respect, and freedom
 2. only money
 3. only exports
+
+Answer: 1
+Explanation: Development is also about dignity, security, and freedom, not just money.
 
 ## revision reminder
 

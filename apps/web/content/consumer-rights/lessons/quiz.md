@@ -20,6 +20,9 @@ A consumer is a person who:
 2. only produces goods
 3. never enters a market
 
+Answer: 1
+Explanation: A consumer buys goods or services for personal use.
+
 ## 2. Exploitation
 
 Consumers may be exploited through:
@@ -27,6 +30,9 @@ Consumers may be exploited through:
 1. underweight goods or false information
 2. fair bills only
 3. correct labels always
+
+Answer: 1
+Explanation: Underweight goods and false information are common forms of consumer exploitation.
 
 ## 3. Right to information
 
@@ -36,6 +42,9 @@ The right to information helps consumers check:
 2. rainfall only
 3. election results only
 
+Answer: 1
+Explanation: Consumers use this right to check important product details before buying.
+
 ## 4. Redressal
 
 Consumer redressal means:
@@ -44,6 +53,9 @@ Consumer redressal means:
 2. ignoring defects
 3. refusing receipts
 
+Answer: 1
+Explanation: Redressal means getting a remedy when a consumer faces unfair treatment.
+
 ## 5. Awareness
 
 A smart consumer should:
@@ -51,6 +63,9 @@ A smart consumer should:
 1. keep the bill or receipt
 2. avoid reading labels
 3. pay above MRP always
+
+Answer: 1
+Explanation: Keeping the bill or receipt helps when a complaint or refund is needed.
 
 ## revision reminder
 

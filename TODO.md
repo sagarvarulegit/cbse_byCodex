@@ -28,7 +28,7 @@
 - `apps/web/lib/quiz-content.test.ts` already has a strict missing-answer regression.
 - The first legacy batch is already complete for `a-letter-to-god`, `a-question-of-trust`, `a-triumph-of-surgery`, `bade-bhai-sahab`, and `bholi`.
 - The second legacy batch is already complete for `the-necklace`, `the-proposal`, `the-thiefs-story`, `the-sermon-at-benares`, and `the-midnight-visitor`.
-- The current validator state after two batches is 380 missing-answer / 380 missing-explanation issues.
+- The current validator state is 0 missing-answer / 0 missing-explanation issues after the remaining legacy sweep.
 - The three pilot quizzes already parse in strict mode in `apps/web/lib/pilot-quiz-content.test.ts`, but they still need explicit manual review before the next student batch.
 
 ## Files And Responsibilities
@@ -60,7 +60,7 @@
 - Consumes: `parseQuizContent(markdown, topicSlugs, { strictMetadata: true })`
 - Produces: trusted validator output for later content batches
 
-- [ ] **Step 1: Confirm package script exists**
+- [x] **Step 1: Confirm package script exists**
 
 Open `apps/web/package.json` and confirm:
 
@@ -68,7 +68,7 @@ Open `apps/web/package.json` and confirm:
 "validate:quizzes": "tsx scripts/validate-quiz-metadata.ts"
 ```
 
-- [ ] **Step 2: Confirm missing-answer test exists**
+- [x] **Step 2: Confirm missing-answer test exists**
 
 Open `apps/web/lib/quiz-content.test.ts` and confirm a test named:
 
@@ -82,7 +82,7 @@ Expected assertion:
 assert.deepEqual(error.issues.map((issue) => issue.code), ['missing-answer']);
 ```
 
-- [ ] **Step 3: Run targeted parser tests**
+- [x] **Step 3: Run targeted parser tests**
 
 Run:
 
@@ -92,7 +92,7 @@ npm.cmd run test -w apps/web -- lib/quiz-content.test.ts
 
 Expected: all web lib tests pass, including the strict missing-answer regression.
 
-- [ ] **Step 4: Run validator once and capture counts**
+- [x] **Step 4: Run validator once and capture counts**
 
 Run:
 
@@ -147,7 +147,7 @@ the-black-aeroplane-unknown-helper
 poems-wild-animals-and-the-ball-poem
 ```
 
-- [ ] **Step 1: Inspect pilot quiz topics**
+- [x] **Step 1: Inspect pilot quiz topics**
 
 For each pilot quiz, confirm every question has:
 
@@ -155,7 +155,7 @@ For each pilot quiz, confirm every question has:
 Topic: exact-topic-slug
 ```
 
-- [ ] **Step 2: Fix only invalid or missing pilot topics**
+- [x] **Step 2: Fix only invalid or missing pilot topics**
 
 If a pilot question is missing or has an invalid topic, set it to the lesson slug that best matches the question. Example:
 
@@ -163,7 +163,7 @@ If a pilot question is missing or has an invalid topic, set it to the lesson slu
 Topic: balancing-equations
 ```
 
-- [ ] **Step 3: Run pilot strict test**
+- [x] **Step 3: Run pilot strict test**
 
 Run:
 
@@ -173,7 +173,7 @@ npm.cmd run test -w apps/web -- lib/pilot-quiz-content.test.ts
 
 Expected: all three pilot quizzes parse with 5 questions, valid answers, explanations, and valid topic slugs.
 
-- [ ] **Step 4: Update `master_todo.md` only after the test passes**
+- [x] **Step 4: Update `master_todo.md` only after the test passes**
 
 After the command above passes, mark this item complete:
 
@@ -193,7 +193,7 @@ After the command above passes, mark this item complete:
 - Consumes: validator output lines with `missing-answer`
 - Produces: all quiz questions with explicit `Answer: <option number>`
 
-- [ ] **Step 1: Generate the missing-answer queue**
+- [x] **Step 1: Generate the missing-answer queue**
 
 Run:
 
@@ -207,11 +207,11 @@ Collect files from lines like:
 [error] content\a-letter-to-god\lessons\quiz.md missing-answer question-1: Lencho
 ```
 
-- [ ] **Step 2: Work in batches of 5 to 10 files**
+- [x] **Step 2: Work in batches of 5 to 10 files**
 
 Pick the first 5 to 10 files from the validator output. Do not edit every quiz file in one giant pass.
 
-- [ ] **Step 3: Read each question before adding an answer**
+- [x] **Step 3: Read each question before adding an answer**
 
 For every question, read:
 
@@ -233,7 +233,7 @@ Answer: 1
 
 Use the option number from the markdown, not a zero-based index.
 
-- [ ] **Step 4: Stop on ambiguous answers**
+- [x] **Step 4: Stop on ambiguous answers**
 
 If the correct option is not clear, inspect the matching lesson or chapter pack. If it is still unclear, leave that question unchanged and record it under a handoff note:
 
@@ -242,7 +242,7 @@ Blocked answer checks:
 - `apps/web/content/<chapter>/lessons/quiz.md`, question N, because <reason>.
 ```
 
-- [ ] **Step 5: Re-run validator after each batch**
+- [x] **Step 5: Re-run validator after each batch**
 
 Run:
 
@@ -252,7 +252,7 @@ npm.cmd run validate:quizzes -w apps/web
 
 Expected: `missing-answer` errors decrease by the number of fixed questions.
 
-- [ ] **Step 6: Repeat until no missing-answer errors remain**
+- [x] **Step 6: Repeat until no missing-answer errors remain**
 
 Completion signal:
 
@@ -274,7 +274,7 @@ If warnings remain, continue to Task 4.
 - Consumes: validator output lines with `missing-explanation`
 - Produces: all quiz questions with short review explanations
 
-- [ ] **Step 1: Generate the missing-explanation queue**
+- [x] **Step 1: Generate the missing-explanation queue**
 
 Run:
 
@@ -288,7 +288,7 @@ Collect files from lines like:
 [warning] content\a-letter-to-god\lessons\quiz.md missing-explanation question-1: Lencho
 ```
 
-- [ ] **Step 2: Add one or two sentence explanations**
+- [x] **Step 2: Add one or two sentence explanations**
 
 Add the explanation immediately after `Answer:`:
 
@@ -297,7 +297,7 @@ Answer: 1
 Explanation: Lencho is the farmer in the story, and the question asks for the main character rather than the setting or event.
 ```
 
-- [ ] **Step 3: Keep explanations student-facing**
+- [x] **Step 3: Keep explanations student-facing**
 
 Each explanation must:
 
@@ -305,7 +305,7 @@ Each explanation must:
 - Mention a tempting wrong option only when it helps learning.
 - Stay short enough to be useful in locked review mode.
 
-- [ ] **Step 4: Re-run validator after each batch**
+- [x] **Step 4: Re-run validator after each batch**
 
 Run:
 
@@ -315,7 +315,7 @@ npm.cmd run validate:quizzes -w apps/web
 
 Expected: warnings decrease.
 
-- [ ] **Step 5: Repeat until no warnings remain**
+- [x] **Step 5: Repeat until no warnings remain**
 
 Completion signal:
 

@@ -20,6 +20,9 @@ The chapter includes:
 2. only a map
 3. a chemical equation
 
+Answer: 1
+Explanation: The chapter includes two short reflective pieces.
+
 ## 2. Ginni Ka Sona
 
 This section explores:
@@ -27,6 +30,9 @@ This section explores:
 1. idealism and practicality
 2. crop seasons only
 3. electric current
+
+Answer: 1
+Explanation: Ginni Ka Sona contrasts idealism with practicality.
 
 ## 3. Zen Ki Den
 
@@ -36,6 +42,9 @@ This section is linked with:
 2. salt production
 3. banking
 
+Answer: 1
+Explanation: Zen Ki Den is connected to the Japanese tea ceremony idea.
+
 ## 4. Message
 
 The chapter values:
@@ -44,6 +53,9 @@ The chapter values:
 2. careless speech
 3. public quarrels
 
+Answer: 1
+Explanation: The chapter encourages self-introspection.
+
 ## 5. Present moment
 
 The lesson encourages:
@@ -51,6 +63,9 @@ The lesson encourages:
 1. living with awareness in the present
 2. ignoring all experience
 3. only memorising dates
+
+Answer: 1
+Explanation: The lesson asks readers to live mindfully in the present moment.
 
 ## revision reminder
 

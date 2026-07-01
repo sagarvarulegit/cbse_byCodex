@@ -20,6 +20,9 @@ Reflection is the:
 2. bending of light into heat
 3. splitting of sound
 
+Answer: 1
+Explanation: Reflection means light bounces back after striking a surface.
+
 ## 2. Mirror formula
 
 The mirror formula is used for:
@@ -27,6 +30,9 @@ The mirror formula is used for:
 1. spherical mirrors
 2. only flat paper
 3. only electricity
+
+Answer: 1
+Explanation: The mirror formula applies to spherical mirrors.
 
 ## 3. Refraction
 
@@ -36,6 +42,9 @@ Refraction is:
 2. breaking of metal
 3. noise reflection
 
+Answer: 1
+Explanation: Refraction is the bending of light when it moves between media.
+
 ## 4. Lens
 
 A convex lens:
@@ -44,6 +53,9 @@ A convex lens:
 2. always disperses light
 3. stops light completely
 
+Answer: 1
+Explanation: A convex lens brings light rays together, so it converges light.
+
 ## 5. Power
 
 Power of a lens is measured in:
@@ -51,6 +63,9 @@ Power of a lens is measured in:
 1. dioptre
 2. metre per second
 3. newton
+
+Answer: 1
+Explanation: Lens power is measured in dioptre.
 
 ## revision reminder
 

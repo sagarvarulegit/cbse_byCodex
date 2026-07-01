@@ -20,6 +20,9 @@ Silk routes connected:
 2. only one village
 3. only local farms
 
+Answer: 1
+Explanation: Silk routes linked distant regions for trade and cultural exchange.
+
 ## 2. Food travel
 
 Foods such as potatoes and chillies spread through:
@@ -27,6 +30,9 @@ Foods such as potatoes and chillies spread through:
 1. global exchange
 2. rainfall only
 3. local elections
+
+Answer: 1
+Explanation: Foods moved across the world through global exchange.
 
 ## 3. Indentured labour
 
@@ -36,6 +42,9 @@ Indentured labour involved:
 2. farmers owning all factories
 3. kings writing laws only
 
+Answer: 1
+Explanation: Indentured labour meant workers moved under contract to work elsewhere.
+
 ## 4. Great Depression
 
 The Great Depression affected:
@@ -44,6 +53,9 @@ The Great Depression affected:
 2. only one shop
 3. only one school
 
+Answer: 1
+Explanation: The Depression spread across many countries and hurt markets widely.
+
 ## 5. Bretton Woods
 
 Bretton Woods institutions were created for:
@@ -51,6 +63,9 @@ Bretton Woods institutions were created for:
 1. post-war economic stability
 2. local farming festivals
 3. printing newspapers only
+
+Answer: 1
+Explanation: Bretton Woods institutions aimed to stabilise the post-war world economy.
 
 ## revision reminder
 

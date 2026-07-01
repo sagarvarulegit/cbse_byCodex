@@ -20,6 +20,9 @@ The sakhis are by:
 2. Meera
 3. Premchand
 
+Answer: 1
+Explanation: The sakhis are by Kabir.
+
 ## 2. Speech
 
 Kabir values:
@@ -27,6 +30,9 @@ Kabir values:
 1. sweet and humble speech
 2. harsh words
 3. silence without thought
+
+Answer: 1
+Explanation: Kabir values humble and kind speech.
 
 ## 3. God
 
@@ -36,6 +42,9 @@ Kabir says God is:
 2. only in wealth
 3. nowhere
 
+Answer: 1
+Explanation: Kabir teaches that God can be found within us.
+
 ## 4. Ego
 
 The sakhis ask us to reduce:
@@ -44,6 +53,9 @@ The sakhis ask us to reduce:
 2. kindness
 3. truth
 
+Answer: 1
+Explanation: The sakhis warn against ego and pride.
+
 ## 5. Message
 
 The poems teach:
@@ -51,6 +63,9 @@ The poems teach:
 1. inner devotion and humility
 2. greed and pride
 3. anger as strength
+
+Answer: 1
+Explanation: The poems teach devotion, humility, and inner reflection.
 
 ## revision reminder
 

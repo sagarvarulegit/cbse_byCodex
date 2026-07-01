@@ -20,6 +20,9 @@ The pads are by:
 2. Kabir
 3. Shailendra
 
+Answer: 1
+Explanation: The pads are associated with Meera.
+
 ## 2. Devotion
 
 Meera is devoted to:
@@ -27,6 +30,9 @@ Meera is devoted to:
 1. Krishna
 2. money
 3. power
+
+Answer: 1
+Explanation: Meera's devotion is directed toward Krishna.
 
 ## 3. Emotion
 
@@ -36,6 +42,9 @@ The poems express:
 2. anger only
 3. political debate
 
+Answer: 1
+Explanation: The poems express surrender and faith.
+
 ## 4. Krishna
 
 Krishna is seen as:
@@ -44,6 +53,9 @@ Krishna is seen as:
 2. enemy
 3. merchant
 
+Answer: 1
+Explanation: Krishna is shown as a divine protector.
+
 ## 5. Main value
 
 The pads highlight:
@@ -51,6 +63,9 @@ The pads highlight:
 1. bhakti
 2. industrial growth
 3. formal credit
+
+Answer: 1
+Explanation: The central value in these pads is bhakti.
 
 ## revision reminder
 

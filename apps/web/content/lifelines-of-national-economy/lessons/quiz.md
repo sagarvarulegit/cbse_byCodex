@@ -20,6 +20,9 @@ Transport, communication, and trade are called lifelines because they:
 2. stop all movement
 3. only measure rainfall
 
+Answer: 1
+Explanation: Transport, communication, and trade connect people, goods, and markets across regions.
+
 ## 2. Roadways
 
 Roadways are useful because they:
@@ -27,6 +30,9 @@ Roadways are useful because they:
 1. provide flexible door-to-door movement
 2. move only by sea
 3. cannot reach villages
+
+Answer: 1
+Explanation: Roadways are flexible and can provide door-to-door transport.
 
 ## 3. Railways
 
@@ -36,6 +42,9 @@ Railways are important for:
 2. only local walking
 3. only emails
 
+Answer: 1
+Explanation: Railways move people and heavy goods over long distances efficiently.
+
 ## 4. Pipelines
 
 Pipelines commonly transport:
@@ -44,6 +53,9 @@ Pipelines commonly transport:
 2. school books only
 3. forest animals
 
+Answer: 1
+Explanation: Pipelines are used to transport petroleum and natural gas.
+
 ## 5. Tourism
 
 Tourism is considered trade because it:
@@ -51,6 +63,9 @@ Tourism is considered trade because it:
 1. creates income and jobs
 2. stops communication
 3. has no economic role
+
+Answer: 1
+Explanation: Tourism brings income and creates jobs, so it is an economic activity.
 
 ## revision reminder
 

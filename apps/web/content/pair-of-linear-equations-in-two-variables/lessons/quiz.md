@@ -20,6 +20,9 @@ A pair of linear equations in two variables has:
 2. one equation with square roots only
 3. one equation and one inequality
 
+Answer: 1
+Explanation: A linear equation has variables with power at most 1, and the chapter studies pairs of them.
+
 ## 2. Graph meaning
 
 If two lines intersect at one point, the system has:
@@ -27,6 +30,9 @@ If two lines intersect at one point, the system has:
 1. no solution
 2. exactly one solution
 3. infinitely many solutions
+
+Answer: 2
+Explanation: Intersecting lines meet at one point, so there is exactly one solution.
 
 ## 3. Consistent system
 
@@ -36,6 +42,9 @@ A system with at least one solution is called:
 2. inconsistent
 3. parallel
 
+Answer: 1
+Explanation: A system with one or more solutions is consistent.
+
 ## 4. Algebraic method
 
 Which method uses substitution of one variable into the other equation?
@@ -44,6 +53,9 @@ Which method uses substitution of one variable into the other equation?
 2. substitution
 3. graphical only
 
+Answer: 2
+Explanation: The substitution method replaces one variable using the other equation.
+
 ## 5. Parallel lines
 
 If two lines are parallel, they have:
@@ -51,6 +63,9 @@ If two lines are parallel, they have:
 1. one common solution
 2. no solution
 3. infinitely many solutions
+
+Answer: 2
+Explanation: Parallel lines never meet, so they have no solution.
 
 ## revision reminder
 

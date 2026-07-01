@@ -20,6 +20,9 @@ Globalisation means:
 2. closing every border forever
 3. no trade anywhere
 
+Answer: 1
+Explanation: Globalisation connects markets and economies across countries.
+
 ## 2. MNC
 
 MNC stands for:
@@ -27,6 +30,9 @@ MNC stands for:
 1. Multinational Corporation
 2. Mineral National Committee
 3. Market Noise Council
+
+Answer: 1
+Explanation: MNC means Multinational Corporation.
 
 ## 3. Investment
 
@@ -36,6 +42,9 @@ MNCs often set up production where:
 2. no workers exist
 3. there is no transport
 
+Answer: 1
+Explanation: MNCs look for lower costs and access to markets when choosing locations.
+
 ## 4. Technology
 
 Globalisation has been helped by:
@@ -44,6 +53,9 @@ Globalisation has been helped by:
 2. no communication
 3. stopping trade
 
+Answer: 1
+Explanation: Better transport and communication make global trade and production easier.
+
 ## 5. Fair globalisation
 
 Fair globalisation means:
@@ -51,6 +63,9 @@ Fair globalisation means:
 1. benefits should reach all sections
 2. only big companies benefit
 3. workers lose every right
+
+Answer: 1
+Explanation: Fair globalisation should share gains more evenly across people.
 
 ## revision reminder
 

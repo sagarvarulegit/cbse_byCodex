@@ -20,6 +20,9 @@ Electric current is the flow of:
 2. heat only
 3. sound only
 
+Answer: 1
+Explanation: Electric current is the flow of electric charges.
+
 ## 2. Ohm's law
 
 Ohm's law relates:
@@ -27,6 +30,9 @@ Ohm's law relates:
 1. voltage, current, and resistance
 2. mass, weight, and density
 3. time, speed, and distance
+
+Answer: 1
+Explanation: Ohm's law connects voltage, current, and resistance.
 
 ## 3. Resistance
 
@@ -36,6 +42,9 @@ Resistance opposes:
 2. light rays
 3. magnets
 
+Answer: 1
+Explanation: Resistance opposes the flow of electric current.
+
 ## 4. Series circuit
 
 In a series circuit, current is:
@@ -44,6 +53,9 @@ In a series circuit, current is:
 2. always zero
 3. always bigger in each branch
 
+Answer: 1
+Explanation: In series, the same current flows through every component.
+
 ## 5. Heating effect
 
 Joule heating converts:
@@ -51,6 +63,9 @@ Joule heating converts:
 1. electrical energy into heat
 2. heat into magnetism
 3. sound into light
+
+Answer: 1
+Explanation: Joule heating turns electrical energy into heat.
 
 ## revision reminder
 

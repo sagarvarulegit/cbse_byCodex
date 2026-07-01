@@ -20,6 +20,9 @@ Mijbil is a:
 2. otter
 3. cat
 
+Answer: 2
+Explanation: Mijbil is the otter the author keeps.
+
 ## 2. Nature
 
 Mijbil loves:
@@ -27,6 +30,9 @@ Mijbil loves:
 1. water
 2. snow only
 3. fire
+
+Answer: 1
+Explanation: Otters naturally love water, and Mijbil is no exception.
 
 ## 3. Behaviour
 
@@ -36,6 +42,9 @@ The author finds Mijbil:
 2. lazy and silent
 3. rude and hidden
 
+Answer: 1
+Explanation: The author describes Mijbil as playful and intelligent.
+
 ## 4. Travel
 
 Mijbil's journey creates:
@@ -44,6 +53,9 @@ Mijbil's journey creates:
 2. no reaction at all
 3. only sadness
 
+Answer: 1
+Explanation: The otter's travel creates comic confusion and funny moments.
+
 ## 5. Theme
 
 The chapter shows the importance of:
@@ -51,6 +63,9 @@ The chapter shows the importance of:
 1. caring for animals responsibly
 2. ignoring pet needs
 3. making animals toys
+
+Answer: 1
+Explanation: The story highlights responsible care and respect for animals.
 
 ## revision reminder
 

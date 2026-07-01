@@ -20,6 +20,9 @@ Manushyata means:
 2. industry
 3. trade
 
+Answer: 1
+Explanation: Manushyata means humanity.
+
 ## 2. True humanity
 
 The poem values:
@@ -27,6 +30,9 @@ The poem values:
 1. selfless service
 2. selfishness
 3. pride only
+
+Answer: 1
+Explanation: The poem values selfless service to others.
 
 ## 3. Brotherhood
 
@@ -36,6 +42,9 @@ The poem supports:
 2. hatred
 3. isolation only
 
+Answer: 1
+Explanation: The poem calls for universal brotherhood among people.
+
 ## 4. Historical examples
 
 The poem uses examples to inspire:
@@ -44,6 +53,9 @@ The poem uses examples to inspire:
 2. carelessness
 3. greed
 
+Answer: 1
+Explanation: The examples are used to inspire sacrifice and service.
+
 ## 5. Message
 
 A good human being should:
@@ -51,6 +63,9 @@ A good human being should:
 1. live for others too
 2. ignore society
 3. seek only comfort
+
+Answer: 1
+Explanation: The message is to live for others and not only for oneself.
 
 ## revision reminder
 

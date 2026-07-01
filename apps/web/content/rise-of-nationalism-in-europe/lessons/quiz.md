@@ -20,6 +20,9 @@ Nationalism means:
 2. study of minerals only
 3. a type of farming
 
+Answer: 1
+Explanation: Nationalism is a feeling of belonging to a nation.
+
 ## 2. French Revolution
 
 The French Revolution helped spread ideas of:
@@ -27,6 +30,9 @@ The French Revolution helped spread ideas of:
 1. liberty, equality, and fraternity
 2. monarchy only
 3. feudal taxes only
+
+Answer: 1
+Explanation: The French Revolution spread ideas of liberty, equality, and fraternity.
 
 ## 3. Germany
 
@@ -36,6 +42,9 @@ German unification is strongly linked with:
 2. Mahatma Gandhi
 3. Napoleon III only
 
+Answer: 1
+Explanation: Otto von Bismarck is closely linked with German unification.
+
 ## 4. Italy
 
 Italy's unification is linked with leaders such as:
@@ -44,6 +53,9 @@ Italy's unification is linked with leaders such as:
 2. Lenin and Stalin
 3. Hitler and Mussolini only
 
+Answer: 1
+Explanation: Cavour and Garibaldi were key figures in Italian unification.
+
 ## 5. Nation image
 
 Female allegories were used to:
@@ -51,6 +63,9 @@ Female allegories were used to:
 1. represent the nation visually
 2. calculate GDP
 3. measure rainfall
+
+Answer: 1
+Explanation: Female allegories symbolised the nation in visual form.
 
 ## revision reminder
 

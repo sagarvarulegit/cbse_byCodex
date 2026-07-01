@@ -20,6 +20,9 @@ Griffin is a:
 2. farmer
 3. conductor
 
+Answer: 1
+Explanation: Griffin is the scientist at the center of the story.
+
 ## 2. Discovery
 
 Griffin discovers how to:
@@ -27,6 +30,9 @@ Griffin discovers how to:
 1. become invisible
 2. fly a plane
 3. change weather
+
+Answer: 1
+Explanation: His discovery lets him become invisible.
 
 ## 3. Behaviour
 
@@ -36,6 +42,9 @@ He uses science:
 2. only for helping schools
 3. only for gardening
 
+Answer: 1
+Explanation: He misuses science for unlawful and selfish purposes.
+
 ## 4. Iping
 
 In Iping, Griffin creates:
@@ -44,6 +53,9 @@ In Iping, Griffin creates:
 2. a music show
 3. a flood
 
+Answer: 1
+Explanation: His invisible actions confuse and frighten the people at Iping.
+
 ## 5. Theme
 
 The chapter warns against:
@@ -51,6 +63,9 @@ The chapter warns against:
 1. misuse of science
 2. reading books
 3. hard work
+
+Answer: 1
+Explanation: The theme is the danger of using science without responsibility.
 
 ## revision reminder
 

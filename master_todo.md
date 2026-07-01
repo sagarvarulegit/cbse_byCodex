@@ -236,9 +236,9 @@ These are the highest priority items before inviting more than a handful of stud
 
 ### Quiz Quality Fixes
 
-- [ ] Add explicit `Answer:` metadata to every quiz question.
-- [ ] Add `Explanation:` metadata to every quiz question.
-- [ ] Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
+- [x] Add explicit `Answer:` metadata to every quiz question.
+- [x] Add `Explanation:` metadata to every quiz question.
+- [x] Add `Topic:` metadata for weak-topic tracking in pilot quizzes first.
 - [x] Add a validation script that fails when a quiz question has no answer.
 - [x] Add a validation script that warns when a quiz question has no explanation.
 - [x] Add tests to prove missing answer metadata cannot silently score option 1.
@@ -253,7 +253,7 @@ Validation infra landed in the web app:
 - [x] Pilot quizzes already pass strict metadata review.
 - [x] First legacy metadata batch is complete for `a-letter-to-god`, `a-question-of-trust`, `a-triumph-of-surgery`, `bade-bhai-sahab`, and `bholi`.
 - [x] Second legacy metadata batch is complete for `the-necklace`, `the-proposal`, `the-thiefs-story`, `the-sermon-at-benares`, and `the-midnight-visitor`.
-- [ ] The remaining backlog is legacy non-pilot quiz migration and any manual content cleanup the validator surfaces. Current validator state after two batches: 380 errors / 380 warnings.
+- [x] Legacy non-pilot quiz migration completed for validator-covered answer and explanation metadata. Current validator state: 0 errors / 0 warnings.
 
 Execution plan: `TODO.md` now contains the step-by-step plan for closing the remaining quiz metadata, pilot manual review, and retry immutability items.
 

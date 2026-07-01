@@ -20,6 +20,9 @@ The chapter studies how the world became connected through:
 2. only local village fairs
 3. no exchange
 
+Answer: 1
+Explanation: The chapter explains global connection through trade, migration, and capital.
+
 ## 2. Silk routes
 
 Silk routes carried:
@@ -27,6 +30,9 @@ Silk routes carried:
 1. goods, ideas, and culture
 2. only exam marks
 3. only monsoon winds
+
+Answer: 1
+Explanation: Silk routes moved goods, ideas, and culture across regions.
 
 ## 3. Indentured labour
 
@@ -36,6 +42,9 @@ Indentured labourers migrated under:
 2. election symbols
 3. school rules
 
+Answer: 1
+Explanation: Indentured labourers moved under contract.
+
 ## 4. Depression
 
 The Great Depression caused:
@@ -44,6 +53,9 @@ The Great Depression caused:
 2. automatic prosperity everywhere
 3. no market effect
 
+Answer: 1
+Explanation: The Great Depression caused widespread economic hardship.
+
 ## 5. Post-war economy
 
 Bretton Woods was linked to:
@@ -51,6 +63,9 @@ Bretton Woods was linked to:
 1. post-war international economic order
 2. local forest law
 3. crop rotation only
+
+Answer: 1
+Explanation: Bretton Woods shaped the post-war international economic order.
 
 ## revision reminder
 

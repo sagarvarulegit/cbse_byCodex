@@ -20,6 +20,9 @@ The chapter is:
 2. a detective novel
 3. a poem
 
+Answer: 1
+Explanation: The chapter is a science-fiction play.
+
 ## 2. Plot
 
 The Martians are defeated because of:
@@ -27,6 +30,9 @@ The Martians are defeated because of:
 1. a book of nursery rhymes and confusion
 2. a storm and flood
 3. a giant army
+
+Answer: 1
+Explanation: The Martians are defeated through confusion caused by a book of nursery rhymes.
 
 ## 3. Setting
 
@@ -36,6 +42,9 @@ The story is set on:
 2. Antarctica
 3. the ocean
 
+Answer: 1
+Explanation: The play is set on Mars.
+
 ## 4. Humour
 
 The humour comes from:
@@ -44,6 +53,9 @@ The humour comes from:
 2. a sad ending only
 3. no dialogue at all
 
+Answer: 1
+Explanation: The humour comes from the Martians' misunderstanding.
+
 ## 5. Theme
 
 The play shows that:
@@ -51,6 +63,9 @@ The play shows that:
 1. knowledge can defeat ignorance
 2. books are useless
 3. no one can learn
+
+Answer: 1
+Explanation: The play shows that knowledge can defeat ignorance.
 
 ## revision reminder
 

@@ -20,6 +20,9 @@ A mineral is:
 2. only a crop
 3. only a political party
 
+Answer: 1
+Explanation: Minerals are naturally occurring substances with definite properties.
+
 ## 2. Metallic minerals
 
 Iron ore is a:
@@ -27,6 +30,9 @@ Iron ore is a:
 1. metallic mineral
 2. non-metallic crop
 3. forest product only
+
+Answer: 1
+Explanation: Iron ore is a metallic mineral.
 
 ## 3. Conventional energy
 
@@ -36,6 +42,9 @@ Coal is a:
 2. non-conventional wind source
 3. water harvesting method
 
+Answer: 1
+Explanation: Coal is a long-used conventional energy resource.
+
 ## 4. Non-conventional energy
 
 Solar energy is:
@@ -44,6 +53,9 @@ Solar energy is:
 2. fossil fuel only
 3. a metal ore
 
+Answer: 1
+Explanation: Solar energy is a renewable non-conventional resource.
+
 ## 5. Conservation
 
 Mineral conservation is important because:
@@ -51,6 +63,9 @@ Mineral conservation is important because:
 1. many minerals are limited
 2. minerals grow quickly like grass
 3. minerals are never used
+
+Answer: 1
+Explanation: Minerals are limited, so they must be conserved.
 
 ## revision reminder
 
