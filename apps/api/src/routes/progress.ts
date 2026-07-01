@@ -15,6 +15,7 @@ import {
 } from '../lib/pilot-review.js';
 import { prisma } from '../lib/prisma.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
+import { findInvalidWeakTopicSlug } from '../lib/quiz-topic-slugs.js';
 import { requireSessionUser } from '../lib/session.js';
 
 const MAX_QUIZ_TRANSACTION_ATTEMPTS = 3;
@@ -330,7 +331,13 @@ progressRouter.post('/quiz', async (req, res) => {
       return res.status(400).json({ message: 'topicSlug must belong to the selected chapter.' });
     }
 
-    if (weakTopicSlugs.some((weakTopicSlug) => !chapterTopicSlugs.has(weakTopicSlug))) {
+    if (
+      findInvalidWeakTopicSlug({
+        chapterSlug,
+        chapterTopicSlugs: Array.from(chapterTopicSlugs),
+        weakTopicSlugs,
+      })
+    ) {
       return res.status(400).json({ message: 'weakTopicSlugs must belong to the selected chapter.' });
     }
 
