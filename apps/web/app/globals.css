@@ -1699,6 +1699,71 @@ h3 {
   margin-top: -2px;
 }
 
+.magnesium-combustion-demo {
+  overflow: hidden;
+}
+
+.magnesium-demo-equation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(20, 184, 166, 0.28);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  font-family: "Courier New", Consolas, monospace;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.magnesium-demo-equation strong {
+  color: #fef3c7;
+}
+
+.magnesium-canvas-frame {
+  width: min(100%, 800px);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.36);
+  border-radius: 8px;
+  background: #0f172a;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.magnesium-canvas-frame canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chemical-lab-demo {
+  overflow: hidden;
+}
+
+.chemical-lab-equation {
+  margin: 0;
+}
+
+.chemical-lab-canvas-frame {
+  width: min(100%, 800px);
+  aspect-ratio: 20 / 13;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.36);
+  border-radius: 8px;
+  background: #0f172a;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.chemical-lab-canvas-frame canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .comic-recap-card {
   position: relative;
   display: grid;

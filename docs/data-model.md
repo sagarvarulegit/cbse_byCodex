@@ -1,3 +1,11 @@
+---
+type: DataSpecification
+title: Database Schema and Data Models
+description: Prisma schemas, entities (Subject, Chapter, Lesson, ProgressEvent, Quiz), and relationships.
+tags: ['database', 'schema', 'prisma']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Data Model
 
 ## Overview

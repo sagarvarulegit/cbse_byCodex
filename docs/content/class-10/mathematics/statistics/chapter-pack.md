@@ -6,8 +6,14 @@ chapter_number: 13
 chapter_slug: statistics
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Statistics.
+tags:
+- cbse
+- class-10
+- statistics
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Statistics
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 13. The notes keep the focus on reading tables calmly and using the correct formula for grouped data.

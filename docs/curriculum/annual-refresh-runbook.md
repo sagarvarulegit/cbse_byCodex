@@ -1,3 +1,11 @@
+---
+type: Runbook
+title: Annual Refresh Runbook
+description: Instructions for checking, reviewing, and updating subject blueprints and curriculum metadata.
+tags: ['curriculum', 'refresh', 'annual']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Annual Curriculum Refresh Runbook
 
 Use this runbook when moving the curriculum source of truth from one CBSE academic session to the next. The goal is to refresh the registry without losing historical evidence, without silently changing student routes, and without activating a new session until validation is clean.

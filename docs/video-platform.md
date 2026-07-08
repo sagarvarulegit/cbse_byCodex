@@ -1,3 +1,11 @@
+---
+type: PlatformSpecification
+title: Video Delivery and Bunny Stream Platform
+description: Integration details and guidelines for using Bunny Stream for master MP4 archives and HLS delivery.
+tags: ['video', 'bunny-stream', 'hls']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Bunny Stream Video Platform
 
 Bunny Stream is the default video provider for the MVP. Vercel serves the app/API, Supabase stores metadata, and Bunny stores/transcodes/delivers the actual lesson videos.

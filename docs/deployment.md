@@ -1,3 +1,11 @@
+---
+type: Runbook
+title: Deployment Guide
+description: Steps and guidelines for deploying the web, admin, and API apps to Vercel and production databases.
+tags: ['deployment', 'vercel', 'database']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Deployment Runbook
 
 This repo is ready to deploy as three Vercel projects backed by one Supabase Postgres database.

@@ -34,6 +34,12 @@ Example:
 
 Copper gains oxygen to form copper oxide, so copper is oxidised.
 
+## Activity 1.11: Heating copper powder
+
+When copper powder is heated in air, oxygen reacts with copper and forms black copper(II) oxide on the surface. This is oxidation because copper gains oxygen.
+
+[[demo:activity-1-11-heating-copper-powder]]
+
 ## Reduction
 
 `Reduction` means loss of oxygen or gain of hydrogen.

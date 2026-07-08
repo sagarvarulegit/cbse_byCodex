@@ -6,8 +6,14 @@ chapter_number: 14
 chapter_slug: probability
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Probability.
+tags:
+- cbse
+- class-10
+- probability
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Probability
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 14. The chapter is small, but students need clean thinking about outcomes and favourable cases.

@@ -6,8 +6,14 @@ chapter_number: 10
 chapter_slug: circles
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Circles.
+tags:
+- cbse
+- class-10
+- circles
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Circles
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 10. The chapter is short, but the theorem statements must be remembered with exact meaning.

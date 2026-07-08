@@ -25,15 +25,14 @@ export type LessonVideoPayload = {
   };
 };
 
-export async function getLessonVideo(chapterSlug: string, lessonSlug: string) {
-  const token = await getStudentSessionToken();
-  const response = await fetch(
-    `${API_BASE_URL}/v1/lessons/by-slug/${encodeURIComponent(chapterSlug)}/${encodeURIComponent(lessonSlug)}/video`,
-    {
-      cache: 'no-store',
-      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-    },
-  );
+export async function resolveLessonVideoStatus(loadVideo: () => Promise<Response>) {
+  let response: Response;
+
+  try {
+    response = await loadVideo();
+  } catch {
+    return { status: 'not-configured' as const, video: null };
+  }
 
   if (response.status === 401) {
     return { status: 'login-required' as const, video: null };
@@ -49,4 +48,18 @@ export async function getLessonVideo(chapterSlug: string, lessonSlug: string) {
 
   const video = (await response.json()) as LessonVideoPayload;
   return { status: 'ready' as const, video };
+}
+
+export async function getLessonVideo(chapterSlug: string, lessonSlug: string) {
+  const token = await getStudentSessionToken();
+
+  return resolveLessonVideoStatus(() =>
+    fetch(
+      `${API_BASE_URL}/v1/lessons/by-slug/${encodeURIComponent(chapterSlug)}/${encodeURIComponent(lessonSlug)}/video`,
+      {
+        cache: 'no-store',
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      },
+    ),
+  );
 }

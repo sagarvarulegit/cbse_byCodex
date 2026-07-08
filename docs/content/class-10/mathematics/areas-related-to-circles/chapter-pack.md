@@ -6,8 +6,14 @@ chapter_number: 11
 chapter_slug: areas-related-to-circles
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Areas Related to Circles.
+tags:
+- cbse
+- class-10
+- areas-related-to-circles
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Areas Related to Circles
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 11. The chapter is formula-based, but the real skill is choosing the correct part of the figure before calculating.

@@ -6,8 +6,14 @@ chapter_number: 6
 chapter_slug: triangles
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Triangles.
+tags:
+- cbse
+- class-10
+- triangles
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Triangles
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 6. The chapter is proof-heavy, so the notes focus on meaning, theorem flow, and when to use each result.

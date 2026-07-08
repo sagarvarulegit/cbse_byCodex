@@ -151,6 +151,11 @@ videos/*/.waveform-cache/
 !.codex/
 !.codex/hooks.json
 
+# SkillOpt local staging and harvested session review data
+.skillopt-sleep/
+skillopt-reviewed-tasks*.json
+output/
+
 # Vercel local project metadata
 .vercel/
 **/.vercel/

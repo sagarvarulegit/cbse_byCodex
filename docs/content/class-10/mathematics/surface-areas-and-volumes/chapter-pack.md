@@ -6,8 +6,14 @@ chapter_number: 12
 chapter_slug: surface-areas-and-volumes
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Surface Areas and Volumes.
+tags:
+- cbse
+- class-10
+- surface-areas-and-volumes
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Surface Areas and Volumes
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 12. Students usually know the formulas partly, but they lose marks by choosing the wrong solid or wrong surface.

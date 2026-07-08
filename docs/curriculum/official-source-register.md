@@ -1,3 +1,11 @@
+---
+type: ReferenceRegister
+title: Official Source Register
+description: Reference materials, curriculum blueprints, and official sources for Class 10 subjects.
+tags: ['curriculum', 'sources', 'cbse']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Official Source Register
 
 The 2026-27 curriculum is current. The latest verified sample-paper set remains 2025-26 as of June 24, 2026.

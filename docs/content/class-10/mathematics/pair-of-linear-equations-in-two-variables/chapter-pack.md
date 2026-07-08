@@ -6,8 +6,14 @@ chapter_number: 3
 chapter_slug: pair-of-linear-equations-in-two-variables
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Pair of Linear Equations in Two Variables.
+tags:
+- cbse
+- class-10
+- pair-of-linear-equations-in-two-variables
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Pair of Linear Equations in Two Variables
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 3. The aim is to make equation-solving feel systematic instead of random.

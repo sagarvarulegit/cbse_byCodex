@@ -6,8 +6,14 @@ chapter_number: 5
 chapter_slug: arithmetic-progressions
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Arithmetic Progressions.
+tags:
+- cbse
+- class-10
+- arithmetic-progressions
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Arithmetic Progressions
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 5. The chapter becomes easy once students see that every term changes by the same fixed amount.

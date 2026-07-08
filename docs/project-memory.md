@@ -1,6 +1,14 @@
+---
+type: ProjectMemory
+title: Project Memory
+description: Durable project learnings, architectural choices, and context for CBSE learning portal.
+tags: ['architecture', 'memory', 'onboarding']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Project Memory
 
-Last updated: 2026-07-01
+Last updated: 2026-07-08
 
 ## Current Architecture
 
@@ -16,6 +24,7 @@ Last updated: 2026-07-01
 - `graphify-out/` is for generated code graph knowledge only.
 - Durable project learnings belong in `docs/project-memory.md`.
 - Stable agent operating rules belong in `AGENTS.md`.
+- SkillOpt-Sleep is configured through npm scripts (`skillopt:status`, `skillopt:dry-run`, `skillopt:harvest`, `skillopt:run`) and targets the repo-local seed skill at `.agents/skills/cbse-project/SKILL.md`; keep `.skillopt-sleep/` untracked because it can contain harvested session review data and staged proposals.
 - `.githooks/pre-push` refreshes graphify and blocks meaningful source pushes when neither `docs/project-memory.md` nor `AGENTS.md` is included in the outgoing commits.
 - `.codex/hooks.json` delegates git-push checks to `.githooks/pre-push` for agent-driven pushes.
 
@@ -58,7 +67,14 @@ Last updated: 2026-07-01
 - Lesson-wise chapter content is considered live only when a catalog lesson has a non-empty `fileName` and its chapter directory is registered in `lessonDirectories`. UI counts and previous/next navigation use available lessons only, while unpublished catalog lessons remain visible as Coming soon.
 - Pilot chapter entry points should make the first live lesson the primary CTA, and pilot chapter cards should prefer lesson-level topic labels so the free pilot feels guided instead of catalog-like.
 - Chapter content QA now uses `docs/content-style-qa-checklist.md`; pilot-ready chapters should pass easy scanning, short sections, example-after-concept, memory trick where useful, common mistake, board tip, practice prompt, and recap checks before widening access.
+- Agent notes/content work now has a root `NOTES_GUIDELINES_STANDARDS.md` file. Read it before creating, reviewing, or editing lesson notes, chapter packs, quizzes, or Gemini animation integrations so prior mistakes around textbook numbering, parent-child section hierarchy, activities, figures, textbook `Questions` blocks with scoring-friendly answers, and quiz alignment are not repeated.
 - Chemical Reactions and Equations is now the second lesson-wise pilot chapter after Real Numbers. Its five visible lesson rows are driven by `apps/web/lib/course-content.ts` plus the markdown files under `apps/web/content/chemical-reactions-and-equations/lessons/`, so chapter page counts and lesson navigation should treat all five as live.
+- Chemical Reactions lesson 1 includes Activity 1.1 through `[[demo:figure-1-1-magnesium-ribbon]]`; `apps/web/components/LessonDemo.tsx` routes it to `MagnesiumCombustionCanvasDemo.tsx`, a dependency-free HTML5 Canvas animation adapted from generated HTML, so future Gemini-created lab animations can be cleaned into platform components instead of shipping CDN-heavy standalone pages.
+- Chemical Reactions Activities 1.2-1.11 are embedded with `[[demo:activity-...]]` markers across lessons 1, 3, 4, and 5; `apps/web/components/ChemicalReactionLabDemo.tsx` is the shared dependency-free canvas renderer for the Gemini lab set.
+- Acids, Bases and Salts now has four lesson-wise pages under `apps/web/content/acids-bases-and-salts/lessons/`; Activities 2.1-2.8 from Gemini are embedded with `[[demo:activity-2-...]]` markers and rendered through `apps/web/components/AcidsBasesLabDemo.tsx` via `LessonDemo.tsx`.
+- Metals and Non-metals now has six lesson-wise pages under `apps/web/content/metals-and-non-metals/lessons/`; Gemini's Chapter 3 virtual lab suite is cleaned into the dependency-free `apps/web/components/MetalsNonMetalsLabDemo.tsx` canvas renderer instead of shipping the standalone Tailwind/DOM HTML page.
+- Carbon and its Compounds now has seven lesson-wise pages under `apps/web/content/carbon-and-its-compounds/lessons/`, registered in `lessonDirectories` through `apps/web/lib/course-content.ts`. The notes are aligned to NCERT `jesc104.pdf` order while staying simplified, including Activities 4.1-4.12, textbook in-text questions, and exercise-style checks. Chapter 4 notes should be explanatory rather than compressed: covalent bonding must walk through electron sharing, shared pairs, methane/CO2/CH3Cl formation, and the "why" behind properties before giving board answers. Gemini's Chapter 4 virtual lab suite is cleaned into the dependency-free `apps/web/components/CarbonCompoundsLabDemo.tsx`; Activities 4.1 and 4.2 have platform canvas demos even though the original Gemini HTML started later, Activity 4.7 is the acetic-acid/HCl pH comparison, and Activity 4.8 is esterification.
+- Life Processes now has six lesson-wise pages under `apps/web/content/life-processes/lessons/`, registered in `lessonDirectories` through `apps/web/lib/course-content.ts`, with `quiz.md` expanded from a basic five-question check to NCERT exercise/in-text anchors. Preserve NCERT Chapter 5 fidelity by keeping textbook section numbering visible in platform topic labels and lesson titles, such as `5.1 What are life processes?`, and always show parent sections such as `5.2 Nutrition` before child sections such as `5.2.1 Autotrophic nutrition`. Textbook `QUESTIONS` blocks must use exact NCERT question wording and appear where the textbook places them; for example, the 5.1 question block belongs after `5.1 What are life processes?` and before `5.2 Nutrition`. Also keep Activities 5.1-5.8, Figures 5.1-5.14, Amoeba/Paramoecium, dental caries, ATP/pyruvate pathways, alveoli/haemoglobin, blood pressure, platelets, lymph, xylem/phloem with ATP-powered translocation, nephron/Bowman's capsule, artificial kidney/dialysis, organ donation, and the full set of plant excretion methods.
 - Two Stories about Flying is now the third lesson-wise free-pilot chapter. Its five visible lesson rows are driven by `apps/web/lib/course-content.ts` plus markdown files under `apps/web/content/two-stories-about-flying/lessons/`, and its pilot quiz topics now map to lesson slugs rather than the old chapter-pack topic strings.
 - Free-pilot quiz routes use strict authoring validation: every question must have a valid explicit answer, explanation, and chapter-matching topic slug before it can reach `QuizScoreForm`. Non-pilot generated quizzes retain the legacy parser fallback until their content is migrated.
 - Keep route logic split by feature as new work lands.
@@ -76,6 +92,7 @@ Last updated: 2026-07-01
 - The Real Numbers quiz route depends on `apps/web/content/real-numbers/lessons/quiz.md`; keep at least one chapter quiz markdown file committed so the deployed quiz page does not 404.
 - Quiz coverage is expected for every catalog chapter returned by `getChapterEntries()`. The web quiz loader first checks explicit quiz directories, then falls back to `apps/web/content/<chapter-slug>/lessons/quiz.md` so generated chapter-pack slugs can have quizzes without extra route wiring.
 - Vercel serverless tracing must include `apps/web/content/**/*` for `/chapters/[slug]/quiz`; otherwise local quiz routes can pass while deployed fallback quiz markdown returns 404.
+- Lesson pages should still render notes and embedded figures when the local API is offline; `apps/web/lib/lesson-video.ts` treats video fetch failures as `not-configured` so the video placeholder appears instead of a full lesson-page 500.
 - The student quiz page parses numbered markdown questions into selectable answer cards. Add `Answer: <option number>` after options whenever the correct option is not option 1, because unkeyed generated quizzes currently fall back to option 1 for scoring.
 - Quiz markdown now supports optional per-question `Topic:`, `Difficulty:`, `Source:`, and `Explanation:` lines through `apps/web/lib/quiz-content.ts`. `Topic:` drives weak-topic tracking only when it matches a valid chapter topic/lesson slug; explanations render after a locked submission for review.
 - Quiz metadata validation now has a reusable helper in `apps/web/lib/quiz-content-validation.ts` plus a CLI script at `apps/web/scripts/validate-quiz-metadata.ts`. The script resolves `content/` relative to its own file, so `npm.cmd run validate:quizzes -w apps/web` works even if the workspace cwd handling changes later.
@@ -92,6 +109,7 @@ Last updated: 2026-07-01
 - Revision Mission Lifecycle V1 completes active missions when a retry reaches the mission target and also persists completion during mastery reads when a best quiz score already satisfies a stale active mission. Quiz-save responses now distinguish `created`, `refreshed`, `completed`, and `not_needed` so the web quiz review can show topic labels, first recovery action, target score, or completion copy without re-enabling a locked attempt.
 - Prefer cached or aggregated reads for high-traffic endpoints.
 - Keep large generated corpora and graph caches out of routine deploy commits unless they are explicitly needed for future sessions.
+- Google Cloud's Open Knowledge Format (OKF) v0.1 has been implemented across the project's core documentation and mathematics chapter packs. A validation script `scripts/validate_okf.py` ensures all active `.md` files contain OKF-compliant YAML frontmatter with the required `type` field, and an auto-formatter `scripts/make_okf_compliant.py` is available to keep them up to date.
 
 ## Next Work
 

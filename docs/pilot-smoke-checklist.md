@@ -1,3 +1,11 @@
+---
+type: Runbook
+title: Pilot Smoke Test Runbook
+description: Step-by-step smoke tests for verification of localized API routes, Vercel deployments, engagement logging, and feedback.
+tags: ['smoke-test', 'pilot', 'runbook']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Free Pilot Smoke Checklist
 
 Last updated: 2026-06-21

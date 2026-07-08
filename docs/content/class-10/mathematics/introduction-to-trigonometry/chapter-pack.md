@@ -6,8 +6,14 @@ chapter_number: 8
 chapter_slug: introduction-to-trigonometry
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Introduction to Trigonometry.
+tags:
+- cbse
+- class-10
+- introduction-to-trigonometry
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Introduction to Trigonometry
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 8. The chapter becomes manageable when each ratio is tied to a side of a right triangle instead of being memorised blindly.

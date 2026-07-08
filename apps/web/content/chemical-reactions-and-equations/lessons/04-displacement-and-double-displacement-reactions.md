@@ -34,6 +34,12 @@ Example:
 
 Iron is more reactive than copper, so it displaces copper from copper sulphate.
 
+## Activity 1.9: Iron nail in copper sulphate
+
+An iron nail dipped in copper sulphate shows displacement clearly. The blue solution fades towards green as iron sulphate forms, and brown copper deposits on the nail.
+
+[[demo:activity-1-9-iron-copper-sulphate]]
+
 Another example:
 
 `Zn + CuSO4 -> ZnSO4 + Cu`
@@ -55,6 +61,12 @@ Example:
 `Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`
 
 Here the sodium and barium ions swap partners with sulphate and chloride ions.
+
+## Activity 1.10: Sodium sulphate and barium chloride
+
+This is a double displacement reaction because ions exchange partners. It is also a precipitation reaction because insoluble barium sulphate forms as a white solid.
+
+[[demo:activity-1-10-barium-sulphate-precipitate]]
 
 ## Precipitation reactions
 

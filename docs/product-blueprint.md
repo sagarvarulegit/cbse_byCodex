@@ -1,3 +1,11 @@
+---
+type: ReferenceRegister
+title: Product Blueprint
+description: Platform specification for the CBSE learning portal, outlining catalog, engagement, and gamification milestones.
+tags: ['product', 'blueprint', 'roadmap']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # CBSE Class 10 Learning Portal Blueprint
 
 ## Product Scope

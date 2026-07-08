@@ -43,6 +43,30 @@ We often recognise a chemical reaction through an observable change:
 
 One sign alone can suggest that a reaction occurred, but the key idea is that new substances formed.
 
+## Activity 1.2: Lead nitrate and potassium iodide
+
+When lead nitrate solution is mixed with potassium iodide solution, an insoluble yellow solid appears. This is useful at the start of the chapter because it makes the idea "new substance formed" very visible.
+
+[[demo:activity-1-2-lead-nitrate-potassium-iodide]]
+
+## Activity 1.3: Zinc with dilute sulphuric acid
+
+Zinc reacts with dilute sulphuric acid to form zinc sulphate and hydrogen gas. The bubbles show gas formation, and the warm flask shows that energy is released.
+
+[[demo:activity-1-3-zinc-sulphuric-acid]]
+
+## Activity 1.4: Quicklime and water
+
+Calcium oxide combines with water to form calcium hydroxide. The reaction releases heat, so it is a strong example of temperature change during a chemical reaction.
+
+[[demo:activity-1-4-quicklime-water]]
+
+## Activity 1.1: Burning magnesium ribbon in air
+
+Magnesium ribbon burns with a bright white flame in air and forms white magnesium oxide. In the animated activity below, notice the order: heat the ribbon, observe the bright flame, then collect the white ash-like magnesium oxide in the watch-glass.
+
+[[demo:figure-1-1-magnesium-ribbon]]
+
 ## From word equation to formula equation
 
 First write the reaction using names:

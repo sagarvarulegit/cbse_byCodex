@@ -1,3 +1,11 @@
+---
+type: Runbook
+title: Codex Quota Management Playbook
+description: Guide to optimizing tokens, caching, and handling API quota limitations during agent runs.
+tags: ['codex', 'quota', 'playbook']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Codex Quota-Saving Playbook for `cbse_byCodex`
 
 > Role split: **Hermes = Project Manager + Prompt Compressor**. **Codex = builder + debugger + deploy worker**.

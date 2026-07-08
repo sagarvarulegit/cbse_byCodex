@@ -6,9 +6,16 @@ chapter_number: 4
 chapter_slug: quadratic-equations
 status: draft
 content_type: chapter-pack
-curriculum_scope_note: Completing the square is support-only, not a 2026-27 board topic
+curriculum_scope_note: Completing the square is support-only, not a 2026-27 board
+  topic
+type: ChapterPack
+description: Class 10 CBSE notes for Quadratic Equations.
+tags:
+- cbse
+- class-10
+- quadratic-equations
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Quadratic Equations
 
 > 2026-27 curriculum scope: factorisation, the quadratic formula, the discriminant and situational problems are board-exam topics. Completing the square remains a support method and must not be counted as board coverage.

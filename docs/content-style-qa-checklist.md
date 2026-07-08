@@ -1,3 +1,11 @@
+---
+type: QAStyleChecklist
+title: Content Style QA Checklist
+description: Quality assurance checklist for content style, readability, examples, board tips, common mistakes, and quiz structure.
+tags: ['qa', 'content', 'checklist']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Chapter Content Style QA Checklist
 
 ## Purpose

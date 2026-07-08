@@ -6,8 +6,14 @@ chapter_number: 9
 chapter_slug: some-applications-of-trigonometry
 status: draft
 content_type: chapter-pack
+type: ChapterPack
+description: Class 10 CBSE notes for Some Applications of Trigonometry.
+tags:
+- cbse
+- class-10
+- some-applications-of-trigonometry
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Some Applications of Trigonometry
 
 This is an original teaching draft for Class 10 Mathematics, Chapter 9. Most student errors here come from wrong diagrams, so the notes keep the picture and the ratio choice together.

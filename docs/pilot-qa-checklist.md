@@ -1,3 +1,11 @@
+---
+type: QAStyleChecklist
+title: Pilot QA Checklist
+description: Verification list for lesson videos, notes rendering, quiz attempts, and streaks before launching the student pilot.
+tags: ['qa', 'pilot', 'checklist']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Free Student Pilot QA Checklist
 
 Last updated: 2026-06-21

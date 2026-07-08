@@ -6,9 +6,16 @@ chapter_number: 1
 chapter_slug: real-numbers
 status: draft
 content_type: chapter-pack
-curriculum_scope_note: Euclid division algorithm and decimal expansions are support-only, not 2026-27 board topics
+curriculum_scope_note: Euclid division algorithm and decimal expansions are support-only,
+  not 2026-27 board topics
+type: ChapterPack
+description: Class 10 CBSE notes for Real Numbers.
+tags:
+- cbse
+- class-10
+- real-numbers
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Real Numbers
 
 > 2026-27 curriculum scope: the Fundamental Theorem of Arithmetic and irrationality proofs are board-exam topics. Euclid's division algorithm and decimal-expansion material remain support resources and must not be counted as board coverage.

@@ -1,3 +1,11 @@
+---
+type: Runbook
+title: Scaffolding Guidelines
+description: Best practices for scaffolding files, routes, and components.
+tags: ['scaffold', 'setup', 'workspace']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Scaffold
 
 Current monorepo structure:

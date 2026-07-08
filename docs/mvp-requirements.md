@@ -1,3 +1,11 @@
+---
+type: ReferenceRegister
+title: MVP Requirements
+description: Minimum Viable Product requirements for catalog, video, notes, progress, and administrative pilot reviews.
+tags: ['mvp', 'requirements', 'scope']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # MVP Requirements
 
 ## Goal

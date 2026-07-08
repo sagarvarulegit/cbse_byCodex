@@ -60,6 +60,18 @@ Example:
 
 Lead nitrate breaks when heated.
 
+## Activity 1.5: Heating ferrous sulphate
+
+Ferrous sulphate crystals are green before heating. On heating, they decompose and leave brown ferric oxide, while sulphur oxides are released.
+
+[[demo:activity-1-5-heating-ferrous-sulphate]]
+
+## Activity 1.6: Heating lead nitrate
+
+Lead nitrate gives a clear thermal decomposition example: the white powder changes to yellow lead oxide and brown nitrogen dioxide fumes appear.
+
+[[demo:activity-1-6-heating-lead-nitrate]]
+
 ### Electrolytic decomposition
 
 Electricity causes the compound to break.
@@ -70,6 +82,12 @@ Example:
 
 Water can be split into hydrogen and oxygen by electrolysis.
 
+## Activity 1.7: Electrolysis of water
+
+During electrolysis, bubbles form at both electrodes. Hydrogen collects in double the volume of oxygen, matching the balanced equation.
+
+[[demo:activity-1-7-electrolysis-water]]
+
 ### Photolytic decomposition
 
 Light causes the compound to break.
@@ -79,6 +97,12 @@ Example:
 `2AgCl -> 2Ag + Cl2`
 
 Silver chloride breaks in sunlight.
+
+## Activity 1.8: Photochemical decomposition
+
+Silver chloride is white at first. Sunlight decomposes it, and the powder turns grey because silver metal forms.
+
+[[demo:activity-1-8-photochemical-decomposition]]
 
 ## Solved examples
 

@@ -1,3 +1,11 @@
+---
+type: DeveloperGuidelines
+title: Agent Operating Rules
+description: Repository guidelines, coding styles, testing, and operation instructions for agentic coding.
+tags: ['agents', 'guidelines', 'rules']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Repository Guidelines
 
 ## Project Structure & Module Organization
@@ -36,6 +44,19 @@ This project may have a graphify knowledge graph at `graphify-out/`. Before arch
 
 Read `docs/project-memory.md` before picking up implementation work. Update it when a session discovers durable project knowledge such as architecture decisions, platform IDs, deployment constraints, media workflow choices, or important gotchas. Keep `AGENTS.md` for stable operating rules and `docs/project-memory.md` for evolving project learnings.
 
+Read `NOTES_GUIDELINES_STANDARDS.md` before creating, reviewing, or editing platform notes, lesson markdown, chapter packs, quizzes, or Gemini animation integrations. These standards capture previous content mistakes that must not repeat, including textbook numbering, parent-child section hierarchy, activity/figure coverage, and quiz alignment.
+
 After every successful git push, update `TODO.md` with the next task before ending the session.
 
 The repo includes `.githooks/pre-push` to refresh `graphify-out/` before pushes and to enforce project-memory updates for meaningful source changes. Enable it in a checkout with `git config core.hooksPath .githooks`. If a push is blocked because `graphify-out` changed, commit the refreshed graph artifacts and push again. If a push is blocked because project memory was not updated, add a concise learning to `docs/project-memory.md` or update `AGENTS.md`, then commit and push again.
+
+All our notes should exactly derived from Textbook. Examples, Problem, Activities, Numbering, Topics, Section, everything should match. Out notes are simplified version of Textbook, easy to remember, easy to grasp.
+
+When Importing animation from Gemini html, make sure all the animations are integrated with our platform and numbering is correct.
+
+Notes should always we accurate with respect to Textbooks as our platform reputation is on the line.
+If Textbook Chapter has figures make sure over platform content also have matching figures.
+
+Remember our Platform notes are simplified version of Textbook + Tip and Trick + Remember these things+ Gamification + Comic style Recap + Question and Answers + Quiz. Our Platform notes objective should be to make student understand the concepts in easy manner, aids in remembering thing, make the all the topic easy to understand even for Dump students.
+
+We should have same numbering for the Topics in Platform as in textbook. Eg: Science chatper 5: 5.1 What are life processes?

@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import AcidsBasesLabDemo, { hasAcidsBasesLabDemo } from './AcidsBasesLabDemo';
+import CarbonCompoundsLabDemo, { hasCarbonCompoundsLabDemo } from './CarbonCompoundsLabDemo';
+import ChemicalReactionLabDemo, { hasChemicalReactionLabDemo } from './ChemicalReactionLabDemo';
+import MagnesiumCombustionCanvasDemo from './MagnesiumCombustionCanvasDemo';
+import MetalsNonMetalsLabDemo, { hasMetalsNonMetalsLabDemo } from './MetalsNonMetalsLabDemo';
+
 type DemoStep = {
   caption: string;
   divisor: string;
@@ -117,7 +123,7 @@ const DEMOS: Record<string, DemoData> = {
   },
 };
 
-export default function LessonDemo({ demoId }: { demoId: string }) {
+function StepLessonDemo({ demoId }: { demoId: string }) {
   const demo = DEMOS[demoId];
   const [stepIndex, setStepIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -210,4 +216,28 @@ export default function LessonDemo({ demoId }: { demoId: string }) {
       {step.equation ? <pre className="formula-block demo-formula"><code>{step.equation}</code></pre> : null}
     </section>
   );
+}
+
+export default function LessonDemo({ demoId }: { demoId: string }) {
+  if (demoId === 'figure-1-1-magnesium-ribbon') {
+    return <MagnesiumCombustionCanvasDemo />;
+  }
+
+  if (hasChemicalReactionLabDemo(demoId)) {
+    return <ChemicalReactionLabDemo demoId={demoId} />;
+  }
+
+  if (hasAcidsBasesLabDemo(demoId)) {
+    return <AcidsBasesLabDemo demoId={demoId} />;
+  }
+
+  if (hasMetalsNonMetalsLabDemo(demoId)) {
+    return <MetalsNonMetalsLabDemo demoId={demoId} />;
+  }
+
+  if (hasCarbonCompoundsLabDemo(demoId)) {
+    return <CarbonCompoundsLabDemo demoId={demoId} />;
+  }
+
+  return <StepLessonDemo demoId={demoId} />;
 }

@@ -29,6 +29,14 @@ async function parseApiResponse(response: Response) {
   return data;
 }
 
+async function fetchAuthApi(path: string, init: RequestInit) {
+  try {
+    return await fetch(`${API_BASE_URL}${path}`, init);
+  } catch {
+    throw new Error(`Unable to reach the learning API at ${API_BASE_URL}. Start the API service and try again.`);
+  }
+}
+
 async function saveSessionToken(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, token, {
@@ -57,7 +65,7 @@ export async function getStudentSessionToken() {
 }
 
 export async function loginStudent(email: string, password: string) {
-  const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
+  const response = await fetchAuthApi('/v1/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -73,7 +81,7 @@ export async function loginStudent(email: string, password: string) {
 }
 
 export async function registerStudent(fullName: string, email: string, password: string, classLevel: number) {
-  const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
+  const response = await fetchAuthApi('/v1/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

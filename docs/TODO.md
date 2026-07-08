@@ -1,3 +1,11 @@
+---
+type: ReferenceRegister
+title: Project Backlog and TODOs
+description: Current project backlog, task list, and completed items for the CBSE learning portal.
+tags: ['todo', 'backlog', 'tasklist']
+timestamp: 2026-07-08T12:00:00Z
+---
+
 # Project TODO
 
 Last updated: 2026-06-30

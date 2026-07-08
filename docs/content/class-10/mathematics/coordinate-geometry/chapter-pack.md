@@ -6,9 +6,16 @@ chapter_number: 7
 chapter_slug: coordinate-geometry
 status: draft
 content_type: chapter-pack
-curriculum_scope_note: Coordinate-triangle area and collinearity are support-only, not 2026-27 board topics
+curriculum_scope_note: Coordinate-triangle area and collinearity are support-only,
+  not 2026-27 board topics
+type: ChapterPack
+description: Class 10 CBSE notes for Coordinate Geometry.
+tags:
+- cbse
+- class-10
+- coordinate-geometry
+timestamp: '2026-07-08T12:00:00Z'
 ---
-
 # Coordinate Geometry
 
 > 2026-27 curriculum scope: the distance formula and internal section formula are board-exam topics. Coordinate-triangle area and area-based collinearity remain support material and must not be counted as board coverage.

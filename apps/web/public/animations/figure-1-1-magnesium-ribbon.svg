@@ -1,0 +1,535 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 920 640" aria-labelledby="magnesium-figure-title magnesium-figure-desc">
+  <title id="magnesium-figure-title">Burning magnesium ribbon in air</title>
+  <desc id="magnesium-figure-desc">
+    Tongs bring a magnesium ribbon to a long angled burner flame. A dazzling white flame bursts at contact, then white
+    magnesium oxide ash falls vertically into a watch-glass.
+  </desc>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    svg {
+      background:
+        repeating-linear-gradient(0deg, rgba(15, 23, 42, 0.045), rgba(15, 23, 42, 0.045) 1px, transparent 1px, transparent 28px),
+        repeating-linear-gradient(90deg, rgba(15, 23, 42, 0.03), rgba(15, 23, 42, 0.03) 1px, transparent 1px, transparent 28px),
+        linear-gradient(180deg, #fbfdff, #edf7ff);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    text {
+      fill: #101816;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .leader {
+      fill: none;
+      stroke: #64748b;
+      stroke-linecap: round;
+      stroke-width: 1.7;
+    }
+
+    .label-dot {
+      fill: #64748b;
+    }
+
+    .label-text {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .timeline-approach,
+    .spark-burst,
+    .ash-column,
+    .ash-particle,
+    .ribbon-heat,
+    .oxide-pile {
+      pointer-events: none;
+      transform-box: view-box;
+      will-change: transform, opacity;
+    }
+
+    .timeline-approach {
+      transform-origin: 430px 230px;
+      animation: tongs-approach-cycle 4.8s cubic-bezier(0.7, 0, 0.25, 1) infinite;
+    }
+
+    .ribbon-heat {
+      opacity: 0;
+      transform-origin: 430px 230px;
+      animation: ribbon-heat-cycle 4.8s ease-in-out infinite;
+    }
+
+    .burner-flame {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      animation: burner-flame-flicker 620ms ease-in-out infinite alternate;
+    }
+
+    .flame-outer {
+      fill: rgba(255, 255, 255, 0.88);
+      filter: drop-shadow(0 0 13px rgba(255, 203, 58, 0.72));
+    }
+
+    .flame-inner {
+      fill: #ffbe2e;
+    }
+
+    .spark-burst {
+      opacity: 0;
+      mix-blend-mode: screen;
+      transform-origin: 430px 230px;
+      animation: white-burst-cycle 4.8s ease-in-out infinite;
+    }
+
+    .star-rays {
+      transform-origin: 430px 230px;
+      animation: star-ray-cycle 4.8s ease-in-out infinite;
+    }
+
+    .ash-column {
+      opacity: 0;
+      fill: #ffffff;
+      stroke: rgba(100, 116, 139, 0.38);
+      stroke-width: 1.6;
+      animation: ash-column-cycle 4.8s linear infinite;
+    }
+
+    .ash-particle {
+      opacity: 0;
+      animation: ash-particle-fall 4.8s linear infinite;
+    }
+
+    .particle-2 {
+      animation-delay: 0.14s;
+    }
+
+    .particle-3 {
+      animation-delay: 0.28s;
+    }
+
+    .particle-4 {
+      animation-delay: 0.42s;
+    }
+
+    .particle-5 {
+      animation-delay: 0.56s;
+    }
+
+    .particle-6 {
+      animation-delay: 0.7s;
+    }
+
+    .oxide-pile {
+      transform-origin: 430px 435px;
+      animation: oxide-pile-cycle 4.8s ease-in-out infinite;
+    }
+
+    .equation-card {
+      fill: #ffffff;
+      stroke: #cbd5e1;
+      stroke-width: 2;
+    }
+
+    .text-equation {
+      fill: #0f172a;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .text-state {
+      fill: #64748b;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .text-observation {
+      fill: #334155;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .text-caution-title {
+      fill: #1f2937;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .text-caution-desc {
+      fill: #374151;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      svg {
+        background:
+          repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.045) 1px, transparent 1px, transparent 28px),
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.032) 1px, transparent 1px, transparent 28px),
+          linear-gradient(180deg, #17211d, #101816);
+      }
+
+      text {
+        fill: #f7fff9;
+      }
+
+      .leader {
+        stroke: #cbd5e1;
+      }
+
+      .label-dot {
+        fill: #cbd5e1;
+      }
+
+      .equation-card {
+        fill: #141d19;
+        stroke: rgba(255, 255, 255, 0.14);
+      }
+
+      .text-equation {
+        fill: #f8fafc;
+      }
+
+      .text-state {
+        fill: #cbd5e1;
+      }
+
+      .text-observation {
+        fill: #e2e8f0;
+      }
+
+      .text-caution-title {
+        fill: #1f2937;
+      }
+
+      .text-caution-desc {
+        fill: #374151;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .timeline-approach,
+      .ribbon-heat,
+      .burner-flame,
+      .spark-burst,
+      .star-rays,
+      .ash-column,
+      .ash-particle,
+      .oxide-pile {
+        animation: none;
+      }
+
+      .timeline-approach {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      .ribbon-heat,
+      .spark-burst,
+      .ash-column,
+      .ash-particle {
+        opacity: 1;
+      }
+    }
+
+    @keyframes tongs-approach-cycle {
+      0%,
+      20% {
+        transform: translate(96px, -42px) rotate(-3deg);
+      }
+      40%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+
+    @keyframes ribbon-heat-cycle {
+      0%,
+      34% {
+        opacity: 0;
+        transform: scale(0.78);
+      }
+      42% {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+      76% {
+        opacity: 0.82;
+        transform: scale(0.98);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+    }
+
+    @keyframes burner-flame-flicker {
+      from {
+        transform: scaleX(0.94) scaleY(0.92) translateY(3px);
+      }
+      to {
+        transform: scaleX(1.06) scaleY(1.1) translateY(-2px);
+      }
+    }
+
+    @keyframes white-burst-cycle {
+      0%,
+      36% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      43% {
+        opacity: 1;
+        transform: scale(1.18);
+      }
+      63% {
+        opacity: 0.96;
+        transform: scale(1);
+      }
+      84% {
+        opacity: 0.58;
+        transform: scale(0.92);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.78);
+      }
+    }
+
+    @keyframes star-ray-cycle {
+      0%,
+      36% {
+        opacity: 0;
+        transform: scale(0.42) rotate(-8deg);
+      }
+      43% {
+        opacity: 1;
+        transform: scale(1.12) rotate(4deg);
+      }
+      66% {
+        opacity: 0.88;
+        transform: scale(0.98) rotate(-2deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.74) rotate(5deg);
+      }
+    }
+
+    @keyframes ash-column-cycle {
+      0%,
+      48% {
+        opacity: 0;
+      }
+      56%,
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes ash-particle-fall {
+      0%,
+      52% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.58);
+      }
+      58% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.76);
+      }
+      88% {
+        opacity: 1;
+        transform: translate(0, 176px) scale(1.06);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(0, 176px) scale(1.16);
+      }
+    }
+
+    @keyframes oxide-pile-cycle {
+      0%,
+      54% {
+        transform: scaleX(0.68) scaleY(0.72);
+        opacity: 0.36;
+      }
+      84%,
+      100% {
+        transform: scaleX(1) scaleY(1);
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <defs>
+    <linearGradient id="tableTop" x1="70" x2="690" y1="398" y2="468" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d6a943" />
+      <stop offset="0.62" stop-color="#f2d08a" />
+      <stop offset="1" stop-color="#b98225" />
+    </linearGradient>
+    <linearGradient id="metalTube" x1="330" x2="430" y1="410" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4e5f65" />
+      <stop offset="0.48" stop-color="#e5edf0" />
+      <stop offset="1" stop-color="#64767d" />
+    </linearGradient>
+    <linearGradient id="tongsSteel" x1="470" x2="735" y1="205" y2="142" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#eef5f7" />
+      <stop offset="0.38" stop-color="#7c8a91" />
+      <stop offset="0.72" stop-color="#e5edf0" />
+      <stop offset="1" stop-color="#5c6870" />
+    </linearGradient>
+    <linearGradient id="magnesiumStrip" x1="425" x2="555" y1="220" y2="183" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff7b2" />
+      <stop offset="0.32" stop-color="#d8d28f" />
+      <stop offset="1" stop-color="#fff8d5" />
+    </linearGradient>
+    <radialGradient id="whiteFlare" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#ffffff" />
+      <stop offset="0.34" stop-color="#fff8c7" />
+      <stop offset="0.68" stop-color="#f7b733" stop-opacity="0.52" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="dazzleSparkGlow" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#ffffff" />
+      <stop offset="0.3" stop-color="#ffffff" />
+      <stop offset="0.58" stop-color="#dbeafe" stop-opacity="0.94" />
+      <stop offset="0.84" stop-color="#93c5fd" stop-opacity="0.34" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="glassTint" x1="334" x2="542" y1="402" y2="468" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b8dce4" stop-opacity="0.82" />
+      <stop offset="0.58" stop-color="#d9eef2" stop-opacity="0.68" />
+      <stop offset="1" stop-color="#7fa7b0" stop-opacity="0.72" />
+    </linearGradient>
+    <filter id="softGlow" x="-70%" y="-80%" width="240%" height="260%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+  </defs>
+
+  <g id="equation" class="equation-panel" transform="translate(206 82)">
+    <rect class="equation-card" x="-166" y="-46" width="332" height="134" rx="8" />
+    <text x="0" y="-16" class="text-equation" text-anchor="middle">2Mg + O2 -> 2MgO</text>
+    <text x="-114" y="12" class="text-state" text-anchor="middle">(s)</text>
+    <text x="-18" y="12" class="text-state" text-anchor="middle">(g)</text>
+    <text x="116" y="12" class="text-state" text-anchor="middle">(s)</text>
+    <text x="0" y="43" class="text-observation" text-anchor="middle">
+      <tspan x="0" dy="0">Magnesium burns with dazzling</tspan>
+      <tspan x="0" dy="18">white flame to form white</tspan>
+      <tspan x="0" dy="18">magnesium oxide powder.</tspan>
+    </text>
+  </g>
+
+  <g class="magnesium-table">
+    <path d="M70 420 L650 420 L710 382 L150 382 Z" fill="url(#tableTop)" stroke="#101816" stroke-width="3" />
+    <path d="M70 420 L650 420 L650 462 L70 462 Z" fill="#c4932e" stroke="#101816" stroke-width="3" />
+    <path d="M650 420 L710 382 L710 424 L650 462 Z" fill="#f7dc9e" stroke="#101816" stroke-width="3" />
+  </g>
+
+  <g class="burner">
+    <ellipse cx="304" cy="412" fill="#2e3134" rx="58" ry="15" stroke="#101816" stroke-width="3" />
+    <path d="M268 358 L335 358 L350 412 L252 412 Z" fill="#747f84" stroke="#101816" stroke-width="3" />
+    <rect x="295" y="326" width="36" height="42" rx="9" fill="#a4b0b6" stroke="#101816" stroke-width="3" />
+    <path d="M324 364 L430 230" fill="none" stroke="url(#metalTube)" stroke-linecap="round" stroke-width="34" />
+    <path d="M324 364 L430 230" fill="none" stroke="#101816" stroke-linecap="round" stroke-width="3" />
+    <ellipse cx="430" cy="230" fill="#b7c4c8" rx="17" ry="8" stroke="#101816" stroke-width="2" transform="rotate(-70 430 230)" />
+  </g>
+
+  <g class="watch-glass">
+    <ellipse cx="430" cy="430" fill="url(#glassTint)" rx="112" ry="35" stroke="#101816" stroke-width="3" />
+    <ellipse cx="430" cy="423" fill="#e8f7fa" opacity="0.35" rx="88" ry="18" />
+    <path d="M334 434 C382 459 478 459 526 434" fill="none" stroke="#53727a" stroke-width="2.4" />
+    <ellipse class="oxide-pile" cx="430" cy="438" fill="#fbfdf7" rx="56" ry="9" stroke="#8da0a0" stroke-width="1.2" />
+  </g>
+
+  <g id="tongs-and-ribbon" class="timeline-approach">
+    <g class="tongs" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M446 219 C525 194 601 176 686 144" stroke="url(#tongsSteel)" stroke-width="10" />
+      <path d="M452 247 C535 218 606 198 692 176" stroke="url(#tongsSteel)" stroke-width="10" />
+      <path d="M446 219 L424 226 M452 247 L424 236" stroke="#3d474d" stroke-width="4" />
+      <circle cx="604" cy="178" r="8" fill="#f8fafc" stroke="#101816" stroke-width="3" />
+      <ellipse cx="721" cy="132" rx="26" ry="17" stroke="#101816" stroke-width="4" transform="rotate(-20 721 132)" />
+      <ellipse cx="728" cy="179" rx="26" ry="17" stroke="#101816" stroke-width="4" transform="rotate(-16 728 179)" />
+      <path d="M686 144 C698 138 707 135 721 132" stroke="#101816" stroke-width="4" />
+      <path d="M692 176 C706 178 715 179 728 179" stroke="#101816" stroke-width="4" />
+    </g>
+
+    <g class="magnesium-ribbon-group">
+      <polygon class="magnesium-ribbon" points="425,222 555,180 560,194 430,236" fill="url(#magnesiumStrip)" stroke="#67664d" stroke-linejoin="round" stroke-width="1.5" />
+      <polygon class="ribbon-edge" points="438,223 548,188 550,192 440,229" fill="rgba(255,252,210,0.72)" />
+      <polygon class="ribbon-hot-tip" points="425,222 458,211 463,226 430,236" fill="#fff8c7" opacity="0.9" />
+      <g class="ribbon-heat">
+        <ellipse cx="430" cy="230" fill="url(#whiteFlare)" filter="url(#softGlow)" rx="72" ry="54" />
+        <polygon points="425,222 459,211 463,226 430,236" fill="#ffffff" opacity="0.94" />
+      </g>
+    </g>
+  </g>
+
+  <g class="burner-flame">
+    <ellipse class="flame-glow" cx="430" cy="230" fill="url(#whiteFlare)" filter="url(#softGlow)" rx="78" ry="72" />
+    <path class="flame-outer" d="M414 224 C386 254 412 284 438 254 C464 225 443 197 433 166 C431 195 420 208 414 224 Z" />
+    <path class="flame-inner" d="M426 232 C412 249 426 266 443 248 C456 231 446 212 439 194 C437 210 432 220 426 232 Z" />
+  </g>
+
+  <g id="white-glow" class="spark-burst">
+    <circle cx="430" cy="230" r="98" fill="url(#dazzleSparkGlow)" />
+    <circle cx="430" cy="230" r="34" fill="#ffffff" />
+    <g class="star-rays" stroke="#ffffff" stroke-width="4" stroke-linecap="round">
+      <line x1="430" y1="230" x2="316" y2="230" />
+      <line x1="430" y1="230" x2="544" y2="230" />
+      <line x1="430" y1="230" x2="430" y2="116" />
+      <line x1="430" y1="230" x2="430" y2="344" />
+      <line x1="430" y1="230" x2="350" y2="150" />
+      <line x1="430" y1="230" x2="510" y2="310" />
+      <line x1="430" y1="230" x2="510" y2="150" />
+      <line x1="430" y1="230" x2="350" y2="310" />
+    </g>
+  </g>
+
+  <g id="mgo-particles" class="ash-column">
+    <path d="M430 250 L430 438" fill="none" stroke-dasharray="2 9" stroke-linecap="round" />
+    <circle class="ash-particle particle-1" cx="430" cy="250" r="4.2" />
+    <circle class="ash-particle particle-2" cx="424" cy="250" r="3.2" />
+    <circle class="ash-particle particle-3" cx="436" cy="250" r="4.8" />
+    <circle class="ash-particle particle-4" cx="428" cy="250" r="3.8" />
+    <circle class="ash-particle particle-5" cx="434" cy="250" r="3" />
+    <circle class="ash-particle particle-6" cx="430" cy="250" r="4.4" />
+  </g>
+
+  <g id="labels">
+    <path d="M675 134 L650 152" class="leader" />
+    <circle cx="650" cy="152" r="3.6" class="label-dot" />
+    <text x="690" y="138" class="label-text">Tongs</text>
+
+    <path d="M675 184 L548 188" class="leader" />
+    <circle cx="548" cy="188" r="3.6" class="label-dot" />
+    <text x="690" y="188" class="label-text">Magnesium ribbon</text>
+
+    <path d="M675 234 L430 230" class="leader" />
+    <circle cx="430" cy="230" r="3.6" class="label-dot" />
+    <text x="690" y="238" class="label-text">Dazzling white flame</text>
+
+    <path d="M675 324 L333 398" class="leader" />
+    <circle cx="333" cy="398" r="3.6" class="label-dot" />
+    <text x="690" y="328" class="label-text">Burner</text>
+
+    <path d="M675 374 L512 430" class="leader" />
+    <circle cx="512" cy="430" r="3.6" class="label-dot" />
+    <text x="690" y="378" class="label-text">Watch-glass</text>
+
+    <path d="M675 424 L430 438" class="leader" />
+    <circle cx="430" cy="438" r="3.6" class="label-dot" />
+    <text x="690" y="428" class="label-text">Magnesium oxide (white ash)</text>
+  </g>
+
+  <g id="caution" class="caution-note" transform="translate(58 522)">
+    <rect x="0" y="0" width="526" height="82" rx="8" fill="#fff2a8" stroke="#d97706" stroke-width="2" />
+    <path d="M28 22 L46 60 L10 60 Z" fill="#d97706" />
+    <text x="28" y="52" fill="#ffffff" font-size="18" font-weight="900" text-anchor="middle">!</text>
+    <text x="66" y="30" class="text-caution-title">CAUTION:</text>
+    <text x="66" y="55" class="text-caution-desc">Burn away from eyes. Suitable eyeglasses and teacher supervision are recommended.</text>
+  </g>
+</svg>
