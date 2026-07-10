@@ -293,8 +293,12 @@ function drawSeedsAndGrowth(
 
   if (stageIndex >= 3) {
     const tipGrowth = stageIndex === 3 ? stageProgress : 1;
-    drawPlantCurve(ctx, '#4ade80', 6, shootEndX, shootEndY, shootEndX + 34, shootEndY - 6, shootEndX + 82 * tipGrowth, shootEndY - 38 * tipGrowth);
-    drawPlantCurve(ctx, '#c76a3a', 5, rootEndX, rootEndY, rootEndX - 26, rootEndY + 2, rootEndX - 72 * tipGrowth, rootEndY + 34 * tipGrowth);
+
+    if (tipGrowth > 0) {
+      drawPlantCurve(ctx, '#4ade80', 6, shootEndX, shootEndY, shootEndX + 34 * tipGrowth, shootEndY - 6 * tipGrowth, shootEndX + 82 * tipGrowth, shootEndY - 38 * tipGrowth);
+      drawPlantCurve(ctx, '#c76a3a', 5, rootEndX, rootEndY, rootEndX - 26 * tipGrowth, rootEndY + 2 * tipGrowth, rootEndX - 72 * tipGrowth, rootEndY + 34 * tipGrowth);
+    }
+
     ctx.strokeStyle = '#fef08a';
     ctx.lineWidth = 2;
     ctx.setLineDash([5, 4]);
@@ -385,26 +389,30 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
   const controlsRef = useRef<DemoControls | null>(null);
   const [stageIndex, setStageIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [canvasAvailable, setCanvasAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
 
     if (!canvas || !hasPlantGrowthActivityDemo(demoId)) {
+      setCanvasAvailable(false);
       return;
     }
 
     const canvasContext = canvas.getContext('2d');
 
     if (!canvasContext) {
+      setCanvasAvailable(false);
       return;
     }
 
     const ctx: CanvasRenderingContext2D = canvasContext;
+    setCanvasAvailable(true);
 
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
 
-    let frame = 0;
+    let frame: number | null = null;
     let currentStageIndex = 0;
     let currentProgress = 0;
     let isPlaying = false;
@@ -428,6 +436,23 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
       }
     }
 
+    function cancelScheduledFrame() {
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
+        frame = null;
+      }
+    }
+
+    function drawCurrentScene() {
+      drawScene(ctx, currentStageIndex, currentProgress);
+    }
+
+    function scheduleFrame() {
+      if (isPlaying && frame === null) {
+        frame = window.requestAnimationFrame(loop);
+      }
+    }
+
     controlsRef.current = {
       start: () => {
         if (currentStageIndex === STAGES.length - 1 && currentProgress >= 1) {
@@ -435,21 +460,36 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
         }
 
         syncPlaying(true);
+        lastTimestamp = 0;
+        scheduleFrame();
       },
       nextStage: () => {
+        cancelScheduledFrame();
         syncPlaying(false);
+        lastTimestamp = 0;
 
         if (currentStageIndex < STAGES.length - 1) {
           syncStage(currentStageIndex + 1, 0);
         }
+
+        drawCurrentScene();
       },
       reset: () => {
+        cancelScheduledFrame();
         syncPlaying(false);
+        lastTimestamp = 0;
         syncStage(0, 0);
+        drawCurrentScene();
       },
     };
 
     function loop(timestamp: number) {
+      frame = null;
+
+      if (!isPlaying) {
+        return;
+      }
+
       if (!lastTimestamp) {
         lastTimestamp = timestamp;
       }
@@ -457,32 +497,29 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
       const deltaSeconds = Math.min(0.05, (timestamp - lastTimestamp) / 1000);
       lastTimestamp = timestamp;
 
-      if (isPlaying) {
-        const nextProgress = currentProgress + deltaSeconds * 0.32;
+      const nextProgress = currentProgress + deltaSeconds * 0.32;
 
-        if (nextProgress >= 1) {
-          if (currentStageIndex < STAGES.length - 1) {
-            syncStage(currentStageIndex + 1, 0);
-          } else {
-            syncStage(currentStageIndex, 1);
-            syncPlaying(false);
-          }
+      if (nextProgress >= 1) {
+        if (currentStageIndex < STAGES.length - 1) {
+          syncStage(currentStageIndex + 1, 0);
         } else {
-          syncStage(currentStageIndex, nextProgress);
+          syncStage(currentStageIndex, 1);
+          syncPlaying(false);
         }
+      } else {
+        syncStage(currentStageIndex, nextProgress);
       }
 
-      drawScene(ctx, currentStageIndex, currentProgress);
-      frame = window.requestAnimationFrame(loop);
+      drawCurrentScene();
+      scheduleFrame();
     }
 
-    drawScene(ctx, 0, 0);
-    frame = window.requestAnimationFrame(loop);
+    drawCurrentScene();
 
     return () => {
       mounted = false;
       controlsRef.current = null;
-      window.cancelAnimationFrame(frame);
+      cancelScheduledFrame();
     };
   }, [demoId]);
 
@@ -500,9 +537,9 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
           <p>Figure 6.5 experiment: response of the plant to the direction of light</p>
         </div>
         <div className="lesson-demo-actions">
-          <button className="button-link lesson-demo-button" disabled={playing} onClick={start} type="button">Start activity</button>
-          <button className="ghost-link lesson-demo-button" onClick={nextStage} type="button">Next stage</button>
-          <button className="ghost-link lesson-demo-button" onClick={reset} type="button">Reset</button>
+          <button className="button-link lesson-demo-button" disabled={playing || canvasAvailable !== true} onClick={start} type="button">Start activity</button>
+          <button className="ghost-link lesson-demo-button" disabled={canvasAvailable !== true} onClick={nextStage} type="button">Next stage</button>
+          <button className="ghost-link lesson-demo-button" disabled={canvasAvailable !== true} onClick={reset} type="button">Reset</button>
         </div>
       </div>
       <div className="lesson-demo-progress" aria-label="Activity progress">
@@ -511,6 +548,14 @@ export default function PlantGrowthActivityDemo({ demoId }: { demoId: string }) 
       <div className="chemical-lab-canvas-frame" role="img" aria-label={`Activity 6.2, ${stage.title}. ${stage.caption}`}>
         <canvas ref={canvasRef} />
       </div>
+      {canvasAvailable === false ? (
+        <div className="lesson-demo-caption" role="status">
+          <p><strong>Interactive canvas unavailable.</strong> The Activity 6.2 learning sequence remains available below.</p>
+          <ol>
+            {STAGES.map((item) => <li key={item.id}><strong>{item.title}:</strong> {item.caption}</li>)}
+          </ol>
+        </div>
+      ) : null}
       <p className="lesson-demo-caption"><strong>{stage.title}:</strong> {stage.caption}</p>
     </section>
   );
