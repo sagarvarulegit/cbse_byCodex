@@ -1,5 +1,5 @@
 ---
-title: Functional groups and naming
+title: 4.2 continued - Functional groups and naming
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Functional groups and naming
+# 4.2 continued - Functional groups and naming
 
 A functional group is the reactive part of an organic compound. It gives the compound its characteristic properties.
 
@@ -173,6 +173,36 @@ Structural isomers are important because formula alone is not always enough. Two
 
 For bromopentane, structural isomers are possible because bromine can be attached at different positions on the five-carbon chain.
 
+## NCERT activity and figure tracker
+
+Activity 4.2: Alcohol homologous series
+- Compare the members of the alcohol series and their names.
+- Conclusion: functional groups help organise organic compounds.
+## Questions and answers
+
+### 4.2 continued - Functional groups and naming
+
+Question:
+What is a functional group?
+
+Answer:
+A functional group is an atom or group of atoms that gives a compound its characteristic properties.
+
+Question:
+How do you name a simple carbon compound using root and suffix?
+
+Answer:
+Choose the carbon chain root, then add the suffix for the bond type and the functional group.
+
+Question:
+Why are structural isomers important?
+
+Answer:
+They show that compounds can have the same molecular formula but different structures and different properties.
+
+Do You Know:
+- The functional group is often the part that decides how a compound reacts.
+
 ## Solved examples
 
 ### Example 1: Functional group
@@ -272,3 +302,5 @@ Root name tells carbon count. Suffix tells bond type. Functional group tells che
 - Bond Checker: "Single, double, or triple?"
 - Alcohol Group: "`-OH` means my family."
 - Acid Group: "`-COOH` gives acidic behaviour."
+
+

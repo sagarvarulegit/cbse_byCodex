@@ -872,6 +872,41 @@ h3 {
   gap: 14px;
 }
 
+.lesson-qa-card {
+  display: grid;
+  gap: 16px;
+  margin: 6px 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+}
+
+@media (prefers-color-scheme: dark) {
+  .lesson-qa-card {
+    background: rgba(20, 29, 25, 0.92);
+  }
+}
+
+.lesson-qa-card-header {
+  display: grid;
+  gap: 6px;
+}
+
+.lesson-qa-card-header h3 {
+  font-size: 1.45rem;
+}
+
+.lesson-qa-card-body {
+  display: grid;
+  gap: 12px;
+}
+
+.lesson-qa-card-body .prose-paragraph {
+  color: var(--foreground);
+}
+
 .prose-intro {
   display: grid;
   gap: 6px;
@@ -1699,69 +1734,148 @@ h3 {
   margin-top: -2px;
 }
 
-.magnesium-combustion-demo {
+.activity-illustration-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.8fr);
+  gap: 0;
+  margin: 28px 0;
   overflow: hidden;
+  border: 2px solid var(--foreground);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: 8px 8px 0 rgba(16, 24, 22, 0.12);
 }
 
-.magnesium-demo-equation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: baseline;
-  width: fit-content;
-  max-width: 100%;
-  padding: 10px 14px;
-  border: 1px solid rgba(20, 184, 166, 0.28);
-  border-radius: 8px;
-  background: rgba(15, 23, 42, 0.92);
-  color: #f8fafc;
-  font-family: "Courier New", Consolas, monospace;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-.magnesium-demo-equation strong {
-  color: #fef3c7;
-}
-
-.magnesium-canvas-frame {
-  width: min(100%, 800px);
-  aspect-ratio: 4 / 3;
+.activity-illustration-visual {
+  position: relative;
+  min-width: 0;
+  min-height: 340px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.36);
-  border-radius: 8px;
   background: #0f172a;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.magnesium-canvas-frame canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+.activity-illustration-image {
+  position: absolute;
+  inset: 0;
+  min-height: 340px;
+  background-color: #0f172a;
+  background-repeat: no-repeat;
 }
 
-.chemical-lab-demo {
-  overflow: hidden;
+.activity-illustration-labels {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  max-width: min(42%, 230px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateY(-50%);
 }
 
-.chemical-lab-equation {
+.activity-illustration-labels li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 7px;
+  background: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  color: #f8fafc;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  backdrop-filter: blur(5px);
+}
+
+.activity-illustration-label-arrow {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1px);
+  width: clamp(28px, 5vw, 70px);
+  height: 2px;
+  background: #f8fafc;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.85));
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.activity-illustration-label-arrow::after {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid #f8fafc;
+  border-right: 2px solid #f8fafc;
+  content: '';
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.activity-illustration-copy {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  padding: 24px;
+  border-left: 1px solid rgba(148, 163, 184, 0.36);
+}
+
+.activity-illustration-copy h4,
+.activity-illustration-copy p {
   margin: 0;
 }
 
-.chemical-lab-canvas-frame {
-  width: min(100%, 800px);
-  aspect-ratio: 20 / 13;
-  overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.36);
-  border-radius: 8px;
-  background: #0f172a;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+.activity-illustration-copy h4 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.2;
 }
 
-.chemical-lab-canvas-frame canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+.activity-illustration-observation {
+  padding: 12px 14px;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  background: var(--card-soft);
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .activity-illustration-card {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-illustration-visual,
+  .activity-illustration-image {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .activity-illustration-labels {
+    left: 8px;
+    max-width: 46%;
+    gap: 3px;
+  }
+
+  .activity-illustration-labels li {
+    min-height: 22px;
+    padding: 3px 6px;
+    font-size: 0.62rem;
+  }
+
+  .activity-illustration-label-arrow {
+    width: clamp(18px, 5vw, 38px);
+  }
+
+  .activity-illustration-copy {
+    border-top: 1px solid rgba(148, 163, 184, 0.36);
+    border-left: 0;
+  }
 }
 
 .comic-recap-card {
@@ -1860,6 +1974,131 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+}
+
+.static-figure-card {
+  display: grid;
+  gap: 16px;
+  margin: 28px 0;
+  padding: 18px;
+  border: 2px solid var(--foreground);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 8px 8px 0 rgba(16, 24, 22, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  .static-figure-card {
+    background: rgba(13, 18, 16, 0.94);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.28);
+  }
+}
+
+.static-figure-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.static-figure-header h4 {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+}
+
+.static-figure-frame {
+  overflow: hidden;
+  border: 1px solid rgba(16, 24, 22, 0.16);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.static-figure-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.static-figure-card figcaption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.route-loading-shell {
+  min-height: 100vh;
+  padding: 24px clamp(18px, 5vw, 72px);
+  background: var(--background);
+}
+
+.route-loading-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+}
+
+.route-loading-card {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  margin: clamp(48px, 10vh, 100px) auto 0;
+  padding: clamp(24px, 5vw, 48px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.route-loading-card h1,
+.route-loading-card h2,
+.route-loading-card p {
+  margin: 0;
+}
+
+.route-loading-bar {
+  overflow: hidden;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.route-loading-bar::after {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  animation: route-loading-slide 1.1s ease-in-out infinite alternate;
+  content: '';
+}
+
+.lesson-video-section .route-loading-card,
+.quiz-loading-card,
+.lesson-demo-loading {
+  margin-top: 0;
+}
+
+.lesson-demo-loading {
+  min-height: 180px;
+}
+
+@keyframes route-loading-slide {
+  from {
+    transform: translateX(-10%);
+  }
+  to {
+    transform: translateX(150%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-loading-bar::after {
+    animation: none;
+    transform: none;
+  }
 }
 
 .comic-panel {

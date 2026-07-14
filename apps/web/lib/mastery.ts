@@ -82,6 +82,22 @@ export function getNextMasteryLabel(score: number) {
   return 'Maintain Topper Track';
 }
 
+export function getChapterMasteryDisplay(chapterMastery?: ChapterMasterySummary) {
+  if (!chapterMastery) {
+    return {
+      hasProgress: false,
+      label: 'Not started',
+      score: 0,
+    } as const;
+  }
+
+  return {
+    hasProgress: true,
+    label: formatMasteryLevel(chapterMastery.level),
+    score: chapterMastery.masteryScore,
+  } as const;
+}
+
 export async function getStudentMastery(chapterSlug?: string): Promise<MasteryPayload> {
   const token = await getStudentSessionToken();
   if (!token) {

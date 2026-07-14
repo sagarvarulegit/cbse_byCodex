@@ -1,165 +1,88 @@
 ---
-title: Balancing equations
-subject: Science
-class_level: 10
-chapter: Chemical Reactions and Equations
-chapter_slug: chemical-reactions-and-equations
-lesson_number: 2
-lesson_slug: balancing-equations
-estimated_minutes: 11
-access_level: premium
-status: draft
+title: 1.1.2 Balanced Chemical Equations
+description: Balance equations step by step and add physical-state symbols.
 ---
 
-# Balancing equations
+# 1.1.2 Balanced Chemical Equations
 
-Balancing an equation means making the number of atoms of every element equal on both sides. The chemical formulae stay unchanged; we place whole-number coefficients before them.
+## 1.1.2 Balanced Chemical Equations
 
-## Learning goals
+Consider:
 
-By the end of this lesson, you should be able to:
-- connect balancing with the law of conservation of mass
-- tell the difference between a coefficient and a subscript
-- use a repeatable atom-counting method
-- verify a balanced equation element by element
+`Fe + H₂O → Fe₃O₄ + H₂` **(1.3)**
 
-## Law of conservation of mass
+The number of iron, hydrogen and oxygen atoms is not equal on the two sides. The **law of conservation of mass** says that mass can neither be created nor destroyed in a chemical reaction. Therefore, the number of atoms of every element must be equal before and after the reaction.
 
-Atoms are rearranged during a chemical reaction. They are not created or destroyed, so each element must have the same atom count on both sides of an equation.
+`3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.4)**
 
-Consider the skeletal equation:
+This is balanced.
 
-`H2 + O2 -> H2O`
+### Balancing by the hit-and-trial method
 
-On the left, oxygen has `2` atoms. On the right, oxygen has only `1` atom. The counts are unequal, so the equation is skeletal or unbalanced.
+Start with the skeletal equation:
 
-## Coefficients and subscripts are different
+`Fe + H₂O → Fe₃O₄ + H₂` **(1.5)**
 
-`2H2O` means two water molecules. It contains `4` hydrogen atoms and `2` oxygen atoms.
+**Step I:** Draw boxes around each formula. Do not change anything inside a box.
 
-`H2O2` is hydrogen peroxide, which is a different substance from water.
+**Step II:** List the number of atoms on both sides.
 
-A `coefficient` is a number written before a formula. Coefficients may be changed while balancing. A `subscript` is a small number inside a chemical formula. Subscripts must not be changed because changing a subscript changes the identity of the substance.
+**Step III:** Start with the compound containing the maximum number of atoms. Balance oxygen by placing 4 before water:
 
-## Repeatable balancing method
+`Fe + 4H₂O → Fe₃O₄ + H₂` **(1.6)**
 
-1. Write the correct skeletal equation.
-2. Count every element on the left and right.
-3. Start with an element that appears in the most complex formula.
-4. Add coefficients before formulae.
-5. Recount after every change.
-6. Leave hydrogen and oxygen until later when practical.
-7. Reduce coefficients to the smallest whole-number ratio.
-8. Perform one final atom-count check.
+**Step IV:** Balance hydrogen by placing 4 before hydrogen:
 
-No single fixed element order works for every equation. The reliable habit is to count, add coefficients, and recount.
+`Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.7)**
 
-## Worked example 1: hydrogen and oxygen
+**Step V:** Balance iron by placing 3 before iron:
 
-Start with:
+`3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.8)**
 
-`H2 + O2 -> H2O`
+**Step VI:** Check every element. Fe: 3=3, H: 8=8, O: 4=4.
 
-Put `2` before `H2O` to balance oxygen, then put `2` before `H2` to balance hydrogen.
+**Step VII:** Add physical states when known:
 
-`2H2 + O2 -> 2H2O`
+`3Fe(s) + 4H₂O(g) → Fe₃O₄(s) + 4H₂(g)` **(1.9)**
 
-- Left: hydrogen `4`, oxygen `2`
-- Right: hydrogen `4`, oxygen `2`
-- Result: balanced
+Here `(s)` means solid, `(l)` liquid, `(g)` gas and `(aq)` an aqueous solution. Conditions such as heat, pressure or a catalyst are written above or below the arrow.
 
-## Worked example 2: iron and steam
+`CO(g) + 2H₂(g) → CH₃OH(l)` **(1.10)**
 
-Start with:
+`6CO₂(aq) + 12H₂O(l) → C₆H₁₂O₆(aq) + 6O₂(aq) + 6H₂O(l)` **(1.11)**
 
-`Fe + H2O -> Fe3O4 + H2`
+In sunlight and in the presence of chlorophyll:
 
-1. Put `3` before `Fe`.
-2. Put `4` before `H2O` to supply four oxygen atoms.
-3. Put `4` before `H2` to balance eight hydrogen atoms.
+`6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂` **(1.12)**
 
-`3Fe + 4H2O -> Fe3O4 + 4H2`
+> **Balancing rule:** Change only coefficients. Changing `H₂O` to `H₂O₂` changes water into a different substance.
 
-- Left: iron `3`, hydrogen `8`, oxygen `4`
-- Right: iron `3`, hydrogen `8`, oxygen `4`
-- Result: balanced
+**❓ QUESTIONS**
 
-## Worked example 3: keep a polyatomic ion together
+**1. Why should a magnesium ribbon be cleaned before burning in air?**
 
-Start with:
+*Answer:* It is cleaned to remove the thin magnesium oxide layer, which prevents magnesium from burning readily.
 
-`Na2SO4 + BaCl2 -> BaSO4 + NaCl`
+**2. Write the balanced equation for the following chemical reactions.**
 
-The sulphate ion, `SO4`, stays unchanged on both sides, so we can count it as one group. Sodium and chlorine become balanced when we put `2` before `NaCl`.
+**(i) Hydrogen + Chlorine → Hydrogen chloride**  
+*Answer:* `H₂ + Cl₂ → 2HCl`
 
-`Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`
+**(ii) Barium chloride + Aluminium sulphate → Barium sulphate + Aluminium chloride**  
+*Answer:* `3BaCl₂ + Al₂(SO₄)₃ → 3BaSO₄ + 2AlCl₃`
 
-- Left: sodium `2`, sulphate groups `1`, barium `1`, chlorine `2`
-- Right: sodium `2`, sulphate groups `1`, barium `1`, chlorine `2`
-- Result: balanced
+**(iii) Sodium + Water → Sodium hydroxide + Hydrogen**  
+*Answer:* `2Na + 2H₂O → 2NaOH + H₂`
 
-## Worked example 4: aluminium oxide
+**3. Write a balanced chemical equation with state symbols for the following reactions.**
 
-Start with:
+**(i) Solutions of barium chloride and sodium sulphate in water react to give insoluble barium sulphate and the solution of sodium chloride.**  
+*Answer:* `BaCl₂(aq) + Na₂SO₄(aq) → BaSO₄(s) + 2NaCl(aq)`
 
-`Al + O2 -> Al2O3`
-
-The lowest common multiple of the oxygen counts `2` and `3` is `6`. Put `3` before `O2` and `2` before `Al2O3`, then balance aluminium with `4`.
-
-`4Al + 3O2 -> 2Al2O3`
-
-- Left: aluminium `4`, oxygen `6`
-- Right: aluminium `4`, oxygen `6`
-- Result: balanced
-
-## Common mistakes
-
-1. Changing a subscript.
-2. Forgetting to recount an element after adding a coefficient.
-3. Balancing only one side mentally without writing counts.
-4. Leaving fractional coefficients in a Class 10 final answer.
-5. Forgetting the smallest whole-number ratio.
-6. Treating a coefficient as if it applies to only one atom in a formula.
-
-## Board tips
-
-- Show the skeletal equation first.
-- Write coefficients clearly before formulae.
-- Keep a small left/right atom count.
-- Verify every element at the end.
-- Box or clearly mark the final balanced equation.
-
-## Quick practice
-
-1. Balance `N2 + H2 -> NH3`.
-2. Balance `KClO3 -> KCl + O2`.
-3. Balance `Ca + H2O -> Ca(OH)2 + H2`.
-4. Balance `Fe + O2 -> Fe2O3`.
-5. Explain why changing `H2O` to `H2O2` is not balancing.
-
-## Answer check
-
-1. `N2 + 3H2 -> 2NH3`
-2. `2KClO3 -> 2KCl + 3O2`
-3. `Ca + 2H2O -> Ca(OH)2 + H2`
-4. `4Fe + 3O2 -> 2Fe2O3`
-5. Changing the subscript changes water into hydrogen peroxide. Balancing may change coefficients only.
-
-## One-minute revision
-
-- Conservation of mass requires equal atom counts.
-- Write correct formulae before balancing.
-- Change coefficients, never subscripts.
-- Recount after each coefficient.
-- Use the smallest whole-number coefficients.
-- Verify every element at the end.
+**(ii) Sodium hydroxide solution (in water) reacts with hydrochloric acid solution (in water) to produce sodium chloride solution and water.**  
+*Answer:* `NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)`
 
 ## Comic recap
-- Captain Coefficient: "Put numbers before formulae, not inside them."
-- Subscript Guard: "Change me and you change the substance."
-- Atom Counter: "I check every element on both sides."
-- Balance Bell: "Equal counts mean the equation is ready."
 
-## Remember this line
+Atom counters inspect both sides. Coefficients pass the check; altered formulae are rejected.
 
-Balance atoms by changing coefficients, never chemical formulae.

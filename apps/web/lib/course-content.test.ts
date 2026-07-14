@@ -25,6 +25,7 @@ const acidsBasesChapterSlug = 'acids-bases-and-salts';
 const metalsNonMetalsChapterSlug = 'metals-and-non-metals';
 const carbonCompoundsChapterSlug = 'carbon-and-its-compounds';
 const lifeProcessesChapterSlug = 'life-processes';
+const controlAndCoordinationChapterSlug = 'control-and-coordination';
 const englishPilotChapterSlug = 'two-stories-about-flying';
 
 function getH2Headings(blocks: MarkdownBlock[]) {
@@ -74,7 +75,7 @@ test('pilot chapters expose clear overviews and at least three live lessons', ()
   }
 });
 
-test('chemical pilot catalog exposes all five available lessons', () => {
+test('chemical pilot catalog exposes all six available lessons', () => {
   const chapter = getChapter(chapterSlug);
   assert.ok(chapter);
 
@@ -86,6 +87,7 @@ test('chemical pilot catalog exposes all five available lessons', () => {
       'combination-and-decomposition-reactions',
       'displacement-and-double-displacement-reactions',
       'oxidation-and-reduction',
+      'ncert-exercises-and-revision',
     ],
   );
   assert.equal(chapter.lessons[0]?.fileName, '01-chemical-equations.md');
@@ -200,27 +202,16 @@ test('chemical equations lesson loads with required structure and navigation', a
 
   assertRequiredHeadings(content.blocks, [
     'learning goals',
-    'what is a chemical reaction?',
-    'signs of a chemical reaction',
-    'activity 1.1: burning magnesium ribbon in air',
-    'from word equation to formula equation',
-    'state symbols',
-    'solved examples',
-    'common mistakes',
-    'board tips',
-    'quick practice',
-    'answer check',
-    'one-minute revision',
+    '1.1 chemical equations',
+    '1.1.1 writing a chemical equation',
     'comic recap',
   ]);
 
   const lessonText = getAllText(content.blocks);
   assert.match(lessonText, /\[\[demo:figure-1-1-magnesium-ribbon\]\]/);
-  assert.match(lessonText, /magnesium ribbon burns with a bright white flame/i);
-  assert.match(lessonText, /Mg \+ O2 -> MgO/);
-  assert.match(lessonText, /Zn \+ H2SO4 -> ZnSO4 \+ H2/);
-  assert.match(lessonText, /Na2SO4\(aq\) \+ BaCl2\(aq\) -> BaSO4\(s\) \+ 2NaCl\(aq\)/);
-  assertFourPanelComic(content.blocks);
+  assert.match(lessonText, /dazzling white flame/i);
+  assert.match(lessonText, /\(1\.1\)/);
+  assert.match(lessonText, /\(1\.2\)/);
 });
 
 test('acids bases indicator lesson loads with neutralisation demos', async () => {
@@ -654,6 +645,185 @@ test('carbon compounds notes preserve NCERT Chapter 4 activity numbering', async
   }
 });
 
+test('chemical reactions lessons preserve NCERT Chapter 1 numbering and textbook structure', async () => {
+  const chapter = getChapter(chapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(getAvailableLessons(chapter).map((lesson) => lesson.title), [
+    '1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation',
+    '1.1.2 Balanced Chemical Equations',
+    '1.2 Types of Chemical Reactions - Combination and Decomposition',
+    '1.2.3 Displacement and 1.2.4 Double Displacement Reactions',
+    '1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life',
+    'NCERT Chapter Exercises and Revision',
+  ]);
+
+  const expectedChecks = new Map([
+    ['chemical-equations', ['Figure 1.1', 'Activity 1.2 Lead nitrate and potassium iodide']],
+    ['balancing-equations', ['1.1.2 Balanced Chemical Equations', 'Why should a magnesium ribbon be cleaned']],
+    ['combination-and-decomposition-reactions', ['Activity 1.5 Heating ferrous sulphate crystals', '1.2.1 Combination Reaction']],
+    ['displacement-and-double-displacement-reactions', ['Activity 1.9 Iron nails in copper sulphate', '1.2.4 Double Displacement Reaction']],
+    ['oxidation-and-reduction', ['Activity 1.11 Heating copper powder', '1.3.2 Rancidity']],
+    ['ncert-exercises-and-revision', ['Which of the statements about the reaction below are incorrect?', 'Group Activity']],
+  ]);
+
+  for (const lesson of getAvailableLessons(chapter)) {
+    const content = await getLessonContent(chapterSlug, lesson.slug);
+    assert.ok(content, `Expected lesson content for ${lesson.slug}`);
+    assert.equal(content.lesson.title, lesson.title);
+    assert.equal(content.blocks[0]?.type, 'h1');
+    if (content.blocks[0]?.type === 'h1') {
+      assert.equal(content.blocks[0].text, lesson.title);
+    }
+    const lessonText = getAllText(content.blocks);
+    for (const expected of expectedChecks.get(lesson.slug) ?? []) {
+      assert.match(lessonText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+    }
+  }
+});
+
+test('acids bases and salts lessons preserve NCERT Chapter 2 numbering and textbook structure', async () => {
+  const chapter = getChapter(acidsBasesChapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(getAvailableLessons(chapter).map((lesson) => lesson.title), [
+    '2.1-2.2 Understanding acids, bases, and neutralisation',
+    '2.1 continued - Reactions of acids and bases',
+    '2.3-2.4 pH scale and importance in daily life',
+    '2.5 More about salts and important compounds',
+  ]);
+
+  const expectedChecks = new Map([
+    ['indicators-and-neutralisation', ['Activity 2.1: Phenolphthalein with acid and base', 'What is neutralisation?']],
+    ['chemical-properties-of-acids-and-bases', ['Activity 2.3: Hydrogen pop test', 'Why do acids react with metals to give hydrogen gas?']],
+    ['ph-and-ions-in-solution', ['Activity 2.8: Acid solution conducts electricity', 'More to Know:', 'What is the pH scale?']],
+    ['salts-and-daily-life-uses', ['Activity 2.9-2.15: Common salt and salt preparation chain', 'What is common salt used for?']],
+  ]);
+
+  for (const lesson of getAvailableLessons(chapter)) {
+    const content = await getLessonContent(acidsBasesChapterSlug, lesson.slug);
+    assert.ok(content, `Expected lesson content for ${lesson.slug}`);
+    assert.equal(content.lesson.title, lesson.title);
+    assert.equal(content.blocks[0]?.type, 'h1');
+    if (content.blocks[0]?.type === 'h1') {
+      assert.equal(content.blocks[0].text, lesson.title);
+    }
+    assertRequiredHeadings(content.blocks, [
+      'learning goals',
+      'ncert activity and figure tracker',
+      'questions and answers',
+      'solved examples',
+      'comic recap',
+    ]);
+
+    const lessonText = getAllText(content.blocks);
+    for (const expected of expectedChecks.get(lesson.slug) ?? []) {
+      assert.match(lessonText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+    }
+  }
+});
+
+test('metals and non-metals lessons preserve NCERT Chapter 3 numbering and textbook structure', async () => {
+  const chapter = getChapter(metalsNonMetalsChapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(getAvailableLessons(chapter).map((lesson) => lesson.title), [
+    '3.1 Physical properties of metals and non-metals',
+    '3.1 continued - Thermal and electrical conductivity',
+    '3.2 Chemical properties of metals',
+    '3.2.4-3.3 Reactivity series and how metals react with non-metals',
+    '3.3-3.4 Ionic compounds and their properties',
+    '3.5-3.6 Occurrence, corrosion, and prevention',
+  ]);
+
+  const expectedChecks = new Map([
+    ['physical-properties', ['Activity 3.1-3.4 and 3.6: Physical property tests', 'Why are metals malleable?']],
+    ['thermal-conductivity-and-conductivity', ['Activity 3.5: Wax pins on a heated metal rod', 'Why do metals conduct heat and electricity?']],
+    ['oxides-and-chemical-properties', ['Activity 3.8 and 3.9: Combustion and oxide nature', 'Why are metal oxides generally basic in nature?']],
+    ['reactivity-series-and-displacement', ['Activity 3.10-3.12: Reactivity sandbox', 'What is the reactivity series?']],
+    ['ionic-compounds', ['Activity 3.13: Ionic properties', 'Why do ionic compounds not conduct electricity in solid state?']],
+    ['corrosion-and-prevention', ['Activity 3.14: Conditions for rusting', 'Think it over:', 'What are the conditions for rusting?']],
+  ]);
+
+  for (const lesson of getAvailableLessons(chapter)) {
+    const content = await getLessonContent(metalsNonMetalsChapterSlug, lesson.slug);
+    assert.ok(content, `Expected lesson content for ${lesson.slug}`);
+    assert.equal(content.lesson.title, lesson.title);
+    assert.equal(content.blocks[0]?.type, 'h1');
+    if (content.blocks[0]?.type === 'h1') {
+      assert.equal(content.blocks[0].text, lesson.title);
+    }
+    assertRequiredHeadings(content.blocks, [
+      'learning goals',
+      'ncert activity and figure tracker',
+      'questions and answers',
+      'solved examples',
+      'comic recap',
+    ]);
+
+    const lessonText = getAllText(content.blocks);
+    for (const expected of expectedChecks.get(lesson.slug) ?? []) {
+      assert.match(lessonText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+    }
+  }
+});
+
+test('carbon compounds lessons preserve NCERT Chapter 4 numbering and textbook structure', async () => {
+  const chapter = getChapter(carbonCompoundsChapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(getAvailableLessons(chapter).map((lesson) => lesson.title), [
+    '4.1 Bonding in carbon - the covalent bond',
+    '4.2 Versatile nature of carbon',
+    '4.2 continued - Hydrocarbons and homologous series',
+    '4.2 continued - Functional groups and naming',
+    '4.3 Chemical properties of carbon compounds',
+    '4.4 Some important carbon compounds - ethanol and ethanoic acid',
+    '4.5 Soaps and detergents',
+  ]);
+
+  const expectedChecks = new Map([
+    ['covalent-bonding-in-carbon', ['Activity 4.1: Carbon around us', '4.1 Bonding in carbon - the covalent bond']],
+    ['versatile-nature-of-carbon', ['4.2 Versatile nature of carbon', 'What is tetravalency?']],
+    ['hydrocarbons-and-homologous-series', ['4.2 continued - Hydrocarbons and homologous series', 'What is a homologous series?']],
+    ['functional-groups-and-naming', ['Activity 4.2: Alcohol homologous series', 'What is a functional group?']],
+    ['chemical-properties-of-carbon-compounds', ['Activity 4.3: Burning carbon compounds', 'What is combustion?']],
+    ['ethanol-and-ethanoic-acid', ['Activity 4.8: Esterification', 'What is esterification?']],
+    ['soaps-and-detergents', ['Activity 4.10: Emulsion and micelles', 'How do soaps remove oily dirt?']],
+  ]);
+
+  for (const lesson of getAvailableLessons(chapter)) {
+    const content = await getLessonContent(carbonCompoundsChapterSlug, lesson.slug);
+    assert.ok(content, `Expected lesson content for ${lesson.slug}`);
+    assert.equal(content.lesson.title, lesson.title);
+    assert.equal(content.blocks[0]?.type, 'h1');
+    if (content.blocks[0]?.type === 'h1') {
+      assert.equal(content.blocks[0].text, lesson.title);
+    }
+    assertRequiredHeadings(content.blocks, [
+      'learning goals',
+      'ncert activity and figure tracker',
+      'questions and answers',
+      'solved examples',
+      'comic recap',
+    ]);
+
+    const lessonText = getAllText(content.blocks);
+    for (const expected of expectedChecks.get(lesson.slug) ?? []) {
+      assert.match(lessonText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+    }
+  }
+
+  const lesson = await getLessonContent(carbonCompoundsChapterSlug, 'covalent-bonding-in-carbon');
+  assert.ok(lesson);
+  const headings = getH2Headings(lesson.blocks);
+  const parentIndex = headings.indexOf('4.1 bonding in carbon - the covalent bond');
+  const childIndex = headings.indexOf('4.2 versatile nature of carbon');
+  assert.notEqual(parentIndex, -1, 'Expected parent 4.1 heading');
+  assert.notEqual(childIndex, -1, 'Expected child 4.2 heading');
+  assert.ok(parentIndex < childIndex, 'Expected 4.1 to appear before 4.2');
+});
+
 test('life processes lesson notes load with NCERT-aligned structure', async () => {
   const expectedLessons = [
     ['life-processes-and-nutrition-in-plants', /Activity 5\.1: Variegated leaf starch test/i],
@@ -921,6 +1091,316 @@ test('life processes plant nutrition lesson shows parent 5.2 before 5.2.1', asyn
   );
 });
 
+test('control and coordination catalog exposes all five available lessons', () => {
+  const chapter = getChapter(controlAndCoordinationChapterSlug);
+  assert.ok(chapter);
+
+  assert.deepEqual(
+    getAvailableLessons(chapter).map((lesson) => lesson.title),
+    [
+      '6.1 Animals - Nervous System',
+      '6.1.1 What happens in Reflex Actions?',
+      '6.1.2-6.1.4 Human Brain and Nervous Tissue Action',
+      '6.2 Coordination in Plants',
+      '6.3 Hormones in Animals',
+    ],
+  );
+  assert.equal(chapter.lessons[0]?.fileName, '01-animals-nervous-system.md');
+  assert.equal(chapter.lessons[0]?.free, true);
+  assert.equal(chapter.lessons[1]?.fileName, '02-reflex-actions.md');
+  assert.equal(chapter.lessons[2]?.fileName, '03-human-brain-and-nervous-tissue.md');
+  assert.equal(chapter.lessons[3]?.fileName, '04-coordination-in-plants.md');
+  assert.equal(chapter.lessons[4]?.fileName, '05-hormones-in-animals.md');
+});
+
+test('missing control and coordination lesson markdown resolves to null', async () => {
+  const chapter = getChapter(controlAndCoordinationChapterSlug);
+  assert.ok(chapter);
+
+  const lesson = chapter.lessons[0];
+  assert.ok(lesson);
+
+  const originalFileName = lesson.fileName;
+  lesson.fileName = 'missing-lesson.md';
+
+  try {
+    const content = await getLessonContent(controlAndCoordinationChapterSlug, lesson.slug).catch(
+      () => undefined,
+    );
+
+    assert.equal(content, null);
+  } finally {
+    lesson.fileName = originalFileName;
+  }
+});
+
+test('control and coordination lesson notes load with NCERT-aligned structure', async () => {
+  const lessons = [
+    [
+      'animals-nervous-system',
+      [
+        'learning goals',
+        'ncert activity and figure tracker',
+        'solved examples',
+        'common mistakes',
+        'board tips',
+        'quick practice',
+        'answer check',
+        'one-minute revision',
+        'comic recap',
+      ],
+      [
+        'Figure 6.1: (a) Structure of neuron, (b) Neuromuscular junction',
+        '[[demo:figure-6-1-neuron-neuromuscular-junction]]',
+        'Activity 6.1: Put sugar in your mouth, block your nose, and notice how taste changes',
+        'gustatory receptors',
+        'olfactory receptors',
+      ],
+    ],
+    [
+      'reflex-actions',
+      [
+        'learning goals',
+        'ncert activity and figure tracker',
+        'solved examples',
+        'common mistakes',
+        'board tips',
+        'quick practice',
+        'answer check',
+        'one-minute revision',
+        'comic recap',
+      ],
+      ['Figure 6.2: Reflex arc', '[[demo:figure-6-2-reflex-arc]]', 'reflex arc'],
+    ],
+    [
+      'human-brain-and-nervous-tissue',
+      [
+        'learning goals',
+        'questions and answers',
+        'solved examples',
+        'common mistakes',
+        'board tips',
+        'quick practice',
+        'answer check',
+        'one-minute revision',
+        'comic recap',
+      ],
+      [
+        '[[demo:figure-6-3-human-brain]]',
+        'cerebellum',
+        'medulla',
+        'vertebral column',
+      ],
+    ],
+    [
+      'coordination-in-plants',
+      [
+        'learning goals',
+        'ncert activity and figure tracker',
+        'questions and answers',
+        'solved examples',
+        'common mistakes',
+        'board tips',
+        'quick practice',
+        'answer check',
+        'one-minute revision',
+        'comic recap',
+      ],
+      [
+        'Figure 6.4: The sensitive plant',
+        '[[demo:figure-6-4-sensitive-plant]]',
+        'Figure 6.5: Response of the plant to the direction of light',
+        'Figure 6.6: Plant showing geotropism',
+        'Activity 6.2: Germinated bean seeds bend towards light in a box',
+        'auxin',
+        'abscisic acid',
+      ],
+    ],
+    [
+      'hormones-in-animals',
+      [
+        'learning goals',
+        'ncert activity and figure tracker',
+        'questions and answers',
+        'solved examples',
+        'common mistakes',
+        'board tips',
+        'quick practice',
+        'answer check',
+        'one-minute revision',
+        'comic recap',
+      ],
+      [
+        'Figure 6.7: Endocrine glands in human beings (a) male, (b) female',
+        'Activity 6.3: Identify endocrine glands in the figure',
+        'Activity 6.4: Complete Table 6.1 with hormones, glands, and functions',
+        'Table 6.1: Some important hormones and their functions',
+        'feedback mechanism',
+      ],
+    ],
+  ] as const;
+
+  for (const [lessonSlug, requiredHeadings, expectedTexts] of lessons) {
+    const content = await getLessonContent(controlAndCoordinationChapterSlug, lessonSlug);
+    assert.ok(content, `Expected lesson content for ${lessonSlug}`);
+
+    assertRequiredHeadings(content.blocks, [...requiredHeadings]);
+    assertFourPanelComic(content.blocks);
+
+    const lessonText = getAllText(content.blocks);
+    for (const expected of expectedTexts) {
+      assert.match(lessonText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+    }
+  }
+});
+
+test('control and coordination textbook question blocks follow NCERT placement', async () => {
+  const brainLesson = await getLessonContent(
+    controlAndCoordinationChapterSlug,
+    'human-brain-and-nervous-tissue',
+  );
+  assert.ok(brainLesson);
+
+  const brainHeadings = getH2Headings(brainLesson.blocks);
+  const brainQuestionIndex = brainHeadings.indexOf('questions and answers');
+  const brainSectionIndex = brainHeadings.indexOf('6.1.4 how does the nervous tissue cause action?');
+
+  assert.notEqual(brainSectionIndex, -1, 'Expected 6.1.4 heading');
+  assert.notEqual(brainQuestionIndex, -1, 'Expected 6.1 Questions and answers block');
+  assert.ok(brainSectionIndex < brainQuestionIndex, 'Expected questions after 6.1.4');
+
+  const brainText = getAllText(brainLesson.blocks);
+  assert.match(
+    brainText,
+    /What is the difference between a reflex action and walking\?/i,
+  );
+  assert.match(brainText, /What happens at the synapse between two neurons\?/i);
+  assert.match(
+    brainText,
+    /Which part of the brain maintains posture and equilibrium of the body\?/i,
+  );
+  assert.match(brainText, /How do we detect the smell of an agarbatti \(incense stick\)\?/i);
+  assert.match(brainText, /What is the role of the brain in reflex action\?/i);
+
+  const plantLesson = await getLessonContent(controlAndCoordinationChapterSlug, 'coordination-in-plants');
+  assert.ok(plantLesson);
+
+  const plantHeadings = getH2Headings(plantLesson.blocks);
+  const plantQuestionIndex = plantHeadings.indexOf('questions and answers');
+  const plantSectionIndex = plantHeadings.indexOf('6.2.2 movement due to growth');
+
+  assert.notEqual(plantSectionIndex, -1, 'Expected 6.2.2 heading');
+  assert.notEqual(plantQuestionIndex, -1, 'Expected 6.2 Questions and answers block');
+  assert.ok(plantSectionIndex < plantQuestionIndex, 'Expected questions after 6.2.2');
+
+  const plantText = getAllText(plantLesson.blocks);
+  assert.match(plantText, /What are plant hormones\?/i);
+  assert.match(
+    plantText,
+    /How is the movement of leaves of the sensitive plant different from the movement of a shoot towards light\?/i,
+  );
+  assert.match(plantText, /Give an example of a plant hormone that promotes growth\./i);
+  assert.match(
+    plantText,
+    /How do auxins promote the growth of a tendril around a support\?/i,
+  );
+  assert.match(plantText, /Design an experiment to demonstrate hydrotropism\./i);
+
+  const hormoneLesson = await getLessonContent(
+    controlAndCoordinationChapterSlug,
+    'hormones-in-animals',
+  );
+  assert.ok(hormoneLesson);
+
+  const hormoneHeadings = getH2Headings(hormoneLesson.blocks);
+  const hormoneQuestionIndex = hormoneHeadings.indexOf('questions and answers');
+  const hormoneSectionIndex = hormoneHeadings.indexOf('6.3 hormones in animals');
+
+  assert.notEqual(hormoneSectionIndex, -1, 'Expected 6.3 heading');
+  assert.notEqual(hormoneQuestionIndex, -1, 'Expected 6.3 Questions and answers block');
+  assert.ok(hormoneSectionIndex < hormoneQuestionIndex, 'Expected questions after 6.3');
+
+  const hormoneText = getAllText(hormoneLesson.blocks);
+  assert.match(hormoneText, /How does chemical coordination take place in animals\?/i);
+  assert.match(hormoneText, /Why is the use of iodised salt advisable\?/i);
+  assert.match(
+    hormoneText,
+    /How does our body respond when adrenaline is secreted into the blood\?/i,
+  );
+  assert.match(
+    hormoneText,
+    /Why are some patients of diabetes treated by giving injections of insulin\?/i,
+  );
+});
+
+test('control and coordination lesson titles preserve NCERT Chapter 6 topic numbering', async () => {
+  const chapter = getChapter(controlAndCoordinationChapterSlug);
+  assert.ok(chapter);
+
+  for (const lesson of getAvailableLessons(chapter)) {
+    const content = await getLessonContent(controlAndCoordinationChapterSlug, lesson.slug);
+    assert.ok(content, `Expected lesson content for ${lesson.slug}`);
+    assert.equal(content.lesson.title, lesson.title);
+    assert.equal(content.blocks[0]?.type, 'h1');
+    if (content.blocks[0]?.type === 'h1') {
+      assert.equal(content.blocks[0].text, lesson.title);
+    }
+  }
+
+  const brainLesson = await getLessonContent(
+    controlAndCoordinationChapterSlug,
+    'human-brain-and-nervous-tissue',
+  );
+  assert.ok(brainLesson);
+
+  const headings = getH2Headings(brainLesson.blocks);
+  const humanBrainIndex = headings.indexOf('6.1.2 human brain');
+  const protectionIndex = headings.indexOf('6.1.3 how are these tissues protected?');
+  const actionIndex = headings.indexOf('6.1.4 how does the nervous tissue cause action?');
+
+  assert.notEqual(humanBrainIndex, -1, 'Expected 6.1.2 heading');
+  assert.notEqual(protectionIndex, -1, 'Expected 6.1.3 heading');
+  assert.notEqual(actionIndex, -1, 'Expected 6.1.4 heading');
+  assert.ok(humanBrainIndex < protectionIndex, 'Expected 6.1.2 before 6.1.3');
+  assert.ok(protectionIndex < actionIndex, 'Expected 6.1.3 before 6.1.4');
+
+  const brainText = getAllText(brainLesson.blocks);
+  const humanBrainTextIndex = brainText.indexOf('6.1.2 Human Brain');
+  const figure63Index = brainText.indexOf('[[demo:figure-6-3-human-brain]]');
+  const protectionTextIndex = brainText.indexOf('6.1.3 How are these tissues protected?');
+
+  assert.notEqual(figure63Index, -1, 'Expected Figure 6.3 demo marker');
+  assert.ok(
+    humanBrainTextIndex < figure63Index && figure63Index < protectionTextIndex,
+    'Expected Figure 6.3 demo marker under 6.1.2 Human Brain before 6.1.3',
+  );
+
+  const plantLesson = await getLessonContent(controlAndCoordinationChapterSlug, 'coordination-in-plants');
+  assert.ok(plantLesson);
+
+  const plantHeadings = getH2Headings(plantLesson.blocks);
+  const plantsIndex = plantHeadings.indexOf('6.2 coordination in plants');
+  const immediateIndex = plantHeadings.indexOf('6.2.1 immediate response to stimulus');
+  const growthIndex = plantHeadings.indexOf('6.2.2 movement due to growth');
+
+  assert.notEqual(plantsIndex, -1, 'Expected 6.2 heading');
+  assert.notEqual(immediateIndex, -1, 'Expected 6.2.1 heading');
+  assert.notEqual(growthIndex, -1, 'Expected 6.2.2 heading');
+  assert.ok(plantsIndex < immediateIndex, 'Expected 6.2 before 6.2.1');
+  assert.ok(immediateIndex < growthIndex, 'Expected 6.2.1 before 6.2.2');
+
+  const plantText = getAllText(plantLesson.blocks);
+  const immediateTextIndex = plantText.indexOf('6.2.1 Immediate Response to Stimulus');
+  const figure64Index = plantText.indexOf('[[demo:figure-6-4-sensitive-plant]]');
+  const growthTextIndex = plantText.indexOf('6.2.2 Movement Due to Growth');
+
+  assert.notEqual(figure64Index, -1, 'Expected Figure 6.4 demo marker');
+  assert.ok(
+    immediateTextIndex < figure64Index && figure64Index < growthTextIndex,
+    'Expected Figure 6.4 demo marker under 6.2.1 before 6.2.2',
+  );
+});
+
 test('his first flight fear lesson loads with required structure and navigation', async () => {
   const content = await getLessonContent(englishPilotChapterSlug, 'his-first-flight-fear-and-hunger');
   assert.ok(content);
@@ -1089,29 +1569,12 @@ test('balancing equations lesson loads with worked examples and the next lesson 
   assert.equal(content.previousLesson?.slug, 'chemical-equations');
   assert.equal(content.nextLesson?.slug, 'combination-and-decomposition-reactions');
 
-  assertRequiredHeadings(content.blocks, [
-    'learning goals',
-    'law of conservation of mass',
-    'coefficients and subscripts are different',
-    'repeatable balancing method',
-    'worked example 1: hydrogen and oxygen',
-    'worked example 2: iron and steam',
-    'worked example 3: keep a polyatomic ion together',
-    'worked example 4: aluminium oxide',
-    'common mistakes',
-    'board tips',
-    'quick practice',
-    'answer check',
-    'one-minute revision',
-    'comic recap',
-  ]);
+  assertRequiredHeadings(content.blocks, ['1.1.2 balanced chemical equations', 'comic recap']);
 
   const lessonText = getAllText(content.blocks);
-  assert.match(lessonText, /2H2 \+ O2 -> 2H2O/);
-  assert.match(lessonText, /3Fe \+ 4H2O -> Fe3O4 \+ 4H2/);
-  assert.match(lessonText, /Na2SO4 \+ BaCl2 -> BaSO4 \+ 2NaCl/);
-  assert.match(lessonText, /4Al \+ 3O2 -> 2Al2O3/);
-  assertFourPanelComic(content.blocks);
+  assert.match(lessonText, /law of conservation of mass/i);
+  assert.match(lessonText, /\(1\.12\)/);
+  assert.match(lessonText, /Why should a magnesium ribbon be cleaned/i);
 });
 
 test('combination and decomposition lesson loads with reaction type coverage', async () => {
@@ -1121,27 +1584,12 @@ test('combination and decomposition lesson loads with reaction type coverage', a
   assert.equal(content.previousLesson?.slug, 'balancing-equations');
   assert.equal(content.nextLesson?.slug, 'displacement-and-double-displacement-reactions');
 
-  assertRequiredHeadings(content.blocks, [
-    'learning goals',
-    'combination reactions',
-    'decomposition reactions',
-    'types of decomposition',
-    'solved examples',
-    'common mistakes',
-    'board tips',
-    'quick practice',
-    'answer check',
-    'one-minute revision',
-    'comic recap',
-  ]);
+  assertRequiredHeadings(content.blocks, ['1.2 types of chemical reactions', '1.2.1 combination reaction', '1.2.2 decomposition reaction', 'comic recap']);
 
   const lessonText = getAllText(content.blocks);
-  assert.match(lessonText, /CaO \+ H2O -> Ca\(OH\)2/);
-  assert.match(lessonText, /CaCO3 -> CaO \+ CO2/);
-  assert.match(lessonText, /2Pb\(NO3\)2 -> 2PbO \+ 4NO2 \+ O2/);
-  assert.match(lessonText, /2AgCl -> 2Ag \+ Cl2/);
-  assert.match(lessonText, /2H2O -> 2H2 \+ O2/);
-  assertFourPanelComic(content.blocks);
+  assert.match(lessonText, /\(1\.13\)/);
+  assert.match(lessonText, /\(1\.23\)/);
+  assert.match(lessonText, /amount of gas collected/i);
 });
 
 test('displacement and double displacement lesson loads with reactivity and precipitation', async () => {
@@ -1154,27 +1602,12 @@ test('displacement and double displacement lesson loads with reactivity and prec
   assert.equal(content.previousLesson?.slug, 'combination-and-decomposition-reactions');
   assert.equal(content.nextLesson?.slug, 'oxidation-and-reduction');
 
-  assertRequiredHeadings(content.blocks, [
-    'learning goals',
-    'displacement reactions',
-    'reactivity series clue',
-    'double displacement reactions',
-    'precipitation reactions',
-    'solved examples',
-    'common mistakes',
-    'board tips',
-    'quick practice',
-    'answer check',
-    'one-minute revision',
-    'comic recap',
-  ]);
+  assertRequiredHeadings(content.blocks, ['1.2.3 displacement reaction', '1.2.4 double displacement reaction', 'comic recap']);
 
   const lessonText = getAllText(content.blocks);
-  assert.match(lessonText, /Fe \+ CuSO4 -> FeSO4 \+ Cu/);
-  assert.match(lessonText, /Zn \+ CuSO4 -> ZnSO4 \+ Cu/);
-  assert.match(lessonText, /Na2SO4 \+ BaCl2 -> BaSO4 \+ 2NaCl/);
-  assert.match(lessonText, /AgNO3 \+ NaCl -> AgCl \+ NaNO3/);
-  assertFourPanelComic(content.blocks);
+  assert.match(lessonText, /\(1\.24\)/);
+  assert.match(lessonText, /\(1\.27\)/);
+  assert.match(lessonText, /Recall Activity 1\.2/i);
 });
 
 test('oxidation and reduction lesson loads with redox and prevention coverage', async () => {
@@ -1182,29 +1615,14 @@ test('oxidation and reduction lesson loads with redox and prevention coverage', 
   assert.ok(content);
 
   assert.equal(content.previousLesson?.slug, 'displacement-and-double-displacement-reactions');
-  assert.equal(content.nextLesson, null);
+  assert.equal(content.nextLesson?.slug, 'ncert-exercises-and-revision');
 
-  assertRequiredHeadings(content.blocks, [
-    'learning goals',
-    'oxidation',
-    'reduction',
-    'redox reaction',
-    'corrosion',
-    'rancidity',
-    'solved examples',
-    'common mistakes',
-    'board tips',
-    'quick practice',
-    'answer check',
-    'one-minute revision',
-    'comic recap',
-  ]);
+  assertRequiredHeadings(content.blocks, ['1.2.5 oxidation and reduction', '1.3.1 corrosion', '1.3.2 rancidity', 'what you have learnt', 'comic recap']);
 
   const lessonText = getAllText(content.blocks);
-  assert.match(lessonText, /2Cu \+ O2 -> 2CuO/);
-  assert.match(lessonText, /CuO \+ H2 -> Cu \+ H2O/);
-  assert.match(lessonText, /Nitrogen Keeper/);
-  assertFourPanelComic(content.blocks);
+  assert.match(lessonText, /\(1\.28\)/);
+  assert.match(lessonText, /\(1\.32\)/);
+  assert.match(lessonText, /flushing packets with nitrogen/i);
 });
 
 test('subject catalog stays aligned to the visible curriculum registry', async () => {

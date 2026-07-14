@@ -1,156 +1,78 @@
 ---
-title: Oxidation and reduction
-subject: Science
-class_level: 10
-chapter: Chemical Reactions and Equations
-chapter_slug: chemical-reactions-and-equations
-lesson_number: 5
-lesson_slug: oxidation-and-reduction
-estimated_minutes: 8
-access_level: premium
-status: draft
+title: 1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life
+description: Understand redox reactions, corrosion and rancidity through textbook examples.
 ---
 
-# Oxidation and reduction
+# 1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life
 
-Oxidation and reduction often happen together in the same reaction. In Class 10, the easiest way to spot them is by tracking oxygen and hydrogen.
+## 1.2.5 Oxidation and Reduction
 
-## Learning goals
+### Activity 1.11 Heating copper powder
 
-By the end of this lesson, you should be able to:
-- define oxidation and reduction in simple terms
-- identify a redox reaction
-- explain corrosion and rusting
-- explain rancidity
-- list common prevention methods for corrosion and rancidity
-
-## Oxidation
-
-`Oxidation` means gain of oxygen or loss of hydrogen.
-
-Example:
-
-`2Cu + O2 -> 2CuO`
-
-Copper gains oxygen to form copper oxide, so copper is oxidised.
-
-## Activity 1.11: Heating copper powder
-
-When copper powder is heated in air, oxygen reacts with copper and forms black copper(II) oxide on the surface. This is oxidation because copper gains oxygen.
+Heat about 1 g copper powder in a china dish. Its brown surface becomes coated with black copper(II) oxide.
 
 [[demo:activity-1-11-heating-copper-powder]]
 
-## Reduction
+**Figure 1.10** Oxidation of copper to copper oxide.
 
-`Reduction` means loss of oxygen or gain of hydrogen.
+Why has this black substance formed?
 
-Example:
+`2Cu(s) + O₂(g) → 2CuO(s)` **(1.28)**
 
-`CuO + H2 -> Cu + H2O`
+If hydrogen is passed over heated copper oxide, the black coating becomes brown again:
 
-Copper oxide loses oxygen to form copper, so copper oxide is reduced. Hydrogen gains oxygen and is oxidised.
+`CuO(s) + H₂(g) → Cu(s) + H₂O(l)` **(1.29)**
 
-## Redox reaction
+A substance gains oxygen during **oxidation** and loses oxygen during **reduction**. These processes occur together, so the reaction is a **redox reaction**.
 
-When oxidation and reduction happen together, the reaction is called a `redox reaction`.
+`ZnO(s) + C(s) → Zn(s) + CO(g)` **(1.30)**
 
-In the example above:
-- `CuO` is reduced to `Cu`
-- `H2` is oxidised to `H2O`
+`MnO₂(s) + 4HCl(aq) → MnCl₂(aq) + 2H₂O(l) + Cl₂(g)` **(1.31)**
 
-## Corrosion
+Oxidation can also mean loss of hydrogen, while reduction can mean gain of hydrogen:
 
-`Corrosion` is the slow damage of metals caused by reaction with air, water, or chemicals.
+`H₂S(g) + Cl₂(g) → 2HCl(g) + S(s)` **(1.32)**
 
-Rusting of iron is the common classroom example.
+**❓ QUESTIONS**
 
-Prevention methods include:
-- painting
-- oiling or greasing
-- galvanisation
-- alloying
+**1. Why does the colour of copper sulphate solution change when an iron nail is dipped in it?**
 
-## Rancidity
+*Answer:* Iron displaces copper and forms pale-green iron sulphate. Copper deposits on the nail, so the blue colour fades.
 
-`Rancidity` is the spoilage of fats and oils due to oxidation.
+**2. Give an example of a double displacement reaction other than the one given in Activity 1.10.**
 
-Prevention methods include:
-- airtight containers
-- keeping food away from heat and light
-- adding antioxidants
-- flushing packets with nitrogen
+*Answer:* `Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s) + 2KNO₃(aq)`
 
-## Solved examples
+**3. Identify the substances that are oxidised and the substances that are reduced in the following reactions.**
 
-### Example 1: identify oxidation
+**(i) `4Na(s) + O₂(g) → 2Na₂O(s)`**  
+*Answer:* Sodium is oxidised; oxygen is reduced.
 
-`2Cu + O2 -> 2CuO`
+**(ii) `CuO(s) + H₂(g) → Cu(s) + H₂O(l)`**  
+*Answer:* Hydrogen is oxidised; copper oxide is reduced.
 
-Copper gains oxygen, so this is oxidation.
+## 1.3 Have You Observed the Effects of Oxidation Reactions in Everyday Life?
 
-### Example 2: identify reduction
+## 1.3.1 Corrosion
 
-`CuO + H2 -> Cu + H2O`
+When a metal is attacked by moisture, acids or other substances in its surroundings, it corrodes. Iron develops reddish-brown rust; silver turns black; copper gets a green coating. Corrosion damages metal objects, but it can be limited by painting, oiling, greasing, galvanising or alloying.
 
-Copper oxide loses oxygen, so it is reduced.
+## 1.3.2 Rancidity
 
-### Example 3: identify corrosion
+When fats and oils are oxidised, their smell and taste change. This is rancidity. Antioxidants, airtight containers, refrigeration and flushing packets with nitrogen slow oxidation.
 
-Rusting of iron
+**Recall Activity 1.1:** Magnesium was cleaned before burning because its surface had already reacted with oxygen.
 
-Iron slowly reacts with air and water. This is corrosion.
+## What you have learnt
 
-### Example 4: identify rancidity prevention
-
-Nitrogen flushing in chips packets
-
-Nitrogen reduces oxygen contact, so it slows rancidity.
-
-## Common mistakes
-
-1. Thinking oxidation always means only oxygen gain.
-2. Forgetting that reduction can mean hydrogen gain too.
-3. Treating corrosion and rancidity as the same thing.
-4. Saying every metal change is rusting.
-5. Missing that oxidation and reduction happen together.
-
-## Board tips
-
-- Use oxygen and hydrogen clues first.
-- In redox answers, mention both the oxidised and reduced substance.
-- For corrosion answers, always add one prevention method.
-- For rancidity answers, connect the cause to oxygen exposure.
-
-## Quick practice
-
-1. In `2Cu + O2 -> 2CuO`, what happens to copper?
-2. In `CuO + H2 -> Cu + H2O`, what happens to copper oxide?
-3. What is rusting an example of?
-4. How can rusting be prevented?
-5. Why is nitrogen used in food packets?
-
-## Answer check
-
-1. Copper is oxidised.
-2. Copper oxide is reduced.
-3. Corrosion.
-4. By painting, oiling, greasing, galvanisation, or alloying.
-5. It lowers oxygen contact and helps prevent rancidity.
-
-## One-minute revision
-
-- Oxidation means gain of oxygen or loss of hydrogen.
-- Reduction means loss of oxygen or gain of hydrogen.
-- Oxidation and reduction together make a redox reaction.
-- Corrosion damages metals slowly.
-- Rancidity spoils fats and oils by oxidation.
+- A complete chemical equation represents reactants, products and physical states symbolically, and it must be balanced.
+- Combination makes one product; decomposition breaks one substance into two or more products.
+- Exothermic reactions release energy; endothermic reactions absorb it.
+- Displacement replaces an element; double displacement exchanges ions; precipitation forms an insoluble salt.
+- Oxidation is gain of oxygen or loss of hydrogen. Reduction is loss of oxygen or gain of hydrogen.
+- Corrosion and rancidity are important everyday effects of oxidation.
 
 ## Comic recap
-- Oxidation Torch: "I add oxygen or remove hydrogen."
-- Reduction Shield: "I take away oxygen or add hydrogen."
-- Rust Watcher: "Air and water can damage metal over time."
-- Nitrogen Keeper: "I help food stay fresh for longer."
 
-## Remember this line
+Oxygen tags copper black, hydrogen removes the tag, rust attacks iron, and nitrogen guards a chips packet from rancidity.
 
-Track oxygen and hydrogen first, and redox will become much easier to spot.

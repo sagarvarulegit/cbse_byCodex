@@ -1,5 +1,5 @@
 ---
-title: Covalent bonding in carbon
+title: 4.1 Bonding in carbon - the covalent bond
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: free
 status: draft
 ---
 
-# Covalent bonding in carbon
+# 4.1 Bonding in carbon - the covalent bond
 
 Carbon forms most of its compounds by sharing electrons. This type of bond is called a covalent bond.
 
@@ -41,6 +41,10 @@ By the end of this lesson, you should be able to:
 - define covalent bond
 - draw simple electron-sharing ideas for hydrogen, chlorine, oxygen, nitrogen, methane, and carbon dioxide
 - state two common properties of covalent compounds
+
+## 4.1 Bonding in carbon - the covalent bond
+
+## 4.2 Versatile nature of carbon
 
 ## Why carbon shares electrons
 
@@ -235,6 +239,36 @@ They are also made of neutral molecules, not free ions. Since there are no free 
 
 Textbook examples of low melting and boiling points include methane, ethanol, chloroform, and acetic acid.
 
+## NCERT activity and figure tracker
+
+Activity 4.1: Carbon around us
+- Observe where carbon compounds appear in daily life.
+- Conclusion: carbon compounds are everywhere in familiar materials.
+## Questions and answers
+
+### 4.1 Bonding in carbon - the covalent bond
+
+Question:
+Why does carbon form covalent bonds?
+
+Answer:
+Carbon has four valence electrons, and gaining or losing four electrons is difficult, so it shares electrons instead.
+
+Question:
+How does methane form?
+
+Answer:
+Carbon shares one electron with each of four hydrogen atoms, so methane has four covalent bonds.
+
+Question:
+Why are covalent compounds generally poor conductors?
+
+Answer:
+They usually do not have free ions or free electrons to carry charge.
+
+Do You Know:
+- Covalent bonding is common in organic compounds because carbon can share electrons in many stable ways.
+
 ## Solved examples
 
 ### Example 1: Carbon ions
@@ -324,3 +358,5 @@ Carbon has four valence electrons. Gaining or losing four electrons is difficult
 - Methane Model: "Four hydrogens, four single bonds."
 - Carbon Dioxide: "Two oxygens, two double bonds."
 - Exam Coach: "Count electrons first, draw bonds second."
+
+

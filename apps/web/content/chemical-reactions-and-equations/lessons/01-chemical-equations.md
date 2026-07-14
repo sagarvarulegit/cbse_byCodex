@@ -1,189 +1,69 @@
 ---
-title: Chemical equations
-subject: Science
-class_level: 10
-chapter: Chemical Reactions and Equations
-chapter_slug: chemical-reactions-and-equations
-lesson_number: 1
-lesson_slug: chemical-equations
-estimated_minutes: 10
-access_level: free
-status: draft
+title: 1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation
+description: Observe chemical changes and learn to write word and symbolic equations.
 ---
 
-# Chemical equations
-
-A chemical reaction changes starting substances, called reactants, into new substances, called products. A chemical equation is a compact way to represent this change. In this lesson, we will learn to read and write equations. We will balance them in the next lesson.
+# 1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation
 
 ## Learning goals
 
-By the end of this lesson, you should be able to:
-- identify reactants and products
-- recognise common observable signs of a reaction
-- write a word equation
-- convert simple chemical names into a formula equation
-- use `(s)`, `(l)`, `(g)`, and `(aq)`
+- Recognise a chemical reaction from observable changes.
+- Write a word-equation and then a chemical equation.
+- Identify reactants and products without guessing.
 
-## What is a chemical reaction?
+Think about milk left at room temperature, an iron tawa exposed to humid air, grapes fermenting, food being cooked, food being digested, and respiration. In every case, the starting substance changes and a new substance is formed. That is the central idea of a **chemical reaction**.
 
-A `reactant` is a starting substance in a reaction.
+### Activity 1.1 Burning magnesium ribbon
 
-A `product` is a new substance formed by a reaction.
+**Safety:** Clean a magnesium ribbon about 3-4 cm long by rubbing it with sandpaper. Hold it with tongs, burn it using a spirit lamp or burner, and collect the ash in a watch-glass. Keep the burning ribbon away from your eyes.
 
-A `chemical reaction` is a process in which one or more reactants form new products. The atoms are rearranged, so the products have properties different from the starting substances.
-
-## Signs of a chemical reaction
-
-We often recognise a chemical reaction through an observable change:
-- Colour change: when iron is placed in copper sulphate solution, a brown copper deposit forms and the solution changes colour.
-- Gas formation: zinc reacts with dilute sulphuric acid to produce hydrogen gas in a teacher-supervised laboratory example.
-- Temperature change: quicklime reacts with water and releases heat. Do not perform this reaction without teacher supervision.
-- Precipitate formation: barium sulphate can form as a white insoluble solid called a precipitate.
-- Change of state: gaseous hydrogen and oxygen can react to form liquid water.
-
-One sign alone can suggest that a reaction occurred, but the key idea is that new substances formed.
-
-## Activity 1.2: Lead nitrate and potassium iodide
-
-When lead nitrate solution is mixed with potassium iodide solution, an insoluble yellow solid appears. This is useful at the start of the chapter because it makes the idea "new substance formed" very visible.
-
-[[demo:activity-1-2-lead-nitrate-potassium-iodide]]
-
-## Activity 1.3: Zinc with dilute sulphuric acid
-
-Zinc reacts with dilute sulphuric acid to form zinc sulphate and hydrogen gas. The bubbles show gas formation, and the warm flask shows that energy is released.
-
-[[demo:activity-1-3-zinc-sulphuric-acid]]
-
-## Activity 1.4: Quicklime and water
-
-Calcium oxide combines with water to form calcium hydroxide. The reaction releases heat, so it is a strong example of temperature change during a chemical reaction.
-
-[[demo:activity-1-4-quicklime-water]]
-
-## Activity 1.1: Burning magnesium ribbon in air
-
-Magnesium ribbon burns with a bright white flame in air and forms white magnesium oxide. In the animated activity below, notice the order: heat the ribbon, observe the bright flame, then collect the white ash-like magnesium oxide in the watch-glass.
+The ribbon burns with a dazzling white flame and changes into a white powder, magnesium oxide. Cleaning removes the magnesium oxide layer so that magnesium can burn readily.
 
 [[demo:figure-1-1-magnesium-ribbon]]
 
-## From word equation to formula equation
+**Figure 1.1** Burning of a magnesium ribbon in air and collection of magnesium oxide in a watch-glass.
 
-First write the reaction using names:
+### Activity 1.2 Lead nitrate and potassium iodide
 
-`magnesium + oxygen -> magnesium oxide`
+Take lead nitrate solution in a test tube and add potassium iodide solution. A yellow precipitate of lead iodide appears. The colour change and formation of an insoluble solid show that a chemical reaction has occurred.
 
-Then replace each name with its correct formula:
+[[demo:activity-1-2-lead-nitrate-potassium-iodide]]
 
-`Mg + O2 -> MgO`
+**Figure 1.2** Formation of lead iodide precipitate.
 
-Reactants are written on the left. Products are written on the right. The `+` sign means "reacts with" or separates multiple substances. The `->` arrow means "forms" or "produces".
+### Activity 1.3 Zinc and dilute acid
 
-`Mg + O2 -> MgO` is a skeletal equation. It shows the correct substances, but it is not yet balanced.
+Take zinc granules in a conical flask or test tube and add dilute hydrochloric acid or dilute sulphuric acid. **Caution: handle acid carefully.** Bubbles of hydrogen gas form and the container becomes warm.
 
-Here is another word equation:
+[[demo:activity-1-3-zinc-sulphuric-acid]]
 
-`zinc + sulphuric acid -> zinc sulphate + hydrogen`
+These activities show common signs of a reaction: change in state, change in colour, evolution of a gas, and change in temperature.
 
-Its formula equation is:
+## 1.1 Chemical Equations
 
-`Zn + H2SO4 -> ZnSO4 + H2`
+A word-equation names the substances before and after the reaction:
 
-## State symbols
+`Magnesium + Oxygen → Magnesium oxide` **(1.1)**
 
-State symbols tell us the physical state of a substance:
-- `(s)` = solid
-- `(l)` = liquid
-- `(g)` = gas
-- `(aq)` = dissolved in water
+The substances on the left are **reactants**. The new substances on the right are **products**. The arrow means “changes into”.
 
-For example:
+## 1.1.1 Writing a Chemical Equation
 
-`Zn(s) + H2SO4(aq) -> ZnSO4(aq) + H2(g)`
+Replace names by chemical formulae:
 
-The symbol `(aq)` does not mean liquid by itself. It means that the substance is dissolved in water and is present as an aqueous solution.
+`Mg + O₂ → MgO` **(1.2)**
 
-## Solved examples
+This is a **skeletal chemical equation** because it is not yet balanced. It communicates the reaction, but the count of each kind of atom still has to be checked.
 
-### Example 1: Identify reactants and products
+> **Remember:** Read an equation left to right: reactants → products. Never change a chemical formula merely to make the atom counts match.
 
-`Zn + H2SO4 -> ZnSO4 + H2`
+## Quick check
 
-- Reactants: `Zn`, `H2SO4`
-- Products: `ZnSO4`, `H2`
-
-### Example 2: Convert words to formulae
-
-Word equation:
-
-`magnesium + oxygen -> magnesium oxide`
-
-Formula equation:
-
-`Mg + O2 -> MgO`
-
-This is a skeletal equation. Balancing comes in the next lesson.
-
-### Example 3: Read state symbols
-
-`CaO(s) + H2O(l) -> Ca(OH)2(aq)`
-
-The reactants are solid calcium oxide, `CaO(s)`, and liquid water, `H2O(l)`. The product is calcium hydroxide in aqueous solution, `Ca(OH)2(aq)`.
-
-### Example 4: Identify a precipitate
-
-`Na2SO4(aq) + BaCl2(aq) -> BaSO4(s) + 2NaCl(aq)`
-
-The solid `BaSO4(s)` is barium sulphate. It appears as a white precipitate because it is insoluble in water.
-
-## Common mistakes
-
-1. Putting products on the left.
-2. Confusing `+` with mathematical addition.
-3. Writing element names when formulae are requested.
-4. Guessing a chemical formula instead of checking it.
-5. Treating `(aq)` as another chemical formula.
-6. Trying to balance an equation by changing subscripts.
-
-## Board tips
-
-- Write the word equation first when you are unsure.
-- Check every chemical formula before balancing.
-- Include state symbols only when they are known or asked for.
-- Keep the arrow direction correct.
-- Use neat spacing around `+` and `->`.
-
-## Quick practice
-
-1. In `C + O2 -> CO2`, name the reactants and product.
-2. Write the word equation for `Zn + H2SO4 -> ZnSO4 + H2`.
-3. Convert `calcium oxide + water -> calcium hydroxide` into formulae.
-4. What do `(g)` and `(aq)` mean?
-5. In `Na2SO4(aq) + BaCl2(aq) -> BaSO4(s) + 2NaCl(aq)`, name the precipitate.
-
-## Answer check
-
-1. Reactants: `C`, `O2`; product: `CO2`.
-2. zinc + sulphuric acid -> zinc sulphate + hydrogen.
-3. `CaO + H2O -> Ca(OH)2`.
-4. `(g)` means gas; `(aq)` means dissolved in water.
-5. `BaSO4`, barium sulphate.
-
-## One-minute revision
-
-- Reactions form new substances.
-- Starting substances are reactants.
-- New substances are products.
-- Reactants go on the left and products go on the right.
-- The arrow means "forms".
-- State symbols describe physical state or aqueous solution.
+For `Zn + H₂SO₄ → ZnSO₄ + H₂`, the reactants are zinc and sulphuric acid; the products are zinc sulphate and hydrogen.
 
 ## Comic recap
-- Reactant Team: "We start on the left side."
-- Arrow Guide: "Follow me to see what forms."
-- Product Team: "We are the new substances on the right."
-- State Symbol Squad: "We tell you solid, liquid, gas, or aqueous."
 
-## Remember this line
+**Reactant:** “I enter the reaction.”  
+**Product:** “I am the new substance formed.”  
+**Equation:** “I record the change in a short symbolic form.”
 
-Reactants go in, products come out, and the arrow shows the change.

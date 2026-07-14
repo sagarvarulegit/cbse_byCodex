@@ -1,5 +1,5 @@
 ---
-title: Thermal conductivity and conductivity
+title: 3.1 continued - Thermal and electrical conductivity
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Thermal conductivity and conductivity
+# 3.1 continued - Thermal and electrical conductivity
 
 Metals are useful in utensils, wires, and machines because heat and electric charge can move through them easily.
 
@@ -48,6 +48,34 @@ Metals have free electrons that can move. These moving electrons help transfer h
 For Class 10 answers, write this simply:
 
 `Metals conduct because they contain mobile electrons.`
+
+## NCERT activity and figure tracker
+
+Activity 3.5: Wax pins on a heated metal rod
+- Heat one end of the rod and watch the wax pins fall in sequence.
+- Conclusion: heat travels through metals quickly.
+
+Activity 3.5 follow-up: electrical conductivity check
+- Use a simple circuit to test whether a sample allows current to pass.
+- Conclusion: metals usually conduct electricity because of mobile electrons.
+## Questions and answers
+
+### 3.1 continued - Thermal and electrical conductivity
+
+Question:
+Why do metals conduct heat and electricity?
+
+Answer:
+Metals have free or mobile electrons that can carry heat energy and electric charge through the metal.
+
+Question:
+Which wax pin falls first in Activity 3.5?
+
+Answer:
+The wax pin nearest the heated end falls first because heat reaches it first.
+
+Think it over:
+- Good conductivity is one reason metals are useful for cooking vessels and electric wires.
 
 ## Solved examples
 
@@ -103,3 +131,5 @@ Metals conduct heat and electricity because mobile electrons transfer energy and
 - Wax Pin: "I fall first because heat reaches me first."
 - Copper Wire: "Current moves through me easily."
 - Graphite Genius: "Non-metal exception reporting for duty."
+
+

@@ -295,7 +295,8 @@ Execution plan: `TODO.md` now contains the step-by-step plan for closing the rem
 
 - [ ] Choose the first public-beta subject scope. Recommended: Mathematics + Science only.
 - [ ] Complete Real Numbers to full pilot quality.
-- [x] Complete Chemical Reactions and Equations to full pilot quality.
+- [ ] Complete Chemical Reactions and Equations to full pilot quality.
+  - Reopened after the 2026-07-14 NCERT fidelity and student-UX audit found cross-chapter Q&A, invented activity numbers, incomplete figure/exercise coverage, false mastery fallback, and a weak five-question quiz. Execute the current root `TODO.md` before checking this again.
 - [x] Decide whether Two Stories about Flying remains in pilot or waits for English beta.
 - [ ] For each launch chapter, add:
   - lesson-wise split

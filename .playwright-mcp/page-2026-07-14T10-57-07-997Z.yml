@@ -1,0 +1,148 @@
+- main [ref=f4e2]:
+  - generic [ref=f4e3]:
+    - generic [ref=f4e4]:
+      - paragraph [ref=f4e5]: Science
+      - heading "Chemical Reactions and Equations quiz" [level=1] [ref=f4e6]
+    - link "Back to chapter" [ref=f4e7] [cursor=pointer]:
+      - /url: /chapters/chemical-reactions-and-equations
+  - generic [ref=f4e9]:
+    - generic [ref=f4e10]:
+      - generic [ref=f4e11]:
+        - paragraph [ref=f4e12]: Chapter check
+        - heading "Select your answers" [level=2] [ref=f4e13]
+      - generic [ref=f4e14]: 0/5 answered
+    - generic [ref=f4e15]:
+      - group "Question 1" [ref=f4e16]:
+        - heading "Reaction" [level=3] [ref=f4e19]
+        - generic "Question 1 metadata" [ref=f4e20]:
+          - generic [ref=f4e21]: "Difficulty: Easy"
+          - generic [ref=f4e22]: "Source: NCERT Class 10 Science, Chapter 1, Chemical reactions"
+          - generic [ref=f4e23]: "Topic: chemical-equations"
+        - paragraph [ref=f4e24]: "A chemical reaction is:"
+        - generic [ref=f4e25]:
+          - generic [ref=f4e26] [cursor=pointer]:
+            - radio "1 a change that produces new substances"
+            - generic [ref=f4e27]: "1"
+            - strong [ref=f4e28]: a change that produces new substances
+          - generic [ref=f4e29] [cursor=pointer]:
+            - radio "2 only a physical shape change"
+            - generic [ref=f4e30]: "2"
+            - strong [ref=f4e31]: only a physical shape change
+          - generic [ref=f4e32] [cursor=pointer]:
+            - radio "3 only a temperature reading"
+            - generic [ref=f4e33]: "3"
+            - strong [ref=f4e34]: only a temperature reading
+      - group "Question 2" [ref=f4e35]:
+        - heading "Equation balancing" [level=3] [ref=f4e38]
+        - generic "Question 2 metadata" [ref=f4e39]:
+          - generic [ref=f4e40]: "Difficulty: Easy"
+          - generic [ref=f4e41]: "Source: NCERT Class 10 Science, Chapter 1, Chemical equations"
+          - generic [ref=f4e42]: "Topic: balancing-equations"
+        - paragraph [ref=f4e43]: "Chemical equations are balanced to follow:"
+        - generic [ref=f4e44]:
+          - generic [ref=f4e45] [cursor=pointer]:
+            - radio "1 law of conservation of mass"
+            - generic [ref=f4e46]: "1"
+            - strong [ref=f4e47]: law of conservation of mass
+          - generic [ref=f4e48] [cursor=pointer]:
+            - radio "2 law of motion"
+            - generic [ref=f4e49]: "2"
+            - strong [ref=f4e50]: law of motion
+          - generic [ref=f4e51] [cursor=pointer]:
+            - radio "3 law of reflection"
+            - generic [ref=f4e52]: "3"
+            - strong [ref=f4e53]: law of reflection
+      - group "Question 3" [ref=f4e54]:
+        - heading "Combination" [level=3] [ref=f4e57]
+        - generic "Question 3 metadata" [ref=f4e58]:
+          - generic [ref=f4e59]: "Difficulty: Medium"
+          - generic [ref=f4e60]: "Source: NCERT Class 10 Science, Chapter 1, Types of chemical reactions"
+          - generic [ref=f4e61]: "Topic: combination-and-decomposition-reactions"
+        - paragraph [ref=f4e62]: "In a combination reaction:"
+        - generic [ref=f4e63]:
+          - generic [ref=f4e64] [cursor=pointer]:
+            - radio "1 one product forms from two or more reactants"
+            - generic [ref=f4e65]: "1"
+            - strong [ref=f4e66]: one product forms from two or more reactants
+          - generic [ref=f4e67] [cursor=pointer]:
+            - radio "2 one reactant always breaks apart into two products"
+            - generic [ref=f4e68]: "2"
+            - strong [ref=f4e69]: one reactant always breaks apart into two products
+          - generic [ref=f4e70] [cursor=pointer]:
+            - radio "3 nothing changes at all"
+            - generic [ref=f4e71]: "3"
+            - strong [ref=f4e72]: nothing changes at all
+      - group "Question 4" [ref=f4e73]:
+        - heading "Oxidation" [level=3] [ref=f4e76]
+        - generic "Question 4 metadata" [ref=f4e77]:
+          - generic [ref=f4e78]: "Difficulty: Medium"
+          - generic [ref=f4e79]: "Source: NCERT Class 10 Science, Chapter 1, Oxidation and reduction"
+          - generic [ref=f4e80]: "Topic: oxidation-and-reduction"
+        - paragraph [ref=f4e81]: "Oxidation often means:"
+        - generic [ref=f4e82]:
+          - generic [ref=f4e83] [cursor=pointer]:
+            - radio "1 gain of oxygen or loss of hydrogen"
+            - generic [ref=f4e84]: "1"
+            - strong [ref=f4e85]: gain of oxygen or loss of hydrogen
+          - generic [ref=f4e86] [cursor=pointer]:
+            - radio "2 loss of oxygen only"
+            - generic [ref=f4e87]: "2"
+            - strong [ref=f4e88]: loss of oxygen only
+          - generic [ref=f4e89] [cursor=pointer]:
+            - radio "3 no exchange at all"
+            - generic [ref=f4e90]: "3"
+            - strong [ref=f4e91]: no exchange at all
+      - group "Question 5" [ref=f4e92]:
+        - heading "Displacement" [level=3] [ref=f4e95]
+        - generic "Question 5 metadata" [ref=f4e96]:
+          - generic [ref=f4e97]: "Difficulty: Medium"
+          - generic [ref=f4e98]: "Source: NCERT Class 10 Science, Chapter 1, Displacement reactions"
+          - generic [ref=f4e99]: "Topic: displacement-and-double-displacement-reactions"
+        - paragraph [ref=f4e100]: "In a displacement reaction: ## revision reminder Recheck balancing, reaction types, and oxidation-reduction basics before retrying."
+        - generic [ref=f4e101]:
+          - generic [ref=f4e102] [cursor=pointer]:
+            - radio "1 a more reactive element replaces a less reactive one"
+            - generic [ref=f4e103]: "1"
+            - strong [ref=f4e104]: a more reactive element replaces a less reactive one
+          - generic [ref=f4e105] [cursor=pointer]:
+            - radio "2 all reactants disappear"
+            - generic [ref=f4e106]: "2"
+            - strong [ref=f4e107]: all reactants disappear
+          - generic [ref=f4e108] [cursor=pointer]:
+            - radio "3 only gases are produced"
+            - generic [ref=f4e109]: "3"
+            - strong [ref=f4e110]: only gases are produced
+    - complementary [ref=f4e111]:
+      - generic [ref=f4e112]:
+        - paragraph [ref=f4e113]: Save mastery
+        - heading "Submit quiz" [level=2] [ref=f4e114]
+        - paragraph [ref=f4e115]: Your score is calculated from selected answers and this saved attempt is locked for review.
+      - generic [ref=f4e116]:
+        - generic [ref=f4e117]: Live progress
+        - strong [ref=f4e118]: 0/5
+      - region "Saved quiz attempts" [ref=f4e119]:
+        - generic [ref=f4e121]:
+          - paragraph [ref=f4e122]: Attempt history
+          - heading "No saved attempts" [level=3] [ref=f4e123]
+        - paragraph [ref=f4e124]: Your saved attempts will appear here.
+      - button "Answer all questions" [disabled] [ref=f4e126]
+  - generic [ref=f4e128]:
+    - generic [ref=f4e129]:
+      - paragraph [ref=f4e130]: Pilot feedback
+      - heading "Tell us what to fix next" [level=3] [ref=f4e131]
+    - group "Feedback type" [ref=f4e132]:
+      - button "Bug" [ref=f4e133] [cursor=pointer]
+      - button "Feedback" [ref=f4e134] [cursor=pointer]
+    - generic [ref=f4e135]:
+      - generic [ref=f4e136]: Message
+      - textbox "Message" [ref=f4e137]:
+        - /placeholder: Share the confusing step, bug, or missing detail.
+    - generic [ref=f4e138]:
+      - generic [ref=f4e139]: Rating
+      - combobox "Rating" [ref=f4e140]:
+        - option "5 - Great"
+        - option "4 - Useful" [selected]
+        - option "3 - Okay"
+        - option "2 - Confusing"
+        - option "1 - Blocked"
+    - button "Send feedback" [ref=f4e141]

@@ -1,5 +1,5 @@
 ---
-title: Physical properties
+title: 3.1 Physical properties of metals and non-metals
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
@@ -11,7 +11,7 @@ access_level: free
 status: draft
 ---
 
-# Physical properties
+# 3.1 Physical properties of metals and non-metals
 
 Metals and non-metals can often be separated by the way they look, feel, bend, break, and conduct electricity.
 
@@ -59,6 +59,36 @@ Not every material follows the common pattern perfectly.
 - Iodine is a lustrous non-metal.
 - Graphite conducts electricity even though it is a non-metal.
 - Sodium is a soft metal and can be cut with a knife.
+
+## NCERT activity and figure tracker
+
+Activity 3.1-3.4 and 3.6: Physical property tests
+- Compare lustre, hardness, malleability, ductility, sonority, and conductivity.
+- Conclusion: metals and non-metals usually show opposite physical patterns.
+## Questions and answers
+
+### 3.1 Physical properties of metals and non-metals
+
+Question:
+Why are metals malleable?
+
+Answer:
+Metal atoms can slide over one another without breaking the metallic bonding, so metals can be beaten into sheets.
+
+Question:
+Why is graphite an exception among non-metals?
+
+Answer:
+Graphite has free electrons between its layers, so it conducts electricity even though it is a non-metal.
+
+Question:
+What are the usual physical properties of non-metals?
+
+Answer:
+Non-metals are usually dull, brittle when solid, and poor conductors of heat and electricity.
+
+More to Know:
+- Some textbook exceptions, like mercury and graphite, are important because they appear in exam questions.
 
 ## Solved examples
 
@@ -115,3 +145,5 @@ Metals usually shine, bend, ring, and conduct. Non-metals are usually dull, brit
 - Graphite Genius: "I am a non-metal, but I still conduct."
 - Sodium Softie: "Do not call every metal hard."
 - Exam Coach: "Rules are useful, but exceptions score marks."
+
+

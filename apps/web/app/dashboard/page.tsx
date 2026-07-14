@@ -15,8 +15,7 @@ const dashboardCards = [
 ];
 
 export default async function DashboardPage() {
-  const session = await requireStudentSession();
-  const mastery = await getStudentMastery();
+  const [session, mastery] = await Promise.all([requireStudentSession(), getStudentMastery()]);
   const activeMissions = mastery.revisionMissions.slice(0, 3);
   const recentBadges = mastery.badges.slice(0, 3);
   const bestMasteryScore = mastery.masteries.reduce((best, chapter) => Math.max(best, chapter.masteryScore), 0);

@@ -1,5 +1,5 @@
 ---
-title: Versatile nature of carbon
+title: 4.2 Versatile nature of carbon
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Versatile nature of carbon
+# 4.2 Versatile nature of carbon
 
 Carbon forms a very large number of compounds because it is tetravalent and shows catenation.
 
@@ -137,6 +137,36 @@ Diamond and graphite teach an important lesson: the element is the same, but the
 
 Fullerene is another allotrope. The textbook mentions `C-60`, where carbon atoms are arranged like a football.
 
+## NCERT activity and figure tracker
+
+Figure 4.2: Carbon forms chains, branches, and rings
+- Show how carbon atoms can join in long and varied structures.
+- Conclusion: catenation makes carbon extremely versatile.
+## Questions and answers
+
+### 4.2 Versatile nature of carbon
+
+Question:
+What is tetravalency?
+
+Answer:
+Tetravalency is the ability of carbon to form four covalent bonds.
+
+Question:
+What is catenation?
+
+Answer:
+Catenation is the ability of carbon atoms to bond with one another and form long chains, branches, and rings.
+
+Question:
+Why is carbon versatile?
+
+Answer:
+Carbon is versatile because it has tetravalency, strong carbon-carbon bonds, and catenation.
+
+More to Know:
+- Carbon versatility is one reason why the number of carbon compounds is so large.
+
 ## Solved examples
 
 ### Example 1: Catenation
@@ -229,3 +259,5 @@ Carbon is versatile because it is tetravalent and shows catenation. It forms str
 - Chain Team: "Catenation makes long carbon chains."
 - Graphite Guide: "Layers make me soft and conductive."
 - Diamond Guard: "Strong network bonds make me hard."
+
+

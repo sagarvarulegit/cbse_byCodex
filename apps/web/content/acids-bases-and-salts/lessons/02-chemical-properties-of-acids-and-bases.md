@@ -1,5 +1,5 @@
 ---
-title: Chemical properties of acids and bases
+title: 2.1 continued - Reactions of acids and bases
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Chemical properties of acids and bases
+# 2.1 continued - Reactions of acids and bases
 
 Acids and bases are identified not only by indicators, but also by the reactions they show with metals, carbonates, and oxides.
 
@@ -92,6 +92,48 @@ This activity shows a black solid dissolving and a blue-green solution forming. 
 
 [[demo:activity-2-7-metallic-oxide-acid]]
 
+## NCERT activity and figure tracker
+
+Activity 2.3: Hydrogen pop test
+- React an acid with a metal and test the gas with a burning splint.
+- Conclusion: hydrogen gas is released.
+
+Activity 2.4: Zinc with sodium hydroxide
+- Heat zinc with sodium hydroxide and watch for gas formation.
+- Conclusion: some metals also react with strong bases.
+
+Activity 2.5: Carbonate and lime water
+- React a carbonate with acid and pass the gas through lime water.
+- Conclusion: carbon dioxide turns lime water milky.
+
+Activity 2.7: Copper oxide and hydrochloric acid
+- Warm a metal oxide with acid and note the salt formed.
+- Conclusion: metal oxides behave as bases.
+## Questions and answers
+
+### 2.1 continued - Reactions of acids and bases
+
+Question:
+Why do acids react with metals to give hydrogen gas?
+
+Answer:
+Acids provide hydrogen ions, and reactive metals displace hydrogen from the acid to form a salt and hydrogen gas.
+
+Question:
+Why do acids react with carbonates to release carbon dioxide?
+
+Answer:
+Carbonates contain the carbonate ion, which reacts with acids to produce carbon dioxide, water, and a salt.
+
+Question:
+Why do metallic oxides react with acids?
+
+Answer:
+Metallic oxides are basic in nature, so they neutralise acids to form salt and water.
+
+Do You Know:
+- A hydrogen pop test is the quickest classroom check for hydrogen gas.
+
 ## Solved examples
 
 ### Example 1: Gas from acid and metal
@@ -160,3 +202,5 @@ Copper oxide behaves as a basic oxide because it reacts with acid to form salt a
 ## Remember this line
 
 Metal gives hydrogen, carbonate gives carbon dioxide, oxide gives salt and water.
+
+

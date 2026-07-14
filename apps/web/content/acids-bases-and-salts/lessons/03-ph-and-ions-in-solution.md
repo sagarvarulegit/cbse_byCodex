@@ -1,5 +1,5 @@
 ---
-title: pH and ions in solution
+title: 2.3-2.4 pH scale and importance in daily life
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# pH and ions in solution
+# 2.3-2.4 pH scale and importance in daily life
 
 pH is a simple scale that tells us how acidic or basic a solution is. The idea behind it is ion concentration in water.
 
@@ -81,6 +81,36 @@ pH matters in daily life:
 - soil pH affects plant growth
 - bee sting and wasp sting relief depends on acid-base nature
 
+## NCERT activity and figure tracker
+
+Activity 2.8: Acid solution conducts electricity
+- Test an acid solution with a simple circuit or conductivity setup.
+- Conclusion: acids in water produce ions that can carry current.
+## Questions and answers
+
+### 2.3-2.4 pH scale and importance in daily life
+
+Question:
+What is the pH scale?
+
+Answer:
+The pH scale shows how acidic or basic a solution is. Values below 7 are acidic, 7 is neutral, and above 7 are basic.
+
+Question:
+Why do dry acids not show the same behaviour as acids in water?
+
+Answer:
+Acidic behaviour depends on ion formation, and ions form properly only in water.
+
+Question:
+How is the concentration of hydronium ions affected when an acid is diluted?
+
+Answer:
+Dilution lowers the concentration of hydronium ions, so the solution becomes less acidic.
+
+More to Know:
+- The pH scale is logarithmic, so a change of one unit means a tenfold change in acidity or basicity.
+
 ## Solved examples
 
 ### Example 1: Identify the solution
@@ -145,3 +175,5 @@ It produces mobile `H+` and `Cl-` ions in water.
 ## Remember this line
 
 pH tells strength, ions explain behaviour.
+
+

@@ -1,5 +1,5 @@
 ---
-title: Chemical properties of carbon compounds
+title: 4.3 Chemical properties of carbon compounds
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Chemical properties of carbon compounds
+# 4.3 Chemical properties of carbon compounds
 
 Carbon compounds show important reactions such as combustion, oxidation, addition, and substitution.
 
@@ -125,6 +125,44 @@ One hydrogen atom in methane is replaced by chlorine.
 
 Sunlight is important because it helps start the chlorination reaction. With higher alkanes, many substituted products can form because chlorine may replace hydrogen at different positions.
 
+## NCERT activity and figure tracker
+
+Activity 4.3: Burning carbon compounds
+- Burn different carbon compounds and observe the flame and soot.
+- Conclusion: some carbon compounds burn cleanly, while others form soot.
+
+Activity 4.4: Burner air hole comparison
+- Compare a yellow sooty flame with a blue flame.
+- Conclusion: oxygen supply changes the combustion result.
+
+Activity 4.5: Oxidation of ethanol
+- Add oxidising agent to warm ethanol and track the colour change.
+- Conclusion: alcohol can be oxidised to a carboxylic acid.
+## Questions and answers
+
+### 4.3 Chemical properties of carbon compounds
+
+Question:
+What is combustion?
+
+Answer:
+Combustion is the burning of a carbon compound in oxygen to form carbon dioxide, water, heat, and light.
+
+Question:
+What is an addition reaction?
+
+Answer:
+An addition reaction is a reaction in which atoms add across a double or triple bond, often in the presence of a catalyst.
+
+Question:
+Why is methane chlorination called a substitution reaction?
+
+Answer:
+In sunlight, one or more hydrogen atoms in methane are replaced by chlorine atoms.
+
+More to Know:
+- The amount of oxygen available during burning affects whether a flame is clean or sooty.
+
 ## Solved examples
 
 ### Example 1: Sooty flame
@@ -226,3 +264,5 @@ Combustion needs oxygen and gives carbon dioxide, water, heat, and light. Oxidat
 - Oxidation Officer: "Ethanol can become ethanoic acid."
 - Addition Agent: "Double bond? Add hydrogen."
 - Substitution Squad: "One atom out, another atom in."
+
+

@@ -1,0 +1,132 @@
+- main [ref=f3e2]:
+  - navigation "Chapter navigation" [ref=f3e3]:
+    - link "10" [ref=f3e4] [cursor=pointer]:
+      - /url: /
+  - generic [ref=f3e6]:
+    - generic [ref=f3e7]:
+      - paragraph [ref=f3e8]: Science
+      - heading "Chemical Reactions and Equations" [level=1] [ref=f3e9]
+      - paragraph [ref=f3e10]: Five live lesson notes now cover chemical equations, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.
+      - generic [ref=f3e11]:
+        - link "Start first lesson" [ref=f3e12] [cursor=pointer]:
+          - /url: /chapters/chemical-reactions-and-equations/lessons/chemical-equations
+        - link "Take chapter quiz" [ref=f3e13] [cursor=pointer]:
+          - /url: /chapters/chemical-reactions-and-equations/quiz
+      - paragraph [ref=f3e14]: "Best first action: Begin with 1.1 Chemical equations, then move to the remaining notes and quiz."
+    - complementary [ref=f3e15]:
+      - paragraph [ref=f3e16]: Chapter mastery
+      - strong [ref=f3e17]: 56%
+      - text: Notes live
+      - generic "56% mastered" [ref=f3e18]
+      - paragraph [ref=f3e20]: "Today: Finish one lesson note and balance 3 equations without hints"
+  - region "Chapter reward unlocks" [ref=f3e21]:
+    - generic [ref=f3e22]:
+      - generic [ref=f3e23]:
+        - paragraph [ref=f3e24]: Chapter unlocks
+        - heading "Rewards follow your mastery score." [level=2] [ref=f3e25]
+      - generic [ref=f3e26]: 0 chapter badges
+    - generic [ref=f3e27]:
+      - article [ref=f3e28]:
+        - generic [ref=f3e29]:
+          - generic [ref=f3e30]: Unlocked
+          - strong [ref=f3e31]: Lesson map
+        - paragraph [ref=f3e32]: Open chapter map
+        - generic [ref=f3e33]:
+          - generic [ref=f3e34]: Learner
+          - generic [ref=f3e35]: Learner unlocked
+      - article [ref=f3e36]:
+        - generic [ref=f3e37]:
+          - generic [ref=f3e38]: Unlocked
+          - strong [ref=f3e39]: Weak-topic drill
+        - paragraph [ref=f3e40]: Recover weak topics
+        - generic [ref=f3e41]:
+          - generic [ref=f3e42]: Skilled
+          - generic [ref=f3e43]: Skilled unlocked
+      - article [ref=f3e44]:
+        - generic [ref=f3e45]:
+          - generic [ref=f3e46]: Next unlock
+          - strong [ref=f3e47]: Exam review kit
+        - paragraph [ref=f3e48]: Review exam notes
+        - generic [ref=f3e49]:
+          - generic [ref=f3e50]: Exam Ready
+          - generic [ref=f3e51]: 14% to unlock
+      - article [ref=f3e52]:
+        - generic [ref=f3e53]:
+          - generic [ref=f3e54]: Locked
+          - strong [ref=f3e55]: Topper challenge
+        - paragraph [ref=f3e56]: Push for 90%+
+        - generic [ref=f3e57]:
+          - generic [ref=f3e58]: Topper Track
+          - generic [ref=f3e59]: 34% to unlock
+  - generic [ref=f3e60]:
+    - article [ref=f3e61]:
+      - paragraph [ref=f3e62]: Chapter notes
+      - heading "Chemical Reactions and Equations notes are live." [level=2] [ref=f3e63]
+      - paragraph [ref=f3e64]: Read the complete chapter pack with goals, concept flow, exam-friendly points, common mistakes, and practice prompts.
+    - article [ref=f3e65]:
+      - paragraph [ref=f3e66]: Revision path
+      - list [ref=f3e67]:
+        - listitem [ref=f3e68]: Start with the chapter goal.
+        - listitem [ref=f3e69]: Revise each concept in order.
+        - listitem [ref=f3e70]: Finish with the practice and board tips.
+      - link "Read chapter notes" [ref=f3e71] [cursor=pointer]:
+        - /url: /chapters/chemical-reactions-and-equations/notes
+  - generic [ref=f3e72]:
+    - generic [ref=f3e73]:
+      - generic [ref=f3e74]:
+        - paragraph [ref=f3e75]: Lesson path
+        - heading "Simple-English notes now live." [level=2] [ref=f3e76]
+        - link "Take chapter quiz" [ref=f3e77] [cursor=pointer]:
+          - /url: /chapters/chemical-reactions-and-equations/quiz
+      - generic [ref=f3e78]: 5 lesson notes ready
+    - generic [ref=f3e79]:
+      - article [ref=f3e80]:
+        - generic [ref=f3e81]: "01"
+        - generic [ref=f3e82]:
+          - heading "1.1 Chemical equations" [level=3] [ref=f3e83]
+          - paragraph [ref=f3e84]: Concept foundation - 10 min
+          - paragraph [ref=f3e85]: Read reactions as reactants, products, formula equations, and state symbols before learning to balance them.
+        - generic [ref=f3e86]:
+          - generic [ref=f3e87]: Free
+          - link "Open notes" [ref=f3e88] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations/lessons/chemical-equations
+      - article [ref=f3e89]:
+        - generic [ref=f3e90]: "02"
+        - generic [ref=f3e91]:
+          - heading "1.1 continued - Balancing chemical equations" [level=3] [ref=f3e92]
+          - paragraph [ref=f3e93]: Guided balancing practice - 11 min
+          - paragraph [ref=f3e94]: Use conservation of mass, coefficients, and a repeatable atom-counting method to balance equations safely.
+        - generic [ref=f3e95]:
+          - generic [ref=f3e96]: Premium
+          - link "Open notes" [ref=f3e97] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations/lessons/balancing-equations
+      - article [ref=f3e98]:
+        - generic [ref=f3e99]: "03"
+        - generic [ref=f3e100]:
+          - heading "1.2.1-1.2.2 Combination and decomposition reactions" [level=3] [ref=f3e101]
+          - paragraph [ref=f3e102]: Visual explainer - 9 min
+          - paragraph [ref=f3e103]: Learn how combination and decomposition reactions work, plus the difference between thermal, electrolytic, and photolytic breakdown.
+        - generic [ref=f3e104]:
+          - generic [ref=f3e105]: Premium
+          - link "Open notes" [ref=f3e106] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations/lessons/combination-and-decomposition-reactions
+      - article [ref=f3e107]:
+        - generic [ref=f3e108]: "04"
+        - generic [ref=f3e109]:
+          - heading "1.2.3-1.2.4 Displacement and double displacement reactions" [level=3] [ref=f3e110]
+          - paragraph [ref=f3e111]: Activity breakdown - 10 min
+          - paragraph [ref=f3e112]: Use the reactivity series and ion exchange to spot displacement, double displacement, and precipitate-forming reactions.
+        - generic [ref=f3e113]:
+          - generic [ref=f3e114]: Premium
+          - link "Open notes" [ref=f3e115] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations/lessons/displacement-and-double-displacement-reactions
+      - article [ref=f3e116]:
+        - generic [ref=f3e117]: "05"
+        - generic [ref=f3e118]:
+          - heading "1.2.5-1.3 Oxidation, reduction, and effects in daily life" [level=3] [ref=f3e119]
+          - paragraph [ref=f3e120]: Revision sprint - 8 min
+          - paragraph [ref=f3e121]: Revise oxidation, reduction, redox, corrosion, and rancidity with prevention methods and quick examples.
+        - generic [ref=f3e122]:
+          - generic [ref=f3e123]: Premium
+          - link "Open notes" [ref=f3e124] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations/lessons/oxidation-and-reduction

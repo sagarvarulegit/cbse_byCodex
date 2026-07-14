@@ -1,12 +1,29 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useState } from 'react';
+import ActivityIllustration, { hasActivityIllustration } from './ActivityIllustration';
 
-import AcidsBasesLabDemo, { hasAcidsBasesLabDemo } from './AcidsBasesLabDemo';
-import CarbonCompoundsLabDemo, { hasCarbonCompoundsLabDemo } from './CarbonCompoundsLabDemo';
-import ChemicalReactionLabDemo, { hasChemicalReactionLabDemo } from './ChemicalReactionLabDemo';
-import MagnesiumCombustionCanvasDemo from './MagnesiumCombustionCanvasDemo';
-import MetalsNonMetalsLabDemo, { hasMetalsNonMetalsLabDemo } from './MetalsNonMetalsLabDemo';
+type DemoComponentProps = { demoId: string };
+
+function DemoLoading() {
+  return (
+    <section aria-busy="true" aria-label="Loading interactive demo" className="lesson-demo-card lesson-demo-loading">
+      <p className="eyebrow">Interactive activity</p>
+      <div className="route-loading-bar" />
+      <p>Preparing this activity...</p>
+    </section>
+  );
+}
+
+const StaticFigureDemo = dynamic<DemoComponentProps>(() => import('./StaticFigureDemo'), {
+  loading: DemoLoading,
+  ssr: false,
+});
+
+function hasStaticFigureDemo(demoId: string) {
+  return /^figure-6-[1-4]-/.test(demoId);
+}
 
 type DemoStep = {
   caption: string;
@@ -219,24 +236,12 @@ function StepLessonDemo({ demoId }: { demoId: string }) {
 }
 
 export default function LessonDemo({ demoId }: { demoId: string }) {
-  if (demoId === 'figure-1-1-magnesium-ribbon') {
-    return <MagnesiumCombustionCanvasDemo />;
+  if (hasActivityIllustration(demoId)) {
+    return <ActivityIllustration demoId={demoId} />;
   }
 
-  if (hasChemicalReactionLabDemo(demoId)) {
-    return <ChemicalReactionLabDemo demoId={demoId} />;
-  }
-
-  if (hasAcidsBasesLabDemo(demoId)) {
-    return <AcidsBasesLabDemo demoId={demoId} />;
-  }
-
-  if (hasMetalsNonMetalsLabDemo(demoId)) {
-    return <MetalsNonMetalsLabDemo demoId={demoId} />;
-  }
-
-  if (hasCarbonCompoundsLabDemo(demoId)) {
-    return <CarbonCompoundsLabDemo demoId={demoId} />;
+  if (hasStaticFigureDemo(demoId)) {
+    return <StaticFigureDemo demoId={demoId} />;
   }
 
   return <StepLessonDemo demoId={demoId} />;

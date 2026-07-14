@@ -25,14 +25,14 @@ This pack follows `jesc103.pdf`: physical properties, reactions with air, water,
 
 ## chapter flow for the platform
 
-1. Physical properties
-2. Chemical properties
-3. Reactivity series
-4. Ionic compounds
-5. Occurrence and extraction of metals
-6. Corrosion and prevention
+1. 3.1 Physical properties of metals and non-metals
+2. 3.1 continued - Thermal and electrical conductivity
+3. 3.2 Chemical properties of metals
+4. 3.2.4-3.3 Reactivity series and how metals react with non-metals
+5. 3.3-3.4 Ionic compounds and their properties
+6. 3.5-3.6 Occurrence, corrosion, and prevention
 
-## 1) physical properties
+## 3.1 Physical properties of metals and non-metals
 
 Metals are usually:
 - lustrous
@@ -53,7 +53,11 @@ Important exceptions:
 - iodine is a lustrous non-metal
 - graphite conducts electricity
 
-## 2) chemical properties of metals
+## 3.1 continued - Thermal and electrical conductivity
+
+Metals conduct heat and electricity well because they have mobile electrons.
+
+## 3.2 Chemical properties of metals
 
 ### with oxygen
 
@@ -86,7 +90,7 @@ A more reactive metal displaces a less reactive metal from its salt solution.
 Example:
 `Zn + CuSO4 -> ZnSO4 + Cu`
 
-## 3) reactivity series
+## 3.2.4-3.3 Reactivity series and how metals react with non-metals
 
 The reactivity series arranges metals from most reactive to least reactive.
 
@@ -95,7 +99,7 @@ Useful order:
 
 Metals above hydrogen can displace hydrogen from dilute acids. Metals below hydrogen generally cannot.
 
-## 4) metals and non-metals form ionic compounds
+## 3.3-3.4 Ionic compounds and their properties
 
 Metals lose electrons and form positive ions.
 
@@ -112,7 +116,7 @@ Properties of ionic compounds:
 - conduct electricity when molten or in solution
 - do not conduct electricity in solid state
 
-## 5) extraction of metals
+## 3.5-3.6 Occurrence, corrosion, and prevention
 
 Metals occur as minerals and ores.
 
@@ -128,8 +132,6 @@ Main steps:
 4. refining
 
 Electrolytic refining is used to get pure metal from impure metal.
-
-## 6) corrosion
 
 Corrosion is the slow eating away of metals by air, moisture, or chemicals.
 

@@ -1,5 +1,5 @@
 ---
-title: Ethanol and ethanoic acid
+title: 4.4 Some important carbon compounds - ethanol and ethanoic acid
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Ethanol and ethanoic acid
+# 4.4 Some important carbon compounds - ethanol and ethanoic acid
 
 Ethanol and ethanoic acid are two important carbon compounds in the Class 10 textbook.
 
@@ -154,6 +154,48 @@ The textbook also repeats the test with sodium hydrogencarbonate:
 
 This carbonate reaction is the best classroom test to distinguish ethanoic acid from ethanol. Ethanoic acid gives brisk bubbles of carbon dioxide with sodium carbonate or sodium hydrogencarbonate. Ethanol does not.
 
+## NCERT activity and figure tracker
+
+Activity 4.6: Ethanol with sodium
+- Observe the reaction of ethanol with sodium.
+- Conclusion: ethanol shows reaction behaviour of an alcohol.
+
+Activity 4.7: Acetic acid and litmus
+- Compare the acid strength of ethanoic acid with other acids.
+- Conclusion: ethanoic acid is weak but still acidic.
+
+Activity 4.8: Esterification
+- Warm ethanol with ethanoic acid and concentrate sulphuric acid.
+- Conclusion: an ester with a pleasant smell is formed.
+
+Activity 4.9: Ethanoic acid with carbonate
+- React ethanoic acid with sodium carbonate or bicarbonate.
+- Conclusion: carbon dioxide is released.
+## Questions and answers
+
+### 4.4 Some important carbon compounds - ethanol and ethanoic acid
+
+Question:
+What is esterification?
+
+Answer:
+Esterification is the reaction of an alcohol with a carboxylic acid to form an ester and water.
+
+Question:
+What are the important properties of ethanol?
+
+Answer:
+Ethanol is a colourless liquid, mixes with water, and is used as a solvent and fuel.
+
+Question:
+Why does ethanoic acid react with carbonates?
+
+Answer:
+Ethanoic acid behaves as an acid and reacts with carbonates to produce salt, carbon dioxide, and water.
+
+Think it over:
+- The pleasant smell of an ester is one easy way to remember esterification in the lab.
+
 ## Solved examples
 
 ### Example 1: Formula
@@ -260,3 +302,5 @@ Ethanol is `C2H5OH`, an alcohol. Ethanoic acid is `CH3COOH`, a carboxylic acid a
 - Ethanoic Acid: "`-COOH` gives me acidic behaviour."
 - Ester Artist: "Acid plus alcohol gives a fruity smell."
 - Lime Water: "Carbon dioxide makes me milky."
+
+

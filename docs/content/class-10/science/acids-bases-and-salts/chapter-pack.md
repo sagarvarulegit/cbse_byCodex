@@ -25,13 +25,12 @@ This pack follows `jesc102.pdf`: laboratory properties, reactions of acids and b
 
 ## chapter flow for the platform
 
-1. Acids and bases in the laboratory
-2. Chemical properties
-3. Why acids and bases work in water
-4. pH scale
-5. Salts and important compounds
+1. 2.1-2.2 Understanding acids, bases, and neutralisation
+2. 2.1 continued - Reactions of acids and bases
+3. 2.3-2.4 pH scale and importance in daily life
+4. 2.5 More about salts and important compounds
 
-## 1) acids and bases
+## 2.1-2.2 Understanding acids, bases, and neutralisation
 
 Acids usually taste sour and turn blue litmus red.
 
@@ -43,7 +42,7 @@ Common indicators:
 - phenolphthalein
 - turmeric
 
-## 2) reactions of acids
+## 2.1 continued - Reactions of acids and bases
 
 ### acids with metals
 
@@ -69,17 +68,6 @@ Acid + metal oxide -> salt + water
 
 Metal oxides are basic in nature.
 
-## 3) reactions of bases
-
-### bases with acids
-
-Acid + base -> salt + water
-
-This is neutralisation.
-
-Example:
-`HCl + NaOH -> NaCl + H2O`
-
 ### bases with non-metal oxides
 
 Base + non-metal oxide -> salt + water
@@ -89,15 +77,13 @@ Non-metal oxides are acidic in nature.
 Example:
 `Ca(OH)2 + CO2 -> CaCO3 + H2O`
 
-## 4) acids and bases in water
+## 2.3-2.4 pH scale and importance in daily life
 
 Acids produce `H+` ions in water.
 
 Bases produce `OH-` ions in water.
 
 Dry acids often do not show acidic behaviour because ion formation needs water.
-
-## 5) pH scale
 
 pH tells how acidic or basic a solution is.
 
@@ -113,7 +99,7 @@ Everyday pH examples:
 - tooth decay starts when mouth pH falls below about 5.5
 - plants need suitable soil pH
 
-## 6) salts and common compounds
+## 2.5 More about salts and important compounds
 
 ### family of salts
 

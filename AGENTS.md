@@ -60,3 +60,23 @@ If Textbook Chapter has figures make sure over platform content also have matchi
 Remember our Platform notes are simplified version of Textbook + Tip and Trick + Remember these things+ Gamification + Comic style Recap + Question and Answers + Quiz. Our Platform notes objective should be to make student understand the concepts in easy manner, aids in remembering thing, make the all the topic easy to understand even for Dump students.
 
 We should have same numbering for the Topics in Platform as in textbook. Eg: Science chatper 5: 5.1 What are life processes?
+
+
+# Graphify Context & Usage Rules
+
+This project uses Graphify (https://github.com/Graphify-Labs/graphify) as the primary knowledge graph for codebase architecture, dependencies, and context. You must prioritize Graphify's outputs to prevent hallucinations and understand system impacts before writing or modifying code.
+
+## 1. Mandatory Context Retrieval
+*   **Architecture & Overview:** Before suggesting architectural changes, adding new features, or writing tests, you must read `graphify-out/GRAPH_REPORT.md` to understand domain boundaries, key components, and existing "God nodes".
+*   **Impact Analysis:** Before refactoring or modifying core logic, consult `graphify-out/graph.json` to trace dependencies and identify which other files or modules will be impacted by your changes.
+
+## 2. CLI Tool Execution (If Shell Access is Enabled)
+When you lack sufficient context to answer a prompt, use the following commands autonomously:
+*   **Search Context:** Run `graphify query "<specific_question>"` to query the graph for flows, logic, or structure.
+*   **Trace Connections:** Run `graphify path <source_file> <target_file>` to understand how two specific components interact.
+
+## 3. Graph Maintenance
+*   **Keep it Updated:** If you make significant structural changes to the codebase (e.g., creating new modules, deleting files, or changing core routing), you must run `/graphify` (or the terminal `graphify` command) to regenerate the graph and ensure the `graphify-out/` directory remains up to date.
+
+## 4. Strict Fact-Checking
+*   Base your understanding of the codebase strictly on the relationships mapped in the Graphify outputs. Prioritize connections tagged as `EXTRACTED` over `INFERRED`.

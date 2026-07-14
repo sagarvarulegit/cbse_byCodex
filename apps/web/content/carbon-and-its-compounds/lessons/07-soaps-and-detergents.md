@@ -1,5 +1,5 @@
 ---
-title: Soaps and detergents
+title: 4.5 Soaps and detergents
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Soaps and detergents
+# 4.5 Soaps and detergents
 
 Soaps and detergents clean oily dirt by using molecules with a water-loving head and an oil-loving tail.
 
@@ -125,6 +125,44 @@ Products:
 
 The textbook group activity uses castor oil, cotton seed oil, linseed oil, or soyabean oil with sodium hydroxide. Common salt is added later to help separate the soap. This connects back to ester chemistry: oils and fats are converted into soap and glycerol.
 
+## NCERT activity and figure tracker
+
+Activity 4.10: Emulsion and micelles
+- Mix soap with oily dirt and observe how the dirt is lifted.
+- Conclusion: soap molecules form micelles around oil.
+
+Activity 4.11: Soap in hard water
+- Compare soap behaviour in hard water and soft water.
+- Conclusion: soap forms scum in hard water.
+
+Activity 4.12: Soap vs detergent
+- Compare washing action in hard water.
+- Conclusion: detergents work better in hard water.
+## Questions and answers
+
+### 4.5 Soaps and detergents
+
+Question:
+How do soaps remove oily dirt?
+
+Answer:
+Soap molecules form micelles with their hydrophobic tails around oil and hydrophilic heads in water, so the dirt can be washed away.
+
+Question:
+Why do soaps not work well in hard water?
+
+Answer:
+Hard water contains calcium and magnesium ions that react with soap to form insoluble scum.
+
+Question:
+Why are detergents better in hard water?
+
+Answer:
+Detergents do not form insoluble scum easily with calcium and magnesium ions, so they clean better in hard water.
+
+Do You Know:
+- A soap molecule has a water-loving head and an oil-loving tail.
+
 ## Solved examples
 
 ### Example 1: Micelle
@@ -230,3 +268,5 @@ Soap molecules are sodium or potassium salts of long-chain carboxylic acids. The
 - Soap Tail: "I dive into oil."
 - Micelle Team: "Circle the grease and lift it away."
 - Detergent Helper: "Hard water does not stop me easily."
+
+

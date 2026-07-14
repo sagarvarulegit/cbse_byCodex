@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import type { ReactNode } from 'react';
+import { Suspense, type ReactNode } from 'react';
 import GlossaryTerm, { type GlossaryPayload } from '../../../../../components/GlossaryTerm';
 import LessonDemo from '../../../../../components/LessonDemo';
 import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
@@ -11,6 +11,7 @@ import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
 import { getLessonVideo } from '../../../../../lib/lesson-video';
+import { parseLessonQuestionAnswers } from '../../../../../lib/lesson-question-answers';
 import { isPilotChapter } from '../../../../../lib/pilot';
 
 
@@ -44,7 +45,6 @@ export default async function LessonPage({
     }
   }
 
-  const lessonVideo = await getLessonVideo(slug, lessonSlug);
   const isPilot = isPilotChapter(slug);
 
   return (
@@ -105,29 +105,9 @@ export default async function LessonPage({
         </aside>
       </section>
 
-      {lessonVideo.status === 'ready' ? (
-        <LessonVideoPlayer
-          durationSeconds={lessonVideo.video.video.durationSeconds}
-          lessonId={lessonVideo.video.lesson.id}
-          playbackUrl={lessonVideo.video.video.playbackUrl}
-          posterUrl={lessonVideo.video.video.thumbnailUrl}
-          title={lessonVideo.video.lesson.title}
-          videoId={lessonVideo.video.video.id}
-        />
-      ) : (
-        <section className="section-shell lesson-video-section" aria-label="Lesson video status">
-          <div className="lesson-video-card empty">
-            <div className="lesson-video-copy">
-              <p className="eyebrow">Video coming next</p>
-              <h2>Lesson notes are ready.</h2>
-              <p>
-                Bunny playback is not attached to this lesson yet. Use the notes and practice below until the video
-                upload is processed.
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
+      <Suspense fallback={<LessonVideoLoading />}>
+        <LessonVideoSection chapterSlug={slug} lessonSlug={lessonSlug} />
+      </Suspense>
 
       <section className="lesson-shell section-shell" id="lesson-notes">
         <article className="lesson-main" id="practice-zone">
@@ -255,10 +235,112 @@ function renderLessonBlocks(blocks: MarkdownBlock[]) {
       continue;
     }
 
+    if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'questions and answers') {
+      const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
+      rendered.push(renderQuestionAnswerCard(block.text, bodyBlocks, index));
+      index = nextIndex - 1;
+      continue;
+    }
+
     rendered.push(renderBlock(block, index));
   }
 
   return rendered;
+}
+
+function collectLessonSectionBody(blocks: MarkdownBlock[], startIndex: number) {
+  const bodyBlocks: MarkdownBlock[] = [];
+  let nextIndex = startIndex;
+
+  while (nextIndex < blocks.length) {
+    const block = blocks[nextIndex];
+
+    if (block.type === 'h2') {
+      break;
+    }
+
+    bodyBlocks.push(block);
+    nextIndex += 1;
+  }
+
+  return { bodyBlocks, nextIndex };
+}
+
+function renderQuestionAnswerCard(title: string, bodyBlocks: MarkdownBlock[], index: number) {
+  const questions = parseLessonQuestionAnswers(bodyBlocks);
+
+  return (
+    <section className="lesson-qa-card" id={toSectionId(title)} key={`questions-and-answers-${index}`}>
+      <div className="lesson-qa-card-header">
+        <p className="eyebrow">Study questions</p>
+        <h3>{title}</h3>
+      </div>
+      <div className="lesson-qa-card-body">
+        {questions.length > 0
+          ? questions.map((question) => (
+              <article className="lesson-qa-item" key={`${index}-${question.number}`}>
+                <p className="lesson-qa-question-number">Question {question.number}</p>
+                <h4>{renderInline(question.question)}</h4>
+                {question.hint ? <p className="lesson-qa-hint"><strong>Hint:</strong> {renderInline(question.hint)}</p> : null}
+                <details className="lesson-qa-answer">
+                  <summary>Try first, then reveal the answer</summary>
+                  {question.answer ? <p>{renderInline(question.answer)}</p> : null}
+                  {question.answerBlocks.map((block, innerIndex) =>
+                    renderBlock(block, index * 1000 + question.number * 100 + innerIndex),
+                  )}
+                </details>
+              </article>
+            ))
+          : bodyBlocks.map((block, innerIndex) => renderBlock(block, index * 1000 + innerIndex))}
+      </div>
+    </section>
+  );
+}
+
+async function LessonVideoSection({ chapterSlug, lessonSlug }: { chapterSlug: string; lessonSlug: string }) {
+  const lessonVideo = await getLessonVideo(chapterSlug, lessonSlug);
+
+  if (lessonVideo.status === 'ready') {
+    return (
+      <LessonVideoPlayer
+        durationSeconds={lessonVideo.video.video.durationSeconds}
+        lessonId={lessonVideo.video.lesson.id}
+        playbackUrl={lessonVideo.video.video.playbackUrl}
+        posterUrl={lessonVideo.video.video.thumbnailUrl}
+        title={lessonVideo.video.lesson.title}
+        videoId={lessonVideo.video.video.id}
+      />
+    );
+  }
+
+  return (
+    <section className="section-shell lesson-video-section" aria-label="Lesson video status">
+      <div className="lesson-video-card empty">
+        <div className="lesson-video-copy">
+          <p className="eyebrow">Video coming next</p>
+          <h2>Lesson notes are ready.</h2>
+          <p>
+            Bunny playback is not attached to this lesson yet. Use the notes and practice below until the video
+            upload is processed.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LessonVideoLoading() {
+  return (
+    <section aria-busy="true" aria-label="Loading lesson video" className="section-shell lesson-video-section">
+      <div className="lesson-video-card empty route-loading-card">
+        <div className="lesson-video-copy">
+          <p className="eyebrow">Lesson video</p>
+          <div className="route-loading-bar" />
+          <p>Checking video availability while the notes load...</p>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function renderBlock(block: MarkdownBlock, index: number) {

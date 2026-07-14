@@ -1,154 +1,49 @@
 ---
-title: Displacement and double displacement reactions
-subject: Science
-class_level: 10
-chapter: Chemical Reactions and Equations
-chapter_slug: chemical-reactions-and-equations
-lesson_number: 4
-lesson_slug: displacement-and-double-displacement-reactions
-estimated_minutes: 10
-access_level: premium
-status: draft
+title: 1.2.3 Displacement and 1.2.4 Double Displacement Reactions
+description: Distinguish displacement from double displacement and precipitation reactions.
 ---
 
-# Displacement and double displacement reactions
+# 1.2.3 Displacement and 1.2.4 Double Displacement Reactions
 
-Displacement reactions happen when a more reactive element replaces a less reactive one. Double displacement reactions happen when ions swap partners between two compounds.
+## 1.2.3 Displacement Reaction
 
-## Learning goals
+### Activity 1.9 Iron nails in copper sulphate
 
-By the end of this lesson, you should be able to:
-- identify a displacement reaction
-- use the reactivity series as a clue
-- identify a double displacement reaction
-- recognise a precipitate-forming reaction
-- explain why ion exchange matters in these reactions
-
-## Displacement reactions
-
-A `displacement reaction` happens when a more reactive element pushes a less reactive element out of its compound.
-
-Example:
-
-`Fe + CuSO4 -> FeSO4 + Cu`
-
-Iron is more reactive than copper, so it displaces copper from copper sulphate.
-
-## Activity 1.9: Iron nail in copper sulphate
-
-An iron nail dipped in copper sulphate shows displacement clearly. The blue solution fades towards green as iron sulphate forms, and brown copper deposits on the nail.
+Clean two iron nails. Keep one for comparison and immerse the other in copper sulphate solution for about 20 minutes.
 
 [[demo:activity-1-9-iron-copper-sulphate]]
 
-Another example:
+**Figure 1.8** Iron nails dipped in copper sulphate solution.
 
-`Zn + CuSO4 -> ZnSO4 + Cu`
+Why does the iron nail become brownish in colour and why does the blue copper sulphate solution fade? Iron is more reactive than copper, so it displaces copper from its compound. Copper deposits on the nail.
 
-Zinc is more reactive than copper, so zinc replaces copper.
+`Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s)` **(1.24)**
 
-## Reactivity series clue
+`Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s)` **(1.25)**
 
-The reactivity series helps you decide whether displacement will happen.
+`Pb(s) + CuCl₂(aq) → PbCl₂(aq) + Cu(s)` **(1.26)**
 
-If the free element is more reactive, it can replace the element in the compound. If it is less reactive, the reaction does not happen.
+In a **displacement reaction**, a more reactive element displaces a less reactive element from its compound.
 
-## Double displacement reactions
+## 1.2.4 Double Displacement Reaction
 
-A `double displacement reaction` happens when two compounds exchange ions.
+### Activity 1.10 Sodium sulphate and barium chloride
 
-Example:
-
-`Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`
-
-Here the sodium and barium ions swap partners with sulphate and chloride ions.
-
-## Activity 1.10: Sodium sulphate and barium chloride
-
-This is a double displacement reaction because ions exchange partners. It is also a precipitation reaction because insoluble barium sulphate forms as a white solid.
+Mix sodium sulphate solution with barium chloride solution. A white insoluble substance, barium sulphate, forms.
 
 [[demo:activity-1-10-barium-sulphate-precipitate]]
 
-## Precipitation reactions
+**Figure 1.9** Formation of barium sulphate precipitate.
 
-Some double displacement reactions form an insoluble solid called a precipitate.
+`Na₂SO₄(aq) + BaCl₂(aq) → BaSO₄(s) + 2NaCl(aq)` **(1.27)**
 
-Example:
+The ions exchange partners, so this is a **double displacement reaction**. Because an insoluble solid is formed, it is also a **precipitation reaction**.
 
-`AgNO3 + NaCl -> AgCl + NaNO3`
+**Recall Activity 1.2:** Lead nitrate and potassium iodide also exchange ions and form a yellow lead iodide precipitate.
 
-Silver chloride is insoluble in water, so it forms a precipitate.
-
-## Solved examples
-
-### Example 1: identify displacement
-
-`Fe + CuSO4 -> FeSO4 + Cu`
-
-Iron replaces copper. This is a displacement reaction.
-
-### Example 2: identify displacement
-
-`Zn + CuSO4 -> ZnSO4 + Cu`
-
-Zinc is more reactive than copper, so zinc displaces copper.
-
-### Example 3: identify double displacement
-
-`Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`
-
-The ions exchange partners. This is a double displacement reaction.
-
-### Example 4: identify precipitation
-
-`AgNO3 + NaCl -> AgCl + NaNO3`
-
-Silver chloride is a precipitate, so this is a precipitation reaction inside a double displacement reaction.
-
-## Common mistakes
-
-1. Treating every metal replacement as double displacement.
-2. Forgetting to compare reactivity before naming displacement.
-3. Missing the precipitate in a double displacement reaction.
-4. Thinking every double displacement must make a solid.
-5. Mixing up compounds and elements while reading the equation.
-
-## Board tips
-
-- Check whether one free element replaces another element.
-- Use the reactivity series when metals are involved.
-- If ions swap partners, think double displacement.
-- If a solid forms in solution, note the precipitate.
-
-## Quick practice
-
-1. Classify `Fe + CuSO4 -> FeSO4 + Cu`.
-2. Classify `Zn + CuSO4 -> ZnSO4 + Cu`.
-3. Classify `Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`.
-4. Classify `AgNO3 + NaCl -> AgCl + NaNO3`.
-5. Explain why zinc can displace copper but copper cannot displace zinc.
-
-## Answer check
-
-1. Displacement reaction.
-2. Displacement reaction.
-3. Double displacement reaction.
-4. Double displacement and precipitation reaction.
-5. Zinc is more reactive than copper, so it can replace copper from its compound.
-
-## One-minute revision
-
-- Displacement means a more reactive element replaces a less reactive one.
-- Double displacement means ions swap partners.
-- The reactivity series tells you whether displacement can happen.
-- A precipitate is an insoluble solid.
-- Silver chloride is a common precipitate example.
+> **Fast distinction:** Displacement: one element replaces another. Double displacement: two compounds exchange ions.
 
 ## Comic recap
-- Reactive Runner: "I replace a weaker element in the compound."
-- Ion Switchboard: "Partners have been exchanged."
-- Precipitate Painter: "A solid can appear from two clear solutions."
-- Reactivity Ranker: "Check the series before you decide."
 
-## Remember this line
+Iron says, “I replace copper.” In the next scene, two compounds swap partners and an insoluble solid drops out.
 
-More reactive elements displace less reactive ones, and compounds can swap ions in pairs.

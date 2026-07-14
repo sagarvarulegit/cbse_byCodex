@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker from '../../../../components/PilotEngagementTracker';
 import QuizScoreForm from '../../../../components/QuizScoreForm';
@@ -17,8 +18,6 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
   if (!chapter || !quizContent) {
     notFound();
   }
-
-  const quizAttemptHistory = await getStudentQuizAttempts(slug);
 
   const weakTopicOptions =
     chapter.lessons.length > 0
@@ -57,12 +56,13 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
       </div>
 
       <div className="quiz-shell">
-        <QuizScoreForm
-          chapterSlug={slug}
-          initialAttemptHistory={quizAttemptHistory}
-          questions={quizQuestions}
-          weakTopicOptions={weakTopicOptions}
-        />
+        <Suspense fallback={<QuizLoading />}>
+          <QuizWithHistory
+            chapterSlug={slug}
+            questions={quizQuestions}
+            weakTopicOptions={weakTopicOptions}
+          />
+        </Suspense>
       </div>
 
       {isPilot ? (
@@ -71,5 +71,37 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
         </section>
       ) : null}
     </main>
+  );
+}
+
+async function QuizWithHistory({
+  chapterSlug,
+  questions,
+  weakTopicOptions,
+}: {
+  chapterSlug: string;
+  questions: ReturnType<typeof parseQuizContent>;
+  weakTopicOptions: { label: string; slug: string }[];
+}) {
+  const quizAttemptHistory = await getStudentQuizAttempts(chapterSlug);
+
+  return (
+    <QuizScoreForm
+      chapterSlug={chapterSlug}
+      initialAttemptHistory={quizAttemptHistory}
+      questions={questions}
+      weakTopicOptions={weakTopicOptions}
+    />
+  );
+}
+
+function QuizLoading() {
+  return (
+    <section aria-busy="true" aria-label="Loading quiz" className="route-loading-card quiz-loading-card">
+      <p className="eyebrow">Quiz</p>
+      <h2>Preparing your questions...</h2>
+      <div className="route-loading-bar" />
+      <p>Your previous attempts are loading in the background.</p>
+    </section>
   );
 }

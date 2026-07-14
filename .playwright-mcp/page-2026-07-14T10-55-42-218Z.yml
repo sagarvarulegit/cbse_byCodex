@@ -1,0 +1,466 @@
+- generic [active] [ref=f2e1]:
+  - main [ref=f2e2]:
+    - navigation "Lesson navigation" [ref=f2e3]:
+      - link "10" [ref=f2e4] [cursor=pointer]:
+        - /url: /
+      - link "Back to chapter" [ref=f2e6] [cursor=pointer]:
+        - /url: /chapters/chemical-reactions-and-equations
+    - generic [ref=f2e7]:
+      - generic [ref=f2e8]:
+        - paragraph [ref=f2e9]: Science · Pilot lesson
+        - heading "1.1 Chemical equations" [level=1] [ref=f2e10]
+        - paragraph [ref=f2e11]: Read reactions as reactants, products, formula equations, and state symbols before learning to balance them.
+        - generic [ref=f2e12]:
+          - link "Read notes" [ref=f2e13] [cursor=pointer]:
+            - /url: "#lesson-notes"
+          - link "Jump to practice" [ref=f2e14] [cursor=pointer]:
+            - /url: "#practice-zone"
+      - complementary [ref=f2e15]:
+        - paragraph [ref=f2e16]: Lesson snapshot
+        - list [ref=f2e17]:
+          - listitem [ref=f2e18]:
+            - strong [ref=f2e19]: 10 min
+            - text: Estimated reading + revision time
+          - listitem [ref=f2e20]:
+            - strong [ref=f2e21]: Free preview
+            - text: Concept foundation
+          - listitem [ref=f2e22]:
+            - strong [ref=f2e23]: 5 lesson notes
+            - text: Now live in this chapter
+        - generic [ref=f2e24]:
+          - strong [ref=f2e25]: "Tip:"
+          - text: tap dotted words to quickly recall their meaning.
+    - region "Lesson video status" [ref=f2e26]:
+      - generic [ref=f2e28]:
+        - paragraph [ref=f2e29]: Video coming next
+        - heading "Lesson notes are ready." [level=2] [ref=f2e30]
+        - paragraph [ref=f2e31]: Bunny playback is not attached to this lesson yet. Use the notes and practice below until the video upload is processed.
+    - generic [ref=f2e32]:
+      - article [ref=f2e33]:
+        - generic [ref=f2e34]:
+          - link "Home" [ref=f2e35] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f2e36]: /
+          - link "Chemical Reactions and Equations" [ref=f2e37] [cursor=pointer]:
+            - /url: /chapters/chemical-reactions-and-equations
+          - generic [ref=f2e38]: /
+          - generic [ref=f2e39]: 1.1 Chemical equations
+        - generic [ref=f2e40]:
+          - generic [ref=f2e41]:
+            - paragraph [ref=f2e42]: Lesson note
+            - heading "1.1 Chemical equations" [level=2] [ref=f2e43]
+          - paragraph [ref=f2e44]: A chemical reaction changes starting substances, called reactants, into new substances, called products. A chemical equation is a compact way to represent this change. In this lesson, we will learn to read and write equations. We will balance them in the next lesson.
+          - heading "Learning goals" [level=3] [ref=f2e45]
+          - paragraph [ref=f2e46]: "By the end of this lesson, you should be able to:"
+          - list [ref=f2e47]:
+            - listitem [ref=f2e48]: identify reactants and products
+            - listitem [ref=f2e49]: recognise common observable signs of a reaction
+            - listitem [ref=f2e50]: write a word equation
+            - listitem [ref=f2e51]: convert simple chemical names into a formula equation
+            - listitem [ref=f2e52]:
+              - text: use
+              - code [ref=f2e53]: (s)
+              - text: ","
+              - code [ref=f2e54]: (l)
+              - text: ","
+              - code [ref=f2e55]: (g)
+              - text: ", and"
+              - code [ref=f2e56]: (aq)
+          - heading "What is a chemical reaction?" [level=3] [ref=f2e57]
+          - paragraph [ref=f2e58]:
+            - text: A
+            - code [ref=f2e59]: reactant
+            - text: is a starting substance in a reaction.
+          - paragraph [ref=f2e60]:
+            - text: A
+            - code [ref=f2e61]: product
+            - text: is a new substance formed by a reaction.
+          - paragraph [ref=f2e62]:
+            - text: A
+            - code [ref=f2e63]: chemical reaction
+            - text: is a process in which one or more reactants form new products. The atoms are rearranged, so the products have properties different from the starting substances.
+          - heading "Signs of a chemical reaction" [level=3] [ref=f2e64]
+          - paragraph [ref=f2e65]: "We often recognise a chemical reaction through an observable change:"
+          - list [ref=f2e66]:
+            - listitem [ref=f2e67]: "Colour change: when iron is placed in copper sulphate solution, a brown copper deposit forms and the solution changes colour."
+            - listitem [ref=f2e68]: "Gas formation: zinc reacts with dilute sulphuric acid to produce hydrogen gas in a teacher-supervised laboratory example."
+            - listitem [ref=f2e69]: "Temperature change: quicklime reacts with water and releases heat. Do not perform this reaction without teacher supervision."
+            - listitem [ref=f2e70]: "Precipitate formation: barium sulphate can form as a white insoluble solid called a precipitate."
+            - listitem [ref=f2e71]: "Change of state: gaseous hydrogen and oxygen can react to form liquid water."
+          - paragraph [ref=f2e72]: One sign alone can suggest that a reaction occurred, but the key idea is that new substances formed.
+          - 'heading "Activity 1.2: Lead nitrate and potassium iodide" [level=3] [ref=f2e73]'
+          - paragraph [ref=f2e74]: When lead nitrate solution is mixed with potassium iodide solution, an insoluble yellow solid appears. This is useful at the start of the chapter because it makes the idea "new substance formed" very visible.
+          - figure [ref=f2e75]:
+            - generic [ref=f2e76]:
+              - img "Two clear solutions are mixed in a test tube and form a bright yellow lead iodide precipitate." [ref=f2e77]
+              - list "Illustration labels" [ref=f2e78]:
+                - listitem [ref=f2e79]:
+                  - generic [ref=f2e80]: Lead nitrate solution
+                - listitem [ref=f2e81]:
+                  - generic [ref=f2e82]: Potassium iodide solution
+                - listitem [ref=f2e83]:
+                  - generic [ref=f2e84]: Test tube
+                - listitem [ref=f2e85]:
+                  - generic [ref=f2e86]: Lead iodide precipitate
+            - generic [ref=f2e87]:
+              - paragraph [ref=f2e88]: NCERT Activity 1.2 illustration
+              - heading "Lead nitrate and potassium iodide" [level=4] [ref=f2e89]
+              - paragraph [ref=f2e90]: Two colourless solutions are mixed in a test tube.
+              - paragraph [ref=f2e91]:
+                - strong [ref=f2e92]: "What to observe:"
+                - text: A yellow precipitate of lead iodide forms.
+          - 'heading "Activity 1.3: Zinc with dilute sulphuric acid" [level=3] [ref=f2e93]'
+          - paragraph [ref=f2e94]: Zinc reacts with dilute sulphuric acid to form zinc sulphate and hydrogen gas. The bubbles show gas formation, and the warm flask shows that energy is released.
+          - figure [ref=f2e95]:
+            - generic [ref=f2e96]:
+              - img "Zinc granules react with dilute sulphuric acid in a flask, producing bubbles while a thermometer shows warming." [ref=f2e97]
+              - list "Illustration labels" [ref=f2e98]:
+                - listitem [ref=f2e99]:
+                  - generic [ref=f2e100]: Conical flask
+                - listitem [ref=f2e101]:
+                  - generic [ref=f2e102]: Zinc granules
+                - listitem [ref=f2e103]:
+                  - generic [ref=f2e104]: Dilute sulphuric acid
+                - listitem [ref=f2e105]:
+                  - generic [ref=f2e106]: Thermometer
+                - listitem [ref=f2e107]:
+                  - generic [ref=f2e108]: Hydrogen gas
+            - generic [ref=f2e109]:
+              - paragraph [ref=f2e110]: NCERT Activity 1.3 illustration
+              - heading "Zinc with dilute sulphuric acid" [level=4] [ref=f2e111]
+              - paragraph [ref=f2e112]: Zinc granules react with dilute sulphuric acid in a flask.
+              - paragraph [ref=f2e113]:
+                - strong [ref=f2e114]: "What to observe:"
+                - text: Hydrogen bubbles form and the flask becomes warm.
+          - 'heading "Activity 1.4: Quicklime and water" [level=3] [ref=f2e115]'
+          - paragraph [ref=f2e116]: Calcium oxide combines with water to form calcium hydroxide. The reaction releases heat, so it is a strong example of temperature change during a chemical reaction.
+          - figure [ref=f2e117]:
+            - generic [ref=f2e118]:
+              - img "Water is added to quicklime in a beaker, producing heat and gentle steam as slaked lime forms." [ref=f2e119]
+              - list "Illustration labels" [ref=f2e120]:
+                - listitem [ref=f2e121]:
+                  - generic [ref=f2e122]: Beaker
+                - listitem [ref=f2e123]:
+                  - generic [ref=f2e124]: Quicklime
+                - listitem [ref=f2e125]:
+                  - generic [ref=f2e126]: Water
+                - listitem [ref=f2e127]:
+                  - generic [ref=f2e128]: Thermometer
+                - listitem [ref=f2e129]:
+                  - generic [ref=f2e130]: Slaked lime
+            - generic [ref=f2e131]:
+              - paragraph [ref=f2e132]: NCERT Activity 1.4 illustration
+              - heading "Quicklime and water" [level=4] [ref=f2e133]
+              - paragraph [ref=f2e134]: Water is added carefully to quicklime in a beaker.
+              - paragraph [ref=f2e135]:
+                - strong [ref=f2e136]: "What to observe:"
+                - text: The beaker becomes hot as slaked lime forms.
+          - 'heading "Activity 1.1: Burning magnesium ribbon in air" [level=3] [ref=f2e137]'
+          - paragraph [ref=f2e138]: "Magnesium ribbon burns with a bright white flame in air and forms white magnesium oxide. In the animated activity below, notice the order: heat the ribbon, observe the bright flame, then collect the white ash-like magnesium oxide in the watch-glass."
+          - figure [ref=f2e139]:
+            - generic [ref=f2e140]:
+              - img "Magnesium ribbon held with tongs burns with a dazzling white light above a watch glass that collects white magnesium oxide ash." [ref=f2e141]
+              - list "Illustration labels" [ref=f2e142]:
+                - listitem [ref=f2e143]:
+                  - generic [ref=f2e144]: Bunsen burner
+                - listitem [ref=f2e145]:
+                  - generic [ref=f2e146]: Magnesium ribbon
+                - listitem [ref=f2e147]:
+                  - generic [ref=f2e148]: Tongs
+                - listitem [ref=f2e149]:
+                  - generic [ref=f2e150]: Watch glass
+                - listitem [ref=f2e151]:
+                  - generic [ref=f2e152]: Magnesium oxide
+            - generic [ref=f2e153]:
+              - paragraph [ref=f2e154]: NCERT Activity 1.1 illustration
+              - heading "Burning magnesium ribbon in air" [level=4] [ref=f2e155]
+              - paragraph [ref=f2e156]: A cleaned magnesium ribbon is held with tongs in a burner flame, and the white ash is collected in a watch glass.
+              - paragraph [ref=f2e157]:
+                - strong [ref=f2e158]: "What to observe:"
+                - text: Magnesium burns with a dazzling white flame and forms white magnesium oxide.
+          - heading "From word equation to formula equation" [level=3] [ref=f2e159]
+          - paragraph [ref=f2e160]: "First write the reaction using names:"
+          - code [ref=f2e162]: magnesium + oxygen -> magnesium oxide
+          - paragraph [ref=f2e163]: "Then replace each name with its correct formula:"
+          - code [ref=f2e165]: Mg + O2 -> MgO
+          - paragraph [ref=f2e166]:
+            - text: Reactants are written on the left. Products are written on the right. The
+            - code [ref=f2e167]: +
+            - text: sign means "reacts with" or separates multiple substances. The
+            - code [ref=f2e168]: "->"
+            - text: arrow means "forms" or "produces".
+          - paragraph [ref=f2e169]:
+            - code [ref=f2e170]: Mg + O2 -> MgO
+            - text: is a skeletal equation. It shows the correct substances, but it is not yet balanced.
+          - paragraph [ref=f2e171]: "Here is another word equation:"
+          - code [ref=f2e173]: zinc + sulphuric acid -> zinc sulphate + hydrogen
+          - paragraph [ref=f2e174]: "Its formula equation is:"
+          - code [ref=f2e176]: Zn + H2SO4 -> ZnSO4 + H2
+          - heading "State symbols" [level=3] [ref=f2e177]
+          - paragraph [ref=f2e178]: "State symbols tell us the physical state of a substance:"
+          - list [ref=f2e179]:
+            - listitem [ref=f2e180]:
+              - code [ref=f2e181]: (s)
+              - text: = solid
+            - listitem [ref=f2e182]:
+              - code [ref=f2e183]: (l)
+              - text: = liquid
+            - listitem [ref=f2e184]:
+              - code [ref=f2e185]: (g)
+              - text: = gas
+            - listitem [ref=f2e186]:
+              - code [ref=f2e187]: (aq)
+              - text: = dissolved in water
+          - paragraph [ref=f2e188]: "For example:"
+          - code [ref=f2e190]: Zn(s) + H2SO4(aq) -> ZnSO4(aq) + H2(g)
+          - paragraph [ref=f2e191]:
+            - text: The symbol
+            - code [ref=f2e192]: (aq)
+            - text: does not mean liquid by itself. It means that the substance is dissolved in water and is present as an aqueous solution.
+          - heading "NCERT activity and figure tracker" [level=3] [ref=f2e193]
+          - paragraph [ref=f2e194]: "Figure 1.1: Magnesium ribbon burning"
+          - list [ref=f2e195]:
+            - listitem [ref=f2e196]: "Key label: the bright white flame shows a fast reaction with oxygen."
+          - paragraph [ref=f2e197]: "Activity 1.1: Burning magnesium ribbon in air"
+          - list [ref=f2e198]:
+            - listitem [ref=f2e199]: Clean the ribbon, heat it, and observe the bright flame and white ash.
+            - listitem [ref=f2e200]: "Conclusion: magnesium reacts with oxygen to form magnesium oxide."
+          - paragraph [ref=f2e201]: "Activity 1.2: Lead nitrate and potassium iodide"
+          - list [ref=f2e202]:
+            - listitem [ref=f2e203]: Mix the two solutions to watch a yellow precipitate form.
+            - listitem [ref=f2e204]: "Conclusion: a new substance forms in a chemical reaction."
+          - paragraph [ref=f2e205]: "Activity 1.3: Zinc with dilute sulphuric acid"
+          - list [ref=f2e206]:
+            - listitem [ref=f2e207]: Observe hydrogen bubbles and a rise in temperature.
+            - listitem [ref=f2e208]: "Conclusion: metals can react with acids to release hydrogen."
+          - paragraph [ref=f2e209]: "Activity 1.4: Quicklime and water"
+          - list [ref=f2e210]:
+            - listitem [ref=f2e211]: Add water to calcium oxide and feel the heat released.
+            - listitem [ref=f2e212]: "Conclusion: combination reactions can be exothermic."
+          - generic [ref=f2e213]:
+            - generic [ref=f2e214]:
+              - paragraph [ref=f2e215]: Study questions
+              - heading "Questions and answers" [level=3] [ref=f2e216]
+            - generic [ref=f2e217]:
+              - heading "1.1 Chemical equations" [level=4] [ref=f2e218]
+              - paragraph [ref=f2e219]: "Question: Why is diffusion insufficient to meet the oxygen requirements of multi-cellular organisms like humans?"
+              - paragraph [ref=f2e220]: "Answer: In multi-cellular organisms, many cells are far from the body surface. Diffusion alone is too slow to supply oxygen to every cell, so specialised transport is needed."
+              - paragraph [ref=f2e221]: "Question: What criteria do we use to decide whether something is alive?"
+              - paragraph [ref=f2e222]: "Answer: We look for life processes such as nutrition, respiration, transportation, excretion, and the maintenance of organised molecular movement inside the body."
+              - paragraph [ref=f2e223]: "Question: What processes would you consider essential for maintaining life?"
+              - paragraph [ref=f2e224]: "Answer: Nutrition, respiration, transportation, and excretion are essential for maintaining life."
+              - paragraph [ref=f2e225]: "More to Know:"
+              - list [ref=f2e226]:
+                - listitem [ref=f2e227]: Chemical reactions change substances at the particle level, even when the change looks small from outside.
+          - heading "Solved examples" [level=3] [ref=f2e228]
+          - 'heading "Example 1: Identify reactants and products" [level=4] [ref=f2e229]'
+          - code [ref=f2e231]: Zn + H2SO4 -> ZnSO4 + H2
+          - list [ref=f2e232]:
+            - listitem [ref=f2e233]:
+              - text: "Reactants:"
+              - code [ref=f2e234]: Zn
+              - text: ","
+              - code [ref=f2e235]: H2SO4
+            - listitem [ref=f2e236]:
+              - text: "Products:"
+              - code [ref=f2e237]: ZnSO4
+              - text: ","
+              - code [ref=f2e238]: H2
+          - 'heading "Example 2: Convert words to formulae" [level=4] [ref=f2e239]'
+          - paragraph [ref=f2e240]: "Word equation:"
+          - code [ref=f2e242]: magnesium + oxygen -> magnesium oxide
+          - paragraph [ref=f2e243]: "Formula equation:"
+          - code [ref=f2e245]: Mg + O2 -> MgO
+          - paragraph [ref=f2e246]: This is a skeletal equation. Balancing comes in the next lesson.
+          - 'heading "Example 3: Read state symbols" [level=4] [ref=f2e247]'
+          - code [ref=f2e249]: CaO(s) + H2O(l) -> Ca(OH)2(aq)
+          - paragraph [ref=f2e250]:
+            - text: The reactants are solid calcium oxide,
+            - code [ref=f2e251]: CaO(s)
+            - text: ", and liquid water,"
+            - code [ref=f2e252]: H2O(l)
+            - text: . The product is calcium hydroxide in aqueous solution,
+            - code [ref=f2e253]: Ca(OH)2(aq)
+            - text: .
+          - 'heading "Example 4: Identify a precipitate" [level=4] [ref=f2e254]'
+          - code [ref=f2e256]: Na2SO4(aq) + BaCl2(aq) -> BaSO4(s) + 2NaCl(aq)
+          - paragraph [ref=f2e257]:
+            - text: The solid
+            - code [ref=f2e258]: BaSO4(s)
+            - text: is barium sulphate. It appears as a white precipitate because it is insoluble in water.
+          - heading "Common mistakes" [level=3] [ref=f2e259]
+          - list [ref=f2e260]:
+            - listitem [ref=f2e261]: Putting products on the left.
+            - listitem [ref=f2e262]:
+              - text: Confusing
+              - code [ref=f2e263]: +
+              - text: with mathematical addition.
+            - listitem [ref=f2e264]: Writing element names when formulae are requested.
+            - listitem [ref=f2e265]: Guessing a chemical formula instead of checking it.
+            - listitem [ref=f2e266]:
+              - text: Treating
+              - code [ref=f2e267]: (aq)
+              - text: as another chemical formula.
+            - listitem [ref=f2e268]: Trying to balance an equation by changing subscripts.
+          - heading "Board tips" [level=3] [ref=f2e269]
+          - list [ref=f2e270]:
+            - listitem [ref=f2e271]: Write the word equation first when you are unsure.
+            - listitem [ref=f2e272]: Check every chemical formula before balancing.
+            - listitem [ref=f2e273]: Include state symbols only when they are known or asked for.
+            - listitem [ref=f2e274]: Keep the arrow direction correct.
+            - listitem [ref=f2e275]:
+              - text: Use neat spacing around
+              - code [ref=f2e276]: +
+              - text: and
+              - code [ref=f2e277]: "->"
+              - text: .
+          - heading "Quick practice" [level=3] [ref=f2e278]
+          - list [ref=f2e279]:
+            - listitem [ref=f2e280]:
+              - text: In
+              - code [ref=f2e281]: C + O2 -> CO2
+              - text: ", name the reactants and product."
+            - listitem [ref=f2e282]:
+              - text: Write the word equation for
+              - code [ref=f2e283]: Zn + H2SO4 -> ZnSO4 + H2
+              - text: .
+            - listitem [ref=f2e284]:
+              - text: Convert
+              - code [ref=f2e285]: calcium oxide + water -> calcium hydroxide
+              - text: into formulae.
+            - listitem [ref=f2e286]:
+              - text: What do
+              - code [ref=f2e287]: (g)
+              - text: and
+              - code [ref=f2e288]: (aq)
+              - text: mean?
+            - listitem [ref=f2e289]:
+              - text: In
+              - code [ref=f2e290]: Na2SO4(aq) + BaCl2(aq) -> BaSO4(s) + 2NaCl(aq)
+              - text: ", name the precipitate."
+          - heading "Answer check" [level=3] [ref=f2e291]
+          - list [ref=f2e292]:
+            - listitem [ref=f2e293]:
+              - text: "Reactants:"
+              - code [ref=f2e294]: C
+              - text: ","
+              - code [ref=f2e295]: O2
+              - text: "; product:"
+              - code [ref=f2e296]: CO2
+              - text: .
+            - listitem [ref=f2e297]: zinc + sulphuric acid -> zinc sulphate + hydrogen.
+            - listitem [ref=f2e298]:
+              - code [ref=f2e299]: CaO + H2O -> Ca(OH)2
+              - text: .
+            - listitem [ref=f2e300]:
+              - code [ref=f2e301]: (g)
+              - text: means gas;
+              - code [ref=f2e302]: (aq)
+              - text: means dissolved in water.
+            - listitem [ref=f2e303]:
+              - code [ref=f2e304]: BaSO4
+              - text: ", barium sulphate."
+          - heading "One-minute revision" [level=3] [ref=f2e305]
+          - list [ref=f2e306]:
+            - listitem [ref=f2e307]: Reactions form new substances.
+            - listitem [ref=f2e308]: Starting substances are reactants.
+            - listitem [ref=f2e309]: New substances are products.
+            - listitem [ref=f2e310]: Reactants go on the left and products go on the right.
+            - listitem [ref=f2e311]: The arrow means "forms".
+            - listitem [ref=f2e312]: State symbols describe physical state or aqueous solution.
+          - generic [ref=f2e313]:
+            - generic [ref=f2e314]:
+              - generic [ref=f2e315]:
+                - paragraph [ref=f2e316]: End-of-lesson comic recap
+                - heading "Comic recap" [level=3] [ref=f2e317]
+                - paragraph [ref=f2e318]: Quick scene, quick smile, quick memory. Read this once and the idea sticks better.
+              - generic [ref=f2e319]: 4-panel memory strip
+            - generic [ref=f2e321]:
+              - article [ref=f2e322]:
+                - generic [ref=f2e323]:
+                  - generic [ref=f2e324]: Panel 01
+                  - generic [ref=f2e325]: Reactant Team
+                - generic [ref=f2e327]: We start on the left side.
+              - article [ref=f2e329]:
+                - generic [ref=f2e330]:
+                  - generic [ref=f2e331]: Panel 02
+                  - generic [ref=f2e332]: Arrow Guide
+                - generic [ref=f2e334]: Follow me to see what forms.
+              - article [ref=f2e336]:
+                - generic [ref=f2e337]:
+                  - generic [ref=f2e338]: Panel 03
+                  - generic [ref=f2e339]: Product Team
+                - generic [ref=f2e341]: We are the new substances on the right.
+              - article [ref=f2e343]:
+                - generic [ref=f2e344]:
+                  - generic [ref=f2e345]: Panel 04
+                  - generic [ref=f2e346]: State Symbol Squad
+                - generic [ref=f2e348]: We tell you solid, liquid, gas, or aqueous.
+          - heading "Remember this line" [level=3] [ref=f2e350]
+          - paragraph [ref=f2e351]: Reactants go in, products come out, and the arrow shows the change.
+      - complementary [ref=f2e352]:
+        - generic [ref=f2e353]:
+          - paragraph [ref=f2e354]: Chapter trail
+          - heading "Chemical Reactions and Equations" [level=3] [ref=f2e355]
+          - generic [ref=f2e356]:
+            - link "01 1.1 Chemical equations 10 min" [ref=f2e357] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations/lessons/chemical-equations
+              - generic [ref=f2e358]: "01"
+              - generic [ref=f2e359]:
+                - strong [ref=f2e360]: 1.1 Chemical equations
+                - paragraph [ref=f2e361]: 10 min
+            - link "02 1.1 continued - Balancing chemical equations 11 min" [ref=f2e362] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations/lessons/balancing-equations
+              - generic [ref=f2e363]: "02"
+              - generic [ref=f2e364]:
+                - strong [ref=f2e365]: 1.1 continued - Balancing chemical equations
+                - paragraph [ref=f2e366]: 11 min
+            - link "03 1.2.1-1.2.2 Combination and decomposition reactions 9 min" [ref=f2e367] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations/lessons/combination-and-decomposition-reactions
+              - generic [ref=f2e368]: "03"
+              - generic [ref=f2e369]:
+                - strong [ref=f2e370]: 1.2.1-1.2.2 Combination and decomposition reactions
+                - paragraph [ref=f2e371]: 9 min
+            - link "04 1.2.3-1.2.4 Displacement and double displacement reactions 10 min" [ref=f2e372] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations/lessons/displacement-and-double-displacement-reactions
+              - generic [ref=f2e373]: "04"
+              - generic [ref=f2e374]:
+                - strong [ref=f2e375]: 1.2.3-1.2.4 Displacement and double displacement reactions
+                - paragraph [ref=f2e376]: 10 min
+            - link "05 1.2.5-1.3 Oxidation, reduction, and effects in daily life 8 min" [ref=f2e377] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations/lessons/oxidation-and-reduction
+              - generic [ref=f2e378]: "05"
+              - generic [ref=f2e379]:
+                - strong [ref=f2e380]: 1.2.5-1.3 Oxidation, reduction, and effects in daily life
+                - paragraph [ref=f2e381]: 8 min
+        - generic [ref=f2e382]:
+          - paragraph [ref=f2e383]: Keep moving
+          - generic [ref=f2e384]:
+            - link "← Chapter overview" [ref=f2e385] [cursor=pointer]:
+              - /url: /chapters/chemical-reactions-and-equations
+            - 'link "Next: 1.1 continued - Balancing chemical equations" [ref=f2e386] [cursor=pointer]':
+              - /url: /chapters/chemical-reactions-and-equations/lessons/balancing-equations
+    - generic [ref=f2e387]:
+      - button "Mark studied" [ref=f2e389] [cursor=pointer]
+      - generic [ref=f2e390]:
+        - generic [ref=f2e391]:
+          - paragraph [ref=f2e392]: Pilot feedback
+          - heading "Tell us what to fix next" [level=3] [ref=f2e393]
+        - group "Feedback type" [ref=f2e394]:
+          - button "Bug" [ref=f2e395] [cursor=pointer]
+          - button "Feedback" [ref=f2e396] [cursor=pointer]
+        - generic [ref=f2e397]:
+          - generic [ref=f2e398]: Message
+          - textbox "Message" [ref=f2e399]:
+            - /placeholder: Share the confusing step, bug, or missing detail.
+        - generic [ref=f2e400]:
+          - generic [ref=f2e401]: Rating
+          - combobox "Rating" [ref=f2e402]:
+            - option "5 - Great"
+            - option "4 - Useful" [selected]
+            - option "3 - Okay"
+            - option "2 - Confusing"
+            - option "1 - Blocked"
+        - button "Send feedback" [ref=f2e403]
+  - button "Open Next.js Dev Tools" [ref=f2e409] [cursor=pointer]
+  - alert [ref=f2e413]

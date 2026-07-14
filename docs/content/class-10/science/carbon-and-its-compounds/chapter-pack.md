@@ -26,15 +26,15 @@ This pack follows `jesc104.pdf`: covalent bonding, versatile nature of carbon, s
 
 ## chapter flow for the platform
 
-1. Covalent bond
-2. Versatile carbon
-3. Hydrocarbons and homologous series
-4. Naming simple compounds
-5. Chemical reactions
-6. Ethanol and ethanoic acid
-7. Soaps and detergents
+1. 4.1 Bonding in carbon - the covalent bond
+2. 4.2 Versatile nature of carbon
+3. 4.2 continued - Hydrocarbons and homologous series
+4. 4.2 continued - Functional groups and naming
+5. 4.3 Chemical properties of carbon compounds
+6. 4.4 Some important carbon compounds - ethanol and ethanoic acid
+7. 4.5 Soaps and detergents
 
-## 1) covalent bonding in carbon
+## 4.1 Bonding in carbon - the covalent bond
 
 Carbon has atomic number 6. Its electronic configuration is `2, 4`.
 
@@ -45,7 +45,7 @@ This sharing forms covalent bonds.
 Methane example:
 `CH4` has carbon sharing one electron with each of four hydrogen atoms.
 
-## 2) why carbon is versatile
+## 4.2 Versatile nature of carbon
 
 ### tetravalency
 
@@ -59,7 +59,7 @@ Carbon can bond with other carbon atoms to form long chains, branched chains, an
 
 Carbon-carbon bonds are strong, so many stable compounds are possible.
 
-## 3) saturated and unsaturated compounds
+## 4.2 continued - Hydrocarbons and homologous series
 
 Saturated compounds have only single bonds between carbon atoms.
 
@@ -72,7 +72,7 @@ Examples:
 - `C2H4` ethene
 - `C2H2` ethyne
 
-## 4) homologous series
+## 4.2 continued - Functional groups and naming
 
 A homologous series is a family of organic compounds with:
 - same functional group
@@ -83,7 +83,7 @@ A homologous series is a family of organic compounds with:
 Example alkanes:
 `CH4`, `C2H6`, `C3H8`, `C4H10`
 
-## 5) nomenclature basics
+### nomenclature basics
 
 Root names:
 - 1 carbon: meth-
@@ -100,7 +100,7 @@ Functional group examples:
 - alcohol: `-OH`
 - carboxylic acid: `-COOH`
 
-## 6) chemical properties
+## 4.3 Chemical properties of carbon compounds
 
 ### combustion
 
@@ -126,7 +126,7 @@ In saturated hydrocarbons, one atom can be replaced by another.
 Example:
 Methane reacts with chlorine in sunlight.
 
-## 7) ethanol and ethanoic acid
+## 4.4 Some important carbon compounds - ethanol and ethanoic acid
 
 Ethanol: `C2H5OH`
 
@@ -143,7 +143,7 @@ It reacts with alcohol to form ester. This is esterification.
 
 Ethanoic acid + sodium carbonate gives carbon dioxide.
 
-## 8) soaps and detergents
+## 4.5 Soaps and detergents
 
 Soap molecules have:
 - hydrophilic head

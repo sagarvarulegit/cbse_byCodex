@@ -1,5 +1,5 @@
 ---
-title: Corrosion and prevention
+title: 3.5-3.6 Occurrence, corrosion, and prevention
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Corrosion and prevention
+# 3.5-3.6 Occurrence, corrosion, and prevention
 
 Corrosion is the slow damage of metals due to reaction with air, moisture, or chemicals.
 
@@ -55,6 +55,36 @@ Common methods:
 - alloying
 
 Galvanisation means coating iron with zinc.
+
+## NCERT activity and figure tracker
+
+Activity 3.14: Conditions for rusting
+- Keep iron with and without air or water to compare rusting.
+- Conclusion: rusting needs both oxygen and water.
+## Questions and answers
+
+### 3.5-3.6 Occurrence, corrosion, and prevention
+
+Question:
+What are the conditions for rusting?
+
+Answer:
+Iron rusts when both oxygen and water are present.
+
+Question:
+How can rusting be prevented?
+
+Answer:
+Rusting can be prevented by painting, oiling, galvanising, electroplating, or alloying.
+
+Question:
+Why is galvanisation effective?
+
+Answer:
+Galvanisation coats iron with zinc, so air and water cannot easily reach the iron surface.
+
+Think it over:
+- Even a thin protective coating can stop rust from starting on iron.
 
 ## Solved examples
 
@@ -111,3 +141,5 @@ Rusting needs both air and moisture. Prevention methods work by blocking air/wat
 - Dry Tube: "No water, no rust."
 - Oil Shield: "No air, no rust."
 - Zinc Coat: "I protect iron through galvanisation."
+
+

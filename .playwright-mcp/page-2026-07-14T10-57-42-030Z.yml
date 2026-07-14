@@ -1,0 +1,406 @@
+- main [ref=f5e2]:
+  - navigation "Chapter notes navigation" [ref=f5e3]:
+    - link "10" [ref=f5e4] [cursor=pointer]:
+      - /url: /
+    - link "Back to chapter" [ref=f5e6] [cursor=pointer]:
+      - /url: /chapters/chemical-reactions-and-equations
+  - generic [ref=f5e7]:
+    - generic [ref=f5e8]:
+      - paragraph [ref=f5e9]: Science · Chapter notes
+      - heading "Chemical Reactions and Equations" [level=1] [ref=f5e10]
+      - paragraph [ref=f5e11]: Five live lesson notes now cover chemical equations, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.
+      - generic [ref=f5e12]:
+        - link "Read notes" [ref=f5e13] [cursor=pointer]:
+          - /url: "#chapter-notes"
+        - link "Chapter overview" [ref=f5e14] [cursor=pointer]:
+          - /url: /chapters/chemical-reactions-and-equations
+    - complementary [ref=f5e15]:
+      - paragraph [ref=f5e16]: Study snapshot
+      - list [ref=f5e17]:
+        - listitem [ref=f5e18]:
+          - strong [ref=f5e19]: Chapter pack
+          - text: Goals, flow, examples, mistakes, and practice
+        - listitem [ref=f5e20]:
+          - strong [ref=f5e21]: Free notes
+          - text: Available from the Class 10 subject catalog
+        - listitem [ref=f5e22]:
+          - strong [ref=f5e23]: 16 study sections
+          - text: Formatted from the prepared content pack
+  - article [ref=f5e25]:
+    - generic [ref=f5e26]:
+      - link "Home" [ref=f5e27] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f5e28]: /
+      - link "Subjects" [ref=f5e29] [cursor=pointer]:
+        - /url: /subjects
+      - generic [ref=f5e30]: /
+      - link "Chemical Reactions and Equations" [ref=f5e31] [cursor=pointer]:
+        - /url: /chapters/chemical-reactions-and-equations
+      - generic [ref=f5e32]: /
+      - generic [ref=f5e33]: Notes
+    - generic [ref=f5e34]:
+      - generic [ref=f5e35]:
+        - paragraph [ref=f5e36]: Chapter note
+        - heading "Chemical Reactions and Equations" [level=2] [ref=f5e37]
+      - generic [ref=f5e38]:
+        - generic [ref=f5e39]: GO
+        - generic [ref=f5e40]:
+          - generic [ref=f5e41]:
+            - generic [ref=f5e42]:
+              - paragraph [ref=f5e43]: Learning target
+              - heading "chapter goal" [level=3] [ref=f5e44]
+            - generic [ref=f5e45]: Start here
+          - generic [ref=f5e46]:
+            - paragraph [ref=f5e47]: "By the end of this chapter, a student should be able to:"
+            - list [ref=f5e48]:
+              - listitem [ref=f5e49]: identify a chemical reaction from observable changes
+              - listitem [ref=f5e50]: write and balance chemical equations
+              - listitem [ref=f5e51]: classify reactions as combination, decomposition, displacement, double displacement, oxidation, or reduction
+              - listitem [ref=f5e52]: explain corrosion and rancidity with prevention methods
+      - generic [ref=f5e53]:
+        - generic [ref=f5e54]: NT
+        - generic [ref=f5e55]:
+          - generic [ref=f5e56]:
+            - generic [ref=f5e57]:
+              - paragraph [ref=f5e58]: Study note
+              - heading "teacher note on textbook alignment" [level=3] [ref=f5e59]
+            - generic [ref=f5e60]: Read
+          - paragraph [ref=f5e62]:
+            - text: This pack follows the local NCERT chapter file
+            - code [ref=f5e63]: jesc101.pdf
+            - text: ": chemical equations, balanced equations, types of reactions, oxidation-reduction, corrosion, and rancidity."
+      - generic [ref=f5e64]:
+        - generic [ref=f5e65]: "01"
+        - generic [ref=f5e66]:
+          - generic [ref=f5e67]:
+            - generic [ref=f5e68]:
+              - paragraph [ref=f5e69]: Study path
+              - heading "chapter flow for the platform" [level=3] [ref=f5e70]
+            - generic [ref=f5e71]: Sequence
+          - list [ref=f5e73]:
+            - listitem [ref=f5e74]:
+              - generic [ref=f5e75]: 1.1 Chemical equations
+            - listitem [ref=f5e76]:
+              - generic [ref=f5e77]: 1.1 continued - Balancing chemical equations
+            - listitem [ref=f5e78]:
+              - generic [ref=f5e79]: 1.2.1-1.2.2 Combination and decomposition reactions
+            - listitem [ref=f5e80]:
+              - generic [ref=f5e81]: 1.2.3-1.2.4 Displacement and double displacement reactions
+            - listitem [ref=f5e82]:
+              - generic [ref=f5e83]: 1.2.5-1.3 Oxidation, reduction, and effects in daily life
+      - generic [ref=f5e84]:
+        - generic [ref=f5e85]: FX
+        - generic [ref=f5e86]:
+          - generic [ref=f5e87]:
+            - generic [ref=f5e88]:
+              - paragraph [ref=f5e89]: Formula and reaction focus
+              - heading "1.1 Chemical equations" [level=3] [ref=f5e90]
+            - generic [ref=f5e91]: Remember
+          - generic [ref=f5e92]:
+            - paragraph [ref=f5e93]: A chemical reaction happens when one or more substances change into new substances.
+            - paragraph [ref=f5e94]: "Signs of a chemical reaction:"
+            - list [ref=f5e95]:
+              - listitem [ref=f5e96]: change in state
+              - listitem [ref=f5e97]: change in colour
+              - listitem [ref=f5e98]: gas formation
+              - listitem [ref=f5e99]: temperature change
+              - listitem [ref=f5e100]: precipitate formation
+            - paragraph [ref=f5e101]: "Example:"
+            - generic [ref=f5e102]:
+              - generic [ref=f5e103]: Key line
+              - code [ref=f5e104]: Mg + O2 -> MgO
+            - paragraph [ref=f5e105]: Magnesium burns in oxygen and forms magnesium oxide.
+      - generic [ref=f5e106]:
+        - generic [ref=f5e107]: FX
+        - generic [ref=f5e108]:
+          - generic [ref=f5e109]:
+            - generic [ref=f5e110]:
+              - paragraph [ref=f5e111]: Formula and reaction focus
+              - heading "1.1 continued - Balancing chemical equations" [level=3] [ref=f5e112]
+            - generic [ref=f5e113]: Remember
+          - generic [ref=f5e114]:
+            - paragraph [ref=f5e115]: A chemical equation represents a reaction using symbols and formulae.
+            - paragraph [ref=f5e116]: Reactants are written on the left. Products are written on the right.
+            - paragraph [ref=f5e117]: "Example:"
+            - generic [ref=f5e118]:
+              - generic [ref=f5e119]: Key line
+              - code [ref=f5e120]: Zn + H2SO4 -> ZnSO4 + H2
+            - paragraph [ref=f5e121]: This means zinc reacts with sulphuric acid to form zinc sulphate and hydrogen gas.
+      - generic [ref=f5e122]:
+        - generic [ref=f5e123]: FX
+        - generic [ref=f5e124]:
+          - generic [ref=f5e125]:
+            - generic [ref=f5e126]:
+              - paragraph [ref=f5e127]: Formula and reaction focus
+              - heading "1.2.1-1.2.2 Combination and decomposition reactions" [level=3] [ref=f5e128]
+            - generic [ref=f5e129]: Remember
+          - generic [ref=f5e130]:
+            - paragraph [ref=f5e131]: A chemical equation must obey the law of conservation of mass.
+            - paragraph [ref=f5e132]: That means atoms are not created or destroyed. The number of atoms of each element must be the same on both sides.
+            - paragraph [ref=f5e133]:
+              - text: "Example:"
+              - code [ref=f5e134]: H2 + O2 -> H2O
+              - text: is not balanced.
+            - paragraph [ref=f5e135]: "Balanced form:"
+            - generic [ref=f5e136]:
+              - generic [ref=f5e137]: Key line
+              - code [ref=f5e138]: 2H2 + O2 -> 2H2O
+            - heading "easy method" [level=4] [ref=f5e139]
+            - list [ref=f5e140]:
+              - listitem [ref=f5e141]: Count atoms on both sides.
+              - listitem [ref=f5e142]: Balance one element at a time.
+              - listitem [ref=f5e143]: Do not change formulae. Only change coefficients.
+              - listitem [ref=f5e144]: Check again at the end.
+            - paragraph [ref=f5e145]: "Combination reaction: two or more reactants combine to form one product."
+            - paragraph [ref=f5e146]: "Example:"
+            - generic [ref=f5e147]:
+              - generic [ref=f5e148]: Key line
+              - code [ref=f5e149]: CaO + H2O -> Ca(OH)2
+            - paragraph [ref=f5e150]: "Decomposition reaction: one compound breaks into simpler substances."
+            - paragraph [ref=f5e151]: "Example:"
+            - generic [ref=f5e152]:
+              - generic [ref=f5e153]: Key line
+              - code [ref=f5e154]: CaCO3 -> CaO + CO2
+            - paragraph [ref=f5e155]: Decomposition may happen due to heat, light, or electricity.
+      - generic [ref=f5e156]:
+        - generic [ref=f5e157]: FX
+        - generic [ref=f5e158]:
+          - generic [ref=f5e159]:
+            - generic [ref=f5e160]:
+              - paragraph [ref=f5e161]: Formula and reaction focus
+              - heading "1.2.3-1.2.4 Displacement and double displacement reactions" [level=3] [ref=f5e162]
+            - generic [ref=f5e163]: Remember
+          - generic [ref=f5e164]:
+            - paragraph [ref=f5e165]: A more reactive element displaces a less reactive element from its compound.
+            - paragraph [ref=f5e166]: "Example:"
+            - generic [ref=f5e167]:
+              - generic [ref=f5e168]: Key line
+              - code [ref=f5e169]: Fe + CuSO4 -> FeSO4 + Cu
+            - paragraph [ref=f5e170]: Two compounds can exchange ions.
+            - paragraph [ref=f5e171]: "Example:"
+            - generic [ref=f5e172]:
+              - generic [ref=f5e173]: Key line
+              - code [ref=f5e174]: Na2SO4 + BaCl2 -> BaSO4 + 2NaCl
+            - paragraph [ref=f5e175]:
+              - code [ref=f5e176]: BaSO4
+              - text: is a white precipitate.
+      - generic [ref=f5e177]:
+        - generic [ref=f5e178]: FX
+        - generic [ref=f5e179]:
+          - generic [ref=f5e180]:
+            - generic [ref=f5e181]:
+              - paragraph [ref=f5e182]: Formula and reaction focus
+              - heading "1.2.5-1.3 Oxidation, reduction, and effects in daily life" [level=3] [ref=f5e183]
+            - generic [ref=f5e184]: Remember
+          - generic [ref=f5e185]:
+            - paragraph [ref=f5e186]: Oxidation means gain of oxygen or loss of hydrogen.
+            - paragraph [ref=f5e187]: Reduction means loss of oxygen or gain of hydrogen.
+            - paragraph [ref=f5e188]: "Example:"
+            - generic [ref=f5e189]:
+              - generic [ref=f5e190]: Key line
+              - code [ref=f5e191]: CuO + H2 -> Cu + H2O
+            - paragraph [ref=f5e192]: "In this reaction:"
+            - list [ref=f5e193]:
+              - listitem [ref=f5e194]:
+                - code [ref=f5e195]: CuO
+                - text: is reduced to
+                - code [ref=f5e196]: Cu
+              - listitem [ref=f5e197]:
+                - code [ref=f5e198]: H2
+                - text: is oxidised to
+                - code [ref=f5e199]: H2O
+            - paragraph [ref=f5e200]: Oxidation and reduction happen together, so the reaction is called a redox reaction.
+      - generic [ref=f5e201]:
+        - generic [ref=f5e202]: CN
+        - generic [ref=f5e203]:
+          - generic [ref=f5e204]:
+            - generic [ref=f5e205]:
+              - paragraph [ref=f5e206]: Concept block
+              - heading "1.3 Effects of oxidation in daily life" [level=3] [ref=f5e207]
+            - generic [ref=f5e208]: Learn
+          - generic [ref=f5e209]:
+            - heading "corrosion" [level=4] [ref=f5e210]
+            - paragraph [ref=f5e211]: Corrosion is the slow damage of metals due to reaction with air, water, or chemicals.
+            - paragraph [ref=f5e212]: Rusting of iron is the most common example.
+            - paragraph [ref=f5e213]: "Prevention:"
+            - list [ref=f5e214]:
+              - listitem [ref=f5e215]: painting
+              - listitem [ref=f5e216]: oiling or greasing
+              - listitem [ref=f5e217]: galvanisation
+              - listitem [ref=f5e218]: alloying
+            - heading "rancidity" [level=4] [ref=f5e219]
+            - paragraph [ref=f5e220]: Rancidity is the spoilage of fats and oils due to oxidation.
+            - paragraph [ref=f5e221]: "Prevention:"
+            - list [ref=f5e222]:
+              - listitem [ref=f5e223]: use airtight containers
+              - listitem [ref=f5e224]: keep food away from light and heat
+              - listitem [ref=f5e225]: add antioxidants
+              - listitem [ref=f5e226]: flush packets with nitrogen
+      - generic [ref=f5e227]:
+        - generic [ref=f5e228]: RV
+        - generic [ref=f5e229]:
+          - generic [ref=f5e230]:
+            - generic [ref=f5e231]:
+              - paragraph [ref=f5e232]: Quick revision
+              - heading "exam-friendly summary notes" [level=3] [ref=f5e233]
+            - generic [ref=f5e234]: Revise
+          - list [ref=f5e236]:
+            - listitem [ref=f5e237]: A balanced equation has equal atoms of each element on both sides.
+            - listitem [ref=f5e238]: "Combination: many reactants, one product."
+            - listitem [ref=f5e239]: "Decomposition: one reactant, many products."
+            - listitem [ref=f5e240]: Displacement depends on reactivity.
+            - listitem [ref=f5e241]: Precipitation is often a double displacement reaction.
+            - listitem [ref=f5e242]: Oxidation and reduction occur together.
+      - generic [ref=f5e243]:
+        - generic [ref=f5e244]: "NO"
+        - generic [ref=f5e245]:
+          - generic [ref=f5e246]:
+            - generic [ref=f5e247]:
+              - paragraph [ref=f5e248]: Avoid these
+              - heading "common mistakes students make" [level=3] [ref=f5e249]
+            - generic [ref=f5e250]: Careful
+          - list [ref=f5e252]:
+            - listitem [ref=f5e253]: Changing chemical formulae while balancing.
+            - listitem [ref=f5e254]: Forgetting state symbols when asked.
+            - listitem [ref=f5e255]: Calling every gas-forming reaction a decomposition reaction.
+            - listitem [ref=f5e256]: Confusing oxidation with reduction.
+            - listitem [ref=f5e257]: Writing corrosion only for iron, though other metals also corrode.
+      - generic [ref=f5e258]:
+        - generic [ref=f5e259]: BT
+        - generic [ref=f5e260]:
+          - generic [ref=f5e261]:
+            - generic [ref=f5e262]:
+              - paragraph [ref=f5e263]: Board exam
+              - heading "board tips" [level=3] [ref=f5e264]
+            - generic [ref=f5e265]: Score
+          - list [ref=f5e267]:
+            - listitem [ref=f5e268]: Balance equations neatly and show final check.
+            - listitem [ref=f5e269]: Mention the visible observation when a reaction asks for identification.
+            - listitem [ref=f5e270]: In redox questions, clearly state which substance is oxidised and which is reduced.
+            - listitem [ref=f5e271]: Use examples with correct formulae.
+      - generic [ref=f5e272]:
+        - generic [ref=f5e273]: EX
+        - generic [ref=f5e274]:
+          - generic [ref=f5e275]:
+            - generic [ref=f5e276]:
+              - paragraph [ref=f5e277]: Worked examples
+              - heading "solved practice set" [level=3] [ref=f5e278]
+            - generic [ref=f5e279]: Solved
+          - generic [ref=f5e280]:
+            - heading "question 1" [level=4] [ref=f5e281]
+            - paragraph [ref=f5e282]:
+              - text: "Balance:"
+              - code [ref=f5e283]: Fe + H2O -> Fe3O4 + H2
+            - paragraph [ref=f5e284]: "Answer:"
+            - generic [ref=f5e285]:
+              - generic [ref=f5e286]: Key line
+              - code [ref=f5e287]: 3Fe + 4H2O -> Fe3O4 + 4H2
+            - heading "question 2" [level=4] [ref=f5e288]
+            - paragraph [ref=f5e289]:
+              - text: "Name the reaction:"
+              - code [ref=f5e290]: 2Pb(NO3)2 -> 2PbO + 4NO2 + O2
+            - paragraph [ref=f5e291]: "Answer: Thermal decomposition reaction."
+            - heading "question 3" [level=4] [ref=f5e292]
+            - paragraph [ref=f5e293]: Why is rancidity an oxidation reaction?
+            - paragraph [ref=f5e294]: "Answer: Fats and oils react with oxygen and get spoiled. Since oxygen is involved, it is oxidation."
+      - generic [ref=f5e295]:
+        - generic [ref=f5e296]: PR
+        - generic [ref=f5e297]:
+          - generic [ref=f5e298]:
+            - generic [ref=f5e299]:
+              - paragraph [ref=f5e300]: Short answer practice
+              - heading "short answer practice" [level=3] [ref=f5e301]
+            - generic [ref=f5e302]: Try
+          - list [ref=f5e304]:
+            - listitem [ref=f5e305]: Why should a chemical equation be balanced?
+            - listitem [ref=f5e306]: What is a precipitate?
+            - listitem [ref=f5e307]: Give one example of a displacement reaction.
+            - listitem [ref=f5e308]: How can rusting be prevented?
+            - listitem [ref=f5e309]: What is the difference between oxidation and reduction?
+      - generic [ref=f5e310]:
+        - generic [ref=f5e311]: QZ
+        - generic [ref=f5e312]:
+          - generic [ref=f5e313]:
+            - generic [ref=f5e314]:
+              - paragraph [ref=f5e315]: Self check
+              - heading "mini quiz with answers" [level=3] [ref=f5e316]
+            - generic [ref=f5e317]: Quiz
+          - list [ref=f5e319]:
+            - listitem [ref=f5e320]: "Law followed by balancing equations: conservation of mass."
+            - listitem [ref=f5e321]:
+              - code [ref=f5e322]: CaO + H2O -> Ca(OH)2
+              - text: is a combination reaction.
+            - listitem [ref=f5e323]: Rusting is corrosion.
+            - listitem [ref=f5e324]: Rancidity is prevented by reducing oxidation.
+            - listitem [ref=f5e325]:
+              - code [ref=f5e326]: Fe + CuSO4 -> FeSO4 + Cu
+              - text: is displacement.
+      - generic [ref=f5e327]:
+        - generic [ref=f5e328]:
+          - generic [ref=f5e329]:
+            - paragraph [ref=f5e330]: Visual memory strip
+            - heading "comic style recap" [level=3] [ref=f5e331]
+          - generic [ref=f5e332]: 5 panels
+        - generic [ref=f5e333]:
+          - article [ref=f5e334]:
+            - generic [ref=f5e335]:
+              - generic [ref=f5e336]: Panel 01
+              - generic [ref=f5e337]: idea
+            - generic [ref=f5e338]: CA
+            - strong [ref=f5e340]: Captain Atom
+            - emphasis [ref=f5e341]: says
+            - paragraph [ref=f5e342]: Nobody disappears in my city. Balance both sides!
+          - article [ref=f5e343]:
+            - generic [ref=f5e344]:
+              - generic [ref=f5e345]: Panel 02
+              - generic [ref=f5e346]: action
+            - generic [ref=f5e347]: CO
+            - strong [ref=f5e349]: Combo Kid
+            - emphasis [ref=f5e350]: joins two reactants and shouts
+            - paragraph [ref=f5e351]: One big product coming up!
+          - article [ref=f5e352]:
+            - generic [ref=f5e353]:
+              - generic [ref=f5e354]: Panel 03
+              - generic [ref=f5e355]: action
+            - generic [ref=f5e356]: BR
+            - strong [ref=f5e358]: Breakup Bot
+            - emphasis [ref=f5e359]: splits one compound into pieces
+            - paragraph [ref=f5e360]: That is decomposition.
+          - article [ref=f5e361]:
+            - generic [ref=f5e362]:
+              - generic [ref=f5e363]: Panel 04
+              - generic [ref=f5e364]: action
+            - generic [ref=f5e365]: RE
+            - strong [ref=f5e367]: Reactive Raja
+            - emphasis [ref=f5e368]: pushes copper out of copper sulphate
+            - paragraph [ref=f5e369]: More reactive metals get the seat.
+          - article [ref=f5e370]:
+            - generic [ref=f5e371]:
+              - generic [ref=f5e372]: Panel 05
+              - generic [ref=f5e373]: warning
+            - generic [ref=f5e374]: RU
+            - strong [ref=f5e376]: Rust Monster
+            - emphasis [ref=f5e377]: attacks iron, but Paint Shield blocks it
+            - paragraph [ref=f5e378]: Stop air and water, stop corrosion.
+  - generic [ref=f5e379]:
+    - button "Mark studied" [ref=f5e381] [cursor=pointer]
+    - generic [ref=f5e382]:
+      - generic [ref=f5e383]:
+        - paragraph [ref=f5e384]: Pilot feedback
+        - heading "Tell us what to fix next" [level=3] [ref=f5e385]
+      - group "Feedback type" [ref=f5e386]:
+        - button "Bug" [ref=f5e387] [cursor=pointer]
+        - button "Feedback" [ref=f5e388] [cursor=pointer]
+      - generic [ref=f5e389]:
+        - generic [ref=f5e390]: Message
+        - textbox "Message" [ref=f5e391]:
+          - /placeholder: Share the confusing step, bug, or missing detail.
+      - generic [ref=f5e392]:
+        - generic [ref=f5e393]: Rating
+        - combobox "Rating" [ref=f5e394]:
+          - option "5 - Great"
+          - option "4 - Useful" [selected]
+          - option "3 - Okay"
+          - option "2 - Confusing"
+          - option "1 - Blocked"
+      - button "Send feedback" [ref=f5e395]

@@ -1,180 +1,111 @@
 ---
-title: Combination and decomposition reactions
-subject: Science
-class_level: 10
-chapter: Chemical Reactions and Equations
-chapter_slug: chemical-reactions-and-equations
-lesson_number: 3
-lesson_slug: combination-and-decomposition-reactions
-estimated_minutes: 9
-access_level: premium
-status: draft
+title: 1.2 Types of Chemical Reactions - Combination and Decomposition
+description: Learn combination, decomposition, exothermic and endothermic reactions from NCERT activities.
 ---
 
-# Combination and decomposition reactions
+# 1.2 Types of Chemical Reactions - Combination and Decomposition
 
-Combination reactions build one product from two or more reactants. Decomposition reactions do the opposite and split one compound into simpler substances. The pattern of the reaction matters more than the energy change alone.
+## 1.2 Types of Chemical Reactions
 
-## Learning goals
+Chemical reactions can be grouped by the pattern in which reactants become products.
 
-By the end of this lesson, you should be able to:
-- identify a combination reaction
-- identify a decomposition reaction
-- tell thermal, electrolytic, and photolytic decomposition apart
-- connect some reactions with heat, electricity, or light
-- avoid guessing the reaction type from only one clue
+## 1.2.1 Combination Reaction
 
-## Combination reactions
+### Activity 1.4 Quicklime and water
 
-A `combination reaction` has two or more reactants forming one product.
+Take calcium oxide in a beaker and slowly add water. Touch the beaker carefully: it becomes hot.
 
-Example:
+[[demo:activity-1-4-quicklime-water]]
 
-`CaO + H2O -> Ca(OH)2`
+**Figure 1.3** Calcium oxide reacts vigorously with water to produce slaked lime.
 
-Calcium oxide reacts with water to form calcium hydroxide. This is a combination reaction because many reactants join into one product.
+`CaO(s) + H₂O(l) → Ca(OH)₂(aq) + Heat` **(1.13)**
 
-Combination reactions often release heat, so some of them are exothermic. But the key rule is still the pattern: many reactants, one product.
+Two substances combine to form a single product, so this is a **combination reaction**. A solution of slaked lime produced by the reaction (1.13) is used for whitewashing walls. It slowly reacts with carbon dioxide to form a thin, shiny layer of calcium carbonate:
 
-## Decomposition reactions
+`Ca(OH)₂(aq) + CO₂(g) → CaCO₃(s) + H₂O(l)` **(1.14)**
 
-A `decomposition reaction` has one compound breaking into two or more simpler substances.
+Other combination reactions are:
 
-Example:
+`C(s) + O₂(g) → CO₂(g)` **(1.15)**
 
-`CaCO3 -> CaO + CO2`
+`2H₂(g) + O₂(g) → 2H₂O(l)` **(1.16)**
 
-Calcium carbonate breaks into calcium oxide and carbon dioxide. One compound splits into simpler products.
+`CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(g)` **(1.17)**
 
-Decomposition reactions may need heat, electricity, or light. That does not change the basic definition.
+Respiration releases energy:
 
-## Types of decomposition
+`C₆H₁₂O₆(aq) + 6O₂(g) → 6CO₂(aq) + 6H₂O(l) + Energy` **(1.18)**
 
-### Thermal decomposition
+Reactions that release heat are **exothermic**. Decomposition of vegetable matter into compost is also exothermic.
 
-Heat causes the compound to break.
+**Source prompt:** Identify the type of the reaction taking place in Activity 1.1, where magnesium burns to form magnesium oxide.
 
-Example:
+## 1.2.2 Decomposition Reaction
 
-`2Pb(NO3)2 -> 2PbO + 4NO2 + O2`
+### Activity 1.5 Heating ferrous sulphate crystals
 
-Lead nitrate breaks when heated.
-
-## Activity 1.5: Heating ferrous sulphate
-
-Ferrous sulphate crystals are green before heating. On heating, they decompose and leave brown ferric oxide, while sulphur oxides are released.
+Heat ferrous sulphate crystals in a dry boiling tube. Their green colour changes and gases with the smell of burning sulphur are produced.
 
 [[demo:activity-1-5-heating-ferrous-sulphate]]
 
-## Activity 1.6: Heating lead nitrate
+**Figure 1.4** Correct way of heating a boiling tube containing ferrous sulphate crystals and of smelling the odour.
 
-Lead nitrate gives a clear thermal decomposition example: the white powder changes to yellow lead oxide and brown nitrogen dioxide fumes appear.
+`2FeSO₄(s) → Fe₂O₃(s) + SO₂(g) + SO₃(g)` **(1.19)**
+
+### Activity 1.6 Heating lead nitrate
+
+Heat lead nitrate powder in a boiling tube while holding it with tongs. Brown nitrogen dioxide fumes are emitted.
 
 [[demo:activity-1-6-heating-lead-nitrate]]
 
-### Electrolytic decomposition
+**Figure 1.5** Heating of lead nitrate and emission of nitrogen dioxide.
 
-Electricity causes the compound to break.
+`2Pb(NO₃)₂(s) → 2PbO(s) + 4NO₂(g) + O₂(g)` **(1.20)**
 
-Example:
+In a decomposition reaction, one substance breaks into two or more substances.
 
-`2H2O -> 2H2 + O2`
+### Activity 1.7 Electrolysis of water
 
-Water can be split into hydrogen and oxygen by electrolysis.
-
-## Activity 1.7: Electrolysis of water
-
-During electrolysis, bubbles form at both electrodes. Hydrogen collects in double the volume of oxygen, matching the balanced equation.
+Fill a plastic mug with water, add a few drops of dilute sulphuric acid, insert two graphite electrodes connected to a 6 V battery, and collect the gases in inverted test tubes. Let the teacher test each gas with a burning candle.
 
 [[demo:activity-1-7-electrolysis-water]]
 
-### Photolytic decomposition
+**Figure 1.6** Electrolysis of water produces hydrogen and oxygen.
 
-Light causes the compound to break.
+`2H₂O(l) → 2H₂(g) + O₂(g)` **(1.21)**
 
-Example:
+### Activity 1.8 Sunlight on silver chloride
 
-`2AgCl -> 2Ag + Cl2`
-
-Silver chloride breaks in sunlight.
-
-## Activity 1.8: Photochemical decomposition
-
-Silver chloride is white at first. Sunlight decomposes it, and the powder turns grey because silver metal forms.
+Place silver chloride in sunlight. It changes from white to grey because it decomposes to silver.
 
 [[demo:activity-1-8-photochemical-decomposition]]
 
-## Solved examples
+**Figure 1.7** Silver chloride turns grey in sunlight.
 
-### Example 1: classify the reaction
+`2AgCl(s) → 2Ag(s) + Cl₂(g)` **(1.22)**
 
-`CaO + H2O -> Ca(OH)2`
+`2AgBr(s) → 2Ag(s) + Br₂(g)` **(1.23)**
 
-This is a combination reaction because two reactants form one product.
+**Source prompt:** What form of energy is causing these decomposition reactions? Heat causes thermal decomposition, electricity causes electrolytic decomposition, and light causes photochemical decomposition.
 
-### Example 2: classify the reaction
+**Endothermic observation:** Take about 2 g barium hydroxide in a test tube, add about 1 g ammonium chloride and mix. The test tube becomes cold because energy is absorbed.
 
-`CaCO3 -> CaO + CO2`
+**❓ QUESTIONS**
 
-This is a decomposition reaction because one compound breaks into simpler substances.
+**1. A solution of a substance ‘X’ is used for whitewashing.**
 
-### Example 3: classify the reaction
+**(i) Name the substance ‘X’ and write its formula.**  
+*Answer:* Calcium oxide (quicklime), `CaO`.
 
-`2AgCl -> 2Ag + Cl2`
+**(ii) Write the reaction of the substance ‘X’ named in (i) above with water.**  
+*Answer:* `CaO(s) + H₂O(l) → Ca(OH)₂(aq)`
 
-This is photolytic decomposition because light breaks silver chloride.
+**2. Why is the amount of gas collected in one of the test tubes in Activity 1.7 double of the amount collected in the other? Name this gas.**
 
-### Example 4: classify the reaction
-
-`2H2O -> 2H2 + O2`
-
-This is electrolytic decomposition because electricity splits water.
-
-## Common mistakes
-
-1. Calling every heat-based reaction combination.
-2. Calling every gas-forming reaction decomposition.
-3. Forgetting that one product can still mean combination even if heat is released.
-4. Changing the reaction type because the example uses sunlight or electricity.
-5. Mixing up decomposition with displacement.
-
-## Board tips
-
-- Ask first: how many reactants and products are present?
-- Then ask: is one compound breaking apart, or are substances joining?
-- Use the pattern before the energy clue.
-- Write the balanced equation before naming the reaction type.
-
-## Quick practice
-
-1. Classify `CaO + H2O -> Ca(OH)2`.
-2. Classify `CaCO3 -> CaO + CO2`.
-3. Classify `2Pb(NO3)2 -> 2PbO + 4NO2 + O2`.
-4. Classify `2AgCl -> 2Ag + Cl2`.
-5. Classify `2H2O -> 2H2 + O2`.
-
-## Answer check
-
-1. Combination reaction.
-2. Decomposition reaction.
-3. Thermal decomposition.
-4. Photolytic decomposition.
-5. Electrolytic decomposition.
-
-## One-minute revision
-
-- Combination means many reactants to one product.
-- Decomposition means one compound to many products.
-- Heat, electricity, or light can trigger decomposition.
-- The reaction pattern is the first clue to use.
-- Energy change alone is not enough to name the type.
+*Answer:* Water contains hydrogen and oxygen in a 2:1 ratio. The gas collected in double amount is hydrogen.
 
 ## Comic recap
-- Combo Captain: "Two paths join into one product."
-- Heat Hammer: "I break compounds when the reaction needs warmth."
-- Light Lantern: "Sunlight can split silver chloride."
-- Power Coil: "Electricity can split water into gases."
 
-## Remember this line
+Combination says “many to one”; decomposition says “one to many.” Energy may be released or absorbed.
 
-First count reactants and products, then name the reaction type.

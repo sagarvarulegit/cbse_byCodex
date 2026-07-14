@@ -1,5 +1,5 @@
 ---
-title: Oxides and chemical properties
+title: 3.2 Chemical properties of metals
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Oxides and chemical properties
+# 3.2 Chemical properties of metals
 
 Metals and non-metals behave differently when they react with oxygen. The nature of the oxide often tells us whether it is basic or acidic.
 
@@ -59,6 +59,36 @@ Use this simple map:
 - Acidic solution turns blue litmus red.
 - Magnesium oxide in water is basic.
 - Sulphur dioxide in water is acidic.
+
+## NCERT activity and figure tracker
+
+Activity 3.8 and 3.9: Combustion and oxide nature
+- Burn metal and non-metal samples, then test the oxides with litmus.
+- Conclusion: metal oxides are generally basic and non-metal oxides are generally acidic.
+## Questions and answers
+
+### 3.2 Chemical properties of metals
+
+Question:
+Why are metal oxides generally basic in nature?
+
+Answer:
+Metal oxides often react with acids to form salt and water, so they behave as bases.
+
+Question:
+Why are non-metal oxides generally acidic in nature?
+
+Answer:
+Non-metal oxides often react with bases to form salt and water, so they behave as acids.
+
+Question:
+What happens when magnesium burns in oxygen?
+
+Answer:
+Magnesium burns with a bright flame and forms magnesium oxide.
+
+Do You Know:
+- A litmus test is a quick way to check whether an oxide is acidic or basic.
 
 ## Solved examples
 
@@ -117,3 +147,5 @@ Metals form oxides that are generally basic. Non-metals form oxides that are gen
 - Red Litmus: "Basic oxide turns me blue."
 - Sulphur Smoke: "My oxide makes an acidic solution."
 - Blue Litmus: "Acid turns me red."
+
+

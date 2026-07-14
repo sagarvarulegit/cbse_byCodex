@@ -1,5 +1,5 @@
 ---
-title: Indicators and neutralisation
+title: 2.1-2.2 Understanding acids, bases, and neutralisation
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
@@ -11,7 +11,7 @@ access_level: free
 status: draft
 ---
 
-# Indicators and neutralisation
+# 2.1-2.2 Understanding acids, bases, and neutralisation
 
 Acids and bases often look like ordinary solutions. Indicators help us identify them by showing a visible colour or smell change.
 
@@ -69,6 +69,44 @@ Hydrochloric acid reacts with sodium hydroxide to form sodium chloride and water
 When the solution changes from basic to acidic, phenolphthalein loses its pink colour. If enough base is added again, the pink colour returns.
 
 [[demo:activity-2-6-reversible-neutralisation]]
+
+## NCERT activity and figure tracker
+
+Activity 2.1: Phenolphthalein with acid and base
+- Add indicator to acid and base samples and compare the colour change.
+- Conclusion: indicators help us identify acidic and basic solutions.
+
+Activity 2.2: Olfactory indicators
+- Test smell changes with onion, vanilla, or clove extracts.
+- Conclusion: some indicators work through smell.
+
+Activity 2.6: Reversible colour change
+- Switch between acid and base to see a colour change reverse.
+- Conclusion: neutralisation can be tracked by indicator colour.
+## Questions and answers
+
+### 2.1-2.2 Understanding acids, bases, and neutralisation
+
+Question:
+How do indicators tell us whether a substance is acidic or basic?
+
+Answer:
+Indicators change colour or smell differently in acids and bases, so they help us identify the nature of a substance.
+
+Question:
+What is neutralisation?
+
+Answer:
+Neutralisation is the reaction between an acid and a base to form salt and water.
+
+Question:
+Why are olfactory indicators useful?
+
+Answer:
+They show a change in smell in acidic or basic conditions, which makes them useful when colour change is not enough.
+
+Think it over:
+- Neutralisation reduces the extra acidity or basicity of a solution, but the final pH still matters.
 
 ## Solved examples
 
@@ -131,3 +169,5 @@ The products are sodium chloride and water.
 ## Remember this line
 
 Indicator first, observation second, conclusion third.
+
+

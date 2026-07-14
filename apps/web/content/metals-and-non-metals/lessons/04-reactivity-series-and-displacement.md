@@ -1,5 +1,5 @@
 ---
-title: Reactivity series and displacement
+title: 3.2.4-3.3 Reactivity series and how metals react with non-metals
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Reactivity series and displacement
+# 3.2.4-3.3 Reactivity series and how metals react with non-metals
 
 The reactivity series helps predict how metals react with water, acids, and salt solutions.
 
@@ -64,6 +64,36 @@ Example:
 `Fe + CuSO4 -> FeSO4 + Cu`
 
 Iron is more reactive than copper, so iron displaces copper from copper sulphate solution.
+
+## NCERT activity and figure tracker
+
+Activity 3.10-3.12: Reactivity sandbox
+- Compare reactions with water, dilute acids, and salt solutions.
+- Conclusion: a more reactive metal can displace a less reactive one.
+## Questions and answers
+
+### 3.2.4-3.3 Reactivity series and how metals react with non-metals
+
+Question:
+What is the reactivity series?
+
+Answer:
+It is the arrangement of metals in decreasing order of their tendency to react.
+
+Question:
+Why does zinc displace copper from copper sulphate?
+
+Answer:
+Zinc is more reactive than copper, so it displaces copper from its salt solution.
+
+Question:
+Why do all metals not react with acids?
+
+Answer:
+Only metals above hydrogen in the reactivity series can usually displace hydrogen from dilute acids.
+
+More to Know:
+- The reactivity series helps predict not just displacement, but also extraction methods.
 
 ## Solved examples
 
@@ -120,3 +150,5 @@ The reactivity series is the prediction tool. More reactive metals displace less
 - Sodium Sprinter: "Cold water is enough for me."
 - Iron Player: "I can push copper out of CuSO4."
 - Copper Calm: "Dilute HCl cannot move me."
+
+

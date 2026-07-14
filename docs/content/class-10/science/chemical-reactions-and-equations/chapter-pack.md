@@ -25,14 +25,13 @@ This pack follows the local NCERT chapter file `jesc101.pdf`: chemical equations
 
 ## chapter flow for the platform
 
-1. What a chemical reaction is
-2. Writing chemical equations
-3. Balancing chemical equations
-4. Types of chemical reactions
-5. Oxidation and reduction
-6. Corrosion and rancidity
+1. 1.1 Chemical equations
+2. 1.1 continued - Balancing chemical equations
+3. 1.2.1-1.2.2 Combination and decomposition reactions
+4. 1.2.3-1.2.4 Displacement and double displacement reactions
+5. 1.2.5-1.3 Oxidation, reduction, and effects in daily life
 
-## 1) chemical reactions
+## 1.1 Chemical equations
 
 A chemical reaction happens when one or more substances change into new substances.
 
@@ -48,7 +47,7 @@ Example:
 
 Magnesium burns in oxygen and forms magnesium oxide.
 
-## 2) chemical equations
+## 1.1 continued - Balancing chemical equations
 
 A chemical equation represents a reaction using symbols and formulae.
 
@@ -59,7 +58,7 @@ Example:
 
 This means zinc reacts with sulphuric acid to form zinc sulphate and hydrogen gas.
 
-## 3) balanced chemical equations
+## 1.2.1-1.2.2 Combination and decomposition reactions
 
 A chemical equation must obey the law of conservation of mass.
 
@@ -78,43 +77,33 @@ Balanced form:
 3. Do not change formulae. Only change coefficients.
 4. Check again at the end.
 
-## 4) types of chemical reactions
-
-### combination reaction
-
-Two or more reactants combine to form one product.
+Combination reaction: two or more reactants combine to form one product.
 
 Example:
 `CaO + H2O -> Ca(OH)2`
 
-### decomposition reaction
-
-One compound breaks into simpler substances.
+Decomposition reaction: one compound breaks into simpler substances.
 
 Example:
 `CaCO3 -> CaO + CO2`
 
 Decomposition may happen due to heat, light, or electricity.
 
-### displacement reaction
+## 1.2.3-1.2.4 Displacement and double displacement reactions
 
 A more reactive element displaces a less reactive element from its compound.
 
 Example:
 `Fe + CuSO4 -> FeSO4 + Cu`
 
-Iron displaces copper from copper sulphate.
-
-### double displacement reaction
-
-Two compounds exchange ions.
+Two compounds can exchange ions.
 
 Example:
 `Na2SO4 + BaCl2 -> BaSO4 + 2NaCl`
 
 `BaSO4` is a white precipitate.
 
-## 5) oxidation and reduction
+## 1.2.5-1.3 Oxidation, reduction, and effects in daily life
 
 Oxidation means gain of oxygen or loss of hydrogen.
 
@@ -129,7 +118,7 @@ In this reaction:
 
 Oxidation and reduction happen together, so the reaction is called a redox reaction.
 
-## 6) corrosion and rancidity
+## 1.3 Effects of oxidation in daily life
 
 ### corrosion
 

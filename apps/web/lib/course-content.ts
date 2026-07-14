@@ -243,25 +243,23 @@ const chapters: Record<string, ChapterContent> = {
   'chemical-reactions-and-equations': {
     subject: 'Science',
     title: 'Chemical Reactions and Equations',
-    progress: 56,
+    progress: 0,
     mastery: 'Notes live',
     streakTask: 'Finish one lesson note and balance 3 equations without hints',
     summary:
-      'Five live lesson notes now cover chemical equations, balancing, reaction types, displacement, and redox with corrosion and rancidity revision.',
+      'Six source-aligned lessons cover every Chapter 1 section, activity, figure, numbered equation, in-text question, and exercise.',
     topics: [
-      'Chemical equations',
-      'Balancing equations',
-      'Combination and decomposition reactions',
-      'Displacement and double displacement reactions',
-      'Oxidation and reduction',
+      '1.1 Chemical Equations',
+      '1.2 Types of Chemical Reactions',
+      '1.3 Have You Observed the Effects of Oxidation Reactions in Everyday Life?',
     ],
     lessons: [
       {
         slug: 'chemical-equations',
         fileName: '01-chemical-equations.md',
-        title: 'Chemical equations',
+        title: '1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation',
         type: 'Concept foundation',
-        minutes: 10,
+        minutes: 18,
         free: true,
         preview:
           'Read reactions as reactants, products, formula equations, and state symbols before learning to balance them.',
@@ -269,9 +267,9 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'balancing-equations',
         fileName: '02-balancing-equations.md',
-        title: 'Balancing equations',
+        title: '1.1.2 Balanced Chemical Equations',
         type: 'Guided balancing practice',
-        minutes: 11,
+        minutes: 22,
         free: false,
         preview:
           'Use conservation of mass, coefficients, and a repeatable atom-counting method to balance equations safely.',
@@ -279,9 +277,9 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'combination-and-decomposition-reactions',
         fileName: '03-combination-and-decomposition-reactions.md',
-        title: 'Combination and decomposition reactions',
+        title: '1.2 Types of Chemical Reactions - Combination and Decomposition',
         type: 'Visual explainer',
-        minutes: 9,
+        minutes: 24,
         free: false,
         preview:
           'Learn how combination and decomposition reactions work, plus the difference between thermal, electrolytic, and photolytic breakdown.',
@@ -289,9 +287,9 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'displacement-and-double-displacement-reactions',
         fileName: '04-displacement-and-double-displacement-reactions.md',
-        title: 'Displacement and double displacement reactions',
+        title: '1.2.3 Displacement and 1.2.4 Double Displacement Reactions',
         type: 'Activity breakdown',
-        minutes: 10,
+        minutes: 18,
         free: false,
         preview:
           'Use the reactivity series and ion exchange to spot displacement, double displacement, and precipitate-forming reactions.',
@@ -299,12 +297,21 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'oxidation-and-reduction',
         fileName: '05-oxidation-and-reduction.md',
-        title: 'Oxidation and reduction',
+        title: '1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life',
         type: 'Revision sprint',
-        minutes: 8,
+        minutes: 18,
         free: false,
         preview:
           'Revise oxidation, reduction, redox, corrosion, and rancidity with prevention methods and quick examples.',
+      },
+      {
+        slug: 'ncert-exercises-and-revision',
+        fileName: '06-ncert-exercises-and-revision.md',
+        title: 'NCERT Chapter Exercises and Revision',
+        type: 'Exam practice',
+        minutes: 35,
+        free: false,
+        preview: 'Attempt all twenty NCERT exercises, reveal concise answers, and finish with a repeatable revision ladder.',
       },
     ],
   },
@@ -317,16 +324,17 @@ const chapters: Record<string, ChapterContent> = {
     summary:
       'Four live lesson notes now cover indicators, chemical properties of acids and bases, pH, salts, and common salt derivatives with Chapter 2 lab animations.',
     topics: [
-      'Indicators and neutralisation',
-      'Chemical properties of acids and bases',
-      'pH and ions in solution',
-      'Common salts and daily-life uses',
+      '2.1 Understanding the chemical properties of acids and bases',
+      '2.2 What do all acids and all bases have in common?',
+      '2.3 How strong are acid or base solutions?',
+      '2.4 Importance of pH in daily life',
+      '2.5 More about salts',
     ],
     lessons: [
       {
         slug: 'indicators-and-neutralisation',
         fileName: '01-indicators-and-neutralisation.md',
-        title: 'Indicators and neutralisation',
+        title: '2.1-2.2 Understanding acids, bases, and neutralisation',
         type: 'Virtual lab note',
         minutes: 10,
         free: true,
@@ -336,7 +344,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'chemical-properties-of-acids-and-bases',
         fileName: '02-chemical-properties-of-acids-and-bases.md',
-        title: 'Chemical properties of acids and bases',
+        title: '2.1 continued - Reactions of acids and bases',
         type: 'Activity breakdown',
         minutes: 12,
         free: false,
@@ -346,7 +354,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'ph-and-ions-in-solution',
         fileName: '03-ph-and-ions-in-solution.md',
-        title: 'pH and ions in solution',
+        title: '2.3-2.4 pH scale and importance in daily life',
         type: 'Concept explainer',
         minutes: 9,
         free: false,
@@ -356,7 +364,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'salts-and-daily-life-uses',
         fileName: '04-salts-and-daily-life-uses.md',
-        title: 'Salts and daily-life uses',
+        title: '2.5 More about salts and important compounds',
         type: 'Revision sprint',
         minutes: 9,
         free: false,
@@ -374,18 +382,18 @@ const chapters: Record<string, ChapterContent> = {
     summary:
       'Six live lesson notes now cover physical properties, conductivity, oxides, reactivity, ionic compounds, and corrosion with Chapter 3 lab animations.',
     topics: [
-      'Physical properties',
-      'Conductivity of metals',
-      'Chemical properties of metals and non-metals',
-      'Reactivity series and displacement',
-      'Ionic compounds',
-      'Corrosion and prevention',
+      '3.1 Physical properties',
+      '3.2 Chemical properties of metals',
+      '3.3 How do metals and non-metals react?',
+      '3.4 Properties of ionic compounds',
+      '3.5 Occurrence of metals',
+      '3.6 Corrosion',
     ],
     lessons: [
       {
         slug: 'physical-properties',
         fileName: '01-physical-properties.md',
-        title: 'Physical properties',
+        title: '3.1 Physical properties of metals and non-metals',
         type: 'Virtual lab note',
         minutes: 10,
         free: true,
@@ -395,7 +403,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'thermal-conductivity-and-conductivity',
         fileName: '02-thermal-conductivity-and-conductivity.md',
-        title: 'Thermal conductivity and conductivity',
+        title: '3.1 continued - Thermal and electrical conductivity',
         type: 'Activity breakdown',
         minutes: 9,
         free: false,
@@ -405,7 +413,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'oxides-and-chemical-properties',
         fileName: '03-oxides-and-chemical-properties.md',
-        title: 'Oxides and chemical properties',
+        title: '3.2 Chemical properties of metals',
         type: 'Concept explainer',
         minutes: 11,
         free: false,
@@ -415,7 +423,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'reactivity-series-and-displacement',
         fileName: '04-reactivity-series-and-displacement.md',
-        title: 'Reactivity series and displacement',
+        title: '3.2.4-3.3 Reactivity series and how metals react with non-metals',
         type: 'Activity breakdown',
         minutes: 12,
         free: false,
@@ -425,7 +433,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'ionic-compounds',
         fileName: '05-ionic-compounds.md',
-        title: 'Ionic compounds',
+        title: '3.3-3.4 Ionic compounds and their properties',
         type: 'Board scoring lesson',
         minutes: 10,
         free: false,
@@ -435,7 +443,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'corrosion-and-prevention',
         fileName: '06-corrosion-and-prevention.md',
-        title: 'Corrosion and prevention',
+        title: '3.5-3.6 Occurrence, corrosion, and prevention',
         type: 'Revision sprint',
         minutes: 8,
         free: false,
@@ -453,19 +461,17 @@ const chapters: Record<string, ChapterContent> = {
     summary:
       'Seven live lesson notes cover covalent bonding, carbon versatility, hydrocarbons, functional groups, reactions, ethanol, ethanoic acid, soaps, and detergents.',
     topics: [
-      'Covalent bonding',
-      'Versatile nature of carbon',
-      'Hydrocarbons and homologous series',
-      'Functional groups and naming',
-      'Chemical properties',
-      'Ethanol and ethanoic acid',
-      'Soaps and detergents',
+      '4.1 Bonding in carbon - the covalent bond',
+      '4.2 Versatile nature of carbon',
+      '4.3 Chemical properties of carbon compounds',
+      '4.4 Some important carbon compounds - ethanol and ethanoic acid',
+      '4.5 Soaps and detergents',
     ],
     lessons: [
       {
         slug: 'covalent-bonding-in-carbon',
         fileName: '01-covalent-bonding-in-carbon.md',
-        title: 'Covalent bonding in carbon',
+        title: '4.1 Bonding in carbon - the covalent bond',
         type: 'Concept explainer',
         minutes: 10,
         free: true,
@@ -475,7 +481,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'versatile-nature-of-carbon',
         fileName: '02-versatile-nature-of-carbon.md',
-        title: 'Versatile nature of carbon',
+        title: '4.2 Versatile nature of carbon',
         type: 'Board scoring lesson',
         minutes: 9,
         free: false,
@@ -485,7 +491,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'hydrocarbons-and-homologous-series',
         fileName: '03-hydrocarbons-and-homologous-series.md',
-        title: 'Hydrocarbons and homologous series',
+        title: '4.2 continued - Hydrocarbons and homologous series',
         type: 'Concept explainer',
         minutes: 11,
         free: false,
@@ -495,7 +501,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'functional-groups-and-naming',
         fileName: '04-functional-groups-and-naming.md',
-        title: 'Functional groups and naming',
+        title: '4.2 continued - Functional groups and naming',
         type: 'Board scoring lesson',
         minutes: 12,
         free: false,
@@ -505,7 +511,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'chemical-properties-of-carbon-compounds',
         fileName: '05-chemical-properties-of-carbon-compounds.md',
-        title: 'Chemical properties of carbon compounds',
+        title: '4.3 Chemical properties of carbon compounds',
         type: 'Reaction map',
         minutes: 12,
         free: false,
@@ -515,7 +521,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'ethanol-and-ethanoic-acid',
         fileName: '06-ethanol-and-ethanoic-acid.md',
-        title: 'Ethanol and ethanoic acid',
+        title: '4.4 Some important carbon compounds - ethanol and ethanoic acid',
         type: 'Activity breakdown',
         minutes: 11,
         free: false,
@@ -525,7 +531,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'soaps-and-detergents',
         fileName: '07-soaps-and-detergents.md',
-        title: 'Soaps and detergents',
+        title: '4.5 Soaps and detergents',
         type: 'Revision sprint',
         minutes: 10,
         free: false,
@@ -615,12 +621,70 @@ const chapters: Record<string, ChapterContent> = {
   'control-and-coordination': {
     subject: 'Science',
     title: 'Control and Coordination',
-    progress: 0,
-    mastery: 'Coming soon',
-    streakTask: 'Will unlock soon',
-    summary: 'Nervous system, reflex actions, human brain, and plant/animal hormones.',
-    topics: ['Nerve cells and reflex arc', 'Human brain structure', 'Endocrine system hormones'],
-    lessons: [],
+    progress: 18,
+    mastery: 'Notes live',
+    streakTask: 'Revise one reflex diagram and answer 3 control questions',
+    summary:
+      'Five live lesson notes follow NCERT Chapter 6: nervous tissue, reflexes, brain protection, plant coordination, hormones, activities, figures, and exercise anchors.',
+    topics: [
+      '6.1 Animals - Nervous System',
+      '6.1.1 What happens in Reflex Actions?',
+      '6.1.2-6.1.4 Human Brain and Nervous Tissue Action',
+      '6.2 Coordination in Plants',
+      '6.3 Hormones in Animals',
+    ],
+    lessons: [
+      {
+        slug: 'animals-nervous-system',
+        fileName: '01-animals-nervous-system.md',
+        title: '6.1 Animals - Nervous System',
+        type: 'Concept explainer',
+        minutes: 12,
+        free: true,
+        preview:
+          'Trace stimuli, receptors, neurons, synapses, and the first textbook activity without skipping the NCERT order.',
+      },
+      {
+        slug: 'reflex-actions',
+        fileName: '02-reflex-actions.md',
+        title: '6.1.1 What happens in Reflex Actions?',
+        type: 'Board scoring lesson',
+        minutes: 10,
+        free: false,
+        preview:
+          'Follow the reflex arc, spinal cord shortcut, and fast protective responses with clear labels and examples.',
+      },
+      {
+        slug: 'human-brain-and-nervous-tissue',
+        fileName: '03-human-brain-and-nervous-tissue.md',
+        title: '6.1.2-6.1.4 Human Brain and Nervous Tissue Action',
+        type: 'Diagram lesson',
+        minutes: 13,
+        free: false,
+        preview:
+          'Understand the fore-brain, mid-brain, hind-brain, protection, and how muscle cells finally act on nerve signals.',
+      },
+      {
+        slug: 'coordination-in-plants',
+        fileName: '04-coordination-in-plants.md',
+        title: '6.2 Coordination in Plants',
+        type: 'Concept explainer',
+        minutes: 12,
+        free: false,
+        preview:
+          'Compare sensitive-plant movement, tropic growth, and plant hormones while keeping the figure and activity numbers intact.',
+      },
+      {
+        slug: 'hormones-in-animals',
+        fileName: '05-hormones-in-animals.md',
+        title: '6.3 Hormones in Animals',
+        type: 'Revision sprint',
+        minutes: 11,
+        free: false,
+        preview:
+          'Connect adrenaline, thyroxin, growth hormone, insulin, feedback, and the final exercise questions in one clean pass.',
+      },
+    ],
   },
   'how-do-organisms-reproduce': {
     subject: 'Science',
@@ -1191,6 +1255,7 @@ const lessonDirectories: Partial<Record<keyof typeof chapters, string>> = {
   'metals-and-non-metals': path.join(process.cwd(), 'content', 'metals-and-non-metals', 'lessons'),
   'carbon-and-its-compounds': path.join(process.cwd(), 'content', 'carbon-and-its-compounds', 'lessons'),
   'life-processes': path.join(process.cwd(), 'content', 'life-processes', 'lessons'),
+  'control-and-coordination': path.join(process.cwd(), 'content', 'control-and-coordination', 'lessons'),
   'two-stories-about-flying': path.join(process.cwd(), 'content', 'two-stories-about-flying', 'lessons'),
 };
 
@@ -1446,7 +1511,18 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
     return null;
   }
 
-  const raw = await fs.readFile(path.join(directory, lesson.fileName), 'utf8');
+  let raw: string;
+
+  try {
+    raw = await fs.readFile(path.join(directory, lesson.fileName), 'utf8');
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return null;
+    }
+
+    throw error;
+  }
+
   const markdown = stripFrontmatter(raw);
 
   return {

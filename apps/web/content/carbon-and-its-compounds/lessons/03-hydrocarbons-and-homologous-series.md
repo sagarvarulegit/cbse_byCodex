@@ -1,5 +1,5 @@
 ---
-title: Hydrocarbons and homologous series
+title: 4.2 continued - Hydrocarbons and homologous series
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -11,7 +11,7 @@ access_level: locked
 status: draft
 ---
 
-# Hydrocarbons and homologous series
+# 4.2 continued - Hydrocarbons and homologous series
 
 Hydrocarbons are compounds made only of carbon and hydrogen. They may be saturated or unsaturated.
 
@@ -132,6 +132,36 @@ Examples:
 - `C3H6` follows `CnH2n`, so it can be an alkene or a ring compound at this level; if a double bond is shown, call it an alkene.
 - `C2H2` follows the alkyne pattern and has a triple bond, so it is ethyne.
 
+## NCERT activity and figure tracker
+
+Figure 4.3: Saturated and unsaturated hydrocarbons
+- Compare single-bond, double-bond, and triple-bond examples.
+- Conclusion: the bonding pattern changes the properties.
+## Questions and answers
+
+### 4.2 continued - Hydrocarbons and homologous series
+
+Question:
+What is a homologous series?
+
+Answer:
+A homologous series is a family of organic compounds with the same functional group and successive members differing by CH2.
+
+Question:
+What is the difference between saturated and unsaturated compounds?
+
+Answer:
+Saturated compounds have only single bonds between carbon atoms, while unsaturated compounds have at least one double or triple bond.
+
+Question:
+Why do successive members of a homologous series differ by CH2?
+
+Answer:
+Each next member has one more carbon atom and two more hydrogen atoms than the previous one, so the difference is CH2.
+
+Think it over:
+- A small change in bonding can change both the name of a compound and its chemical behaviour.
+
 ## Solved examples
 
 ### Example 1: Saturated or unsaturated
@@ -209,3 +239,5 @@ Hydrocarbons contain only carbon and hydrogen. Alkanes are saturated and have si
 - Alkene: "I carry a double bond."
 - Alkyne: "Triple bond, remember me."
 - Series Captain: "Next member? Add `CH2`."
+
+

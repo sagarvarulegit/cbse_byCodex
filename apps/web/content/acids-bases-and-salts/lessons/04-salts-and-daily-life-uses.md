@@ -1,5 +1,5 @@
 ---
-title: Salts and daily-life uses
+title: 2.5 More about salts and important compounds
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
@@ -11,7 +11,7 @@ access_level: premium
 status: draft
 ---
 
-# Salts and daily-life uses
+# 2.5 More about salts and important compounds
 
 Salts are formed when acids and bases react. This chapter then studies important salts made from common salt.
 
@@ -103,6 +103,36 @@ Keep these reaction families together:
 - acid + metallic oxide -> salt + water
 - acids and bases show behaviour through ions in water
 
+## NCERT activity and figure tracker
+
+Activity 2.9-2.15: Common salt and salt preparation chain
+- Follow the chapter flow from sodium chloride to its important derivatives.
+- Conclusion: common salt is the source material for several useful compounds.
+## Questions and answers
+
+### 2.5 More about salts and important compounds
+
+Question:
+What is common salt used for?
+
+Answer:
+Common salt is the raw material for making sodium hydroxide, bleaching powder, baking soda, and washing soda.
+
+Question:
+What is the formula of washing soda?
+
+Answer:
+Washing soda is sodium carbonate decahydrate, Na2CO3.10H2O.
+
+Question:
+What is plaster of Paris and how is it useful?
+
+Answer:
+Plaster of Paris is calcium sulphate hemihydrate, CaSO4.1/2H2O. It is used for making casts and moulds.
+
+Do You Know:
+- Common salt links the chapter together because so many important chemicals come from it.
+
 ## Solved examples
 
 ### Example 1: Common salt derivative
@@ -174,3 +204,5 @@ Salt, water, and carbon dioxide.
 ## Remember this line
 
 Common salt starts the family, but each salt has its own use.
+
+
