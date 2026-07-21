@@ -13,6 +13,10 @@ const QUESTION_LINE = /^\*\*(\d+)\.\s+(.+)\*\*$/;
 const HINT_LINE = /^\*Hint:\*\s*(.*)$/i;
 const ANSWER_LINE = /^\*Answer:\*\s*(.*)$/i;
 
+export function isLessonQuestionMarker(value: string) {
+  return QUESTION_MARKER.test(value.trim());
+}
+
 export function parseLessonQuestionAnswers(blocks: MarkdownBlock[]): LessonQuestionAnswer[] {
   const questions: LessonQuestionAnswer[] = [];
   let markerSeen = false;
@@ -28,7 +32,7 @@ export function parseLessonQuestionAnswers(blocks: MarkdownBlock[]): LessonQuest
   };
 
   for (const block of blocks) {
-    if (block.type === 'paragraph' && QUESTION_MARKER.test(block.text.trim())) {
+    if (block.type === 'paragraph' && isLessonQuestionMarker(block.text)) {
       flushCurrent();
       markerSeen = true;
       continue;
@@ -61,10 +65,17 @@ export function parseLessonQuestionAnswers(blocks: MarkdownBlock[]): LessonQuest
 
         const answerMatch = block.text.trim().match(ANSWER_LINE);
         if (answerMatch) {
-          current.answer = answerMatch[1].trim();
+          if (current.answer || current.answerBlocks.length > 0) {
+            current.answerBlocks.push(block);
+          } else {
+            current.answer = answerMatch[1].trim();
+          }
           collectingAnswer = true;
           continue;
         }
+
+        current.answerBlocks.push(block);
+        continue;
       }
     }
 

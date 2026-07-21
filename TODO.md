@@ -1,5 +1,12 @@
 # Science Chapter 1 Quality Remediation Implementation Plan
 
+## Current handoff — 2026-07-21
+
+- [x] Complete the NCERT-fidelity remediation for all six Chapter 1 lessons, exercises, quiz, chapter pack, metadata, and accessible illustrations.
+- [x] Replace the inaccurate Chapter 1 redraws and expose image labels as numbered pins with matching HTML keys.
+- [x] Fix lesson and chapter-note inline markdown rendering, direct textbook question markers, and multi-part answer preservation.
+- [ ] Next task: conduct a small manual student review of Chapter 1 and record comprehension, navigation, and figure-label feedback. Automated tests and all Graphify updates remain paused until the user explicitly re-enables them.
+
 > **Planning status:** This is the immediate execution handoff. It replaces the completed/stale quiz-metadata handoff. Do not implement from memory or from the current lesson text alone; use the local NCERT PDF and the repository standards as the source of truth.
 
 **Goal:** Make Class 10 Science Chapter 1, *Chemical Reactions and Equations*, genuinely NCERT-faithful, understandable to a low-confidence student, honest about mastery, fast on mobile, and strong enough for a real student pilot.

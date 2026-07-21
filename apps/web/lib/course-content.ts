@@ -247,7 +247,7 @@ const chapters: Record<string, ChapterContent> = {
     mastery: 'Notes live',
     streakTask: 'Finish one lesson note and balance 3 equations without hints',
     summary:
-      'Six source-aligned lessons cover every Chapter 1 section, activity, figure, numbered equation, in-text question, and exercise.',
+      'Six NCERT-sequenced lessons teach equations, reaction types, oxidation effects, activities, figures, in-text questions, and scoring-friendly exercise answers.',
     topics: [
       '1.1 Chemical Equations',
       '1.2 Types of Chemical Reactions',
@@ -277,7 +277,7 @@ const chapters: Record<string, ChapterContent> = {
       {
         slug: 'combination-and-decomposition-reactions',
         fileName: '03-combination-and-decomposition-reactions.md',
-        title: '1.2 Types of Chemical Reactions - Combination and Decomposition',
+        title: '1.2 Types of Chemical Reactions - 1.2.1 Combination and 1.2.2 Decomposition',
         type: 'Visual explainer',
         minutes: 24,
         free: false,

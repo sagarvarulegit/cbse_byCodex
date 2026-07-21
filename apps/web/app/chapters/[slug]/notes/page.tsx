@@ -6,6 +6,7 @@ import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../components/PilotEngagementTracker';
 import { getChapterPackContent } from '../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../lib/course-content';
+import { parseInlineMarkup, type InlineMarkupToken } from '../../../../lib/lesson-inline-markup';
 import {
   collectChapterSection,
   getChapterSectionVariant,
@@ -116,14 +117,26 @@ export default async function ChapterNotesPage({ params }: { params: Promise<{ s
 }
 
 function renderInline(text: string) {
-  const parts = text.split(/(`[^`]+`)/g).filter(Boolean);
+  return renderInlineTokens(parseInlineMarkup(text), 'inline');
+}
 
-  return parts.map((part, index) => {
-    if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={`${part}-${index}`}>{part.slice(1, -1)}</code>;
+function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): ReactNode[] {
+  return tokens.map((token, index) => {
+    const key = `${keyPrefix}-${token.type}-${index}`;
+
+    if (token.type === 'code') {
+      return <code key={key}>{token.value}</code>;
     }
 
-    return <span key={`${part}-${index}`}>{part}</span>;
+    if (token.type === 'strong') {
+      return <strong key={key}>{renderInlineTokens(token.children, key)}</strong>;
+    }
+
+    if (token.type === 'emphasis') {
+      return <em key={key}>{renderInlineTokens(token.children, key)}</em>;
+    }
+
+    return <span key={key}>{token.value}</span>;
   });
 }
 
