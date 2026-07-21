@@ -2,7 +2,13 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import type { MarkdownBlock } from './course-content';
-import { parseLessonQuestionAnswers } from './lesson-question-answers';
+import { isLessonQuestionMarker, parseLessonQuestionAnswers } from './lesson-question-answers';
+
+test('isLessonQuestionMarker recognizes the documented lesson question headings', () => {
+  assert.equal(isLessonQuestionMarker('**❓ QUESTIONS**'), true);
+  assert.equal(isLessonQuestionMarker('**❓ IN-TEXT QUESTIONS**'), true);
+  assert.equal(isLessonQuestionMarker('Questions'), false);
+});
 
 test('parseLessonQuestionAnswers reads the required NCERT question markup', () => {
   const blocks: MarkdownBlock[] = [
@@ -42,4 +48,29 @@ test('parseLessonQuestionAnswers leaves legacy sections to the fallback renderer
   ];
 
   assert.deepEqual(parseLessonQuestionAnswers(blocks), []);
+});
+
+test('parseLessonQuestionAnswers preserves multi-part questions and each answer', () => {
+  const blocks: MarkdownBlock[] = [
+    { type: 'paragraph', text: '**❓ QUESTIONS**' },
+    { type: 'paragraph', text: '**3. Identify the substances that are oxidised and reduced.**' },
+    { type: 'paragraph', text: '**(i) `4Na + O₂ → 2Na₂O`**' },
+    { type: 'paragraph', text: '*Answer:* Sodium is oxidised.' },
+    { type: 'paragraph', text: '**(ii) `CuO + H₂ → Cu + H₂O`**' },
+    { type: 'paragraph', text: '*Answer:* Copper oxide is reduced.' },
+  ];
+
+  assert.deepEqual(parseLessonQuestionAnswers(blocks), [
+    {
+      answer: '',
+      answerBlocks: [
+        { type: 'paragraph', text: '**(i) `4Na + O₂ → 2Na₂O`**' },
+        { type: 'paragraph', text: '*Answer:* Sodium is oxidised.' },
+        { type: 'paragraph', text: '**(ii) `CuO + H₂ → Cu + H₂O`**' },
+        { type: 'paragraph', text: '*Answer:* Copper oxide is reduced.' },
+      ],
+      number: 3,
+      question: 'Identify the substances that are oxidised and reduced.',
+    },
+  ]);
 });

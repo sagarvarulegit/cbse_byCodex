@@ -11,7 +11,8 @@ import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
 import { getLessonVideo } from '../../../../../lib/lesson-video';
-import { parseLessonQuestionAnswers } from '../../../../../lib/lesson-question-answers';
+import { parseInlineMarkup, type InlineMarkupToken } from '../../../../../lib/lesson-inline-markup';
+import { isLessonQuestionMarker, parseLessonQuestionAnswers } from '../../../../../lib/lesson-question-answers';
 import { isPilotChapter } from '../../../../../lib/pilot';
 
 
@@ -198,21 +199,31 @@ export default async function LessonPage({
 }
 
 function renderInline(text: string) {
-  const parts = text.split(/(`[^`]+`)/g).filter(Boolean);
+  return renderInlineTokens(parseInlineMarkup(text), 'inline');
+}
 
-  return parts.map((part, index) => {
-    if (part.startsWith('`') && part.endsWith('`')) {
-      const raw = part.slice(1, -1);
-      const glossaryEntry = getGlossaryEntry(raw);
+function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): ReactNode[] {
+  return tokens.map((token, index) => {
+    const key = `${keyPrefix}-${token.type}-${index}`;
 
+    if (token.type === 'code') {
+      const glossaryEntry = getGlossaryEntry(token.value);
       if (glossaryEntry) {
-        return <GlossaryTerm key={`${raw}-${index}`} label={raw} payload={glossaryEntry} />;
+        return <GlossaryTerm key={key} label={token.value} payload={glossaryEntry} />;
       }
 
-      return <code key={`${part}-${index}`}>{raw}</code>;
+      return <code key={key}>{token.value}</code>;
     }
 
-    return <span key={`${part}-${index}`}>{part}</span>;
+    if (token.type === 'strong') {
+      return <strong key={key}>{renderInlineTokens(token.children, key)}</strong>;
+    }
+
+    if (token.type === 'emphasis') {
+      return <em key={key}>{renderInlineTokens(token.children, key)}</em>;
+    }
+
+    return <span key={key}>{token.value}</span>;
   });
 }
 
@@ -238,6 +249,14 @@ function renderLessonBlocks(blocks: MarkdownBlock[]) {
     if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'questions and answers') {
       const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
       rendered.push(renderQuestionAnswerCard(block.text, bodyBlocks, index));
+      index = nextIndex - 1;
+      continue;
+    }
+
+    if (block.type === 'paragraph' && isLessonQuestionMarker(block.text)) {
+      const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index);
+      const title = /in-text/i.test(block.text) ? 'In-text questions and answers' : 'Questions and answers';
+      rendered.push(renderQuestionAnswerCard(title, bodyBlocks, index));
       index = nextIndex - 1;
       continue;
     }
@@ -349,19 +368,19 @@ function renderBlock(block: MarkdownBlock, index: number) {
       return (
         <header className="prose-intro" key={`${block.type}-${index}`}>
           <p className="eyebrow">Lesson note</p>
-          <h2>{block.text}</h2>
+          <h2>{renderInline(block.text)}</h2>
         </header>
       );
     case 'h2':
       return (
         <h3 className="prose-section-heading" id={toSectionId(block.text)} key={`${block.type}-${index}`}>
-          {block.text}
+          {renderInline(block.text)}
         </h3>
       );
     case 'h3':
       return (
         <h4 className="prose-subheading" key={`${block.type}-${index}`}>
-          {block.text}
+          {renderInline(block.text)}
         </h4>
       );
     case 'paragraph': {
