@@ -8,9 +8,15 @@ import { PILOT_CHAPTER_SLUGS } from './pilot';
 import { parseQuizContent, slugifyQuizTopic } from './quiz-content';
 
 const expectedAnswerValues: Record<(typeof PILOT_CHAPTER_SLUGS)[number], number[]> = {
-  'chemical-reactions-and-equations': [1, 1, 1, 1, 1],
+  'chemical-reactions-and-equations': [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4],
   'real-numbers': [2, 1, 1, 3, 1],
   'two-stories-about-flying': [1, 1, 1, 1, 1],
+};
+
+const expectedQuestionCounts: Record<(typeof PILOT_CHAPTER_SLUGS)[number], number> = {
+  'chemical-reactions-and-equations': 20,
+  'real-numbers': 5,
+  'two-stories-about-flying': 5,
 };
 
 function getValidTopicSlugs(chapterSlug: (typeof PILOT_CHAPTER_SLUGS)[number]) {
@@ -29,7 +35,7 @@ for (const chapterSlug of PILOT_CHAPTER_SLUGS) {
     const validTopicSlugs = getValidTopicSlugs(chapterSlug);
     const questions = parseQuizContent(markdown, validTopicSlugs, { strictMetadata: true });
 
-    assert.equal(questions.length, 5);
+    assert.equal(questions.length, expectedQuestionCounts[chapterSlug]);
     assert.deepEqual(
       questions.map((question) => question.options[question.correctOptionIndex]?.value),
       expectedAnswerValues[chapterSlug],
@@ -41,6 +47,19 @@ for (const chapterSlug of PILOT_CHAPTER_SLUGS) {
       assert.ok(
         validTopicSlugs.includes(question.topicSlug),
         `${chapterSlug}/${question.id} has invalid topic slug ${question.topicSlug}`,
+      );
+    }
+
+    if (chapterSlug === 'chemical-reactions-and-equations') {
+      const difficultyCounts = questions.reduce<Record<string, number>>((counts, question) => {
+        const difficulty = question.difficulty?.toLowerCase() ?? '';
+        counts[difficulty] = (counts[difficulty] ?? 0) + 1;
+        return counts;
+      }, {});
+      assert.deepEqual(difficultyCounts, { easy: 6, medium: 9, hard: 5 });
+      assert.deepEqual(
+        [...new Set(questions.map((question) => question.topicSlug))].sort(),
+        getValidTopicSlugs(chapterSlug).sort(),
       );
     }
   });

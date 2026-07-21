@@ -30,6 +30,12 @@ Use TypeScript for app/API code. Keep React components in PascalCase and route f
 
 No formal test framework is configured yet. Current verification is `npm run lint`, `npm run build`, and HyperFrames checks for video work. When adding tests, use `*.test.ts` or `*.spec.ts`, keep them near the feature being tested, and cover API behavior, Prisma data rules, and student-facing flows.
 
+### Current verification preference
+
+- Until the user explicitly changes this instruction, do not run automated tests, builds, lint, quiz validators, full browser sweeps, or any Graphify update/refresh. These long-running checks consume too much task time and token budget. Bypass the Graphify pre-push hook when necessary.
+- Still implement the requested change completely and report which verification was intentionally skipped. Run a focused check only when the user requests it or when it is essential to perform the requested operation safely.
+- When the user asks to integrate changes and see them, prioritise wiring the content into the live platform, starting the local app, and opening the exact affected route in their browser.
+
 ## Commit & Pull Request Guidelines
 
 History currently only shows `Initial commit`, so use short imperative commit messages such as `Add deployment runbook` or `Implement Bunny video metadata`. Pull requests should include a clear summary, changed areas, verification commands, linked issues if any, and screenshots for visible UI changes.
@@ -56,6 +62,8 @@ When Importing animation from Gemini html, make sure all the animations are inte
 
 Notes should always we accurate with respect to Textbooks as our platform reputation is on the line.
 If Textbook Chapter has figures make sure over platform content also have matching figures.
+
+Figure labels must remain readable and accessible. Prefer numbered pins on the illustration with a matching HTML label key below it; do not bake important labels, captions, safety notes, or observations into the image itself.
 
 Remember our Platform notes are simplified version of Textbook + Tip and Trick + Remember these things+ Gamification + Comic style Recap + Question and Answers + Quiz. Our Platform notes objective should be to make student understand the concepts in easy manner, aids in remembering thing, make the all the topic easy to understand even for Dump students.
 

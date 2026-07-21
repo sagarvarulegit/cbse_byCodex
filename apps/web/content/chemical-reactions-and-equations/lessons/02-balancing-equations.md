@@ -1,33 +1,47 @@
 ---
 title: 1.1.2 Balanced Chemical Equations
-description: Balance equations step by step and add physical-state symbols.
+description: Balance equations step by step and add physical-state symbols and reaction conditions.
 ---
 
 # 1.1.2 Balanced Chemical Equations
 
+## Learning goals
+
+- Apply the law of conservation of mass.
+- Balance equations by the hit-and-trial method.
+- Add correct physical states and reaction conditions.
+
 ## 1.1.2 Balanced Chemical Equations
 
-Consider:
+The law of conservation of mass states that mass can neither be created nor destroyed in a chemical reaction. Therefore, every element must have the same number of atoms before and after the reaction.
 
-`Fe + H₂O → Fe₃O₄ + H₂` **(1.3)**
+Activity 1.3 can be written as:
 
-The number of iron, hydrogen and oxygen atoms is not equal on the two sides. The **law of conservation of mass** says that mass can neither be created nor destroyed in a chemical reaction. Therefore, the number of atoms of every element must be equal before and after the reaction.
+`Zinc + Sulphuric acid → Zinc sulphate + Hydrogen`
 
-`3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.4)**
+`Zn + H₂SO₄ → ZnSO₄ + H₂` **(1.3)**
 
-This is balanced.
+Equation (1.3) is already balanced: Zn = 1, H = 2, S = 1 and O = 4 on each side.
+
+Now consider the skeletal equation:
+
+`Fe + H₂O → Fe₃O₄ + H₂` **(1.4)**
 
 ### Balancing by the hit-and-trial method
 
-Start with the skeletal equation:
+**Step I:** Draw boxes around every formula. Do not change anything inside a box.
 
 `Fe + H₂O → Fe₃O₄ + H₂` **(1.5)**
 
-**Step I:** Draw boxes around each formula. Do not change anything inside a box.
+**Step II:** Count the atoms.
 
-**Step II:** List the number of atoms on both sides.
+| Element | Reactants | Products |
+| --- | ---: | ---: |
+| Fe | 1 | 3 |
+| H | 2 | 2 |
+| O | 1 | 4 |
 
-**Step III:** Start with the compound containing the maximum number of atoms. Balance oxygen by placing 4 before water:
+**Step III:** Start with the compound containing the most atoms. Balance oxygen by placing 4 before water:
 
 `Fe + 4H₂O → Fe₃O₄ + H₂` **(1.6)**
 
@@ -39,29 +53,29 @@ Start with the skeletal equation:
 
 `3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.8)**
 
-**Step VI:** Check every element. Fe: 3=3, H: 8=8, O: 4=4.
+**Step VI:** Check every element. Fe: 3 = 3, H: 8 = 8, O: 4 = 4. Use the smallest whole-number coefficients:
 
-**Step VII:** Add physical states when known:
+`3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.9)**
 
-`3Fe(s) + 4H₂O(g) → Fe₃O₄(s) + 4H₂(g)` **(1.9)**
+**Step VII: Writing symbols of physical states**
 
-Here `(s)` means solid, `(l)` liquid, `(g)` gas and `(aq)` an aqueous solution. Conditions such as heat, pressure or a catalyst are written above or below the arrow.
+`3Fe(s) + 4H₂O(g) → Fe₃O₄(s) + 4H₂(g)` **(1.10)**
 
-`CO(g) + 2H₂(g) → CH₃OH(l)` **(1.10)**
+Here `(s)` means solid, `(l)` liquid, `(g)` gas and `(aq)` an aqueous solution. In equation (1.10), `(g)` with water shows that water is used as steam.
 
-`6CO₂(aq) + 12H₂O(l) → C₆H₁₂O₆(aq) + 6O₂(aq) + 6H₂O(l)` **(1.11)**
+Temperature, pressure and catalysts are written above or below the arrow when required:
+
+`CO(g) + 2H₂(g) →[340 atm] CH₃OH(l)` **(1.11)**
 
 In sunlight and in the presence of chlorophyll:
 
-`6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂` **(1.12)**
-
-> **Balancing rule:** Change only coefficients. Changing `H₂O` to `H₂O₂` changes water into a different substance.
+`6CO₂(aq) + 12H₂O(l) →[Sunlight, chlorophyll] C₆H₁₂O₆(aq) + 6O₂(aq) + 6H₂O(l)` **(1.12)**
 
 **❓ QUESTIONS**
 
 **1. Why should a magnesium ribbon be cleaned before burning in air?**
 
-*Answer:* It is cleaned to remove the thin magnesium oxide layer, which prevents magnesium from burning readily.
+*Answer:* It is cleaned to remove the thin magnesium oxide layer from its surface. This exposes fresh magnesium so that it burns readily.
 
 **2. Write the balanced equation for the following chemical reactions.**
 
@@ -82,7 +96,34 @@ In sunlight and in the presence of chlorophyll:
 **(ii) Sodium hydroxide solution (in water) reacts with hydrochloric acid solution (in water) to produce sodium chloride solution and water.**  
 *Answer:* `NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)`
 
+## Common mistakes
+
+- Changing subscripts instead of coefficients.
+- Forgetting the unnumbered atom check before adding states.
+- Writing liquid water in equation (1.10); NCERT uses steam, `H₂O(g)`.
+- Omitting `340 atm`, sunlight or chlorophyll from condition-based equations.
+
+## Board tips
+
+- Balance formulae first; add states and conditions only after the atom count is correct.
+- Use the smallest whole-number coefficients.
+- Check every element once more before finalising the answer.
+
+## Quick practice
+
+Balance `Al + O₂ → Al₂O₃` without changing any formula.
+
+## Answer check
+
+`4Al + 3O₂ → 2Al₂O₃`
+
+## One-minute revision
+
+- Conservation of mass requires equal atom counts.
+- Coefficients may change; subscripts may not.
+- `(aq)` means dissolved in water.
+- Conditions belong above or below the reaction arrow.
+
 ## Comic recap
 
-Atom counters inspect both sides. Coefficients pass the check; altered formulae are rejected.
-
+Atom Counter checks both sides. Coefficients pass the gate; altered formulae are sent back.

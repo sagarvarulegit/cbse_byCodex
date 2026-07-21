@@ -7,17 +7,23 @@ description: Observe chemical changes and learn to write word and symbolic equat
 
 ## Learning goals
 
-- Recognise a chemical reaction from observable changes.
-- Write a word-equation and then a chemical equation.
-- Identify reactants and products without guessing.
+- Recognise a chemical reaction from its observable changes.
+- Identify reactants and products in a word-equation.
+- Write a skeletal chemical equation without changing chemical formulae.
 
-Think about milk left at room temperature, an iron tawa exposed to humid air, grapes fermenting, food being cooked, food being digested, and respiration. In every case, the starting substance changes and a new substance is formed. That is the central idea of a **chemical reaction**.
+Milk turns sour in summer. An iron tawa rusts in humid air. Grapes ferment. Food is cooked, digested and used during respiration. In each case, the nature and identity of the starting substance change. Whenever a chemical change occurs, a **chemical reaction** has taken place.
 
 ### Activity 1.1 Burning magnesium ribbon
 
-**Safety:** Clean a magnesium ribbon about 3-4 cm long by rubbing it with sandpaper. Hold it with tongs, burn it using a spirit lamp or burner, and collect the ash in a watch-glass. Keep the burning ribbon away from your eyes.
+Caution: This activity needs the teacher's assistance. Wear suitable eyeglasses. Keep the burning ribbon as far away from your eyes as possible.
 
-The ribbon burns with a dazzling white flame and changes into a white powder, magnesium oxide. Cleaning removes the magnesium oxide layer so that magnesium can burn readily.
+1. Clean a magnesium ribbon about 3-4 cm long by rubbing it with sandpaper.
+2. Hold it with a pair of tongs.
+3. Burn it using a spirit lamp or burner.
+4. Collect the ash in a watch-glass.
+5. Record what you observe.
+
+**Observation:** Magnesium burns with a dazzling white flame and changes into a white powder, magnesium oxide. Cleaning removes the magnesium oxide coating so that the ribbon can burn readily.
 
 [[demo:figure-1-1-magnesium-ribbon]]
 
@@ -25,45 +31,91 @@ The ribbon burns with a dazzling white flame and changes into a white powder, ma
 
 ### Activity 1.2 Lead nitrate and potassium iodide
 
-Take lead nitrate solution in a test tube and add potassium iodide solution. A yellow precipitate of lead iodide appears. The colour change and formation of an insoluble solid show that a chemical reaction has occurred.
+1. Take lead nitrate solution in a test tube.
+2. Add potassium iodide solution.
+3. Observe the colour and physical state of the substance formed.
+
+**Observation:** A yellow insoluble solid, lead iodide, forms. This solid is called a precipitate.
 
 [[demo:activity-1-2-lead-nitrate-potassium-iodide]]
 
-**Figure 1.2** Formation of lead iodide precipitate.
+> **Source note:** NCERT does not assign a numbered figure to Activity 1.2. The platform illustration is an activity aid, not Figure 1.2.
 
 ### Activity 1.3 Zinc and dilute acid
 
-Take zinc granules in a conical flask or test tube and add dilute hydrochloric acid or dilute sulphuric acid. **Caution: handle acid carefully.** Bubbles of hydrogen gas form and the container becomes warm.
+Caution: Handle the acid with care.
+
+1. Take a few zinc granules in a conical flask or test tube.
+2. Add dilute hydrochloric acid or dilute sulphuric acid.
+3. Observe what happens around the zinc granules.
+4. Touch the outside of the container carefully and note any temperature change.
+
+**Observation:** Hydrogen gas bubbles form and the container becomes warm. The evolution of a gas and rise in temperature show that a chemical reaction has occurred.
 
 [[demo:activity-1-3-zinc-sulphuric-acid]]
 
-These activities show common signs of a reaction: change in state, change in colour, evolution of a gas, and change in temperature.
+**Figure 1.2** Formation of hydrogen gas by the action of dilute sulphuric acid on zinc.
+
+From Activities 1.1-1.3, these observations help us recognise a chemical reaction:
+
+- change in state
+- change in colour
+- evolution of a gas
+- change in temperature
 
 ## 1.1 Chemical Equations
 
-A word-equation names the substances before and after the reaction:
+A long sentence describing a reaction can be shortened to a **word-equation**:
 
 `Magnesium + Oxygen → Magnesium oxide` **(1.1)**
 
-The substances on the left are **reactants**. The new substances on the right are **products**. The arrow means “changes into”.
+Magnesium and oxygen are the **reactants** because they undergo chemical change. Magnesium oxide is the **product** formed by the reaction.
+
+Reactants are written on the left-hand side, products on the right-hand side, and the arrow points towards the products.
 
 ## 1.1.1 Writing a Chemical Equation
 
-Replace names by chemical formulae:
+Chemical formulae make a word-equation shorter and more useful:
 
 `Mg + O₂ → MgO` **(1.2)**
 
-This is a **skeletal chemical equation** because it is not yet balanced. It communicates the reaction, but the count of each kind of atom still has to be checked.
+Count the atoms on the two sides. There are two oxygen atoms on the left but only one on the right. Equation (1.2) is therefore an unbalanced or **skeletal chemical equation**.
 
-> **Remember:** Read an equation left to right: reactants → products. Never change a chemical formula merely to make the atom counts match.
+> **Remember:** Never change a chemical formula to balance an equation. Changing `H₂O` into `H₂O₂` changes water into a different substance.
 
-## Quick check
+## Common mistakes
 
-For `Zn + H₂SO₄ → ZnSO₄ + H₂`, the reactants are zinc and sulphuric acid; the products are zinc sulphate and hydrogen.
+- Calling every visible change a chemical reaction. A chemical reaction forms one or more new substances.
+- Writing products on the left and reactants on the right.
+- Treating Activity 1.2 as NCERT Figure 1.2. Figure 1.2 belongs to Activity 1.3.
+
+## Board tips
+
+- In an observation question, state the visible change and what it indicates.
+- Write word-equations as `Reactant + Reactant → Product`.
+- Use correct formulae before attempting to balance an equation.
+
+## Quick practice
+
+1. Name two observations that show a chemical reaction has occurred.
+2. Identify the reactants and products in `Zn + H₂SO₄ → ZnSO₄ + H₂`.
+3. Explain why `Mg + O₂ → MgO` is skeletal.
+
+## Answer check
+
+1. Any two of change in state, colour, gas evolution or temperature.
+2. Reactants: zinc and sulphuric acid. Products: zinc sulphate and hydrogen.
+3. Oxygen atoms are unequal on the two sides.
+
+## One-minute revision
+
+- A chemical reaction forms new substances.
+- Reactants are written on the left; products are written on the right.
+- Formula equations must use correct chemical formulae.
+- A skeletal equation has not yet been balanced.
 
 ## Comic recap
 
 **Reactant:** “I enter the reaction.”  
 **Product:** “I am the new substance formed.”  
-**Equation:** “I record the change in a short symbolic form.”
-
+**Equation:** “I record the change, but Atom Counter will still check whether I am balanced.”

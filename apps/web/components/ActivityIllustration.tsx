@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 
 type Illustration = {
   number: string;
+  figure?: string;
   title: string;
   summary: string;
   observation: string;
@@ -13,9 +14,16 @@ type Illustration = {
   row?: number;
 };
 
+type IllustrationHotspot = {
+  label: string;
+  x: number;
+  y: number;
+};
+
 const ILLUSTRATIONS: Record<string, Illustration> = {
   'figure-1-1-magnesium-ribbon': {
     number: '1.1',
+    figure: '1.1',
     title: 'Burning magnesium ribbon in air',
     summary: 'A cleaned magnesium ribbon is held with tongs in a burner flame, and the white ash is collected in a watch glass.',
     observation: 'Magnesium burns with a dazzling white flame and forms white magnesium oxide.',
@@ -28,45 +36,45 @@ const ILLUSTRATIONS: Record<string, Illustration> = {
     image: '/activity-illustrations/activity-1-2-lead-iodide.png', alt: 'Two clear solutions are mixed in a test tube and form a bright yellow lead iodide precipitate.',
   },
   'activity-1-3-zinc-sulphuric-acid': {
-    number: '1.3', title: 'Zinc with dilute sulphuric acid',
-    summary: 'Zinc granules react with dilute sulphuric acid in a flask.', observation: 'Hydrogen bubbles form and the flask becomes warm.',
-    image: '/activity-illustrations/activity-1-3-zinc-acid.png', alt: 'Zinc granules react with dilute sulphuric acid in a flask, producing bubbles while a thermometer shows warming.',
+    number: '1.3', figure: '1.2', title: 'Zinc with dilute sulphuric acid',
+    summary: 'Zinc granules react with dilute sulphuric acid in a corked conical flask with a short glass outlet tube.', observation: 'Hydrogen bubbles form and the flask becomes warm.',
+    image: '/activity-illustrations/activity-1-3-zinc-acid.png', alt: 'NCERT Figure 1.2 redraw showing zinc granules and dilute sulphuric acid reacting in a corked conical flask while hydrogen leaves through a short glass tube.',
   },
   'activity-1-4-quicklime-water': {
-    number: '1.4', title: 'Quicklime and water',
-    summary: 'Water is added carefully to quicklime in a beaker.', observation: 'The beaker becomes hot as slaked lime forms.',
-    image: '/activity-illustrations/activity-1-4-quicklime-water.png', alt: 'Water is added to quicklime in a beaker, producing heat and gentle steam as slaked lime forms.',
+    number: '1.4', figure: '1.3', title: 'Quicklime and water',
+    summary: 'Water is added slowly to quicklime in a beaker, whose outside is touched carefully to check the temperature.', observation: 'The beaker becomes hot as slaked lime forms.',
+    image: '/activity-illustrations/activity-1-4-quicklime-water.png', alt: 'NCERT Figure 1.3 redraw showing a hand carefully touching a beaker containing quicklime and water.',
   },
   'activity-1-5-heating-ferrous-sulphate': {
-    number: '1.5', title: 'Heating ferrous sulphate crystals',
-    summary: 'Green ferrous sulphate crystals are heated in a dry boiling tube.', observation: 'The crystals turn brown and gases are released.',
-    image: '/activity-illustrations/activity-1-5-ferrous-sulphate.png', alt: 'A clamped boiling tube containing green ferrous sulphate crystals is heated, showing a brown product and escaping gases.',
+    number: '1.5', figure: '1.4', title: 'Heating ferrous sulphate crystals',
+    summary: 'Green ferrous sulphate crystals are heated in a dry boiling tube held with its mouth pointed away.', observation: 'The crystals lose water, turn brown and release gases with the odour of burning sulphur.',
+    image: '/activity-illustrations/activity-1-5-ferrous-sulphate.png', alt: 'NCERT Figure 1.4 redraw showing safe heating of ferrous sulphate in a hand-held boiling tube and gentle wafting of the evolved gas.',
   },
   'activity-1-6-heating-lead-nitrate': {
-    number: '1.6', title: 'Heating lead nitrate',
-    summary: 'Lead nitrate is heated in a clamped boiling tube.', observation: 'Yellow lead oxide and brown nitrogen dioxide fumes form.',
-    image: '/activity-illustrations/activity-1-6-lead-nitrate.png', alt: 'A clamped boiling tube of lead nitrate is heated, producing yellow lead oxide and brown nitrogen dioxide fumes.',
+    number: '1.6', figure: '1.5', title: 'Heating lead nitrate',
+    summary: 'Lead nitrate is heated in a boiling tube held safely with tongs.', observation: 'Lead oxide forms and brown nitrogen dioxide fumes are emitted.',
+    image: '/activity-illustrations/activity-1-6-lead-nitrate.png', alt: 'NCERT Figure 1.5 redraw showing a hand using tongs to heat lead nitrate in a boiling tube while brown nitrogen dioxide fumes escape.',
   },
   'activity-1-7-electrolysis-water': {
-    number: '1.7', title: 'Electrolysis of water', summary: 'Electric current is passed through acidified water and the gases are collected.',
-    observation: 'Hydrogen collects in about twice the volume of oxygen.', image: '/activity-illustrations/chapter-1-activities-1-7-to-1-10.png',
-    alt: 'Electrolysis apparatus with two electrodes and inverted test tubes collecting twice as much hydrogen as oxygen.', columns: 2, rows: 2, column: 0, row: 0,
+    number: '1.7', figure: '1.6', title: 'Electrolysis of water', summary: 'A 6 V battery passes current through acidified water using base-mounted graphite electrodes and inverted collection tubes.',
+    observation: 'Hydrogen collects in about twice the volume of oxygen.', image: '/activity-illustrations/activity-1-7-electrolysis-water.png',
+    alt: 'NCERT Figure 1.6 redraw showing a plastic mug, base-mounted graphite electrodes, rubber stoppers, inverted test tubes, switch and battery, with twice as much hydrogen as oxygen.',
   },
   'activity-1-8-photochemical-decomposition': {
-    number: '1.8', title: 'Silver chloride in sunlight', summary: 'White silver chloride is kept in sunlight.', observation: 'It turns grey because silver forms.',
-    image: '/activity-illustrations/chapter-1-activities-1-7-to-1-10.png', alt: 'White silver chloride in a china dish turns grey on exposure to sunlight.', columns: 2, rows: 2, column: 1, row: 0,
+    number: '1.8', figure: '1.7', title: 'Silver chloride in sunlight', summary: 'White silver chloride in a china dish is exposed to sunlight.', observation: 'It turns grey because silver forms.',
+    image: '/activity-illustrations/activity-1-8-silver-chloride.png', alt: 'NCERT Figure 1.7 redraw showing sunlight falling on silver chloride in a china dish as the sample turns from white to grey.',
   },
   'activity-1-9-iron-copper-sulphate': {
-    number: '1.9', title: 'Iron nail in copper sulphate', summary: 'An iron nail is dipped in blue copper sulphate solution.', observation: 'Copper coats the nail and the solution becomes pale green.',
-    image: '/activity-illustrations/chapter-1-activities-1-7-to-1-10.png', alt: 'An iron nail in copper sulphate solution gains a reddish-brown copper coating while the solution becomes pale green.', columns: 2, rows: 2, column: 0, row: 1,
+    number: '1.9', figure: '1.8(a)-(b)', title: 'Iron nails in copper sulphate', summary: 'Three nails and test tubes A/B provide a before-and-after comparison.', observation: 'Two immersed nails gain a copper coating and the reaction solution becomes pale green.',
+    image: '/activity-illustrations/activity-1-9-iron-copper-sulphate.png', alt: 'NCERT Figure 1.8 redraw comparing clean iron nails and blue copper sulphate before reaction with copper-coated nails and pale-green iron sulphate after 20 minutes.',
   },
   'activity-1-10-barium-sulphate-precipitate': {
-    number: '1.10', title: 'Formation of barium sulphate', summary: 'Sodium sulphate and barium chloride solutions are mixed.', observation: 'A white insoluble precipitate forms.',
-    image: '/activity-illustrations/chapter-1-activities-1-7-to-1-10.png', alt: 'Two colourless salt solutions form a dense white precipitate when mixed in a test tube.', columns: 2, rows: 2, column: 1, row: 1,
+    number: '1.10', figure: '1.9', title: 'Formation of barium sulphate', summary: 'Separate sodium sulphate and barium chloride solutions are mixed.', observation: 'A white insoluble barium sulphate precipitate forms.',
+    image: '/activity-illustrations/activity-1-10-barium-sulphate.png', alt: 'NCERT Figure 1.9 redraw showing two clear salt solutions being mixed in a receiving test tube where a white barium sulphate precipitate forms.',
   },
   'activity-1-11-heating-copper-powder': {
-    number: '1.11', title: 'Heating copper powder', summary: 'Copper powder is heated in air.', observation: 'The reddish-brown copper surface becomes black copper oxide.',
-    image: '/activity-illustrations/activity-1-11-heating-copper.png', alt: 'Copper powder heated in a china dish changes from reddish brown to a black copper oxide coating.',
+    number: '1.11', figure: '1.10', title: 'Heating copper powder', summary: 'Copper powder is heated in a china dish on wire gauze and a tripod.', observation: 'The reddish-brown copper surface becomes black copper oxide.',
+    image: '/activity-illustrations/activity-1-11-heating-copper.png', alt: 'NCERT Figure 1.10 redraw showing copper powder heated in a china dish on wire gauze and a tripod as a black copper oxide coating forms.',
   },
   'activity-2-1-phenolphthalein-neutralisation': {
     number: '2.1', title: 'Phenolphthalein with a base and an acid', summary: 'Phenolphthalein is added to sodium hydroxide, followed by dilute hydrochloric acid.', observation: 'The base turns pink, then becomes colourless on neutralisation.',
@@ -181,15 +189,15 @@ const ILLUSTRATIONS: Record<string, Illustration> = {
 const ILLUSTRATION_LABELS: Record<string, string[]> = {
   'figure-1-1-magnesium-ribbon': ['Bunsen burner', 'Magnesium ribbon', 'Tongs', 'Watch glass', 'Magnesium oxide'],
   'activity-1-2-lead-nitrate-potassium-iodide': ['Lead nitrate solution', 'Potassium iodide solution', 'Test tube', 'Lead iodide precipitate'],
-  'activity-1-3-zinc-sulphuric-acid': ['Conical flask', 'Zinc granules', 'Dilute sulphuric acid', 'Thermometer', 'Hydrogen gas'],
-  'activity-1-4-quicklime-water': ['Beaker', 'Quicklime', 'Water', 'Thermometer', 'Slaked lime'],
-  'activity-1-5-heating-ferrous-sulphate': ['Boiling tube', 'Ferrous sulphate crystals', 'Clamp stand', 'Bunsen burner', 'Iron oxide'],
-  'activity-1-6-heating-lead-nitrate': ['Boiling tube', 'Lead nitrate', 'Clamp stand', 'Bunsen burner', 'Lead oxide', 'Nitrogen dioxide'],
-  'activity-1-7-electrolysis-water': ['Acidified water', 'Graphite electrodes', 'Inverted test tubes', '6 V battery', 'Hydrogen', 'Oxygen'],
+  'activity-1-3-zinc-sulphuric-acid': ['Conical flask', 'Cork', 'Glass tube', 'Zinc granules', 'Dilute sulphuric acid', 'Hydrogen gas'],
+  'activity-1-4-quicklime-water': ['Beaker', 'Hand checking temperature', 'Quicklime', 'Water', 'Slaked lime mixture'],
+  'activity-1-5-heating-ferrous-sulphate': ['Student', 'Boiling tube', 'Ferrous sulphate crystals', 'Test-tube holder', 'Bunsen burner', 'Wafted gases'],
+  'activity-1-6-heating-lead-nitrate': ['Hand', 'Tongs', 'Boiling tube', 'Lead nitrate', 'Bunsen burner', 'Nitrogen dioxide fumes'],
+  'activity-1-7-electrolysis-water': ['Plastic mug', 'Acidified water', 'Graphite electrodes', 'Rubber stoppers', 'Inverted test tubes', 'Switch', '6 V battery', 'Hydrogen', 'Oxygen'],
   'activity-1-8-photochemical-decomposition': ['China dish', 'Silver chloride', 'Sunlight', 'Silver'],
-  'activity-1-9-iron-copper-sulphate': ['Iron nail', 'Copper sulphate solution', 'Copper coating', 'Iron sulphate solution'],
-  'activity-1-10-barium-sulphate-precipitate': ['Sodium sulphate solution', 'Barium chloride solution', 'Test tube', 'Barium sulphate precipitate'],
-  'activity-1-11-heating-copper-powder': ['China dish', 'Copper powder', 'Bunsen burner', 'Copper oxide'],
+  'activity-1-9-iron-copper-sulphate': ['Clean comparison nail', 'Blue copper sulphate control', 'Two immersed nails', 'Pale-green iron sulphate', 'Copper-coated nails'],
+  'activity-1-10-barium-sulphate-precipitate': ['Sodium sulphate solution', 'Barium chloride solution', 'Receiving test tube', 'Barium sulphate precipitate'],
+  'activity-1-11-heating-copper-powder': ['China dish', 'Copper powder', 'Copper oxide', 'Wire gauze', 'Tripod stand', 'Bunsen burner'],
   'activity-2-1-phenolphthalein-neutralisation': ['Test tube', 'Sodium hydroxide', 'Phenolphthalein', 'Dilute hydrochloric acid'],
   'activity-2-2-olfactory-indicators': ['Onion', 'Vanilla essence', 'Clove oil', 'Dilute acid', 'Dilute base'],
   'activity-2-3-metal-acid-hydrogen-pop': ['Test tube', 'Zinc granules', 'Dilute sulphuric acid', 'Delivery tube', 'Soap bubbles', 'Burning splint'],
@@ -219,6 +227,87 @@ const ILLUSTRATION_LABELS: Record<string, string[]> = {
   'figure-6-6-geotropism': ['Flowerpot', 'Soil', 'Roots', 'Shoot', 'Direction of gravity'],
 };
 
+// Pins are percentages of the complete, uncropped source image. A pin sits on
+// the named object itself; the numbered key carries the readable label.
+const ILLUSTRATION_HOTSPOTS: Record<string, IllustrationHotspot[]> = {
+  'figure-1-1-magnesium-ribbon': [
+    { label: 'Bunsen burner', x: 30, y: 61 },
+    { label: 'Magnesium ribbon', x: 52, y: 26 },
+    { label: 'Tongs', x: 65, y: 10 },
+    { label: 'Watch glass', x: 62, y: 82 },
+    { label: 'Magnesium oxide', x: 52, y: 85 },
+  ],
+  'activity-1-3-zinc-sulphuric-acid': [
+    { label: 'Conical flask', x: 50, y: 50 },
+    { label: 'Cork', x: 50, y: 23 },
+    { label: 'Glass tube', x: 50, y: 10 },
+    { label: 'Zinc granules', x: 50, y: 82 },
+    { label: 'Dilute sulphuric acid', x: 50, y: 68 },
+    { label: 'Hydrogen gas', x: 50, y: 61 },
+  ],
+  'activity-1-4-quicklime-water': [
+    { label: 'Beaker', x: 61, y: 43 },
+    { label: 'Hand checking temperature', x: 35, y: 50 },
+    { label: 'Quicklime', x: 58, y: 77 },
+    { label: 'Water', x: 62, y: 55 },
+    { label: 'Slaked lime mixture', x: 56, y: 70 },
+  ],
+  'activity-1-5-heating-ferrous-sulphate': [
+    { label: 'Student', x: 20, y: 38 },
+    { label: 'Boiling tube', x: 51, y: 43 },
+    { label: 'Ferrous sulphate crystals', x: 44, y: 54 },
+    { label: 'Test-tube holder', x: 38, y: 56 },
+    { label: 'Bunsen burner', x: 43, y: 72 },
+    { label: 'Wafted gases', x: 67, y: 36 },
+  ],
+  'activity-1-6-heating-lead-nitrate': [
+    { label: 'Hand', x: 72, y: 42 },
+    { label: 'Tongs', x: 55, y: 41 },
+    { label: 'Boiling tube', x: 44, y: 35 },
+    { label: 'Lead nitrate', x: 48, y: 51 },
+    { label: 'Bunsen burner', x: 51, y: 72 },
+    { label: 'Nitrogen dioxide fumes', x: 34, y: 18 },
+  ],
+  'activity-1-7-electrolysis-water': [
+    { label: 'Plastic mug', x: 38, y: 44 },
+    { label: 'Acidified water', x: 65, y: 48 },
+    { label: 'Graphite electrodes', x: 52, y: 49 },
+    { label: 'Rubber stoppers', x: 52, y: 61 },
+    { label: 'Inverted test tubes', x: 52, y: 30 },
+    { label: 'Switch', x: 43, y: 81 },
+    { label: '6 V battery', x: 61, y: 81 },
+    { label: 'Hydrogen', x: 45, y: 27 },
+    { label: 'Oxygen', x: 56, y: 23 },
+  ],
+  'activity-1-8-photochemical-decomposition': [
+    { label: 'China dish', x: 52, y: 70 },
+    { label: 'Silver chloride', x: 44, y: 69 },
+    { label: 'Sunlight', x: 61, y: 34 },
+    { label: 'Silver', x: 59, y: 69 },
+  ],
+  'activity-1-9-iron-copper-sulphate': [
+    { label: 'Clean comparison nail', x: 17, y: 55 },
+    { label: 'Blue copper sulphate control', x: 66, y: 55 },
+    { label: 'Two immersed nails', x: 36, y: 54 },
+    { label: 'Pale-green iron sulphate', x: 79, y: 55 },
+    { label: 'Copper-coated nails', x: 91, y: 55 },
+  ],
+  'activity-1-10-barium-sulphate-precipitate': [
+    { label: 'Sodium sulphate solution', x: 31, y: 30 },
+    { label: 'Barium chloride solution', x: 69, y: 30 },
+    { label: 'Receiving test tube', x: 50, y: 58 },
+    { label: 'Barium sulphate precipitate', x: 50, y: 75 },
+  ],
+  'activity-1-11-heating-copper-powder': [
+    { label: 'China dish', x: 50, y: 22 },
+    { label: 'Copper powder', x: 47, y: 25 },
+    { label: 'Copper oxide', x: 55, y: 25 },
+    { label: 'Wire gauze', x: 50, y: 37 },
+    { label: 'Tripod stand', x: 50, y: 57 },
+    { label: 'Bunsen burner', x: 50, y: 70 },
+  ],
+};
+
 export function hasActivityIllustration(demoId: string) {
   return demoId in ILLUSTRATIONS;
 }
@@ -230,6 +319,7 @@ function backgroundPosition(index = 0, count = 1) {
 export default function ActivityIllustration({ demoId }: { demoId: string }) {
   const illustration = ILLUSTRATIONS[demoId];
   const labels = ILLUSTRATION_LABELS[demoId];
+  const hotspots = ILLUSTRATION_HOTSPOTS[demoId];
 
   if (!illustration || !labels) {
     return null;
@@ -245,19 +335,41 @@ export default function ActivityIllustration({ demoId }: { demoId: string }) {
 
   return (
     <figure className="activity-illustration-card">
-      <div className="activity-illustration-visual">
-        <div aria-label={illustration.alt} className="activity-illustration-image" role="img" style={imageStyle} />
-        <ul aria-label="Illustration labels" className="activity-illustration-labels">
-          {labels.map((label) => (
-            <li key={label}>
-              <span>{label}</span>
-              <span aria-hidden="true" className="activity-illustration-label-arrow" />
-            </li>
-          ))}
-        </ul>
+      <div className={`activity-illustration-visual${hotspots ? ' activity-illustration-visual--hotspots' : ''}`}>
+        {hotspots ? (
+          <>
+            <div className="activity-illustration-frame">
+              <div aria-label={illustration.alt} className="activity-illustration-image" role="img" style={imageStyle} />
+              <ol aria-hidden="true" className="activity-illustration-hotspots">
+                {hotspots.map((hotspot, index) => (
+                  <li key={hotspot.label} style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}>{index + 1}</li>
+                ))}
+              </ol>
+            </div>
+            <ol aria-label="Illustration labels" className="activity-illustration-hotspot-key">
+              {hotspots.map((hotspot, index) => (
+                <li key={hotspot.label}><span aria-hidden="true">{index + 1}</span>{hotspot.label}</li>
+              ))}
+            </ol>
+          </>
+        ) : (
+          <>
+            <div aria-label={illustration.alt} className="activity-illustration-image" role="img" style={imageStyle} />
+            <div className="activity-illustration-legend">
+              <span>Figure legend</span>
+              <ul aria-label="Illustration labels">
+                {labels.map((label) => <li key={label}>{label}</li>)}
+              </ul>
+            </div>
+          </>
+        )}
       </div>
       <figcaption className="activity-illustration-copy">
-        <p className="eyebrow">NCERT Activity {illustration.number} illustration</p>
+        <p className="eyebrow">
+          {illustration.figure
+            ? `NCERT Figure ${illustration.figure} · Activity ${illustration.number}`
+            : `NCERT Activity ${illustration.number} illustration`}
+        </p>
         <h4>{illustration.title}</h4>
         <p>{illustration.summary}</p>
         <p className="activity-illustration-observation"><strong>What to observe:</strong> {illustration.observation}</p>
