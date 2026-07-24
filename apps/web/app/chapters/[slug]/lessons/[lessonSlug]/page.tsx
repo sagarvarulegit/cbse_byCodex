@@ -223,7 +223,11 @@ function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): Rea
       return <em key={key}>{renderInlineTokens(token.children, key)}</em>;
     }
 
-    return <span key={key}>{token.value}</span>;
+    if (token.type === 'text') {
+      return <span key={key}>{token.value}</span>;
+    }
+
+    return null;
   });
 }
 
