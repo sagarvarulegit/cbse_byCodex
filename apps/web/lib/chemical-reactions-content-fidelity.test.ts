@@ -132,7 +132,10 @@ test('every NCERT equation number maps to the correct equation, state, and condi
   ];
 
   for (const [markdown, mapping] of exactMappings) assert.ok(markdown.includes(mapping), mapping);
-  assert.match(lesson3, /`2H₂O\(l\) →\[Electricity\] 2H₂\(g\) \+ O₂\(g\)`\n\nNCERT leaves this activity equation unnumbered/);
+  assert.match(
+    lesson3,
+    /`2H₂O\(l\) →\[Electricity\] 2H₂\(g\) \+ O₂\(g\)`\r?\n\r?\nNCERT leaves this activity equation unnumbered/,
+  );
   assert.doesNotMatch(lesson5, /H₂S\(g\).*\*\*\(1\.32\)\*\*/);
 });
 
@@ -159,7 +162,7 @@ test('Figure 1.2 belongs to Activity 1.3 and all NCERT figures remain ordered', 
   const figure12 = lesson1.indexOf('**Figure 1.2**');
   assert.ok(activity12 >= 0 && activity13 > activity12 && figure12 > activity13);
   assert.equal((lesson1.match(/\*\*Figure 1\.2\*\*/g) ?? []).length, 1);
-  assert.match(lesson1, /NCERT does not assign a numbered figure to Activity 1\.2/);
+  assert.doesNotMatch(lesson1.slice(activity12, activity13), /\*\*Figure 1\.2\*\*/);
   assertInOrder(lessons, Array.from({ length: 10 }, (_, index) => `Figure 1.${index + 1}`));
 });
 

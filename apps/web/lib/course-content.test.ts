@@ -652,7 +652,7 @@ test('chemical reactions lessons preserve NCERT Chapter 1 numbering and textbook
   assert.deepEqual(getAvailableLessons(chapter).map((lesson) => lesson.title), [
     '1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation',
     '1.1.2 Balanced Chemical Equations',
-    '1.2 Types of Chemical Reactions - Combination and Decomposition',
+    '1.2 Types of Chemical Reactions - 1.2.1 Combination and 1.2.2 Decomposition',
     '1.2.3 Displacement and 1.2.4 Double Displacement Reactions',
     '1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life',
     'NCERT Chapter Exercises and Revision',
