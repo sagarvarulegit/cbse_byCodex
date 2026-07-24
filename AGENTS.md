@@ -32,7 +32,7 @@ No formal test framework is configured yet. Current verification is `npm run lin
 
 ### Current verification preference
 
-- Until the user explicitly changes this instruction, do not run automated tests, builds, lint, quiz validators, full browser sweeps, or any Graphify update/refresh. These long-running checks consume too much task time and token budget. Bypass the Graphify pre-push hook when necessary.
+- Until the user explicitly changes this instruction, do not run automated tests, builds, lint, quiz validators, or full browser sweeps. These long-running checks consume too much task time and token budget.
 - Still implement the requested change completely and report which verification was intentionally skipped. Run a focused check only when the user requests it or when it is essential to perform the requested operation safely.
 - When the user asks to integrate changes and see them, prioritise wiring the content into the live platform, starting the local app, and opening the exact affected route in their browser.
 
@@ -46,15 +46,13 @@ Never commit real secrets. Use `.env.example` files for names only. Keep `ELEVEN
 
 ## Agent-Specific Instructions
 
-This project may have a graphify knowledge graph at `graphify-out/`. Before architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` when present. If `graphify-out/wiki/index.md` exists, use it before raw-file browsing. For cross-module relationship questions, prefer `graphify query`, `graphify path`, or `graphify explain` over grep. After modifying code files, run `graphify update .`.
+Read `docs/architecture.md` and `docs/project-memory.md` before picking up implementation work. Use repository files, TypeScript imports, route wiring, `rg`, and focused tests for architecture and impact analysis. Update `docs/architecture.md` when module boundaries, data ownership, or deployment flows change. Update `docs/project-memory.md` when a session discovers durable project knowledge such as architecture decisions, platform IDs, deployment constraints, media workflow choices, or important gotchas. Keep `AGENTS.md` for stable operating rules and `docs/project-memory.md` for evolving project learnings.
 
-Read `docs/project-memory.md` before picking up implementation work. Update it when a session discovers durable project knowledge such as architecture decisions, platform IDs, deployment constraints, media workflow choices, or important gotchas. Keep `AGENTS.md` for stable operating rules and `docs/project-memory.md` for evolving project learnings.
+Graphify is optional and local-only. Do not run it automatically, require it for verification, attach it to git hooks, or commit its generated output. If a developer explicitly chooses to use it for an investigation, keep all output under the ignored `graphify-out/` directory.
 
 Read `NOTES_GUIDELINES_STANDARDS.md` before creating, reviewing, or editing platform notes, lesson markdown, chapter packs, quizzes, or Gemini animation integrations. These standards capture previous content mistakes that must not repeat, including textbook numbering, parent-child section hierarchy, activity/figure coverage, and quiz alignment.
 
 After every successful git push, update `TODO.md` with the next task before ending the session.
-
-The repo includes `.githooks/pre-push` to refresh `graphify-out/` before pushes and to enforce project-memory updates for meaningful source changes. Enable it in a checkout with `git config core.hooksPath .githooks`. If a push is blocked because `graphify-out` changed, commit the refreshed graph artifacts and push again. If a push is blocked because project memory was not updated, add a concise learning to `docs/project-memory.md` or update `AGENTS.md`, then commit and push again.
 
 All our notes should exactly derived from Textbook. Examples, Problem, Activities, Numbering, Topics, Section, everything should match. Out notes are simplified version of Textbook, easy to remember, easy to grasp.
 
@@ -68,23 +66,3 @@ Figure labels must remain readable and accessible. Prefer numbered pins on the i
 Remember our Platform notes are simplified version of Textbook + Tip and Trick + Remember these things+ Gamification + Comic style Recap + Question and Answers + Quiz. Our Platform notes objective should be to make student understand the concepts in easy manner, aids in remembering thing, make the all the topic easy to understand even for Dump students.
 
 We should have same numbering for the Topics in Platform as in textbook. Eg: Science chatper 5: 5.1 What are life processes?
-
-
-# Graphify Context & Usage Rules
-
-This project uses Graphify (https://github.com/Graphify-Labs/graphify) as the primary knowledge graph for codebase architecture, dependencies, and context. You must prioritize Graphify's outputs to prevent hallucinations and understand system impacts before writing or modifying code.
-
-## 1. Mandatory Context Retrieval
-*   **Architecture & Overview:** Before suggesting architectural changes, adding new features, or writing tests, you must read `graphify-out/GRAPH_REPORT.md` to understand domain boundaries, key components, and existing "God nodes".
-*   **Impact Analysis:** Before refactoring or modifying core logic, consult `graphify-out/graph.json` to trace dependencies and identify which other files or modules will be impacted by your changes.
-
-## 2. CLI Tool Execution (If Shell Access is Enabled)
-When you lack sufficient context to answer a prompt, use the following commands autonomously:
-*   **Search Context:** Run `graphify query "<specific_question>"` to query the graph for flows, logic, or structure.
-*   **Trace Connections:** Run `graphify path <source_file> <target_file>` to understand how two specific components interact.
-
-## 3. Graph Maintenance
-*   **Keep it Updated:** If you make significant structural changes to the codebase (e.g., creating new modules, deleting files, or changing core routing), you must run `/graphify` (or the terminal `graphify` command) to regenerate the graph and ensure the `graphify-out/` directory remains up to date.
-
-## 4. Strict Fact-Checking
-*   Base your understanding of the codebase strictly on the relationships mapped in the Graphify outputs. Prioritize connections tagged as `EXTRACTED` over `INFERRED`.

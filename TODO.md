@@ -5,7 +5,8 @@
 - [x] Complete the NCERT-fidelity remediation for all six Chapter 1 lessons, exercises, quiz, chapter pack, metadata, and accessible illustrations.
 - [x] Replace the inaccurate Chapter 1 redraws and expose image labels as numbered pins with matching HTML keys.
 - [x] Fix lesson and chapter-note inline markdown rendering, direct textbook question markers, and multi-part answer preservation.
-- [ ] Next task: conduct a small manual student review of Chapter 1 and record comprehension, navigation, and figure-label feedback. Automated tests and all Graphify updates remain paused until the user explicitly re-enables them.
+- [x] Retire Graphify as a mandatory repository dependency and replace it with maintained architecture documentation.
+- [ ] Next task: conduct a small manual student review of Chapter 1 and record comprehension, navigation, and figure-label feedback. Automated tests remain paused until the user explicitly re-enables them.
 
 > **Planning status:** This is the immediate execution handoff. It replaces the completed/stale quiz-metadata handoff. Do not implement from memory or from the current lesson text alone; use the local NCERT PDF and the repository standards as the source of truth.
 
@@ -86,8 +87,7 @@ Follow this order even though Task 11A is documented with the other UI work:
 
 ## Current Known State
 
-- The working tree is broadly dirty across Science content, chapter routes, CSS, static illustrations, generated Graphify output, and Chapter 6 work. `ActivityIllustration.tsx`, `StaticFigureDemo.tsx`, and activity assets are currently untracked while older canvas components are deleted.
-- The Graphify report is built from the current `HEAD` commit `8ac4a59254d5141b57daccad635aeb70f89a11b9`, but implementation must still inspect uncommitted diffs because the working tree is newer than `HEAD`.
+- The state below records the pre-remediation audit and is historical. Inspect the current working tree and `docs/project-memory.md` before starting new work.
 - Chapter 1 has five live conceptual lesson files and one five-question quiz.
 - The current lesson split is usable, but the visible titles contain synthetic ranges such as `1.1 continued` and `1.2.1-1.2.2`.
 - Lesson 1 contains Chapter 5 Life Processes Questions and answers.
@@ -204,8 +204,8 @@ Do not run `git reset`, `git checkout --`, `git clean`, or broad file deletion.
 1. `AGENTS.md`
 2. `NOTES_GUIDELINES_STANDARDS.md`
 3. `docs/project-memory.md`
-4. `docs/content-style-qa-checklist.md`
-5. `graphify-out/GRAPH_REPORT.md`
+4. `docs/architecture.md`
+5. `docs/content-style-qa-checklist.md`
 6. `textbooks/science/extracted/jesc101.pdf`
 
 - [ ] **Step 3: Establish baseline verification**
@@ -883,7 +883,6 @@ git diff --check -- TODO.md master_todo.md apps/web/content/chemical-reactions-a
 ```
 
 - [ ] Inspect `git status --short` and ensure unrelated dirty files remain untouched.
-- [ ] Run `graphify update .` because route/components/tests changed.
 - [ ] Update `docs/project-memory.md` with only durable learnings: canonical lesson path, six-resource allocation, exact figure contract, mastery-zero rule, and final image budget.
 - [ ] Check `master_todo.md` as complete only after Gates A1, A2, and B, the source tracker, browser QA, and learner-task smoke all pass.
 - [ ] If a later authorised push succeeds, update `TODO.md` to the next handoff before ending that implementation session.
@@ -938,7 +937,6 @@ If Task 12 is implemented, Gate C is complete only when:
 - Admin CMS work
 - Native Android/iOS implementation
 - Deleting unrelated generated, untracked, or user-owned files
-- Broad Graphify cleanup unrelated to the required post-code update
 
 ---
 
@@ -951,6 +949,6 @@ These are staging boundaries, not authorisation to commit or push:
 3. **Repair Chapter 1 figures and chapter truthfulness** — static assets, catalog, revision sheet, mastery.
 4. **Strengthen Chapter 1 assessment and learner UX** — quiz, Q&A reveal, navigation, mobile/accessibility.
 5. **Add the equation balancing workbench** — isolated P2 component and tests.
-6. **Refresh durable evidence** — project memory, Graphify, final tracker, screenshots, and backlog truth.
+6. **Refresh durable evidence** — architecture documentation, project memory, final tracker, screenshots, and backlog truth.
 
 Stop after each batch if its acceptance gate fails. Do not hide failures by weakening the test or changing expected source wording.

@@ -337,7 +337,7 @@ Before closing:
    ```powershell
    npm.cmd run build
    ```
-6. ✅ Run `graphify update .` after code changes (per AGENTS.md).
+6. ✅ Update `docs/architecture.md` only when module boundaries, data ownership, or deployment flows change.
 
 ---
 

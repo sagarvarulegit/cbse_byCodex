@@ -147,9 +147,8 @@ videos/*/chrome-headless-shell/
 videos/*/.thumbnails/
 videos/*/.waveform-cache/
 
-# Project Codex hooks
-!.codex/
-!.codex/hooks.json
+# Optional local Graphify output
+graphify-out/
 
 # SkillOpt local staging and harvested session review data
 .skillopt-sleep/

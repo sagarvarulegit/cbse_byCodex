@@ -12,7 +12,6 @@ Last updated: 2026-06-30
 
 This backlog was assembled from the accessible local Codex transcripts for this
 project, the current repo docs, and the git history through `d2040ac`.
-`graphify-out/` is present in this checkout.
 
 ## Current Priority
 
@@ -217,7 +216,7 @@ project, the current repo docs, and the git history through `d2040ac`.
 - [ ] Add root convenience scripts for Prisma if useful.
 - [ ] Add CI checks for `npm run lint` and `npm run build`.
 - [ ] Keep env examples up to date as features are added.
-- [ ] Recreate `graphify-out/` or run graphify if this project is expected to maintain a graph report.
+- [x] Retire committed Graphify output and mandatory refresh hooks; keep optional local output ignored.
 
 ## Open Questions
 

@@ -207,17 +207,9 @@ Commands:
 npm.cmd run test -w apps/web
 npm.cmd run build -w apps/web
 npm.cmd run lint -w apps/web
-graphify update .
 git diff --check
 git status --short
 ```
-
-Graphify handling rules for this verification step:
-
-- The annual refresh must attempt `graphify update .` once as part of final verification.
-- Do not call Graphify clean just because the command exits successfully.
-- If the command reports the known skill/package format mismatch and creates broad migration drift, record the warning, restore only the Graphify-generated drift caused by that attempt, and escalate or version-align Graphify before accepting any future graph refresh as valid.
-- Until the versions are intentionally aligned, treat that mismatch as an incompatible refresh result rather than a clean graph update.
 
 What the web test suite must cover:
 
@@ -244,7 +236,6 @@ Acceptance criteria:
 - Tests pass.
 - Build passes.
 - Lint passes.
-- `graphify update .` is attempted, and any known mismatch-driven migration drift is handled explicitly rather than waved through.
 - `git diff --check` is clean.
 - The status output contains only the intended refresh changes.
 

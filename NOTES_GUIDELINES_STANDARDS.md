@@ -662,7 +662,7 @@ Run:
 * Focused content tests
 * Quiz metadata validation when quiz files changed
 * Build before lint in `apps/web`
-* `graphify update .` after code changes, as required by `AGENTS.md`
+* Review `docs/architecture.md` when a change crosses module boundaries
 
 ---
 
@@ -860,7 +860,7 @@ Before saying notes are aligned, confirm every item below.
 * Generated chapter packs are refreshed if docs chapter packs changed.
 * Focused tests pass.
 * Build and lint pass when runtime files changed.
-* `graphify update .` was run after code changes where required.
+* Architecture documentation is updated when module boundaries, data ownership, or deployment flows changed.
 * Project memory is updated for durable chapter-specific gotchas.
 
 If any item is not true, do not call the notes textbook-aligned.

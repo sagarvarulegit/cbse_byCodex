@@ -8,7 +8,7 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Project Memory
 
-Last updated: 2026-07-09
+Last updated: 2026-07-21
 
 ## Current Architecture
 
@@ -21,12 +21,11 @@ Last updated: 2026-07-09
 
 ## Agent Knowledge Workflow
 
-- `graphify-out/` is for generated code graph knowledge only.
+- `docs/architecture.md` is the manually maintained map of module boundaries, data ownership, and primary request flows.
 - Durable project learnings belong in `docs/project-memory.md`.
 - Stable agent operating rules belong in `AGENTS.md`.
+- Graphify is optional local tooling only. Its output belongs in ignored `graphify-out/`, is never required for verification or pushes, and must not be committed.
 - SkillOpt-Sleep is configured through npm scripts (`skillopt:status`, `skillopt:dry-run`, `skillopt:harvest`, `skillopt:run`) and targets the repo-local seed skill at `.agents/skills/cbse-project/SKILL.md`; keep `.skillopt-sleep/` untracked because it can contain harvested session review data and staged proposals.
-- `.githooks/pre-push` refreshes graphify and blocks meaningful source pushes when neither `docs/project-memory.md` nor `AGENTS.md` is included in the outgoing commits.
-- `.codex/hooks.json` delegates git-push checks to `.githooks/pre-push` for agent-driven pushes.
 
 ## Bunny Video Learnings
 
@@ -63,7 +62,6 @@ Last updated: 2026-07-09
 - Mathematics Basic is a hidden `future` subject until a separate activation review is completed.
 - Subject pages render official curriculum chapter titles, scopes, and topic scopes from the registry; legacy `course-content.ts` topic strings are platform metadata, not official 2026-27 scope.
 - The student subject pages consume the registry instead of hard-coded subject lists: `apps/web/app/subjects/page.tsx` uses `getVisibleCurriculumSubjects()` plus `buildSubjectCatalog()`, and `apps/web/app/subjects/[slug]/page.tsx` resolves a registry subject before rendering mapped chapter routes.
-- This repository's Graphify artifacts and skill expect `0.4.23`, while the installed package is `0.8.47`. `graphify update .` can produce incompatible broad drift in that state; record the warning and restore only generated Graphify drift until the versions are intentionally aligned.
 - Lesson-wise chapter content is considered live only when a catalog lesson has a non-empty `fileName` and its chapter directory is registered in `lessonDirectories`. UI counts and previous/next navigation use available lessons only, while unpublished catalog lessons remain visible as Coming soon.
 - Pilot chapter entry points should make the first live lesson the primary CTA, and pilot chapter cards should prefer lesson-level topic labels so the free pilot feels guided instead of catalog-like.
 - Chapter content QA now uses `docs/content-style-qa-checklist.md`; pilot-ready chapters should pass easy scanning, short sections, example-after-concept, memory trick where useful, common mistake, board tip, practice prompt, and recap checks before widening access.
