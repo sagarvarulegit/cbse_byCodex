@@ -79,7 +79,7 @@ export function parseQuizContent(
 ): ParsedQuizQuestion[] {
   const contentWithoutFrontmatter = markdown.replace(/^---[\s\S]*?---\s*/, '');
   const blocks = contentWithoutFrontmatter
-    .split(/\n(?=##\s+\d+\.\s+)/)
+    .split(/\n(?=##\s+)/)
     .filter((block) => /^##\s+\d+\.\s+/.test(block.trim()));
   const questions: ParsedQuizQuestion[] = [];
   const issues: QuizContentValidationIssue[] = [];

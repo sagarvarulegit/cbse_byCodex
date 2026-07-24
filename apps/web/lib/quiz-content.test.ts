@@ -141,6 +141,35 @@ Choose one.
   assert.equal(question?.topicSlug, 'fallback-topic');
 });
 
+test('parseQuizContent stops the final question before a trailing level-two section', () => {
+  const [question] = parseQuizContent(
+    `## 1. Final question
+
+Topic: valid-topic
+Difficulty: Easy
+Source: NCERT-aligned review
+
+Which option is correct?
+
+1. first
+2. second
+
+Answer: 2
+Explanation: The second option is correct.
+
+## Revision reminder
+
+Review the lesson before retrying.
+`,
+    ['valid-topic'],
+    { strictMetadata: true },
+  );
+
+  assert.equal(question?.prompt, 'Which option is correct?');
+  assert.equal(question?.explanation, 'The second option is correct.');
+  assert.ok(!question?.prompt.includes('Revision reminder'));
+});
+
 test('strict quiz metadata rejects missing answers instead of silently scoring option 1', () => {
   const markdown = `## 1. Missing explicit answer
 

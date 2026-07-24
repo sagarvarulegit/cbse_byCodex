@@ -62,7 +62,7 @@ export default async function LessonPage({
         <div className="nav-links lesson-links">
           <Link href={`/chapters/${slug}`}>Chapter</Link>
           <a href="#lesson-notes">Notes</a>
-          <a href="#practice-zone">Practice</a>
+          <a href="#quick-practice">Practice</a>
         </div>
         <Link className="nav-cta" href={`/chapters/${slug}`}>
           Back to chapter
@@ -78,7 +78,7 @@ export default async function LessonPage({
             <a className="button-link" href="#lesson-notes">
               Read notes
             </a>
-            <a className="ghost-link" href="#practice-zone">
+            <a className="ghost-link" href="#quick-practice">
               Jump to practice
             </a>
           </div>

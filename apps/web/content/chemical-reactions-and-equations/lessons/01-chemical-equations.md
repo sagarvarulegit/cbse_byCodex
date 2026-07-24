@@ -39,8 +39,6 @@ Caution: This activity needs the teacher's assistance. Wear suitable eyeglasses.
 
 [[demo:activity-1-2-lead-nitrate-potassium-iodide]]
 
-> **Source note:** NCERT does not assign a numbered figure to Activity 1.2. The platform illustration is an activity aid, not Figure 1.2.
-
 ### Activity 1.3 Zinc and dilute acid
 
 Caution: Handle the acid with care.
