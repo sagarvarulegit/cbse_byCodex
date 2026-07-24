@@ -6,7 +6,7 @@
 - [x] Replace the inaccurate Chapter 1 redraws and expose image labels as numbered pins with matching HTML keys.
 - [x] Fix lesson and chapter-note inline markdown rendering, direct textbook question markers, and multi-part answer preservation.
 - [x] Retire Graphify as a mandatory repository dependency and replace it with maintained architecture documentation.
-- [ ] Next task: conduct a small manual student review of Chapter 1 and record comprehension, navigation, and figure-label feedback. Automated tests remain paused until the user explicitly re-enables them.
+- [ ] Next task: conduct a small manual student review of Chapter 1 using `docs/pilot-chapter-1-student-review.md`, then select one evidence-backed fix from comprehension, navigation, figure-label, quiz, and admin-review evidence. Automated tests remain paused until the user explicitly re-enables them.
 
 > **Planning status:** This is the immediate execution handoff. It replaces the completed/stale quiz-metadata handoff. Do not implement from memory or from the current lesson text alone; use the local NCERT PDF and the repository standards as the source of truth.
 
