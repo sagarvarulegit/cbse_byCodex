@@ -165,7 +165,7 @@ the decisions below describe the current files.
 | In-text Questions blocks | All four blocks occur at their source boundaries with complete answers | Pass |
 | Activities | Activities 2.1-2.15 include source quantities, method, observations and safety | Pass |
 | Tables | Tables 2.1-2.4 or their exact structured learning equivalents are present | Pass |
-| Figures | Figures 2.1-2.10 have a source-faithful visual/structured representation, alt text and readable HTML label key | Pass |
+| Figures | Figures 2.1-2.10 have a source-faithful visual/structured representation, alt text and readable HTML label key; Figures 2.5 and 2.6 were rechecked after dedicated redraws replaced an unsafe/mismatched card and a table-only substitute | Pass |
 | Formulae and equations | Ion equations, neutralisation, chlor-alkali, current bleaching-powder representation, baking/washing soda, water of crystallisation and POP restored | Pass |
 | End matter | What You Have Learnt, Exercises 1-15 and both Group Activities restored | Pass |
 | Quiz alignment | 20 questions cover the five canonical lesson resources and no invented section | Pass by manual content review |
@@ -175,6 +175,13 @@ the decisions below describe the current files.
 
 - Activities 2.1 and 2.8 use corrected individual illustrations.
 - Activities 2.9-2.12 and 2.13-2.15 use clean 2-by-2 source-faithful sprites.
+- Activity 2.10 is separate from Figure 2.5 and explicitly shows concentrated
+  sulphuric acid being added slowly to water, never water to acid.
+- Figure 2.5 has its own corrosive-material warning symbol, matching the NCERT
+  figure's subject.
+- Figure 2.6 has a dedicated directional `0-14` pH diagram with acidic/basic
+  direction and opposing `H+`/`OH-` concentration trends. The table below it is
+  retained only as an accessible reading aid.
 - Figure 2.8 uses a dedicated membrane chlor-alkali diagram.
 - Figure 2.10 is included with the second group activity.
 - Important names, observations, safety notes and equations remain in HTML;

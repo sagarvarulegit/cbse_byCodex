@@ -150,6 +150,9 @@ videos/*/.waveform-cache/
 # Optional local Graphify output
 graphify-out/
 
+# Playwright visual review artifacts
+.playwright-cli/
+
 # SkillOpt local staging and harvested session review data
 .skillopt-sleep/
 skillopt-reviewed-tasks*.json

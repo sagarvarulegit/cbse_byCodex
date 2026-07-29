@@ -1,3 +1,8 @@
+# Current Handoff - 2026-07-29
+
+- [x] Commit and push the Science Chapter 2 critical-fix package so the workspace is ready for the next user-directed task.
+- [ ] Next task to be chosen by the user.
+
 # Science Chapter 1 Quality Remediation Implementation Plan
 
 ## Current handoff — 2026-07-26

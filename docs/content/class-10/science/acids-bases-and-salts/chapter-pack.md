@@ -59,7 +59,7 @@ There is no section `2.5` in the current 2026-27 textbook.
 | Activity 2.7 | No numbered figure | Black copper oxide dissolves to form blue-green copper chloride solution. |
 | Activity 2.8 | Figure 2.3 | Acid and alkali solutions conduct; glucose and alcohol do not. |
 | Activity 2.9 | Figure 2.4 | Dry HCl does not affect dry litmus; wet blue litmus turns red. |
-| Activity 2.10 | Figure 2.5 | Acid/base dilution is highly exothermic; add acid to water. |
+| Activity 2.10 | Separate activity redraw; Figure 2.5 is the corrosive warning sign | Acid/base dilution is highly exothermic; add acid to water. |
 | Activity 2.11 | Table 2.2 and Figure 2.7 | Compare pH-paper colours and approximate pH of common substances. |
 | Activity 2.12 | No numbered figure | Test soil-filtrate pH with universal indicator. |
 | Activity 2.13 | No numbered figure | Write nine salt formulae and group salt families. |

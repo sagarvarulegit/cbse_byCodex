@@ -4,7 +4,8 @@ type IllustrationBase = {
   title: string;
   summary: string;
   observation: string;
-  image: string;
+  image?: string;
+  customVisual?: 'dilution-safety' | 'corrosive-warning' | 'ph-scale';
   imageHeight?: number;
   imageWidth?: number;
   alt: string;
@@ -162,12 +163,25 @@ const ILLUSTRATIONS: Record<string, Illustration> = {
     columns: 2, rows: 2, column: 0, row: 0,
   },
   'activity-2-10-dilution-and-ions': {
-    number: '2.10', figure: '2.5', title: 'Dilution changes ion concentration',
-    summary: 'Water is added slowly to an acid or base while the solution is mixed safely.',
-    observation: 'Dilution lowers the concentration of H3O+ or OH- ions per unit volume and releases heat.',
-    image: '/activity-illustrations/chapter-2-activities-2-9-to-2-12-v2.png',
-    alt: 'Water is added slowly to separate acid and base solutions while coloured particle models show their ions spreading through a larger volume.',
-    columns: 2, rows: 2, column: 1, row: 0,
+    number: '2.10', title: 'Safe dilution of an acid and a base',
+    summary: 'Add a few drops of concentrated sulphuric acid slowly to water with constant stirring. In the separate base trial, add sodium hydroxide pellets to water.',
+    observation: 'Both processes release heat. Never pour water into concentrated acid because the sudden heat can make the acid splash.',
+    customVisual: 'dilution-safety',
+    alt: 'Two safe dilution trials: concentrated sulphuric acid is added drop by drop to water with constant stirring, and sodium hydroxide pellets are added to water in a separate beaker. A warning says never pour water into concentrated acid.',
+  },
+  'figure-2-5-corrosive-warning': {
+    kind: 'figure', figure: '2.5', title: 'Corrosive-material warning sign',
+    summary: 'This warning appears on containers of concentrated acids and bases.',
+    observation: 'The liquid can burn skin and damage materials. Handle it only with proper supervision and protection.',
+    customVisual: 'corrosive-warning',
+    alt: 'NCERT Figure 2.5 redraw of the corrosive-material warning sign: liquid from two tilted test tubes damages a hand and a surface.',
+  },
+  'figure-2-6-ph-scale': {
+    kind: 'figure', figure: '2.6', title: 'Variation of pH with ion concentration',
+    summary: 'The pH scale runs from 0 to 14. Acidic nature increases towards 0, pH 7 is neutral, and basic nature increases towards 14.',
+    observation: 'As pH increases, hydrogen-ion concentration decreases and hydroxide-ion concentration increases.',
+    customVisual: 'ph-scale',
+    alt: 'Directional pH scale from 0 to 14 showing increasing acidic nature towards 0, neutral at 7, increasing basic nature towards 14, decreasing hydrogen-ion concentration and increasing hydroxide-ion concentration.',
   },
   'activity-2-11-common-substance-ph': {
     number: '2.11', figure: '2.7', title: 'Testing the pH of common substances',
@@ -1154,7 +1168,9 @@ const ILLUSTRATION_LABELS: Record<string, string[]> = {
   'activity-2-7-metallic-oxide-acid': ['Beaker', 'Copper oxide', 'Dilute hydrochloric acid', 'Copper chloride solution'],
   'activity-2-8-acid-electricity-conduction': ['Dilute acid', 'Glucose or alcohol solution', 'Two iron nails', 'Rubber cork', '6 V battery', 'Switch', 'Glowing bulb', 'Unlit bulb'],
   'activity-2-9-dry-wet-hcl-litmus': ['Dry test tube', 'Sodium chloride', 'Concentrated sulphuric acid', 'Delivery tube', 'Dry blue litmus', 'Wet blue litmus'],
-  'activity-2-10-dilution-and-ions': ['Water', 'Acid solution', 'Base solution', 'Dispersed ions'],
+  'activity-2-10-dilution-and-ions': ['10 mL water', 'Concentrated sulphuric acid added slowly', 'Sodium hydroxide pellets', 'Constant stirring', 'Heat released', 'Never pour water into concentrated acid'],
+  'figure-2-5-corrosive-warning': ['Corrosive-material warning', 'Liquid from test tubes', 'Burns skin', 'Damages materials'],
+  'figure-2-6-ph-scale': ['pH 0-14', 'Increasing acidic nature', 'Neutral at pH 7', 'Increasing basic nature', 'H+ concentration decreases as pH increases', 'OH- concentration increases as pH increases'],
   'activity-2-11-common-substance-ph': ['Common liquid samples', 'pH paper', 'Acidic colours', 'Neutral colour', 'Basic colours'],
   'activity-2-12-soil-ph': ['Soil-water mixture', 'Filter funnel', 'Clear filtrate', 'Dropper', 'pH paper'],
   'activity-2-13-family-of-salts': ['Salt samples', 'Common cation group', 'Common anion group'],
@@ -1377,6 +1393,91 @@ function backgroundPosition(index = 0, count = 1) {
   return count <= 1 ? '50%' : `${(index / (count - 1)) * 100}%`;
 }
 
+function ChapterTwoCustomVisual({
+  alt,
+  visual,
+}: {
+  alt: string;
+  visual: NonNullable<IllustrationBase['customVisual']>;
+}) {
+  if (visual === 'dilution-safety') {
+    return (
+      <div aria-label={alt} className="chapter-two-visual chapter-two-dilution" role="img">
+        <p className="chapter-two-visual-kicker">Activity 2.10 · correct order matters</p>
+        <div className="chapter-two-dilution-panels">
+          <div className="chapter-two-dilution-panel">
+            <strong>Acid trial</strong>
+            <span className="chapter-two-reagent">Concentrated H<sub>2</sub>SO<sub>4</sub></span>
+            <span aria-hidden="true" className="chapter-two-drop-arrow">↓ drops added slowly</span>
+            <span className="chapter-two-beaker"><span>10 mL water</span></span>
+            <span>Stir constantly</span>
+          </div>
+          <div className="chapter-two-dilution-panel">
+            <strong>Base trial</strong>
+            <span className="chapter-two-reagent">NaOH pellets</span>
+            <span aria-hidden="true" className="chapter-two-drop-arrow">↓ add to water</span>
+            <span className="chapter-two-beaker"><span>10 mL water</span></span>
+            <span>Swirl carefully</span>
+          </div>
+        </div>
+        <div className="chapter-two-safety-rule">
+          <span>✓ Acid into water, slowly</span>
+          <strong>✕ Never water into concentrated acid</strong>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'corrosive-warning') {
+    return (
+      <div aria-label={alt} className="chapter-two-visual chapter-two-corrosive" role="img">
+        <svg aria-hidden="true" className="chapter-two-corrosive-symbol" viewBox="0 0 420 330">
+          <path d="M210 18 400 312H20Z" fill="#f8fafc" stroke="#111827" strokeLinejoin="round" strokeWidth="18" />
+          <g fill="#111827" stroke="#111827" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m105 87 92 38-14 34-92-38z" strokeWidth="5" />
+            <path d="m246 80 82 48-18 31-82-48z" strokeWidth="5" />
+            <path d="m174 164-13 34-13-34z" />
+            <path d="m284 163-14 35-12-36z" />
+            <path d="M88 254h130v20H88z" />
+            <path d="M255 243c17-12 34-21 52-18l48 10-4 19-40-5-28 25h-65l7-22z" />
+            <path d="m159 203 35 18-11 24-37-13z" />
+            <path d="m270 204 39 12-10 25-42-15z" />
+          </g>
+        </svg>
+        <p><strong>Warning:</strong> corrosive substance</p>
+      </div>
+    );
+  }
+
+  const pHValues = Array.from({ length: 15 }, (_, index) => index);
+
+  return (
+    <div aria-label={alt} className="chapter-two-visual chapter-two-ph" role="img">
+      <div className="chapter-two-ph-directions">
+        <span>← Increasing acidic nature</span>
+        <strong>Neutral</strong>
+        <span>Increasing basic nature →</span>
+      </div>
+      <div aria-hidden="true" className="chapter-two-ph-numbers">
+        {pHValues.map((value) => <span key={value}>{value}</span>)}
+      </div>
+      <div aria-hidden="true" className="chapter-two-ph-bar">
+        {pHValues.map((value) => <span className={value === 7 ? 'is-neutral' : undefined} key={value} />)}
+      </div>
+      <div className="chapter-two-ph-ion-row">
+        <strong>H<sup>+</sup> concentration</strong>
+        <span className="chapter-two-ph-wedge chapter-two-ph-wedge--decreasing" />
+        <span>decreases →</span>
+      </div>
+      <div className="chapter-two-ph-ion-row">
+        <strong>OH<sup>−</sup> concentration</strong>
+        <span className="chapter-two-ph-wedge chapter-two-ph-wedge--increasing" />
+        <span>increases →</span>
+      </div>
+    </div>
+  );
+}
+
 export default function ActivityIllustration({ demoId }: { demoId: string }) {
   const illustration = ILLUSTRATIONS[demoId];
   const labels = ILLUSTRATION_LABELS[demoId];
@@ -1390,7 +1491,7 @@ export default function ActivityIllustration({ demoId }: { demoId: string }) {
   const rows = illustration.rows ?? 1;
   const crop = illustration.crop;
   const imageStyle: CSSProperties = {
-    backgroundImage: `url(${illustration.image})`,
+    backgroundImage: illustration.image ? `url(${illustration.image})` : undefined,
     backgroundPosition: crop
       ? `${crop.width >= 100 ? 50 : (crop.x / (100 - crop.width)) * 100}% ${crop.height >= 100 ? 50 : (crop.y / (100 - crop.height)) * 100}%`
       : `${backgroundPosition(illustration.column, columns)} ${backgroundPosition(illustration.row, rows)}`,
@@ -1400,8 +1501,9 @@ export default function ActivityIllustration({ demoId }: { demoId: string }) {
         ? 'cover'
         : `${columns * 100}% ${rows * 100}%`,
   };
-  const renderedImage =
-    illustration.imageHeight && illustration.imageWidth ? (
+  const renderedImage = illustration.customVisual ? (
+    <ChapterTwoCustomVisual alt={illustration.alt} visual={illustration.customVisual} />
+  ) : illustration.imageHeight && illustration.imageWidth && illustration.image ? (
       <img
         alt={illustration.alt}
         className="activity-illustration-image activity-illustration-image-native"
@@ -1422,7 +1524,7 @@ export default function ActivityIllustration({ demoId }: { demoId: string }) {
 
   return (
     <figure className="activity-illustration-card">
-      <div className={`activity-illustration-visual${hotspots ? ' activity-illustration-visual--hotspots' : ''}`}>
+      <div className={`activity-illustration-visual${hotspots ? ' activity-illustration-visual--hotspots' : ''}${illustration.customVisual ? ' activity-illustration-visual--custom' : ''}`}>
         {hotspots ? (
           <>
             <div className="activity-illustration-frame">

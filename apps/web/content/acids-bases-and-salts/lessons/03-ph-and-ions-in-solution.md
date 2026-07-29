@@ -121,9 +121,11 @@ Caution: Always add concentrated acid slowly to water with constant stirring.
 Both processes release heat. Dissolving an acid or a base in water is highly
 exothermic.
 
+[[demo:activity-2-10-dilution-and-ions]]
+
 ### Figure 2.5: Warning sign on concentrated acid and base containers
 
-[[demo:activity-2-10-dilution-and-ions]]
+[[demo:figure-2-5-corrosive-warning]]
 
 The corrosion warning means the substance can burn skin and damage materials.
 If water is poured into concentrated acid, the heat may make the mixture splash
@@ -177,6 +179,10 @@ estimate the strength.
 The `p` in pH comes from the German word *potenz*, meaning power.
 
 ### Figure 2.6: Variation of pH with H+(aq) and OH-(aq) concentration
+
+[[demo:figure-2-6-ph-scale]]
+
+#### Reading Figure 2.6
 
 | pH range | Nature | Ion trend |
 | --- | --- | --- |

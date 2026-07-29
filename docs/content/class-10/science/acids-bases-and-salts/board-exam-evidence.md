@@ -32,13 +32,31 @@ supplement**. It must never be presented as an NCERT section.
 Discovery archive:
 `C:\Sagar\Projects\CBSE\textbooks\BoardExams\extracted_questions`
 
-The archive contains:
+The local archive inventory contains:
 
 - 165 source PDFs across 2022-2026
 - 3,266 extracted question instances
 - 2,880 canonical extracted questions
 
-A broad English Chapter 2 screen over 2023-2026 produced 215 candidate
+The local folder labelled as a 2022 Science question paper actually contains a
+Security paper, so its metadata must not be treated as proof of 2022 Chapter 2
+coverage. CBSE's official question-paper page separately provides 2022 main and
+compartment Science archives. Direct retrieval of both official archive links
+returned HTTP 500 on 29 July 2026, so the original 2022 question pages could not
+be rendered and matched to the available local marking schemes.
+
+- Official index: `https://www.cbse.gov.in/cbsenew/question-paper.html`
+- Main Science archive:
+  `https://www.cbse.gov.in/cbsenew/question-paper/2022/X/Scince.zip`
+- Compartment Science archive:
+  `https://www.cbse.gov.in/cbsenew/question-paper/2022-COMPTT/X/SCIENCE.zip`
+
+**2022 evidence boundary:** no 2022 question is published as a verified Chapter
+2 PYQ, and no claim in this audit includes 2022. Close this boundary only after
+the original Science paper and matching official marking-scheme pages have both
+been rendered and visually checked.
+
+A broad English Chapter 2 screen over the usable 2023-2026 corpus produced 215 candidate
 instances, representing 199 distinct extracted records:
 
 | Year | Candidate instances |
@@ -184,10 +202,18 @@ separately awarded value point found in the matching official schemes:
 - safe dilution rule: add acid to water slowly with stirring, never water to
   concentrated acid.
 
+The official SQP Q28 self-marking rubric is choice-aware: its second point
+accepts either the table calculation or the alternative colour-change response.
+The balanced equation and the reaction classification are separate one-mark
+points, so either valid branch can receive the full `4/4`.
+
 ## Coverage decision
 
 The Chapter 2 concept path now covers every demand family found in the
-2023-2026 English discovery screen. The board-practice supplement supplies
+2023-2026 English discovery screen. This evidence does not establish that every
+question ever set was individually checked: 11 historical PYQs were verified
+question-by-question against original papers and official marking schemes. The
+board-practice supplement supplies
 write-before-check practice for the highest-value integrated demands and the
 current SQP case format.
 

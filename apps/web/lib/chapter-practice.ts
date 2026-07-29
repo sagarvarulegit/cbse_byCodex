@@ -598,9 +598,9 @@ const chapterTwoDefinitions: WrittenPracticeDefinition[] = [
     minimumCharacters: 145,
     rubricPoints: [
       { halfMarks: 2, id: 'concentration-drops', label: 'Fewer drops justified from greater H+ concentration', skillSlug: 'ion-strength' },
-      { halfMarks: 2, id: 'table-calculation', label: '6 mL NaOH calculated from the table', skillSlug: 'multi-part-completion' },
-      { halfMarks: 2, id: 'colour-option', label: 'Colourless-to-pink OR explanation', skillSlug: 'neutralisation-reasoning' },
-      { halfMarks: 2, id: 'equation-classification', label: 'Balanced equation and correct classification', skillSlug: 'neutralisation-reasoning' },
+      { halfMarks: 2, id: 'or-choice', label: 'Either 6 mL NaOH calculation OR colourless-to-pink explanation', skillSlug: 'multi-part-completion' },
+      { halfMarks: 2, id: 'balanced-equation', label: 'Balanced H2SO4 + 2NaOH equation', skillSlug: 'neutralisation-reasoning' },
+      { halfMarks: 2, id: 'reaction-classification', label: 'Neutralisation and double displacement; no precipitate because sodium sulphate is soluble', skillSlug: 'neutralisation-reasoning' },
     ],
     title: 'Official SQP Q28 written attempt',
   },
