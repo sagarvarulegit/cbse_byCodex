@@ -3,7 +3,7 @@ type: SourceFidelityTracker
 title: Chemical Reactions and Equations Source Fidelity Tracker
 description: Page-by-page NCERT fidelity evidence for Class 10 Science Chapter 1.
 tags: ['science', 'chapter-1', 'ncert', 'fidelity', 'qa']
-timestamp: 2026-07-14T00:00:00Z
+timestamp: 2026-07-26T00:00:00Z
 ---
 
 # Chemical Reactions and Equations source-fidelity tracker
@@ -11,6 +11,10 @@ timestamp: 2026-07-14T00:00:00Z
 Source: NCERT Class 10 Science, Chapter 1, Reprint 2026-27, `textbooks/science/extracted/jesc101.pdf`.
 
 Use `Pass` only after the exact lesson route, automated contract, and visual evidence have been checked. Platform explanations may simplify the teaching, but source labels, order, activities, figures, questions, equations, safety cues, and end matter must remain exact.
+
+The consolidated decision and open non-source gates live in
+`quality-evidence-index.md`. The reusable copy-forward process lives in
+`docs/content/gold-standard-chapter-workflow.md`.
 
 ## Numbered structure
 
@@ -75,14 +79,45 @@ Use `Pass` only after the exact lesson route, automated contract, and visual evi
 | Exercises 1-20 | 14-16 | After What you have learnt | Lesson 6 | Pass |
 | Group Activity | 16 | With end-of-chapter exercises | Lesson 6 | Pass |
 
+## Supplement boundary
+
+| Supplement | Source role | Numbering rule | Status |
+| --- | --- | --- | --- |
+| Lesson 7 - Board Exam Practice | Historical questions verified against original paper pages | No NCERT section number | Separate from textbook path |
+| Lesson 8 - Board Readiness Diagnostic | Original platform assessment | No NCERT section number | Separate from textbook path |
+| Lesson 9 - Board Readiness Diagnostic B | Original platform transfer assessment | No NCERT section number | Separate from textbook path |
+
+The supplements may test textbook knowledge, but they must not alter, renumber
+or relocate any source item tracked above. Their provenance is maintained in
+`board-exam-evidence.md`.
+
+## Platform-practice boundary inside the textbook path
+
+The coefficient-only workbench appears in Lesson 2 after the complete manual
+balancing sequence through equation (1.9). Its four equations are drawn from
+the iron/steam example and NCERT in-text Question 2(i)-(iii). It is clearly an
+interactive platform practice surface, does not receive a textbook number, does
+not alter any formula or source answer, and does not reuse the fixed learner
+holdout equations.
+
 ## Final evidence
 
 | Evidence | Pass rule | Status |
 | --- | --- | --- |
-| Automated fidelity suite | All Chapter 1 source contracts pass | Pass |
+| Automated fidelity suite | All Chapter 1 source contracts pass | Regression coverage updated for the 2026-07-26 board supplements; rerun pending under the current verification policy |
 | Quiz metadata validator | 0 errors and 0 warnings | Pass |
-| Desktop browser review | All six lessons, revision sheet, and quiz checked | Follow-up: automated sweep was interrupted after representative pages passed |
+| Desktop browser review | Six NCERT lessons, three supplements, revision sheet, and quiz checked | Follow-up: supplements and complete recorded sweep remain |
 | Mobile browser review | 390x844 and 320px checked without overflow/cropping | Follow-up: 390px Figure 1.6 passed; full 320px sweep remains |
 | Source visual review | Figures/captions/apparatus checked against rendered PDF pages | Pass |
-| Learner-task smoke | Fixed holdout rubric meets its pass score | Not started |
-| Real-student evidence | Separate small pilot completed; not replaceable by scripted smoke | Not started |
+| Gold-standard workflow | Reusable chapter process and quality-state definitions are documented | Pass: `docs/content/gold-standard-chapter-workflow.md` |
+| Learner-task smoke | Fixed holdout rubric meets its pass score | Rubric ready; execution pending |
+| Real-student evidence | Separate small pilot completed; not replaceable by scripted smoke | Deferred until suitable students are available |
+
+## Current decision
+
+The chapter is source-faithful. It is not yet a closed reference chapter because
+the complete 320px browser sweep, accessibility/performance evidence,
+learner-task smoke execution, and real-student validation remain open.
+
+The absence of available students does not block the technical gates. Complete
+all non-student gates now and preserve the real-student gate as deferred.

@@ -8,7 +8,7 @@ lesson_number: 5
 lesson_slug: chemical-properties-of-carbon-compounds
 estimated_minutes: 12
 access_level: locked
-status: draft
+status: published
 ---
 
 # 4.3 Chemical properties of carbon compounds
@@ -17,16 +17,7 @@ Carbon compounds show important reactions such as combustion, oxidation, additio
 
 This lesson is about reaction patterns. A good way to study it is to ask: what changes in the molecule? Does oxygen get added? Does hydrogen add across a double bond? Does one atom replace another? That question tells you the reaction type.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- describe combustion of carbon compounds
-- explain oxidation of alcohols
-- define addition reaction
-- define substitution reaction
-- connect each reaction with one board-level example
-
-## Combustion
+## 4.3.1 Combustion
 
 Combustion is burning in oxygen.
 
@@ -62,7 +53,7 @@ Memory picture:
 
 The textbook also connects carbon fuels with pollution. Coal and petroleum can contain nitrogen and sulphur. On burning, they may form oxides of nitrogen and sulphur, which are major pollutants.
 
-## Oxidation
+## 4.3.2 Oxidation
 
 Oxidation means addition of oxygen or removal of hydrogen.
 
@@ -83,7 +74,7 @@ In Activity 4.5, alkaline potassium permanganate is added drop by drop to warm e
 Board answer idea:
 The conversion of ethanol to ethanoic acid is oxidation because oxygen is added to ethanol by an oxidising agent.
 
-## Addition reaction
+## 4.3.3 Addition Reaction
 
 An addition reaction happens when atoms are added to an unsaturated compound.
 
@@ -107,7 +98,7 @@ The textbook mentions catalysts such as nickel or palladium. A catalyst changes 
 Health note from the textbook:
 Vegetable oils generally contain unsaturated fatty acids, while animal fats generally contain saturated fatty acids. Oils containing unsaturated fatty acids are preferred for cooking.
 
-## Substitution reaction
+## 4.3.4 Substitution Reaction
 
 A substitution reaction happens when one atom or group replaces another atom or group.
 

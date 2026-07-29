@@ -8,7 +8,7 @@ lesson_number: 1
 lesson_slug: life-processes-and-nutrition-in-plants
 estimated_minutes: 12
 access_level: free
-status: draft
+status: published
 ---
 
 # 5.1 What are life processes? and 5.2 Nutrition
@@ -16,17 +16,6 @@ status: draft
 Life is maintained by invisible molecular work. A living body must repair, organise, move materials, release energy, and remove wastes even when the organism is resting.
 
 The textbook begins with a simple warning: visible movement alone is not enough to decide whether something is alive. Plants may not visibly move every minute, and a sleeping animal may look still, but life continues through molecular movements.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain why life processes are needed for maintenance
-- state why diffusion is insufficient in multicellular organisms
-- define nutrition, respiration, transportation, and excretion
-- explain autotrophic nutrition and photosynthesis
-- connect chlorophyll, carbon dioxide, water, and sunlight to starch formation
-- describe how stomata and guard cells help plants
-- identify NCERT Figures 5.1 to 5.4 and Activities 5.1 to 5.2
 
 ## 5.1 What are life processes?
 
@@ -96,9 +85,13 @@ In plants, photosynthesis converts carbon dioxide and water into carbohydrates i
 
 Equation:
 
-`6CO2 + 6H2O -> C6H12O6 + 6O2`
+`6CO2 + 12H2O --sunlight/chlorophyll--> C6H12O6 + 6O2 + 6H2O`
 
-This equation is a summary. The important textbook idea is that light energy is absorbed, water is split, and carbon dioxide is reduced to carbohydrates.
+After cancelling the six water molecules formed on the right, this is often
+written in the net form `6CO2 + 6H2O -> C6H12O6 + 6O2`. Both are balanced, but
+the first form makes the board-marking sequence of water splitting and water
+formation explicit. The important textbook idea is that light energy is
+absorbed, water is split, and carbon dioxide is reduced to carbohydrates.
 
 ## Events in photosynthesis
 
@@ -119,17 +112,25 @@ Figure 5.1: Cross-section of a leaf
 - Use this figure to show chloroplast-containing cells inside the leaf.
 - Key label: chloroplasts contain chlorophyll.
 
+[[figure:figure-5-1-leaf-cross-section]]
+
 Figure 5.2: Variegated leaf before and after starch test
 - Use this figure to compare green and non-green areas after iodine testing.
 - Key idea: starch appears only where chlorophyll allowed photosynthesis.
+
+[[demo:activity-5-1-variegated-leaf]]
 
 Figure 5.3: Open and closed stomatal pore
 - Draw guard cells on both sides of the pore.
 - When guard cells swell, the pore opens. When they shrink, the pore closes.
 
+[[figure:figure-5-3-stomata]]
+
 Figure 5.4: Experimental set-up with and without potassium hydroxide
 - One bell jar has potassium hydroxide to absorb carbon dioxide.
 - Compare starch formation in leaves from both plants.
+
+[[demo:activity-5-2-carbon-dioxide]]
 
 Activity 5.1: Variegated leaf starch test
 - Keep a variegated plant in darkness so stored starch is used.
@@ -137,10 +138,16 @@ Activity 5.1: Variegated leaf starch test
 - Observation focus: green areas show starch more clearly.
 - Conclusion: chlorophyll is essential for photosynthesis.
 
-Activity 5.2: Designing a sunlight test for photosynthesis
-- Use the pattern of Activity 5.1 to design a fair test.
-- Keep one part of a leaf away from sunlight and compare starch formation.
-- Conclusion: sunlight is essential for photosynthesis.
+Activity 5.2: Carbon dioxide is essential for photosynthesis
+- Destarch two similar healthy potted plants by keeping them in darkness for three days.
+- Place each plant on a separate glass plate. Keep potassium hydroxide in a watch-glass beside one plant; it absorbs carbon dioxide.
+- Cover each plant with an airtight bell jar, seal the base with vaseline, and keep both in sunlight for about two hours.
+- Test one leaf from each plant for starch.
+- Observation: the leaf in the jar without potassium hydroxide shows more starch.
+- Conclusion: carbon dioxide is essential for photosynthesis.
+
+Textbook design prompt:
+Using Activities 5.1 and 5.2 as models, cover part of a destarched leaf with opaque paper, expose the plant to sunlight, and perform the starch test. Only the exposed part turns blue-black, showing that sunlight is essential for photosynthesis.
 
 Board safety note:
 Alcohol is heated in a water bath, not directly over a flame, because alcohol is inflammable.
@@ -209,7 +216,7 @@ Guard cells swell when water enters them and open the pore. They shrink when wat
 
 - In photosynthesis answers, write all four needs: carbon dioxide, water, sunlight, chlorophyll.
 - For Activity 5.1, connect green area, chlorophyll, iodine, and starch.
-- For Activity 5.2, mention a control and compare starch test results.
+- For Activity 5.2, state that potassium hydroxide absorbs carbon dioxide, identify the control jar, and compare the starch-test results.
 - In stomata questions, mention guard cells and water movement.
 
 ## Quick practice
@@ -230,7 +237,7 @@ Guard cells swell when water enters them and open the pore. They shrink when wat
 1. Processes that maintain life, such as nutrition, respiration, transportation, and excretion.
 2. It helps repair, maintain, and organise living structures.
 3. Many cells are not directly exposed to the environment, so diffusion would be too slow.
-4. `6CO2 + 6H2O -> C6H12O6 + 6O2`.
+4. `6CO2 + 12H2O --sunlight/chlorophyll--> C6H12O6 + 6O2 + 6H2O`.
 5. It absorbs light energy for photosynthesis.
 6. Chlorophyll is essential for photosynthesis and starch formation.
 7. It absorbs carbon dioxide.

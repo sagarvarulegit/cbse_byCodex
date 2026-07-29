@@ -1,6 +1,11 @@
 # Chapter 1 Small Student Review
 
-Use this record for a controlled review with 2-5 Class 10 students. Give each student 20-30 minutes. Use participant codes such as `S01`; do not record names, phone numbers, email addresses, or school identifiers.
+Use this record for a controlled review with 2-5 Class 10 students. Every
+participant completes the 20-30 minute first-use session. At least two
+participants also complete the 45-60 minute post-study system check after one
+uninterrupted pass through the full chapter. Use participant codes such as
+`S01`; do not record names, phone numbers, email addresses, school identifiers,
+or raw written answers.
 
 ## Review goal
 
@@ -12,6 +17,9 @@ Observe:
 - whether navigation and practice shortcuts are clear
 - whether numbered figure pins and the matching label key are readable
 - whether quiz wording, options, and feedback support learning
+- whether coefficient-only controls and hint/mastery labels are understood
+- whether write-before-check marking points support honest self-scoring
+- whether timed-paper and D0/D3/D7 wording avoids fabricated completion
 
 ## Facilitator rules
 
@@ -32,6 +40,30 @@ Observe:
 6. Explain why a chemical formula must not be changed while balancing an equation.
 7. Open the chapter quiz and answer at least five questions.
 8. Submit one short feedback message from the surface that caused the most difficulty.
+
+## Post-study practice-system check
+
+Complete this with at least two participants after they have studied the full
+chapter path. Do not coach chemistry or correct an answer before the platform's
+own check.
+
+1. Complete one fresh four-equation workbench attempt. Record every hint used
+   and whether the student understands why a hinted equation is not independent
+   mastery.
+2. Write one verified PYQ answer before revealing its marking points. Self-mark
+   it and open the first weak-skill repair link.
+3. Attempt Diagnostic B with its writing and checking timers. Record whether
+   the student stops writing when the phase changes and whether the score is
+   entered in half-mark steps correctly.
+4. Ask the student to explain the difference between an
+   `exam-condition evidence` record and a `practice only` record.
+5. Inspect D0/D3/D7 after the attempt. Confirm that waiting or opening the page
+   has not completed D3 or D7.
+6. Submit feedback from whichever of these four surfaces caused the highest
+   friction.
+
+The facilitator must not shorten timers, edit local storage, pre-open marking
+points, or mark an incomplete-condition attempt as exam evidence.
 
 ## Session record
 
@@ -56,6 +88,25 @@ Copy this section once per student.
 - Student's most confusing moment:
 - Student's most useful feature:
 - Direct student comment:
+
+### Post-study practice-system record
+
+- Completed: `Yes / No / Not assigned`
+- Full chapter study duration:
+- Workbench independent equations / 4:
+- Workbench hints used:
+- Understood guided versus independent: `Yes / With help / No`
+- Written PYQ id:
+- Wrote before reveal: `Yes / No`
+- Self-score:
+- First repair link reached the expected section: `Yes / No`
+- Diagnostic B score / 20:
+- Writing/checking phases followed: `Yes / With help / No`
+- Exam conditions honestly classified: `Yes / With help / No`
+- D0 state:
+- D3 state:
+- D7 state:
+- First practice-system friction:
 
 ### Comprehension check
 

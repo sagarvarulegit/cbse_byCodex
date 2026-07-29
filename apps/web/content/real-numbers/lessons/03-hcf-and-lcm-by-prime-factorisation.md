@@ -15,14 +15,6 @@ status: draft
 
 This lesson uses `prime factorisation` to find `HCF` and `LCM`. Students usually mix them up, so we will keep the method clean, slow, and friendly.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- find `HCF` using `prime factors`
-- find `LCM` using `prime factors`
-- avoid mixing smallest powers and greatest powers
-- use the check rule for two numbers
-
 ## first remember the words
 
 ### meaning of `HCF`

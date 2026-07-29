@@ -1,72 +1,28 @@
 ---
-title: The Human Eye and the Colourful World chapter quiz
-subject: Science
-class_level: 10
-chapter: The Human Eye and the Colourful World
+title: Human Eye and Colourful World Mastery Quiz
 chapter_slug: the-human-eye-and-the-colourful-world
-content_type: quiz
-status: draft
+status: published
 ---
 
-# The Human Eye and the Colourful World chapter quiz
+# Mastery Quiz
 
-Answer these quick questions after revising the chapter notes.
-
-## 1. Myopia
-
-Myopia is:
-
-1. near-sightedness
-2. far-sightedness
-3. total colour blindness
-
-Answer: 1
-Explanation: Myopia is near-sightedness.
-
-## 2. Hypermetropia
-
-Hypermetropia is:
-
-1. near-sightedness
-2. far-sightedness
-3. no vision at all
-
-Answer: 2
-Explanation: Hypermetropia is far-sightedness.
-
-## 3. Dispersion
-
-Dispersion of light means:
-
-1. splitting of white light into colours
-2. bending sound waves
-3. heating air
-
-Answer: 1
-Explanation: Dispersion splits white light into its colours.
-
-## 4. Prism
-
-A prism can:
-
-1. disperse light
-2. stop gravity
-3. make magnets
-
-Answer: 1
-Explanation: A prism can disperse light into colours.
-
-## 5. Scattering
-
-The blue colour of the sky is mainly due to:
-
-1. scattering of light
-2. reflection from clouds only
-3. sound waves
-
-Answer: 1
-Explanation: The sky looks blue because of scattering of light.
-
-## revision reminder
-
-Recheck eye defects, prism effects, dispersion, and scattering before retrying.
+1. Most eye refraction occurs at? **Answer:** Cornea.
+2. Light amount is controlled by? **Answer:** Iris through pupil size.
+3. Image forms where? **Answer:** Retina.
+4. Near-object ciliary action? **Answer:** Contract; lens thickens; f decreases.
+5. Normal near point? **Answer:** 25 cm.
+6. Normal far point? **Answer:** Infinity.
+7. Myopic image forms? **Answer:** In front of retina.
+8. Myopia correction? **Answer:** Concave lens.
+9. Hypermetropic image forms? **Answer:** Behind retina.
+10. Hypermetropia correction? **Answer:** Convex lens.
+11. Presbyopia cause? **Answer:** Reduced accommodation with age.
+12. Prism colour sequence? **Answer:** VIBGYOR.
+13. Least-deviated colour? **Answer:** Red.
+14. Most-deviated colour? **Answer:** Violet.
+15. White recombination uses? **Answer:** Second inverted prism.
+16. Why stars twinkle? **Answer:** Variable atmospheric refraction of a point source.
+17. Why planets do not? **Answer:** Extended-source fluctuations average.
+18. Tyndall effect? **Answer:** Visible beam path due colloidal scattering.
+19. Why blue sky? **Answer:** Shorter blue wavelengths scatter more strongly.
+20. Why dark sky in space? **Answer:** No atmosphere to scatter sunlight.

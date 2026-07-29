@@ -29,7 +29,7 @@ export type PilotChapterCard = {
 };
 
 const pilotMinutes: Record<PilotChapterSlug, string> = {
-  'chemical-reactions-and-equations': '44 min',
+  'chemical-reactions-and-equations': '5 hr 35 min total',
   'real-numbers': '46 min',
   'two-stories-about-flying': '35 min',
 };

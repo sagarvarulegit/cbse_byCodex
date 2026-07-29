@@ -18,8 +18,11 @@ import {
   type ChapterSectionVariant,
 } from '../../../../lib/chapter-notes-rendering';
 import { isPilotChapter } from '../../../../lib/pilot';
+import CompleteChapterNotesPage from './CompleteChapterNotesPage';
 
-export default async function ChapterNotesPage({ params }: { params: Promise<{ slug: string }> }) {
+export default CompleteChapterNotesPage;
+
+async function LegacyChapterNotesPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const content = getChapterPackContent(slug);
 
@@ -336,6 +339,29 @@ function renderBlock(block: MarkdownBlock, index: number, sectionVariant: Chapte
             <li key={`${item}-${itemIndex}`}>{renderInline(item)}</li>
           ))}
         </ol>
+      );
+    case 'table':
+      return (
+        <div className="prose-table-wrap" key={`${block.type}-${index}`}>
+          <table className="prose-table">
+            <thead>
+              <tr>
+                {block.headers.map((header, cellIndex) => (
+                  <th key={`${header}-${cellIndex}`} scope="col">{renderInline(header)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, rowIndex) => (
+                <tr key={`row-${rowIndex}`}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
     case 'code':
       {

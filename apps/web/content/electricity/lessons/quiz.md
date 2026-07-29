@@ -1,72 +1,28 @@
 ---
-title: Electricity chapter quiz
-subject: Science
-class_level: 10
-chapter: Electricity
+title: Electricity Mastery Quiz
 chapter_slug: electricity
-content_type: quiz
-status: draft
+status: published
 ---
 
-# Electricity chapter quiz
+# Mastery Quiz
 
-Answer these quick questions after revising the chapter notes.
-
-## 1. Current
-
-Electric current is the flow of:
-
-1. charges
-2. heat only
-3. sound only
-
-Answer: 1
-Explanation: Electric current is the flow of electric charges.
-
-## 2. Ohm's law
-
-Ohm's law relates:
-
-1. voltage, current, and resistance
-2. mass, weight, and density
-3. time, speed, and distance
-
-Answer: 1
-Explanation: Ohm's law connects voltage, current, and resistance.
-
-## 3. Resistance
-
-Resistance opposes:
-
-1. flow of current
-2. light rays
-3. magnets
-
-Answer: 1
-Explanation: Resistance opposes the flow of electric current.
-
-## 4. Series circuit
-
-In a series circuit, current is:
-
-1. the same through each component
-2. always zero
-3. always bigger in each branch
-
-Answer: 1
-Explanation: In series, the same current flows through every component.
-
-## 5. Heating effect
-
-Joule heating converts:
-
-1. electrical energy into heat
-2. heat into magnetism
-3. sound into light
-
-Answer: 1
-Explanation: Joule heating turns electrical energy into heat.
-
-## revision reminder
-
-Recheck current, voltage, resistance, circuits, and heating effect before retrying.
+1. Current formula? **Answer:** `I=Q/t`.
+2. One ampere? **Answer:** One coulomb per second.
+3. Potential difference? **Answer:** Work per charge, `V=W/Q`.
+4. Ammeter connection? **Answer:** Series.
+5. Voltmeter connection? **Answer:** Parallel.
+6. Ohm's law? **Answer:** `V=IR` at constant temperature.
+7. V-versus-I slope? **Answer:** Resistance.
+8. Resistance formula? **Answer:** `R=ρl/A`.
+9. Resistivity unit? **Answer:** Ω m.
+10. Double diameter effect? **Answer:** Resistance becomes one-fourth.
+11. Series formula? **Answer:** `Rs=R1+R2+...`.
+12. Parallel formula? **Answer:** `1/Rp=1/R1+1/R2+...`.
+13. Same in series? **Answer:** Current.
+14. Same in parallel? **Answer:** Potential difference.
+15. Joule law? **Answer:** `H=I²Rt`.
+16. Power formulas? **Answer:** `VI=I²R=V²/R`.
+17. One commercial unit? **Answer:** 1 kWh.
+18. 1 kWh in joules? **Answer:** `3.6×10^6J`.
+19. Why nichrome? **Answer:** High resistivity/melting point, resists oxidation.
+20. Why domestic parallel? **Answer:** Full voltage and independent operation.

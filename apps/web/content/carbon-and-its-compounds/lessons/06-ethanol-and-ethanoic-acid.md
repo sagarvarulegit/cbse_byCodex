@@ -8,7 +8,7 @@ lesson_number: 6
 lesson_slug: ethanol-and-ethanoic-acid
 estimated_minutes: 11
 access_level: locked
-status: draft
+status: published
 ---
 
 # 4.4 Some important carbon compounds - ethanol and ethanoic acid
@@ -17,16 +17,7 @@ Ethanol and ethanoic acid are two important carbon compounds in the Class 10 tex
 
 They look similar because both have two carbon atoms, but their functional groups are different. Ethanol has the alcohol group `-OH`; ethanoic acid has the carboxylic acid group `-COOH`. That one difference changes their smell, acidity, reactions, and uses.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- write the formula of ethanol
-- write the formula of ethanoic acid
-- list important properties and uses of ethanol
-- explain esterification
-- describe reactions of ethanoic acid with bases and carbonates
-
-## Ethanol
+## 4.4.1 Properties of Ethanol
 
 Ethanol is an alcohol.
 
@@ -50,11 +41,11 @@ Ethanol is also the alcohol present in alcoholic drinks. The textbook clearly wa
 
 Ethanol is soluble in water in all proportions because its `-OH` group can interact with water.
 
-[[demo:activity-4-6-ethanol-sodium]]
-
 ## Reactions of ethanol
 
 ### Reaction with sodium
+
+[[demo:activity-4-6-ethanol-sodium]]
 
 Ethanol reacts with sodium to form sodium ethoxide and hydrogen gas.
 
@@ -85,7 +76,9 @@ Methanol is poisonous even in small quantities. It can damage the optic nerve an
 
 To prevent misuse, industrial ethanol is often made unfit for drinking by adding poisonous substances such as methanol. Dyes may also be added so it can be identified easily. This is called denatured alcohol.
 
-## Ethanoic acid
+## 4.4.2 Properties of Ethanoic Acid
+
+[[demo:activity-4-7-acid-strength]]
 
 Ethanoic acid is a carboxylic acid.
 
@@ -105,9 +98,11 @@ Ethanoic acid is a weak acid. It does not ionise completely in water.
 
 The textbook gives vinegar as a `5-8%` solution of acetic acid in water, used widely as a preservative in pickles. The word glacial comes from pure ethanoic acid freezing in cold climates because its melting point is about `290 K`.
 
-[[demo:activity-4-7-acid-strength]]
-
 ## Esterification
+
+[[demo:activity-4-8-esterification]]
+
+[[figure:figure-4-11-esterification]]
 
 Ethanol reacts with ethanoic acid in the presence of concentrated sulphuric acid to form an ester.
 
@@ -120,8 +115,6 @@ Esters usually have a pleasant fruity smell.
 Concentrated sulphuric acid helps remove water and supports ester formation.
 
 Activity 4.8 uses absolute ethanol, glacial acetic acid, and a few drops of concentrated sulphuric acid. The mixture is warmed in a water bath and then poured into water. The pleasant smell comes from the ester.
-
-[[demo:activity-4-8-esterification]]
 
 The reverse idea is also important. When an ester is treated with sodium hydroxide, it gives back alcohol and the sodium salt of a carboxylic acid. This is called saponification because it is used in soap preparation.
 
@@ -137,6 +130,8 @@ This proves that ethanoic acid behaves like an acid, even though it is weaker th
 
 ## Ethanoic acid with carbonate
 
+[[demo:activity-4-9-ethanoic-acid-carbonate]]
+
 Ethanoic acid reacts with sodium carbonate to produce:
 - sodium ethanoate
 - carbon dioxide
@@ -149,8 +144,6 @@ Carbon dioxide turns lime water milky.
 The textbook also repeats the test with sodium hydrogencarbonate:
 
 `CH3COOH + NaHCO3 -> CH3COONa + CO2 + H2O`
-
-[[demo:activity-4-9-ethanoic-acid-carbonate]]
 
 This carbonate reaction is the best classroom test to distinguish ethanoic acid from ethanol. Ethanoic acid gives brisk bubbles of carbon dioxide with sodium carbonate or sodium hydrogencarbonate. Ethanol does not.
 

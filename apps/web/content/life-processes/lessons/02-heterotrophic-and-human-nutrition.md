@@ -8,7 +8,7 @@ lesson_number: 2
 lesson_slug: heterotrophic-and-human-nutrition
 estimated_minutes: 13
 access_level: locked
-status: draft
+status: published
 ---
 
 # 5.2.2-5.2.4 Heterotrophic and human nutrition
@@ -16,16 +16,6 @@ status: draft
 Heterotrophs depend directly or indirectly on autotrophs for food. Their food is usually complex, so it must be broken into simpler molecules before it can be absorbed and used.
 
 This lesson follows the textbook path from food strategies in organisms to the human alimentary canal.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- compare saprophytic, holozoic, and parasitic nutrition
-- explain nutrition in Amoeba and Paramoecium
-- trace food through the human alimentary canal
-- state the roles of saliva, hydrochloric acid, pepsin, mucus, bile, pancreatic juice, villi, and large intestine
-- explain Activity 5.3 on saliva and starch
-- identify NCERT Figures 5.5 and 5.6
 
 ## 5.2.2 Heterotrophic nutrition
 
@@ -61,9 +51,13 @@ Figure 5.5: Nutrition in Amoeba
 - Show pseudopodia around the food particle.
 - Show food vacuole formation and removal of undigested material.
 
+[[figure:figure-5-5-amoeba-nutrition]]
+
 Figure 5.6: Human alimentary canal
 - Trace the path: mouth -> oesophagus -> stomach -> small intestine -> large intestine -> anus.
 - Include associated glands: salivary glands, liver, gall bladder, and pancreas.
+
+[[figure:figure-5-6-alimentary-canal]]
 
 Activity 5.3: Saliva acts on starch
 - Take starch solution in two test tubes.
@@ -129,10 +123,19 @@ It receives:
 - intestinal juice from the intestinal wall
 
 Bile:
+- is produced by the liver and stored in the gall bladder
 - makes the food medium alkaline
 - emulsifies fats into smaller droplets
 
-Pancreatic juice contains enzymes for carbohydrates, proteins, and fats.
+Pancreatic juice contains:
+- pancreatic amylase for carbohydrates
+- trypsin for proteins
+- lipase for emulsified fats
+
+The pancreas has a dual role. Its digestive enzymes travel through the
+pancreatic duct to the small intestine, while hormones such as insulin are
+released directly into blood. A blocked pancreatic duct therefore interferes
+with digestion but does not itself block hormone release.
 
 The walls of the small intestine have finger-like projections called villi. Villi increase surface area for absorption. Absorbed food enters blood and is carried to all cells.
 
@@ -143,6 +146,13 @@ Herbivores often have a longer small intestine because cellulose in grass is har
 The large intestine absorbs water from undigested food.
 
 The remaining waste is removed through the anus.
+
+## Chewing and salivation are different actions
+
+Chewing is a voluntary muscular action that mechanically breaks food into
+smaller pieces and increases the surface exposed to enzymes. Salivation on the
+sight or smell of food is an involuntary, neurally controlled response.
+Saliva moistens food and salivary amylase begins starch digestion.
 
 ## Questions and answers
 

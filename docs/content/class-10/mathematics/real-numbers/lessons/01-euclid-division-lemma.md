@@ -15,13 +15,6 @@ status: draft
 
 This lesson is a support lesson for the Real Numbers chapter. It helps students understand division properly and makes HCF easier later.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- understand the form `a = bq + r`
-- identify divisor, quotient, and remainder
-- use repeated division to find HCF
-
 ## quick warm-up
 
 When we divide `17` by `5`, what happens?

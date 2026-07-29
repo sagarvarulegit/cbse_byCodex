@@ -1,5 +1,5 @@
 ---
-title: 4.2 continued - Functional groups and naming
+title: 4.2.3 and 4.2.5 Functional groups and nomenclature
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -8,10 +8,10 @@ lesson_number: 4
 lesson_slug: functional-groups-and-naming
 estimated_minutes: 12
 access_level: locked
-status: draft
+status: published
 ---
 
-# 4.2 continued - Functional groups and naming
+# 4.2.3 and 4.2.5 Functional groups and nomenclature
 
 A functional group is the reactive part of an organic compound. It gives the compound its characteristic properties.
 
@@ -34,18 +34,7 @@ Each next member differs by `CH2`, but all have the same functional group, `-OH`
 
 This is why they form a homologous series.
 
-[[demo:activity-4-2-alcohol-homologous-series]]
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- identify common functional groups
-- use root names from one to four carbon atoms
-- choose suffixes for single, double, and triple bonds
-- name simple carbon compounds at Class 10 level
-- recognise structural isomers in simple examples
-
-## Functional group
+## 4.2.3 Will you be my Friend?
 
 A functional group is an atom or group of atoms that decides the chemical properties of an organic compound.
 
@@ -121,7 +110,9 @@ For halo compounds, use prefixes such as chloro- or bromo-.
 Example:
 `CH3Cl` is chloromethane.
 
-## Naming method from the textbook
+## 4.2.5 Nomenclature of Carbon Compounds
+
+### Naming method from the textbook
 
 Use this order:
 

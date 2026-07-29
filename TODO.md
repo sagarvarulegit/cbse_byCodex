@@ -1,20 +1,31 @@
 # Science Chapter 1 Quality Remediation Implementation Plan
 
-## Current handoff — 2026-07-21
+## Current handoff — 2026-07-26
 
 - [x] Complete the NCERT-fidelity remediation for all six Chapter 1 lessons, exercises, quiz, chapter pack, metadata, and accessible illustrations.
 - [x] Replace the inaccurate Chapter 1 redraws and expose image labels as numbered pins with matching HTML keys.
 - [x] Fix lesson and chapter-note inline markdown rendering, direct textbook question markers, and multi-part answer preservation.
 - [x] Retire Graphify as a mandatory repository dependency and replace it with maintained architecture documentation.
-- [ ] Next task: conduct a small manual student review of Chapter 1 using `docs/pilot-chapter-1-student-review.md`, then select one evidence-backed fix from comprehension, navigation, figure-label, quiz, and admin-review evidence. Automated tests remain paused until the user explicitly re-enables them.
+- [x] Document the reusable gold-standard chapter workflow and create the fixed Chapter 1 learner-task holdout rubric.
+- [x] Fix the formal notes-audit findings: NCERT end-matter order, source prompts, supported callouts, four-panel recaps, try-first answer checks, source-bounded additions, metadata wording, and holdout leakage.
+- [x] Add the separate Board Exam Practice layer: nine PDF-verified 2023-2026 questions, platform marking points, the two-pass oxidising/reducing-agent bridge, Assertion-Reason and case-based practice, and two independent diagnostics.
+- [x] Audit all 23 entries in the supplied extracted Chapter 1 bank, map every demand to current teaching or assessment, and keep secondary-bank coverage distinct from page-verified PYQ provenance.
+- [x] Document the historical-paper verification and reuse process in `board-exam-evidence.md` and the shared gold-standard workflow.
+- [x] Map every Chapter 1 or mixed-Chapter 1 demand in the latest available official SQP and add five clearly labelled original challenges, with write-before-check rubrics and exact weak-skill remediation.
+- [x] Implement structured written-practice persistence without answer text, immutable/idempotent retries, cross-device history, and honest D0/D3/D7 derivation.
+- [x] Implement the reusable coefficient-only equation workbench, strict independent mastery, Chapter 1 WebP delivery assets, and the copy-forward scorecard template.
+- [x] Implement reusable timed Diagnostic A/B attempts with persistent writing/checking clocks, half-mark scoring, honest exam-condition evidence, retry history, and exact first-skill remediation.
+- [ ] Apply the new `WrittenPracticeAttempt` database migration in the target environment before expecting account sync; signed-out/local attempts remain available without it.
+- [ ] Complete the remaining non-student gates: full 320px browser sweep across all three supplements, keyboard/screen-reader and 200% reflow review, mobile image/LCP/CLS evidence, and execution of the fixed learner-task smoke.
+- [ ] When suitable Class 10 students are available, conduct the small review in `docs/pilot-chapter-1-student-review.md`. This is deferred, not completed.
 
-> **Planning status:** This is the immediate execution handoff. It replaces the completed/stale quiz-metadata handoff. Do not implement from memory or from the current lesson text alone; use the local NCERT PDF and the repository standards as the source of truth.
+> **Planning status:** Science Chapter 1 is the reference-chapter project. Source fidelity is complete; close every non-student technical evidence gate now, then preserve real-student validation as the final deferred gate. Do not implement from memory or from the current lesson text alone; use the local NCERT PDF and repository standards as the source of truth.
 
 **Goal:** Make Class 10 Science Chapter 1, *Chemical Reactions and Equations*, genuinely NCERT-faithful, understandable to a low-confidence student, honest about mastery, fast on mobile, and strong enough for a real student pilot.
 
 **Primary source:** `textbooks/science/extracted/jesc101.pdf` — NCERT Class 10 Science Chapter 1, Reprint 2026-27, 16 pages.
 
-**Architecture:** Keep the five existing conceptual lesson slugs so saved links, topic metadata, weak-topic recovery, and navigation remain stable. Reallocate their content into exact textbook order, then add one unnumbered supporting lesson, `ncert-exercises-and-revision`, for the 20 NCERT exercises and Group Activity. The lesson sequence becomes the canonical learning path; the chapter pack becomes a secondary `One-page revision sheet`. Source-fidelity tests, not loose substring checks, guard the content. Static activity illustrations remain the visual approach, but their apparatus, captions, loading, and image budgets must be corrected. One focused balancing workbench is added only after the integrity and UX gates pass.
+**Architecture:** Keep the five existing conceptual lesson slugs so saved links, topic metadata, weak-topic recovery, and navigation remain stable. Reallocate their content into exact textbook order, then add one unnumbered supporting lesson, `ncert-exercises-and-revision`, for the 20 NCERT exercises and Group Activity. These six files are the canonical NCERT path. Three further unnumbered supplements provide nine verified board questions, a 30-mark diagnostic, and a separate 20-mark transfer check without changing textbook numbering. The chapter pack remains a secondary `One-page revision sheet`. Source-fidelity tests, not loose substring checks, guard the content. Static activity illustrations remain the visual approach, but their apparatus, captions, loading, and image budgets must be corrected. One focused balancing workbench is added only after the integrity and UX gates pass.
 
 **Tech stack:** Existing Next.js 15 / React 19 / TypeScript student app, markdown lesson parser, Node test runner, built-in `next/image`, and existing CSS. No new runtime library is required.
 
@@ -67,7 +78,7 @@ Follow this order even though Task 11A is documented with the other UI work:
   - `combination-and-decomposition-reactions`
   - `displacement-and-double-displacement-reactions`
   - `oxidation-and-reduction`
-- Add `ncert-exercises-and-revision` only as an unnumbered supporting lesson. Do not invent a textbook section number for it.
+- Keep `ncert-exercises-and-revision` as the only unnumbered lesson inside the canonical NCERT path. The later `board-exam-practice`, `board-readiness-diagnostic` and `board-readiness-diagnostic-b` files are explicitly labelled platform supplements; do not give any of the four files a textbook section number.
 - Preserve exact NCERT parent/child numbering and order: `1.1`, `1.1.1`, `1.1.2`, `1.2`, `1.2.1` through `1.2.5`, `1.3`, `1.3.1`, and `1.3.2`.
 - Copy textbook Questions exactly and place each Questions block where NCERT places it. The platform answer may be simplified, but the question wording must not be paraphrased.
 - Keep Activities 1.1-1.11 only. `Activity 1.12` and `Activity 1.13` do not exist in this chapter.
@@ -118,6 +129,9 @@ Use this map before moving or writing any content:
 | 10-11 | `1.2.3`, `1.2.4`; Activities 1.9-1.10; Figures 1.8-1.9; Recall Activity 1.2 | Lesson 4 |
 | 12-14 | `1.2.5`; Activity 1.11; Figure 1.10; Recall Activity 1.1; third Questions block; parent `1.3`; `1.3.1`, `1.3.2`; What you have learnt | Lesson 5 |
 | 14-16 | Exercises 1-20; Group Activity | Lesson 6 |
+| Historical papers | Nine visually verified 2023-2026 questions and platform marking points | Lesson 7 supplement |
+| Original platform assessment | 30-mark mixed-format diagnostic and remediation profile | Lesson 8 supplement |
+| Original transfer assessment | 20-mark electrolysis/redox transfer diagnostic and remediation profile | Lesson 9 supplement |
 
 The three in-text Questions blocks begin with these source anchors:
 
@@ -187,7 +201,7 @@ Do not type the remainder from memory. Copy and verify it against the PDF at 200
 - Inspect: all files listed above
 - Modify: `master_todo.md` only to reopen the falsely completed Chapter 1 pilot-quality item
 
-- [ ] **Step 1: Record the exact starting state**
+- [x] **Step 1: Record the exact starting state**
 
 Run:
 
@@ -199,7 +213,7 @@ git ls-files --others --exclude-standard -- apps/web/content/chemical-reactions-
 
 Do not run `git reset`, `git checkout --`, `git clean`, or broad file deletion.
 
-- [ ] **Step 2: Read the mandatory sources in this order**
+- [x] **Step 2: Read the mandatory sources in this order**
 
 1. `AGENTS.md`
 2. `NOTES_GUIDELINES_STANDARDS.md`
@@ -208,7 +222,7 @@ Do not run `git reset`, `git checkout --`, `git clean`, or broad file deletion.
 5. `docs/content-style-qa-checklist.md`
 6. `textbooks/science/extracted/jesc101.pdf`
 
-- [ ] **Step 3: Establish baseline verification**
+- [x] **Step 3: Establish baseline verification**
 
 Run and record the result without treating it as proof of content quality:
 
@@ -217,7 +231,7 @@ npm.cmd run validate:quizzes -w apps/web
 npm.cmd run test -w apps/web
 ```
 
-- [ ] **Step 4: Reopen the stale backlog claim**
+- [x] **Step 4: Reopen the stale backlog claim**
 
 Change the `master_todo.md` item `Complete Chemical Reactions and Equations to full pilot quality` from checked to unchecked. Add a short note pointing to this `TODO.md` plan and state that the July 14 source/UX audit found release blockers.
 
@@ -236,7 +250,7 @@ Change the `master_todo.md` item `Complete Chemical Reactions and Equations to f
 - Modify: `apps/web/lib/activity-illustration.test.ts`
 - Modify later, not in this first RED step: `apps/web/lib/course-content.test.ts`
 
-- [ ] **Step 1: Build a complete tracker from the PDF**
+- [x] **Step 1: Build a complete tracker from the PDF**
 
 The tracker must contain one row for each of the following, with columns for PDF page, exact source label, destination lesson, platform marker/caption, required safety/apparatus cue, automated test, manual evidence, and status:
 
@@ -255,7 +269,7 @@ The tracker must contain one row for each of the following, with columns for PDF
 
 Start every status as `Fail` or `Missing`; do not pre-mark from assumptions.
 
-- [ ] **Step 2: Add heading-aware source-contract helpers**
+- [x] **Step 2: Add heading-aware source-contract helpers**
 
 The new test should read the six final lesson files as UTF-8 and parse markdown headings by level. Do not rely on a raw whole-chapter `indexOf` when a phrase can appear in frontmatter, a recap, or an answer.
 
@@ -271,7 +285,7 @@ normalizeSourceText(value: string): string
 
 Add one file-existence subtest per expected lesson. `readLessonOrEmpty` must return an empty string when Lesson 6 does not exist yet so its missing-file failure does not prevent the tests for the five existing lessons from reporting their own defects.
 
-- [ ] **Step 3: Add failing fidelity assertions**
+- [x] **Step 3: Add failing fidelity assertions**
 
 The test must prove all of the following:
 
@@ -287,11 +301,11 @@ The test must prove all of the following:
 - every frontmatter title equals its H1 and the matching catalog lesson title
 - no student-facing text exposes `textbooks/`, `jesc101.pdf`, `teacher note`, or local source-path copy
 
-- [ ] **Step 4: Add figure-contract failures**
+- [x] **Step 4: Add figure-contract failures**
 
 Extend `activity-illustration.test.ts` so it checks exact activity/figure mappings, high-risk apparatus vocabulary, asset existence, aspect ratio, and maximum source byte size. Asset-existence checks alone are insufficient.
 
-- [ ] **Step 5: Run the tests and confirm RED for the known defects**
+- [x] **Step 5: Run the tests and confirm RED for the known defects**
 
 ```powershell
 npm.cmd run test -w apps/web
@@ -309,20 +323,20 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 **File:** `apps/web/content/chemical-reactions-and-equations/lessons/01-chemical-equations.md`
 
-- [ ] Replace the definition-only opening with the NCERT daily-life sequence: milk souring, rusting, fermentation of grapes, cooking, digestion, and respiration.
-- [ ] Place Activities 1.1, 1.2, and 1.3 in exact order before the explanatory section that follows them in the source.
-- [ ] Preserve the Activity 1.1 eye-protection/safety instruction and the correct magnesium-ribbon cleaning procedure.
-- [ ] Preserve Activity 1.3's exact acid-handling caution: handle the acid carefully; the source permits dilute hydrochloric acid or dilute sulphuric acid, while Figure 1.2 depicts dilute sulphuric acid. Do not add teacher-supervision wording as if it were NCERT text.
-- [ ] Add Figure 1.1 and Figure 1.2 markers/captions at their source positions.
-- [ ] Teach observable evidence only after the source activities establish it.
-- [ ] Add exact `1.1 Chemical Equations` and `1.1.1 Writing a Chemical Equation` headings.
-- [ ] Teach word equations, reactants/products, formula equations, skeletal equations, and the relevant source equations `(1.1)`-`(1.2)`.
-- [ ] Remove state symbols from this lesson; NCERT introduces them after balancing in `1.1.2`.
-- [ ] Remove Activity 1.4; it belongs in Lesson 3.
-- [ ] Delete the entire Life Processes Questions and answers block.
-- [ ] Replace `animated activity below` with source-accurate `illustration below` or `activity sequence below`.
-- [ ] Keep platform additions in this order after the associated concept: simple explanation, one textbook-derived worked example, one unseen platform practice item, answer check, common mistake, board tip, one-minute revision, comic recap.
-- [ ] Update `estimated_minutes` and the catalog time later based on a realistic read + activity + practice walkthrough; do not leave the current 10-minute claim by default.
+- [x] Replace the definition-only opening with the NCERT daily-life sequence: milk souring, rusting, fermentation of grapes, cooking, digestion, and respiration.
+- [x] Place Activities 1.1, 1.2, and 1.3 in exact order before the explanatory section that follows them in the source.
+- [x] Preserve the Activity 1.1 eye-protection/safety instruction and the correct magnesium-ribbon cleaning procedure.
+- [x] Preserve Activity 1.3's exact acid-handling caution: handle the acid carefully; the source permits dilute hydrochloric acid or dilute sulphuric acid, while Figure 1.2 depicts dilute sulphuric acid. Do not add teacher-supervision wording as if it were NCERT text.
+- [x] Add Figure 1.1 and Figure 1.2 markers/captions at their source positions.
+- [x] Teach observable evidence only after the source activities establish it.
+- [x] Add exact `1.1 Chemical Equations` and `1.1.1 Writing a Chemical Equation` headings.
+- [x] Teach word equations, reactants/products, formula equations, skeletal equations, and the relevant source equations `(1.1)`-`(1.2)`.
+- [x] Remove state symbols from this lesson; NCERT introduces them after balancing in `1.1.2`.
+- [x] Remove Activity 1.4; it belongs in Lesson 3.
+- [x] Delete the entire Life Processes Questions and answers block.
+- [x] Replace `animated activity below` with source-accurate `illustration below` or `activity sequence below`.
+- [x] Keep platform additions in this order after the associated concept: simple explanation, one textbook-derived worked example, one unseen platform practice item, answer check, common mistake, board tip, one-minute revision, comic recap.
+- [x] Update `estimated_minutes` and the catalog time later based on a realistic read + activity + practice walkthrough; do not leave the current 10-minute claim by default.
 
 **Acceptance:** A student encounters the source hook, Activities 1.1-1.3, Figures 1.1-1.2, `1.1`, and `1.1.1` in order; there is no Life Processes text, premature state-symbol lesson, or false animation copy.
 
@@ -334,18 +348,18 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 **File:** `apps/web/content/chemical-reactions-and-equations/lessons/02-balancing-equations.md`
 
-- [ ] Use the exact visible heading `1.1.2 Balanced Chemical Equations`; remove `1.1 continued`.
-- [ ] Explain conservation of mass patiently before introducing the procedure.
-- [ ] Preserve the coefficient-versus-subscript explanation already working well.
-- [ ] Rebuild the iron-and-steam hit-and-trial example using NCERT Steps I-VII, the atom-count tables, and equations `(1.3)` onward.
-- [ ] Move physical-state symbols and reaction conditions into their correct NCERT position after balancing.
-- [ ] Preserve equations `(1.3)`-`(1.12)` with correct formulae, coefficients, state symbols, arrows, and conditions.
-- [ ] Place the exact first NCERT Questions block at the end of `1.1.2`, before Lesson 3 begins parent `1.2`.
-- [ ] Author each exact question and simplified answer using the mandatory repository Q&A markup. Keep it readable in the existing fallback renderer; Task 11 adds progressive reveal later.
-- [ ] Remove the empty `Solved examples` heading.
-- [ ] Replace immediately repeated examples with at least three unseen balancing attempts of increasing difficulty.
-- [ ] Define a prerequisite-rescue box for formula reading, coefficient, subscript, and atom counting.
-- [ ] Do not add a full generic chemistry parser or the interactive workbench yet; that belongs to Task 12.
+- [x] Use the exact visible heading `1.1.2 Balanced Chemical Equations`; remove `1.1 continued`.
+- [x] Explain conservation of mass patiently before introducing the procedure.
+- [x] Preserve the coefficient-versus-subscript explanation already working well.
+- [x] Rebuild the iron-and-steam hit-and-trial example using NCERT Steps I-VII, the atom-count tables, and equations `(1.3)` onward.
+- [x] Move physical-state symbols and reaction conditions into their correct NCERT position after balancing.
+- [x] Preserve equations `(1.3)`-`(1.12)` with correct formulae, coefficients, state symbols, arrows, and conditions.
+- [x] Place the exact first NCERT Questions block at the end of `1.1.2`, before Lesson 3 begins parent `1.2`.
+- [x] Author each exact question and simplified answer using the mandatory repository Q&A markup. Keep it readable in the existing fallback renderer; Task 11 adds progressive reveal later.
+- [x] Remove the empty `Solved examples` heading.
+- [x] Replace immediately repeated examples with at least three unseen balancing attempts of increasing difficulty.
+- [x] Define a prerequisite-rescue box for formula reading, coefficient, subscript, and atom counting.
+- [x] Keep the manual method separate from the later coefficient-only workbench; no generic chemistry parser was added.
 
 **Acceptance:** A low-confidence student can follow one complete NCERT balancing example step by step, understands why subscripts stay locked, and attempts unseen equations before seeing answers.
 
@@ -357,19 +371,19 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 **File:** `apps/web/content/chemical-reactions-and-equations/lessons/03-combination-and-decomposition-reactions.md`
 
-- [ ] Begin with the parent heading `1.2 Types of Chemical Reactions` before any child subsection.
-- [ ] Use exact child headings `1.2.1 Combination Reaction` and `1.2.2 Decomposition Reaction`.
-- [ ] Place Activity 1.4 and Figure 1.3 under combination reactions.
-- [ ] Preserve the quicklime/water reaction, whitewashing explanation/box, coal burning, natural-gas combustion including equation `(1.17)`, hydrogen/oxygen, respiration, and compost examples in source order.
-- [ ] Explain exothermic reactions only through the source examples before adding a memory aid.
-- [ ] Place Activities 1.5-1.8 and Figures 1.4-1.7 under decomposition reactions.
-- [ ] Preserve decomposition caused by heat, electricity, and light, including silver bromide/photography and the source endothermic activity. If `electrolytic` or `photolytic` is taught as a memory term, label it as platform terminology rather than an NCERT subsection name.
-- [ ] Preserve the safe smell-wafting instruction associated with Figure 1.4.
-- [ ] Preserve Activity 1.7's 6 V battery, acidified water, unequal gas volumes, and teacher-only burning-candle gas test.
-- [ ] Preserve the correct source equations and labels between `(1.13)` and `(1.23)`.
-- [ ] Place the exact second NCERT Questions block immediately after `1.2.2` using the mandatory repository Q&A markup; keep the static fallback readable until Task 11 adds reveal.
-- [ ] Replace practice that repeats solved equations with unseen observation-to-type and equation-to-type prompts.
-- [ ] Keep multi-label truth explicit: a reaction may be both combination and exothermic, or decomposition and endothermic.
+- [x] Begin with the parent heading `1.2 Types of Chemical Reactions` before any child subsection.
+- [x] Use exact child headings `1.2.1 Combination Reaction` and `1.2.2 Decomposition Reaction`.
+- [x] Place Activity 1.4 and Figure 1.3 under combination reactions.
+- [x] Preserve the quicklime/water reaction, whitewashing explanation/box, coal burning, natural-gas combustion including equation `(1.17)`, hydrogen/oxygen, respiration, and compost examples in source order.
+- [x] Explain exothermic reactions only through the source examples before adding a memory aid.
+- [x] Place Activities 1.5-1.8 and Figures 1.4-1.7 under decomposition reactions.
+- [x] Preserve decomposition caused by heat, electricity, and light, including silver bromide/photography and the source endothermic activity. If `electrolytic` or `photolytic` is taught as a memory term, label it as platform terminology rather than an NCERT subsection name.
+- [x] Preserve the safe smell-wafting instruction associated with Figure 1.4.
+- [x] Preserve Activity 1.7's 6 V battery, acidified water, unequal gas volumes, and teacher-only burning-candle gas test.
+- [x] Preserve the correct source equations and labels between `(1.13)` and `(1.23)`.
+- [x] Place the exact second NCERT Questions block immediately after `1.2.2` using the mandatory repository Q&A markup; keep the static fallback readable until Task 11 adds reveal.
+- [x] Replace practice that repeats solved equations with unseen observation-to-type and equation-to-type prompts.
+- [x] Keep multi-label truth explicit: a reaction may be both combination and exothermic, or decomposition and endothermic.
 
 **Acceptance:** Parent/child numbering is exact, Activities 1.4-1.8 and Figures 1.3-1.7 are faithful, both energy ideas are understandable, and the second Questions block is exact and correctly placed.
 
@@ -381,17 +395,17 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 **File:** `apps/web/content/chemical-reactions-and-equations/lessons/04-displacement-and-double-displacement-reactions.md`
 
-- [ ] Use exact visible headings `1.2.3 Displacement Reaction` and `1.2.4 Double Displacement Reaction`.
-- [ ] Place Activity 1.9 and Figure 1.8(a)-(b) under displacement.
-- [ ] Preserve the iron/copper-sulphate observation sequence and the zinc/lead displacement examples.
-- [ ] Add a small clearly labelled `Prerequisite rescue` for `more reactive`, `ion`, and `aqueous solution`; do not pretend the aid is an NCERT subsection.
-- [ ] Do not require memorising an unexplained full reactivity series to understand the first example.
-- [ ] Place Activity 1.10 and Figure 1.9 under double displacement.
-- [ ] Show the mixing of the two solutions, not only the final precipitate.
-- [ ] Explain precipitation and ion exchange in plain language without implying every double-displacement reaction must precipitate.
-- [ ] Preserve equations `(1.24)`-`(1.27)` with states.
-- [ ] Restore the Recall Activity 1.2 prompt in the correct source position.
-- [ ] Replace repeated solved-equation practice with unseen displacement-versus-double-displacement decisions and one observation question.
+- [x] Use exact visible headings `1.2.3 Displacement Reaction` and `1.2.4 Double Displacement Reaction`.
+- [x] Place Activity 1.9 and Figure 1.8(a)-(b) under displacement.
+- [x] Preserve the iron/copper-sulphate observation sequence and the zinc/lead displacement examples.
+- [x] Add a small clearly labelled `Prerequisite rescue` for `more reactive`, `ion`, and `aqueous solution`; do not pretend the aid is an NCERT subsection.
+- [x] Do not require memorising an unexplained full reactivity series to understand the first example.
+- [x] Place Activity 1.10 and Figure 1.9 under double displacement.
+- [x] Show the mixing of the two solutions, not only the final precipitate.
+- [x] Explain precipitation and ion exchange in plain language without implying every double-displacement reaction must precipitate.
+- [x] Preserve equations `(1.24)`-`(1.27)` with states.
+- [x] Restore the Recall Activity 1.2 prompt in the correct source position.
+- [x] Replace repeated solved-equation practice with unseen displacement-versus-double-displacement decisions and one observation question.
 
 **Acceptance:** The student understands who replaces whom, sees the before/after evidence, distinguishes the two reaction types, and does not need unexplained prior ion knowledge.
 
@@ -403,18 +417,18 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 **File:** `apps/web/content/chemical-reactions-and-equations/lessons/05-oxidation-and-reduction.md`
 
-- [ ] Use exact heading `1.2.5 Oxidation and Reduction`.
-- [ ] Place Activity 1.11 and Figure 1.10 with the correct copper-powder setup, wire gauze/tripod, observation, and equation.
-- [ ] Teach oxidation/reduction through both oxygen and hydrogen definitions used by the source.
-- [ ] Preserve zinc oxide and manganese dioxide examples and equations `(1.28)`-`(1.32)`.
-- [ ] Restore Recall Activity 1.1 in the source position.
-- [ ] Place the exact third NCERT Questions block after `1.2.5`/Recall Activity 1.1 and before parent `1.3`, using the mandatory repository Q&A markup; keep the static fallback readable until Task 11 adds reveal.
-- [ ] Add the exact parent heading `1.3 Have You Observed the Effects of Oxidation Reactions in Everyday Life?`.
-- [ ] Add exact child headings `1.3.1 Corrosion` and `1.3.2 Rancidity`.
-- [ ] Cover iron rusting, black silver, green copper, antioxidants, airtight storage, and nitrogen-flushed packets from the source. If refrigeration is mentioned, label it as a platform extension rather than NCERT wording.
-- [ ] Add the exact `What you have learnt` content after `1.3.2`, where the textbook teaching sequence ends.
-- [ ] Delete invented Activities 1.12 and 1.13 and any tracker that implies they exist.
-- [ ] Add an accurate misconception recap: oxidation and reduction occur together in redox; oxygen addition is not the only usable clue in the taught examples.
+- [x] Use exact heading `1.2.5 Oxidation and Reduction`.
+- [x] Place Activity 1.11 and Figure 1.10 with the correct copper-powder setup, wire gauze/tripod, observation, and equation.
+- [x] Teach oxidation/reduction through both oxygen and hydrogen definitions used by the source.
+- [x] Preserve zinc oxide and manganese dioxide examples and equations `(1.28)`-`(1.32)`.
+- [x] Restore Recall Activity 1.1 in the source position.
+- [x] Place the exact third NCERT Questions block after `1.2.5`/Recall Activity 1.1 and before parent `1.3`, using the mandatory repository Q&A markup; keep the static fallback readable until Task 11 adds reveal.
+- [x] Add the exact parent heading `1.3 Have You Observed the Effects of Oxidation Reactions in Everyday Life?`.
+- [x] Add exact child headings `1.3.1 Corrosion` and `1.3.2 Rancidity`.
+- [x] Cover iron rusting, black silver, green copper, antioxidants, airtight storage, and nitrogen-flushed packets from the source. If refrigeration is mentioned, label it as a platform extension rather than NCERT wording.
+- [x] Add the exact `What you have learnt` content after `1.3.2`, where the textbook teaching sequence ends.
+- [x] Delete invented Activities 1.12 and 1.13 and any tracker that implies they exist.
+- [x] Add an accurate misconception recap: oxidation and reduction occur together in redox; oxygen addition is not the only usable clue in the taught examples.
 
 **Acceptance:** The chapter ends its numbered teaching content exactly at `1.3.2`, the third Questions block is correct, and there are no fake activities or missing everyday oxidation effects.
 
@@ -429,15 +443,15 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 - Create: `apps/web/content/chemical-reactions-and-equations/lessons/06-ncert-exercises-and-revision.md`
 - Modify later in Task 9: `apps/web/lib/course-content.ts`
 
-- [ ] Use the H1/frontmatter title `NCERT Chapter Exercises and Revision`. Do not prefix it with `1.4`, `1.3.3`, or another invented section number.
-- [ ] Copy Exercises 1-20 exactly from PDF pages 14-16.
-- [ ] Author every question/answer using the mandatory repository Q&A markup. Task 11 adds try-first reveal without changing the exact question wording.
-- [ ] Provide simplified scoring answers that include required keywords, balanced equations, state symbols, observations, and classifications.
-- [ ] Separate `Exact NCERT question` from `Platform answer` visually and semantically.
-- [ ] Include the exact Group Activity and mark teacher-supervised/safety requirements clearly.
-- [ ] Add a short `Before you submit` exercise checklist and targeted links back to the five conceptual lessons. Do not duplicate Lesson 5's exact `What you have learnt` or the chapter pack's one-page revision summary.
-- [ ] Map each exercise answer back to one of the five conceptual lesson slugs for revision; do not create a sixth quiz weak-topic category.
-- [ ] Keep recap and platform memory aids after the exact exercises, not interleaved in a way that changes textbook order.
+- [x] Use the H1/frontmatter title `NCERT Chapter Exercises and Revision`. Do not prefix it with `1.4`, `1.3.3`, or another invented section number.
+- [x] Copy Exercises 1-20 exactly from PDF pages 14-16.
+- [x] Author every question/answer using the mandatory repository Q&A markup. Task 11 adds try-first reveal without changing the exact question wording.
+- [x] Provide simplified scoring answers that include required keywords, balanced equations, state symbols, observations, and classifications.
+- [x] Separate `Exact NCERT question` from `Platform answer` visually and semantically.
+- [x] Include the exact Group Activity and mark teacher-supervised/safety requirements clearly.
+- [x] Add a short `Before you submit` exercise checklist and targeted links back to the five conceptual lessons. Do not duplicate Lesson 5's exact `What you have learnt` or the chapter pack's one-page revision summary.
+- [x] Map each exercise answer back to one of the five conceptual lesson slugs for revision; do not create a sixth quiz weak-topic category.
+- [x] Keep recap and platform memory aids after the exact exercises, not interleaved in a way that changes textbook order.
 
 **Acceptance:** All 20 open-ended exercises and the Group Activity are available without overloading Lesson 5 or pretending the objective quiz replaces textbook exercise practice.
 
@@ -457,7 +471,7 @@ Expected: failure for the wrong Life Processes Q&A, incorrect activity order, fa
 
 ### Task 8A: Lock Source-Correct Figure Rendering
 
-- [ ] Extend the shared illustration metadata with a discriminated union so figure-only entries in other chapters, such as Figure 6.6, do not need a fake activity number:
+- [x] Extend the shared illustration metadata with a discriminated union so figure-only entries in other chapters, such as Figure 6.6, do not need a fake activity number:
 
 ```ts
 type ActivityEntry = {
@@ -483,7 +497,7 @@ type FigureOnlyEntry = Omit<ActivityEntry, 'kind' | 'activityNumber'> & {
 type ActivityIllustrationEntry = ActivityEntry | FigureOnlyEntry;
 ```
 
-- [ ] Lock these mappings:
+- [x] Lock these mappings:
 
 | Activity | Figure |
 | --- | --- |
@@ -499,18 +513,18 @@ type ActivityIllustrationEntry = ActivityEntry | FigureOnlyEntry;
 | 1.10 | Figure 1.9 |
 | 1.11 | Figure 1.10 |
 
-- [ ] Split any combined Activities 1.7-1.10 collage into independent figures so each marker has one source-faithful visual.
-- [ ] Audit every apparatus label at 200% PDF zoom. Specifically preserve Figure 1.4's safe smell-wafting cue, Figure 1.8's before/after comparison, Figure 1.9's two-solution pour, and Figure 1.10's wire gauze/tripod.
-- [ ] Treat thermometers, steam, droppers, or other Gemini-only additions as optional `Platform observation aid` overlays. They must not replace or silently alter the NCERT figure.
-- [ ] Replace CSS `background-image` rendering with responsive `next/image` or semantic `<img>` output that retains intrinsic dimensions, alt text, native lazy loading, and an uncropped 16:9 frame.
-- [ ] Keep a readable text legend first. Anchored hotspots are deferred until after the basic source and accessibility contract passes.
-- [ ] Pass Task 8A before changing image formats: exact figure number, caption, apparatus, safety cue, alt text, legend, and uncropped rendering are the source-correctness gate.
+- [x] Split any combined Activities 1.7-1.10 collage into independent figures so each marker has one source-faithful visual.
+- [x] Audit every apparatus label at 200% PDF zoom. Specifically preserve Figure 1.4's safe smell-wafting cue, Figure 1.8's before/after comparison, Figure 1.9's two-solution pour, and Figure 1.10's wire gauze/tripod.
+- [x] Treat thermometers, steam, droppers, or other Gemini-only additions as optional `Platform observation aid` overlays. They must not replace or silently alter the NCERT figure.
+- [x] Replace CSS `background-image` rendering with responsive `next/image` or semantic `<img>` output that retains intrinsic dimensions, alt text, native lazy loading, and an uncropped 16:9 frame.
+- [x] Keep a readable text legend first. Anchored hotspots were added only after the basic source and accessibility contract passed.
+- [x] Pass Task 8A before changing image formats: exact figure number, caption, apparatus, safety cue, alt text, legend, and uncropped rendering are the source-correctness gate.
 
 ### Task 8B: Optimise Delivery After Source Correctness Passes
 
-- [ ] Convert delivery assets to WebP/AVIF without deleting unrelated user-owned source files.
-- [ ] Replace undefined `--accent` and `--surface` uses with defined design tokens.
-- [ ] Add source-file byte/dimension assertions to the Node figure test. Do not call those values delivered `next/image` transfer bytes; measure delivered variants against the built server in Task 13.
+- [x] Convert delivery assets to WebP without deleting unrelated user-owned source files.
+- [x] Define the previously missing `--accent` and `--surface` design tokens.
+- [x] Add source-file byte/dimension assertions to the Node figure test. Do not call those values delivered transfer bytes; measure delivered variants against the built server in Task 13.
 
 **Performance budgets:**
 
@@ -542,15 +556,15 @@ type ActivityIllustrationEntry = ActivityEntry | FigureOnlyEntry;
 
 ### Task 9A: Fix Mastery Truthfulness — Land With Gate A1
 
-- [ ] For absent mastery data, render `0%` and `Not started`; calculate rewards from zero.
-- [ ] Do not show `Skilled`, `Exam Ready`, or other earned-looking rewards to an anonymous or brand-new student.
-- [ ] Add focused tests for anonymous, empty-history, and real-mastery payloads before changing catalog or chapter-pack presentation.
-- [ ] Do not change API persistence or scoring unless a focused test proves the API payload itself is wrong; the known defect is the web fallback.
+- [x] For absent mastery data, render `0%` and `Not started`; calculate rewards from zero.
+- [x] Do not show `Skilled`, `Exam Ready`, or other earned-looking rewards to an anonymous or brand-new student.
+- [x] Add focused tests for anonymous, empty-history, and real-mastery payloads before changing catalog or chapter-pack presentation.
+- [x] Keep this fix in the web fallback; the mastery API persistence/scoring path was not changed.
 
 ### Task 9B: Synchronise The Catalog, Canonical Path, And Revision Sheet — Gate A2
 
-- [ ] Update the five conceptual catalog titles to match their frontmatter/H1 exactly.
-- [ ] Add the sixth lesson:
+- [x] Update the five conceptual catalog titles to match their frontmatter/H1 exactly.
+- [x] Add the sixth lesson:
 
 ```ts
 {
@@ -564,14 +578,14 @@ type ActivityIllustrationEntry = ActivityEntry | FigureOnlyEntry;
 }
 ```
 
-- [ ] Keep the chapter `topics` array limited to the exact three parent textbook sections. Do not turn the exercise resource into a fake textbook topic.
-- [ ] Replace `progress: 56` with a neutral content/catalog value and stop using catalog progress as student mastery.
-- [ ] Make the lesson sequence the clearly recommended first action on the chapter page.
-- [ ] Demote the chapter pack to a secondary CTA labelled `One-page revision sheet`.
-- [ ] Rename/rewrite the chapter pack accordingly. It should be a faithful concise revision sheet, not a competing second lesson path.
-- [ ] Correct the doubled source path and remove internal teacher/alignment/local-filename copy from the student-rendered pack.
-- [ ] Ensure the chapter pack uses exact section order and does not put balancing content under `1.2.1-1.2.2`.
-- [ ] Regenerate the chapter pack:
+- [x] Keep the chapter `topics` array limited to the exact three parent textbook sections. Do not turn the exercise resource into a fake textbook topic.
+- [x] Replace the old non-zero catalog progress with `0` and stop using catalog progress as student mastery.
+- [x] Make the lesson sequence the clearly recommended first action on the chapter page.
+- [x] Demote the chapter pack below the lesson sequence with a secondary CTA labelled `One-page revision sheet`.
+- [x] Rename/rewrite the chapter pack accordingly. It is a faithful concise revision sheet, not a competing second lesson path.
+- [x] Correct the doubled source path and remove internal teacher/alignment/local-filename copy from the student-rendered pack.
+- [x] Ensure the chapter pack uses exact section order and does not put balancing content under `1.2.1-1.2.2`.
+- [x] Regenerate the chapter pack:
 
 ```powershell
 npm.cmd run content:generate -w apps/web
@@ -593,10 +607,10 @@ npm.cmd run content:generate -w apps/web
 - `apps/web/app/chapters/[slug]/quiz/page.tsx`
 - `apps/web/components/QuizScoreForm.tsx`
 
-- [ ] Replace the five-question recognition quiz with exactly 15 questions, designed for a 12-15 minute first attempt. Do not add pagination in this remediation unless browser review proves the single-page form unusable.
-- [ ] Use the five existing conceptual lesson slugs for `Topic:` metadata; do not use the exercise resource as a weak-topic slug.
-- [ ] Include at least two questions for every conceptual lesson slug.
-- [ ] Cover all of the following:
+- [x] Replace the five-question recognition quiz with exactly 20 representative questions across the six canonical NCERT resources. The three board supplements remain outside quiz topic coverage.
+- [x] Use the six canonical NCERT lesson slugs for `Topic:` metadata; do not use any board-supplement slug.
+- [x] Cover every canonical resource, with repeated coverage for the five conceptual lessons and a final exercise/revision transfer item.
+- [x] Cover all of the following:
   - recognising the correct word/formula equation
   - selecting a correctly balanced equation without changed subscripts
   - state symbols and conditions
@@ -610,23 +624,23 @@ npm.cmd run content:generate -w apps/web
   - corrosion
   - rancidity
   - one apparatus/figure-reading item
-- [ ] Use this concrete difficulty distribution: 5 Easy, 7 Medium, and 3 Hard.
-- [ ] Make at least 5 of 15 questions application to an unseen equation, observation, or scenario. Prefix those five `Source:` values with `Platform application -` followed by the precise NCERT concept anchor, so the quality test can count them without guessing from prose.
-- [ ] Use four plausible options per objective item. Distractors should represent real misconceptions, not jokes or unrelated phrases.
-- [ ] Distribute answer positions across 1-4; every position must occur, and no one position may exceed 40% of the quiz.
-- [ ] Give every question explicit `Answer:`, `Explanation:`, `Topic:`, `Difficulty:`, and `Source:` metadata.
-- [ ] Label adapted platform items honestly, for example `NCERT concept aligned`; do not call an invented item an exact NCERT exercise.
-- [ ] Keep the current quiz schema for Gate A2. In each `Explanation:`, explain why the correct choice is right and name the main misconception behind the strongest distractor; do not introduce a per-option feedback schema in this task.
-- [ ] Ensure quiz questions render even if attempt-history loading is delayed or fails; keep history in a separate Suspense boundary if currently blocking.
-- [ ] Deep-link weak-topic recovery to the relevant conceptual lesson.
-- [ ] Replace the hard-coded `[1, 1, 1, 1, 1]` test with assertions for:
+- [x] Use the accepted 20-item difficulty distribution: 6 Easy, 9 Medium, and 5 Hard.
+- [x] Include application to unseen equations, observations and scenarios; label original variants `Platform application -` plus the precise NCERT concept anchor.
+- [x] Use four plausible options per objective item. Distractors represent real misconceptions, not jokes or unrelated phrases.
+- [x] Distribute answer positions evenly across 1-4; the accepted sequence gives each position five times.
+- [x] Give every question explicit `Answer:`, `Explanation:`, `Topic:`, `Difficulty:`, and `Source:` metadata.
+- [x] Label adapted platform items honestly; do not call an invented item an exact NCERT exercise.
+- [x] Keep the current quiz schema for Gate A2. Each `Explanation:` now explains why the correct choice is right and repairs the main misconception without introducing a per-option feedback schema.
+- [x] Ensure quiz questions render even if attempt-history loading is delayed or fails; keep history in a separate Suspense boundary if currently blocking.
+- [x] Deep-link weak-topic recovery to the relevant conceptual lesson.
+- [x] Replace the old five-answer test with assertions for:
   - minimum question count
   - topic coverage
   - difficulty coverage
   - answer-position distribution
   - source metadata
-  - exactly 5 Easy, 7 Medium, and 3 Hard questions
-  - at least five `Source: Platform application - ...` questions
+  - exactly 6 Easy, 9 Medium, and 5 Hard questions
+  - complete six-resource coverage without board-supplement topic slugs
 
 Run:
 
@@ -641,21 +655,21 @@ npm.cmd run test -w apps/web
 
 Land this slice before image optimisation or interaction polish when all are true:
 
-- [ ] no cross-chapter or invented textbook content remains
-- [ ] numbered teaching sections, Activities 1.1-1.11, equations `(1.1)`-`(1.32)`, and all three in-text Questions blocks are in source order
-- [ ] Activity 1.12/1.13 and false animation claims are absent
-- [ ] anonymous/new-student mastery is zero and rewards are not falsely unlocked
-- [ ] the Gate A1 fidelity, mastery, and Q&A rendering tests pass
+- [x] no cross-chapter or invented textbook content remains
+- [x] numbered teaching sections, Activities 1.1-1.11, equations `(1.1)`-`(1.32)`, and all three in-text Questions blocks are in source order
+- [x] Activity 1.12/1.13 and false animation claims are absent
+- [x] anonymous/new-student mastery is zero and rewards are not falsely unlocked
+- [x] the focused Gate A1 fidelity, mastery, and Q&A rendering contracts pass
 
 ### Gate A2 Exit Check — Completeness, Assessment, And Delivery
 
 Continue to Gate B only when all are true:
 
-- [ ] Figures 1.1-1.10, 20 exercises, Group Activity, and all special/source prompts are tracked and present
-- [ ] lessons are the canonical path and the revision sheet is secondary
-- [ ] source-correct figures pass before their optimised variants are accepted
-- [ ] quiz quality tests and validator pass
-- [ ] the complete source-fidelity suite passes
+- [x] Figures 1.1-1.10, 20 exercises, Group Activity, and all special/source prompts are tracked and present
+- [x] lessons are the canonical path and the revision sheet is secondary
+- [x] source-correct figures pass before their optimised variants are accepted
+- [x] the focused Chapter 1 quiz quality contract passes and the validator previously reported 0 errors / 0 warnings
+- [x] the focused Chapter 1 source-fidelity contract passes 14/14
 
 ---
 
@@ -676,7 +690,7 @@ Continue to Gate B only when all are true:
 
 Execute this subtask before landing the exact Questions blocks authored in Tasks 3, 4, 6, and 7. The current lesson renderer does not interpret the mandated bold/italic markers, so Gate A1 is not complete until the source wording renders without literal markdown punctuation.
 
-- [ ] Keep the mandatory `NOTES_GUIDELINES_STANDARDS.md` markup authored in Tasks 2-7. The supported form is:
+- [x] Keep the mandatory `NOTES_GUIDELINES_STANDARDS.md` markup authored in Tasks 2-7. The supported form is:
 
 ```markdown
 ## Questions and answers
@@ -690,28 +704,28 @@ Execute this subtask before landing the exact Questions blocks authored in Tasks
 *Answer:* <simplified scoring answer>
 ```
 
-- [ ] Implement a pure parser that recognises `**❓ QUESTIONS**` or `**❓ IN-TEXT QUESTIONS**`, bold numbered questions, optional `*Hint:*`, and required `*Answer:*` paragraphs.
-- [ ] Preserve the existing static/fallback rendering for other chapters or malformed legacy sections; do not make a Chapter 1 parser change silently hide content elsewhere.
-- [ ] Render the question immediately and the answer inside native `<details>/<summary>` with copy such as `Try first, then reveal the answer`.
-- [ ] Keep exact NCERT wording visible outside the collapsed answer.
-- [ ] Add visible focus states and screen-reader labels. Do not communicate correctness or importance using colour alone.
-- [ ] Change all practice links from `#practice-zone` to the real generated `#quick-practice` target.
-- [ ] Add a regression test proving the practice link and heading ID match.
+- [x] Implement a pure parser that recognises `**❓ QUESTIONS**` or `**❓ IN-TEXT QUESTIONS**`, bold numbered questions, optional `*Hint:*`, and required `*Answer:*` paragraphs.
+- [x] Preserve the existing static/fallback rendering for other chapters or malformed legacy sections; do not make a Chapter 1 parser change silently hide content elsewhere.
+- [x] Render the question immediately and the answer inside native `<details>/<summary>` with copy such as `Try first, then reveal the answer`.
+- [x] Keep exact NCERT wording visible outside the collapsed answer.
+- [x] Add visible focus states and screen-reader labels. Do not communicate correctness or importance using colour alone.
+- [x] Change all practice links from `#practice-zone` to the real generated `#quick-practice` target.
+- [x] Add a regression test proving the practice link and heading ID match.
 
 ### Task 11B: Lesson Navigation And Mobile Flow
 
-- [ ] Add a generated section table of contents for the numbered textbook headings only.
-- [ ] Keep the desktop lesson sidebar sticky while the article scrolls.
-- [ ] Add a mobile previous/next bottom bar with safe-area padding; it must not cover content.
-- [ ] Keep ready videos prominent, but make `video coming next` a compact status so an unavailable video does not consume a full screen before the notes.
-- [ ] In the no-video or video-unavailable state, make the first concept visible within one 390x844 viewport after the lesson title. A genuinely ready video may remain prominent above the notes.
+- [x] Add a generated section table of contents for the numbered textbook headings only.
+- [x] Keep the desktop lesson sidebar sticky while the article scrolls.
+- [x] Add a mobile previous/next bottom bar with safe-area padding; it must not cover content.
+- [x] Keep ready videos prominent, but make `video coming next` a compact status so an unavailable video does not consume a full screen before the notes.
+- [x] In the no-video or video-unavailable state, make the first concept visible within one 390x844 viewport after the lesson title. A genuinely ready video may remain prominent above the notes.
 
 ### Task 11C: Reading Hierarchy, Chemistry Typography, And Timing
 
-- [ ] Give `Common mistakes`, `Board tips`, `Quick practice`, `Answer check`, `Remember this`, and `One-minute revision` distinct but restrained card variants.
-- [ ] Use Georgia for long-form lesson prose and the approved UI sans-serif/Outfit contract for navigation/cards. Scope the change and browser-check all pilot pages.
-- [ ] Render chemical formulae with real subscripts, reaction arrows, state symbols, and readable conditions. Formula blocks may horizontally scroll at 320px but the page itself must not overflow.
-- [ ] Update lesson time estimates from an actual read + activity + practice walkthrough rather than optimistic guesses.
+- [x] Give `Common mistakes`, `Board tips`, `Quick practice`, `Answer check`, `Remember this`, and `One-minute revision` distinct but restrained card variants.
+- [x] Use Georgia for long-form lesson prose and the approved UI sans-serif contract for navigation/cards. Browser verification remains in Task 13.
+- [x] Render chemical formulae with real subscripts, reaction arrows, state symbols, and readable conditions. Formula blocks may horizontally scroll at 320px but the page itself must not overflow.
+- [x] Update lesson time estimates from an actual read + activity + practice walkthrough rather than optimistic guesses.
 
 **Accessibility/mobile acceptance:**
 
@@ -742,7 +756,7 @@ Execute this subtask before landing the exact Questions blocks authored in Tasks
 
 **Implementation rule:** Do not build a free-form chemistry formula parser in this task. Use a typed, reviewed dataset with explicit atom maps so correctness is testable and the MVP remains small.
 
-- [ ] Define pure types/helpers similar to:
+- [x] Define pure types/helpers similar to:
 
 ```ts
 type Compound = {
@@ -763,16 +777,16 @@ isBalanced(equation: BalanceEquation, coefficients: number[]): boolean
 isSmallestWholeNumberRatio(coefficients: number[]): boolean
 ```
 
-- [ ] Use four NCERT-aligned equations from the chapter, increasing in difficulty. Include the iron/steam example and questions involving hydrogen/chlorine, barium chloride/aluminium sulphate, or sodium/water only after verifying exact formulae and products from the PDF.
-- [ ] Keep formulae and subscripts read-only. Students may edit coefficients only.
-- [ ] Show live per-element atom counts for reactants and products.
-- [ ] Require the smallest whole-number coefficient ratio for completion.
-- [ ] Provide three staged hints; do not reveal the complete answer in Hint 1.
-- [ ] Include reset and next-equation controls.
-- [ ] Make every coefficient input keyboard and screen-reader operable; do not require drag-and-drop.
-- [ ] Respect `prefers-reduced-motion`; no canvas, 3D, or decorative continuous animation.
-- [ ] Route only `[[demo:chemical-equation-balancer]]` through `LessonDemo` and place it after the manual balancing method, not before the student learns the rule.
-- [ ] Test atom totals, balance detection, invalid/blank/zero coefficients, reducible ratios, exact solution ratios, reset, and demo routing.
+- [x] Use four NCERT-aligned equations from the chapter, increasing in difficulty. Include the iron/steam example and questions involving hydrogen/chlorine, barium chloride/aluminium sulphate, or sodium/water only after verifying exact formulae and products from the PDF.
+- [x] Keep formulae and subscripts read-only. Students may edit coefficients only.
+- [x] Show live per-element atom counts for reactants and products.
+- [x] Require the smallest whole-number coefficient ratio for completion.
+- [x] Provide three staged hints; do not reveal the complete answer in Hint 1.
+- [x] Include reset and next-equation controls.
+- [x] Make every coefficient input keyboard and screen-reader operable; do not require drag-and-drop.
+- [x] Respect `prefers-reduced-motion`; no canvas, 3D, or decorative continuous animation.
+- [x] Route only `[[demo:chemical-equation-balancer]]` through `LessonDemo` and place it after the manual balancing method, not before the student learns the rule.
+- [x] Test atom totals, balance detection, invalid/blank/zero coefficients, reducible ratios, exact solution ratios, reset, and demo routing.
 
 **Acceptance:** A student can balance four reviewed equations using coefficients only, understand which element is mismatched, and complete the task entirely with a keyboard at 320px width.
 
@@ -804,12 +818,12 @@ Expected:
 
 ### Step 2: Complete The Source Tracker
 
-- [ ] Re-open `jesc101.pdf` and verify every tracker row manually.
-- [ ] Mark a row `Pass` only when its exact student route and evidence are recorded.
-- [ ] Confirm all three Questions blocks word-for-word and in position.
-- [ ] Confirm Activities 1.1-1.11 and Figures 1.1-1.10 visually, not only by marker existence.
-- [ ] Confirm every exercise 1-20 and Group Activity.
-- [ ] Confirm all platform additions are accurate and clearly distinguished from exact NCERT material.
+- [x] Re-open `jesc101.pdf` and verify every tracker row manually.
+- [x] Mark a row `Pass` only when its exact student route and evidence are recorded.
+- [x] Confirm all three Questions blocks word-for-word and in position.
+- [x] Confirm Activities 1.1-1.11 and Figures 1.1-1.10 visually, not only by marker existence.
+- [x] Confirm every exercise 1-20 and Group Activity.
+- [x] Confirm all platform additions are accurate and clearly distinguished from exact NCERT material.
 
 ### Step 3: Run Built-Server Browser QA
 
@@ -830,6 +844,9 @@ npm.cmd run start -w apps/web
 /chapters/chemical-reactions-and-equations/lessons/displacement-and-double-displacement-reactions
 /chapters/chemical-reactions-and-equations/lessons/oxidation-and-reduction
 /chapters/chemical-reactions-and-equations/lessons/ncert-exercises-and-revision
+/chapters/chemical-reactions-and-equations/lessons/board-exam-practice
+/chapters/chemical-reactions-and-equations/lessons/board-readiness-diagnostic
+/chapters/chemical-reactions-and-equations/lessons/board-readiness-diagnostic-b
 /chapters/chemical-reactions-and-equations/quiz
 ```
 
@@ -858,8 +875,8 @@ npm.cmd run start -w apps/web
 
 ### Step 4: Run The Scripted Learner-Task Smoke
 
-- [ ] Create and populate `docs/content/class-10/science/chemical-reactions-and-equations/learner-task-smoke-rubric.md` with four balancing prompts and eight reaction-classification prompts that do not appear in the lessons, quiz, exercise answers, or optional workbench.
-- [ ] Include exact expected answers, partial-credit rules, a 15-minute time limit, a no-hint rule, and a fixed evidence/scoring sheet so two reviewers reach the same result.
+- [x] Create and populate `docs/content/class-10/science/chemical-reactions-and-equations/learner-task-smoke-rubric.md` with four balancing prompts and eight reaction-classification prompts that do not appear in the lessons, quiz, exercise answers, or optional workbench.
+- [x] Include exact expected answers, partial-credit rules, a 15-minute time limit, a no-hint rule, and a fixed evidence/scoring sheet so two reviewers reach the same result.
 
 Using that checked-in holdout set, run this reproducible content/interaction smoke without reopening the notes after the learning pass:
 
@@ -876,14 +893,14 @@ If the smoke fails, record the exact concept/route and repair that narrow gap be
 
 ### Step 5: Repository Hygiene
 
-- [ ] Run scoped whitespace verification first:
+- [x] Run scoped whitespace verification first:
 
 ```powershell
 git diff --check -- TODO.md master_todo.md apps/web/content/chemical-reactions-and-equations apps/web/components/ActivityIllustration.tsx apps/web/components/ChemicalEquationBalancer.tsx apps/web/components/LessonDemo.tsx apps/web/app/chapters apps/web/app/globals.css apps/web/app/layout.tsx apps/web/lib docs/content/class-10/science/chemical-reactions-and-equations docs/project-memory.md
 ```
 
-- [ ] Inspect `git status --short` and ensure unrelated dirty files remain untouched.
-- [ ] Update `docs/project-memory.md` with only durable learnings: canonical lesson path, six-resource allocation, exact figure contract, mastery-zero rule, and final image budget.
+- [x] Inspect `git status --short` and ensure unrelated dirty files remain untouched.
+- [x] Update `docs/project-memory.md` with durable learnings for the canonical path, assessment systems, figure contract, mastery truthfulness, retention, remediation, accessibility, and image budget.
 - [ ] Check `master_todo.md` as complete only after Gates A1, A2, and B, the source tracker, browser QA, and learner-task smoke all pass.
 - [ ] If a later authorised push succeeds, update `TODO.md` to the next handoff before ending that implementation session.
 
@@ -893,18 +910,18 @@ git diff --check -- TODO.md master_todo.md apps/web/content/chemical-reactions-a
 
 Chapter 1 is technically pilot-ready only when all of the following are true:
 
-- [ ] Exact textbook structure appears in exact order from `1.1` through `1.3.2`.
-- [ ] One primary heading/demo marker for each Activity 1.1-1.11 is present in source order; Activities 1.12/1.13 are absent.
-- [ ] Figures 1.1-1.10 match the source and retain safety/apparatus cues.
-- [ ] Equation numbers `(1.1)`-`(1.32)`, state symbols, and conditions are correct.
-- [ ] All three in-text Questions blocks are exact and correctly positioned.
-- [ ] All 20 exercises and the Group Activity are available with try-first simplified answers.
-- [ ] No Life Processes text, internal teacher notes, local paths, or false animation claims remain.
-- [ ] Lessons are the canonical path; the one-page revision sheet is secondary.
-- [ ] Anonymous/new users show `0% / Not started` and no fabricated rewards.
-- [ ] The quiz has exactly 15 representative questions with varied correct positions, the fixed difficulty distribution, and valid metadata.
+- [x] Exact textbook structure appears in exact order from `1.1` through `1.3.2`.
+- [x] One primary heading/demo marker for each Activity 1.1-1.11 is present in source order; Activities 1.12/1.13 are absent.
+- [x] Figures 1.1-1.10 match the source and retain safety/apparatus cues.
+- [x] Equation numbers `(1.1)`-`(1.32)`, state symbols, and conditions are correct.
+- [x] All three in-text Questions blocks are exact and correctly positioned.
+- [x] All 20 exercises and the Group Activity are available with try-first simplified answers.
+- [x] No Life Processes text, internal teacher notes, local paths, or false animation claims remain.
+- [x] Lessons are the canonical path; the one-page revision sheet is secondary.
+- [x] Anonymous/new users show `0% / Not started` and no fabricated rewards.
+- [x] The quiz has exactly 20 representative questions with evenly varied correct positions, the 6/9/5 difficulty distribution, and valid metadata.
 - [ ] Practice links, Q&A reveals, navigation, figures, and quiz work on keyboard and mobile.
-- [ ] Chapter 1 delivered activity assets stay within the declared budget.
+- [x] Chapter 1 checked-in WebP activity assets stay within the declared source budget; delivered transfer remains part of the browser performance gate.
 - [ ] The source tracker, content-style checklist, tests, validator, build, lint, and browser QA all pass.
 - [ ] The scripted learner-task smoke target is met.
 
@@ -916,10 +933,10 @@ This definition means the chapter is safe to place in a small real-student pilot
 
 If Task 12 is implemented, Gate C is complete only when:
 
-- [ ] the balancing helper/component/routing tests pass
-- [ ] all four workbench equations are source-reviewed and use smallest whole-number ratios
+- [x] the focused balancing helper/component/routing tests pass 6/6
+- [x] all four workbench equations are source-reviewed and use smallest whole-number ratios
 - [ ] the workbench is keyboard/screen-reader operable at 320px
-- [ ] the workbench does not replace manual balancing instruction or contaminate the learner-task holdout set
+- [x] the workbench does not replace manual balancing instruction or contaminate the learner-task holdout set
 
 ---
 

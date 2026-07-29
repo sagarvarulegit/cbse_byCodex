@@ -1,228 +1,115 @@
 ---
+type: ChapterPack
 title: Carbon and its Compounds
-audience: CBSE Class 10
-subject: Science
+description: Canonical 2026-27 NCERT and verified board-practice path for Class 10 Science Chapter 4.
+tags: ['science', 'class-10', 'chapter-4', 'ncert', 'board-exam']
+timestamp: 2026-07-26T00:00:00Z
 chapter_number: 4
 chapter_slug: carbon-and-its-compounds
-status: draft
-content_type: chapter-pack
-source_textbook: textbooks/textbooks/science/extracted/jesc104.pdf
+status: published
+source_textbook: textbooks/science/extracted/jesc104.pdf
 ---
 
 # Carbon and its Compounds
 
-## chapter goal
-
-By the end of this chapter, a student should be able to:
-- explain covalent bonding in carbon compounds
-- understand tetravalency, catenation, and versatile carbon structures
-- distinguish saturated and unsaturated compounds
-- name simple carbon compounds
-- describe combustion, oxidation, addition, substitution, ethanol, ethanoic acid, soaps, and detergents
-
-## teacher note on textbook alignment
-
-This pack follows `jesc104.pdf`: covalent bonding, versatile nature of carbon, saturated and unsaturated compounds, chains, homologous series, nomenclature, chemical properties, ethanol, ethanoic acid, soaps, and detergents.
-
-## chapter flow for the platform
-
-1. 4.1 Bonding in carbon - the covalent bond
-2. 4.2 Versatile nature of carbon
-3. 4.2 continued - Hydrocarbons and homologous series
-4. 4.2 continued - Functional groups and naming
-5. 4.3 Chemical properties of carbon compounds
-6. 4.4 Some important carbon compounds - ethanol and ethanoic acid
-7. 4.5 Soaps and detergents
-
-## 4.1 Bonding in carbon - the covalent bond
-
-Carbon has atomic number 6. Its electronic configuration is `2, 4`.
-
-It needs four more electrons to complete its outer shell. Losing or gaining four electrons is difficult, so carbon shares electrons.
-
-This sharing forms covalent bonds.
-
-Methane example:
-`CH4` has carbon sharing one electron with each of four hydrogen atoms.
-
-## 4.2 Versatile nature of carbon
-
-### tetravalency
-
-Carbon forms four covalent bonds.
-
-### catenation
-
-Carbon can bond with other carbon atoms to form long chains, branched chains, and rings.
-
-### strong bonds
-
-Carbon-carbon bonds are strong, so many stable compounds are possible.
-
-## 4.2 continued - Hydrocarbons and homologous series
-
-Saturated compounds have only single bonds between carbon atoms.
-
-Example:
-`C2H6` ethane.
-
-Unsaturated compounds have at least one double or triple bond.
-
-Examples:
-- `C2H4` ethene
-- `C2H2` ethyne
-
-## 4.2 continued - Functional groups and naming
-
-A homologous series is a family of organic compounds with:
-- same functional group
-- same general formula
-- similar chemical properties
-- successive members differing by `CH2`
-
-Example alkanes:
-`CH4`, `C2H6`, `C3H8`, `C4H10`
-
-### nomenclature basics
-
-Root names:
-- 1 carbon: meth-
-- 2 carbons: eth-
-- 3 carbons: prop-
-- 4 carbons: but-
-
-Bond suffix:
-- single bond: -ane
-- double bond: -ene
-- triple bond: -yne
-
-Functional group examples:
-- alcohol: `-OH`
-- carboxylic acid: `-COOH`
-
-## 4.3 Chemical properties of carbon compounds
-
-### combustion
-
-Carbon compounds burn in oxygen to form carbon dioxide, water, heat, and light.
-
-### oxidation
-
-Alcohol can be oxidised to carboxylic acid.
-
-Example:
-Ethanol oxidises to ethanoic acid.
-
-### addition reaction
-
-Hydrogen adds to unsaturated hydrocarbons in presence of a catalyst like nickel.
-
-This is used in hydrogenation of vegetable oils.
-
-### substitution reaction
-
-In saturated hydrocarbons, one atom can be replaced by another.
-
-Example:
-Methane reacts with chlorine in sunlight.
-
-## 4.4 Some important carbon compounds - ethanol and ethanoic acid
-
-Ethanol: `C2H5OH`
-
-Uses:
-- solvent
-- medicines
-- fuel mixtures
-
-Ethanoic acid: `CH3COOH`
-
-Common name: acetic acid.
-
-It reacts with alcohol to form ester. This is esterification.
-
-Ethanoic acid + sodium carbonate gives carbon dioxide.
-
-## 4.5 Soaps and detergents
-
-Soap molecules have:
-- hydrophilic head
-- hydrophobic tail
-
-They form micelles around oily dirt and help remove it with water.
-
-Soaps do not work well in hard water because they form scum.
-
-Detergents work better in hard water.
-
-## exam-friendly summary notes
-
-- Carbon forms covalent bonds.
-- Tetravalency and catenation make carbon versatile.
-- Saturated means single bonds only.
-- Unsaturated means double or triple bond present.
-- Homologous series members differ by `CH2`.
-- Soap cleans by micelle formation.
-
-## common mistakes students make
-
-1. Saying carbon forms ionic bonds in normal organic compounds.
-2. Confusing ethane, ethene, and ethyne.
-3. Forgetting that functional group controls chemical properties.
-4. Writing ethanol and ethanoic acid formulae incorrectly.
-5. Saying soap dissolves oil directly instead of forming micelles.
-
-## board tips
-
-- Draw covalent electron sharing diagrams carefully.
-- Learn first four root names.
-- In soap questions, mention hydrophilic head, hydrophobic tail, and micelle.
-- Use exact terms: esterification, hydrogenation, substitution.
-
-## solved practice set
-
-### question 1
-Why does carbon form covalent compounds?
-
-Answer:
-Carbon has four valence electrons. Gaining or losing four electrons is difficult, so it shares electrons.
-
-### question 2
-What is the difference between ethane and ethene?
-
-Answer:
-Ethane `C2H6` has a single bond. Ethene `C2H4` has a double bond.
-
-### question 3
-Why are detergents useful in hard water?
-
-Answer:
-Detergents do not form insoluble scum with calcium and magnesium ions as soaps do.
-
-## short answer practice
-
-1. What is catenation?
-2. What is a homologous series?
-3. Name the functional group in alcohols.
-4. What is hydrogenation?
-5. How do soaps remove oily dirt?
-
-## mini quiz with answers
-
-1. Carbon valency is 4.
-2. `C2H6` is ethane.
-3. `-OH` is alcohol functional group.
-4. Ethanoic acid is acetic acid.
-5. Soap molecules form micelles.
-
-## comic style recap
-
-Panel 1: Carbon Hero says, "Four hands, four bonds. I share, not snatch."
-
-Panel 2: Chain Builder Carbon links arms with more carbons: "Catenation makes endless designs."
-
-Panel 3: Alkane, Alkene, and Alkyne line up: "Single, double, triple. Do not mix us."
-
-Panel 4: Soap Squad surrounds an oil blob: "Tails inside, heads outside. Micelle mission complete."
-
-Panel 5: Detergent Captain enters hard water: "Scum cannot stop me."
+## Learning promise
+
+A student completing this pack can:
+
+- explain covalent-bond formation and properties from electron sharing;
+- connect tetravalency and catenation to carbon's structural variety;
+- draw and classify chains, branches, rings, isomers and hydrocarbons;
+- recognise homologous series, functional groups and simple nomenclature;
+- write combustion, oxidation, addition and substitution reactions;
+- explain ethanol and ethanoic-acid properties and reactions;
+- draw and explain micelles, soap cleansing, hard-water scum and detergents;
+- answer every in-text question and NCERT Exercise 1-15;
+- attempt every distinct demand family found in the audited CBSE archive and
+  the latest official sample paper.
+
+## Exact NCERT hierarchy
+
+1. `4.1 Bonding in Carbon - The Covalent Bond`
+2. `4.2 Versatile Nature of Carbon`
+   - `4.2.1 Saturated and Unsaturated Carbon Compounds`
+   - `4.2.2 Chains, Branches and Rings`
+   - `4.2.3 Will you be my Friend?`
+   - `4.2.4 Homologous Series`
+   - `4.2.5 Nomenclature of Carbon Compounds`
+3. `4.3 Chemical Properties of Carbon Compounds`
+   - `4.3.1 Combustion`
+   - `4.3.2 Oxidation`
+   - `4.3.3 Addition Reaction`
+   - `4.3.4 Substitution Reaction`
+4. `4.4 Some Important Carbon Compounds - Ethanol and Ethanoic Acid`
+   - `4.4.1 Properties of Ethanol`
+   - `4.4.2 Properties of Ethanoic Acid`
+5. `4.5 Soaps and Detergents`
+
+No invented numbered subsection is used.
+
+## Live platform path
+
+| Order | Resource | Primary NCERT allocation |
+| ---: | --- | --- |
+| 1 | `covalent-bonding-in-carbon` | Opening, Activity 4.1, `4.1`, Table 4.1, Figures 4.1-4.5, allotropes, Questions |
+| 2 | `versatile-nature-of-carbon` | `4.2`, `4.2.1`, `4.2.2`, Figures 4.6-4.10, isomers and carbon skeletons |
+| 3 | `hydrocarbons-and-homologous-series` | Hydrocarbon families, Table 4.2, `4.2.4`, Activity 4.2 |
+| 4 | `functional-groups-and-naming` | `4.2.3`, Table 4.3, `4.2.5`, Table 4.4 and source naming questions |
+| 5 | `chemical-properties-of-carbon-compounds` | `4.3`-`4.3.4`, Activities 4.3-4.5 and Questions |
+| 6 | `ethanol-and-ethanoic-acid` | `4.4`-`4.4.2`, Activities 4.6-4.9, Figure 4.11 and Questions |
+| 7 | `soaps-and-detergents` | `4.5`, Activities 4.10-4.12, Figures 4.12-4.13 and Questions |
+| 8 | `ncert-exercises-and-revision` | What You Have Learnt, all in-text Questions and Exercises 1-15 |
+| 9 | `board-exam-practice` | Twelve representative verified PYQs plus official 2025-26 SQP Q29 |
+| 10 | `quiz` | 20 source-linked mixed diagnostic questions |
+
+## Non-negotiable source evidence
+
+- Activities 4.1-4.12 preserve source materials, procedure,
+  observation/inference and safety context.
+- Figures 4.1-4.13 are represented by accessible illustrations or structured
+  molecular diagrams with readable HTML label keys.
+- Tables 4.1-4.4 preserve the source values, functional groups and naming
+  patterns.
+- All five in-text Questions blocks are complete.
+- The carbon-allotropes, organic-compounds history, coal/petroleum, alcohol
+  safety and micelle knowledge boxes remain attached to their concepts.
+- What You Have Learnt, Exercises 1-15 and the supervised soap-making group
+  activity are complete.
+
+## Board-demand coverage
+
+The guarded 2023-2026 archive screen produced 177 candidates before
+false-positive removal.
+
+| Demand family | Platform evidence |
+| --- | --- |
+| Covalent bond/electron-dot structures and properties | Lessons 1 and 8; quiz 1-3; PYQ 12 |
+| Tetravalency, catenation and carbon bond strength | Lessons 1-2; PYQ 12 |
+| Chains, rings, saturated/unsaturated and structural isomers | Lessons 2-3; PYQs 1, 5, 8 |
+| Homologous series definition and physical/chemical trends | Lesson 3; PYQs 3, 11-12 |
+| Functional groups, structures and naming | Lesson 4; PYQs 1, 3-4, 8 |
+| Combustion, oxidation, addition and substitution | Lesson 5; PYQs 2, 5-6, 8 |
+| Ethanol sodium/dehydration/oxidation | Lessons 5-6; PYQs 1-4, 6, 11-12 |
+| Ethanoic acid, glacial acid, carbonate test and esterification | Lesson 6; PYQs 1-2, 4, 7, 10-12 |
+| Saponification and soap preparation | Lessons 6-7; PYQs 1-2, 4 |
+| Micelle orientation and cleaning mechanism | Lesson 7; PYQs 4, 9, 12 |
+| Hard-water scum and detergent comparison | Lesson 7; PYQ 12 |
+| Equation-derived unfamiliar hydrocarbon | Lesson 8; official SQP Q29 |
+
+## Full-mark answer routine
+
+1. Count carbon atoms and confirm valency four in every structure.
+2. Keep the molecular formula unchanged when drawing an isomer.
+3. Write catalysts, temperature and sunlight above reaction arrows.
+4. Balance combustion and oxidation equations.
+5. For a distinction, give both observations under the same test.
+6. In micelles, show tails inward and hydrophilic heads facing water.
+7. Complete one whole OR option and check every command word.
+
+## Fidelity and audit records
+
+- `source-fidelity-tracker.md` records the rendered-page comparison.
+- `board-exam-evidence.md` records the board-demand audit.
+- Lesson source is under
+  `apps/web/content/carbon-and-its-compounds/lessons/`.

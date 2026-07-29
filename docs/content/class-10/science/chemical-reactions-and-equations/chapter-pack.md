@@ -20,7 +20,8 @@ By the end of this chapter, a student should be able to:
 - classify combination, decomposition, displacement, double displacement and redox reactions;
 - explain exothermic and endothermic reactions;
 - explain corrosion and rancidity;
-- answer every NCERT in-text and end-of-chapter question.
+- answer every NCERT in-text and end-of-chapter question;
+- convert the same concepts into complete board-style answers.
 
 ## Chapter flow for the platform
 
@@ -47,7 +48,7 @@ By the end of this chapter, a student should be able to:
 | Activity 1.4 | Figure 1.3 | Quicklime and water form slaked lime and release heat. |
 | Activity 1.5 | Figure 1.4 | Green hydrated ferrous sulphate loses water and forms brown ferric oxide plus sulphur oxides. |
 | Activity 1.6 | Figure 1.5 | Lead nitrate gives brown nitrogen dioxide fumes on heating. |
-| Activity 1.7 | Figure 1.6 | Electrolysis gives hydrogen and oxygen in about a 2:1 volume ratio. |
+| Activity 1.7 | Figure 1.6 | Electrolysis gives hydrogen at the cathode and oxygen at the anode in about a 2:1 volume ratio. |
 | Activity 1.8 | Figure 1.7 | White AgCl turns grey in sunlight. |
 | Activity 1.9 | Figure 1.8(a)-(b) | Iron gets a copper coating and blue CuSO₄ fades. |
 | Activity 1.10 | Figure 1.9 | White insoluble BaSO₄ forms. |
@@ -152,10 +153,17 @@ Water electrolysis is unnumbered in NCERT:
 
 `2H₂O(l) →[Electricity] 2H₂(g) + O₂(g)`
 
+Dilute sulphuric acid supplies ions and improves conductivity. Hydrogen forms
+at the cathode and oxygen at the anode. In cathode:anode order, their volume
+ratio is `2:1`, while their mass ratio is `4:32 = 1:8`.
+
 `2AgCl(s) →[Sunlight] 2Ag(s) + Cl₂(g)` **(1.22)**  
 `2AgBr(s) →[Sunlight] 2Ag(s) + Br₂(g)` **(1.23)**
 
-The silver salt reactions were used in black-and-white photography. The barium hydroxide-ammonium chloride activity feels cold and demonstrates an endothermic reaction.
+The silver salt reactions were used in black-and-white photography. They are
+called photochemical or photolytic decomposition. The barium
+hydroxide-ammonium chloride activity feels cold and demonstrates an endothermic
+reaction.
 
 **❓ QUESTIONS**
 
@@ -222,7 +230,7 @@ Corrosion is attack on a metal by moisture, acids or other substances around it.
 
 ## 1.3.2 Rancidity
 
-Oxidation changes the smell and taste of fats and oils. Antioxidants, airtight containers, cooling and nitrogen flushing slow rancidity. In the Activity 1.1 recall, magnesium gains oxygen and is oxidised.
+Oxidation changes the smell and taste of fats and oils. Antioxidants, airtight containers and nitrogen flushing slow rancidity. In the Activity 1.1 recall, magnesium gains oxygen and is oxidised.
 
 ## NCERT exercise anchors
 
@@ -251,6 +259,27 @@ The exercise lesson preserves all 20 questions in order. Its scoring answers cov
 
 The NCERT Group Activity uses four beakers, 25 mL liquids and two spatulas each of potassium sulphate, ammonium nitrate, anhydrous copper sulphate and fine iron filings to compare exothermic and endothermic changes.
 
+## Board exam readiness supplement
+
+The textbook sequence ends with Lesson 6. Three unnumbered platform supplements
+follow it without changing NCERT topic numbering:
+
+1. **Board Exam Practice - Verified Previous-Year Questions** uses nine questions
+   visually checked against original 2023-2026 board-paper pages. It teaches the
+   observation → inference → equation → classification answer pattern and adds
+   a two-pass bridge to unfamiliar oxidising and reducing agents.
+2. **Board Readiness Diagnostic - 30 Marks** is an original mixed-format paper
+   with MCQs, Assertion-Reason, 2-mark, 3-mark, 5-mark and case-based questions.
+   Its hidden platform marking guide records the first failed skill as well as
+   the total score.
+3. **Board Readiness Diagnostic B - Transfer Check - 20 Marks** is a second
+   unseen paper. It checks conductivity, electrode labels, volume and mass
+   ratios, unfamiliar redox agents and observation-to-equation transfer without
+   repeating Diagnostic A's answer set.
+
+Historical questions support practice only. They do not define or predict the
+current session's official paper design.
+
 ## Common mistakes
 
 - Changing formulae while balancing.
@@ -275,4 +304,7 @@ The NCERT Group Activity uses four beakers, 25 mL liquids and two spatulas each 
 
 ## Comic recap
 
-Captain Atom guards conservation of mass. Energy Keys split compounds, Reactive Raja displaces copper, Ion Twins form a precipitate, and Nitrogen Shield protects food from rancidity.
+- Panel 1: Priya asks, "Why must every chemical equation balance?"
+- Panel 2: Rahul says, "Conservation of mass keeps every atom accounted for."
+- Panel 3: Priya says, "Displacement replaces one element; double displacement exchanges ions."
+- Panel 4: Rahul says, "Less oxygen slows rancidity in fats and oils."

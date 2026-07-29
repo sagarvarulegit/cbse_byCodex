@@ -15,15 +15,6 @@ status: draft
 
 This page covers two poems from the same First Flight unit. One uses humour and exaggeration in How to Tell Wild Animals. The other uses loss and growing up in The Ball Poem.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain the humour in How to Tell Wild Animals
-- notice exaggeration in the poem
-- explain loss and growing up in The Ball Poem
-- identify the ball as a symbol
-- answer short revision questions on tone and theme
-
 ## Story context
 
 How to Tell Wild Animals is a playful poem that uses funny clues to describe animals. The Ball Poem is quieter and more thoughtful, focusing on a child who loses a ball and begins to understand loss.

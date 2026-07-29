@@ -15,13 +15,6 @@ status: draft
 
 This lesson helps students connect fractions and decimals. It is one of the easiest parts of the chapter once the rule becomes clear.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- tell whether a `rational number` will terminate or repeat
-- reduce a fraction to `lowest form`
-- use `prime factorisation` of the denominator correctly
-
 ## start with a simple truth
 
 A `rational number` can have:

@@ -8,20 +8,12 @@ lesson_number: 1
 lesson_slug: animals-nervous-system
 estimated_minutes: 12
 access_level: free
-status: draft
+status: published
 ---
 
 # 6.1 Animals - Nervous System
 
 Living things do not just move because they are alive. They also detect changes around them and answer them in a controlled way. In animals, that job is done mainly by nervous tissue and muscles.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain why control and coordination are needed in animals
-- identify receptors, neurons, synapses, and effectors
-- trace the path of a nerve impulse through a neuron
-- connect taste and smell to the first NCERT activity and Figure 6.1
 
 ## 6.1 Animals - Nervous System
 
@@ -37,16 +29,48 @@ Impulse path:
 
 `receptor -> dendrite -> cell body -> axon -> axon ending -> synapse -> next cell`
 
-The nerve impulse is electrical inside the neuron. At the end of the axon, chemicals are released. These chemicals cross the synapse and start a new impulse in the dendrite of the next neuron. The same idea allows impulses to pass from neurons to muscle cells or gland cells.
+The nerve impulse is electrical inside the neuron. At the end of the axon,
+chemicals are released. These chemicals diffuse across the synaptic gap and
+start a new electrical impulse in the dendrite of the next neuron. Because
+transmitter is released from an axon ending and received by the next cell, this
+arrangement helps make transmission one-way. A similar junction carries a
+message from a neuron to a muscle or gland cell.
+
+### Three neurons in a response pathway
+
+| Neuron | Direction and job |
+| --- | --- |
+| Sensory neuron | Carries an impulse from a receptor or sense organ to the central nervous system |
+| Relay neuron | Connects neurons within the brain or spinal cord; in a reflex arc it links the sensory neuron to the motor neuron |
+| Motor neuron | Carries the instruction from the central nervous system to an effector such as a muscle or gland |
+
+Do not identify a neuron only by its shape in an unlabelled diagram. Trace the
+direction of the impulse and ask where the message starts and ends.
+
+### Why electrical impulses are not enough
+
+Electrical signalling is fast, but NCERT gives two exact limitations:
+
+1. An impulse reaches only cells connected by nervous tissue, not every cell in
+   the body.
+2. After transmitting an impulse, a cell needs time to reset before it can
+   generate another one. It cannot create and transmit impulses continuously.
+
+Chemical messengers solve these limitations: they can reach many target cells
+through a transport medium and can be released steadily, although their action
+is usually slower.
 
 ### Figure 6.1 and Activity 6.1
 
-[[demo:figure-6-1-neuron-neuromuscular-junction]]
+[[figure:figure-6-1-neuron]]
+
+[[figure:figure-6-1-neuromuscular-junction]]
 
 ## NCERT activity and figure tracker
 
 - Figure 6.1: (a) Structure of neuron, (b) Neuromuscular junction
-- Activity 6.1: Put sugar in your mouth, block your nose, and notice how taste changes
+- Activity 6.1: Taste sugar normally; then block the nose and taste it again;
+  while eating lunch, block the nose and compare the full flavour
 - Key idea: taste and smell work together through gustatory and olfactory receptors
 
 ## Solved examples
@@ -87,6 +111,8 @@ Receptors detect the stimulus first and start the message that will become a ner
 - In short answers, write the sequence stimulus -> receptor -> impulse -> response.
 - Name gustatory and olfactory receptors together when taste and smell are discussed.
 - Use the words dendrite, axon, synapse, and impulse in neuron answers.
+- For a limitations question, write both **connected cells only** and **reset
+  time**. These are separate marking points.
 
 ## Quick practice
 

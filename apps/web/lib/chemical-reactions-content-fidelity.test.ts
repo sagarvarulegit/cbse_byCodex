@@ -24,7 +24,12 @@ const expectedLessons = [
     '1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life',
   ],
   ['06-ncert-exercises-and-revision.md', 'NCERT Chapter Exercises and Revision'],
+  ['07-board-exam-practice.md', 'Board Exam Practice - Verified Previous-Year Questions'],
+  ['08-board-readiness-diagnostic.md', 'Board Readiness Diagnostic - 30 Marks'],
+  ['09-board-readiness-diagnostic-b.md', 'Board Readiness Diagnostic B - Transfer Check - 20 Marks'],
 ] as const;
+
+const ncertLessons = expectedLessons.slice(0, 6);
 
 function readLesson(fileName: string) {
   return fs.readFileSync(path.join(lessonRoot, fileName), 'utf8');
@@ -56,7 +61,7 @@ function assertInOrder(markdown: string, labels: string[]) {
   }
 }
 
-test('Chapter 1 resources and catalog titles match six lesson files', () => {
+test('Chapter 1 resources match six NCERT lessons and three board supplements', () => {
   const chapter = getChapter(chapterSlug);
   assert.ok(chapter);
   assert.deepEqual(
@@ -72,7 +77,7 @@ test('Chapter 1 resources and catalog titles match six lesson files', () => {
 });
 
 test('numbered sections preserve exact NCERT parent-child order', () => {
-  const lessons = expectedLessons.map(([fileName]) => readLesson(fileName)).join('\n');
+  const lessons = ncertLessons.map(([fileName]) => readLesson(fileName)).join('\n');
   assertInOrder(lessons, [
     '## 1.1 Chemical Equations',
     '## 1.1.1 Writing a Chemical Equation',
@@ -140,7 +145,7 @@ test('every NCERT equation number maps to the correct equation, state, and condi
 });
 
 test('Activities 1.1-1.11 preserve source apparatus, safety, and observations', () => {
-  const lessons = expectedLessons.map(([fileName]) => readLesson(fileName)).join('\n');
+  const lessons = ncertLessons.map(([fileName]) => readLesson(fileName)).join('\n');
   for (let number = 1; number <= 11; number += 1) {
     assert.equal((lessons.match(new RegExp(`^### Activity 1\\.${number}(?:\\s|$)`, 'gmi')) ?? []).length, 1);
   }
@@ -156,7 +161,7 @@ test('Activities 1.1-1.11 preserve source apparatus, safety, and observations', 
 
 test('Figure 1.2 belongs to Activity 1.3 and all NCERT figures remain ordered', () => {
   const lesson1 = readLesson('01-chemical-equations.md');
-  const lessons = expectedLessons.map(([fileName]) => readLesson(fileName)).join('\n');
+  const lessons = ncertLessons.map(([fileName]) => readLesson(fileName)).join('\n');
   const activity12 = lesson1.indexOf('### Activity 1.2');
   const activity13 = lesson1.indexOf('### Activity 1.3');
   const figure12 = lesson1.indexOf('**Figure 1.2**');
@@ -200,14 +205,193 @@ test('recall prompts, Group Activity, twenty exercises, and scoring details are 
   assert.match(lesson6, /\*\*Example 1:\*\*[\s\S]*\*\*Example 2:\*\*/);
   assert.match(lesson6, /\*\*Heat:\*\*.*→\[Heat\]/);
   assert.match(lesson6, /Oxidation is gain of oxygen[\s\S]*1\..*2\./);
+  assert.ok(
+    lesson6.indexOf('**20. Explain the following terms') < lesson6.indexOf('## Group Activity'),
+    'NCERT places the Group Activity after Exercise 20',
+  );
 });
 
 test('every lesson supplies full-marks study support without exposing internal paths', () => {
   for (const [fileName] of expectedLessons) {
     const lesson = readLesson(fileName);
-    for (const section of ['## Learning goals', '## Common mistakes', '## Board tips', '## One-minute revision']) {
+    for (const section of ['## Common mistakes', '## Board tips', '## One-minute revision']) {
       assert.ok(lesson.includes(section), `${fileName} needs ${section}`);
     }
     assert.doesNotMatch(lesson, /textbooks\/|jesc101\.pdf|teacher note on textbook alignment/i);
   }
+});
+
+test('textbook prompts remain visible before their explanations', () => {
+  const lesson2 = readLesson('02-balancing-equations.md');
+  const lesson3 = readLesson('03-combination-and-decomposition-reactions.md');
+  const lesson5 = readLesson('05-oxidation-and-reduction.md');
+
+  assert.match(lesson2, /Using these steps, can you balance Eq\. \(1\.2\) given in the text earlier\?/);
+  assert.match(lesson3, /What form of energy is causing these decomposition reactions\?/);
+  assert.match(lesson5, /What do you observe\? Why has this black substance formed\?/);
+});
+
+test('lesson callouts and comic recaps use formats supported by the web renderer', () => {
+  for (const [fileName] of expectedLessons) {
+    const lesson = readLesson(fileName);
+    const comicStart = lesson.indexOf('## Comic recap');
+    const comicBody = comicStart >= 0 ? lesson.slice(comicStart) : '';
+
+    assert.ok(comicStart >= 0, `${fileName} needs a comic recap`);
+    assert.equal((comicBody.match(/^- .+$/gm) ?? []).length, 4, `${fileName} needs four comic panels`);
+    assert.equal(
+      (comicBody.match(/^- (?:Priya|Rahul):/gm) ?? []).length,
+      4,
+      `${fileName} comic panels must use Priya and Rahul`,
+    );
+    assert.doesNotMatch(lesson, /^>\s/m, `${fileName} contains an unsupported blockquote marker`);
+  }
+});
+
+test('practice answer checks render as try-first disclosure controls', () => {
+  const lessonPageSource = fs.readFileSync(
+    path.resolve(__dirname, '..', 'app', 'chapters', '[slug]', 'lessons', '[lessonSlug]', 'page.tsx'),
+    'utf8',
+  );
+
+  assert.match(
+    lessonPageSource,
+    /function renderPracticeAnswerCheck[\s\S]*?<details>[\s\S]*?Try first, then reveal the answer[\s\S]*?<\/details>/,
+  );
+});
+
+test('Chapter 1 additions stay source-bounded and learner holdout tasks stay unseen', () => {
+  const lesson5 = readLesson('05-oxidation-and-reduction.md');
+  const lesson6 = readLesson('06-ncert-exercises-and-revision.md');
+  const rubric = fs.readFileSync(
+    path.resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'docs',
+      'content',
+      'class-10',
+      'science',
+      'chemical-reactions-and-equations',
+      'learner-task-smoke-rubric.md',
+    ),
+    'utf8',
+  );
+  const chapterPack = fs.readFileSync(
+    path.resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'docs',
+      'content',
+      'class-10',
+      'science',
+      'chemical-reactions-and-equations',
+      'chapter-pack.md',
+    ),
+    'utf8',
+  );
+  const balancingWorkbench = fs.readFileSync(
+    path.resolve(__dirname, 'chemical-equation-balancing.ts'),
+    'utf8',
+  );
+  const teachingContent = [
+    ...expectedLessons.map(([fileName]) => readLesson(fileName)),
+    readLesson('quiz.md'),
+    chapterPack,
+    balancingWorkbench,
+  ].join('\n');
+  const taskSection = rubric.slice(rubric.indexOf('### Part A'), rubric.indexOf('### Part C'));
+  const holdoutEquations = [...taskSection.matchAll(/^\d+\.\s+`([^`]+)`$/gm)].map((match) => match[1]);
+
+  assert.doesNotMatch(lesson5, /\b(?:oiling|greasing|galvanising)\b|keeping food cool/i);
+  assert.doesNotMatch(chapterPack, /\bcooling\b/i);
+  assert.doesNotMatch(lesson6, /displaces oxygen from the packet/i);
+  assert.equal(holdoutEquations.length, 12);
+
+  for (const equation of holdoutEquations) {
+    assert.ok(!teachingContent.includes(equation), `Holdout equation leaked into teaching content: ${equation}`);
+  }
+});
+
+test('board supplements stay separate, traceable, and marks-based', () => {
+  const lesson3 = readLesson('03-combination-and-decomposition-reactions.md');
+  const lesson4 = readLesson('04-displacement-and-double-displacement-reactions.md');
+  const lesson5 = readLesson('05-oxidation-and-reduction.md');
+  const boardPractice = readLesson('07-board-exam-practice.md');
+  const diagnostic = readLesson('08-board-readiness-diagnostic.md');
+  const transferDiagnostic = readLesson('09-board-readiness-diagnostic-b.md');
+
+  assert.match(boardPractice, /separate exam-practice supplement/i);
+  assert.match(boardPractice, /does not add or renumber any textbook topic/i);
+  assert.match(boardPractice, /not official CBSE marking schemes themselves/i);
+  assert.match(boardPractice, /checked against CBSE's published marking-scheme value points for 2023-2026/i);
+  assert.match(boardPractice, /CBSE Science 2023, paper `31\/2\/1`, Question 21\(a\), printed page 13/);
+  assert.match(boardPractice, /CBSE Science 2024, paper `31\/4\/1`, Question 34\(b\), printed page 19/);
+  assert.match(boardPractice, /CBSE Science 2025, paper `31\/4\/1`, Question 27\(A\), printed page 15/);
+  assert.match(boardPractice, /CBSE Science 2026, paper `31\/1\/3`, Question 26, printed page 15/);
+  assert.match(boardPractice, /CBSE Science 2023, paper `31\/1\/1`, Question 27, printed page 21/);
+  assert.match(boardPractice, /CBSE Science 2023, paper `31\/4\/2`, Question 33, printed page 17/);
+  assert.match(boardPractice, /CBSE Science 2024, paper `31\/1\/3`, Question 33, printed page 17/);
+  assert.match(boardPractice, /An \*\*oxidising agent\*\* causes another substance to be oxidised/);
+  assert.match(boardPractice, /A \*\*reducing agent\*\* causes another substance to be reduced/);
+  assert.match(boardPractice, /Cathode:anode mass ratio `H₂:O₂ = 4:32 = 1:8`/);
+  assert.match(boardPractice, /endothermic decomposition/);
+  assert.match(boardPractice, /exothermic combination/);
+  assert.match(boardPractice, /turns \*\*milky white\*\*/);
+  assert.match(boardPractice, /## Latest official SQP-pattern challenges/);
+  assert.match(boardPractice, /newest published main-subject Class X SQP is the 2025-26 paper/);
+  assert.match(boardPractice, /original platform questions built on those patterns/i);
+  assert.match(lesson3, /Silver chloride is kept in a dark-coloured container/);
+  assert.match(lesson4, /### Board extension: Non-metal displacement/);
+  assert.match(lesson4, /Cl₂\(g\) \+ 2KI\(aq\) → 2KCl\(aq\) \+ I₂\(s\)/);
+  assert.match(lesson4, /### Board extension: Double displacement without a precipitate/);
+  assert.match(lesson5, /### Board extension: Copper corrosion and material choice/);
+  assert.match(lesson5, /basic copper carbonate/);
+  for (const practiceId of [
+    'cre-pyq-1',
+    'cre-pyq-2',
+    'cre-pyq-3',
+    'cre-pyq-4',
+    'cre-pyq-5',
+    'cre-pyq-6',
+    'cre-pyq-7',
+    'cre-pyq-8',
+    'cre-pyq-9',
+    'cre-current-redox-balance',
+    'cre-current-displacement-compare',
+    'cre-current-electrolysis-diagnose',
+    'cre-current-corrosion-evaluate',
+    'cre-current-neutralisation-classify',
+  ]) {
+    assert.match(boardPractice, new RegExp(`\\[\\[written-practice:${practiceId}\\]\\]`));
+  }
+
+  assert.match(diagnostic, /Maximum marks: \*\*30\*\*/);
+  assert.match(diagnostic, /The questions are original board-style practice/);
+  assert.match(diagnostic, /### Section A - Objective questions - 9 marks/);
+  assert.match(diagnostic, /### Section E - Case-based question - 4 marks/);
+  assert.match(diagnostic, /## Score profile/);
+  assert.match(diagnostic, /first failed skill/i);
+  assert.match(diagnostic, /\[\[exam-practice:cre-diagnostic-a\]\]/);
+
+  assert.match(transferDiagnostic, /Maximum marks: \*\*20\*\*/);
+  assert.match(transferDiagnostic, /Attempt this only after Diagnostic A/);
+  assert.match(transferDiagnostic, /cathode:anode volume ratio of `2:1`/);
+  assert.match(transferDiagnostic, /cathode:anode mass is `4:32 = 1:8`/);
+  assert.match(transferDiagnostic, /Passing Diagnostic A does not cancel a failure here/);
+  assert.match(transferDiagnostic, /\[\[exam-practice:cre-diagnostic-b\]\]/);
+});
+
+test('the equation workbench follows the manual method and stays outside the holdout set', () => {
+  const balancingLesson = readLesson('02-balancing-equations.md');
+  const methodEnd = balancingLesson.indexOf('`3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.9)**');
+  const workbenchMarker = balancingLesson.indexOf('[[demo:chemical-equation-balancer]]');
+  const statesStep = balancingLesson.indexOf('**Step VII: Writing symbols of physical states**');
+
+  assert.ok(methodEnd >= 0);
+  assert.ok(workbenchMarker > methodEnd);
+  assert.ok(workbenchMarker < statesStep);
 });

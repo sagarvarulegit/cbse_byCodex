@@ -7,25 +7,18 @@ chapter_slug: control-and-coordination
 lesson_number: 2
 lesson_slug: reflex-actions
 estimated_minutes: 10
-access_level: false
-status: draft
+access_level: locked
+status: published
 ---
 
 # 6.1.1 What happens in Reflex Actions?
 
 Sometimes the body must react so quickly that it cannot wait for the full thinking process. That is where reflex actions help.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- define a reflex action
-- trace the reflex arc through the spinal cord
-- explain why reflex actions are fast and protective
-- connect Figure 6.2 to the path of a reflex
-
 ## 6.1.1 What happens in Reflex Actions?
 
-A reflex action is a quick, automatic response to a stimulus. Common examples are pulling a hand away from a flame, jumping out of the way of a bus, or saliva starting to flow when you smell food.
+A reflex action is a quick, automatic response to a stimulus. A clear
+protective example is pulling a hand away from a flame or hot object.
 
 If the brain had to think through every urgent movement, the response might come too late. The body solves this by using a reflex arc.
 
@@ -35,11 +28,11 @@ The reflex arc is the connection between the input nerve and the output nerve at
 
 Reflex arc path:
 
-`receptor -> sensory neuron -> spinal cord -> motor neuron -> effector`
+`stimulus -> receptor -> sensory neuron -> relay neuron in spinal cord -> motor neuron -> effector -> response`
 
 ### Figure 6.2
 
-[[demo:figure-6-2-reflex-arc]]
+[[figure:figure-6-2-reflex-arc]]
 
 ## NCERT activity and figure tracker
 

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+  <title id="title">Breakdown of glucose through three respiration pathways</title>
+  <description id="description">A glucose node leads through cytoplasmic pyruvate to three branches: yeast fermentation without oxygen, lactic acid formation in low-oxygen muscle, and aerobic respiration in mitochondria.</description>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 L12 6 L0 12 z" fill="#25324a"/>
+    </marker>
+    <linearGradient id="green" x1="0" x2="1">
+      <stop offset="0" stop-color="#dcfce7"/>
+      <stop offset="1" stop-color="#86efac"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" x2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="1" stop-color="#93c5fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="34" fill="#f8fafc"/>
+  <circle cx="150" cy="338" r="78" fill="url(#green)" stroke="#15803d" stroke-width="7"/>
+  <circle cx="470" cy="338" r="78" fill="url(#blue)" stroke="#1d4ed8" stroke-width="7"/>
+  <path d="M228 338 H382" fill="none" stroke="#25324a" stroke-width="10" marker-end="url(#arrow)"/>
+  <path d="M548 338 C680 338 660 125 790 125" fill="none" stroke="#25324a" stroke-width="9" marker-end="url(#arrow)"/>
+  <path d="M548 338 H790" fill="none" stroke="#25324a" stroke-width="9" marker-end="url(#arrow)"/>
+  <path d="M548 338 C680 338 660 550 790 550" fill="none" stroke="#25324a" stroke-width="9" marker-end="url(#arrow)"/>
+  <circle cx="890" cy="125" r="72" fill="#fde68a" stroke="#b45309" stroke-width="7"/>
+  <circle cx="890" cy="338" r="72" fill="#fecaca" stroke="#b91c1c" stroke-width="7"/>
+  <ellipse cx="890" cy="550" rx="104" ry="70" fill="#ddd6fe" stroke="#6d28d9" stroke-width="7"/>
+  <path d="M828 550 C850 510 930 510 952 550 C930 590 850 590 828 550 Z" fill="#a78bfa" opacity=".55"/>
+</svg>

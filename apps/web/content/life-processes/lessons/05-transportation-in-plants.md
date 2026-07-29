@@ -8,7 +8,7 @@ lesson_number: 5
 lesson_slug: transportation-in-plants
 estimated_minutes: 10
 access_level: locked
-status: draft
+status: published
 ---
 
 # 5.4.2 Transportation in plants
@@ -16,15 +16,6 @@ status: draft
 Plants need transport systems because leaves make food, roots absorb water and minerals, and the distances between these parts can be large.
 
 Plant transport is slower than animal transport because plants have lower energy needs and many dead cells in tissues. Still, tall plants need an organised system.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- compare xylem and phloem
-- explain root pressure and transpiration pull
-- describe Activity 5.8
-- explain translocation and the role of ATP
-- identify NCERT Figure 5.12
 
 ## Plant transport overview
 
@@ -50,6 +41,8 @@ Figure 5.12: Movement of water during transpiration in a tree
 - Show continuous xylem channels up the stem.
 - Show water vapour loss from leaves through stomata.
 - Connect water loss from leaves with upward pull in xylem.
+
+[[figure:activity-5-8-transpiration]]
 
 Activity 5.8: Transpiration from a plant compared with a stick
 - Take two pots with equal soil; one has a plant and one has a stick.

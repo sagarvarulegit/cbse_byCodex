@@ -7,21 +7,13 @@ chapter_slug: control-and-coordination
 lesson_number: 4
 lesson_slug: coordination-in-plants
 estimated_minutes: 12
-access_level: false
-status: draft
+access_level: locked
+status: published
 ---
 
 # 6.2 Coordination in Plants
 
 Plants do not have nerves or muscles, but they still respond to their surroundings in controlled ways. Some responses are quick and do not involve growth. Others are slow and depend on growth.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain immediate and growth-related plant movements
-- distinguish tropic movements from non-growth movements
-- describe phototropism, geotropism, hydrotropism, and chemotropism
-- connect plant hormones to directional growth
 
 ## 6.2 Coordination in Plants
 
@@ -33,11 +25,13 @@ The sensitive plant, Mimosa or chhui-mui, folds its leaves very quickly when tou
 
 ### Figure 6.4
 
-[[demo:figure-6-4-sensitive-plant]]
+[[figure:figure-6-4-sensitive-plant]]
 
 ## 6.2.2 Movement Due to Growth
 
 Some plant movements are caused by growth. Tendrils circle around a support because the side in contact with the support grows more slowly than the side away from it.
+
+[[figure:figure-6-tendril-thigmotropism]]
 
 Directional growth responses are called tropic movements.
 
@@ -71,7 +65,7 @@ The pollen tube growing towards an ovule is a good example of chemotropism.
 
 When a potted plant is placed sideways, gravity changes the direction of its new growth. The shoot bends upward, away from gravity, so it is **negatively geotropic**. The roots bend downward, towards gravity, so they are **positively geotropic**.
 
-[[demo:figure-6-6-geotropism]]
+[[figure:figure-6-6-geotropism]]
 
 ## NCERT activity and figure tracker
 
@@ -111,7 +105,17 @@ Question:
 Design an experiment to demonstrate hydrotropism.
 
 Answer:
-Place germinated seeds so that one side has more moisture than the other. Keep them undisturbed for a few days. The roots will grow towards the water source, showing hydrotropism.
+Place a sieve carrying moist sawdust and freshly germinated seeds at a slant.
+Keep the sawdust uniformly moist at first; the roots grow down through the holes
+because of gravity. Then arrange the moist sawdust above the root tips and keep
+the lower side comparatively dry. After some time the root tips bend back
+towards the moist sawdust, even against their earlier downward direction. Keep
+a similar control uniformly moist. Its roots continue mainly with the gravity
+response. Bending specifically towards the water source demonstrates positive
+hydrotropism.
+
+Use similar seedlings and keep light, temperature, and duration the same; change
+only the position of available moisture.
 
 ## Solved examples
 
@@ -151,6 +155,8 @@ Because it happens quickly without growth, mainly by changes in water content in
 
 - When answering plant movement questions, state the stimulus first.
 - For tendrils, write that the side near the support grows more slowly.
+- In a hydrotropism experiment, include an unequal moisture source, a comparison
+  or control, the observation that roots bend towards water, and the conclusion.
 - Mention auxin for phototropism and gibberellin for stem growth.
 
 ## Quick practice

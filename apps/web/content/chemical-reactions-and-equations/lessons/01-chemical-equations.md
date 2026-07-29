@@ -5,12 +5,6 @@ description: Observe chemical changes and learn to write word and symbolic equat
 
 # 1.1 Chemical Equations and 1.1.1 Writing a Chemical Equation
 
-## Learning goals
-
-- Recognise a chemical reaction from its observable changes.
-- Identify reactants and products in a word-equation.
-- Write a skeletal chemical equation without changing chemical formulae.
-
 Milk turns sour in summer. An iron tawa rusts in humid air. Grapes ferment. Food is cooked, digested and used during respiration. In each case, the nature and identity of the starting substance change. Whenever a chemical change occurs, a **chemical reaction** has taken place.
 
 ### Activity 1.1 Burning magnesium ribbon
@@ -79,7 +73,7 @@ Chemical formulae make a word-equation shorter and more useful:
 
 Count the atoms on the two sides. There are two oxygen atoms on the left but only one on the right. Equation (1.2) is therefore an unbalanced or **skeletal chemical equation**.
 
-> **Remember:** Never change a chemical formula to balance an equation. Changing `H₂O` into `H₂O₂` changes water into a different substance.
+**Remember:** Never change a chemical formula to balance an equation. Changing `H₂O` into `H₂O₂` changes water into a different substance.
 
 ## Common mistakes
 
@@ -114,6 +108,7 @@ Count the atoms on the two sides. There are two oxygen atoms on the left but onl
 
 ## Comic recap
 
-**Reactant:** “I enter the reaction.”  
-**Product:** “I am the new substance formed.”  
-**Equation:** “I record the change, but Atom Counter will still check whether I am balanced.”
+- Priya: "A gas, colour, state or temperature change can signal a reaction."
+- Rahul: "Reactants begin on the left, and products form on the right."
+- Priya: "Keep every chemical formula fixed when you write the equation."
+- Rahul: "If atom counts differ, the formula equation is still skeletal."

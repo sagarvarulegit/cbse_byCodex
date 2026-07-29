@@ -124,8 +124,8 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                   )}
 
                   {isLive ? (
-                    <Link className="card-link" href={`/chapters/${chapterSlug}`} style={{ textAlign: 'center', display: 'block', padding: '10px 0' }}>
-                      {isPilot ? 'Open pilot chapter' : 'Open chapter'}
+                    <Link className="card-link" href={`/chapters/${chapterSlug}/notes`} style={{ textAlign: 'center', display: 'block', padding: '10px 0' }}>
+                      {isPilot ? 'Open pilot chapter notes' : 'Open complete chapter notes'}
                     </Link>
                   ) : (
                     <div

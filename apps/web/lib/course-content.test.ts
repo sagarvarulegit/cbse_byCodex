@@ -75,7 +75,7 @@ test('pilot chapters expose clear overviews and at least three live lessons', ()
   }
 });
 
-test('chemical pilot catalog exposes all six available lessons', () => {
+test('chemical pilot catalog exposes six NCERT lessons and three board supplements', () => {
   const chapter = getChapter(chapterSlug);
   assert.ok(chapter);
 
@@ -88,6 +88,9 @@ test('chemical pilot catalog exposes all six available lessons', () => {
       'displacement-and-double-displacement-reactions',
       'oxidation-and-reduction',
       'ncert-exercises-and-revision',
+      'board-exam-practice',
+      'board-readiness-diagnostic',
+      'board-readiness-diagnostic-b',
     ],
   );
   assert.equal(chapter.lessons[0]?.fileName, '01-chemical-equations.md');
@@ -97,6 +100,10 @@ test('chemical pilot catalog exposes all six available lessons', () => {
   assert.equal(chapter.lessons[2]?.fileName, '03-combination-and-decomposition-reactions.md');
   assert.equal(chapter.lessons[3]?.fileName, '04-displacement-and-double-displacement-reactions.md');
   assert.equal(chapter.lessons[4]?.fileName, '05-oxidation-and-reduction.md');
+  assert.equal(chapter.lessons[5]?.fileName, '06-ncert-exercises-and-revision.md');
+  assert.equal(chapter.lessons[6]?.fileName, '07-board-exam-practice.md');
+  assert.equal(chapter.lessons[7]?.fileName, '08-board-readiness-diagnostic.md');
+  assert.equal(chapter.lessons[8]?.fileName, '09-board-readiness-diagnostic-b.md');
 });
 
 test('acids bases catalog exposes all four available lessons with Chapter 2 demos', () => {
@@ -201,7 +208,6 @@ test('chemical equations lesson loads with required structure and navigation', a
   assert.equal(content.nextLesson?.slug, 'balancing-equations');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     '1.1 chemical equations',
     '1.1.1 writing a chemical equation',
     'comic recap',
@@ -222,7 +228,6 @@ test('acids bases indicator lesson loads with neutralisation demos', async () =>
   assert.equal(content.nextLesson?.slug, 'chemical-properties-of-acids-and-bases');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'what indicators tell us',
     'activity 2.1: phenolphthalein with acid and base',
     'activity 2.2: olfactory indicators',
@@ -253,7 +258,6 @@ test('acids bases chemical properties lesson loads with reaction demos', async (
   assert.equal(content.nextLesson?.slug, 'ph-and-ions-in-solution');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'acid with metal',
     'activity 2.3: hydrogen pop test',
     'base with metal',
@@ -289,7 +293,6 @@ test('acids bases pH lesson loads with conductivity demo', async () => {
   assert.equal(content.nextLesson?.slug, 'salts-and-daily-life-uses');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'the ph scale',
     'ions in acids and bases',
     'activity 2.8: acid solution conducts electricity',
@@ -320,7 +323,6 @@ test('acids bases salts lesson loads with common salt coverage', async () => {
   assert.equal(content.nextLesson, null);
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'salt formation',
     'common salt as a raw material',
     'bleaching powder',
@@ -355,7 +357,6 @@ test('metals non-metals physical properties lesson loads with property demo', as
   assert.equal(content.nextLesson?.slug, 'thermal-conductivity-and-conductivity');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'metal properties',
     'non-metal properties',
     'activity 3.1-3.4 and 3.6: physical property tests',
@@ -383,7 +384,6 @@ test('metals non-metals thermal conductivity lesson loads with heat demo', async
   assert.equal(content.nextLesson?.slug, 'oxides-and-chemical-properties');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'thermal conductivity',
     'activity 3.5: wax pins on a heated metal rod',
     'electrical conductivity',
@@ -411,7 +411,6 @@ test('metals non-metals oxides lesson loads with combustion demo', async () => {
   assert.equal(content.nextLesson?.slug, 'reactivity-series-and-displacement');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'metals with oxygen',
     'non-metals with oxygen',
     'activity 3.8 and 3.9: combustion and oxide nature',
@@ -440,7 +439,6 @@ test('metals non-metals reactivity lesson loads with displacement demo', async (
   assert.equal(content.nextLesson?.slug, 'ionic-compounds');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'reactivity series',
     'reaction with water',
     'reaction with dilute acids',
@@ -469,7 +467,6 @@ test('metals non-metals ionic compounds lesson loads with ionic demo', async () 
   assert.equal(content.nextLesson?.slug, 'corrosion-and-prevention');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'ion formation',
     'ionic compound properties',
     'activity 3.13: ionic properties',
@@ -497,7 +494,6 @@ test('metals non-metals corrosion lesson loads with rusting demo', async () => {
   assert.equal(content.nextLesson, null);
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'what is corrosion',
     'conditions for rusting',
     'activity 3.14: conditions for rusting',
@@ -533,7 +529,6 @@ test('carbon compounds lesson notes load with board-ready structure', async () =
     assert.ok(content, `Expected lesson content for ${lessonSlug}`);
 
     assertRequiredHeadings(content.blocks, [
-      'learning goals',
       'solved examples',
       'common mistakes',
       'board tips',
@@ -709,7 +704,6 @@ test('acids bases and salts lessons preserve NCERT Chapter 2 numbering and textb
       assert.equal(content.blocks[0].text, lesson.title);
     }
     assertRequiredHeadings(content.blocks, [
-      'learning goals',
       'ncert activity and figure tracker',
       'questions and answers',
       'solved examples',
@@ -754,7 +748,6 @@ test('metals and non-metals lessons preserve NCERT Chapter 3 numbering and textb
       assert.equal(content.blocks[0].text, lesson.title);
     }
     assertRequiredHeadings(content.blocks, [
-      'learning goals',
       'ncert activity and figure tracker',
       'questions and answers',
       'solved examples',
@@ -801,7 +794,6 @@ test('carbon compounds lessons preserve NCERT Chapter 4 numbering and textbook s
       assert.equal(content.blocks[0].text, lesson.title);
     }
     assertRequiredHeadings(content.blocks, [
-      'learning goals',
       'ncert activity and figure tracker',
       'questions and answers',
       'solved examples',
@@ -839,7 +831,6 @@ test('life processes lesson notes load with NCERT-aligned structure', async () =
     assert.ok(content, `Expected lesson content for ${lessonSlug}`);
 
     const requiredHeadings = [
-      'learning goals',
       'ncert activity and figure tracker',
       'solved examples',
       'common mistakes',
@@ -1139,7 +1130,6 @@ test('control and coordination lesson notes load with NCERT-aligned structure', 
     [
       'animals-nervous-system',
       [
-        'learning goals',
         'ncert activity and figure tracker',
         'solved examples',
         'common mistakes',
@@ -1160,7 +1150,6 @@ test('control and coordination lesson notes load with NCERT-aligned structure', 
     [
       'reflex-actions',
       [
-        'learning goals',
         'ncert activity and figure tracker',
         'solved examples',
         'common mistakes',
@@ -1175,7 +1164,6 @@ test('control and coordination lesson notes load with NCERT-aligned structure', 
     [
       'human-brain-and-nervous-tissue',
       [
-        'learning goals',
         'questions and answers',
         'solved examples',
         'common mistakes',
@@ -1195,7 +1183,6 @@ test('control and coordination lesson notes load with NCERT-aligned structure', 
     [
       'coordination-in-plants',
       [
-        'learning goals',
         'ncert activity and figure tracker',
         'questions and answers',
         'solved examples',
@@ -1219,7 +1206,6 @@ test('control and coordination lesson notes load with NCERT-aligned structure', 
     [
       'hormones-in-animals',
       [
-        'learning goals',
         'ncert activity and figure tracker',
         'questions and answers',
         'solved examples',
@@ -1409,7 +1395,6 @@ test('his first flight fear lesson loads with required structure and navigation'
   assert.equal(content.nextLesson?.slug, 'his-first-flight-courage-and-family-pressure');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'story context',
     'key idea',
     'important moments',
@@ -1443,7 +1428,6 @@ test('his first flight courage lesson loads with required structure and navigati
   assert.equal(content.nextLesson?.slug, 'the-black-aeroplane-storm-and-mystery');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'story context',
     'key idea',
     'important moments',
@@ -1477,7 +1461,6 @@ test('black aeroplane storm lesson loads with required structure and navigation'
   assert.equal(content.nextLesson?.slug, 'the-black-aeroplane-unknown-helper');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'story context',
     'key idea',
     'important moments',
@@ -1508,7 +1491,6 @@ test('black aeroplane unknown helper lesson loads with required structure and na
   assert.equal(content.nextLesson?.slug, 'poems-wild-animals-and-the-ball-poem');
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'story context',
     'key idea',
     'important moments',
@@ -1539,7 +1521,6 @@ test('poems lesson loads with required structure and navigation', async () => {
   assert.equal(content.nextLesson, null);
 
   assertRequiredHeadings(content.blocks, [
-    'learning goals',
     'story context',
     'key idea',
     'important moments',

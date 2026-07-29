@@ -8,7 +8,7 @@ lesson_number: 3
 lesson_slug: respiration-and-gas-exchange
 estimated_minutes: 13
 access_level: locked
-status: draft
+status: published
 ---
 
 # 5.3 Respiration
@@ -16,17 +16,6 @@ status: draft
 Respiration releases usable energy from food. The textbook links this to ATP, the energy currency used for many cellular reactions.
 
 Do not confuse breathing with respiration. Breathing is gas exchange at the organism level. Respiration is the cellular breakdown of food to release energy.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain ATP as usable energy for cells
-- compare aerobic and anaerobic respiration
-- state what happens to pyruvate in different conditions
-- explain Activities 5.4, 5.5, 5.6, and 5.7
-- describe gas exchange in plants and animals
-- explain alveoli, haemoglobin, and breathing
-- identify NCERT Figures 5.7, 5.8, and 5.9
 
 ## 5.3 Respiration and ATP
 
@@ -58,13 +47,19 @@ Figure 5.7: Air passed into lime water
 - Compare fresh air and exhaled air.
 - Exhaled air turns lime water milky faster because it has more carbon dioxide.
 
+[[demo:activity-5-4-5-5-respiration-tests]]
+
 Figure 5.8: Break-down of glucose by various pathways
 - Draw glucose splitting into pyruvate first.
 - Then show three pathways: oxygen in mitochondria, yeast fermentation, and lactic acid in muscles.
 
+[[figure:figure-5-8-glucose-breakdown]]
+
 Figure 5.9: Human respiratory system
 - Label nasal passage, trachea, bronchi, lungs, and alveoli.
 - Show alveoli as the gas-exchange surface.
+
+[[figure:figure-5-9-respiratory-system]]
 
 Activity 5.4: Exhaled air turns lime water milky
 - Pass air through lime water using a syringe or pichkari.
@@ -131,6 +126,9 @@ Alveoli are designed for gas exchange:
 
 Oxygen diffuses from alveoli into blood. Carbon dioxide diffuses from blood into alveoli.
 
+The lungs always retain some **residual volume of air**. This prevents the
+alveoli from collapsing and allows gas exchange to continue between breaths.
+
 ## Haemoglobin
 
 Haemoglobin in red blood cells carries oxygen from lungs to tissues.
@@ -152,6 +150,9 @@ When we exhale:
 - diaphragm moves up
 - chest cavity becomes smaller
 - air moves out
+
+The rings of cartilage in the trachea keep the air passage open and prevent it
+from collapsing.
 
 ## Questions and answers
 

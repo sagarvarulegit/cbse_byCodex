@@ -8,24 +8,12 @@ lesson_number: 6
 lesson_slug: excretion-in-human-beings-and-plants
 estimated_minutes: 12
 access_level: locked
-status: draft
+status: published
 ---
 
 # 5.5 Excretion
 
 Excretion removes metabolic wastes from the body. In humans, nitrogenous wastes are removed mainly by kidneys through nephrons. Plants use different strategies because their body design and waste products are different.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- identify the parts of the human excretory system
-- describe the structure and function of a nephron
-- explain filtration, selective reabsorption, and urine formation
-- state how urine amount is regulated
-- explain artificial kidney and dialysis
-- describe plant excretion methods
-- connect the organ donation box to chapter understanding
-- identify NCERT Figures 5.13 and 5.14
 
 ## 5.5.1 Excretion in human beings
 
@@ -37,9 +25,14 @@ The human excretory system includes:
 
 Kidneys filter blood and remove soluble nitrogenous wastes such as urea.
 
+Each kidney receives oxygenated, waste-bearing blood through a **renal artery**
+and returns filtered blood through a **renal vein**.
+
 Ureters carry urine from kidneys to urinary bladder.
 
 Urinary bladder stores urine until it is passed out through the urethra.
+Emptying of the urinary bladder is controlled by the nervous system; as a
+person matures, the urge can be controlled voluntarily to a degree.
 
 ## NCERT activity and figure tracker
 
@@ -47,10 +40,14 @@ Figure 5.13: Excretory system in human beings
 - Label kidneys, ureters, urinary bladder, and urethra.
 - Show each kidney connected to the bladder by a ureter.
 
+[[figure:figure-5-13-excretory-system]]
+
 Figure 5.14: Structure of a nephron
 - Label Bowman's capsule, glomerulus, tubule, and collecting duct.
 - Show filtration from blood into Bowman's capsule.
 - Show useful substances being reabsorbed from tubule back into blood.
+
+[[figure:figure-5-14-nephron]]
 
 Think it over: Organ donation
 - Organ donation can save or transform lives when organs fail.
@@ -74,7 +71,9 @@ Bowman's capsule collects the filtrate formed from blood.
 Urine formation has three main ideas:
 
 1. filtration
-Blood is filtered under pressure in the glomerulus. Water and small dissolved substances enter Bowman's capsule.
+Blood is filtered under pressure in the glomerulus. Water, urea, salts, glucose,
+amino acids and other small dissolved substances enter Bowman's capsule, while
+blood cells and large proteins remain in the capillaries.
 
 2. selective reabsorption
 Useful substances such as glucose, amino acids, salts, and much of the water are reabsorbed from the tubule back into blood.
@@ -99,6 +98,8 @@ In dialysis:
 - wastes diffuse from blood into the fluid
 - purified blood returns to the patient
 
+[[figure:figure-5-dialysis]]
+
 Important difference:
 Dialysis is similar to kidney filtration, but it does not perform selective reabsorption like a natural nephron.
 
@@ -113,6 +114,8 @@ Plant excretion methods:
 - wastes may be stored in leaves that fall off
 - some wastes are stored as resins and gums, especially in old xylem
 - some waste substances are excreted into surrounding soil
+
+[[figure:figure-5-plant-excretion]]
 
 Do not write only "plants release waste through stomata." That is too narrow. The textbook gives several methods.
 

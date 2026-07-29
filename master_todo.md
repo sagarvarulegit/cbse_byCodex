@@ -297,6 +297,8 @@ Execution plan: `TODO.md` now contains the step-by-step plan for closing the rem
 - [ ] Complete Real Numbers to full pilot quality.
 - [ ] Complete Chemical Reactions and Equations to full pilot quality.
   - Reopened after the 2026-07-14 NCERT fidelity and student-UX audit found cross-chapter Q&A, invented activity numbers, incomplete figure/exercise coverage, false mastery fallback, and a weak five-question quiz. Execute the current root `TODO.md` before checking this again.
+  - This chapter is now the gold-standard implementation in progress. Future chapters must follow `docs/content/gold-standard-chapter-workflow.md` and build their own textbook map instead of copying Chapter 1's content shape.
+  - Board-exam content gate expanded on 2026-07-26: nine visually verified PYQs, official-value-point-aligned platform answers, five original latest-SQP-pattern challenges covering every Chapter 1 or mixed-Chapter 1 demand, Assertion-Reason and case-based practice, and two independent diagnostics are live as unnumbered supplements. Written retries, workbench retention, browser, accessibility, LCP/CLS, learner-task and deferred student gates still require their recorded verification.
 - [x] Decide whether Two Stories about Flying remains in pilot or waits for English beta.
 - [ ] For each launch chapter, add:
   - lesson-wise split

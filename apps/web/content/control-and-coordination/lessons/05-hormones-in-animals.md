@@ -7,21 +7,13 @@ chapter_slug: control-and-coordination
 lesson_number: 5
 lesson_slug: hormones-in-animals
 estimated_minutes: 11
-access_level: false
-status: draft
+access_level: locked
+status: published
 ---
 
 # 6.3 Hormones in Animals
 
 Animals also use chemical coordination. Hormones are chemical messengers released by endocrine glands into the blood and carried to target organs.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain chemical coordination in animals
-- name the major endocrine glands and their hormones
-- describe adrenaline, thyroxin, growth hormone, and insulin
-- connect feedback control to blood sugar regulation
 
 ## 6.3 Hormones in Animals
 
@@ -31,13 +23,33 @@ Adrenaline is released in scary situations. It prepares the body for fight or fl
 
 Iodine is needed by the thyroid gland to make thyroxin. Thyroxin regulates metabolism for body growth. If iodine is lacking, goitre can develop and the neck may swell.
 
-Growth hormone is secreted by the pituitary gland and helps normal growth and development. Its deficiency in childhood can lead to dwarfism.
+Growth hormone is secreted by the pituitary gland and helps normal growth and
+development. Its deficiency in childhood can lead to dwarfism, while excessive
+secretion in childhood can produce abnormal height or gigantism.
 
 Testosterone in males and oestrogen in females are associated with puberty changes.
 
 Insulin is produced by the pancreas and regulates blood sugar. If blood sugar rises, the pancreas releases more insulin. When sugar levels fall, insulin secretion reduces. This is a feedback mechanism.
 
+### Nervous control and hormonal control
+
+| Feature | Nervous mechanism | Hormonal mechanism |
+| --- | --- | --- |
+| Signal | Electrical impulse in a neuron; chemical transmission at a synapse | Chemical messenger or hormone |
+| Route | Along connected nerve cells | Through blood to target organs |
+| Speed | Very fast | Usually slower |
+| Reach | Precise, connected cells such as a particular muscle | Can be widespread, but only cells with the correct receptors respond |
+| Duration | Usually short-lived | Often longer-lasting and can act steadily |
+
+Both mechanisms coordinate the body. Nervous control is best for rapid,
+specific action; hormones are useful when many tissues need coordinated,
+persistent change, as during growth or an emergency.
+
 ### Figure 6.7 and Table 6.1
+
+[[figure:figure-6-7-endocrine-glands]]
+
+[[figure:figure-6-adrenaline-response]]
 
 ## NCERT activity and figure tracker
 
@@ -55,6 +67,22 @@ Insulin is produced by the pancreas and regulates blood sugar. If blood sugar ri
 - Oestrogen - Ovaries - Develops female sex organs and regulates menstrual cycle
 - Adrenaline - Adrenal gland - Prepares the body for emergencies
 - Releasing hormones - Hypothalamus - Stimulate the pituitary gland to release hormones
+
+### High-frequency hormone disorders
+
+| Change | Consequence |
+| --- | --- |
+| Too little growth hormone during childhood | Dwarfism |
+| Too much growth hormone during childhood | Gigantism or abnormal excessive height |
+| Too little iodine, therefore too little thyroxin | Goitre; swollen neck may be visible |
+| Too little effective insulin | Blood sugar rises; diabetes may result |
+
+For every board answer, keep the chain complete:
+`gland -> hormone -> normal function -> imbalance and consequence`.
+
+[[figure:figure-6-thyroid-growth]]
+
+[[figure:figure-6-insulin-feedback]]
 
 ### Do You Know?
 
@@ -236,6 +264,9 @@ The thyroid gland needs iodine to make thyroxin. Without iodine, the hormone lev
 - For adrenaline, mention emergency response and faster heartbeat.
 - For insulin, mention blood sugar and feedback.
 - Always name iodine when thyroxin and goitre are discussed.
+- For a comparison question, write signal, route, speed, reach, and duration.
+- For imbalance questions, never stop at the disease name; name the hormone,
+  gland, and normal function too.
 
 ## Quick practice
 

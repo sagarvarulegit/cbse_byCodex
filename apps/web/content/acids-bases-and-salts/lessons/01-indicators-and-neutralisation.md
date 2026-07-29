@@ -1,173 +1,178 @@
 ---
-title: 2.1-2.2 Understanding acids, bases, and neutralisation
+title: 2.1 Understanding the Chemical Properties of Acids and Bases
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
 chapter_slug: acids-bases-and-salts
 lesson_number: 1
 lesson_slug: indicators-and-neutralisation
-estimated_minutes: 10
+estimated_minutes: 24
 access_level: free
-status: draft
+status: published
 ---
 
-# 2.1-2.2 Understanding acids, bases, and neutralisation
+# 2.1 Understanding the Chemical Properties of Acids and Bases
 
-Acids and bases often look like ordinary solutions. Indicators help us identify them by showing a visible colour or smell change.
+Someone at home feels uncomfortable after overeating. Would lemon juice,
+vinegar or baking-soda solution help? The useful clue is not the taste. It is
+the ability of an acid and a base to cancel each other's effect.
 
-## Learning goals
+**❓ QUESTIONS**
 
-By the end of this lesson, you should be able to:
-- explain what an indicator does
-- use litmus and phenolphthalein observations
-- explain olfactory indicators
-- describe neutralisation in simple words
-- write the neutralisation equation for sodium hydroxide and hydrochloric acid
+**1. You have been provided with three test tubes. One of them contains distilled water and the other two contain an acidic solution and a basic solution, respectively. If you are given only red litmus paper, how will you identify the contents of each test tube?**
 
-## What indicators tell us
+*Answer:* Dip separate pieces of red litmus paper into the three solutions. The
+solution that turns red litmus blue is the base. Now use that blue piece of
+litmus to test the other two solutions. The acid turns it red, while distilled
+water causes no colour change.
 
-An `acid` produces `H+` ions in water.
+## 2.1 Understanding the Chemical Properties of Acids and Bases
 
-A `base` produces `OH-` ions in water.
+Acids are usually sour and turn blue litmus red. Bases are usually bitter and
+turn red litmus blue. Litmus and turmeric are natural indicators. Methyl
+orange and phenolphthalein are synthetic indicators.
 
-An `indicator` is a substance that changes colour or smell in acidic or basic solutions.
+[JARGON: Indicator | A substance that gives a visible colour or smell clue in an acidic or basic medium | Litmus changes colour in acids and bases]
 
-Common indicators:
-- blue litmus turns red in acid
-- red litmus turns blue in base
-- phenolphthalein is colourless in acid and pink in base
-- onion and vanilla can work as olfactory indicators
+A curry stain on a white cloth gives a familiar example. Soap is basic, so the
+yellow turmeric stain becomes reddish-brown while scrubbing. It becomes yellow
+again after the soap is washed away with plenty of water.
 
-## Activity 2.1: Phenolphthalein with acid and base
+### Do You Know: natural indicators
 
-Phenolphthalein is a helpful classroom indicator because the colour change is easy to see. It turns pink in a basic solution like sodium hydroxide, then becomes colourless when hydrochloric acid neutralises the base.
+Litmus solution is a purple dye obtained from lichen, a plant belonging to the
+division Thallophyta. Neutral litmus solution is purple. Red cabbage leaves,
+turmeric and coloured petals of Hydrangea, Petunia and Geranium can also act
+as acid-base indicators.
 
-[[demo:activity-2-1-phenolphthalein-neutralisation]]
+## 2.1.1 Acids and Bases in the Laboratory
 
-## Activity 2.2: Olfactory indicators
+An indicator does not make a solution acidic or basic. It only helps us
+observe the solution's nature.
 
-Some indicators are detected by smell instead of colour. Onion smell remains in acidic solution, but it is destroyed in basic solution.
+### Activity 2.1
+
+Test these laboratory solutions:
+
+- hydrochloric acid (`HCl`)
+- sulphuric acid (`H2SO4`)
+- nitric acid (`HNO3`)
+- acetic acid (`CH3COOH`)
+- sodium hydroxide (`NaOH`)
+- calcium hydroxide [`Ca(OH)2`]
+- potassium hydroxide (`KOH`)
+- magnesium hydroxide [`Mg(OH)2`]
+- ammonium hydroxide (`NH4OH`)
+
+Put one drop of each solution on a watch glass. Test it separately with red
+litmus, blue litmus, phenolphthalein and methyl orange. Record every colour
+change in Table 2.1.
+
+[[demo:activity-2-1-indicator-tests]]
+
+### Table 2.1: Indicator pattern
+
+| Nature of sample | Red litmus | Blue litmus | Phenolphthalein | Methyl orange |
+| --- | --- | --- | --- | --- |
+| Acidic | No change | Turns red | Colourless | Red |
+| Basic | Turns blue | No change | Pink | Yellow |
+
+The observation must include both parts: the indicator used and the colour
+seen. Writing only "it changes colour" is incomplete.
+
+### Try it before reading on
+
+A colourless solution turns red litmus blue and phenolphthalein pink. Is it
+acidic or basic?
+
+The solution is basic. Both indicator observations lead to the same
+conclusion.
+
+### Activity 2.2
+
+Some substances change their odour in an acidic or basic medium. They are
+called olfactory indicators.
+
+1. Keep finely chopped onion and clean cloth strips in a tightly closed plastic
+   bag overnight in a refrigerator.
+2. Check the odour of two strips.
+3. Put dilute `HCl` on one strip and dilute `NaOH` on the other.
+4. Rinse the strips with water and check their odour again.
+5. Test dilute vanilla essence and clove oil separately with dilute `HCl` and
+   dilute `NaOH`.
+6. Record whether the odour remains or becomes difficult to detect.
 
 [[demo:activity-2-2-olfactory-indicators]]
 
-## Neutralisation
+In an acidic medium, the characteristic smell of onion, vanilla or clove
+remains. In a basic medium, the smell becomes very faint or cannot be
+detected. This is why they can work as olfactory indicators.
 
-Neutralisation happens when an acid reacts with a base to form salt and water.
+### Activity 2.2 observation table
 
-General form:
+| Indicator | With dilute acid | With dilute base |
+| --- | --- | --- |
+| Onion | Smell remains | Smell is not detected |
+| Vanilla essence | Smell remains | Smell is not detected |
+| Clove oil | Smell remains | Smell is not detected |
 
-`acid + base -> salt + water`
+## Memory trick
 
-Example:
+Think **A keeps aroma; B blocks aroma**:
 
-`HCl + NaOH -> NaCl + H2O`
-
-Hydrochloric acid reacts with sodium hydroxide to form sodium chloride and water.
-
-## Activity 2.6: Reversible colour change
-
-When the solution changes from basic to acidic, phenolphthalein loses its pink colour. If enough base is added again, the pink colour returns.
-
-[[demo:activity-2-6-reversible-neutralisation]]
-
-## NCERT activity and figure tracker
-
-Activity 2.1: Phenolphthalein with acid and base
-- Add indicator to acid and base samples and compare the colour change.
-- Conclusion: indicators help us identify acidic and basic solutions.
-
-Activity 2.2: Olfactory indicators
-- Test smell changes with onion, vanilla, or clove extracts.
-- Conclusion: some indicators work through smell.
-
-Activity 2.6: Reversible colour change
-- Switch between acid and base to see a colour change reverse.
-- Conclusion: neutralisation can be tracked by indicator colour.
-## Questions and answers
-
-### 2.1-2.2 Understanding acids, bases, and neutralisation
-
-Question:
-How do indicators tell us whether a substance is acidic or basic?
-
-Answer:
-Indicators change colour or smell differently in acids and bases, so they help us identify the nature of a substance.
-
-Question:
-What is neutralisation?
-
-Answer:
-Neutralisation is the reaction between an acid and a base to form salt and water.
-
-Question:
-Why are olfactory indicators useful?
-
-Answer:
-They show a change in smell in acidic or basic conditions, which makes them useful when colour change is not enough.
-
-Think it over:
-- Neutralisation reduces the extra acidity or basicity of a solution, but the final pH still matters.
-
-## Solved examples
-
-### Example 1: Identify the solution
-
-A colourless phenolphthalein solution turns pink after adding a liquid.
-
-Answer:
-The added liquid is basic because phenolphthalein turns pink in bases.
-
-### Example 2: Name the products
-
-`HCl + NaOH -> ?`
-
-Answer:
-The products are sodium chloride and water.
+- **A**cid: characteristic odour stays.
+- **B**ase: characteristic odour becomes difficult to detect.
 
 ## Common mistakes
 
-1. Thinking every acid is dangerous and every base is safe.
-2. Writing that phenolphthalein is pink in acid.
-3. Forgetting that neutralisation forms both salt and water.
-4. Treating smell indicators as colour indicators.
+1. Tasting a laboratory solution instead of using an indicator.
+2. Saying red litmus changes in an acid. It stays red in an acid.
+3. Saying phenolphthalein is pink in an acid. It is colourless in an acid and
+   pink in a base.
+4. Calling onion, vanilla and clove colour indicators. They are olfactory
+   indicators.
+5. Using the same litmus strip in every sample and contaminating the samples.
 
 ## Board tips
 
-- Always mention the indicator and the observation.
-- For neutralisation, write both the word equation and formula equation if asked.
-- In activity-based answers, write the visible change first.
+- In an observation answer, name the indicator and the exact colour or odour
+  change.
+- In the one-red-litmus question, first find the base, then use the newly blue
+  litmus to separate acid from water.
+- Do not define acids and bases only by taste. Use indicator evidence.
 
 ## Quick practice
 
-1. What does blue litmus do in acid?
-2. What colour is phenolphthalein in a base?
-3. What happens to onion smell in a base?
-4. Complete: acid + base -> ___ + ___.
-5. Write the neutralisation equation for HCl and NaOH.
+1. What happens to blue litmus in an acid?
+2. What happens to red litmus in a base?
+3. State the colour of phenolphthalein in an acid and in a base.
+4. Why are onion, vanilla and clove called olfactory indicators?
+5. A turmeric stain becomes reddish-brown while being scrubbed with soap. What
+   does this show about soap?
+6. Name any two natural indicators and two synthetic indicators from this
+   lesson.
 
 ## Answer check
 
-1. It turns red.
-2. Pink.
-3. The smell is destroyed or becomes very weak.
-4. Salt + water.
-5. `HCl + NaOH -> NaCl + H2O`.
+1. Blue litmus turns red.
+2. Red litmus turns blue.
+3. It is colourless in an acid and pink in a base.
+4. Their odour changes differently in acidic and basic media.
+5. Soap is basic.
+6. Natural: litmus and turmeric. Synthetic: methyl orange and phenolphthalein.
 
 ## One-minute revision
 
-- Indicators show acidic or basic nature.
-- Phenolphthalein is pink in base and colourless in acid.
-- Olfactory indicators show a smell change.
-- Neutralisation forms salt and water.
+- Acids turn blue litmus red.
+- Bases turn red litmus blue.
+- Phenolphthalein is colourless in acids and pink in bases.
+- Methyl orange is red in acids and yellow in bases.
+- Onion, vanilla and clove are olfactory indicators.
+- An indicator gives evidence; it does not change the nature of the sample.
 
 ## Comic recap
-- Indicator Inspector: "Do not guess. Watch the colour change."
-- Pink Beaker: "I am basic when phenolphthalein turns pink."
-- Onion Clue: "My smell fades in base."
-- Neutralisation Crew: "Acid plus base gives salt and water."
 
-## Remember this line
-
-Indicator first, observation second, conclusion third.
-
-
+- Priya: "I will not taste the mystery liquid. I will test it."
+- Rahul: "Red litmus became blue, so that tube contains the base."
+- Priya: "Now the blue strip turns red in another tube. That one is the acid."
+- Rahul: "The unchanged tube is distilled water. Two tests solved all three."

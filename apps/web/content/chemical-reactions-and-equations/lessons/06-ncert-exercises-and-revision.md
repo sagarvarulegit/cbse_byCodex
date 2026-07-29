@@ -5,12 +5,6 @@ description: Practise all twenty textbook exercises with scoring-friendly answer
 
 # NCERT Chapter Exercises and Revision
 
-## Learning goals
-
-- Answer every NCERT exercise in board-ready form.
-- Show correct formulae, coefficients, states and conditions.
-- Explain observations and reaction types instead of writing labels alone.
-
 ## How to use this lesson
 
 Attempt every question on paper first. Reveal the answer only after writing your own. For equations, check formulae, coefficients, physical states and conditions separately.
@@ -107,17 +101,6 @@ In a decomposition reaction, one compound forms two or more products:
 
 Their reactant-product patterns are opposite.
 
-## Group Activity
-
-1. Take four beakers and label them A, B, C and D.
-2. Put 25 mL water in A, B and C, and copper sulphate solution in D.
-3. Measure and record the temperature of every liquid.
-4. Add two spatulas of potassium sulphate, ammonium nitrate, anhydrous copper sulphate and fine iron filings to A, B, C and D respectively. Stir each mixture.
-5. Measure and record the final temperature.
-6. Use the temperature changes to decide which processes are exothermic and which are endothermic.
-
-**Safety:** Perform the activity under teacher supervision and avoid direct contact with the chemicals.
-
 **12. Write one equation each for decomposition reactions where energy is supplied in the form of heat, light or electricity.**
 
 *Answer:*
@@ -176,7 +159,7 @@ In a **double displacement reaction**, two compounds exchange ions:
 
 **19. Oil and fat containing food items are flushed with nitrogen. Why?**
 
-*Answer:* Nitrogen is much less reactive than oxygen. It displaces oxygen from the packet and slows oxidation of fats and oils, thereby delaying rancidity.
+*Answer:* Nitrogen replaces most of the oxygen-rich air inside the packet. With less oxygen available, oxidation of fats and oils slows, so rancidity is delayed.
 
 **20. Explain the following terms with one example each. (a) Corrosion (b) Rancidity**
 
@@ -185,6 +168,17 @@ In a **double displacement reaction**, two compounds exchange ions:
 **(a) Corrosion:** The gradual attack of a metal by moisture, acids or other substances in its surroundings. Example: iron forms reddish-brown rust.
 
 **(b) Rancidity:** Oxidation of fats and oils that changes their smell and taste. Example: an opened packet of oily food develops an unpleasant smell and taste after long exposure to air.
+
+## Group Activity
+
+1. Take four beakers and label them A, B, C and D.
+2. Put 25 mL water in A, B and C, and copper sulphate solution in D.
+3. Measure and record the temperature of every liquid.
+4. Add two spatulas of potassium sulphate, ammonium nitrate, anhydrous copper sulphate and fine iron filings to A, B, C and D respectively. Stir each mixture.
+5. Measure and record the final temperature.
+6. Use the temperature changes to decide which processes are exothermic and which are endothermic.
+
+**Safety:** Perform the activity under teacher supervision and avoid direct contact with the chemicals.
 
 ## Common mistakes
 
@@ -213,4 +207,7 @@ In a **double displacement reaction**, two compounds exchange ions:
 
 ## Comic recap
 
-Equation Inspector checks formulae, coefficients, states and conditions before stamping an answer “Board Ready”.
+- Priya: "First write the correct chemical formulae."
+- Rahul: "Then balance coefficients and add physical states and conditions."
+- Priya: "Name the reaction pattern and explain the observation or reason."
+- Rahul: "Check every requested example and subpart before finishing."

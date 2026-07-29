@@ -5,7 +5,7 @@ class_level: 10
 chapter: Life Processes
 chapter_slug: life-processes
 content_type: quiz
-status: draft
+status: published
 ---
 
 # Life Processes chapter quiz
@@ -85,7 +85,7 @@ Answer: 3
 Topic: heterotrophic-and-human-nutrition
 Difficulty: medium
 Source: NCERT exercise aligned
-Explanation: Bile emulsifies fats in the small intestine, and pancreatic enzymes digest them.
+Explanation: Bile emulsifies fats in the small intestine, and lipase breaks them into fatty acids and glycerol.
 
 ## 6. Saliva
 
@@ -207,6 +207,112 @@ Difficulty: easy
 Source: NCERT exercise aligned
 Explanation: Plants may store wastes in vacuoles, leaves that fall off, resins, gums, or release some wastes into soil.
 
+## 14. Activity 5.2 control
+
+In the two-bell-jar experiment, potassium hydroxide is placed beside one plant to:
+
+1. produce oxygen
+2. absorb carbon dioxide
+3. release water vapour
+4. remove chlorophyll
+
+Answer: 2
+Topic: life-processes-and-nutrition-in-plants
+Difficulty: medium
+Source: NCERT Activity 5.2 and Figure 5.4
+Explanation: Potassium hydroxide absorbs carbon dioxide. Comparing this jar with the control jar shows that carbon dioxide is necessary for starch formation.
+
+## 15. Guard cells
+
+A stomatal pore closes when:
+
+1. water enters and guard cells swell
+2. water leaves and guard cells shrink
+3. chlorophyll enters the pore
+4. xylem transports sucrose
+
+Answer: 2
+Topic: life-processes-and-nutrition-in-plants
+Difficulty: medium
+Source: NCERT Figure 5.3; CBSE 2023–2026 recurring MCQ
+Explanation: Loss of water makes guard cells shrink, which closes the stomatal pore.
+
+## 16. Villi assertion
+
+Assertion: Villi in the small intestine are richly supplied with blood capillaries.  
+Reason: Villi complete digestion of food.
+
+1. both are true and the reason explains the assertion
+2. both are true but the reason does not explain the assertion
+3. assertion is true but reason is false
+4. assertion is false but reason is true
+
+Answer: 3
+Topic: heterotrophic-and-human-nutrition
+Difficulty: hard
+Source: CBSE 2023 assertion-reason family
+Explanation: Villi increase surface area for absorption of digested food; they do not themselves complete digestion.
+
+## 17. Human anaerobic end product
+
+When oxygen is insufficient in human muscle cells, pyruvate is converted into:
+
+1. ethanol and carbon dioxide
+2. lactic acid
+3. carbon dioxide and water
+4. glucose and oxygen
+
+Answer: 2
+Topic: respiration-and-gas-exchange
+Difficulty: medium
+Source: CBSE 2023–2026 recurring MCQ
+Explanation: In oxygen-deficient muscle cells, incomplete breakdown of pyruvate produces the three-carbon compound lactic acid and less energy.
+
+## 18. Vessel exception
+
+Which vessel carries deoxygenated blood away from the heart?
+
+1. aorta
+2. pulmonary artery
+3. pulmonary vein
+4. renal vein
+
+Answer: 2
+Topic: transportation-in-human-beings
+Difficulty: medium
+Source: CBSE heart-pathway family
+Explanation: The pulmonary artery carries deoxygenated blood from the right ventricle to the lungs.
+
+## 19. Lymph
+
+Which statement about lymph is correct?
+
+1. it contains many red blood cells and enters large arteries
+2. it is colourless tissue fluid and its vessels finally return it to veins
+3. it pumps blood under high pressure
+4. it transports water through xylem
+
+Answer: 2
+Topic: transportation-in-human-beings
+Difficulty: hard
+Source: CBSE 2025 lymph MCQ family
+Explanation: Lymph is colourless tissue fluid with some plasma, proteins and white blood cells; lymph vessels return it to the venous bloodstream.
+
+## 20. Selective reabsorption
+
+Which set is normally reabsorbed from nephron filtrate into blood?
+
+1. blood cells and large plasma proteins only
+2. glucose, amino acids, required salts and most water
+3. only urea and uric acid
+4. carbon dioxide and bile
+
+Answer: 2
+Topic: excretion-in-human-beings-and-plants
+Difficulty: hard
+Source: CBSE 2024–2026 nephron marking schemes
+Explanation: Useful solutes and the water required by the body are selectively returned to blood; wastes and excess substances remain to form urine.
+
 ## revision reminder
 
-Recheck photosynthesis activities, human digestion, pyruvate pathways, alveoli, double circulation, xylem/phloem transport, nephron structure, dialysis, and plant excretion before retrying.
+Recheck all eight NCERT activities, Figures 5.1–5.14, digestion, pyruvate pathways, respiratory design, circulation, xylem/phloem transport, nephron structure, dialysis, and plant excretion before retrying.

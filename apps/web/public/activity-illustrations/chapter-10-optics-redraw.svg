@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="2025" viewBox="0 0 1200 2025">
+  <defs>
+    <marker id="ray10" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#0284c7"/>
+    </marker>
+    <marker id="red10" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#dc2626"/>
+    </marker>
+    <marker id="violet10" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .panel{fill:#f8fafc;stroke:#0f172a;stroke-width:4}
+      .sub{fill:#fff;stroke:#cbd5e1;stroke-width:3}
+      .title{font:700 28px Arial,sans-serif;fill:#0f172a}
+      .case{font:700 20px Arial,sans-serif;fill:#0f766e}
+      .label{font:700 20px Arial,sans-serif;fill:#334155}
+      .small{font:600 17px Arial,sans-serif;fill:#475569}
+      .ray{fill:none;stroke:#0284c7;stroke-width:5;marker-end:url(#ray10)}
+      .red{fill:none;stroke:#dc2626;stroke-width:5;marker-end:url(#red10)}
+      .violet{fill:none;stroke:#7c3aed;stroke-width:5;marker-end:url(#violet10)}
+      .guide{fill:none;stroke:#64748b;stroke-width:3;stroke-dasharray:10 8}
+      .eye{fill:#e0f2fe;stroke:#0f172a;stroke-width:5}
+      .retina{fill:none;stroke:#e11d48;stroke-width:7}
+      .lens{fill:#dbeafe;stroke:#1d4ed8;stroke-width:5}
+      .prism{fill:#e0f2fe;fill-opacity:.72;stroke:#0f172a;stroke-width:6}
+    </style>
+    <g id="eye10">
+      <path class="eye" d="M0 0Q60 -58 155 -55Q240 -45 288 0Q240 45 155 55Q60 58 0 0Z"/>
+      <path class="lens" d="M72 -35Q100 0 72 35Q48 0 72 -35Z"/>
+      <path class="retina" d="M244 -35Q270 0 244 35"/>
+    </g>
+    <g id="concaveSpec10">
+      <path class="lens" d="M-18 -48Q6 0-18 48H18Q-6 0 18 -48Z"/>
+    </g>
+    <g id="convexSpec10">
+      <path class="lens" d="M0 -48Q23 0 0 48Q-23 0 0 -48Z"/>
+    </g>
+  </defs>
+
+  <!-- Figures 10.2-10.3 -->
+  <g>
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figures 10.2–10.3 · Defects of vision and correction</text>
+    <g transform="translate(38 78)">
+      <g>
+        <rect class="sub" width="548" height="255" rx="16"/>
+        <text class="case" x="18" y="30">Myopia · focus before retina</text>
+        <use href="#eye10" transform="translate(210 142)"/>
+        <path class="ray" d="M22 90H282Q370 90 410 142"/>
+        <path class="ray" d="M22 120H282Q370 120 410 142"/>
+        <circle cx="410" cy="142" r="8" fill="#dc2626"/>
+        <text class="small" x="380" y="182">focus</text>
+      </g>
+      <g transform="translate(576 0)">
+        <rect class="sub" width="548" height="255" rx="16"/>
+        <text class="case" x="18" y="30">Myopia corrected · concave lens</text>
+        <use href="#concaveSpec10" transform="translate(105 142)"/>
+        <use href="#eye10" transform="translate(210 142)"/>
+        <path class="ray" d="M20 90L105 104L282 90Q414 90 454 142"/>
+        <path class="ray" d="M20 120L105 129L282 120Q414 120 454 142"/>
+        <circle cx="454" cy="142" r="8" fill="#16a34a"/>
+      </g>
+      <g transform="translate(0 282)">
+        <rect class="sub" width="548" height="255" rx="16"/>
+        <text class="case" x="18" y="30">Hypermetropia · focus behind retina</text>
+        <use href="#eye10" transform="translate(210 142)"/>
+        <path class="ray" d="M25 70L282 100Q430 112 520 142"/>
+        <path class="ray" d="M25 190L282 148Q430 140 520 142"/>
+        <circle cx="520" cy="142" r="8" fill="#dc2626"/>
+        <text class="small" x="470" y="182">focus</text>
+      </g>
+      <g transform="translate(576 282)">
+        <rect class="sub" width="548" height="255" rx="16"/>
+        <text class="case" x="18" y="30">Hypermetropia corrected · convex lens</text>
+        <use href="#convexSpec10" transform="translate(105 142)"/>
+        <use href="#eye10" transform="translate(210 142)"/>
+        <path class="ray" d="M25 70L105 93L282 105Q420 115 454 142"/>
+        <path class="ray" d="M25 190L105 172L282 148Q420 145 454 142"/>
+        <circle cx="454" cy="142" r="8" fill="#16a34a"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Figure 10.4 -->
+  <g transform="translate(0 675)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 10.4 · Refraction through a triangular prism</text>
+    <g transform="translate(60 95)">
+      <rect class="sub" width="1080" height="520" rx="20"/>
+      <path class="prism" d="M460 420L720 70L930 420Z"/>
+      <text class="label" x="705" y="58">A</text>
+      <path class="ray" d="M80 250L535 319L900 370L1040 470"/>
+      <circle cx="535" cy="319" r="7" fill="#0f172a"/><text class="label" x="510" y="354">E</text>
+      <circle cx="900" cy="370" r="7" fill="#0f172a"/><text class="label" x="890" y="405">F</text>
+      <text class="label" x="62" y="235">P</text><text class="label" x="1045" y="490">S</text>
+      <path class="guide" d="M455 260L620 383"/>
+      <path class="guide" d="M820 418L980 322"/>
+      <path class="guide" d="M80 250L1080 402"/>
+      <path d="M125 430Q190 355 260 320" fill="none" stroke="#f59e0b" stroke-width="5"/>
+      <text class="case" x="90" y="475">Incident ray PE</text>
+      <text class="case" x="475" y="475">Refracted ray EF</text>
+      <text class="case" x="820" y="475">Emergent ray FS</text>
+      <text class="small" x="930" y="420">deviation D</text>
+      <path d="M945 400Q985 420 1012 445" fill="none" stroke="#e11d48" stroke-width="4"/>
+    </g>
+  </g>
+
+  <!-- Figures 10.7-10.8 -->
+  <g transform="translate(0 1350)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figures 10.7–10.8 · Rainbow formation in a raindrop</text>
+    <g transform="translate(45 90)">
+      <rect class="sub" width="1110" height="525" rx="20"/>
+      <circle cx="690" cy="270" r="200" fill="#e0f2fe" fill-opacity=".75" stroke="#0f172a" stroke-width="6"/>
+      <g transform="translate(115 90)">
+        <circle cx="0" cy="0" r="52" fill="#fbbf24"/>
+        <path d="M0 -78V-118M0 78V118M-78 0H-118M78 0H118M-56 -56L-86 -86M56 56L86 86M-56 56L-86 86M56 -56L86 -86" stroke="#f59e0b" stroke-width="8"/>
+      </g>
+      <text class="case" x="55" y="185">Sun behind observer</text>
+      <path class="ray" d="M170 240L510 225L815 125"/>
+      <path class="red" d="M815 125L865 335L620 445L315 390"/>
+      <path class="violet" d="M815 125L842 350L594 425L315 360"/>
+      <path d="M295 345q-45 45 0 90q45-45 0-90Z" fill="#fde68a" stroke="#0f172a" stroke-width="4"/>
+      <circle cx="295" cy="365" r="12" fill="#0f172a"/>
+      <text class="small" x="205" y="470">observer faces away from Sun</text>
+      <text class="case" x="500" y="82">1 Refraction + dispersion</text>
+      <text class="case" x="805" y="385">2 Internal reflection</text>
+      <text class="case" x="520" y="500">3 Exit refraction</text>
+      <path d="M950 140q95 80 0 160" fill="none" stroke="#dc2626" stroke-width="10"/>
+      <path d="M970 150q75 70 0 140" fill="none" stroke="#f59e0b" stroke-width="10"/>
+      <path d="M990 160q55 60 0 120" fill="none" stroke="#16a34a" stroke-width="10"/>
+      <path d="M1010 170q35 50 0 100" fill="none" stroke="#2563eb" stroke-width="10"/>
+      <path d="M1030 180q18 40 0 80" fill="none" stroke="#7c3aed" stroke-width="10"/>
+      <text class="small" x="905" y="330">rainbow opposite Sun</text>
+    </g>
+  </g>
+</svg>

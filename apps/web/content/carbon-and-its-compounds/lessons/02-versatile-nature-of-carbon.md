@@ -8,7 +8,7 @@ lesson_number: 2
 lesson_slug: versatile-nature-of-carbon
 estimated_minutes: 9
 access_level: locked
-status: draft
+status: published
 ---
 
 # 4.2 Versatile nature of carbon
@@ -16,16 +16,6 @@ status: draft
 Carbon forms a very large number of compounds because it is tetravalent and shows catenation.
 
 The textbook idea is not only "carbon makes many compounds". The real question is: why does carbon, a small element present in a small amount in nature, become the base of food, clothes, medicines, fuels, plastics, living bodies, and so many other things? The answer is that carbon can build stable structures in many shapes.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- define tetravalency
-- define catenation
-- explain why carbon-carbon bonds make stable compounds
-- recognise straight chains, branched chains, and rings
-- explain saturated and unsaturated carbon compounds
-- recall diamond and graphite as important forms of carbon
 
 ## Tetravalency
 
@@ -48,7 +38,7 @@ Example:
 - in ethane, each carbon uses one bond with another carbon and three bonds with hydrogen
 - in carbon dioxide, carbon uses two double bonds with oxygen
 
-## Saturated and unsaturated carbon compounds
+## Preview: single and multiple carbon bonds
 
 This is textbook section 4.2.1.
 
@@ -98,7 +88,19 @@ Carbon is small in size, so the shared electron pairs are held tightly between b
 
 This is a key "why" answer. When an atom is small, its nucleus can pull the shared pair of electrons strongly. The shared pair stays held between the two atoms, so the covalent bond is strong. Bigger atoms hold shared pairs less tightly, so their bonds are usually weaker.
 
-## Chains, branches, and rings
+## 4.2.1 Saturated and Unsaturated Carbon Compounds
+
+[[figure:figure-4-6-to-4-7-hydrocarbons]]
+
+- **Saturated compounds** contain only single bonds between carbon atoms.
+- **Unsaturated compounds** contain one or more double or triple bonds between
+  carbon atoms.
+- Ethane (`C2H6`) is saturated; ethene (`C2H4`) and ethyne (`C2H2`) are
+  unsaturated.
+
+## 4.2.2 Chains, Branches and Rings
+
+[[figure:figure-4-8-to-4-10-carbon-skeletons]]
 
 Carbon skeletons can have different shapes.
 

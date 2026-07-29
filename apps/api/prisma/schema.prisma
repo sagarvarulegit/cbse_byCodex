@@ -54,6 +54,7 @@ model User {
   subscriptions    Subscription[]
   progressEvents   ProgressEvent[]
   quizAttempts     QuizAttempt[]
+  writtenPracticeAttempts WrittenPracticeAttempt[]
   chapterMasteries ChapterMastery[]
   revisionMissions RevisionMission[]
   studyStreak      StudyStreak?
@@ -102,6 +103,7 @@ model Chapter {
   subject          Subject           @relation(fields: [subjectId], references: [id])
   topics           Topic[]
   quizAttempts     QuizAttempt[]
+  writtenPracticeAttempts WrittenPracticeAttempt[]
   chapterMasteries ChapterMastery[]
   revisionMissions RevisionMission[]
   userBadges       UserBadge[]
@@ -231,6 +233,32 @@ model QuizAttempt {
   @@index([userId, chapterId, createdAt])
   @@index([chapterId, scorePercent])
   @@index([quizId, createdAt])
+}
+
+model WrittenPracticeAttempt {
+  id                    String   @id @default(cuid())
+  userId                String
+  chapterId             String
+  clientAttemptId       String
+  practiceItemId        String
+  lessonSlug            String
+  scoreHalfMarks        Int
+  maxScoreHalfMarks     Int
+  retentionEligible     Boolean  @default(true)
+  earnedRubricPointIds  String[] @default([])
+  weakSkillSlugs        String[] @default([])
+  answerLength          Int
+  attemptNumber         Int
+  createdAt             DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+
+  @@unique([userId, practiceItemId, attemptNumber])
+  @@unique([userId, clientAttemptId])
+  @@index([userId, chapterId, createdAt])
+  @@index([userId, practiceItemId, createdAt])
+  @@index([chapterId, practiceItemId])
 }
 
 model ChapterMastery {

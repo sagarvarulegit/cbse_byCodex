@@ -8,7 +8,7 @@ lesson_number: 7
 lesson_slug: soaps-and-detergents
 estimated_minutes: 10
 access_level: locked
-status: draft
+status: published
 ---
 
 # 4.5 Soaps and detergents
@@ -16,15 +16,6 @@ status: draft
 Soaps and detergents clean oily dirt by using molecules with a water-loving head and an oil-loving tail.
 
 This topic becomes easy when you remember one problem: oily dirt does not dissolve in water. Soap acts like a bridge between oil and water.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- describe the structure of a soap molecule
-- explain micelle formation
-- compare soap and detergent in hard water
-- explain why soap does not clean well in hard water
-- write a clear board-style answer on cleansing action
 
 ## Soap molecule
 
@@ -47,6 +38,8 @@ So a soap molecule has two personalities:
 
 ## Micelle formation
 
+[[figure:figure-4-12-micelle]]
+
 When soap is added to water with oily dirt:
 1. soap tails move into the oil or grease
 2. soap heads stay in water
@@ -68,6 +61,8 @@ The oily dirt is trapped inside the micelle. The ionic heads face outward into w
 This is also why soap solution can look cloudy: the micelles are large enough to scatter light.
 
 ## Cleansing action of soap
+
+[[figure:figure-4-13-soap-cleansing]]
 
 Oil and water do not mix well.
 

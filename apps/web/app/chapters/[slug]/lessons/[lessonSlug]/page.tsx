@@ -2,10 +2,14 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense, type ReactNode } from 'react';
 import GlossaryTerm, { type GlossaryPayload } from '../../../../../components/GlossaryTerm';
+import ExamPracticeCard from '../../../../../components/ExamPracticeCard';
 import LessonDemo from '../../../../../components/LessonDemo';
 import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
 import PilotFeedbackForm from '../../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../../components/PilotEngagementTracker';
+import WrittenPracticeCard from '../../../../../components/WrittenPracticeCard';
+import { getWrittenPracticeDefinition } from '../../../../../lib/chapter-practice';
+import { getExamPracticeDefinition } from '../../../../../lib/exam-practice';
 import { getAvailableLessons, getChapter, getLessonContent } from '../../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../../lib/course-content';
 import { getStudentSession } from '../../../../../lib/auth';
@@ -35,6 +39,7 @@ export default async function LessonPage({
   }
 
   const availableLessonCount = getAvailableLessons(chapter).length;
+  const numberedSections = getNumberedLessonSections(content.blocks);
 
   // Check authentication for premium lessons
   if (!content.lesson.free) {
@@ -49,7 +54,10 @@ export default async function LessonPage({
   const isPilot = isPilotChapter(slug);
 
   return (
-    <main>
+    <main className="lesson-page">
+      <a className="skip-link" href="#lesson-notes">
+        Skip to lesson notes
+      </a>
       {isPilot ? (
         <PilotEngagementTracker chapterSlug={slug} eventType="lesson_start" lessonSlug={lessonSlug} surface="lesson" />
       ) : null}
@@ -124,6 +132,19 @@ export default async function LessonPage({
         </article>
 
         <aside className="lesson-sidebar">
+          {numberedSections.length > 0 ? (
+            <nav aria-label="Textbook sections in this lesson" className="sidebar-card lesson-section-nav">
+              <p className="eyebrow">In this lesson</p>
+              <ol>
+                {numberedSections.map((section) => (
+                  <li key={section.id}>
+                    <a href={`#${section.id}`}>{section.label}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          ) : null}
+
           <div className="sidebar-card">
             <p className="eyebrow">Chapter trail</p>
             <h3>{chapter.title}</h3>
@@ -146,6 +167,7 @@ export default async function LessonPage({
 
                 return (
                   <Link
+                    aria-current={isActive ? 'page' : undefined}
                     className={isActive ? 'sidebar-lesson-item active' : 'sidebar-lesson-item'}
                     href={href}
                     key={lessonItem.slug}
@@ -194,8 +216,51 @@ export default async function LessonPage({
           <PilotFeedbackForm chapterSlug={slug} lessonSlug={lessonSlug} surface="lesson" />
         </section>
       ) : null}
+
+      <nav aria-label="Previous and next lesson" className="lesson-mobile-navigation">
+        {content.previousLesson ? (
+          <Link href={`/chapters/${slug}/lessons/${content.previousLesson.slug}`}>
+            <span aria-hidden="true">←</span>
+            <span>Previous</span>
+          </Link>
+        ) : (
+          <Link href={`/chapters/${slug}`}>
+            <span aria-hidden="true">←</span>
+            <span>Chapter</span>
+          </Link>
+        )}
+        {content.nextLesson ? (
+          <Link href={`/chapters/${slug}/lessons/${content.nextLesson.slug}`}>
+            <span>Next</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        ) : (
+          <Link href={`/chapters/${slug}`}>
+            <span>Chapter</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        )}
+      </nav>
     </main>
   );
+}
+
+function getNumberedLessonSections(blocks: MarkdownBlock[]) {
+  const sections: Array<{ id: string; label: string }> = [];
+
+  for (const block of blocks) {
+    if (
+      (block.type === 'h2' || block.type === 'h3') &&
+      /^\d+(?:\.\d+)+\s+\S/.test(block.text)
+    ) {
+      sections.push({
+        id: toSectionId(block.text),
+        label: block.text,
+      });
+    }
+  }
+
+  return sections;
 }
 
 function renderInline(text: string) {
@@ -221,6 +286,14 @@ function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): Rea
 
     if (token.type === 'emphasis') {
       return <em key={key}>{renderInlineTokens(token.children, key)}</em>;
+    }
+
+    if (token.type === 'link') {
+      return (
+        <Link href={token.href} key={key}>
+          {renderInlineTokens(token.children, key)}
+        </Link>
+      );
     }
 
     if (token.type === 'text') {
@@ -250,6 +323,13 @@ function renderLessonBlocks(blocks: MarkdownBlock[]) {
       continue;
     }
 
+    if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'answer check') {
+      const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
+      rendered.push(renderPracticeAnswerCheck(bodyBlocks, index));
+      index = nextIndex - 1;
+      continue;
+    }
+
     if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'questions and answers') {
       const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
       rendered.push(renderQuestionAnswerCard(block.text, bodyBlocks, index));
@@ -265,10 +345,70 @@ function renderLessonBlocks(blocks: MarkdownBlock[]) {
       continue;
     }
 
+    if (block.type === 'h2') {
+      const sectionVariant = getLessonSupportSectionVariant(block.text);
+      if (sectionVariant) {
+        const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
+        rendered.push(
+          renderLessonSupportSection(block.text, bodyBlocks, sectionVariant, index),
+        );
+        index = nextIndex - 1;
+        continue;
+      }
+    }
+
     rendered.push(renderBlock(block, index));
   }
 
   return rendered;
+}
+
+type LessonSupportSectionVariant =
+  | 'board-tips'
+  | 'common-mistakes'
+  | 'one-minute-revision'
+  | 'quick-practice';
+
+function getLessonSupportSectionVariant(
+  title: string,
+): LessonSupportSectionVariant | null {
+  const sectionKey = normalizeGlossaryKey(title);
+  if (sectionKey === 'board tips') {
+    return 'board-tips';
+  }
+  if (sectionKey === 'common mistakes') {
+    return 'common-mistakes';
+  }
+  if (sectionKey === 'one minute revision') {
+    return 'one-minute-revision';
+  }
+  if (sectionKey === 'quick practice') {
+    return 'quick-practice';
+  }
+
+  return null;
+}
+
+function renderLessonSupportSection(
+  title: string,
+  bodyBlocks: MarkdownBlock[],
+  variant: LessonSupportSectionVariant,
+  index: number,
+) {
+  return (
+    <section
+      className={`lesson-support-section lesson-support-${variant}`}
+      id={toSectionId(title)}
+      key={`lesson-support-${variant}-${index}`}
+    >
+      <h3>{renderInline(title)}</h3>
+      <div>
+        {bodyBlocks.map((block, innerIndex) =>
+          renderBlock(block, index * 1000 + innerIndex),
+        )}
+      </div>
+    </section>
+  );
 }
 
 function collectLessonSectionBody(blocks: MarkdownBlock[], startIndex: number) {
@@ -287,6 +427,21 @@ function collectLessonSectionBody(blocks: MarkdownBlock[], startIndex: number) {
   }
 
   return { bodyBlocks, nextIndex };
+}
+
+function renderPracticeAnswerCheck(bodyBlocks: MarkdownBlock[], index: number) {
+  return (
+    <section className="lesson-practice-answer" id="answer-check" key={`answer-check-${index}`}>
+      <p className="eyebrow">Practice feedback</p>
+      <h3>Answer check</h3>
+      <details>
+        <summary>Try first, then reveal the answer</summary>
+        <div className="lesson-practice-answer-body">
+          {bodyBlocks.map((block, innerIndex) => renderBlock(block, index * 1000 + innerIndex))}
+        </div>
+      </details>
+    </section>
+  );
 }
 
 function renderQuestionAnswerCard(title: string, bodyBlocks: MarkdownBlock[], index: number) {
@@ -383,15 +538,41 @@ function renderBlock(block: MarkdownBlock, index: number) {
       );
     case 'h3':
       return (
-        <h4 className="prose-subheading" key={`${block.type}-${index}`}>
+        <h4
+          className="prose-subheading"
+          id={toSectionId(block.text)}
+          key={`${block.type}-${index}`}
+        >
           {renderInline(block.text)}
         </h4>
       );
     case 'paragraph': {
       const demoId = getDemoId(block.text);
+      const examPracticeId = getExamPracticeId(block.text);
+      const writtenPracticeId = getWrittenPracticeId(block.text);
 
       if (demoId) {
         return <LessonDemo demoId={demoId} key={`${demoId}-${index}`} />;
+      }
+
+      if (writtenPracticeId) {
+        const definition = getWrittenPracticeDefinition(writtenPracticeId);
+        return definition ? (
+          <WrittenPracticeCard
+            definition={definition}
+            key={`${writtenPracticeId}-${index}`}
+          />
+        ) : null;
+      }
+
+      if (examPracticeId) {
+        const definition = getExamPracticeDefinition(examPracticeId);
+        return definition ? (
+          <ExamPracticeCard
+            definition={definition}
+            key={`${examPracticeId}-${index}`}
+          />
+        ) : null;
       }
 
       return (
@@ -421,6 +602,29 @@ function renderBlock(block: MarkdownBlock, index: number) {
             <li key={item}>{renderInline(item)}</li>
           ))}
         </ol>
+      );
+    case 'table':
+      return (
+        <div className="prose-table-wrap" key={`${block.type}-${index}`}>
+          <table className="prose-table">
+            <thead>
+              <tr>
+                {block.headers.map((header, cellIndex) => (
+                  <th key={`${header}-${cellIndex}`} scope="col">{renderInline(header)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, rowIndex) => (
+                <tr key={`row-${rowIndex}`}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
     default:
       return null;
@@ -477,7 +681,24 @@ function parseComicLine(item: string) {
 }
 
 function getDemoId(text: string) {
-  const match = text.match(/^\[\[demo:([a-z0-9-]+)\]\]$/i);
+  const demoMarker = text.match(/^\[\[demo:([a-z0-9-]+)\]\]$/i);
+  if (demoMarker) {
+    return demoMarker[1];
+  }
+
+  const illustrationTag = text.match(
+    /^<ActivityIllustration\s+demoId=["']([a-z0-9-]+)["']\s*\/>$/i,
+  );
+  return illustrationTag?.[1] ?? null;
+}
+
+function getWrittenPracticeId(text: string) {
+  const match = text.match(/^\[\[written-practice:([a-z0-9-]+)\]\]$/i);
+  return match?.[1] ?? null;
+}
+
+function getExamPracticeId(text: string) {
+  const match = text.match(/^\[\[exam-practice:([a-z0-9-]+)\]\]$/i);
   return match?.[1] ?? null;
 }
 

@@ -5,12 +5,6 @@ description: Balance equations step by step and add physical-state symbols and r
 
 # 1.1.2 Balanced Chemical Equations
 
-## Learning goals
-
-- Apply the law of conservation of mass.
-- Balance equations by the hit-and-trial method.
-- Add correct physical states and reaction conditions.
-
 ## 1.1.2 Balanced Chemical Equations
 
 The law of conservation of mass states that mass can neither be created nor destroyed in a chemical reaction. Therefore, every element must have the same number of atoms before and after the reaction.
@@ -57,6 +51,8 @@ Now consider the skeletal equation:
 
 `3Fe + 4H₂O → Fe₃O₄ + 4H₂` **(1.9)**
 
+[[demo:chemical-equation-balancer]]
+
 **Step VII: Writing symbols of physical states**
 
 `3Fe(s) + 4H₂O(g) → Fe₃O₄(s) + 4H₂(g)` **(1.10)**
@@ -70,6 +66,8 @@ Temperature, pressure and catalysts are written above or below the arrow when re
 In sunlight and in the presence of chlorophyll:
 
 `6CO₂(aq) + 12H₂O(l) →[Sunlight, chlorophyll] C₆H₁₂O₆(aq) + 6O₂(aq) + 6H₂O(l)` **(1.12)**
+
+**Textbook check:** Using these steps, can you balance Eq. (1.2) given in the text earlier?
 
 **❓ QUESTIONS**
 
@@ -126,4 +124,7 @@ Balance `Al + O₂ → Al₂O₃` without changing any formula.
 
 ## Comic recap
 
-Atom Counter checks both sides. Coefficients pass the gate; altered formulae are sent back.
+- Priya: "Conservation of mass means every atom must be accounted for."
+- Rahul: "I change coefficients, never the subscripts inside a formula."
+- Priya: "Use the smallest whole-number coefficients and check every element."
+- Rahul: "Add physical states and reaction conditions only after balancing."

@@ -8,7 +8,7 @@ lesson_number: 1
 lesson_slug: covalent-bonding-in-carbon
 estimated_minutes: 10
 access_level: free
-status: draft
+status: published
 ---
 
 # 4.1 Bonding in carbon - the covalent bond
@@ -33,18 +33,6 @@ What this shows:
 Many everyday things contain carbon or carbon compounds. Carbon is found in food, fuels, clothes, paper, plastics, medicines, and living things.
 
 [[demo:activity-4-1-carbon-around-us]]
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain why carbon does not usually form `C4+` or `C4-` ions
-- define covalent bond
-- draw simple electron-sharing ideas for hydrogen, chlorine, oxygen, nitrogen, methane, and carbon dioxide
-- state two common properties of covalent compounds
-
-## 4.1 Bonding in carbon - the covalent bond
-
-## 4.2 Versatile nature of carbon
 
 ## Why carbon shares electrons
 
@@ -107,6 +95,8 @@ Important:
 Before drawing any structure, ask: how many electrons does each atom need to complete its outer shell?
 
 ## Simple electron-sharing examples
+
+[[figure:figure-4-1-to-4-5-covalent-bonding]]
 
 ### Hydrogen molecule
 
@@ -238,6 +228,30 @@ Inside each molecule, the covalent bonds are strong. But the force of attraction
 They are also made of neutral molecules, not free ions. Since there are no free charged particles moving through the substance, electricity does not pass easily.
 
 Textbook examples of low melting and boiling points include methane, ethanol, chloroform, and acetic acid.
+
+### Table 4.1 - source values
+
+| Compound | Melting point (K) | Boiling point (K) |
+| --- | ---: | ---: |
+| Acetic acid (`CH3COOH`) | 290 | 391 |
+| Chloroform (`CHCl3`) | 209 | 334 |
+| Ethanol (`CH3CH2OH`) | 156 | 351 |
+| Methane (`CH4`) | 90 | 111 |
+
+These low values, compared with ionic compounds, support the conclusion that
+the intermolecular attractions in most covalent compounds are weak.
+
+## Carbon allotropes - NCERT knowledge box
+
+[[figure:figure-4-allotropes]]
+
+- In **diamond**, each carbon bonds to four other carbon atoms in a rigid
+  three-dimensional structure. It is extremely hard.
+- In **graphite**, each carbon bonds to three other carbon atoms in layered
+  hexagonal sheets. The layers slide, so graphite is smooth and slippery; its
+  mobile electrons allow it to conduct electricity.
+- **C60 fullerene** has carbon atoms arranged like a football. It was named
+  after Buckminster Fuller.
 
 ## NCERT activity and figure tracker
 

@@ -207,28 +207,29 @@ A chapter or lesson should normally include:
 2. H1 matching the student-facing lesson or chapter title.
 3. Chapter goal.
 4. Hook.
-5. Learning goals.
-6. Numbered textbook section headings where relevant.
-7. Concept explanations in simple language.
-8. NCERT activity and figure tracker for chapters with activities or figures.
-9. NCERT activities with original activity numbers.
-10. Inline vector diagrams or figure tokens.
-11. Textbook `Questions and answers` immediately after the relevant textbook topic.
-12. Solved examples derived from textbook questions or exercise style.
-13. Tips, tricks, or jargon callouts where useful.
-14. Common mistakes.
-15. Board tips.
-16. Quick practice.
-17. Answer check.
-18. One-minute revision.
-19. Comic recap.
+5. Numbered textbook section headings where relevant.
+6. Concept explanations in simple language.
+7. NCERT activity and figure tracker for chapters with activities or figures.
+8. NCERT activities with original activity numbers.
+9. Inline vector diagrams or figure tokens.
+10. Textbook `Questions and answers` immediately after the relevant textbook topic.
+11. Solved examples derived from textbook questions or exercise style.
+12. Tips, tricks, or jargon callouts where useful.
+13. Common mistakes.
+14. Board tips.
+15. Quick practice.
+16. Answer check.
+17. One-minute revision.
+18. Comic recap.
+
+Do not add a standalone `Learning goals` section or a “By the end of this
+lesson” checklist. Move directly from the hook into the textbook-aligned
+lesson sequence.
 
 Recommended heading examples:
 
 ```markdown
 # Chapter 5: Life Processes
-
-## Learning goals
 
 ## 5.1 What are life processes?
 
@@ -587,9 +588,35 @@ Expected result:
 Errors: 0. Warnings: 0.
 ```
 
+### 7.1 Previous-year board question standards
+
+Previous-year papers are historical practice evidence. They do not replace the
+current textbook, curriculum or official paper design.
+
+Rules:
+
+* Use extracted question datasets only to discover candidates.
+* Before publishing a question as a PYQ, render and visually inspect the
+  original paper page.
+* Preserve the year, paper code, question number and printed page.
+* Keep verified PYQs separate from original board-style practice.
+* Keep board supplements unnumbered so they cannot be mistaken for textbook
+  sections.
+* If the official marking scheme was not reviewed, label answer breakdowns
+  `Platform marking points`, not `official marking scheme`.
+* Include constructed-response, Assertion-Reason and case-based formats when
+  the reviewed evidence supports them.
+* Do not use historical frequency to claim or predict the current blueprint.
+* Keep the chapter's learner-task holdout unseen in PYQ banks, diagnostics and
+  answer explanations.
+
 ---
 
 ## 8. Required Workflow for Notes Work
+
+Use `docs/content/gold-standard-chapter-workflow.md` for the complete
+evidence-based chapter lifecycle. The steps below are the minimum authoring
+subset, not the full definition of a reference chapter.
 
 ### 8.1 Identify the textbook source
 
@@ -869,6 +896,8 @@ If any item is not true, do not call the notes textbook-aligned.
 
 ## 13. Related Documentation
 
+* `docs/content/gold-standard-chapter-workflow.md`
+* `docs/content-style-qa-checklist.md`
 * `docs/CONTENT_QUALITY_STANDARDS.md`
 * `docs/chapterlooknfeel.md`
 * `docs/chapterslooknfeel.md`

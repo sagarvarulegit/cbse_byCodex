@@ -37,9 +37,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   const isPilot = isPilotChapter(slug);
   const bestFirstAction = hasLessonNotes
     ? {
-        href: `/chapters/${slug}/lessons/${availableLessons[0].slug}`,
-        label: 'Start first lesson',
-        helper: `Begin with ${availableLessons[0].title}, then move to the remaining notes and quiz.`,
+        href: `/chapters/${slug}/notes`,
+        label: 'Open complete chapter notes',
+        helper: `Begin with Introduction, then read all ${availableLessons.length} chapter parts in textbook order on one page.`,
       }
     : hasPackNotes
       ? {
@@ -95,36 +95,19 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
       </section>
 
       <Suspense fallback={<ChapterMasteryDetailsLoading />}>
-        <ChapterMasteryDetails chapter={chapter} chapterSlug={slug} masteryPromise={masteryPromise} />
+        <ChapterMasteryDetails
+          chapter={chapter}
+          chapterSlug={slug}
+          hasLessonNotes={hasLessonNotes}
+          hasPackNotes={hasPackNotes}
+          masteryPromise={masteryPromise}
+        />
       </Suspense>
-
-      {hasPackNotes ? (
-        <section className="section-shell chapter-definition-grid">
-          <article className="definition-card">
-            <p className="eyebrow">Chapter notes</p>
-            <h2>{chapter.title} notes are live.</h2>
-            <p className="subtext compact">
-              Read the complete chapter pack with goals, concept flow, exam-friendly points, common mistakes, and practice prompts.
-            </p>
-          </article>
-          <article className="definition-card soft">
-            <p className="eyebrow">Revision path</p>
-            <ul>
-              <li>Start with the chapter goal.</li>
-              <li>Revise each concept in order.</li>
-              <li>Finish with the practice and board tips.</li>
-            </ul>
-            <Link className="card-link" href={`/chapters/${slug}/notes`}>
-              Read chapter notes
-            </Link>
-          </article>
-        </section>
-      ) : null}
 
       <section className="section-shell" id="lesson-plan">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Lesson path</p>
+            <p className="eyebrow">Chapter path</p>
             <h2>{isLive ? 'Simple-English notes now live.' : 'Short videos, notes, quiz checkpoints.'}</h2>
             {quizContent && (
               <Link className="button-link" href={`/chapters/${slug}/quiz`}>Take chapter quiz</Link>
@@ -132,11 +115,30 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           </div>
           {isLive ? (
             <span className="section-badge">
-              {hasLessonNotes ? `${availableLessons.length} lesson notes ready` : 'Chapter pack ready'}
+              {hasLessonNotes ? `${availableLessons.length} chapter parts ready` : 'Chapter pack ready'}
             </span>
           ) : null}
         </div>
-        {hasPackNotes && !hasLessonNotes ? (
+        {hasLessonNotes ? (
+          <div className="chapter-continuous-entry">
+            <div>
+              <p className="eyebrow">One continuous reading path</p>
+              <h3>Introduction → every numbered section → revision and practice</h3>
+              <p className="lesson-preview">
+                Open the chapter once and read every available note in order. Use the contents list to jump directly to a textbook section.
+              </p>
+              <ol className="chapter-continuous-outline">
+                <li>Introduction</li>
+                {availableLessons.map((lesson) => (
+                  <li key={lesson.slug}>{lesson.title}</li>
+                ))}
+              </ol>
+            </div>
+            <Link className="button-link" href={`/chapters/${slug}/notes`}>
+              Open complete chapter notes
+            </Link>
+          </div>
+        ) : hasPackNotes ? (
           <div className="lesson-list">
             <article className="lesson-row">
               <span className="lesson-index">01</span>
@@ -229,10 +231,14 @@ async function LiveChapterMasteryPanel({
 async function ChapterMasteryDetails({
   chapter,
   chapterSlug,
+  hasLessonNotes,
+  hasPackNotes,
   masteryPromise,
 }: {
   chapter: ChapterContent;
   chapterSlug: string;
+  hasLessonNotes: boolean;
+  hasPackNotes: boolean;
   masteryPromise: Promise<MasteryPayload>;
 }) {
   const mastery = await masteryPromise;
@@ -282,6 +288,51 @@ async function ChapterMasteryDetails({
           </p>
         )}
       </section>
+
+      {hasPackNotes ? (
+        <section className="section-shell chapter-definition-grid">
+          <article className="definition-card">
+            <p className="eyebrow">
+              Chapter notes
+            </p>
+            <h2>
+              {hasLessonNotes
+                ? 'All sections in one reading view'
+                : `${chapter.title} notes are live.`}
+            </h2>
+            <p className="subtext compact">
+              {hasLessonNotes
+                ? 'Start with Introduction, then continue through every available textbook section, exercise, and practice note without returning to separate cards.'
+                : 'Read the complete chapter pack with goals, concept flow, exam-friendly points, common mistakes, and practice prompts.'}
+            </p>
+          </article>
+          <article className="definition-card soft">
+            <p className="eyebrow">
+              {hasLessonNotes ? 'Reading path' : 'Revision path'}
+            </p>
+            <ul>
+              {hasLessonNotes ? (
+                <>
+                  <li>Begin with Introduction.</li>
+                  <li>Follow parent sections before child subsections.</li>
+                  <li>Use the chapter contents to jump to a weak concept.</li>
+                </>
+              ) : (
+                <>
+                  <li>Start with the chapter goal.</li>
+                  <li>Revise each concept in order.</li>
+                  <li>Finish with the practice and board tips.</li>
+                </>
+              )}
+            </ul>
+            <Link className="card-link" href={`/chapters/${chapterSlug}/notes`}>
+              {hasLessonNotes
+                ? 'Open complete chapter notes'
+                : 'Read chapter notes'}
+            </Link>
+          </article>
+        </section>
+      ) : null}
 
       {activeMission ? (
         <section className="section-shell chapter-mission-callout">

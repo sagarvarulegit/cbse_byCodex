@@ -1,72 +1,28 @@
 ---
-title: Magnetic Effects of Electric Current chapter quiz
-subject: Science
-class_level: 10
-chapter: Magnetic Effects of Electric Current
+title: Magnetic Effects Mastery Quiz
 chapter_slug: magnetic-effects-of-electric-current
-content_type: quiz
-status: draft
+status: published
 ---
 
-# Magnetic Effects of Electric Current chapter quiz
+# Mastery Quiz
 
-Answer these quick questions after revising the chapter notes.
-
-## 1. Magnetic field
-
-A magnetic field surrounds:
-
-1. a magnet or current-carrying conductor
-2. only a pencil
-3. only a resistor
-
-Answer: 1
-Explanation: Magnetic fields are produced around magnets and current-carrying conductors.
-
-## 2. Solenoid
-
-A solenoid can act like:
-
-1. an electromagnet
-2. a battery
-3. a fuse
-
-Answer: 1
-Explanation: A current-carrying solenoid behaves like an electromagnet.
-
-## 3. Electromagnetism
-
-Electric current can produce:
-
-1. magnetic effect
-2. only sound
-3. only weight
-
-Answer: 1
-Explanation: Electric current creates a magnetic effect around the conductor.
-
-## 4. Motor
-
-An electric motor converts:
-
-1. electrical energy into mechanical energy
-2. mechanical energy into light
-3. heat into water
-
-Answer: 1
-Explanation: An electric motor changes electrical energy into mechanical motion.
-
-## 5. Generator
-
-An electric generator converts:
-
-1. mechanical energy into electrical energy
-2. electrical energy into food
-3. sound into metal
-
-Answer: 1
-Explanation: A generator changes mechanical energy into electrical energy.
-
-## revision reminder
-
-Recheck magnetic fields, solenoid, motor, and generator before retrying.
+1. Outside magnet field direction? **Answer:** N to S.
+2. Inside magnet? **Answer:** S to N.
+3. Why no intersections? **Answer:** Field cannot have two directions at one point.
+4. Straight-wire pattern? **Answer:** Concentric circles.
+5. Out-of-page current field? **Answer:** Anticlockwise.
+6. Field versus current? **Answer:** Increases with current.
+7. Field versus distance? **Answer:** Decreases with distance.
+8. Clockwise loop face? **Answer:** South; field into page.
+9. Solenoid interior? **Answer:** Strong, nearly uniform, parallel field.
+10. Electromagnet core? **Answer:** Soft iron.
+11. Rule around wire? **Answer:** Right-hand thumb.
+12. Rule for force? **Answer:** Fleming left hand.
+13. Maximum force condition? **Answer:** Current perpendicular to field.
+14. Reverse current effect? **Answer:** Force reverses.
+15. Indian NCERT supply? **Answer:** 220 V, 50 Hz AC.
+16. Green wire? **Answer:** Earth.
+17. Appliances connected? **Answer:** Parallel.
+18. Short circuit? **Answer:** Direct live-neutral contact; very high current.
+19. Overload? **Answer:** Current exceeds safe circuit rating.
+20. Earth-wire function? **Answer:** Low-resistance leakage path preventing shock.

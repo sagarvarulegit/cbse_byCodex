@@ -1,0 +1,354 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="2700" viewBox="0 0 2400 2700">
+  <defs>
+    <marker id="ray9" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#0284c7"/>
+    </marker>
+    <marker id="virtual9" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#e11d48"/>
+    </marker>
+    <marker id="object9" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#0f766e"/>
+    </marker>
+    <style>
+      .panel{fill:#f8fafc;stroke:#0f172a;stroke-width:4}
+      .sub{fill:#fff;stroke:#cbd5e1;stroke-width:3}
+      .axis{stroke:#64748b;stroke-width:3}
+      .ray{fill:none;stroke:#0284c7;stroke-width:5;marker-end:url(#ray9)}
+      .raythin{fill:none;stroke:#0284c7;stroke-width:4}
+      .virtual{fill:none;stroke:#e11d48;stroke-width:4;stroke-dasharray:11 9;marker-end:url(#virtual9)}
+      .mirror{fill:none;stroke:#0f172a;stroke-width:9}
+      .shade{fill:none;stroke:#94a3b8;stroke-width:3}
+      .lens{fill:#dbeafe;fill-opacity:.72;stroke:#1d4ed8;stroke-width:7}
+      .object{stroke:#0f766e;stroke-width:7;marker-end:url(#object9)}
+      .image{stroke:#e11d48;stroke-width:7;marker-end:url(#virtual9)}
+      .title{font:700 28px Arial,sans-serif;fill:#0f172a}
+      .label{font:700 21px Arial,sans-serif;fill:#334155}
+      .small{font:600 18px Arial,sans-serif;fill:#475569}
+      .case{font:700 19px Arial,sans-serif;fill:#0f766e}
+      .tick{stroke:#334155;stroke-width:4}
+    </style>
+    <g id="concaveMirror9">
+      <path class="mirror" d="M0 -86Q38 0 0 86"/>
+      <path class="shade" d="M10 -86l20 13M16 -62l22 14M20 -35l23 15M22 -7l24 15M21 22l22 14M16 50l21 14M9 75l18 12"/>
+    </g>
+    <g id="convexMirror9">
+      <path class="mirror" d="M38 -86Q0 0 38 86"/>
+      <path class="shade" d="M48 -86l20 13M54 -62l22 14M58 -35l23 15M60 -7l24 15M59 22l22 14M54 50l21 14M47 75l18 12"/>
+    </g>
+    <g id="convexLens9">
+      <path class="lens" d="M0 -105Q44 0 0 105Q-44 0 0 -105Z"/>
+    </g>
+    <g id="concaveLens9">
+      <path class="lens" d="M-30 -105Q4 0-30 105L30 105Q-4 0 30 -105Z"/>
+    </g>
+  </defs>
+
+  <!-- Figure 9.7 -->
+  <g transform="translate(0 0)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.7 · Concave-mirror image cases</text>
+    <g transform="translate(34 72)">
+      <g transform="translate(0 0)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(a) Object at infinity</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(320 145) scale(.72)"/>
+        <line class="tick" x1="238" y1="137" x2="238" y2="153"/><text class="small" x="231" y="178">F</text>
+        <path class="ray" d="M25 95H315Q285 112 238 145"/>
+        <path class="ray" d="M25 120H315Q280 128 238 145"/>
+        <circle cx="238" cy="145" r="8" fill="#e11d48"/>
+      </g>
+      <g transform="translate(386 0)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(b) Beyond C</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(320 145) scale(.72)"/>
+        <line class="tick" x1="150" y1="137" x2="150" y2="153"/><text class="small" x="142" y="178">C</text>
+        <line class="tick" x1="238" y1="137" x2="238" y2="153"/><text class="small" x="231" y="178">F</text>
+        <line class="object" x1="70" y1="145" x2="70" y2="72"/>
+        <line class="image" x1="194" y1="145" x2="194" y2="198"/>
+        <path class="raythin" d="M70 72H319L194 198"/>
+        <path class="raythin" d="M70 72L150 145L319 72"/>
+      </g>
+      <g transform="translate(772 0)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(c) At C</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(320 145) scale(.72)"/>
+        <line class="tick" x1="150" y1="137" x2="150" y2="153"/><text class="small" x="142" y="178">C</text>
+        <line class="tick" x1="238" y1="137" x2="238" y2="153"/><text class="small" x="231" y="178">F</text>
+        <line class="object" x1="150" y1="145" x2="150" y2="70"/>
+        <line class="image" x1="162" y1="145" x2="162" y2="220"/>
+        <path class="raythin" d="M150 70H319L162 220"/>
+        <path class="raythin" d="M150 70L238 145L319 70"/>
+      </g>
+      <g transform="translate(0 284)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(d) Between C and F</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(320 145) scale(.72)"/>
+        <line class="tick" x1="150" y1="137" x2="150" y2="153"/><text class="small" x="142" y="178">C</text>
+        <line class="tick" x1="238" y1="137" x2="238" y2="153"/><text class="small" x="231" y="178">F</text>
+        <line class="object" x1="198" y1="145" x2="198" y2="75"/>
+        <line class="image" x1="92" y1="145" x2="92" y2="235"/>
+        <path class="raythin" d="M198 75H319L92 235"/>
+        <path class="raythin" d="M198 75L238 145L319 75"/>
+      </g>
+      <g transform="translate(386 284)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(e) At F</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(320 145) scale(.72)"/>
+        <line class="tick" x1="150" y1="137" x2="150" y2="153"/><text class="small" x="142" y="178">C</text>
+        <line class="tick" x1="238" y1="137" x2="238" y2="153"/><text class="small" x="231" y="178">F</text>
+        <line class="object" x1="238" y1="145" x2="238" y2="115"/>
+        <path class="raythin" d="M238 115H319L40 208"/>
+        <path class="raythin" d="M238 115L319 145L40 238"/>
+        <text class="small" x="112" y="235">reflected rays are parallel</text>
+      </g>
+      <g transform="translate(772 284)">
+        <rect class="sub" width="360" height="260" rx="16"/>
+        <text class="case" x="18" y="30">(f) Between F and P</text>
+        <line class="axis" x1="24" y1="145" x2="338" y2="145"/>
+        <use href="#concaveMirror9" transform="translate(300 145) scale(.72)"/>
+        <line class="tick" x1="218" y1="137" x2="218" y2="153"/><text class="small" x="211" y="178">F</text>
+        <text class="small" x="295" y="178">P</text>
+        <line class="object" x1="255" y1="145" x2="255" y2="92"/>
+        <path class="raythin" d="M255 92H299L92 220"/>
+        <path class="raythin" d="M255 92L218 145L55 92"/>
+        <path class="virtual" d="M299 92L343 60"/>
+        <path class="virtual" d="M299 118L343 60"/>
+        <line class="image" x1="343" y1="145" x2="343" y2="60"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Figure 9.8 -->
+  <g transform="translate(1200 0)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.8 · Convex-mirror image cases</text>
+    <g transform="translate(60 105)">
+      <rect class="sub" width="1080" height="210" rx="18"/>
+      <text class="case" x="24" y="34">(a) Object at infinity</text>
+      <line class="axis" x1="34" y1="125" x2="1035" y2="125"/>
+      <use href="#convexMirror9" transform="translate(640 125) scale(.78)"/>
+      <text class="small" x="638" y="170">P</text><text class="small" x="748" y="170">F</text>
+      <path class="ray" d="M55 76H640L235 36"/>
+      <path class="ray" d="M55 104H640L205 166"/>
+      <path class="virtual" d="M640 76L752 125"/>
+      <path class="virtual" d="M640 104L752 125"/>
+      <circle cx="752" cy="125" r="9" fill="#e11d48"/>
+    </g>
+    <g transform="translate(60 350)">
+      <rect class="sub" width="1080" height="255" rx="18"/>
+      <text class="case" x="24" y="34">(b) Finite object: virtual, erect and diminished</text>
+      <line class="axis" x1="34" y1="155" x2="1035" y2="155"/>
+      <use href="#convexMirror9" transform="translate(640 155) scale(.78)"/>
+      <line class="object" x1="180" y1="155" x2="180" y2="68"/>
+      <text class="small" x="638" y="200">P</text><text class="small" x="748" y="200">F</text>
+      <path class="raythin" d="M180 68H640L40 22"/>
+      <path class="raythin" d="M180 68L640 155L75 232"/>
+      <path class="virtual" d="M640 68L715 115"/>
+      <path class="virtual" d="M640 155L715 115"/>
+      <line class="image" x1="715" y1="155" x2="715" y2="115"/>
+    </g>
+  </g>
+
+  <!-- Figure 9.12 -->
+  <g transform="translate(0 675)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.12 · Converging and diverging lenses</text>
+    <g transform="translate(60 105)">
+      <rect class="sub" width="1080" height="210" rx="18"/>
+      <text class="case" x="24" y="34">Convex lens · parallel rays converge at F₂</text>
+      <line class="axis" x1="35" y1="125" x2="1040" y2="125"/>
+      <use href="#convexLens9" transform="translate(545 125) scale(.82)"/>
+      <path class="ray" d="M55 75H545L800 125"/>
+      <path class="ray" d="M55 105H545L800 125"/>
+      <path class="ray" d="M55 145H545L800 125"/>
+      <text class="label" x="790" y="162">F₂</text>
+    </g>
+    <g transform="translate(60 350)">
+      <rect class="sub" width="1080" height="255" rx="18"/>
+      <text class="case" x="24" y="34">Concave lens · rays diverge as if from F₁</text>
+      <line class="axis" x1="35" y1="145" x2="1040" y2="145"/>
+      <use href="#concaveLens9" transform="translate(545 145) scale(.82)"/>
+      <path class="ray" d="M55 92H545L1000 42"/>
+      <path class="ray" d="M55 120H545L1000 92"/>
+      <path class="ray" d="M55 170H545L1000 198"/>
+      <path class="virtual" d="M545 92L330 145"/>
+      <path class="virtual" d="M545 120L330 145"/>
+      <text class="label" x="315" y="181">F₁</text>
+    </g>
+  </g>
+
+  <!-- Figure 9.13 -->
+  <g transform="translate(1200 675)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.13 · Ray parallel to the principal axis</text>
+    <g transform="translate(60 105)">
+      <rect class="sub" width="1080" height="210" rx="18"/>
+      <text class="case" x="24" y="34">Convex lens: refracted ray passes through F₂</text>
+      <line class="axis" x1="35" y1="130" x2="1040" y2="130"/>
+      <use href="#convexLens9" transform="translate(545 130) scale(.82)"/>
+      <path class="ray" d="M80 70H545L820 130"/>
+      <text class="label" x="810" y="166">F₂</text>
+    </g>
+    <g transform="translate(60 350)">
+      <rect class="sub" width="1080" height="255" rx="18"/>
+      <text class="case" x="24" y="34">Concave lens: refracted ray appears to come from F₁</text>
+      <line class="axis" x1="35" y1="145" x2="1040" y2="145"/>
+      <use href="#concaveLens9" transform="translate(545 145) scale(.82)"/>
+      <path class="ray" d="M80 80H545L1010 25"/>
+      <path class="virtual" d="M545 80L315 145"/>
+      <text class="label" x="300" y="181">F₁</text>
+    </g>
+  </g>
+
+  <!-- Figures 9.14-9.15 -->
+  <g transform="translate(0 1350)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figures 9.14–9.15 · Focal and optical-centre rays</text>
+    <g transform="translate(40 85)">
+      <g>
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">Convex: through F₁ → parallel</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <text class="small" x="116" y="178">F₁</text>
+        <path class="ray" d="M35 185L125 145L285 74H505"/>
+      </g>
+      <g transform="translate(575 0)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">Concave: aimed at F₂ → parallel</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#concaveLens9" transform="translate(285 145) scale(.62)"/>
+        <text class="small" x="435" y="178">F₂</text>
+        <path class="ray" d="M35 44L285 105H505"/>
+        <path class="virtual" d="M285 105L448 145"/>
+      </g>
+      <g transform="translate(0 280)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">Convex: through optical centre O</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <path class="ray" d="M35 72L285 145L505 210"/>
+        <text class="small" x="292" y="176">O</text>
+      </g>
+      <g transform="translate(575 280)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">Concave: through optical centre O</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#concaveLens9" transform="translate(285 145) scale(.62)"/>
+        <path class="ray" d="M35 72L285 145L505 210"/>
+        <text class="small" x="292" y="176">O</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Figure 9.16 a-d -->
+  <g transform="translate(1200 1350)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.16(a–d) · Convex-lens real-image cases</text>
+    <g transform="translate(40 85)">
+      <g>
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">(a) Infinity → image at F₂</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <path class="raythin" d="M35 82H285L420 145"/>
+        <path class="raythin" d="M35 108H285L420 145"/>
+        <circle cx="420" cy="145" r="8" fill="#e11d48"/><text class="small" x="410" y="180">F₂</text>
+      </g>
+      <g transform="translate(575 0)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">(b) Beyond 2F₁</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <line class="object" x1="55" y1="145" x2="55" y2="65"/>
+        <line class="image" x1="408" y1="145" x2="408" y2="202"/>
+        <path class="raythin" d="M55 65H285L408 202"/>
+        <path class="raythin" d="M55 65L285 145L408 202"/>
+      </g>
+      <g transform="translate(0 280)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">(c) At 2F₁ → same size at 2F₂</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <line class="object" x1="75" y1="145" x2="75" y2="70"/>
+        <line class="image" x1="495" y1="145" x2="495" y2="220"/>
+        <path class="raythin" d="M75 70H285L495 220"/>
+        <path class="raythin" d="M75 70L285 145L495 220"/>
+      </g>
+      <g transform="translate(575 280)">
+        <rect class="sub" width="540" height="245" rx="16"/>
+        <text class="case" x="18" y="30">(d) Between F₁ and 2F₁</text>
+        <line class="axis" x1="25" y1="145" x2="510" y2="145"/>
+        <use href="#convexLens9" transform="translate(285 145) scale(.62)"/>
+        <line class="object" x1="160" y1="145" x2="160" y2="75"/>
+        <line class="image" x1="505" y1="145" x2="505" y2="235"/>
+        <path class="raythin" d="M160 75H285L505 235"/>
+        <path class="raythin" d="M160 75L285 145L505 235"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Figure 9.16 e-f -->
+  <g transform="translate(0 2025)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.16(e–f) · Focal and virtual convex-lens cases</text>
+    <g transform="translate(60 105)">
+      <rect class="sub" width="1080" height="210" rx="18"/>
+      <text class="case" x="24" y="34">(e) Object at F₁: emergent rays are parallel; image is at infinity</text>
+      <line class="axis" x1="35" y1="130" x2="1040" y2="130"/>
+      <use href="#convexLens9" transform="translate(545 130) scale(.82)"/>
+      <line class="object" x1="330" y1="130" x2="330" y2="90"/>
+      <path class="ray" d="M330 90H545L990 173"/>
+      <path class="ray" d="M330 90L545 130L990 213"/>
+      <text class="small" x="315" y="166">F₁</text>
+    </g>
+    <g transform="translate(60 350)">
+      <rect class="sub" width="1080" height="255" rx="18"/>
+      <text class="case" x="24" y="34">(f) Object between O and F₁: virtual, erect and enlarged</text>
+      <line class="axis" x1="35" y1="155" x2="1040" y2="155"/>
+      <use href="#convexLens9" transform="translate(545 155) scale(.82)"/>
+      <line class="object" x1="420" y1="155" x2="420" y2="115"/>
+      <path class="raythin" d="M420 115H545L1010 205"/>
+      <path class="raythin" d="M420 115L545 155L750 221"/>
+      <path class="virtual" d="M545 115L225 53"/>
+      <path class="virtual" d="M545 155L225 53"/>
+      <line class="image" x1="225" y1="155" x2="225" y2="53"/>
+      <text class="small" x="310" y="190">F₁</text>
+    </g>
+  </g>
+
+  <!-- Figure 9.17 -->
+  <g transform="translate(1200 2025)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 9.17 · Concave-lens image cases</text>
+    <g transform="translate(60 105)">
+      <rect class="sub" width="1080" height="210" rx="18"/>
+      <text class="case" x="24" y="34">(a) Object at infinity: virtual point image at F₁</text>
+      <line class="axis" x1="35" y1="125" x2="1040" y2="125"/>
+      <use href="#concaveLens9" transform="translate(545 125) scale(.82)"/>
+      <path class="ray" d="M55 72H545L1010 18"/>
+      <path class="ray" d="M55 102H545L1010 72"/>
+      <path class="virtual" d="M545 72L330 125"/>
+      <path class="virtual" d="M545 102L330 125"/>
+      <circle cx="330" cy="125" r="8" fill="#e11d48"/><text class="small" x="315" y="162">F₁</text>
+    </g>
+    <g transform="translate(60 350)">
+      <rect class="sub" width="1080" height="255" rx="18"/>
+      <text class="case" x="24" y="34">(b) Finite object: virtual, erect and diminished between O and F₁</text>
+      <line class="axis" x1="35" y1="155" x2="1040" y2="155"/>
+      <use href="#concaveLens9" transform="translate(545 155) scale(.82)"/>
+      <line class="object" x1="160" y1="155" x2="160" y2="62"/>
+      <path class="raythin" d="M160 62H545L1010 8"/>
+      <path class="raythin" d="M160 62L545 155L1010 268"/>
+      <path class="virtual" d="M545 62L395 118"/>
+      <path class="virtual" d="M545 155L395 118"/>
+      <line class="image" x1="395" y1="155" x2="395" y2="118"/>
+      <text class="small" x="315" y="190">F₁</text>
+    </g>
+  </g>
+</svg>

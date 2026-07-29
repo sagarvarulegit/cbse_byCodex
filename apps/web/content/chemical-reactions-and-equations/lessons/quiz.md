@@ -26,7 +26,7 @@ Which observation is listed by NCERT as evidence that a chemical reaction may ha
 4. change in handwriting
 
 Answer: 1
-Explanation: NCERT lists change in state, colour, temperature and evolution of a gas as evidence of a chemical reaction.
+Explanation: NCERT lists change in state, colour, temperature and evolution of a gas as evidence of a chemical reaction. Movement of a container or test tube is not itself evidence that a new substance formed.
 
 ## 2. Figure 1.2
 
@@ -42,7 +42,7 @@ NCERT Figure 1.2 belongs to which activity?
 4. iron nails dipped in copper sulphate
 
 Answer: 2
-Explanation: Figure 1.2 shows hydrogen formation when zinc reacts with dilute sulphuric acid in Activity 1.3.
+Explanation: Figure 1.2 shows hydrogen formation when zinc reacts with dilute sulphuric acid in Activity 1.3. Do not attach the number to Activity 1.2: that activity has no numbered NCERT figure.
 
 ## 3. Skeletal equation
 
@@ -58,7 +58,7 @@ Why is `Mg + O₂ → MgO` called a skeletal equation?
 4. It describes only a physical change.
 
 Answer: 3
-Explanation: There are two oxygen atoms on the left but one on the right, so equation (1.2) is unbalanced.
+Explanation: There are two oxygen atoms on the left but one on the right, so equation (1.2) is unbalanced. A familiar-looking formula equation is not automatically balanced; count each element.
 
 ## 4. Conservation of mass
 
@@ -74,7 +74,7 @@ Why must a chemical equation be balanced?
 4. To obey the law of conservation of mass
 
 Answer: 4
-Explanation: Equal atom counts on both sides show that mass has neither been created nor destroyed.
+Explanation: Equal atom counts on both sides show that mass has neither been created nor destroyed. Balancing does not create atoms or change chemical formulae; it only changes coefficients.
 
 ## 5. Steam symbol
 
@@ -90,7 +90,7 @@ In equation `(1.10)`, why is water written as `H₂O(g)`?
 4. Water is acting as a catalyst.
 
 Answer: 1
-Explanation: NCERT explicitly explains that `(g)` with water in equation (1.10) means steam is used.
+Explanation: NCERT explicitly explains that `(g)` with water in equation (1.10) means steam is used. Here `(g)` describes the physical state, not a gas produced as a separate product.
 
 ## 6. Combination pattern
 
@@ -106,7 +106,7 @@ Which pattern defines a combination reaction?
 4. One element replaces another.
 
 Answer: 2
-Explanation: A combination reaction forms one product from two or more reactants.
+Explanation: A combination reaction forms one product from two or more reactants. Two reactants alone are not enough; check that they combine into a single product.
 
 ## 7. Balancing sodium and water
 
@@ -122,7 +122,7 @@ Which is the correctly balanced equation for sodium reacting with water?
 4. `Na + 2H₂O → NaOH + 2H₂`
 
 Answer: 3
-Explanation: The coefficients 2, 2, 2 and 1 give equal Na, H and O atom counts.
+Explanation: The coefficients 2, 2, 2 and 1 give equal Na, H and O atom counts. Do not repair the equation by changing `H₂O` or `NaOH` subscripts, because that changes the substances.
 
 ## 8. Reaction condition
 
@@ -138,7 +138,7 @@ Which condition is shown for the formation of methanol in equation `(1.11)`?
 4. 340 atm pressure
 
 Answer: 4
-Explanation: NCERT places 340 atm above the reaction arrow for `CO + 2H₂ → CH₃OH`.
+Explanation: NCERT places 340 atm above the reaction arrow for `CO + 2H₂ → CH₃OH`. A reaction condition belongs on or near the arrow; it is not a coefficient or state symbol.
 
 ## 9. Whitewashing
 
@@ -154,7 +154,7 @@ Which substance gives a shiny finish to a whitewashed wall after two to three da
 4. calcium chloride
 
 Answer: 1
-Explanation: Slaked lime reacts with carbon dioxide to form a thin layer of calcium carbonate.
+Explanation: Slaked lime reacts with carbon dioxide to form a thin layer of calcium carbonate. Whitewashing does not finish at calcium hydroxide; the hard outer layer forms after its reaction with carbon dioxide.
 
 ## 10. Ferrous sulphate
 
@@ -170,7 +170,7 @@ What happens before ferrous sulphate decomposes into ferric oxide and sulphur ox
 4. It absorbs carbon dioxide.
 
 Answer: 2
-Explanation: Green `FeSO₄·7H₂O` crystals first lose water and then decompose on further heating.
+Explanation: Green `FeSO₄·7H₂O` crystals first lose water and then decompose on further heating. The colour change is not melting alone; stronger heating produces new substances and sulphur-smelling gases.
 
 ## 11. Electrolysis volumes
 
@@ -186,7 +186,7 @@ Which gas is collected in approximately double the volume during electrolysis of
 4. nitrogen dioxide
 
 Answer: 3
-Explanation: Water produces hydrogen and oxygen in a 2:1 volume ratio, so hydrogen is collected in double amount.
+Explanation: Water produces hydrogen and oxygen in a 2:1 volume ratio, so hydrogen is collected in double amount. Do not use this volume ratio for a mass question; the gas mass ratio is different.
 
 ## 12. Photography reaction
 
@@ -202,7 +202,7 @@ Why do silver chloride and silver bromide turn grey in sunlight?
 4. Light decomposes them and silver metal forms.
 
 Answer: 4
-Explanation: These photochemical decomposition reactions form silver; they were used in black-and-white photography.
+Explanation: These photochemical decomposition reactions form silver; they were used in black-and-white photography. Sunlight breaks the silver salt down, so this is decomposition rather than combination.
 
 ## 13. Displacement observation
 
@@ -218,7 +218,7 @@ Why does the blue colour of copper sulphate solution fade when iron nails are im
 4. The solution becomes pure water.
 
 Answer: 1
-Explanation: More reactive iron displaces copper, producing iron sulphate and a copper coating on the nails.
+Explanation: More reactive iron displaces copper, producing iron sulphate and a copper coating on the nails. The coating is copper, not rust, and the solution changes because iron sulphate forms.
 
 ## 14. Precipitation
 
@@ -234,7 +234,7 @@ What is the white precipitate in Activity 1.10?
 4. potassium nitrate
 
 Answer: 2
-Explanation: `Ba²⁺` and `SO₄²⁻` ions form insoluble barium sulphate.
+Explanation: `Ba²⁺` and `SO₄²⁻` ions form insoluble barium sulphate. Sodium chloride remains in solution; do not name every product of a double-displacement reaction as the precipitate.
 
 ## 15. Redox identification
 
@@ -250,23 +250,23 @@ In `CuO + H₂ → Cu + H₂O`, which statement is correct?
 4. Neither reactant changes.
 
 Answer: 3
-Explanation: Hydrogen gains oxygen, while copper oxide loses oxygen.
+Explanation: Hydrogen gains oxygen, while copper oxide loses oxygen. The substance oxidised is not the oxidising agent: hydrogen is oxidised and therefore acts as the reducing agent.
 
-## 16. Correct NCERT numbering
+## 16. Corrosion near the sea
 
-Topic: balancing-equations
+Topic: oxidation-and-reduction
 Difficulty: Hard
-Source: NCERT equations (1.9)-(1.12)
+Source: Platform application - NCERT Section 1.3.1 Corrosion
 
-Which equation-number pairing is correct?
+An unpainted iron gate near the sea develops a reddish-brown coating faster than a similar gate in a dry area. Which explanation and prevention pair is correct?
 
-1. `(1.10)` is `CO + 2H₂ → CH₃OH`.
-2. `(1.11)` is the photosynthesis equation.
-3. `(1.12)` is the iron-steam equation.
-4. `(1.10)` is `3Fe(s) + 4H₂O(g) → Fe₃O₄(s) + 4H₂(g)`.
+1. Salt converts iron directly into paint; washing with more salt prevents it.
+2. Only sunlight causes the coating; keeping the gate wet prevents it.
+3. Nitrogen in air forms rust; scratching the surface prevents it.
+4. Moisture and oxygen promote corrosion; painting the gate creates a protective barrier.
 
 Answer: 4
-Explanation: NCERT equation (1.10) is the balanced iron-steam reaction with physical states.
+Explanation: Rusting needs contact with oxygen and moisture, and salty coastal air speeds the process. Paint slows corrosion by separating iron from air and water; adding salt or keeping the gate wet would make the problem worse.
 
 ## 17. Decomposition numbering
 
@@ -282,7 +282,7 @@ Which statement about the NCERT equation sequence is correct?
 4. Silver bromide decomposition is numbered `(1.22)`.
 
 Answer: 1
-Explanation: Water electrolysis is unnumbered; AgCl is (1.22) and AgBr is (1.23).
+Explanation: Water electrolysis is unnumbered; AgCl is (1.22) and AgBr is (1.23). Do not assign a number to an equation simply because it sits between numbered textbook equations.
 
 ## 18. Two-reaction classification
 
@@ -298,7 +298,7 @@ How should these reactions be classified in order? `Zn + CuSO₄ → ZnSO₄ + C
 4. oxidation only, combination
 
 Answer: 2
-Explanation: Zinc replaces copper in the first; ions exchange and a precipitate forms in the second.
+Explanation: Zinc replaces copper in the first; ions exchange and a precipitate forms in the second. The first is not double displacement because only one element replaces another; the second involves two compounds exchanging ions.
 
 ## 19. Complete oxidation answer
 
@@ -314,7 +314,7 @@ Which pair correctly gives two examples of oxidation by gain of oxygen?
 4. `H₂O → H₂` and `FeSO₄ → Fe₂O₃`
 
 Answer: 3
-Explanation: Magnesium and copper each gain oxygen to form their oxides.
+Explanation: Magnesium and copper each gain oxygen to form their oxides. Equations in which an oxide loses oxygen describe reduction, not the requested oxidation by gain of oxygen.
 
 ## 20. Rancidity reasoning
 
@@ -330,7 +330,7 @@ Why are oily food packets flushed with nitrogen?
 4. Nitrogen limits contact with oxygen and delays rancidity.
 
 Answer: 4
-Explanation: Rancidity is caused by oxidation of fats and oils; replacing oxygen with nitrogen slows that process.
+Explanation: Rancidity is caused by oxidation of fats and oils; replacing oxygen with nitrogen slows that process. Nitrogen does not cool the food or convert the oil; it reduces contact with oxygen.
 
 ## Revision reminder
 

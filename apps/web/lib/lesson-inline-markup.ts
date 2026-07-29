@@ -1,6 +1,7 @@
 export type InlineMarkupToken =
   | { type: 'text' | 'code'; value: string }
-  | { type: 'strong' | 'emphasis'; children: InlineMarkupToken[] };
+  | { type: 'strong' | 'emphasis'; children: InlineMarkupToken[] }
+  | { type: 'link'; children: InlineMarkupToken[]; href: string };
 
 type InlineMarker = {
   close: string;
@@ -29,6 +30,20 @@ export function parseInlineMarkup(text: string): InlineMarkupToken[] {
   };
 
   while (index < text.length) {
+    if (text[index] === '[') {
+      const linkMatch = text.slice(index).match(/^\[([^\]]+)\]\((\/[^)\s]+)\)/);
+      if (linkMatch) {
+        flushPlainText();
+        tokens.push({
+          children: parseInlineMarkup(linkMatch[1]),
+          href: linkMatch[2],
+          type: 'link',
+        });
+        index += linkMatch[0].length;
+        continue;
+      }
+    }
+
     const marker = INLINE_MARKERS.find(({ open }) => text.startsWith(open, index));
 
     if (!marker) {

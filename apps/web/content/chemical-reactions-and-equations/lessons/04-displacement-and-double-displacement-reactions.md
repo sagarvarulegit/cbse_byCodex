@@ -5,12 +5,6 @@ description: Distinguish displacement from double displacement and precipitation
 
 # 1.2.3 Displacement and 1.2.4 Double Displacement Reactions
 
-## Learning goals
-
-- Identify a displacement reaction from reactivity and observation.
-- Identify ion exchange in a double displacement reaction.
-- Explain how a precipitate forms.
-
 ## 1.2.3 Displacement Reaction
 
 ### Activity 1.9 Iron nails in copper sulphate
@@ -72,7 +66,27 @@ Lead(II) nitrate solution was mixed with potassium iodide solution.
 2. `Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s) + 2KNO₃(aq)`
 3. Yes. The two compounds exchange ions and form insoluble lead iodide.
 
-> **Fast distinction:** Displacement means one element replaces another. Double displacement means two compounds exchange ions.
+**Fast distinction:** Displacement means one element replaces another. Double displacement means two compounds exchange ions.
+
+### Board extension: Double displacement without a precipitate
+
+This extension connects Chapter 1 classification with a current CBSE mixed-chapter pattern. It is not an additional NCERT section.
+
+`2NaOH(aq) + H₂SO₄(aq) → Na₂SO₄(aq) + 2H₂O(l)`
+
+- Sodium hydroxide is a base and sulphuric acid is an acid, so this is a **neutralisation reaction**.
+- The ions exchange partners, so it is also a **double displacement reaction**.
+- It is **not** a precipitation reaction because sodium sulphate is soluble and no insoluble solid forms.
+
+Do not use “double displacement” and “precipitation” as if they always mean the same thing. First identify ion exchange; then check whether an insoluble solid actually appears.
+
+### Board extension: Non-metal displacement
+
+Displacement is not limited to metals. A more reactive non-metal can also displace a less reactive non-metal from its compound.
+
+`Cl₂(g) + 2KI(aq) → 2KCl(aq) + I₂(s)`
+
+Chlorine displaces iodine from potassium iodide. In a case-based answer, state the displacement pattern and balance the iodine and potassium compounds with coefficient `2`.
 
 ## Common mistakes
 
@@ -105,4 +119,7 @@ Lead(II) nitrate solution was mixed with potassium iodide solution.
 
 ## Comic recap
 
-Iron says, “I replace copper.” In the next scene, two compounds exchange ions and a white precipitate drops out.
+- Priya: "Iron is more reactive, so it replaces copper from copper sulphate."
+- Rahul: "That one-element replacement is a displacement reaction."
+- Priya: "In double displacement, two compounds exchange ions."
+- Rahul: "If an insoluble solid forms, the reaction is also precipitation."

@@ -16,13 +16,6 @@ status: draft
 This lesson covers the backbone of the chapter.
 If a student understands prime numbers and prime factorisation properly, the rest of the chapter becomes much easier.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- identify prime and composite numbers
-- write a number as a product of prime factors
-- understand what makes prime factorisation unique
-
 ## start with the basics
 
 ### prime numbers

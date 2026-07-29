@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useState } from 'react';
+import { hasBalanceWorkbench } from '../lib/chemical-equation-balancing';
 import ActivityIllustration, { hasActivityIllustration } from './ActivityIllustration';
 
 type DemoComponentProps = { demoId: string };
@@ -20,6 +21,14 @@ const StaticFigureDemo = dynamic<DemoComponentProps>(() => import('./StaticFigur
   loading: DemoLoading,
   ssr: false,
 });
+
+const ChemicalEquationBalancer = dynamic<DemoComponentProps>(
+  () => import('./ChemicalEquationBalancer'),
+  {
+    loading: DemoLoading,
+    ssr: false,
+  },
+);
 
 function hasStaticFigureDemo(demoId: string) {
   return /^figure-6-[1-4]-/.test(demoId);
@@ -238,6 +247,10 @@ function StepLessonDemo({ demoId }: { demoId: string }) {
 export default function LessonDemo({ demoId }: { demoId: string }) {
   if (hasActivityIllustration(demoId)) {
     return <ActivityIllustration demoId={demoId} />;
+  }
+
+  if (hasBalanceWorkbench(demoId)) {
+    return <ChemicalEquationBalancer demoId={demoId} />;
   }
 
   if (hasStaticFigureDemo(demoId)) {

@@ -31,13 +31,6 @@ Examples:
 
 So yes, this chapter is about many kinds of numbers. Nice crowd.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- understand the form `a = bq + r`
-- identify `dividend`, `divisor`, `quotient`, and `remainder`
-- use repeated division to find `HCF`
-
 ## quick warm-up: first see it the school way
 
 When we divide `17` by `5`, most Indian students think in long-division form first. That is the right starting point.

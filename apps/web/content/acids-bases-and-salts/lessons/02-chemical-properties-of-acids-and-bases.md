@@ -1,206 +1,268 @@
 ---
-title: 2.1 continued - Reactions of acids and bases
+title: 2.1.2-2.1.6 Reactions of Acids and Bases
 subject: Science
 class_level: 10
 chapter: Acids, Bases and Salts
 chapter_slug: acids-bases-and-salts
 lesson_number: 2
 lesson_slug: chemical-properties-of-acids-and-bases
-estimated_minutes: 12
+estimated_minutes: 38
 access_level: premium
-status: draft
+status: published
 ---
 
-# 2.1 continued - Reactions of acids and bases
+# 2.1.2-2.1.6 Reactions of Acids and Bases
 
-Acids and bases are identified not only by indicators, but also by the reactions they show with metals, carbonates, and oxides.
+A colour change can identify an acid or base. A chemical reaction can tell us
+even more. In this lesson, every gas bubble, precipitate and colour change is a
+piece of evidence.
 
-## Learning goals
+## 2.1.2 How do Acids and Bases React with Metals?
 
-By the end of this lesson, you should be able to:
-- describe acid reactions with metals
-- describe base reactions with some metals
-- explain the carbonate and lime-water test
-- explain why metallic oxides are basic
-- identify gas evolution and colour-change evidence
+A metal can displace hydrogen from an acid. A salt and hydrogen gas form.
 
-## Acid with metal
+`Acid + Metal -> Salt + Hydrogen gas`
 
-Many acids react with metals to form a salt and hydrogen gas.
+For zinc and dilute sulphuric acid:
 
-General form:
+`Zn(s) + H2SO4(aq) -> ZnSO4(aq) + H2(g)`
 
-`metal + acid -> salt + hydrogen`
+### Activity 2.3
 
-Example:
+Caution: This activity needs the teacher's assistance.
 
-`Zn + H2SO4 -> ZnSO4 + H2`
-
-The hydrogen gas can be tested with a burning splint. It burns with a pop sound.
-
-## Activity 2.3: Hydrogen pop test
-
-Zinc reacts with dilute sulphuric acid. Hydrogen gas bubbles through soap solution, and a flame near the bubbles gives a pop.
+1. Set up the apparatus shown in Figure 2.1.
+2. Take about `5 mL` of dilute sulphuric acid in a test tube.
+3. Add a few zinc granules.
+4. Pass the gas through soap solution.
+5. Bring a burning candle near one gas-filled soap bubble.
+6. Compare the result with dilute `HCl`, `HNO3` and `CH3COOH`.
 
 [[demo:activity-2-3-metal-acid-hydrogen-pop]]
 
-## Base with metal
+### Figure 2.1: Reaction of zinc granules with dilute sulphuric acid and testing hydrogen gas by burning
 
-Some bases also react with metals like zinc and aluminium on heating to produce hydrogen gas.
+Label key:
 
-Example:
+1. Test tube containing zinc granules and dilute sulphuric acid
+2. Stand and clamp
+3. Delivery tube
+4. Soap solution
+5. Soap bubble filled with hydrogen
+6. Candle used by the teacher for the pop test
 
-`Zn + 2NaOH -> Na2ZnO2 + H2`
+Observation: Bubbles form on the zinc. The gas fills soap bubbles and burns
+with a pop sound. The gas is hydrogen.
 
-This reaction is less general than acid-metal reactions, so do not apply it blindly to every metal.
+Why soap bubbles? Hydrogen is colourless. Soap traps the gas so a small sample
+can be tested away from the reaction tube.
 
-## Activity 2.4: Zinc with sodium hydroxide
+### Activity 2.4
 
-Zinc reacts with sodium hydroxide on heating to form sodium zincate and hydrogen gas.
+1. Put a few pieces of granulated zinc in a test tube.
+2. Add `2 mL` sodium hydroxide solution.
+3. Warm the contents.
+4. Test the evolved gas as in Activity 2.3.
 
 [[demo:activity-2-4-base-metal-heating]]
 
-## Acid with carbonate
+The reaction is:
 
-Acids react with metal carbonates and metal hydrogencarbonates to form salt, water, and carbon dioxide.
+`2NaOH(aq) + Zn(s) -> Na2ZnO2(s) + H2(g)`
 
-Example:
+`Na2ZnO2` is sodium zincate. Hydrogen forms again. However, this behaviour is
+not possible with every metal, so do not apply the rule blindly.
 
-`Na2CO3 + 2HCl -> 2NaCl + H2O + CO2`
+## 2.1.3 How do Metal Carbonates and Metal Hydrogencarbonates React with Acids?
 
-Carbon dioxide turns lime water milky because insoluble calcium carbonate forms.
+Both reaction families produce a salt, carbon dioxide and water.
 
-## Activity 2.5: Carbonate and lime water
+`Metal carbonate/Metal hydrogencarbonate + Acid -> Salt + Carbon dioxide + Water`
 
-Carbon dioxide from sodium carbonate and hydrochloric acid is passed into lime water. The lime water turns milky.
+### Activity 2.5
+
+1. Label two test tubes A and B.
+2. Put about `0.5 g` sodium carbonate (`Na2CO3`) in A.
+3. Put about `0.5 g` sodium hydrogencarbonate (`NaHCO3`) in B.
+4. Add about `2 mL` dilute `HCl` to each tube.
+5. Pass each evolved gas through lime water as shown in Figure 2.2.
 
 [[demo:activity-2-5-carbonate-acid-lime-water]]
 
-## Metallic oxide with acid
+The reactions are:
 
-Metallic oxides are generally basic. They react with acids to form salt and water.
+`Na2CO3(s) + 2HCl(aq) -> 2NaCl(aq) + H2O(l) + CO2(g)`
 
-Example:
+`NaHCO3(s) + HCl(aq) -> NaCl(aq) + H2O(l) + CO2(g)`
 
-`CuO + 2HCl -> CuCl2 + H2O`
+### Figure 2.2: Passing carbon dioxide gas through calcium hydroxide solution
 
-Black copper oxide dissolves in hydrochloric acid, forming blue-green copper chloride solution.
+Label key:
 
-## Activity 2.7: Copper oxide and hydrochloric acid
+1. Test tube containing sodium carbonate or sodium hydrogencarbonate
+2. Thistle funnel for dilute hydrochloric acid
+3. Two-holed cork
+4. Delivery tube
+5. Test tube containing calcium hydroxide solution, or lime water
 
-This activity shows a black solid dissolving and a blue-green solution forming. That visible change supports the idea that a new salt formed.
+First, carbon dioxide turns lime water milky because a white precipitate of
+calcium carbonate forms:
+
+`Ca(OH)2(aq) + CO2(g) -> CaCO3(s) + H2O(l)`
+
+If excess carbon dioxide is passed, the milkiness disappears because soluble
+calcium hydrogencarbonate forms:
+
+`CaCO3(s) + H2O(l) + CO2(g) -> Ca(HCO3)2(aq)`
+
+[TIP: "Milky first, clear with excess" tells the complete lime-water story.]
+
+Limestone, chalk and marble are different forms of calcium carbonate.
+
+## 2.1.4 How do Acids and Bases React with each other?
+
+### Activity 2.6
+
+1. Take about `2 mL` dilute `NaOH` in a test tube.
+2. Add two drops of phenolphthalein. The basic solution becomes pink.
+3. Add dilute `HCl` drop by drop. The pink colour disappears.
+4. Add a few drops of `NaOH` again. The pink colour returns.
+
+[[demo:activity-2-6-reversible-neutralisation]]
+
+The acid cancels the effect of the base, and the base can cancel the effect of
+the acid. This is neutralisation.
+
+`NaOH(aq) + HCl(aq) -> NaCl(aq) + H2O(l)`
+
+`Base + Acid -> Salt + Water`
+
+[JARGON: Neutralisation | A reaction in which an acid and a base form salt and water | Hydrochloric acid reacts with sodium hydroxide to form sodium chloride and water]
+
+The colour is an indicator clue. Phenolphthalein is not a reactant in the
+neutralisation equation.
+
+## 2.1.5 Reaction of Metallic Oxides with Acids
+
+### Activity 2.7
+
+1. Take a small amount of black copper oxide in a beaker.
+2. Add dilute hydrochloric acid slowly while stirring.
+3. Observe the solid and the colour of the solution.
 
 [[demo:activity-2-7-metallic-oxide-acid]]
 
-## NCERT activity and figure tracker
+The black copper oxide dissolves. A blue-green copper(II) chloride solution
+forms:
 
-Activity 2.3: Hydrogen pop test
-- React an acid with a metal and test the gas with a burning splint.
-- Conclusion: hydrogen gas is released.
+`CuO(s) + 2HCl(aq) -> CuCl2(aq) + H2O(l)`
 
-Activity 2.4: Zinc with sodium hydroxide
-- Heat zinc with sodium hydroxide and watch for gas formation.
-- Conclusion: some metals also react with strong bases.
+`Metal oxide + Acid -> Salt + Water`
 
-Activity 2.5: Carbonate and lime water
-- React a carbonate with acid and pass the gas through lime water.
-- Conclusion: carbon dioxide turns lime water milky.
+This resembles the reaction of a base with an acid. Therefore, metallic oxides
+are said to be basic oxides.
 
-Activity 2.7: Copper oxide and hydrochloric acid
-- Warm a metal oxide with acid and note the salt formed.
-- Conclusion: metal oxides behave as bases.
-## Questions and answers
+## 2.1.6 Reaction of a Non-metallic Oxide with Base
 
-### 2.1 continued - Reactions of acids and bases
+Carbon dioxide is a non-metallic oxide. It reacts with the base calcium
+hydroxide:
 
-Question:
-Why do acids react with metals to give hydrogen gas?
+`Ca(OH)2(aq) + CO2(g) -> CaCO3(s) + H2O(l)`
 
-Answer:
-Acids provide hydrogen ions, and reactive metals displace hydrogen from the acid to form a salt and hydrogen gas.
+The products are salt and water, as in an acid-base reaction. Therefore,
+non-metallic oxides are acidic in nature.
 
-Question:
-Why do acids react with carbonates to release carbon dioxide?
+### Fast comparison
 
-Answer:
-Carbonates contain the carbonate ion, which reacts with acids to produce carbon dioxide, water, and a salt.
+| Reactants | Products | Gas test or observation |
+| --- | --- | --- |
+| Acid + metal | Salt + hydrogen | Gas burns with a pop |
+| Acid + carbonate/hydrogencarbonate | Salt + water + carbon dioxide | Lime water turns milky |
+| Acid + base | Salt + water | Indicator may show neutralisation |
+| Acid + metallic oxide | Salt + water | Solid oxide dissolves; salt solution forms |
+| Base + non-metallic oxide | Salt + water | Example: lime water and carbon dioxide |
 
-Question:
-Why do metallic oxides react with acids?
+**❓ QUESTIONS**
 
-Answer:
-Metallic oxides are basic in nature, so they neutralise acids to form salt and water.
+**1. Why should curd and sour substances not be kept in brass and copper vessels?**
 
-Do You Know:
-- A hydrogen pop test is the quickest classroom check for hydrogen gas.
+*Answer:* Curd and other sour foods contain acids. These acids can react with
+brass or copper and form harmful metal salts. The salts may contaminate the
+food, so such foods should not be stored in these vessels.
 
-## Solved examples
+**2. Which gas is usually liberated when an acid reacts with a metal? Illustrate with an example. How will you test for the presence of this gas?**
 
-### Example 1: Gas from acid and metal
+*Answer:* Hydrogen gas is liberated. For example:
 
-Zinc reacts with dilute sulphuric acid.
+`Zn(s) + H2SO4(aq) -> ZnSO4(aq) + H2(g)`
 
-Answer:
-Hydrogen gas is produced.
+Bring a burning splint or candle near a small sample of the gas. Hydrogen burns
+with a pop sound.
 
-### Example 2: Lime water test
+**3. Metal compound A reacts with dilute hydrochloric acid to produce effervescence. The gas evolved extinguishes a burning candle. Write a balanced chemical equation for the reaction if one of the compounds formed is calcium chloride.**
 
-A gas turns lime water milky.
+*Answer:* The gas that extinguishes the candle is carbon dioxide, so compound A
+can be calcium carbonate.
 
-Answer:
-The gas is carbon dioxide.
-
-### Example 3: Metallic oxide reaction
-
-`CuO + 2HCl -> CuCl2 + H2O`
-
-Answer:
-Copper oxide behaves as a basic oxide because it reacts with acid to form salt and water.
+`CaCO3(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l) + CO2(g)`
 
 ## Common mistakes
 
-1. Writing oxygen instead of hydrogen for acid-metal reactions.
-2. Forgetting water in carbonate-acid reactions.
-3. Saying lime water turns milky due to hydrogen.
-4. Treating every metal as equally reactive with bases.
+1. Writing oxygen instead of hydrogen for an acid-metal reaction.
+2. Forgetting water in an acid-carbonate reaction.
+3. Stopping at "lime water turns milky" when excess carbon dioxide is part of
+   the question.
+4. Saying all metals react with bases.
+5. Calling phenolphthalein a product of neutralisation.
+6. Saying every oxide is basic. Metallic oxides are generally basic, while
+   non-metallic oxides are generally acidic in this chapter.
 
 ## Board tips
 
-- For acid-metal reactions, mention hydrogen and the pop test.
-- For carbonate reactions, mention carbon dioxide and lime water.
-- For oxide reactions, connect oxide nature with products.
+- Observation answers need the visible change, the inference and the balanced
+  equation.
+- For hydrogen, write "burns with a pop sound."
+- For carbon dioxide, write "turns lime water milky due to white `CaCO3`
+  precipitate."
+- If excess carbon dioxide is mentioned, add that the milkiness disappears
+  because soluble `Ca(HCO3)2` forms.
+- Include state symbols when the question asks for a complete equation.
 
 ## Quick practice
 
-1. What gas forms when zinc reacts with dilute acid?
-2. What test confirms hydrogen?
-3. What gas turns lime water milky?
-4. Complete: metal carbonate + acid -> salt + water + ___.
-5. What colour solution forms when CuO reacts with HCl?
+1. Why do bubbles form when zinc reacts with dilute sulphuric acid?
+2. Name the gas and the test in Activity 2.3.
+3. Write the products when sodium hydrogencarbonate reacts with dilute
+   hydrochloric acid.
+4. Why does lime water turn milky?
+5. Why does the milkiness disappear in excess carbon dioxide?
+6. State the colour changes in Activity 2.6.
+7. What observation shows that copper oxide reacted with hydrochloric acid?
+8. Complete: non-metallic oxide + base -> ___ + ___.
 
 ## Answer check
 
-1. Hydrogen.
-2. It burns with a pop sound.
-3. Carbon dioxide.
-4. Carbon dioxide.
-5. Blue-green copper chloride solution.
+1. Hydrogen gas forms at the zinc surface.
+2. Hydrogen; it burns with a pop sound.
+3. Sodium chloride, water and carbon dioxide.
+4. Insoluble white calcium carbonate forms.
+5. Soluble calcium hydrogencarbonate forms.
+6. Pink to colourless after acid, then back to pink after base.
+7. The black copper oxide dissolves and a blue-green solution forms.
+8. Salt + water.
 
 ## One-minute revision
 
 - Acid + metal gives salt and hydrogen.
-- Acid + carbonate gives salt, water, and carbon dioxide.
-- Carbon dioxide turns lime water milky.
-- Metallic oxides are basic and react with acids.
+- Some metals such as zinc react with strong bases and release hydrogen.
+- Acid + carbonate gives salt, water and carbon dioxide.
+- Carbon dioxide turns lime water milky; excess carbon dioxide clears it.
+- Neutralisation gives salt and water.
+- Metallic oxides are basic; non-metallic oxides are acidic.
 
 ## Comic recap
-- Zinc Strip: "With acid, I release hydrogen."
-- Pop Flame: "Hydrogen says pop."
-- Lime Water: "CO2 makes me milky."
-- Copper Oxide: "Acid turns my black powder into blue-green salt."
 
-## Remember this line
-
-Metal gives hydrogen, carbonate gives carbon dioxide, oxide gives salt and water.
-
-
+- Priya: "The pop tells me that the acid-metal gas is hydrogen."
+- Rahul: "The milky lime water tells me the carbonate gas is carbon dioxide."
+- Priya: "Pink to colourless shows the base was neutralised by acid."
+- Rahul: "Observation, inference, equation - that is a complete board answer."

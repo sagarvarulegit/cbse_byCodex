@@ -4,7 +4,7 @@ audience: CBSE Class 10
 subject: Science
 chapter_number: 6
 chapter_slug: control-and-coordination
-status: draft
+status: published
 content_type: chapter-pack
 source_textbook: textbooks/science/extracted/jesc106.pdf
 ---
@@ -30,12 +30,18 @@ This pack follows NCERT `jesc106.pdf` in Chapter 6 order: 6.1 animals nervous sy
 3. 6.1.2-6.1.4 Human Brain and Nervous Tissue Action
 4. 6.2 Coordination in Plants
 5. 6.3 Hormones in Animals
+6. NCERT Activities, Questions, Exercises 1-12, and Revision
+7. 2023-2026 Board Exam Practice and Full-Mark Answer Patterns
 
 ## 6.1 animals - nervous system
 
 Animals detect stimuli through receptors and send impulses through neurons. Figure 6.1 shows the structure of a neuron and the neuromuscular junction. Activity 6.1 links taste and smell by asking students to test sugar with a blocked nose.
 
 The key textbook ideas are gustatory receptors, olfactory receptors, dendrite, axon, synapse, and the transfer of a signal from one cell to the next.
+
+The platform also explicitly teaches sensory, relay, and motor neurons and both
+NCERT limitations of electrical impulses: connected cells only and cell-reset
+time.
 
 ## 6.1.1 reflex actions
 
@@ -46,6 +52,10 @@ Reflex actions are quick and automatic. Figure 6.2 shows the reflex arc. The spi
 Figure 6.3 shows the human brain. The fore-brain handles thinking and voluntary action, the medulla handles many involuntary actions, and the cerebellum handles posture and balance. The skull, fluid cushion, and vertebral column protect these tissues.
 
 This part also explains how nerve impulses finally make muscles shorten and act.
+
+The CNS/PNS distinction names cranial and spinal nerves. The hind-brain
+coverage includes pons, cerebellum, and medulla, and voluntary, involuntary, and
+reflex actions are compared rather than treated as synonyms.
 
 Textbook questions after 6.1.4 belong here:
 - What is the difference between a reflex action and walking?
@@ -76,6 +86,11 @@ Figure 6.7 and Activity 6.3 introduce the endocrine glands. Activity 6.4 complet
 
 This section should also keep the textbook notes on iodine, goitre, growth hormone, puberty, insulin, and feedback mechanisms.
 
+Board extensions verified from official schemes include gigantism from excess
+growth hormone, delayed puberty from oestrogen deficiency, and complete
+nervous-versus-hormonal comparisons by signal, route, speed, reach, and
+duration.
+
 Textbook questions after 6.3 belong here:
 - How does chemical coordination take place in animals?
 - Why is the use of iodised salt advisable?
@@ -103,6 +118,8 @@ Textbook questions after 6.3 belong here:
 - Draw and label the neuron, reflex arc, and brain parts neatly.
 - For plant answers, write the stimulus before the response.
 - For hormone answers, always mention the gland and the function.
+- For electrical-impulse limitations, name both connected cells and reset time.
+- For hormone imbalance, use the chain gland -> hormone -> function -> effect.
 
 ## quick practice
 
@@ -122,6 +139,10 @@ The chapter ends with the following exercise themes:
 - spinal cord injury and control systems
 - nervous versus hormonal coordination
 - sensitive plant movement versus leg movement
+
+All 14 in-text questions and Exercises 1-12 have complete student-facing
+answers in `06-ncert-exercises-and-revision.md`. The distinct 2023-2026 board
+demand families are practised in `07-board-exam-practice.md`.
 
 ## comic style recap
 

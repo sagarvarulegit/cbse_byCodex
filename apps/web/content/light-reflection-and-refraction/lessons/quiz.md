@@ -1,72 +1,30 @@
 ---
-title: Light - Reflection and Refraction chapter quiz
-subject: Science
-class_level: 10
-chapter: Light - Reflection and Refraction
+title: Light – Reflection and Refraction Mastery Quiz
 chapter_slug: light-reflection-and-refraction
-content_type: quiz
-status: draft
+status: published
 ---
 
-# Light - Reflection and Refraction chapter quiz
+# Mastery Quiz
 
-Answer these quick questions after revising the chapter notes.
-
-## 1. Reflection
-
-Reflection is the:
-
-1. bouncing back of light
-2. bending of light into heat
-3. splitting of sound
-
-Answer: 1
-Explanation: Reflection means light bounces back after striking a surface.
-
-## 2. Mirror formula
-
-The mirror formula is used for:
-
-1. spherical mirrors
-2. only flat paper
-3. only electricity
-
-Answer: 1
-Explanation: The mirror formula applies to spherical mirrors.
-
-## 3. Refraction
-
-Refraction is:
-
-1. bending of light
-2. breaking of metal
-3. noise reflection
-
-Answer: 1
-Explanation: Refraction is the bending of light when it moves between media.
-
-## 4. Lens
-
-A convex lens:
-
-1. converges light
-2. always disperses light
-3. stops light completely
-
-Answer: 1
-Explanation: A convex lens brings light rays together, so it converges light.
-
-## 5. Power
-
-Power of a lens is measured in:
-
-1. dioptre
-2. metre per second
-3. newton
-
-Answer: 1
-Explanation: Lens power is measured in dioptre.
-
-## revision reminder
-
-Recheck reflection, refraction, lenses, and formulas before retrying.
+1. State the two laws of reflection. **Answer:** `i=r`; incident ray, normal,
+   reflected ray are coplanar.
+2. Relate R and f. **Answer:** `R=2f`.
+3. Concave object at C gives? **Answer:** At C, same size, real, inverted.
+4. Concave object between F and P gives? **Answer:** Behind mirror, enlarged,
+   virtual, erect.
+5. Convex mirror always gives? **Answer:** Virtual, erect, diminished.
+6. Mirror formula? **Answer:** `1/f=1/v+1/u`.
+7. Mirror magnification? **Answer:** `m=-v/u`.
+8. Why rear-view convex? **Answer:** Wide field and erect diminished image.
+9. Rarer to denser bends? **Answer:** Toward normal.
+10. Snell ratio? **Answer:** `sin i/sin r`.
+11. Absolute index? **Answer:** `n=c/v`.
+12. Glass-slab emergent ray? **Answer:** Parallel with lateral displacement.
+13. Ray through optical centre? **Answer:** Emerges undeviated.
+14. Convex lens object at 2F? **Answer:** Image at 2F, same size, real, inverted.
+15. Concave lens always gives? **Answer:** Virtual, erect, diminished.
+16. Lens formula? **Answer:** `1/f=1/v-1/u`.
+17. Lens magnification? **Answer:** `m=v/u`.
+18. Power unit? **Answer:** Dioptre.
+19. `P=-4D` means? **Answer:** Concave lens, `f=-0.25m`.
+20. Half-covered convex lens result? **Answer:** Complete but dimmer image.

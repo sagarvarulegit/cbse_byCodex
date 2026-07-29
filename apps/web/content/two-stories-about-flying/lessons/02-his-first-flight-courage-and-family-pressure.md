@@ -15,15 +15,6 @@ status: draft
 
 This lesson focuses on family pressure, the mother seagull, and the moment the young bird finally dives for food. That one action creates confidence.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain family pressure in the story
-- describe how the mother uses food
-- retell the first dive
-- show how action leads to confidence
-- write a short exam answer with clear points
-
 ## Story context
 
 The young seagull has already been afraid for a long time. Now the family waits, the mother seagull holds back food, and the bird faces a choice.

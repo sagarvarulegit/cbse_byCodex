@@ -4,9 +4,9 @@ audience: CBSE Class 10
 subject: Science
 chapter_number: 7
 chapter_slug: how-do-organisms-reproduce
-status: draft
+status: published
 content_type: chapter-pack
-source_textbook: textbooks/textbooks/science/extracted/jesc107.pdf
+source_textbook: textbooks/science/extracted/jesc107.pdf
 ---
 
 # How do Organisms Reproduce?
@@ -25,12 +25,16 @@ This pack follows `jesc107.pdf`: copying, variation, asexual reproduction, sexua
 
 ## chapter flow for the platform
 
-1. Why organisms reproduce
-2. Importance of variation
-3. Asexual reproduction
-4. Sexual reproduction
-5. Reproduction in flowering plants
-6. Reproduction in humans
+1. 7.1 DNA copying and variation
+2. 7.2.1-7.2.4 Fission, fragmentation, regeneration and budding
+3. 7.2.5-7.2.6 Vegetative propagation, tissue culture and spores
+4. 7.3.1 Why sexual reproduction?
+5. 7.3.2 Sexual reproduction in flowering plants
+6. 7.3.3 Puberty and the male reproductive system
+7. 7.3.3 Female system, fertilisation, placenta and menstruation
+8. 7.3.3 (d) Reproductive health and contraception
+9. NCERT Activities, Questions, What You Have Learnt and Exercises 1-11
+10. 2023-2026 board-exam practice and full-mark patterns
 
 ## 1) why reproduction matters
 
@@ -59,7 +63,8 @@ Asexual reproduction uses one parent and produces very similar offspring.
 One organism splits into two or more organisms.
 
 Example:
-Amoeba shows binary fission.
+Amoeba shows binary fission in any plane. Leishmania divides longitudinally.
+Plasmodium shows multiple fission.
 
 ### fragmentation
 
@@ -80,14 +85,21 @@ Planaria.
 A small bud grows on the parent and separates.
 
 Example:
-Hydra.
+Spirogyra.
+
+### regeneration and budding
+
+Planaria and Hydra can regenerate from suitable cut pieces. Hydra normally
+reproduces asexually by budding: repeated division at one site forms a bud that
+matures and detaches.
 
 ### vegetative propagation
 
 New plants grow from root, stem, or leaf.
 
 Examples:
-potato, sugarcane, rose.
+potato, Bryophyllum, sugarcane, rose, and money plant. Tissue culture forms a
+callus and plantlets in sterile media.
 
 ### spore formation
 
@@ -103,6 +115,9 @@ Sexual reproduction involves two parents and fusion of male and female gametes.
 Fusion of gametes is fertilisation.
 
 The fertilised egg is called zygote.
+
+Meiosis halves chromosome number in gametes; fertilisation restores the normal
+species number in the zygote.
 
 Advantages:
 - more variation
@@ -167,6 +182,9 @@ Examples:
 - intrauterine devices
 - surgical methods
 
+Only a barrier such as a condom is taught here as helping reduce transmission
+of many STIs. Copper-T prevents pregnancy but does not protect from STIs.
+
 ## exam-friendly summary notes
 
 - DNA copying produces similarity and variation.
@@ -190,6 +208,10 @@ Examples:
 - Define zygote, embryo, pollination, and fertilisation clearly.
 - Compare asexual and sexual reproduction in a table.
 - In variation questions, connect to survival.
+- Keep fertilisation in the oviduct and implantation in the uterus.
+- For placenta, write villi, maternal blood spaces, useful-material transfer,
+  and waste removal.
+- For every contraceptive, state its exact mechanism and limitation.
 
 ## solved practice set
 

@@ -15,15 +15,6 @@ status: draft
 
 The pilot is flying to England when the weather changes fast. The storm, the instruments, and the danger create strong suspense.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- describe the pilot's journey to England
-- explain how the storm creates suspense
-- name the problem with the instruments
-- retell the danger in simple English
-- answer board questions about the event sequence
-
 ## Story context
 
 The pilot wants to reach England and is confident at first. Then dark storm clouds appear, the flight becomes risky, and the instruments stop helping properly.

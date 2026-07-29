@@ -1,217 +1,116 @@
 ---
+type: ChapterPack
 title: Metals and Non-metals
-audience: CBSE Class 10
-subject: Science
+description: Canonical 2026-27 NCERT and verified board-practice path for Class 10 Science Chapter 3.
+tags: ['science', 'class-10', 'chapter-3', 'ncert', 'board-exam']
+timestamp: 2026-07-26T00:00:00Z
 chapter_number: 3
 chapter_slug: metals-and-non-metals
-status: draft
-content_type: chapter-pack
-source_textbook: textbooks/textbooks/science/extracted/jesc103.pdf
+status: published
+source_textbook: textbooks/science/extracted/jesc103.pdf
 ---
 
 # Metals and Non-metals
 
-## chapter goal
-
-By the end of this chapter, a student should be able to:
-- compare physical and chemical properties of metals and non-metals
-- use the reactivity series to predict reactions
-- explain ionic compounds and their properties
-- describe basic metallurgy, corrosion, and corrosion prevention
-
-## teacher note on textbook alignment
-
-This pack follows `jesc103.pdf`: physical properties, reactions with air, water, acids and salt solutions, reactivity series, ionic compounds, extraction and refining of metals, corrosion, and prevention.
-
-## chapter flow for the platform
-
-1. 3.1 Physical properties of metals and non-metals
-2. 3.1 continued - Thermal and electrical conductivity
-3. 3.2 Chemical properties of metals
-4. 3.2.4-3.3 Reactivity series and how metals react with non-metals
-5. 3.3-3.4 Ionic compounds and their properties
-6. 3.5-3.6 Occurrence, corrosion, and prevention
-
-## 3.1 Physical properties of metals and non-metals
-
-Metals are usually:
-- lustrous
-- hard
-- malleable
-- ductile
-- sonorous
-- good conductors of heat and electricity
-
-Non-metals are usually:
-- dull
-- brittle if solid
-- poor conductors
-- not sonorous
-
-Important exceptions:
-- mercury is a liquid metal
-- iodine is a lustrous non-metal
-- graphite conducts electricity
-
-## 3.1 continued - Thermal and electrical conductivity
-
-Metals conduct heat and electricity well because they have mobile electrons.
-
-## 3.2 Chemical properties of metals
-
-### with oxygen
-
-Metals form metal oxides.
-
-Example:
-`2Cu + O2 -> 2CuO`
-
-Metal oxides are generally basic.
-
-### with water
-
-Reactive metals like sodium and potassium react vigorously with water.
-
-Less reactive metals may react with steam.
-
-### with acids
-
-Metal + dilute acid -> salt + hydrogen gas
-
-Example:
-`Mg + 2HCl -> MgCl2 + H2`
-
-Copper does not react with dilute hydrochloric acid because it is less reactive than hydrogen.
-
-### with salt solutions
-
-A more reactive metal displaces a less reactive metal from its salt solution.
-
-Example:
-`Zn + CuSO4 -> ZnSO4 + Cu`
-
-## 3.2.4-3.3 Reactivity series and how metals react with non-metals
-
-The reactivity series arranges metals from most reactive to least reactive.
-
-Useful order:
-`K, Na, Ca, Mg, Al, Zn, Fe, Pb, H, Cu, Hg, Ag, Au`
-
-Metals above hydrogen can displace hydrogen from dilute acids. Metals below hydrogen generally cannot.
-
-## 3.3-3.4 Ionic compounds and their properties
-
-Metals lose electrons and form positive ions.
-
-Non-metals gain electrons and form negative ions.
-
-Example:
-Sodium loses one electron to form `Na+`.
-Chlorine gains one electron to form `Cl-`.
-Together they form `NaCl`.
-
-Properties of ionic compounds:
-- high melting and boiling points
-- usually soluble in water
-- conduct electricity when molten or in solution
-- do not conduct electricity in solid state
-
-## 3.5-3.6 Occurrence, corrosion, and prevention
-
-Metals occur as minerals and ores.
-
-Extraction depends on reactivity:
-- low reactivity metals can be reduced easily
-- middle reactivity metals are obtained by reduction of oxides
-- high reactivity metals are extracted by electrolysis
-
-Main steps:
-1. enrichment of ore
-2. conversion to oxide if needed
-3. reduction
-4. refining
-
-Electrolytic refining is used to get pure metal from impure metal.
-
-Corrosion is the slow eating away of metals by air, moisture, or chemicals.
-
-Rusting of iron needs oxygen and water.
-
-Prevention:
-- painting
-- oiling
-- galvanisation
-- electroplating
-- alloying
-
-## exam-friendly summary notes
-
-- Metals generally lose electrons.
-- Non-metals generally gain electrons.
-- Reactivity series predicts displacement reactions.
-- Ionic compounds conduct electricity only when ions are free to move.
-- Extraction method depends on metal reactivity.
-- Rusting needs air and moisture.
-
-## common mistakes students make
-
-1. Forgetting exceptions like graphite and iodine.
-2. Saying all metals react with acids.
-3. Confusing ore and mineral.
-4. Saying solid sodium chloride conducts electricity.
-5. Mixing galvanisation with electroplating.
-
-## board tips
-
-- Learn the reactivity series in order.
-- In displacement questions, compare metal reactivity first.
-- For ionic compounds, always mention free ions for conductivity.
-- In extraction questions, connect method to reactivity.
-
-## solved practice set
-
-### question 1
-Why does zinc displace copper from copper sulphate?
-
-Answer:
-Zinc is more reactive than copper, so it displaces copper from `CuSO4`.
-
-### question 2
-Why does `NaCl` not conduct electricity in solid state?
-
-Answer:
-Its ions are fixed in position. They cannot move freely.
-
-### question 3
-Name one method to prevent rusting.
-
-Answer:
-Galvanisation, painting, oiling, or alloying.
-
-## short answer practice
-
-1. Why are metals malleable?
-2. Why is graphite an exception among non-metals?
-3. What is the reactivity series?
-4. What is an ore?
-5. How does electrolysis help extract reactive metals?
-
-## mini quiz with answers
-
-1. Mercury is a liquid metal.
-2. Graphite conducts electricity.
-3. Zinc is more reactive than copper.
-4. Ionic compounds have high melting points.
-5. Rusting needs oxygen and water.
-
-## comic style recap
-
-Panel 1: Metal Man shines and says, "I bend, stretch, ring, and conduct."
-
-Panel 2: Non-metal Ninja whispers, "I usually break, but graphite has a secret wire power."
-
-Panel 3: Reactivity Referee checks the chart: "Higher metal displaces lower metal."
-
-Panel 4: Ion Twins `Na+` and `Cl-` lock hands: "Opposite charges make a strong bond."
-
-Panel 5: Rust Villain attacks iron, but Zinc Coat jumps in: "Galvanisation saves the day."
+## Learning promise
+
+A student completing this pack can:
+
+- derive uses and exceptions from physical properties;
+- predict reactions using the activity series;
+- explain metal reactions with oxygen, water, acids and salt solutions;
+- show ionic-compound formation and justify every property;
+- select and explain an extraction route from metal reactivity;
+- interpret electrolytic refining, corrosion and prevention;
+- answer all NCERT in-text questions and Exercises 1-16;
+- attempt the verified 2023-2026 board-demand families and current official
+  sample-paper tasks.
+
+## Exact NCERT hierarchy
+
+1. `3.1 Physical Properties`
+   - `3.1.1 Metals`
+   - `3.1.2 Non-metals`
+2. `3.2 Chemical Properties of Metals`
+   - `3.2.1 What happens when Metals are burnt in Air?`
+   - `3.2.2 What happens when Metals react with Water?`
+   - `3.2.3 What happens when Metals react with Acids?`
+   - `3.2.4 How do Metals react with Solutions of other Metal Salts?`
+   - `3.2.5 The Reactivity Series`
+3. `3.3 How do Metals and Non-metals React?`
+   - `3.3.1 Properties of Ionic Compounds`
+4. `3.4 Occurrence of Metals`
+   - `3.4.1 Extraction of Metals`
+   - `3.4.2 Enrichment of Ores`
+   - `3.4.3 Extracting Metals Low in the Activity Series`
+   - `3.4.4 Extracting Metals in the Middle of the Activity Series`
+   - `3.4.5 Extracting Metals towards the Top of the Activity Series`
+   - `3.4.6 Refining of Metals`
+5. `3.5 Corrosion`
+   - `3.5.1 Prevention of Corrosion`
+
+No invented `3.6` section is used.
+
+## Live platform path
+
+| Order | Resource | Purpose |
+| ---: | --- | --- |
+| 1 | `physical-properties` | Opening, `3.1`, `3.1.1`, Activities 3.1-3.4 |
+| 2 | `thermal-conductivity-and-conductivity` | Activities 3.5-3.8, `3.1.2`, Table 3.1, exceptions, first Questions |
+| 3 | `oxides-and-chemical-properties` | `3.2`, `3.2.1`, Activity 3.9, amphoteric oxides, anodising |
+| 4 | `reactivity-series-and-displacement` | `3.2.2`-`3.2.5`, Activities 3.10-3.12, Table 3.2, second Questions |
+| 5 | `ionic-compounds` | `3.3`-`3.3.1`, Tables 3.3-3.4, Figures 3.5-3.8, Activity 3.13, Questions |
+| 6 | `corrosion-and-prevention` | `3.4`-`3.5.1`, Figures 3.9-3.13, Activity 3.14, all metallurgy/corrosion Questions |
+| 7 | `ncert-exercises-and-revision` | What You Have Learnt and exact Exercises 1-16 |
+| 8 | `board-exam-practice` | 13 verified PYQs and two official 2025-26 SQP tasks |
+| 9 | `quiz` | 20 mixed diagnostic questions linked to canonical resources |
+
+## Non-negotiable source evidence
+
+- Activities 3.1-3.14 appear in source order with setup, observation,
+  conclusion and safety context.
+- Figures 3.1-3.13 have matching platform visuals or structured equivalents.
+- Tables 3.1-3.4 are represented with the source values/order.
+- All five in-text Questions blocks are placed before the next numbered
+  section, following the textbook sequence.
+- What You Have Learnt and Exercises 1-16 are complete.
+- Gold purity, aqua regia, anodising and the Delhi iron pillar remain attached
+  to their source contexts.
+
+## Board-demand coverage
+
+The 2023-2026 archive screen produced 120 strong Chapter 3 instances:
+
+| Demand family | Platform evidence |
+| --- | --- |
+| Physical properties and activity interpretation | Lessons 1-2; Board SQP 1 |
+| Oxygen, basic/amphoteric oxides, alkalis | Lessons 2-3; PYQs 1-2, 5, 10 |
+| Water, acids, HNO3 and salt displacement | Lesson 4; PYQs 4-6, 8 |
+| Reactivity-series reasoning | Lesson 4; PYQs 4, 6, 9 |
+| Electron transfer and ionic properties | Lesson 5; PYQs 7, 11 |
+| Roasting, calcination and reduction | Lesson 6; PYQs 3, 6, 9-10, 13 |
+| Cinnabar and copper extraction | Lesson 6; PYQs 6, 10, 12 |
+| Thermit reaction | Lesson 6; PYQs 1, 9, 13 |
+| Electrolytic extraction/refining | Lesson 6; PYQs 6, 12-13; SQP 2 |
+| Corrosion, rusting, coatings and material choice | Lesson 6; PYQs 6, 8, 10; SQP 2 |
+| Alloys and gold purity | Lesson 6 and NCERT exercises |
+
+Repeated set variants are covered through their full distinct command-word and
+marking-point demands, not by memorising one paper’s wording.
+
+## Full-mark answer routine
+
+1. Identify every command word and subpart.
+2. Select the rule from the activity series or ionic/extraction model.
+3. Write the balanced equation with conditions when requested.
+4. Add observation, cause and conclusion in activity questions.
+5. Label all required apparatus in refining or rusting diagrams.
+6. Complete one whole OR option only.
+7. Recheck formulas, charges and atom counts.
+
+## Fidelity and audit records
+
+- `source-fidelity-tracker.md` records the rendered-page comparison.
+- `board-exam-evidence.md` records paper and marking-scheme verification.
+- Lesson source is under
+  `apps/web/content/metals-and-non-metals/lessons/`.

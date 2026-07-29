@@ -8,6 +8,7 @@ const componentPath = path.join(repoRoot, 'components', 'ActivityIllustration.ts
 const dispatcherPath = path.join(repoRoot, 'components', 'LessonDemo.tsx');
 const publicRoot = path.join(repoRoot, 'public');
 const contentRoot = path.join(repoRoot, 'content');
+const globalStylesPath = path.join(repoRoot, 'app', 'globals.css');
 
 function markdownFiles(directory: string): string[] {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -25,6 +26,7 @@ test('all science activity demos route to static NCERT illustration assets', () 
   assert.doesNotMatch(dispatcher, /LabDemo|CanvasDemo|PlantGrowthActivityDemo|PlantGeotropismDemo/);
   assert.doesNotMatch(component, /Original ChatGPT-generated redraw/);
   assert.match(component, /const ILLUSTRATION_HOTSPOTS/);
+  assert.match(component, /kind: 'figure', figure: '6\.6'/);
   assert.match(component, /className="activity-illustration-hotspots"/);
   assert.match(component, /className="activity-illustration-hotspot-key"/);
   assert.match(component, /className="activity-illustration-legend"/);
@@ -59,43 +61,43 @@ test('Chapter 1 figures use individual assets, exact NCERT figure metadata, and 
   const chapterOneFigures: Record<string, { figure: string; image: string; labels: string[] }> = {
     'figure-1-1-magnesium-ribbon': {
       figure: '1.1',
-      image: 'activity-1-1-burning-magnesium.png',
+      image: 'activity-1-1-burning-magnesium.webp',
       labels: ['Bunsen burner', 'Magnesium ribbon', 'Tongs', 'Watch glass', 'Magnesium oxide'],
     },
     'activity-1-3-zinc-sulphuric-acid': {
-      figure: '1.2', image: 'activity-1-3-zinc-acid.png',
+      figure: '1.2', image: 'activity-1-3-zinc-acid.webp',
       labels: ['Conical flask', 'Cork', 'Glass tube', 'Zinc granules', 'Dilute sulphuric acid', 'Hydrogen gas'],
     },
     'activity-1-4-quicklime-water': {
-      figure: '1.3', image: 'activity-1-4-quicklime-water.png',
+      figure: '1.3', image: 'activity-1-4-quicklime-water.webp',
       labels: ['Beaker', 'Hand checking temperature', 'Quicklime', 'Water', 'Slaked lime mixture'],
     },
     'activity-1-5-heating-ferrous-sulphate': {
-      figure: '1.4', image: 'activity-1-5-ferrous-sulphate.png',
+      figure: '1.4', image: 'activity-1-5-ferrous-sulphate.webp',
       labels: ['Student', 'Boiling tube', 'Ferrous sulphate crystals', 'Test-tube holder', 'Bunsen burner', 'Wafted gases'],
     },
     'activity-1-6-heating-lead-nitrate': {
-      figure: '1.5', image: 'activity-1-6-lead-nitrate.png',
+      figure: '1.5', image: 'activity-1-6-lead-nitrate.webp',
       labels: ['Hand', 'Tongs', 'Boiling tube', 'Lead nitrate', 'Bunsen burner', 'Nitrogen dioxide fumes'],
     },
     'activity-1-7-electrolysis-water': {
-      figure: '1.6', image: 'activity-1-7-electrolysis-water.png',
+      figure: '1.6', image: 'activity-1-7-electrolysis-water.webp',
       labels: ['Plastic mug', 'Acidified water', 'Graphite electrodes', 'Rubber stoppers', 'Inverted test tubes', 'Switch', '6 V battery', 'Hydrogen', 'Oxygen'],
     },
     'activity-1-8-photochemical-decomposition': {
-      figure: '1.7', image: 'activity-1-8-silver-chloride.png',
+      figure: '1.7', image: 'activity-1-8-silver-chloride.webp',
       labels: ['China dish', 'Silver chloride', 'Sunlight', 'Silver'],
     },
     'activity-1-9-iron-copper-sulphate': {
-      figure: '1.8(a)-(b)', image: 'activity-1-9-iron-copper-sulphate.png',
+      figure: '1.8(a)-(b)', image: 'activity-1-9-iron-copper-sulphate.webp',
       labels: ['Clean comparison nail', 'Blue copper sulphate control', 'Two immersed nails', 'Pale-green iron sulphate', 'Copper-coated nails'],
     },
     'activity-1-10-barium-sulphate-precipitate': {
-      figure: '1.9', image: 'activity-1-10-barium-sulphate.png',
+      figure: '1.9', image: 'activity-1-10-barium-sulphate.webp',
       labels: ['Sodium sulphate solution', 'Barium chloride solution', 'Receiving test tube', 'Barium sulphate precipitate'],
     },
     'activity-1-11-heating-copper-powder': {
-      figure: '1.10', image: 'activity-1-11-heating-copper.png',
+      figure: '1.10', image: 'activity-1-11-heating-copper.webp',
       labels: ['China dish', 'Copper powder', 'Copper oxide', 'Wire gauze', 'Tripod stand', 'Bunsen burner'],
     },
   };
@@ -126,4 +128,63 @@ test('Chapter 1 figures use individual assets, exact NCERT figure metadata, and 
     assert.equal(new Set(targets).size, targets.length, `${demoId} pins must target distinct points`);
     assert.ok(fs.existsSync(path.join(publicRoot, 'activity-illustrations', expected.image)), expected.image);
   }
+});
+
+test('Chapter 1 delivered illustration sources stay within the mobile image budget', () => {
+  const component = fs.readFileSync(componentPath, 'utf8');
+  const chapterOneImages = [
+    'activity-1-1-burning-magnesium.webp',
+    'activity-1-2-lead-iodide.webp',
+    'activity-1-3-zinc-acid.webp',
+    'activity-1-4-quicklime-water.webp',
+    'activity-1-5-ferrous-sulphate.webp',
+    'activity-1-6-lead-nitrate.webp',
+    'activity-1-7-electrolysis-water.webp',
+    'activity-1-8-silver-chloride.webp',
+    'activity-1-9-iron-copper-sulphate.webp',
+    'activity-1-10-barium-sulphate.webp',
+    'activity-1-11-heating-copper.webp',
+  ];
+
+  let totalBytes = 0;
+  for (const imageName of chapterOneImages) {
+    const imagePath = path.join(publicRoot, 'activity-illustrations', imageName);
+    const imageBytes = fs.statSync(imagePath).size;
+    totalBytes += imageBytes;
+    assert.ok(imageBytes <= 350 * 1024, `${imageName} exceeds 350 KiB`);
+    assert.match(component, new RegExp(imageName.replace('.', '\\.')));
+  }
+
+  assert.ok(totalBytes <= 4 * 1024 * 1024, 'Chapter 1 illustration sources exceed 4 MiB');
+  assert.doesNotMatch(component, /image: '\/activity-illustrations\/activity-1-[^']+\.png'/);
+});
+
+test('Chapter 1 full-frame images expose intrinsic size and native loading hints', () => {
+  const component = fs.readFileSync(componentPath, 'utf8');
+  const styles = fs.readFileSync(globalStylesPath, 'utf8');
+
+  assert.match(component, /CHAPTER_ONE_IMAGE_DIMENSIONS/);
+  assert.match(component, /imageHeight: 675/);
+  assert.match(component, /imageWidth: 1200/);
+  assert.match(component, /loading="lazy"/);
+  assert.match(component, /decoding="async"/);
+  assert.match(component, /height=\{illustration\.imageHeight\}/);
+  assert.match(component, /width=\{illustration\.imageWidth\}/);
+  assert.match(
+    styles,
+    /\.activity-illustration-image-native\s*\{[\s\S]*?object-fit: contain/,
+  );
+});
+
+test('Chapter 10 composite panels use their real unequal boundaries', () => {
+  const component = fs.readFileSync(componentPath, 'utf8');
+
+  assert.match(
+    component,
+    /'figure-10-5-10-6-dispersion':[\s\S]*?crop: \{ x: 0, y: 51\.9, width: 43\.4, height: 48\.1 \}/,
+  );
+  assert.match(
+    component,
+    /'figure-10-9-10-10-atmospheric-refraction':[\s\S]*?crop: \{ x: 43\.4, y: 51\.9, width: 56\.6, height: 48\.1 \}/,
+  );
 });

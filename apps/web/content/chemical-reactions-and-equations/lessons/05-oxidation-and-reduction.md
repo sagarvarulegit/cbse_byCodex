@@ -5,12 +5,6 @@ description: Understand redox reactions, corrosion and rancidity through textboo
 
 # 1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life
 
-## Learning goals
-
-- Identify oxidation and reduction through oxygen or hydrogen change.
-- Explain why oxidation and reduction occur together.
-- Explain corrosion and rancidity with textbook examples.
-
 ## 1.2.5 Oxidation and Reduction
 
 ### Activity 1.11 Heating copper powder
@@ -22,6 +16,8 @@ description: Understand redox reactions, corrosion and rancidity through textboo
 [[demo:activity-1-11-heating-copper-powder]]
 
 **Figure 1.10** Oxidation of copper to copper oxide.
+
+**What do you observe? Why has this black substance formed?**
 
 **Observation:** The reddish-brown copper surface becomes coated with black copper(II) oxide because oxygen is added to copper.
 
@@ -80,7 +76,18 @@ New iron articles are shiny, but iron left exposed develops reddish-brown rust. 
 - Silver develops a black coating.
 - Copper develops a green coating.
 
-Corrosion damages car bodies, bridges, iron railings, ships and other metal objects. Rusting causes serious economic loss because damaged iron must be repaired or replaced. Contact with air and moisture can be limited by painting, oiling, greasing or galvanising.
+Corrosion damages car bodies, bridges, iron railings, ships and other metal objects. Rusting causes serious economic loss because damaged iron must be repaired or replaced. Paint limits the contact of iron with air and moisture, so it slows rusting.
+
+### Board extension: Copper corrosion and material choice
+
+This extension prepares you for a current CBSE application pattern. It is not an additional NCERT section.
+
+- Copper exposed to moist air slowly develops a green coating of **basic copper carbonate**.
+- This coating stays attached and helps shield the copper below from further attack.
+- Iron rust is loose and flaky. When it falls away, fresh iron is exposed and corrosion can continue.
+- Copper is **malleable**, so it can be made into thin sheets and shaped for roofs, domes and similar structures.
+
+For a material-choice answer, do not write only “copper corrodes less.” Name the coating, compare what the two coatings do, and connect the chosen material property to its use.
 
 ## 1.3.2 Rancidity
 
@@ -90,7 +97,6 @@ Rancidity can be slowed by:
 
 - adding antioxidants to food containing fats and oils;
 - keeping food in airtight containers;
-- keeping food cool;
 - flushing packets with nitrogen so oxygen cannot easily reach the food.
 
 ### Recall Activity 1.1
@@ -140,4 +146,7 @@ Magnesium burns with a dazzling flame in oxygen and changes into white magnesium
 
 ## Comic recap
 
-Oxygen paints copper black. Hydrogen removes that oxygen. Paint protects iron, while nitrogen guards a chips packet from rancidity.
+- Priya: "Copper gains oxygen and forms black copper oxide."
+- Rahul: "Hydrogen removes oxygen from copper oxide, so copper oxide is reduced."
+- Priya: "Paint blocks air and moisture from reaching iron."
+- Rahul: "Less oxygen in the packet means slower rancidity."

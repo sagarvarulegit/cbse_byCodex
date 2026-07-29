@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="2025" viewBox="0 0 1200 2025">
+  <defs>
+    <marker id="blue12" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#2563eb"/>
+    </marker>
+    <marker id="red12" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#dc2626"/>
+    </marker>
+    <marker id="green12" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0L9 3L0 6Z" fill="#059669"/>
+    </marker>
+    <style>
+      .panel{fill:#f8fafc;stroke:#0f172a;stroke-width:4}
+      .sub{fill:#fff;stroke:#cbd5e1;stroke-width:3}
+      .title{font:700 28px Arial,sans-serif;fill:#0f172a}
+      .case{font:700 21px Arial,sans-serif;fill:#0f766e}
+      .label{font:700 21px Arial,sans-serif;fill:#334155}
+      .small{font:600 17px Arial,sans-serif;fill:#475569}
+      .wire{fill:none;stroke:#0f172a;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+      .field{fill:none;stroke:#2563eb;stroke-width:6;marker-end:url(#blue12)}
+      .current{fill:none;stroke:#dc2626;stroke-width:6;marker-end:url(#red12)}
+      .force{fill:none;stroke:#059669;stroke-width:8;marker-end:url(#green12)}
+      .live{fill:none;stroke:#b91c1c;stroke-width:8}
+      .neutral{fill:none;stroke:#2563eb;stroke-width:8}
+      .earth{fill:none;stroke:#16a34a;stroke-width:8}
+      .box{fill:#fef3c7;stroke:#0f172a;stroke-width:5}
+      .node{fill:#0f172a}
+    </style>
+  </defs>
+
+  <!-- Figure 12.12 -->
+  <g>
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 12.12 · Force on a current-carrying conductor</text>
+    <g transform="translate(60 90)">
+      <rect class="sub" width="1080" height="525" rx="20"/>
+      <path d="M290 130V355Q290 415 350 415H440V345H375Q350 345 350 320V165Q350 140 375 140H440V70H350Q290 70 290 130Z" fill="#cbd5e1" stroke="#0f172a" stroke-width="7"/>
+      <rect x="355" y="88" width="82" height="78" rx="8" fill="#2563eb"/>
+      <rect x="355" y="320" width="82" height="78" rx="8" fill="#dc2626"/>
+      <text x="382" y="138" font-family="Arial" font-size="30" font-weight="800" fill="#fff">S</text>
+      <text x="382" y="371" font-family="Arial" font-size="30" font-weight="800" fill="#fff">N</text>
+      <path class="field" d="M485 310V165"/>
+      <text class="small" x="505" y="205">magnetic field</text>
+      <line x1="500" y1="320" x2="740" y2="180" stroke="#f59e0b" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="500" cy="320" r="12" fill="#0f172a"/><circle cx="740" cy="180" r="12" fill="#0f172a"/>
+      <text class="label" x="470" y="350">A</text><text class="label" x="750" y="180">B</text>
+      <path class="current" d="M710 198L530 303"/>
+      <path class="force" d="M850 300H650"/>
+      <text class="case" x="705" y="340">force / displacement left</text>
+      <path class="wire" d="M500 320V445H530M600 445H660M720 445H740V180"/>
+      <line class="wire" x1="530" y1="445" x2="560" y2="445"/>
+      <line x1="560" y1="415" x2="560" y2="475" stroke="#0f172a" stroke-width="6"/>
+      <line x1="590" y1="427" x2="590" y2="463" stroke="#0f172a" stroke-width="6"/>
+      <line class="wire" x1="590" y1="445" x2="600" y2="445"/>
+      <circle class="node" cx="660" cy="445" r="7"/><circle class="node" cx="720" cy="445" r="7"/>
+      <line x1="660" y1="442" x2="720" y2="442" stroke="#0f172a" stroke-width="6"/>
+      <text class="small" x="535" y="500">battery</text><text class="small" x="660" y="500">closed key</text>
+      <text class="case" x="55" y="70">Reversing current or field reverses the rod’s displacement.</text>
+    </g>
+  </g>
+
+  <!-- Figure 12.13 -->
+  <g transform="translate(0 675)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 12.13 · Fleming’s left-hand rule</text>
+    <g transform="translate(60 90)">
+      <rect class="sub" width="1080" height="525" rx="20"/>
+      <path d="M505 420Q450 395 442 330L440 260Q440 225 468 220Q495 220 505 252L520 305L520 110Q520 72 550 72Q580 72 584 110V265V70Q584 35 614 35Q644 35 648 70V265V92Q648 58 678 58Q708 58 712 92V282V135Q712 102 742 102Q772 102 776 135V330Q776 405 710 445Q625 490 505 420Z" fill="#fde68a" stroke="#0f172a" stroke-width="7"/>
+      <path class="field" d="M614 245V55"/>
+      <path class="current" d="M614 245L785 245"/>
+      <path class="force" d="M515 338L365 455"/>
+      <text class="case" x="210" y="465">Thumb = force / motion</text>
+      <text class="case" x="430" y="28">Forefinger = magnetic field</text>
+      <text class="case" x="835" y="238">Middle finger</text>
+      <text class="case" x="835" y="268">= current</text>
+      <path d="M880 95h95v95h-95Z" fill="none" stroke="#64748b" stroke-width="4"/>
+      <path d="M880 190l95-95" stroke="#64748b" stroke-width="4"/>
+      <text class="small" x="835" y="350">three mutually</text>
+      <text class="small" x="835" y="376">perpendicular directions</text>
+    </g>
+  </g>
+
+  <!-- Figure 12.15 -->
+  <g transform="translate(0 1350)">
+    <rect class="panel" x="2" y="2" width="1196" height="671" rx="24"/>
+    <text class="title" x="42" y="48">Figure 12.15 · Common domestic electric circuit</text>
+    <g transform="translate(40 82)">
+      <rect class="sub" width="1120" height="545" rx="20"/>
+      <text class="label" x="30" y="105">Earth</text>
+      <text class="label" x="30" y="185">Live</text>
+      <text class="label" x="30" y="265">Neutral</text>
+      <path class="earth" d="M115 98H1035"/>
+      <path class="live" d="M115 178H235"/>
+      <path class="neutral" d="M115 258H1035"/>
+      <rect class="box" x="235" y="150" width="95" height="56" rx="8"/>
+      <text class="small" x="247" y="184">board fuse</text>
+      <path class="live" d="M330 178H385"/>
+      <rect class="box" x="385" y="140" width="125" height="150" rx="10"/>
+      <text class="case" x="405" y="205">meter</text>
+      <path class="live" d="M510 178H560"/>
+      <path class="neutral" d="M510 258H560"/>
+      <rect class="box" x="560" y="140" width="130" height="150" rx="10"/>
+      <text class="small" x="578" y="195">double-pole</text>
+      <text class="small" x="588" y="220">main switch</text>
+      <path class="live" d="M690 178H745"/>
+      <path class="neutral" d="M690 258H745"/>
+      <rect class="box" x="745" y="135" width="150" height="160" rx="10"/>
+      <text class="small" x="760" y="192">distribution</text>
+      <text class="small" x="782" y="218">box</text>
+      <text class="small" x="763" y="247">fuses / MCBs</text>
+      <path class="live" d="M895 178H1035V470"/>
+      <path class="neutral" d="M895 258H955V470"/>
+      <path class="live" d="M1035 330H815M1035 455H815"/>
+      <path class="neutral" d="M955 370H815M955 495H815"/>
+      <circle class="node" cx="1035" cy="330" r="8"/><circle class="node" cx="955" cy="370" r="8"/>
+      <circle class="node" cx="1035" cy="455" r="8"/><circle class="node" cx="955" cy="495" r="8"/>
+      <rect class="box" x="650" y="315" width="165" height="70" rx="12"/>
+      <path class="live" d="M815 330H785"/><path class="neutral" d="M815 370H785"/>
+      <text class="small" x="670" y="357">lamp + switch</text>
+      <rect class="box" x="650" y="440" width="165" height="70" rx="12"/>
+      <path class="live" d="M815 455H785"/><path class="neutral" d="M815 495H785"/>
+      <text class="small" x="674" y="482">metal appliance</text>
+      <path class="earth" d="M700 98V440"/>
+      <circle cx="700" cy="440" r="9" fill="#16a34a"/>
+      <text class="case" x="110" y="340">220 V supply</text>
+      <text class="case" x="110" y="385">Appliances are in parallel</text>
+      <text class="small" x="110" y="420">independent switches</text>
+      <text class="small" x="110" y="445">same potential difference</text>
+      <text class="small" x="110" y="485">earth connects to metal body</text>
+    </g>
+  </g>
+</svg>

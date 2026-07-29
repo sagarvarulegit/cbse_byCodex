@@ -1,5 +1,5 @@
 ---
-title: 4.2 continued - Hydrocarbons and homologous series
+title: 4.2.2-4.2.4 Hydrocarbons and homologous series
 subject: Science
 class_level: 10
 chapter: Carbon and its Compounds
@@ -8,25 +8,16 @@ lesson_number: 3
 lesson_slug: hydrocarbons-and-homologous-series
 estimated_minutes: 11
 access_level: locked
-status: draft
+status: published
 ---
 
-# 4.2 continued - Hydrocarbons and homologous series
+# 4.2.2-4.2.4 Hydrocarbons and homologous series
 
 Hydrocarbons are compounds made only of carbon and hydrogen. They may be saturated or unsaturated.
 
 This lesson connects two textbook ideas: first, how to read a hydrocarbon from its bonds; second, how similar compounds can be arranged into a family called a homologous series.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- define hydrocarbon
-- distinguish saturated and unsaturated hydrocarbons
-- identify alkanes, alkenes, and alkynes
-- explain homologous series
-- use the `CH2` difference rule
-
-## Hydrocarbons
+## 4.2.2 Chains, Branches and Rings - hydrocarbon families
 
 A hydrocarbon contains only:
 - carbon
@@ -93,7 +84,7 @@ Quick comparison:
 | Ethene | double | `C2H4` | alkene |
 | Ethyne | triple | `C2H2` | alkyne |
 
-## Homologous series
+## 4.2.4 Homologous Series
 
 A homologous series is a family of organic compounds with:
 - the same functional group
@@ -119,6 +110,16 @@ Why does `CH2` keep appearing? When a carbon chain becomes longer by one carbon 
 
 The chemical properties stay similar because the same functional group or same bond family controls the main reactions. But physical properties change gradually because the molecules get heavier. The textbook points out that melting point, boiling point, and solubility show gradation as molecular mass increases.
 
+## Activity 4.2 - build the alcohol homologous series
+
+Compare `CH3OH`, `C2H5OH`, `C3H7OH` and `C4H9OH`.
+
+[[demo:activity-4-2-alcohol-homologous-series]]
+
+The difference in formula and molecular mass between consecutive members is
+`CH2` and 14 u. The `-OH` functional group remains unchanged, so their chemical
+properties remain similar while physical properties show a gradual change.
+
 ## How to identify the family
 
 Use this three-step scan:
@@ -134,9 +135,10 @@ Examples:
 
 ## NCERT activity and figure tracker
 
-Figure 4.3: Saturated and unsaturated hydrocarbons
-- Compare single-bond, double-bond, and triple-bond examples.
-- Conclusion: the bonding pattern changes the properties.
+Figures 4.6-4.10 and Table 4.2:
+- Ethane, ethene and ethyne show single, double and triple bonds.
+- Carbon skeletons may be straight, branched or cyclic.
+- Table 4.2 lists methane through hexane with their formulae and structures.
 ## Questions and answers
 
 ### 4.2 continued - Hydrocarbons and homologous series

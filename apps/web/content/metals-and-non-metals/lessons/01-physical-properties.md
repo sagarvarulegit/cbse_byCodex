@@ -1,149 +1,130 @@
 ---
-title: 3.1 Physical properties of metals and non-metals
+title: 3.1 Physical Properties — 3.1.1 Metals
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
 chapter_slug: metals-and-non-metals
 lesson_number: 1
 lesson_slug: physical-properties
-estimated_minutes: 10
+estimated_minutes: 24
 access_level: free
-status: draft
+status: published
 ---
 
-# 3.1 Physical properties of metals and non-metals
+# 3.1 Physical Properties
 
-Metals and non-metals can often be separated by the way they look, feel, bend, break, and conduct electricity.
+We use metals and non-metals every day. Before studying them, think:
 
-## Learning goals
+- Which metals and non-metals do you use?
+- Which properties helped you classify them?
+- How do those properties explain their uses?
 
-By the end of this lesson, you should be able to:
-- list the main physical properties of metals
-- list the main physical properties of non-metals
-- explain common exceptions like graphite, iodine, and mercury
-- use simple tests to compare samples
+NCERT first compares **physical properties**, but later warns that exceptions
+make chemical properties a more reliable basis of classification.
 
-## Metal properties
+## 3.1.1 Metals
 
-Most metals are:
-- lustrous
-- hard
-- malleable
-- ductile
-- sonorous
-- good conductors of heat and electricity
-
-Malleable means a material can be beaten into thin sheets. Ductile means it can be drawn into wires.
-
-## Non-metal properties
-
-Most non-metals are:
-- dull
-- brittle if solid
-- not sonorous
-- poor conductors of heat and electricity
-
-The important exception is graphite. Graphite is a non-metal form of carbon, but it conducts electricity.
-
-## Activity 3.1-3.4 and 3.6: Physical property tests
-
-Use the virtual lab to compare hardness, malleability, and electrical conductivity. Notice that metal samples usually resist cutting, flatten under a hammer, and complete a circuit.
+For Activities 3.1–3.6, NCERT uses samples such as iron, copper, aluminium,
+magnesium, sodium, lead and zinc.
 
 [[demo:activity-3-properties-physical-tests]]
 
-## Exceptions to remember
+## Activity 3.1 — metallic lustre
 
-Not every material follows the common pattern perfectly.
+### Try
 
-- Mercury is a liquid metal at room temperature.
-- Iodine is a lustrous non-metal.
-- Graphite conducts electricity even though it is a non-metal.
-- Sodium is a soft metal and can be cut with a knife.
+1. Observe samples of iron, copper, aluminium and magnesium.
+2. Rub each surface with sandpaper and observe again.
 
-## NCERT activity and figure tracker
+### Observation and conclusion
 
-Activity 3.1-3.4 and 3.6: Physical property tests
-- Compare lustre, hardness, malleability, ductility, sonority, and conductivity.
-- Conclusion: metals and non-metals usually show opposite physical patterns.
-## Questions and answers
+A freshly cleaned pure metal has a shining surface. This property is called
+**metallic lustre**. A dull coating may hide the lustre until it is removed.
 
-### 3.1 Physical properties of metals and non-metals
+## Activity 3.2 — hardness
 
-Question:
-Why are metals malleable?
+### Try safely
 
-Answer:
-Metal atoms can slide over one another without breaking the metallic bonding, so metals can be beaten into sheets.
+Try cutting small pieces of iron, copper, aluminium and magnesium with a sharp
+knife. A teacher should handle sodium with tongs, dry it between filter-paper
+folds and cut it on a watch glass.
 
-Question:
-Why is graphite an exception among non-metals?
+> Safety: Sodium is extremely reactive. Never touch it or put it in water.
 
-Answer:
-Graphite has free electrons between its layers, so it conducts electricity even though it is a non-metal.
+### Observation and conclusion
 
-Question:
-What are the usual physical properties of non-metals?
+Metals are **generally hard**, but hardness differs from metal to metal.
+Sodium is soft enough to cut with a knife, so “all metals are hard” is false.
 
-Answer:
-Non-metals are usually dull, brittle when solid, and poor conductors of heat and electricity.
+## Activity 3.3 — malleability
 
-More to Know:
-- Some textbook exceptions, like mercury and graphite, are important because they appear in exam questions.
+Hammer separate pieces of iron, zinc, lead and copper four or five times on an
+iron block and record the change of shape.
 
-## Solved examples
+**Malleability** is the ability of a metal to be beaten into thin sheets.
+Gold and silver are the most malleable metals.
 
-### Example 1: Graphite
+## Activity 3.4 — ductility
 
-Question:
-Why is graphite used in electrodes?
+List metal wires seen in daily life: copper electrical wire, aluminium cable
+and iron wire are examples.
 
-Answer:
-Graphite conducts electricity, even though it is a non-metal.
+**Ductility** is the ability of a metal to be drawn into thin wires. Gold is
+the most ductile metal; about 2 km of wire can be drawn from 1 g of gold.
 
-### Example 2: Malleability
+Malleability and ductility let metals be shaped for vessels, foil, wires,
+machines and ornaments.
 
-Question:
-Why can aluminium be used to make foil?
+## Do not swap these words
 
-Answer:
-Aluminium is malleable, so it can be beaten or rolled into thin sheets.
+| Property | Meaning | Familiar example |
+| --- | --- | --- |
+| Lustrous | Has a shiny surface | Freshly rubbed copper |
+| Hard | Resists cutting or scratching | Iron |
+| Malleable | Can be beaten into sheets | Aluminium foil |
+| Ductile | Can be drawn into wires | Copper wire |
 
-## Common mistakes
+## Textbook-link questions
 
-1. Saying all metals are hard.
-2. Forgetting that graphite conducts electricity.
-3. Confusing malleability with ductility.
-4. Writing that all non-metals are gases.
+### Why is aluminium used as foil?
 
-## Board tips
+It is malleable, so it can be rolled into very thin sheets.
 
-- Mention exceptions whenever the question asks for "all metals" or "all non-metals".
-- Use exact property words: lustrous, malleable, ductile, sonorous, conductor, brittle.
-- For one-mark questions, one correct exception can score quickly.
+### Why is copper used for electrical wiring?
 
-## Quick practice
+It is ductile and can be drawn into wires. Its electrical conductivity is
+studied in the next lesson.
 
-1. Name one liquid metal.
-2. Name one non-metal that conducts electricity.
-3. What is malleability?
-4. Why are metals used for electric wires?
+## Remember
+
+- The statements above are **general trends**, not definitions of every metal.
+- Never write “malleable means drawn into wires.” That is ductility.
+- Mention the property and connect it to the use:  
+  `property → useful behaviour → application`.
+
+## Quick check
+
+1. What change does sandpaper produce in Activity 3.1?
+2. Why must sodium be handled with exceptional care?
+3. Define malleability and ductility.
+4. Name the two most malleable metals and the most ductile metal.
 
 ## Answer check
 
-1. Mercury.
-2. Graphite.
-3. Ability to be beaten into sheets.
-4. Metals are good conductors of electricity.
+1. It removes the surface coating and exposes metallic lustre.
+2. Sodium is extremely reactive and may react violently with moisture.
+3. Malleability is beating into sheets; ductility is drawing into wires.
+4. Gold and silver are most malleable; gold is most ductile.
 
 ## One-minute revision
 
-Metals usually shine, bend, ring, and conduct. Non-metals are usually dull, brittle, and poor conductors. Remember the exceptions: mercury, iodine, graphite, and soft sodium.
+Clean metals are usually lustrous and metals are generally hard. They can be
+beaten into sheets (**malleable**) and drawn into wires (**ductile**). These
+properties explain many everyday uses, but exceptions must always be checked.
 
 ## Comic recap
 
-- Metal Master: "I shine, bend, and carry current."
-- Graphite Genius: "I am a non-metal, but I still conduct."
-- Sodium Softie: "Do not call every metal hard."
-- Exam Coach: "Rules are useful, but exceptions score marks."
-
-
+- Sandpaper: “I reveal the hidden shine.”
+- Hammer: “Sheets test malleability.”
+- Wire-die: “Wires test ductility.”
+- Sodium: “General rule? Yes. Absolute rule? No!”

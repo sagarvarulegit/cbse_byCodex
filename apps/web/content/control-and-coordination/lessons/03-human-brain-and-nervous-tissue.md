@@ -7,36 +7,51 @@ chapter_slug: control-and-coordination
 lesson_number: 3
 lesson_slug: human-brain-and-nervous-tissue
 estimated_minutes: 13
-access_level: false
-status: draft
+access_level: locked
+status: published
 ---
 
 # 6.1.2-6.1.4 Human Brain and Nervous Tissue Action
 
 The brain is the main coordinating centre of the body. It receives information, interprets it, and sends out instructions for voluntary and involuntary actions.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- identify the main regions of the human brain
-- explain the central nervous system and peripheral nervous system
-- describe how the brain and spinal cord are protected
-- explain how nervous tissue leads to muscle action
-
 ## 6.1.2 Human Brain
 
-[[demo:figure-6-3-human-brain]]
+[[figure:figure-6-3-human-brain]]
 
 The brain and spinal cord together form the central nervous system. Information reaches the brain from all parts of the body. The peripheral nervous system, made of cranial and spinal nerves, carries messages to and from the central nervous system.
+
+| Division | Components | Main role |
+| --- | --- | --- |
+| Central nervous system (CNS) | Brain and spinal cord | Receives and integrates information and coordinates responses |
+| Peripheral nervous system (PNS) | Cranial nerves arising from the brain and spinal nerves arising from the spinal cord | Connects the CNS with receptors, muscles, glands, and the rest of the body |
 
 The brain has three major regions:
 - fore-brain
 - mid-brain
 - hind-brain
 
-The fore-brain is the main thinking part. It receives sensory information, interprets it, and sends commands to voluntary muscles. It also has centres for hunger and fullness.
+The fore-brain, including the cerebrum, is the main thinking part. It receives
+sensory information, interprets it, stores and combines information, and sends
+commands to voluntary muscles. It also has centres for hunger and fullness.
 
-The medulla in the hind-brain controls involuntary actions such as breathing, blood pressure, salivation, and vomiting. The cerebellum helps maintain posture and balance and makes voluntary movements precise.
+The mid-brain helps control several involuntary responses. The hind-brain
+contains the pons, cerebellum, and medulla; the pons lies immediately above the
+medulla. The medulla controls involuntary actions such as breathing, blood
+pressure, salivation, and vomiting. The cerebellum helps maintain posture and
+balance and makes voluntary movements precise.
+
+### Voluntary, involuntary, and reflex actions
+
+| Type | Conscious choice? | Main control or path | Example |
+| --- | --- | --- | --- |
+| Voluntary | Yes | Fore-brain gives commands to voluntary muscles | Writing or moving a chair |
+| Involuntary | No conscious control | Centres in the mid-brain or hind-brain; medulla controls several vital actions | Breathing, salivation, blood pressure |
+| Reflex | No; immediate and protective | Short reflex arc, commonly through the spinal cord; information also reaches the brain | Pulling a hand from a hot object |
+
+Do not use "involuntary" and "reflex" as synonyms. Heartbeat, breathing and
+digestion are involuntary actions regulated continuously by brain centres.
+Withdrawing a hand from heat is a rapid response routed through a reflex arc.
 
 ## 6.1.3 How are these tissues protected?
 
@@ -45,6 +60,8 @@ The brain sits in a bony box inside the skull. It is also cushioned by fluid. Th
 ## 6.1.4 How does the Nervous Tissue cause Action?
 
 When a nerve impulse reaches a muscle, special proteins in the muscle cell change shape and arrangement. The muscle cell shortens, and movement happens.
+
+[[figure:figure-6-1-neuromuscular-junction]]
 
 ## Questions and answers
 
@@ -114,9 +131,11 @@ Muscle proteins change shape, the muscle shortens, and movement occurs.
 ## Board tips
 
 - Use the full names fore-brain, mid-brain, and hind-brain.
+- If asked for parts of the hind-brain, write **pons, cerebellum, medulla**.
 - For balance questions, write cerebellum.
 - For breathing and blood pressure, write medulla.
 - Mention voluntary and involuntary actions separately.
+- For PNS, name both cranial nerves and spinal nerves.
 
 ## Quick practice
 

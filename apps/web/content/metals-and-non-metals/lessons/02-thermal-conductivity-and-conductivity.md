@@ -1,135 +1,166 @@
 ---
-title: 3.1 continued - Thermal and electrical conductivity
+title: 3.1.1 Metals continued — 3.1.2 Non-metals
 subject: Science
 class_level: 10
 chapter: Metals and Non-metals
 chapter_slug: metals-and-non-metals
 lesson_number: 2
 lesson_slug: thermal-conductivity-and-conductivity
-estimated_minutes: 9
+estimated_minutes: 31
 access_level: premium
-status: draft
+status: published
 ---
 
-# 3.1 continued - Thermal and electrical conductivity
+# 3.1.1 Metals continued
 
-Metals are useful in utensils, wires, and machines because heat and electric charge can move through them easily.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain thermal conductivity
-- describe Activity 3.5 with wax pins
-- connect electrical conductivity with metal use
-- separate heat conduction from electricity conduction
-
-## Thermal conductivity
-
-Thermal conductivity means the ability of a material to transfer heat.
-
-Metals are good thermal conductors. If one end of a metal rod is heated, heat travels along the rod. This is why metal pans heat quickly.
-
-## Activity 3.5: Wax pins on a heated metal rod
-
-In this activity, wax holds pins to a metal rod. When one end is heated, the wax near the hot end melts first, and the pins fall one by one.
+## Activity 3.5 / Figure 3.1 — conduction of heat
 
 [[demo:activity-3-5-thermal-conductivity]]
 
-## Electrical conductivity
+### NCERT setup
 
-Metals are also good electrical conductors. Copper and aluminium are commonly used for wires because current passes through them easily.
+Clamp an aluminium or copper wire. Fix a pin to its free end with wax. Heat the
+wire near the clamp with a spirit lamp, candle or burner.
 
-Non-metals usually do not conduct electricity. Graphite is the key exception.
+### Observation
 
-## Why metals conduct
+Heat travels through the wire, melts the wax and makes the pin fall. The wire
+does not itself melt.
 
-Metals have free electrons that can move. These moving electrons help transfer heat and electric charge.
+### Conclusion
 
-For Class 10 answers, write this simply:
+Metals are good conductors of heat and generally have high melting points.
+Silver and copper are the best conductors of heat; lead and mercury are
+comparatively poor conductors.
 
-`Metals conduct because they contain mobile electrons.`
+## Activity 3.6 / Figure 3.2 — conduction of electricity
 
-## NCERT activity and figure tracker
+[[demo:activity-3-6-electrical-conductivity]]
 
-Activity 3.5: Wax pins on a heated metal rod
-- Heat one end of the rod and watch the wax pins fall in sequence.
-- Conclusion: heat travels through metals quickly.
+Set up a circuit with a battery, bulb, switch and a gap between terminals A and
+B. Bridge the gap with the metal sample.
 
-Activity 3.5 follow-up: electrical conductivity check
-- Use a simple circuit to test whether a sample allows current to pass.
-- Conclusion: metals usually conduct electricity because of mobile electrons.
-## Questions and answers
+- Bulb glows → current passes → sample conducts electricity.
+- Household wires use conducting copper or aluminium inside.
+- PVC or rubber coating is an electrical insulator and protects us from shock.
 
-### 3.1 continued - Thermal and electrical conductivity
+Metals that give a ringing sound when struck on a hard surface are
+**sonorous**. This is why metal is used for bells.
 
-Question:
-Why do metals conduct heat and electricity?
+# 3.1.2 Non-metals
 
-Answer:
-Metals have free or mobile electrons that can carry heat energy and electric charge through the metal.
+Common non-metals include carbon, sulphur, iodine, oxygen and hydrogen. They
+may be solids or gases; **bromine is a liquid non-metal**.
 
-Question:
-Which wax pin falls first in Activity 3.5?
+## Activity 3.7 — compare non-metals
 
-Answer:
-The wax pin nearest the heated end falls first because heat reaches it first.
+[[demo:activity-3-7-nonmetal-properties]]
 
-Think it over:
-- Good conductivity is one reason metals are useful for cooking vessels and electric wires.
+Repeat Activities 3.1–3.4 and 3.6 using carbon (coal or graphite), sulphur and
+iodine. Record rather than assume each result.
 
-## Solved examples
+## Table 3.1 — comparison record
 
-### Example 1: Cooking vessels
+| Type | Surface | Hardness | Malleability | Ductility | Conducts electricity | Sonority |
+| --- | --- | --- | --- | --- | --- | --- |
+| Metals, usually | Lustrous | Hard | Yes | Yes | Yes | Sonorous |
+| Non-metals, usually | Dull | Soft or brittle | No | No | No | Not sonorous |
 
-Question:
-Why are cooking vessels often made of metals?
+This table gives trends. Physical properties alone cannot classify every
+element because the textbook exceptions matter.
 
-Answer:
-Metals conduct heat well, so heat spreads through the vessel quickly.
+## Essential exceptions
 
-### Example 2: Electric wire
+1. **Mercury** is the only metal listed here that is liquid at room
+   temperature.
+2. **Gallium and caesium** have very low melting points; they can melt on the
+   palm.
+3. **Iodine** is a lustrous non-metal.
+4. Carbon has allotropes:
+   - **diamond** is the hardest natural substance and has very high melting and
+     boiling points;
+   - **graphite** conducts electricity.
+5. Alkali metals **lithium, sodium and potassium** are soft, low-density metals
+   with low melting points and can be cut with a knife.
+6. **Bromine** is a liquid non-metal.
 
-Question:
-Why is copper used in electric wiring?
+An **allotrope** is a different structural form of the same element.
 
-Answer:
-Copper is a good conductor of electricity and can be drawn into wires.
+## Activity 3.8 — nature of oxides
+
+[[demo:activity-3-8-3-9-combustion-oxides]]
+
+### Magnesium
+
+Burn magnesium ribbon, dissolve the ash in water and test the solution with
+red and blue litmus.
+
+`2Mg(s) + O₂(g) → 2MgO(s)`
+
+`MgO(s) + H₂O(l) → Mg(OH)₂(aq)`
+
+The product is basic and turns red litmus blue.
+
+### Sulphur
+
+Burn sulphur, collect the fumes in an inverted test tube, add water and test
+with litmus.
+
+`S(s) + O₂(g) → SO₂(g)`
+
+`SO₂(g) + H₂O(l) → H₂SO₃(aq)`
+
+The product is acidic and turns blue litmus red.
+
+### Source conclusion
+
+Most non-metals form acidic oxides when their oxides dissolve in water; most
+metals form basic oxides.
+
+# NCERT Questions — after 3.1
+
+Write your answers before opening the answer.
+
+## 1. Give an example of a metal which
+
+(i) is a liquid at room temperature.  
+(ii) can be easily cut with a knife.  
+(iii) is the best conductor of heat.  
+(iv) is a poor conductor of heat.
+
+### Answer
+
+(i) Mercury  
+(ii) Sodium  
+(iii) Silver  
+(iv) Lead (mercury is also comparatively poor)
+
+## 2. Explain the meanings of malleable and ductile.
+
+### Answer
+
+**Malleable** means capable of being beaten into thin sheets. **Ductile**
+means capable of being drawn into thin wires.
+
+## Board answer builder
+
+- Property question: write the exact term, meaning and one use/example.
+- Exception question: state the general rule, then name the exception.
+- Activity question: write **setup → observation → conclusion**, not only the
+  conclusion.
 
 ## Common mistakes
 
-1. Writing that thermal conductivity and electrical conductivity are the same thing.
-2. Forgetting graphite as a conducting non-metal.
-3. Saying heat travels through metals because they are shiny.
-
-## Board tips
-
-- In Activity 3.5, mention that the pin nearest the flame falls first.
-- For wire questions, connect conductivity with ductility.
-- Do not use graphite as an example of a metal; it is a non-metal exception.
-
-## Quick practice
-
-1. What is thermal conductivity?
-2. Which wax pin falls first in Activity 3.5?
-3. Name one metal used in electric wires.
-4. Name the non-metal exception that conducts electricity.
-
-## Answer check
-
-1. Ability to transfer heat.
-2. The pin nearest the heated end.
-3. Copper or aluminium.
-4. Graphite.
+- Calling graphite a metal because it conducts.
+- Calling bromine a liquid metal.
+- Saying all metal oxides are basic without “most” or without remembering
+  amphoteric oxides.
+- Mixing up the two litmus changes.
 
 ## One-minute revision
 
-Metals conduct heat and electricity because mobile electrons transfer energy and charge. In the wax-pin activity, heat travels from the hot end, so pins fall in order from near to far.
-
-## Comic recap
-
-- Flame Friend: "I heat one end of the rod."
-- Wax Pin: "I fall first because heat reaches me first."
-- Copper Wire: "Current moves through me easily."
-- Graphite Genius: "Non-metal exception reporting for duty."
-
-
+Metals generally conduct heat and electricity and are sonorous. Non-metals
+generally show the opposite physical properties, but mercury, gallium,
+caesium, iodine, diamond, graphite, alkali metals and bromine are high-value
+exceptions. Activity 3.8 links metals to basic oxides and non-metals to acidic
+oxides.

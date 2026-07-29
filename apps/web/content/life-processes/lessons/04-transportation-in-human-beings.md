@@ -8,7 +8,7 @@ lesson_number: 4
 lesson_slug: transportation-in-human-beings
 estimated_minutes: 12
 access_level: locked
-status: draft
+status: published
 ---
 
 # 5.4.1 Transportation in human beings
@@ -16,16 +16,6 @@ status: draft
 Transportation moves materials between specialised organs and body cells. In humans, the circulatory system carries oxygen, carbon dioxide, food, hormones, and wastes.
 
 The system has three main parts: heart, blood, and blood vessels.
-
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- trace blood flow through the four chambers of the heart
-- explain double circulation
-- compare arteries, veins, and capillaries
-- explain blood pressure, platelets, and lymph
-- identify NCERT Figures 5.10 and 5.11
-- avoid common mistakes about oxygenated and deoxygenated blood
 
 ## Need for transport
 
@@ -46,9 +36,18 @@ Figure 5.10: Schematic sectional view of the human heart
 - Show thicker ventricular walls.
 - Add valves between atria and ventricles.
 
+[[figure:figure-5-10-heart]]
+
 Figure 5.11: Transport and exchange of oxygen and carbon dioxide
 - Show the lungs loop and body loop.
 - Keep oxygen-rich and carbon dioxide-rich blood streams separate.
+
+[[figure:figure-5-11-double-circulation]]
+
+Blood-vessel support:
+- Compare arteries, veins, and one-cell-thick capillaries using wall thickness, pressure, valves, and direction of flow.
+
+[[figure:figure-5-blood-vessels]]
 
 More to Know: Blood pressure
 - Blood pressure is higher in arteries than in veins.
@@ -93,6 +92,14 @@ Double circulation means blood passes through the heart twice in one complete cy
 It keeps oxygen-rich and carbon dioxide-rich blood separate.
 
 Fishes have two-chambered hearts and single circulation. Amphibians and many reptiles have three-chambered hearts and tolerate some mixing. Birds and mammals have stronger separation.
+
+Board comparison:
+
+| Group | Heart | Circulation |
+|---|---|---|
+| Fishes | two chambers | single circulation |
+| Amphibians and most reptiles | three chambers | incomplete double circulation with some mixing |
+| Birds and mammals | four chambers | complete double circulation |
 
 ## Blood vessels
 

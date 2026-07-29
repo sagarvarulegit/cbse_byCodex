@@ -1,72 +1,48 @@
 ---
-title: Heredity chapter quiz
-subject: Science
-class_level: 10
-chapter: Heredity
+title: Heredity Mastery Quiz
 chapter_slug: heredity
-content_type: quiz
-status: draft
+status: published
 ---
 
-# Heredity chapter quiz
+# Heredity Mastery Quiz
 
-Answer these quick questions after revising the chapter notes.
-
-## 1. Trait
-
-A trait is:
-
-1. an inherited characteristic
-2. a random machine part
-3. a disease always
-
-Answer: 1
-Explanation: A trait is an inherited feature passed from parents to children.
-
-## 2. Genes
-
-Genes are:
-
-1. units of inheritance
-2. body wastes
-3. types of rocks
-
-Answer: 1
-Explanation: Genes carry hereditary information from one generation to the next.
-
-## 3. Dominant
-
-A dominant trait is one that:
-
-1. expresses itself in the presence of another allele
-2. never appears
-3. only appears in plants
-
-Answer: 1
-Explanation: A dominant allele shows its effect even when paired with another allele.
-
-## 4. Recessive
-
-A recessive trait usually appears when:
-
-1. it is paired with a dominant allele
-2. two recessive alleles are present
-3. it is washed away
-
-Answer: 2
-Explanation: Recessive traits appear when both alleles are recessive.
-
-## 5. Sex determination
-
-In humans, sex is determined by:
-
-1. X and Y chromosomes
-2. blood groups only
-3. the stomach
-
-Answer: 1
-Explanation: Human sex determination depends on X and Y chromosomes.
-
-## revision reminder
-
-Recheck traits, genes, dominant/recessive ideas, and sex determination before retrying.
+1. Why do variations accumulate over generations?  
+   **Answer:** Existing variations are inherited and new ones arise during reproduction.
+2. Which is likely older in an asexual population: a neutral trait in 60% or 10%?  
+   **Answer:** The 60% trait.
+3. Define heredity.  
+   **Answer:** Transmission of traits from parents to offspring.
+4. What is an allele?  
+   **Answer:** An alternative form of a gene.
+5. What is the phenotype of `Tt` if T is dominant?  
+   **Answer:** Tall.
+6. What is the genotype ratio from `Tt × Tt`?  
+   **Answer:** `1 TT : 2 Tt : 1 tt`.
+7. What is its phenotype ratio?  
+   **Answer:** `3 tall : 1 short`.
+8. Why does shortness reappear in F2?  
+   **Answer:** Two recessive `t` alleles can unite to form `tt`.
+9. How can `TT` be distinguished from `Tt`?  
+   **Answer:** Test-cross with `tt`; all tall means `TT`, 1:1 means `Tt`.
+10. State the NCERT dihybrid parental genotypes.  
+    **Answer:** `RRyy × rrYY`.
+11. What is their F1 genotype and phenotype?  
+    **Answer:** `RrYy`, round-yellow.
+12. List the four F1 gametes.  
+    **Answer:** `RY`, `Ry`, `rY`, `ry`.
+13. State the dihybrid F2 phenotype ratio.  
+    **Answer:** `9:3:3:1`.
+14. What do new F2 combinations prove?  
+    **Answer:** Independent inheritance of the two trait pairs.
+15. Complete: gene -> ___ -> trait.  
+    **Answer:** protein/enzyme.
+16. Why do gametes carry one chromosome set?  
+    **Answer:** Homologous pairs separate during gamete formation.
+17. What restores the diploid number?  
+    **Answer:** Fusion of male and female gametes at fertilisation.
+18. What are human female and male sex chromosomes?  
+    **Answer:** `XX` and `XY`.
+19. Which parent produces two sex-chromosome types of gametes?  
+    **Answer:** Father—X-bearing and Y-bearing sperm.
+20. Is dominant the same as common?  
+    **Answer:** No; dominant means expressed in a heterozygote.

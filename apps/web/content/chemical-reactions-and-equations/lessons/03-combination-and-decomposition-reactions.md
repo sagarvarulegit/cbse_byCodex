@@ -5,13 +5,6 @@ description: Learn combination, decomposition, exothermic and endothermic reacti
 
 # 1.2 Types of Chemical Reactions - 1.2.1 Combination and 1.2.2 Decomposition
 
-## Learning goals
-
-- Explain what changes at the particle level during a reaction.
-- Distinguish combination from decomposition reactions.
-- Classify decomposition by heat, electricity or light.
-- Distinguish exothermic from endothermic reactions.
-
 ## 1.2 Types of Chemical Reactions
 
 Atoms do not change into atoms of another element, disappear or appear from nowhere during a chemical reaction. Existing bonds break and new bonds form, producing new substances.
@@ -35,8 +28,7 @@ Atoms do not change into atoms of another element, disappear or appear from nowh
 
 Two reactants form a single product. This is a **combination reaction**.
 
-> [!NOTE]
-> **Do You Know?** Slaked lime solution is used for whitewashing. It slowly reacts with carbon dioxide in air. Calcium carbonate forms after two to three days and gives the wall a shiny finish. Marble also has the formula `CaCO₃`.
+**Do You Know?** Slaked lime solution is used for whitewashing. It slowly reacts with carbon dioxide in air. Calcium carbonate forms after two to three days and gives the wall a shiny finish. Marble also has the formula `CaCO₃`.
 
 `Ca(OH)₂(aq) + CO₂(g) → CaCO₃(s) + H₂O(l)` **(1.14)**
 
@@ -114,7 +106,7 @@ Caution: The gas test must be performed carefully by the teacher.
 6. Compare the gas volumes. Remove the filled tubes carefully.
 7. Let the teacher bring a burning candle near each tube and identify the gases from their behaviour.
 
-**Observation:** Hydrogen and oxygen form. The volume of hydrogen is about twice the volume of oxygen because water contains hydrogen and oxygen in a 2:1 ratio.
+**Observation:** Hydrogen forms at the cathode. Oxygen forms at the anode. The volume of hydrogen is about twice the volume of oxygen because water contains hydrogen and oxygen in a 2:1 ratio.
 
 [[demo:activity-1-7-electrolysis-water]]
 
@@ -123,6 +115,21 @@ Caution: The gas test must be performed carefully by the teacher.
 `2H₂O(l) →[Electricity] 2H₂(g) + O₂(g)`
 
 NCERT leaves this activity equation unnumbered. It must not be labelled `(1.21)`.
+
+### Board extension: Electrolysis details
+
+Pure water conducts electricity very poorly. A few drops of dilute sulphuric acid provide ions, so current can pass through the water more easily. In this experiment, the acid mainly helps conduction; the chapter equation still shows water decomposing.
+
+Use this electrode map:
+
+- **Cathode:** hydrogen gas, `H₂`
+- **Anode:** oxygen gas, `O₂`
+- **Volume ratio, cathode:anode:** `2:1`
+- **Mass ratio, cathode:anode:** `4:32 = 1:8`
+
+Why are the two ratios different? The balanced equation gives two molecules of `H₂` for one molecule of `O₂`, so the volume ratio is `2:1`. But `H₂` is much lighter than `O₂`. Two moles of `H₂` have a mass of `4 g`, while one mole of `O₂` has a mass of `32 g`.
+
+[TIP: First check whether the question asks for volume or mass. Volume is `2:1`; mass is `1:8`, written in cathode:anode order.]
 
 ### Activity 1.8 Sunlight on silver chloride
 
@@ -142,9 +149,13 @@ Silver bromide behaves in the same way:
 
 `2AgBr(s) →[Sunlight] 2Ag(s) + Br₂(g)` **(1.23)**
 
-These light-sensitive reactions were used in black-and-white photography.
+These light-sensitive reactions were used in black-and-white photography. This is called **photochemical decomposition** or **photolytic decomposition**.
 
-**Source prompt:** Heat, electricity and light supply the energy needed to break down reactants. A reaction that absorbs energy is **endothermic**.
+**Board application:** Silver chloride is kept in a dark-coloured container when light exposure must be prevented. The container blocks the energy that would otherwise start its photolytic decomposition.
+
+**What form of energy is causing these decomposition reactions?**
+
+Heat, electricity and light supply the energy needed to break down reactants. A reaction that absorbs energy is **endothermic**.
 
 ### Carry out the following activity
 
@@ -175,20 +186,26 @@ These light-sensitive reactions were used in black-and-white photography.
 - Numbering the electrolysis equation as `(1.21)`.
 - Forgetting that ferrous sulphate crystals first lose water and then decompose.
 - Calling an energy-absorbing reaction exothermic.
+- Giving the `2:1` volume ratio when a question asks for the `1:8` mass ratio.
 
 ## Board tips
 
 - State the energy source when naming a decomposition reaction.
 - Include the observation as well as the reaction type in activity questions.
 - For a 2:1 gas-volume answer, name hydrogen explicitly.
+- In an electrolysis answer, label hydrogen at the cathode and oxygen at the anode.
 
 ## Quick practice
 
-Classify equations `(1.19)`, `(1.22)` and the electrolysis equation by their energy source.
+1. Classify equations `(1.19)`, `(1.22)` and the electrolysis equation by their energy source.
+2. Why is dilute sulphuric acid added before electrolysing water?
+3. State the cathode:anode volume ratio and mass ratio.
 
 ## Answer check
 
-`(1.19)` thermal; `(1.22)` photochemical; electrolysis electrolytic decomposition.
+1. `(1.19)` thermal; `(1.22)` photochemical or photolytic; electrolysis electrolytic decomposition.
+2. The acid provides ions and increases electrical conductivity.
+3. Volume ratio `H₂:O₂ = 2:1`; mass ratio `H₂:O₂ = 1:8`.
 
 ## One-minute revision
 
@@ -196,7 +213,11 @@ Classify equations `(1.19)`, `(1.22)` and the electrolysis equation by their ene
 - Decomposition: one reactant forms two or more products.
 - Exothermic reactions release energy; endothermic reactions absorb it.
 - Decomposition may be driven by heat, electricity or light.
+- During water electrolysis, `H₂` forms at the cathode and `O₂` at the anode.
 
 ## Comic recap
 
-Combo joins reactants into one product. Breaker Bot needs heat, electricity or light to split a compound.
+- Priya: "Combination joins two or more reactants into one product."
+- Rahul: "Decomposition splits one reactant into two or more products."
+- Priya: "Heat, electricity or light can supply the energy for decomposition."
+- Rahul: "Exothermic releases energy; endothermic absorbs energy."

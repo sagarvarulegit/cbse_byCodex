@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title description">
+  <title id="title">Metal sample completing an electrical circuit</title>
+  <desc id="description">A battery, closed switch, glowing bulb and metal sample between two clips form one continuous series circuit.</desc>
+  <rect width="1200" height="700" rx="28" fill="#fffdf8"/>
+  <path d="M180 350V170H430" fill="none" stroke="#253342" stroke-width="18" stroke-linecap="round"/>
+  <path d="M560 170H920V310" fill="none" stroke="#253342" stroke-width="18" stroke-linecap="round"/>
+  <path d="M920 440V560H730" fill="none" stroke="#253342" stroke-width="18" stroke-linecap="round"/>
+  <path d="M470 560H180V430" fill="none" stroke="#253342" stroke-width="18" stroke-linecap="round"/>
+  <g>
+    <rect x="105" y="330" width="150" height="120" rx="22" fill="#263b55" stroke="#152334" stroke-width="8"/>
+    <rect x="128" y="345" width="72" height="90" rx="10" fill="#df5c4b"/>
+    <rect x="200" y="345" width="34" height="90" rx="8" fill="#e8e1c6"/>
+    <circle cx="180" cy="330" r="12" fill="#d9b44a"/>
+    <circle cx="180" cy="450" r="12" fill="#d9b44a"/>
+  </g>
+  <g stroke="#253342" stroke-width="16" stroke-linecap="round">
+    <path d="M430 170h55"/>
+    <path d="M505 170l72-52"/>
+    <path d="M585 170h-25"/>
+  </g>
+  <circle cx="495" cy="170" r="18" fill="#d9b44a" stroke="#253342" stroke-width="7"/>
+  <circle cx="585" cy="170" r="18" fill="#d9b44a" stroke="#253342" stroke-width="7"/>
+  <g>
+    <circle cx="920" cy="375" r="98" fill="#fff2a6" stroke="#253342" stroke-width="10"/>
+    <path d="M878 365c18-48 66-48 84 0-12 18-18 35-18 58h-48c0-23-6-40-18-58z" fill="#ffd75d" stroke="#6e5621" stroke-width="7"/>
+    <path d="M896 424h48M899 446h42" stroke="#253342" stroke-width="10" stroke-linecap="round"/>
+    <g stroke="#f4b942" stroke-width="9" stroke-linecap="round">
+      <path d="M920 238v-42"/>
+      <path d="M818 268l-30-30"/>
+      <path d="M1022 268l30-30"/>
+      <path d="M790 375h-42"/>
+      <path d="M1050 375h42"/>
+    </g>
+  </g>
+  <g>
+    <circle cx="520" cy="560" r="32" fill="#d9b44a" stroke="#253342" stroke-width="9"/>
+    <circle cx="680" cy="560" r="32" fill="#d9b44a" stroke="#253342" stroke-width="9"/>
+    <path d="M545 560h110" stroke="#b56d3d" stroke-width="32" stroke-linecap="round"/>
+    <path d="M550 550h100" stroke="#e1a06d" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+  </g>
+</svg>

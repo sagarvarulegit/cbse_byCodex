@@ -13,14 +13,20 @@ import {
   canViewPilotReview,
   normalizePilotReviewWindowDays,
 } from '../lib/pilot-review.js';
+import { buildPracticeRetention } from '../lib/practice-retention.js';
 import { prisma } from '../lib/prisma.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { findInvalidWeakTopicSlug } from '../lib/quiz-topic-slugs.js';
 import { requireSessionUser } from '../lib/session.js';
+import {
+  matchesWrittenPracticeAttempt,
+  normalizeWrittenPracticeAttempt,
+} from '../lib/written-practice.js';
 
 const MAX_QUIZ_TRANSACTION_ATTEMPTS = 3;
 const QUIZ_TRANSACTION_MAX_WAIT_MS = 5000;
 const QUIZ_TRANSACTION_TIMEOUT_MS = 15000;
+const MAX_PRACTICE_TRANSACTION_ATTEMPTS = 3;
 
 function normalizePercentComplete(value: unknown) {
   const numericValue = Number(value);
@@ -67,6 +73,14 @@ function normalizeRecommendedSteps(value: Prisma.JsonValue) {
 }
 
 function isRetryableQuizTransactionError(error: unknown) {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    return error.code === 'P2028' || error.code === 'P2034' || error.code === 'P2002';
+  }
+
+  return false;
+}
+
+function isRetryablePracticeTransactionError(error: unknown) {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     return error.code === 'P2028' || error.code === 'P2034' || error.code === 'P2002';
   }
@@ -282,6 +296,248 @@ progressRouter.get('/pilot-review', async (req, res) => {
   } catch (error) {
     console.error('Failed to load pilot review', error);
     return res.status(500).json({ message: 'Unable to load pilot review right now.' });
+  }
+});
+
+progressRouter.post('/practice', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to save written-practice progress.' });
+    }
+
+    const normalized = normalizeWrittenPracticeAttempt(req.body);
+    if (!normalized.data) {
+      return res.status(400).json({ message: normalized.error });
+    }
+
+    const practice = normalized.data;
+    const chapter = await prisma.chapter.findFirst({
+      where: {
+        isPublished: true,
+        slug: practice.chapterSlug,
+        topics: {
+          some: {
+            lessons: {
+              some: {
+                publishStatus: 'published',
+                slug: practice.lessonSlug,
+              },
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!chapter) {
+      return res.status(404).json({ message: 'Published chapter lesson was not found.' });
+    }
+
+    let savedAttempt;
+    for (let attemptIndex = 0; attemptIndex < MAX_PRACTICE_TRANSACTION_ATTEMPTS; attemptIndex += 1) {
+      try {
+        savedAttempt = await prisma.$transaction(
+          async (tx) => {
+            const existingAttempt = await tx.writtenPracticeAttempt.findUnique({
+              where: {
+                userId_clientAttemptId: {
+                  clientAttemptId: practice.clientAttemptId,
+                  userId: user.id,
+                },
+              },
+            });
+            if (existingAttempt) {
+              return existingAttempt;
+            }
+
+            const latestAttempt = await tx.writtenPracticeAttempt.findFirst({
+              where: {
+                practiceItemId: practice.practiceItemId,
+                userId: user.id,
+              },
+              orderBy: {
+                attemptNumber: 'desc',
+              },
+              select: {
+                attemptNumber: true,
+              },
+            });
+
+            const attempt = await tx.writtenPracticeAttempt.create({
+              data: {
+                answerLength: practice.answerLength,
+                attemptNumber: (latestAttempt?.attemptNumber ?? 0) + 1,
+                chapterId: chapter.id,
+                clientAttemptId: practice.clientAttemptId,
+                earnedRubricPointIds: practice.earnedRubricPointIds,
+                lessonSlug: practice.lessonSlug,
+                maxScoreHalfMarks: practice.maxScoreHalfMarks,
+                practiceItemId: practice.practiceItemId,
+                retentionEligible: practice.retentionEligible,
+                scoreHalfMarks: practice.scoreHalfMarks,
+                userId: user.id,
+                weakSkillSlugs: practice.weakSkillSlugs,
+              },
+            });
+
+            await tx.progressEvent.create({
+              data: {
+                chapterId: chapter.id,
+                eventType: 'written_practice_scored',
+                metadata: {
+                  answerLength: attempt.answerLength,
+                  attemptId: attempt.id,
+                  attemptNumber: attempt.attemptNumber,
+                  earnedRubricPointIds: attempt.earnedRubricPointIds,
+                  lessonSlug: attempt.lessonSlug,
+                  maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+                  practiceItemId: attempt.practiceItemId,
+                  retentionEligible: attempt.retentionEligible,
+                  scoreHalfMarks: attempt.scoreHalfMarks,
+                  weakSkillSlugs: attempt.weakSkillSlugs,
+                } satisfies Prisma.InputJsonValue,
+                occurredAt: attempt.createdAt,
+                userId: user.id,
+              },
+            });
+
+            return attempt;
+          },
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+            maxWait: QUIZ_TRANSACTION_MAX_WAIT_MS,
+            timeout: QUIZ_TRANSACTION_TIMEOUT_MS,
+          },
+        );
+        break;
+      } catch (error) {
+        if (
+          attemptIndex === MAX_PRACTICE_TRANSACTION_ATTEMPTS - 1 ||
+          !isRetryablePracticeTransactionError(error)
+        ) {
+          throw error;
+        }
+      }
+    }
+
+    if (!savedAttempt) {
+      throw new Error('Written-practice transaction did not complete.');
+    }
+    if (!matchesWrittenPracticeAttempt(savedAttempt, practice, chapter.id)) {
+      return res.status(409).json({
+        message:
+          'This client attempt id is already attached to different immutable practice data.',
+      });
+    }
+
+    const retentionAttempts = await prisma.writtenPracticeAttempt.findMany({
+      where: {
+        practiceItemId: practice.practiceItemId,
+        userId: user.id,
+      },
+      orderBy: [{ attemptNumber: 'asc' }, { createdAt: 'asc' }],
+      select: {
+        attemptNumber: true,
+        createdAt: true,
+        maxScoreHalfMarks: true,
+        retentionEligible: true,
+        scoreHalfMarks: true,
+      },
+    });
+
+    return res.status(201).json({
+      attempt: {
+        attemptNumber: savedAttempt.attemptNumber,
+        clientAttemptId: savedAttempt.clientAttemptId,
+        createdAt: savedAttempt.createdAt.toISOString(),
+        earnedRubricPointIds: savedAttempt.earnedRubricPointIds,
+        maxScoreHalfMarks: savedAttempt.maxScoreHalfMarks,
+        retentionEligible: savedAttempt.retentionEligible,
+        scoreHalfMarks: savedAttempt.scoreHalfMarks,
+        weakSkillSlugs: savedAttempt.weakSkillSlugs,
+      },
+      retention: buildPracticeRetention(retentionAttempts),
+    });
+  } catch (error) {
+    console.error('Failed to save written-practice progress', error);
+    return res.status(500).json({ message: 'Unable to save written-practice progress right now.' });
+  }
+});
+
+progressRouter.get('/practice-attempts', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to view written-practice attempts.' });
+    }
+
+    const chapterSlug =
+      typeof req.query.chapterSlug === 'string' ? req.query.chapterSlug.trim() : null;
+    const practiceItemId =
+      typeof req.query.practiceItemId === 'string' ? req.query.practiceItemId.trim() : null;
+
+    if (!chapterSlug || !practiceItemId) {
+      return res.status(400).json({ message: 'chapterSlug and practiceItemId are required.' });
+    }
+
+    const attemptWhere = {
+      chapter: {
+        isPublished: true,
+        slug: chapterSlug,
+      },
+      practiceItemId,
+      userId: user.id,
+    } satisfies Prisma.WrittenPracticeAttemptWhereInput;
+    const [attempts, retentionAttempts] = await Promise.all([
+      prisma.writtenPracticeAttempt.findMany({
+        where: attemptWhere,
+        orderBy: [{ attemptNumber: 'desc' }, { createdAt: 'desc' }],
+        select: {
+          answerLength: true,
+          attemptNumber: true,
+          clientAttemptId: true,
+          createdAt: true,
+          earnedRubricPointIds: true,
+          maxScoreHalfMarks: true,
+          retentionEligible: true,
+          scoreHalfMarks: true,
+          weakSkillSlugs: true,
+        },
+        take: 5,
+      }),
+      prisma.writtenPracticeAttempt.findMany({
+        where: attemptWhere,
+        orderBy: [{ attemptNumber: 'asc' }, { createdAt: 'asc' }],
+        select: {
+          attemptNumber: true,
+          createdAt: true,
+          maxScoreHalfMarks: true,
+          retentionEligible: true,
+          scoreHalfMarks: true,
+        },
+      }),
+    ]);
+
+    return res.json({
+      attempts: attempts.map((attempt) => ({
+        answerLength: attempt.answerLength,
+        attemptNumber: attempt.attemptNumber,
+        clientAttemptId: attempt.clientAttemptId,
+        earnedRubricPointIds: attempt.earnedRubricPointIds,
+        maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+        retentionEligible: attempt.retentionEligible,
+        savedAt: attempt.createdAt.toISOString(),
+        scoreHalfMarks: attempt.scoreHalfMarks,
+        weakSkillSlugs: attempt.weakSkillSlugs,
+      })),
+      retention: buildPracticeRetention(retentionAttempts),
+    });
+  } catch (error) {
+    console.error('Failed to load written-practice attempts', error);
+    return res.status(500).json({ message: 'Unable to load written-practice attempts right now.' });
   }
 });
 

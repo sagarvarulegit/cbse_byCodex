@@ -15,14 +15,6 @@ status: draft
 
 This lesson is important because many students can say examples of `irrational numbers`, but they do not always know why the numbers are irrational.
 
-## learning goal
-
-By the end of this lesson, a student should be able to:
-- tell the difference between `rational numbers` and `irrational numbers`
-- give examples of `irrational numbers`
-- understand the proof idea for `√2`
-- avoid common mistakes in board answers
-
 ## quick refresher
 
 ### `rational numbers`

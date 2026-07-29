@@ -15,15 +15,6 @@ status: draft
 
 This lesson keeps the mystery alive. The black aeroplane appears, helps the pilot, and then disappears without a fixed explanation.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain the role of the black aeroplane
-- describe the safe landing
-- use the control room reveal in an answer
-- keep the mystery without inventing certainty
-- write a short inference-based response
-
 ## Story context
 
 The pilot is lost in the storm and then a black aeroplane seems to guide him. Later, the control room says no other aeroplane was seen.

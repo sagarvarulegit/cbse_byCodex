@@ -51,6 +51,14 @@ for (const chapterSlug of PILOT_CHAPTER_SLUGS) {
     }
 
     if (chapterSlug === 'chemical-reactions-and-equations') {
+      const coreLessonTopicSlugs = getValidTopicSlugs(chapterSlug).filter(
+        (topicSlug) =>
+          ![
+            'board-exam-practice',
+            'board-readiness-diagnostic',
+            'board-readiness-diagnostic-b',
+          ].includes(topicSlug),
+      );
       const difficultyCounts = questions.reduce<Record<string, number>>((counts, question) => {
         const difficulty = question.difficulty?.toLowerCase() ?? '';
         counts[difficulty] = (counts[difficulty] ?? 0) + 1;
@@ -59,7 +67,7 @@ for (const chapterSlug of PILOT_CHAPTER_SLUGS) {
       assert.deepEqual(difficultyCounts, { easy: 6, medium: 9, hard: 5 });
       assert.deepEqual(
         [...new Set(questions.map((question) => question.topicSlug))].sort(),
-        getValidTopicSlugs(chapterSlug).sort(),
+        coreLessonTopicSlugs.sort(),
       );
     }
   });

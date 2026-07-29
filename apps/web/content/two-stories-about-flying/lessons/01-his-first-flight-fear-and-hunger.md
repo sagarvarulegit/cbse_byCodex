@@ -15,15 +15,6 @@ status: draft
 
 The young seagull is stuck on the ledge because he is afraid. Hunger makes the problem sharper, but the story shows that fear is not the same as laziness.
 
-## Learning goals
-
-By the end of this lesson, you should be able to:
-- explain why the young seagull hesitates
-- tell how hunger pushes the story forward
-- separate fear from laziness
-- track the family reaction
-- answer short board questions in simple English
-
 ## Story context
 
 This part of the chapter follows a young seagull who wants food but does not want to fly. He watches the sea, the sky, and the family around him, but fear keeps him fixed in one place.

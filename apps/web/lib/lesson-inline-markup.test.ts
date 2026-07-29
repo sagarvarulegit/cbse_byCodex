@@ -31,3 +31,20 @@ test('parseInlineMarkup supports code nested inside bold question subparts', () 
     },
   ]);
 });
+
+test('parseInlineMarkup supports safe internal lesson links', () => {
+  assert.deepEqual(
+    parseInlineMarkup(
+      'Open the [balancing workbench](/chapters/example/lessons/balancing#workbench).',
+    ),
+    [
+      { type: 'text', value: 'Open the ' },
+      {
+        children: [{ type: 'text', value: 'balancing workbench' }],
+        href: '/chapters/example/lessons/balancing#workbench',
+        type: 'link',
+      },
+      { type: 'text', value: '.' },
+    ],
+  );
+});
