@@ -1,7 +1,7 @@
 # Current Handoff - 2026-08-02
 
-- [x] Commit and push the launch-readiness workspace package requested by the user.
-- [ ] Next task: apply the `WrittenPracticeAttempt` production migration, run the pilot smoke checklist, and record whether the free Class 10 pilot can safely invite the first 2-5 students.
+- [x] Commit and push the free-pilot gamification truthfulness, revision mission, and pilot quiz hardening package requested by the user.
+- [ ] Next task: run the focused gamification, mission-action, and pilot quiz metadata checks, then apply the `WrittenPracticeAttempt` production migration and run the pilot smoke checklist before inviting the first 2-5 students.
 
 # Science Chapter 1 Quality Remediation Implementation Plan
 
