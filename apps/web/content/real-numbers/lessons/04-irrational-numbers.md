@@ -1,210 +1,114 @@
 ---
-title: Irrational numbers
+title: 1.3 Revisiting Irrational Numbers
 subject: Mathematics
 class_level: 10
 chapter: Real Numbers
 chapter_slug: real-numbers
-lesson_number: 4
+lesson_number: 2
 lesson_slug: irrational-numbers
-estimated_minutes: 9
+estimated_minutes: 32
 access_level: premium
-status: draft
+status: ready
+source_textbook: textbooks/maths/jemh101.pdf
 ---
 
-# Irrational numbers
+# 1.3 Revisiting Irrational Numbers
 
-This lesson is important because many students can say examples of `irrational numbers`, but they do not always know why the numbers are irrational.
+An irrational number cannot be written as $\frac{p}{q}$, where $p$ and $q$ are integers and $q\ne0$. Its decimal form is non-terminating and non-repeating.
 
-## quick refresher
+## 1.3 Revisiting Irrational Numbers
 
-### `rational numbers`
-A `rational number` can be written in the form `p/q`, where `q ≠ 0`.
+You have already met $\sqrt2$, $\sqrt3$, $\sqrt5$ and many similar numbers. Here the goal is to prove irrationality with the Fundamental Theorem of Arithmetic.
 
-Examples:
-- `3/4`
-- `-7/5`
-- `2` because `2 = 2/1`
-- `0.125` because `0.125 = 1/8`
+### Proof by contradiction
 
-### `irrational numbers`
-An `irrational number` cannot be written in the form `p/q`.
+The method has five steps:
 
-Examples:
-- `√2`
-- `√3`
-- `√5`
-- `π`
+1. Assume the opposite of what you want to prove.
+2. Write the assumed rational number in lowest form.
+3. Use algebra and Theorem 1.2.
+4. Reach a fact that contradicts "lowest form".
+5. Reject the assumption and state the conclusion.
 
-## do not use the wrong shortcut
+### Theorem 1.3: $\sqrt2$ is irrational
 
-Many students say:
-“The decimal is very long, so it is irrational.”
+Assume $\sqrt2$ is rational. Then
 
-That is not a good reason.
+$$\sqrt2=\frac ab,$$
 
-Correct idea:
-- a `rational number` can terminate or repeat
-- an `irrational number` neither terminates nor repeats in a fixed pattern
+where $a$ and $b$ are coprime positive integers.
 
-Example:
-`0.3333...` is rational because it repeats and equals `1/3`.
+Squaring gives $a^2=2b^2$. So $2$ divides $a^2$, and Theorem 1.2 gives $2\mid a$. Let $a=2c$.
 
-## the famous result
+Substitution gives $4c^2=2b^2$, so $b^2=2c^2$. Hence $2\mid b$.
 
-`√2` is irrational.
+Both $a$ and $b$ are even. This contradicts the assumption that they are coprime. Therefore, $\sqrt2$ is irrational.
 
-This is usually proved by `contradiction`.
+**Example 5**
 
-## what does `contradiction` mean?
+Prove that $\sqrt3$ is irrational.
 
-We first assume the opposite of what we want to prove.
-Then we show that the assumption creates an impossible situation.
-So the assumption must be wrong.
+**Solution:**
+Assume $\sqrt3=\frac ab$ in lowest form. Then $a^2=3b^2$, so $3\mid a$. Put $a=3c$. This gives $b^2=3c^2$, so $3\mid b$. The common factor $3$ contradicts lowest form. Therefore, $\sqrt3$ is irrational.
 
-## proof of `√2` in easy steps
+### Rational and irrational combinations
 
-Assume `√2` is rational.
-Then we can write:
+- rational $+$ irrational is irrational
+- rational $-$ irrational is irrational
+- non-zero rational $\times$ irrational is irrational
+- irrational $\div$ non-zero rational is irrational
 
-`√2 = a/b`
+These rules are used only when the rational multiplier or divisor is non-zero.
 
-where `a` and `b` have no common `factor` other than `1`.
-That means the fraction is in `lowest form`.
+**Example 6**
 
-Now square both sides:
+Show that $5-\sqrt3$ is irrational.
 
-`2 = a²/b²`
+**Solution:**
+If $5-\sqrt3$ were rational, subtracting it from the rational number $5$ would make $\sqrt3$ rational. That contradicts Example 5. Hence $5-\sqrt3$ is irrational.
 
-So,
+**Example 7**
 
-`a² = 2b²`
+Show that $3\sqrt2$ is irrational.
 
-This means `a²` is even.
-If `a²` is even, then `a` is also even.
+**Solution:**
+If $3\sqrt2$ were rational, dividing it by the non-zero rational number $3$ would make $\sqrt2$ rational. This is impossible. Hence $3\sqrt2$ is irrational.
 
-So write:
+## Common mistakes
 
-`a = 2k`
+- not saying that $a$ and $b$ are coprime
+- proving only that $a$ is divisible by the prime and forgetting $b$
+- writing "contradiction" without naming the contradiction
+- assuming every sum of two irrational numbers is irrational; for example, $\sqrt2+(-\sqrt2)=0$
 
-Now substitute this in `a² = 2b²`:
+## Board tips
 
-`(2k)² = 2b²`
-`4k² = 2b²`
-`2k² = b²`
+- Keep each implication on its own line.
+- End with a complete sentence: "This contradicts that $a$ and $b$ are coprime; therefore..."
+- For $r+s\sqrt p$, isolate the irrational term instead of repeating the full square-root proof.
 
-Now `b²` is also even.
-So `b` is also even.
+## Quick practice
 
-That means both `a` and `b` are even.
-So both are divisible by `2`.
+1. Prove that $\sqrt5$ is irrational.
+2. Explain why $7\sqrt5$ is irrational.
+3. Explain why $6+\sqrt2$ is irrational.
 
-But wait.
-We already said `a` and `b` had no common `factor`.
-This is a `contradiction`.
+## Answer check
 
-So the first assumption was wrong.
-Therefore,
+1. The same contradiction method forces both numerator and denominator to be divisible by $5$.
+2. If $7\sqrt5$ were rational, division by $7$ would make $\sqrt5$ rational.
+3. If $6+\sqrt2$ were rational, subtracting $6$ would make $\sqrt2$ rational.
 
-`√2` is irrational.
+## One-minute revision
 
-## what students should remember for board writing
+- Start with a lowest-form fraction.
+- A prime dividing $a^2$ also divides $a$.
+- Force the same prime to divide numerator and denominator.
+- Name the contradiction and reject the assumption.
 
-Do not try to memorise the full proof like a poem.
-Remember the flow.
+## Comic recap
 
-1. Assume `√2 = a/b` in `lowest form`.
-2. Get `a² = 2b²`.
-3. Show `a` is even.
-4. Show `b` is even.
-5. That means both have common `factor` `2`.
-6. `Contradiction`.
-7. Hence `√2` is irrational.
-
-## same idea for `√3`
-
-The proof for `√3` follows the same pattern.
-
-Assume:
-`√3 = a/b`
-
-Then,
-`a² = 3b²`
-
-So `a²` is divisible by `3`, which means `a` is divisible by `3`.
-Then `b` also becomes divisible by `3`.
-That again gives a `contradiction`.
-
-So `√3` is irrational.
-
-## what to remember, not what to fear
-
-The proof looks long at first, but its heart is simple:
-
-If the assumption makes both numerator and denominator share a common `factor`, the assumption breaks.
-
-## common mistakes
-
-1. Forgetting to say that `a/b` is in `lowest form`
-2. Writing `a² = 2b` instead of `a² = 2b²`
-3. Saying “even square means even number” without finishing the logic
-4. Ending the proof before writing the `contradiction`
-5. Saying a decimal is irrational without proof or proper reason
-
-## memory trick
-
-If both top and bottom become even, the rational assumption falls down.
-
-## board tip
-
-In proof questions, sequence matters.
-Write each step on a new line and show the `contradiction` clearly.
-
-## short solved check
-
-Is `0.125` rational or irrational?
-
-`0.125 = 125/1000 = 1/8`
-
-So it can be written as `p/q`.
-Therefore, it is rational.
-
-## another check
-
-Is `0.121212...` rational or irrational?
-
-It repeats.
-So it is rational.
-In fact, every repeating decimal is rational.
-
-## quick practice
-
-1. Why is `√5` irrational in the same style as `√2`?
-2. Is `2.75` rational or irrational?
-3. Is `0.1010010001...` rational or irrational if the pattern never repeats regularly?
-4. Why is `7` a rational number?
-
-## answer check
-
-1. Because if we assume `√5 = a/b` in `lowest form`, both `a` and `b` become divisible by `5`, which is impossible.
-2. Rational, because `2.75 = 275/100 = 11/4`
-3. Irrational, because it does not terminate and does not repeat in a fixed pattern
-4. Because `7 = 7/1`
-
-## one-minute revision
-
-- `rational numbers` can be written as `p/q`
-- `irrational numbers` cannot be written as `p/q`
-- `√2`, `√3`, `√5` are irrational
-- repeating decimals are rational
-- the proof of `√2` works by `contradiction`
-
-## comic recap
-
-- Student: “Sir, I assumed `√2` was rational.”
-- Proof: “Cool. Now watch both numbers become even.”
-- `Contradiction`: “Aha. Your assumption is in trouble.”
-- Conclusion: “So `√2` is irrational. Case closed.”
-
-## remember this line
-
-In the `√2` proof, the `contradiction` comes when both numerator and denominator become even.
+- Assumption: "Suppose the square root is rational."
+- Theorem 1.2: "A prime inside the square must divide its base."
+- Contradiction: "Both fraction parts share a factor!"
+- Conclusion: "The lowest-form assumption fails, so the number is irrational."

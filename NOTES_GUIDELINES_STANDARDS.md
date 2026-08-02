@@ -666,7 +666,7 @@ Update all affected files in the same pass:
 * Chapter pack markdown
 * Quiz markdown
 * Closest relevant `*.test.ts`
-* `docs/project-memory.md` when the session creates durable chapter knowledge
+* `docs/project-memory/curriculum-and-content.md` when the session creates durable chapter knowledge
 
 ### 8.5 Regenerate generated content
 

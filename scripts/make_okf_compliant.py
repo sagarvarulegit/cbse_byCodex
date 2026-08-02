@@ -94,10 +94,10 @@ METADATA_MAP = {
     },
     "docs/project-memory.md": {
         "type": "ProjectMemory",
-        "title": "Project Memory",
-        "description": "Durable project learnings, architectural choices, and context for CBSE learning portal.",
-        "tags": ["architecture", "memory", "onboarding"],
-        "timestamp": "2026-07-08T12:00:00Z"
+        "title": "Project Memory Index",
+        "description": "Lightweight routing index for durable CBSE learning-platform knowledge.",
+        "tags": ["memory", "routing", "onboarding"],
+        "timestamp": "2026-07-30T00:00:00Z"
     },
     "docs/scaffold.md": {
         "type": "Runbook",

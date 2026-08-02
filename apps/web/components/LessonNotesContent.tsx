@@ -10,6 +10,7 @@ import { isLessonQuestionMarker, parseLessonQuestionAnswers } from '../lib/lesso
 import ExamPracticeCard from './ExamPracticeCard';
 import GlossaryTerm from './GlossaryTerm';
 import LessonDemo from './LessonDemo';
+import MathText from './MathText';
 import WrittenPracticeCard from './WrittenPracticeCard';
 
 type LessonNotesContentProps = {
@@ -65,7 +66,7 @@ function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): Rea
     }
 
     if (token.type === 'text') {
-      return <span key={key}>{token.value}</span>;
+      return <MathText key={key} text={token.value} />;
     }
 
     return null;

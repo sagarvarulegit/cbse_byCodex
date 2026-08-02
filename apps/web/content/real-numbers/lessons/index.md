@@ -10,24 +10,26 @@ status: draft
 
 # Real Numbers lesson sequence
 
-This folder contains the first lesson-wise split for Class 10 Mathematics, Chapter 1.
+This folder contains the lesson-wise split for Class 10 Mathematics, Chapter 1. The live sequence follows the current NCERT chapter first; older ideas are kept only as unnumbered support.
 
 ## lesson order
 
-1. `01-euclid-division-lemma.md`
-   - support lesson for division logic and HCF method
+1. `02-fundamental-theorem-of-arithmetic.md`
+   - Sections 1.1-1.2: prime factorisation, HCF, LCM and textbook examples
 
-2. `02-fundamental-theorem-of-arithmetic.md`
-   - prime numbers, composite numbers, prime factorisation, uniqueness
+2. `04-irrational-numbers.md`
+   - Section 1.3: irrationality proofs and rational-irrational combinations
 
-3. `03-hcf-and-lcm-by-prime-factorisation.md`
-   - direct scoring lesson for board-style HCF and LCM questions
+3. `06-ncert-exercises-and-revision.md`
+   - Exercises 1.1-1.2 and chapter revision
 
-4. `04-irrational-numbers.md`
-   - rational vs irrational, proof idea for `√2` and `√3`
+4. `01-euclid-division-lemma.md`
+   - unnumbered Class IX support; not current Chapter 1 board scope
 
 5. `05-decimal-expansion-of-rational-numbers.md`
-   - terminating vs repeating decimals using denominator factorisation
+   - unnumbered support; not current Chapter 1 board scope
+
+`03-hcf-and-lcm-by-prime-factorisation.md` is an older focused practice note. Its current-scope ideas are already integrated into Sections 1.1-1.2 and the exercise lesson.
 
 ## content style used
 
@@ -47,4 +49,4 @@ The strongest direct NCERT focus in the chapter text is:
 - HCF and LCM applications
 - irrational numbers
 
-Euclid division lemma and decimal expansion are included because they fit the Real Numbers learning flow and match the current product lesson path.
+Euclid division lemma and decimal expansion are support only. They must never be presented as numbered sections of the current Chapter 1 textbook path.

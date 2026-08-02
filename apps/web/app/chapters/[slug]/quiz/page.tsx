@@ -4,7 +4,10 @@ import { Suspense } from 'react';
 import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker from '../../../../components/PilotEngagementTracker';
 import QuizScoreForm from '../../../../components/QuizScoreForm';
+import StudentTopbar from '../../../../components/StudentTopbar';
+import { getStudentSession } from '../../../../lib/auth';
 import { getChapter, getQuizContent } from '../../../../lib/course-content';
+import { getChapterSubjectNavigation } from '../../../../lib/curriculum/subject-navigation';
 import { isPilotChapter } from '../../../../lib/pilot';
 import { parseQuizContent, slugifyQuizTopic } from '../../../../lib/quiz-content';
 import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
@@ -12,8 +15,12 @@ import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
 export default async function QuizPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const chapter = getChapter(slug);
-  const quizContent = await getQuizContent(slug);
+  const [quizContent, session] = await Promise.all([
+    getQuizContent(slug),
+    getStudentSession(),
+  ]);
   const isPilot = isPilotChapter(slug);
+  const subjectNavigation = getChapterSubjectNavigation(slug);
 
   if (!chapter || !quizContent) {
     notFound();
@@ -42,34 +49,63 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <main className="section-shell quiz-page">
-      {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="quiz_start" surface="quiz" /> : null}
+    <main className="quiz-page-shell">
+      <StudentTopbar contextLabel="Chapter quiz" session={session} />
 
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">{chapter.subject}</p>
-          <h1>{chapter.title} quiz</h1>
+      <section className="section-shell quiz-page">
+        {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="quiz_start" surface="quiz" /> : null}
+
+        <nav className="breadcrumb-row" aria-label="Student learning path">
+          <Link href="/dashboard">Dashboard</Link>
+          <span>/</span>
+          <Link href="/subjects">Subjects</Link>
+          {subjectNavigation ? (
+            <>
+              <span>/</span>
+              <Link href={subjectNavigation.href}>
+                {subjectNavigation.chapterListLabel}
+              </Link>
+            </>
+          ) : null}
+          <span>/</span>
+          <Link href={`/chapters/${slug}/notes`} prefetch={false}>
+            {chapter.title}
+          </Link>
+          <span>/</span>
+          <span aria-current="page">Quiz</span>
+        </nav>
+
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">{chapter.subject}</p>
+            <h1>{chapter.title} quiz</h1>
+          </div>
+          <Link
+            aria-label={`Back to ${chapter.title} chapter content`}
+            className="ghost-link"
+            href={`/chapters/${slug}/notes`}
+            prefetch={false}
+          >
+            ← Chapter notes
+          </Link>
         </div>
-        <Link className="ghost-link" href={`/chapters/${slug}`}>
-          Back to chapter
-        </Link>
-      </div>
 
-      <div className="quiz-shell">
-        <Suspense fallback={<QuizLoading />}>
-          <QuizWithHistory
-            chapterSlug={slug}
-            questions={quizQuestions}
-            weakTopicOptions={weakTopicOptions}
-          />
-        </Suspense>
-      </div>
+        <div className="quiz-shell">
+          <Suspense fallback={<QuizLoading />}>
+            <QuizWithHistory
+              chapterSlug={slug}
+              questions={quizQuestions}
+              weakTopicOptions={weakTopicOptions}
+            />
+          </Suspense>
+        </div>
 
-      {isPilot ? (
-        <section className="pilot-feedback-section quiz-feedback-section">
-          <PilotFeedbackForm chapterSlug={slug} surface="quiz" />
-        </section>
-      ) : null}
+        {isPilot ? (
+          <section className="pilot-feedback-section quiz-feedback-section">
+            <PilotFeedbackForm chapterSlug={slug} surface="quiz" />
+          </section>
+        ) : null}
+      </section>
     </main>
   );
 }

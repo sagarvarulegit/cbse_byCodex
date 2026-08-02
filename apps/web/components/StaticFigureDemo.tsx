@@ -1,5 +1,3 @@
-'use client';
-
 type StaticFigure = {
   alt: string;
   caption: string;
@@ -13,28 +11,28 @@ const STATIC_FIGURES: Record<string, StaticFigure> = {
     alt: 'Platform redraw of NCERT Figure 6.1 showing the structure of a neuron and a neuromuscular junction with labels.',
     caption: 'Original platform redraw based on NCERT Figure 6.1',
     eyebrow: 'NCERT figure redraw',
-    src: '/figures/figure-6-1-neuron-neuromuscular-junction-redraw.png',
+    src: '/figures/figure-6-1-neuron-neuromuscular-junction-redraw.webp',
     title: 'Neuron and neuromuscular junction',
   },
   'figure-6-2-reflex-arc': {
     alt: 'Platform redraw of NCERT Figure 6.2 showing the reflex arc from receptors in skin to the spinal cord and back to an effector muscle.',
     caption: 'Original platform redraw based on NCERT Figure 6.2',
     eyebrow: 'NCERT figure redraw',
-    src: '/figures/figure-6-2-reflex-arc-redraw.png',
+    src: '/figures/figure-6-2-reflex-arc-redraw.webp',
     title: 'Reflex arc',
   },
   'figure-6-3-human-brain': {
     alt: 'Platform redraw of NCERT Figure 6.3 showing the human brain with cerebrum, cranium, mid-brain, hypothalamus, pituitary gland, pons, medulla, cerebellum, and spinal cord.',
     caption: 'Original platform redraw based on NCERT Figure 6.3',
     eyebrow: 'NCERT figure redraw',
-    src: '/figures/figure-6-3-human-brain-redraw.png',
+    src: '/figures/figure-6-3-human-brain-redraw.webp',
     title: 'Human brain',
   },
   'figure-6-4-sensitive-plant': {
     alt: 'NCERT Figure 6.4 source image showing the sensitive plant before and after its leaves fold when touched.',
     caption: 'Figure 6.4: The sensitive plant',
     eyebrow: 'NCERT source figure',
-    src: '/figures/figure-6-4-sensitive-plant-source.png',
+    src: '/figures/figure-6-4-sensitive-plant-source.webp',
     title: 'Sensitive plant',
   },
 };

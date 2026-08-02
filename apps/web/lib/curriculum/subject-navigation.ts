@@ -3,6 +3,7 @@ import {
   hasChapterPack,
   type ChapterContent,
 } from '../course-content';
+import { getVisibleCurriculumSubjects } from './registry';
 import type {
   AssessmentMode,
   CurriculumScope,
@@ -34,6 +35,11 @@ export type CurriculumChapterCard = {
     title: string;
     scope: CurriculumScope;
   }>;
+};
+
+export type ChapterSubjectNavigation = {
+  chapterListLabel: string;
+  href: string;
 };
 
 export const SUBJECT_ROUTE_ALIASES: Record<string, string> = {
@@ -74,6 +80,23 @@ const ASSESSMENT_LABELS: Record<AssessmentMode, string> = {
 
 export function resolveCurriculumSubjectSlug(slug: string): string {
   return SUBJECT_ROUTE_ALIASES[slug] ?? slug;
+}
+
+export function getChapterSubjectNavigation(
+  chapterSlug: string,
+): ChapterSubjectNavigation | null {
+  const subject = getVisibleCurriculumSubjects().find((candidate) =>
+    getCurriculumSubjectChapterSlugs(candidate).includes(chapterSlug),
+  );
+
+  if (!subject) {
+    return null;
+  }
+
+  return {
+    chapterListLabel: `${subject.title} Chapters`,
+    href: `/subjects/${subject.slug}`,
+  };
 }
 
 export function getAssessmentLabel(assessmentMode: AssessmentMode): string {

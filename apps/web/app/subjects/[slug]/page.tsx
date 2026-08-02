@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import StudentTopbar from '../../../components/StudentTopbar';
 import {
   getAvailableLessons,
   getChapterEntries,
@@ -13,7 +14,6 @@ import {
   resolveCurriculumSubjectSlug,
 } from '../../../lib/curriculum/subject-navigation';
 import { isPilotChapter } from '../../../lib/pilot';
-import { logoutAction } from '../../auth-actions';
 
 export default async function SubjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -35,31 +35,26 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main>
-      <nav className="topbar" aria-label="Subject navigation">
-        <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/dashboard">Dashboard</Link>
-          <Link href="/subjects" className="active">
-            Subjects
-          </Link>
-        </div>
-        <form action={logoutAction} className="topbar-form">
-          <button className="ghost-button" type="submit">
-            Logout
-          </button>
-        </form>
-      </nav>
+      <StudentTopbar
+        contextLabel={subjectCatalogItem.title}
+        session={session}
+      />
 
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">
+          <nav className="breadcrumb-row" aria-label="Student learning path">
+            <Link href="/dashboard">Dashboard</Link>
+            <span>/</span>
+            <Link href="/subjects">Subjects</Link>
+            <span>/</span>
+            <span aria-current="page">{subjectCatalogItem.title} Chapters</span>
+          </nav>
+
           <div className="dashboard-hero">
             <p className="eyebrow">Class 10 CBSE</p>
-            <h1>{subjectCatalogItem.title} Curriculum</h1>
+            <h1>{subjectCatalogItem.title} Chapters</h1>
             <p className="subtext compact">
-              Master your Class 10 {subjectCatalogItem.title} syllabus with the current subject code, assessment mode, active session, and mapped chapter routes.
+              Choose a chapter to open its complete learning content. Read in textbook order, jump to any section, or take the chapter quiz when you are ready.
             </p>
           </div>
 
@@ -71,8 +66,8 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
 
           <div className="section-heading" style={{ marginTop: '2rem' }}>
             <div>
-              <p className="eyebrow">Curriculum registry</p>
-              <h2>Mapped platform chapters</h2>
+              <p className="eyebrow">Step 2 of 3</p>
+              <h2>Choose a chapter</h2>
             </div>
             <span className="section-badge">
               {subjectCatalogItem.liveCount} of {subjectCatalogItem.chapterCount} chapters live
@@ -94,14 +89,21 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
               const isPilot = isPilotChapter(chapterSlug);
               return (
                 <article
-                  className={`chapter-card ${subjectCatalogItem.accent} ${!isLive ? 'soft' : ''}`}
+                  className={`chapter-card subject-card ${subjectCatalogItem.accent} ${!isLive ? 'soft' : ''}`}
+                  data-subject-motif={subjectCatalogItem.slug}
                   key={chapterSlug}
                   style={!isLive ? { opacity: 0.8 } : undefined}
                 >
                   <div className="chapter-topline">
                     <span>{formatCurriculumScope(curriculumScope)}</span>
                     <strong style={!isLive ? { background: 'var(--border)', color: 'var(--muted)' } : undefined}>
-                      {isPilot ? 'Free pilot' : isLive ? chapter.mastery : 'Coming soon'}
+                      {isPilot
+                        ? 'Free pilot'
+                        : isLive
+                          ? chapter.mastery === 'Coming soon'
+                            ? 'Notes live'
+                            : chapter.mastery
+                          : 'Coming soon'}
                     </strong>
                   </div>
                   <h3>{curriculumTitle}</h3>
@@ -124,25 +126,15 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                   )}
 
                   {isLive ? (
-                    <Link className="card-link" href={`/chapters/${chapterSlug}/notes`} style={{ textAlign: 'center', display: 'block', padding: '10px 0' }}>
-                      {isPilot ? 'Open pilot chapter notes' : 'Open complete chapter notes'}
+                    <Link
+                      className="card-link"
+                      href={`/chapters/${chapterSlug}/notes`}
+                      prefetch={false}
+                    >
+                      {chapter.progress > 0 ? 'Continue chapter' : 'Start chapter'}
                     </Link>
                   ) : (
-                    <div
-                      style={{
-                        width: '100%',
-                        background: 'var(--card-soft)',
-                        color: 'var(--muted)',
-                        textAlign: 'center',
-                        display: 'block',
-                        padding: '10px 0',
-                        border: '1px solid var(--border)',
-                        borderRadius: '4px',
-                        cursor: 'not-allowed',
-                        fontWeight: 700,
-                        fontSize: '0.9rem',
-                      }}
-                    >
+                    <div className="card-link card-link-disabled">
                       Coming soon
                     </div>
                   )}

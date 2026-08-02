@@ -31,16 +31,16 @@ const prose = [
 ] as const;
 
 const poems = [
-  ['dust-of-snow', 'Dust of Snow'],
-  ['fire-and-ice', 'Fire and Ice'],
-  ['a-tiger-in-the-zoo', 'A Tiger in the Zoo'],
-  ['how-to-tell-wild-animals', 'How to Tell Wild Animals'],
-  ['the-ball-poem', 'The Ball Poem'],
-  ['amanda', 'Amanda!'],
-  ['the-trees', 'The Trees'],
-  ['fog', 'Fog'],
-  ['the-tale-of-custard-the-dragon', 'The Tale of Custard the Dragon'],
-  ['for-anne-gregory', 'For Anne Gregory'],
+  ['dust-of-snow', 'Dust of Snow', 'dust-of-snow'],
+  ['fire-and-ice', 'Fire and Ice', 'fire-and-ice'],
+  ['a-tiger-in-the-zoo', 'A Tiger in the Zoo', 'a-tiger-in-the-zoo'],
+  ['how-to-tell-wild-animals', 'How to Tell Wild Animals', 'how-to-tell-wild-animals'],
+  ['the-ball-poem', 'The Ball Poem', 'the-ball-poem'],
+  ['amanda', 'Amanda!', 'amanda'],
+  ['the-trees', 'The Trees', 'the-trees'],
+  ['fog', 'Fog', 'fog'],
+  ['the-tale-of-custard-the-dragon', 'The Tale of Custard the Dragon', 'the-tale-of-custard-the-dragon'],
+  ['for-anne-gregory', 'For Anne Gregory', 'for-anne-gregory'],
 ] as const;
 
 const supplementary = [
@@ -48,7 +48,7 @@ const supplementary = [
   ['the-thiefs-story', "The Thief's Story", 'the-thiefs-story'],
   ['the-midnight-visitor', 'The Midnight Visitor', 'the-midnight-visitor'],
   ['a-question-of-trust', 'A Question of Trust', 'a-question-of-trust'],
-  ['footprints-without-feet', 'Footprints Without Feet', 'footprints-without-feet-story'],
+  ['footprints-without-feet', 'Footprints Without Feet', 'footprints-without-feet'],
   ['the-making-of-a-scientist', 'The Making of a Scientist', 'the-making-of-a-scientist'],
   ['the-necklace', 'The Necklace', 'the-necklace'],
   ['bholi', 'Bholi', 'bholi'],
@@ -90,8 +90,6 @@ const workbook = [
     'words-and-expressions-the-sermon-at-benares',
   ],
   ['unit-9', 'Words and Expressions II - Unit 9', 'supporting-resource', 'words-and-expressions-the-proposal'],
-  ['unit-10', 'Words and Expressions II - Unit 10', 'supporting-resource', null],
-  ['unit-11', 'Words and Expressions II - Unit 11', 'supporting-resource', null],
 ] as const satisfies readonly [
   string,
   string,
@@ -99,12 +97,20 @@ const workbook = [
   string | null,
 ][];
 
-function boardDomainTopic(
+function boardDomainChapter(
   id: string,
   title: string,
+  platformSlug: string,
+  topicId: string,
+  topicTitle: string,
   questionTypes: BoardQuestionType[],
 ) {
-  return topic(id, title, 'board-exam', questionTypes);
+  return chapter({
+    id,
+    title,
+    platformChapterSlugs: [platformSlug],
+    topics: [chapterPackTopic(platformSlug, topicId, topicTitle, 'board-exam', questionTypes)],
+  });
 }
 
 function textChapter(
@@ -148,8 +154,6 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
   visibleInCatalog: true,
   activationBlockers: [],
   readinessBlockers: [
-    'Words and Expressions II Unit 10 has no platform content mapping.',
-    'Words and Expressions II Unit 11 has no platform content mapping.',
     'Current 2026-27 English blueprint evidence has not been officially verified.',
   ],
   examProfile: examProfile(
@@ -214,10 +218,13 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
       chapter({
         id: 'discursive-passage',
         title: 'Discursive Passage',
+        platformChapterSlugs: ['english-reading-discursive-passage'],
         topics: [
-          boardDomainTopic(
+          chapterPackTopic(
+            'english-reading-discursive-passage',
             'reading-discursive-passage',
             'Discursive passage of 400-450 words',
+            'board-exam',
             ['mcq', 'short-answer', 'source-based'],
           ),
         ],
@@ -225,10 +232,13 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
       chapter({
         id: 'case-based-factual-passage',
         title: 'Case-based Factual Passage',
+        platformChapterSlugs: ['english-reading-case-based-factual-passage'],
         topics: [
-          boardDomainTopic(
+          chapterPackTopic(
+            'english-reading-case-based-factual-passage',
             'reading-case-based-factual-passage',
             'Case-based factual passage with visual or statistical input',
+            'board-exam',
             ['mcq', 'short-answer', 'source-based', 'data-interpretation'],
           ),
         ],
@@ -238,50 +248,49 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
       chapter({
         id: 'grammar',
         title: 'Grammar',
+        platformChapterSlugs: ['english-grammar'],
         topics: [
-          boardDomainTopic('grammar-determiners', 'Determiners', ['grammar']),
-          boardDomainTopic('grammar-tenses', 'Tenses', ['grammar']),
-          boardDomainTopic('grammar-modals', 'Modals', ['grammar']),
-          boardDomainTopic(
+          chapterPackTopic('english-grammar', 'grammar-determiners', 'Determiners', 'board-exam', ['grammar']),
+          chapterPackTopic('english-grammar', 'grammar-tenses', 'Tenses', 'board-exam', ['grammar']),
+          chapterPackTopic('english-grammar', 'grammar-modals', 'Modals', 'board-exam', ['grammar']),
+          chapterPackTopic(
+            'english-grammar',
             'grammar-subject-verb-concord',
             'Subject-verb concord',
+            'board-exam',
             ['grammar'],
           ),
-          boardDomainTopic(
+          chapterPackTopic(
+            'english-grammar',
             'grammar-reported-speech',
             'Reported speech: commands, requests, statements and questions',
+            'board-exam',
             ['grammar'],
           ),
         ],
       }),
-      chapter({
-        id: 'formal-letter',
-        title: 'Formal Letter',
-        topics: [
-          boardDomainTopic(
-            'writing-formal-letter',
-            'Formal letter based on a given situation',
-            ['creative-writing'],
-          ),
-        ],
-      }),
-      chapter({
-        id: 'analytical-paragraph',
-        title: 'Analytical Paragraph',
-        topics: [
-          boardDomainTopic(
-            'writing-analytical-paragraph',
-            'Analytical paragraph from map, chart, graph or cues',
-            ['creative-writing', 'data-interpretation'],
-          ),
-        ],
-      }),
+      boardDomainChapter(
+        'formal-letter',
+        'Formal Letter',
+        'english-formal-letter',
+        'writing-formal-letter',
+        'Formal letter based on a given situation',
+        ['creative-writing'],
+      ),
+      boardDomainChapter(
+        'analytical-paragraph',
+        'Analytical Paragraph',
+        'english-analytical-paragraph',
+        'writing-analytical-paragraph',
+        'Analytical paragraph from map, chart, graph or cues',
+        ['creative-writing', 'data-interpretation'],
+      ),
     ]),
     unit('literature', 'Literature', 40, [
       ...prose.map(([id, title, platformSlug]) =>
         textChapter('prose', id, title, platformSlug),
       ),
-      ...poems.map(([id, title]) => textChapter('poem', id, title, null)),
+      ...poems.map(([id, title, platformSlug]) => textChapter('poem', id, title, platformSlug)),
       ...supplementary.map(([id, title, platformSlug]) =>
         textChapter('supplementary', id, title, platformSlug),
       ),

@@ -1,6 +1,7 @@
 ---
 type: ChapterPack
 title: Metals and Non-metals
+subject: Science
 description: Canonical 2026-27 NCERT and verified board-practice path for Class 10 Science Chapter 3.
 tags: ['science', 'class-10', 'chapter-3', 'ncert', 'board-exam']
 timestamp: 2026-07-26T00:00:00Z

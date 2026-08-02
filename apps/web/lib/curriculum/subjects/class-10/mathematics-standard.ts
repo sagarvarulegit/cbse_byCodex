@@ -19,8 +19,16 @@ function boardTopic(
   id: string,
   title: string,
   questionTypes: BoardQuestionType[],
+  lessonSlug = 'core-notes',
 ): CurriculumTopic {
-  return chapterPackTopic(chapterSlug, id, title, 'board-exam', questionTypes);
+  return lessonTopic(
+    chapterSlug,
+    lessonSlug,
+    id,
+    title,
+    'board-exam',
+    questionTypes,
+  );
 }
 
 function excludedTopic(
@@ -146,12 +154,14 @@ export const mathematicsStandard: CurriculumSubject = {
           'real-numbers-fundamental-theorem-of-arithmetic',
           'Fundamental Theorem of Arithmetic',
           ['mcq', 'short-answer'],
+          'fundamental-theorem-of-arithmetic',
         ),
         boardTopic(
           'real-numbers',
           'real-numbers-irrationality-proofs',
           'Proofs of irrationality of √2, √3, √5 and related numbers',
           ['short-answer', 'proof'],
+          'irrational-numbers',
         ),
         excludedTopic(
           'real-numbers',

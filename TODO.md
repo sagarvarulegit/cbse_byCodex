@@ -1,7 +1,7 @@
-# Current Handoff - 2026-07-29
+# Current Handoff - 2026-08-02
 
-- [x] Commit and push the Science Chapter 2 critical-fix package so the workspace is ready for the next user-directed task.
-- [ ] Next task to be chosen by the user.
+- [x] Commit and push the launch-readiness workspace package requested by the user.
+- [ ] Next task: apply the `WrittenPracticeAttempt` production migration, run the pilot smoke checklist, and record whether the free Class 10 pilot can safely invite the first 2-5 students.
 
 # Science Chapter 1 Quality Remediation Implementation Plan
 
@@ -103,7 +103,7 @@ Follow this order even though Task 11A is documented with the other UI work:
 
 ## Current Known State
 
-- The state below records the pre-remediation audit and is historical. Inspect the current working tree and `docs/project-memory.md` before starting new work.
+- The state below records the pre-remediation audit and is historical. Inspect the current working tree, the `docs/project-memory.md` routing index, and the relevant topic files before starting new work.
 - Chapter 1 has five live conceptual lesson files and one five-question quiz.
 - The current lesson split is usable, but the visible titles contain synthetic ranges such as `1.1 continued` and `1.2.1-1.2.2`.
 - Lesson 1 contains Chapter 5 Life Processes Questions and answers.
@@ -156,7 +156,7 @@ Do not type the remainder from memory. Copy and verify it against the PDF at 200
 - `AGENTS.md`: stable repository rules.
 - `NOTES_GUIDELINES_STANDARDS.md`: mandatory content, numbering, activity, figure, Q&A, typography, and teaching rules.
 - `docs/content-style-qa-checklist.md`: final student-facing content quality gate.
-- `docs/project-memory.md`: update only with durable decisions after verification.
+- `docs/project-memory/`: update the narrowest relevant durable topic only after verification.
 
 ### Chapter Content
 
@@ -223,9 +223,12 @@ Do not run `git reset`, `git checkout --`, `git clean`, or broad file deletion.
 1. `AGENTS.md`
 2. `NOTES_GUIDELINES_STANDARDS.md`
 3. `docs/project-memory.md`
-4. `docs/architecture.md`
-5. `docs/content-style-qa-checklist.md`
-6. `textbooks/science/extracted/jesc101.pdf`
+4. `docs/project-memory/curriculum-and-content.md`
+5. `docs/project-memory/assessment-and-mastery.md`
+6. `docs/project-memory/rendering-and-media.md`
+7. `docs/architecture.md`
+8. `docs/content-style-qa-checklist.md`
+9. `textbooks/science/extracted/jesc101.pdf`
 
 - [x] **Step 3: Establish baseline verification**
 
@@ -901,11 +904,11 @@ If the smoke fails, record the exact concept/route and repair that narrow gap be
 - [x] Run scoped whitespace verification first:
 
 ```powershell
-git diff --check -- TODO.md master_todo.md apps/web/content/chemical-reactions-and-equations apps/web/components/ActivityIllustration.tsx apps/web/components/ChemicalEquationBalancer.tsx apps/web/components/LessonDemo.tsx apps/web/app/chapters apps/web/app/globals.css apps/web/app/layout.tsx apps/web/lib docs/content/class-10/science/chemical-reactions-and-equations docs/project-memory.md
+git diff --check -- TODO.md master_todo.md apps/web/content/chemical-reactions-and-equations apps/web/components/ActivityIllustration.tsx apps/web/components/ChemicalEquationBalancer.tsx apps/web/components/LessonDemo.tsx apps/web/app/chapters apps/web/app/globals.css apps/web/app/layout.tsx apps/web/lib docs/content/class-10/science/chemical-reactions-and-equations docs/project-memory.md docs/project-memory
 ```
 
 - [x] Inspect `git status --short` and ensure unrelated dirty files remain untouched.
-- [x] Update `docs/project-memory.md` with durable learnings for the canonical path, assessment systems, figure contract, mastery truthfulness, retention, remediation, accessibility, and image budget.
+- [x] Update the routed project-memory topics with durable learnings for the canonical path, assessment systems, figure contract, mastery truthfulness, retention, remediation, accessibility, and image budget.
 - [ ] Check `master_todo.md` as complete only after Gates A1, A2, and B, the source tracker, browser QA, and learner-task smoke all pass.
 - [ ] If a later authorised push succeeds, update `TODO.md` to the next handoff before ending that implementation session.
 

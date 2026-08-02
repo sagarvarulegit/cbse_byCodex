@@ -43,13 +43,13 @@ const literatureTexts = [
   ['sakhiyaan', 'साखियाँ', 'board-exam', 'sakhi', 'poetry'],
   ['pad', 'पद', 'board-exam', 'pad', 'poetry'],
   ['manushyata', 'मनुष्यता', 'board-exam', 'manushyata', 'poetry'],
-  ['parvat-pradesh-mein-pavas', 'पर्वत प्रदेश में पावस', 'board-exam', null, 'poetry'],
-  ['tope', 'तोप', 'board-exam', null, 'poetry'],
-  ['kar-chale-hum-fida', 'कर चले हम फ़िदा', 'board-exam', null, 'poetry'],
-  ['aatmatran', 'आत्मत्राण', 'board-exam', null, 'poetry'],
-  ['harihar-kaka', 'हरिहर काका', 'board-exam', null, 'supplementary'],
-  ['topi-shukla', 'टोपी शुक्ला', 'board-exam', null, 'supplementary'],
-  ['sapnon-ke-se-din', 'सपनों के-से दिन', 'board-exam', null, 'supplementary'],
+  ['parvat-pradesh-mein-pavas', 'पर्वत प्रदेश में पावस', 'board-exam', 'parvat-pradesh-mein-pavas', 'poetry'],
+  ['tope', 'तोप', 'board-exam', 'tope', 'poetry'],
+  ['kar-chale-hum-fida', 'कर चले हम फ़िदा', 'board-exam', 'kar-chale-hum-fida', 'poetry'],
+  ['aatmatran', 'आत्मत्राण', 'board-exam', 'aatmatran', 'poetry'],
+  ['harihar-kaka', 'हरिहर काका', 'board-exam', 'harihar-kaka', 'supplementary'],
+  ['sapnon-ke-se-din', 'सपनों के-से दिन', 'board-exam', 'sapnon-ke-se-din', 'supplementary'],
+  ['topi-shukla', 'टोपी शुक्ला', 'board-exam', 'topi-shukla', 'supplementary'],
   ['bihari-ke-dohe', 'बिहारी के दोहे', 'excluded', null, 'poetry'],
   ['madhur-madhur-mere-deepak-jal', 'मधुर-मधुर मेरे दीपक जल', 'excluded', null, 'poetry'],
   ['girgit', 'गिरगिट', 'excluded', null, 'prose'],
@@ -65,8 +65,22 @@ function boardTopic(
   id: string,
   title: string,
   questionTypes: BoardQuestionType[],
+  platformSlug?: string,
 ) {
-  return topic(id, title, 'board-exam', questionTypes);
+  return topic(
+    id,
+    title,
+    'board-exam',
+    questionTypes,
+    platformSlug
+      ? [
+          {
+            chapterSlug: platformSlug,
+            kind: 'chapter-pack',
+          },
+        ]
+      : [],
+  );
 }
 
 export const hindiCourseB: CurriculumSubject = {
@@ -138,11 +152,13 @@ export const hindiCourseB: CurriculumSubject = {
       chapter({
         id: 'unseen-prose-passages',
         title: 'अपठित गद्यांश',
+        platformChapterSlugs: ['hindi-apatit-gadyansh'],
         topics: [
           boardTopic(
             'unseen-prose-comprehension-analysis',
             'दो अपठित गद्यांशों का बोध, चिंतन, विश्लेषण और सराहना',
             ['mcq', 'very-short-answer', 'short-answer'],
+            'hindi-apatit-gadyansh',
           ),
         ],
       }),
@@ -151,28 +167,33 @@ export const hindiCourseB: CurriculumSubject = {
       chapter({
         id: 'padbandh',
         title: 'पदबंध',
-        topics: [boardTopic('grammar-padbandh', 'पदबंध', ['grammar'])],
+        platformChapterSlugs: ['hindi-padbandh'],
+        topics: [boardTopic('grammar-padbandh', 'पदबंध', ['grammar'], 'hindi-padbandh')],
       }),
       chapter({
         id: 'vakya-rupantaran',
         title: 'रचना के आधार पर वाक्य रूपांतरण',
+        platformChapterSlugs: ['hindi-vakya-rupantaran'],
         topics: [
           boardTopic(
             'grammar-vakya-rupantaran',
             'रचना के आधार पर वाक्य रूपांतरण',
             ['grammar'],
+            'hindi-vakya-rupantaran',
           ),
         ],
       }),
       chapter({
         id: 'samaas',
         title: 'समास',
-        topics: [boardTopic('grammar-samaas', 'समास', ['grammar'])],
+        platformChapterSlugs: ['hindi-samaas'],
+        topics: [boardTopic('grammar-samaas', 'समास', ['grammar'], 'hindi-samaas')],
       }),
       chapter({
         id: 'muhavare',
         title: 'मुहावरे',
-        topics: [boardTopic('grammar-muhavare', 'मुहावरे', ['grammar'])],
+        platformChapterSlugs: ['hindi-muhavare'],
+        topics: [boardTopic('grammar-muhavare', 'मुहावरे', ['grammar'], 'hindi-muhavare')],
       }),
     ]),
     unit(
@@ -211,60 +232,71 @@ export const hindiCourseB: CurriculumSubject = {
       chapter({
         id: 'anucched-lekhan',
         title: 'अनुच्छेद लेखन',
+        platformChapterSlugs: ['hindi-anucched-lekhan'],
         topics: [
           boardTopic(
             'creative-writing-anucched',
             'संकेत-बिंदुओं पर लगभग 120 शब्दों में अनुच्छेद',
             ['creative-writing'],
+            'hindi-anucched-lekhan',
           ),
         ],
       }),
       chapter({
         id: 'patra-lekhan',
         title: 'पत्र लेखन',
+        platformChapterSlugs: ['hindi-patra-lekhan'],
         topics: [
           boardTopic(
             'creative-writing-formal-letter',
             'लगभग 100 शब्दों में औपचारिक पत्र',
             ['creative-writing'],
+            'hindi-patra-lekhan',
           ),
         ],
       }),
       chapter({
         id: 'soochna-lekhan',
         title: 'सूचना लेखन',
+        platformChapterSlugs: ['hindi-soochna-lekhan'],
         topics: [
           boardTopic(
             'creative-writing-notice',
             'लगभग 60 शब्दों में सूचना लेखन',
             ['creative-writing'],
+            'hindi-soochna-lekhan',
           ),
         ],
       }),
       chapter({
         id: 'vigyapan-lekhan',
         title: 'विज्ञापन लेखन',
+        platformChapterSlugs: ['hindi-vigyapan-lekhan'],
         topics: [
           boardTopic(
             'creative-writing-advertisement',
             'लगभग 40 शब्दों में विज्ञापन लेखन',
             ['creative-writing'],
+            'hindi-vigyapan-lekhan',
           ),
         ],
       }),
       chapter({
         id: 'email-or-laghukatha',
         title: 'ई-मेल अथवा लघुकथा लेखन',
+        platformChapterSlugs: ['hindi-email-or-laghukatha'],
         topics: [
           boardTopic(
             'creative-writing-email',
             'लगभग 80 शब्दों में औपचारिक ई-मेल',
             ['creative-writing'],
+            'hindi-email-or-laghukatha',
           ),
           boardTopic(
             'creative-writing-short-story',
             'लगभग 100 शब्दों में लघुकथा',
             ['creative-writing'],
+            'hindi-email-or-laghukatha',
           ),
         ],
       }),

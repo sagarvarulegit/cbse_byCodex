@@ -13,6 +13,8 @@ status: draft
 
 # Decimal expansion of rational numbers
 
+**Scope note:** This is an unnumbered support lesson. Decimal expansion is not a numbered core section of the current NCERT Class 10 Chapter 1 PDF or active 2026-27 board scope.
+
 This lesson helps students connect fractions and decimals. It is one of the easiest parts of the chapter once the rule becomes clear.
 
 ## start with a simple truth

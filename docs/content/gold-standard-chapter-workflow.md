@@ -22,7 +22,7 @@ Use this document with:
 - `NOTES_GUIDELINES_STANDARDS.md` for authoring and rendering rules
 - `docs/content-style-qa-checklist.md` for lesson readability
 - the chapter's source-fidelity tracker for source-specific evidence
-- `docs/project-memory.md` for durable platform decisions and known gotchas
+- `docs/project-memory.md` for routing to the relevant durable decision and gotcha log
 - `docs/content/gold-standard-chapter-scorecard-template.md` for the
   copy-forward closure record
 

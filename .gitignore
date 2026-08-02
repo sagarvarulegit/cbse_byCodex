@@ -162,4 +162,11 @@ output/
 .vercel/
 **/.vercel/
 .vercel
+# Video work is ignored by default. The first production pilot is source
+# controlled so its storyboard, design system, and reusable scene templates do
+# not disappear between machines.
 videos/
+!videos/
+videos/*
+!videos/reaction-detectives-pilot/
+!videos/reaction-detectives-pilot/**

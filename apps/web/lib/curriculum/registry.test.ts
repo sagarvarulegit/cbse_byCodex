@@ -340,7 +340,7 @@ test('HPE uses the official internal strands and exact assessment weighting', ()
   );
 });
 
-test('Words and Expressions II has the exact prescribed, excluded, and missing unit set', () => {
+test('Words and Expressions II has the exact current 9-unit prescribed and excluded set', () => {
   const subject = getCurriculumSubject('english-language-and-literature');
 
   assert.ok(subject);
@@ -384,8 +384,6 @@ test('Words and Expressions II has the exact prescribed, excluded, and missing u
         ['words-and-expressions-the-sermon-at-benares'],
       ],
       ['unit-9', 'supporting-resource', ['words-and-expressions-the-proposal']],
-      ['unit-10', 'supporting-resource', []],
-      ['unit-11', 'supporting-resource', []],
     ].map(([id, scope, platformChapterSlugs]) => ({
       id,
       scope,
@@ -393,8 +391,6 @@ test('Words and Expressions II has the exact prescribed, excluded, and missing u
     })),
   );
   assert.deepEqual(subject.readinessBlockers, [
-    'Words and Expressions II Unit 10 has no platform content mapping.',
-    'Words and Expressions II Unit 11 has no platform content mapping.',
     'Current 2026-27 English blueprint evidence has not been officially verified.',
   ]);
 });
@@ -741,13 +737,13 @@ test('English registers the exact prescribed domain and literature text set', ()
           id: 'discursive-passage',
           title: 'Discursive Passage',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['english-reading-discursive-passage'],
         },
         {
           id: 'case-based-factual-passage',
           title: 'Case-based Factual Passage',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['english-reading-case-based-factual-passage'],
         },
       ],
     },
@@ -758,19 +754,19 @@ test('English registers the exact prescribed domain and literature text set', ()
           id: 'grammar',
           title: 'Grammar',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['english-grammar'],
         },
         {
           id: 'formal-letter',
           title: 'Formal Letter',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['english-formal-letter'],
         },
         {
           id: 'analytical-paragraph',
           title: 'Analytical Paragraph',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['english-analytical-paragraph'],
         },
       ],
     },
@@ -798,16 +794,16 @@ test('English registers the exact prescribed domain and literature text set', ()
           ['the-sermon-at-benares'],
         ],
         ['prose-the-proposal', 'The Proposal', ['the-proposal']],
-        ['poem-dust-of-snow', 'Dust of Snow', []],
-        ['poem-fire-and-ice', 'Fire and Ice', []],
-        ['poem-a-tiger-in-the-zoo', 'A Tiger in the Zoo', []],
-        ['poem-how-to-tell-wild-animals', 'How to Tell Wild Animals', []],
-        ['poem-the-ball-poem', 'The Ball Poem', []],
-        ['poem-amanda', 'Amanda!', []],
-        ['poem-the-trees', 'The Trees', []],
-        ['poem-fog', 'Fog', []],
-        ['poem-the-tale-of-custard-the-dragon', 'The Tale of Custard the Dragon', []],
-        ['poem-for-anne-gregory', 'For Anne Gregory', []],
+        ['poem-dust-of-snow', 'Dust of Snow', ['dust-of-snow']],
+        ['poem-fire-and-ice', 'Fire and Ice', ['fire-and-ice']],
+        ['poem-a-tiger-in-the-zoo', 'A Tiger in the Zoo', ['a-tiger-in-the-zoo']],
+        ['poem-how-to-tell-wild-animals', 'How to Tell Wild Animals', ['how-to-tell-wild-animals']],
+        ['poem-the-ball-poem', 'The Ball Poem', ['the-ball-poem']],
+        ['poem-amanda', 'Amanda!', ['amanda']],
+        ['poem-the-trees', 'The Trees', ['the-trees']],
+        ['poem-fog', 'Fog', ['fog']],
+        ['poem-the-tale-of-custard-the-dragon', 'The Tale of Custard the Dragon', ['the-tale-of-custard-the-dragon']],
+        ['poem-for-anne-gregory', 'For Anne Gregory', ['for-anne-gregory']],
         [
           'supplementary-a-triumph-of-surgery',
           'A Triumph of Surgery',
@@ -823,7 +819,7 @@ test('English registers the exact prescribed domain and literature text set', ()
         [
           'supplementary-footprints-without-feet',
           'Footprints Without Feet',
-          ['footprints-without-feet-story'],
+          ['footprints-without-feet'],
         ],
         [
           'supplementary-the-making-of-a-scientist',
@@ -860,7 +856,7 @@ test('Hindi registers the exact complete domain and prescribed text set', () => 
           id: 'unseen-prose-passages',
           title: 'अपठित गद्यांश',
           scope: 'board-exam',
-          platformChapterSlugs: [],
+          platformChapterSlugs: ['hindi-apatit-gadyansh'],
         },
       ],
     },
@@ -875,7 +871,7 @@ test('Hindi registers the exact complete domain and prescribed text set', () => 
         id,
         title,
         scope: 'board-exam',
-        platformChapterSlugs: [],
+        platformChapterSlugs: [`hindi-${id}`],
       })),
     },
     {
@@ -911,13 +907,13 @@ test('Hindi registers the exact complete domain and prescribed text set', () => 
         ['sakhiyaan', 'साखियाँ', 'board-exam', ['sakhi']],
         ['pad', 'पद', 'board-exam', ['pad']],
         ['manushyata', 'मनुष्यता', 'board-exam', ['manushyata']],
-        ['parvat-pradesh-mein-pavas', 'पर्वत प्रदेश में पावस', 'board-exam', []],
-        ['tope', 'तोप', 'board-exam', []],
-        ['kar-chale-hum-fida', 'कर चले हम फ़िदा', 'board-exam', []],
-        ['aatmatran', 'आत्मत्राण', 'board-exam', []],
-        ['harihar-kaka', 'हरिहर काका', 'board-exam', []],
-        ['topi-shukla', 'टोपी शुक्ला', 'board-exam', []],
-        ['sapnon-ke-se-din', 'सपनों के-से दिन', 'board-exam', []],
+        ['parvat-pradesh-mein-pavas', 'पर्वत प्रदेश में पावस', 'board-exam', ['parvat-pradesh-mein-pavas']],
+        ['tope', 'तोप', 'board-exam', ['tope']],
+        ['kar-chale-hum-fida', 'कर चले हम फ़िदा', 'board-exam', ['kar-chale-hum-fida']],
+        ['aatmatran', 'आत्मत्राण', 'board-exam', ['aatmatran']],
+        ['harihar-kaka', 'हरिहर काका', 'board-exam', ['harihar-kaka']],
+        ['sapnon-ke-se-din', 'सपनों के-से दिन', 'board-exam', ['sapnon-ke-se-din']],
+        ['topi-shukla', 'टोपी शुक्ला', 'board-exam', ['topi-shukla']],
         ['bihari-ke-dohe', 'बिहारी के दोहे', 'excluded', []],
         ['madhur-madhur-mere-deepak-jal', 'मधुर-मधुर मेरे दीपक जल', 'excluded', []],
         ['girgit', 'गिरगिट', 'excluded', []],
@@ -940,7 +936,7 @@ test('Hindi registers the exact complete domain and prescribed text set', () => 
         id,
         title,
         scope: 'board-exam',
-        platformChapterSlugs: [],
+        platformChapterSlugs: [`hindi-${id}`],
       })),
     },
   ]);

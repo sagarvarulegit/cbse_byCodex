@@ -5,88 +5,127 @@ class_level: 10
 chapter: Real Numbers
 chapter_slug: real-numbers
 content_type: quiz
-status: draft
+status: ready
 ---
 
 # Real Numbers chapter quiz
 
-Answer these quick questions after revising the chapter notes.
+## 1. Unique prime factorisation
 
-## 1. Euclid division lemma
+Which is the prime factorisation of $3825$?
 
-Topic: euclid-division-lemma
-Difficulty: Easy
-Source: NCERT Class 10 Maths, Chapter 1, Euclid division lemma
-
-When we divide a number `a` by `b`, the remainder must be:
-
-1. any whole number
-2. smaller than `b`
-3. greater than `a`
+1. $3\times5^2\times17$
+2. $3^2\times5^2\times17$
+3. $3^2\times5\times17$
+4. $5^3\times17$
 
 Answer: 2
-Explanation: Euclid division lemma writes `a = bq + r`, where the remainder `r` is always at least 0 and smaller than the divisor `b`.
-
-## 2. Fundamental theorem of arithmetic
-
 Topic: fundamental-theorem-of-arithmetic
-Difficulty: Easy
-Source: NCERT Class 10 Maths, Chapter 1, Fundamental theorem of arithmetic
+Difficulty: easy
+Source: NCERT Exercise 1.1 aligned
+Explanation: $3825=3^2\times5^2\times17$.
 
-Which statement is correct?
+## 2. HCF and LCM
 
-1. Every composite number has exactly one prime factorisation
-2. Every number has no prime factors
-3. Prime numbers are never used in factorisation
+The HCF of $26$ and $91$ is $13$. Their LCM is:
 
-Answer: 1
-Explanation: The theorem says every composite number can be factorised into primes in one unique way, apart from the order of the factors.
-
-## 3. HCF and LCM
-
-Topic: hcf-and-lcm-by-prime-factorisation
-Difficulty: Medium
-Source: NCERT Class 10 Maths, Chapter 1, HCF and LCM by prime factorisation
-
-To find the `HCF` of numbers by prime factorisation, we take:
-
-1. all common prime factors with the lowest powers
-2. only the biggest prime factor
-3. all prime factors with the highest powers
-
-Answer: 1
-Explanation: HCF keeps only the common prime factors, and for each common factor it uses the lowest power present in the numbers.
-
-## 4. Irrational numbers
-
-Topic: irrational-numbers
-Difficulty: Medium
-Source: NCERT Class 10 Maths, Chapter 1, Irrational numbers
-
-Which of these is irrational?
-
-1. `3/4`
-2. `0.25`
-3. `sqrt(2)`
+1. $91$
+2. $117$
+3. $182$
+4. $2366$
 
 Answer: 3
-Explanation: `3/4` and `0.25` are rational numbers. `sqrt(2)` cannot be written as a ratio of two integers, so it is irrational.
+Topic: fundamental-theorem-of-arithmetic
+Difficulty: easy
+Source: NCERT Exercise 1.1 aligned
+Explanation: LCM $=(26\times91)/13=182$.
 
-## 5. Decimal expansion
+## 3. Ending in zero
 
-Topic: decimal-expansion-of-rational-numbers
-Difficulty: Medium
-Source: NCERT Class 10 Maths, Chapter 1, Decimal expansion of rational numbers
+Why can no power $6^n$, $n$ a natural number, end in $0$?
 
-A rational number has a terminating decimal expansion when the denominator, in lowest form, has only:
+1. Its prime factorisation has no factor $2$.
+2. Its prime factorisation has no factor $3$.
+3. Its prime factorisation has no factor $5$.
+4. Every power of $6$ is prime.
 
-1. `2` and `5` as prime factors
-2. `3` and `7` as prime factors
-3. any prime factor at all
+Answer: 3
+Topic: fundamental-theorem-of-arithmetic
+Difficulty: medium
+Source: NCERT Exercise 1.1 aligned
+Explanation: A final zero needs a factor $10=2\times5$; $6^n=2^n3^n$ has no $5$.
+
+## 4. Theorem used in irrationality
+
+If prime $p$ divides $a^2$, the textbook theorem allows us to conclude:
+
+1. $a$ divides $p$
+2. $p$ divides $a$
+3. $p=a^2$
+4. $a$ is prime
+
+Answer: 2
+Topic: irrational-numbers
+Difficulty: easy
+Source: NCERT Theorem 1.2 aligned
+Explanation: This is exactly Theorem 1.2 and is used in the contradiction proofs.
+
+## 5. Contradiction in the square-root proof
+
+What contradiction completes the proof that $\sqrt5$ is irrational?
+
+1. Both numerator and denominator are divisible by $5$ although the fraction was in lowest form.
+2. The denominator becomes zero.
+3. The numerator is negative.
+4. The square root becomes an integer.
 
 Answer: 1
-Explanation: A rational number terminates only when the denominator in lowest form can be written as `2^m x 5^n`.
+Topic: irrational-numbers
+Difficulty: medium
+Source: NCERT Exercise 1.2 aligned
+Explanation: A shared factor $5$ contradicts the coprime lowest-form assumption.
 
-## revision reminder
+## 6. Rational plus irrational
 
-If you missed more than one answer, rewatch the related lesson section, revise the quick notes, and retry the score form with the weak topics marked.
+Why is $6+\sqrt2$ irrational?
+
+1. Every sum is irrational.
+2. If it were rational, subtracting $6$ would make $\sqrt2$ rational.
+3. Six is irrational.
+4. Its square is negative.
+
+Answer: 2
+Topic: irrational-numbers
+Difficulty: medium
+Source: NCERT Exercise 1.2 aligned
+Explanation: Rational numbers are closed under subtraction, producing the contradiction.
+
+## 7. Three-number HCF
+
+The HCF of $8$, $9$ and $25$ is:
+
+1. $1$
+2. $2$
+3. $5$
+4. $25$
+
+Answer: 1
+Topic: ncert-exercises-and-revision
+Difficulty: easy
+Source: NCERT Exercise 1.1 aligned
+Explanation: The three numbers share no prime factor.
+
+## 8. Circular path
+
+Two runners take $18$ minutes and $12$ minutes per lap. After how long will both again be at the start together?
+
+1. $6$ minutes
+2. $24$ minutes
+3. $30$ minutes
+4. $36$ minutes
+
+Answer: 4
+Topic: ncert-exercises-and-revision
+Difficulty: medium
+Source: NCERT Exercise 1.1 aligned
+Explanation: The required time is LCM$(18,12)=36$ minutes.

@@ -8,7 +8,7 @@ content_type: subject-index
 
 # Class 10 Social Science Chapter Packs
 
-This folder contains original chapter-pack notes for the CBSE Class 10 Social Science textbooks available in `textbooks/textbooks/socialscience-*`.
+This folder contains original chapter-pack notes for the CBSE Class 10 Social Science textbooks available in `textbooks/socialscience-*`.
 
 The notes are grouped by the four Social Science books:
 
@@ -19,14 +19,14 @@ The notes are grouped by the four Social Science books:
 
 Each chapter pack includes:
 
-- chapter goal
-- textbook-aligned chapter flow
+- a hook and chapter goal
+- the textbook's printed heading order
 - simple-English concept notes
-- exam-friendly summary notes
-- common mistakes
-- board tips
-- practice questions
-- mini quiz with answers
-- comic style recap
+- an accessible guide to the chapter's figures, maps, tables, sources and activities
+- every printed end exercise with concise answer support
+- common mistakes and board-answer tips
+- quick practice with an answer check
+- a one-minute revision list
+- a four-part Priya/Rahul comic recap
 
-These are original learning notes written from the local textbook chapter sequence and section headings, not copied textbook text.
+These are original learning notes written from the local Reprint 2026-27 textbook chapter sequence and section headings, not copied textbook prose. The subject remains under source-fidelity review; use each book's `source-fidelity-tracker.md` for chapter-level evidence and open gates.

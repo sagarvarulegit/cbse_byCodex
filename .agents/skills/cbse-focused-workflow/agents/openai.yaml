@@ -1,0 +1,4 @@
+interface:
+  display_name: "CBSE Focused Workflow"
+  short_description: "Focused design, debugging, and completion checks"
+  default_prompt: "Use $cbse-focused-workflow to handle this substantial CBSE project task with the appropriate focused workflow."

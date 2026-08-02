@@ -23,6 +23,7 @@ test('all science activity demos route to static NCERT illustration assets', () 
   const dispatcher = fs.readFileSync(dispatcherPath, 'utf8');
 
   assert.match(dispatcher, /hasActivityIllustration\(demoId\)/);
+  assert.doesNotMatch(dispatcher, /['"]use client['"]/);
   assert.doesNotMatch(dispatcher, /LabDemo|CanvasDemo|PlantGrowthActivityDemo|PlantGeotropismDemo/);
   assert.doesNotMatch(component, /Original ChatGPT-generated redraw/);
   assert.match(component, /const ILLUSTRATION_HOTSPOTS/);
@@ -50,6 +51,9 @@ test('all science activity demos route to static NCERT illustration assets', () 
 
   const imagePaths = [...component.matchAll(/image: '([^']+)'/g)].map((match) => match[1]);
   assert.ok(imagePaths.length >= 10, 'Expected the complete activity illustration asset set');
+  assert.doesNotMatch(component, /image: '\/activity-illustrations\/[^']+\.png'/);
+  assert.match(component, /className="activity-illustration-image-crop"/);
+  assert.match(component, /loading="lazy"/);
   for (const imagePath of new Set(imagePaths)) {
     assert.ok(fs.existsSync(path.join(publicRoot, imagePath)), `Missing public asset ${imagePath}`);
   }

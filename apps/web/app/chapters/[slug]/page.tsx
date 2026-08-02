@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+
 import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
+import StudentTopbar from '../../../components/StudentTopbar';
+import { getStudentSession } from '../../../lib/auth';
 import {
   getAvailableLessons,
   getChapter,
@@ -9,6 +12,7 @@ import {
   hasChapterPack,
   type ChapterContent,
 } from '../../../lib/course-content';
+import { getChapterSubjectNavigation } from '../../../lib/curriculum/subject-navigation';
 import {
   formatMasteryLevel,
   getChapterMasteryDisplay,
@@ -19,7 +23,11 @@ import {
 import { buildMasteryRewards } from '../../../lib/mastery-rewards';
 import { isPilotChapter } from '../../../lib/pilot';
 
-export default async function ChapterPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ChapterProgressPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const chapter = getChapter(slug);
 
@@ -28,166 +36,82 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   }
 
   const masteryPromise = getStudentMastery(slug);
-  const quizContent = await getQuizContent(slug);
-
-  const availableLessons = getAvailableLessons(chapter);
-  const hasLessonNotes = availableLessons.length > 0;
-  const hasPackNotes = hasChapterPack(slug);
-  const isLive = hasLessonNotes || hasPackNotes;
+  const [quizContent, session] = await Promise.all([
+    getQuizContent(slug),
+    getStudentSession(),
+  ]);
+  const hasChapterContent =
+    getAvailableLessons(chapter).length > 0 || hasChapterPack(slug);
   const isPilot = isPilotChapter(slug);
-  const bestFirstAction = hasLessonNotes
-    ? {
-        href: `/chapters/${slug}/notes`,
-        label: 'Open complete chapter notes',
-        helper: `Begin with Introduction, then read all ${availableLessons.length} chapter parts in textbook order on one page.`,
-      }
-    : hasPackNotes
-      ? {
-          href: `/chapters/${slug}/notes`,
-          label: 'Read chapter notes',
-          helper: 'Open the chapter notes first, then move to the quiz when you are ready.',
-        }
-      : quizContent
-        ? {
-            href: `/chapters/${slug}/quiz`,
-            label: 'Take chapter quiz',
-            helper: 'Use the quiz as a quick revision check for this chapter.',
-          }
-        : {
-            href: '#mastery',
-            label: 'View mastery',
-            helper: 'Check your current mastery score and the next target.',
-          };
+  const subjectNavigation = getChapterSubjectNavigation(slug);
+
   return (
     <main>
-      {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="chapter_open" surface="chapter" /> : null}
+      {isPilot ? (
+        <PilotEngagementTracker
+          chapterSlug={slug}
+          eventType="chapter_open"
+          surface="chapter"
+        />
+      ) : null}
 
-      <nav className="topbar" aria-label="Chapter navigation">
-        <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/dashboard">Dashboard</Link>
-          <Link href="/subjects">Subjects</Link>
-        </div>
-      </nav>
+      <StudentTopbar contextLabel={chapter.subject} session={session} />
 
       <section className="chapter-hero section-shell">
         <div>
-          <p className="eyebrow">{chapter.subject}</p>
-          <h1>{chapter.title}</h1>
-          <p className="subtext">{chapter.summary}</p>
+          <nav className="breadcrumb-row" aria-label="Student learning path">
+            <Link href="/dashboard">Dashboard</Link>
+            <span>/</span>
+            <Link href="/subjects">Subjects</Link>
+            {subjectNavigation ? (
+              <>
+                <span>/</span>
+                <Link href={subjectNavigation.href}>
+                  {subjectNavigation.chapterListLabel}
+                </Link>
+              </>
+            ) : null}
+            <span>/</span>
+            <span aria-current="page">{chapter.title} progress</span>
+          </nav>
+          <p className="eyebrow">{chapter.subject} · Optional progress view</p>
+          <h1>{chapter.title} progress</h1>
+          <p className="subtext">
+            Check your mastery, rewards, and next revision target. Chapter
+            selections open the learning content directly.
+          </p>
           <div className="hero-actions">
-            <Link className="button-link" href={bestFirstAction.href}>
-              {bestFirstAction.label}
-            </Link>
-            <a className="ghost-link" href={quizContent ? `/chapters/${slug}/quiz` : '#lesson-plan'}>
-              {quizContent ? 'Take chapter quiz' : 'See lesson plan'}
-            </a>
+            {hasChapterContent ? (
+              <Link
+                className="button-link"
+                href={`/chapters/${slug}/notes`}
+                prefetch={false}
+              >
+                Continue chapter
+              </Link>
+            ) : null}
+            {quizContent ? (
+              <Link className="ghost-link" href={`/chapters/${slug}/quiz`}>
+                Take chapter quiz
+              </Link>
+            ) : null}
           </div>
-          <p className="subtext compact">Best first action: {bestFirstAction.helper}</p>
         </div>
 
         <Suspense fallback={<ChapterMasteryPanel chapter={chapter} />}>
-          <LiveChapterMasteryPanel chapter={chapter} masteryPromise={masteryPromise} />
+          <LiveChapterMasteryPanel
+            chapter={chapter}
+            masteryPromise={masteryPromise}
+          />
         </Suspense>
       </section>
 
-      <Suspense fallback={<ChapterMasteryDetailsLoading />}>
-        <ChapterMasteryDetails
-          chapter={chapter}
+      <Suspense fallback={<ChapterProgressDetailsLoading />}>
+        <ChapterProgressDetails
           chapterSlug={slug}
-          hasLessonNotes={hasLessonNotes}
-          hasPackNotes={hasPackNotes}
           masteryPromise={masteryPromise}
         />
       </Suspense>
-
-      <section className="section-shell" id="lesson-plan">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Chapter path</p>
-            <h2>{isLive ? 'Simple-English notes now live.' : 'Short videos, notes, quiz checkpoints.'}</h2>
-            {quizContent && (
-              <Link className="button-link" href={`/chapters/${slug}/quiz`}>Take chapter quiz</Link>
-            )}
-          </div>
-          {isLive ? (
-            <span className="section-badge">
-              {hasLessonNotes ? `${availableLessons.length} chapter parts ready` : 'Chapter pack ready'}
-            </span>
-          ) : null}
-        </div>
-        {hasLessonNotes ? (
-          <div className="chapter-continuous-entry">
-            <div>
-              <p className="eyebrow">One continuous reading path</p>
-              <h3>Introduction → every numbered section → revision and practice</h3>
-              <p className="lesson-preview">
-                Open the chapter once and read every available note in order. Use the contents list to jump directly to a textbook section.
-              </p>
-              <ol className="chapter-continuous-outline">
-                <li>Introduction</li>
-                {availableLessons.map((lesson) => (
-                  <li key={lesson.slug}>{lesson.title}</li>
-                ))}
-              </ol>
-            </div>
-            <Link className="button-link" href={`/chapters/${slug}/notes`}>
-              Open complete chapter notes
-            </Link>
-          </div>
-        ) : hasPackNotes ? (
-          <div className="lesson-list">
-            <article className="lesson-row">
-              <span className="lesson-index">01</span>
-              <div>
-                <h3>Complete chapter notes</h3>
-                <p>Chapter pack - 15 min</p>
-                <p className="lesson-preview">{chapter.summary}</p>
-              </div>
-              <div className="lesson-actions">
-                <span className="access-pill free">Free</span>
-                <Link className="card-link lesson-open-link" href={`/chapters/${slug}/notes`}>
-                  Open notes
-                </Link>
-              </div>
-            </article>
-          </div>
-        ) : (
-          <div className="lesson-list">
-          {chapter.lessons.map((lesson, index) => {
-            const href = lesson.fileName ? `/chapters/${slug}/lessons/${lesson.slug}` : undefined;
-
-            return (
-              <article className="lesson-row" key={lesson.title}>
-                <span className="lesson-index">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{lesson.title}</h3>
-                  <p>
-                    {lesson.type} - {lesson.minutes} min
-                  </p>
-                  <p className="lesson-preview">{lesson.preview}</p>
-                </div>
-                <div className="lesson-actions">
-                  <span className={lesson.free ? 'access-pill free' : 'access-pill'}>
-                    {lesson.free ? 'Free' : 'Premium'}
-                  </span>
-                  {href ? (
-                    <Link className="card-link lesson-open-link" href={href}>
-                      Open notes
-                    </Link>
-                  ) : (
-                    <span className="coming-soon-note">Coming soon</span>
-                  )}
-                </div>
-              </article>
-            );
-          })}
-          </div>
-        )}
-      </section>
     </main>
   );
 }
@@ -207,11 +131,16 @@ function ChapterMasteryPanel({
       <p className="eyebrow">Chapter mastery</p>
       <strong>{masteryDisplay.score}%</strong>
       <span>{masteryDisplay.label}</span>
-      <div className="progress-track large" aria-label={`${masteryDisplay.score}% mastered`}>
+      <div
+        className="progress-track large"
+        aria-label={`${masteryDisplay.score}% mastered`}
+      >
         <span style={{ width: `${masteryDisplay.score}%` }} />
       </div>
       {chapterMastery ? (
-        <p className="streak-task">Next target: {getNextMasteryLabel(chapterMastery.masteryScore)}</p>
+        <p className="streak-task">
+          Next target: {getNextMasteryLabel(chapterMastery.masteryScore)}
+        </p>
       ) : null}
       <p className="streak-task">Today: {chapter.streakTask}</p>
     </aside>
@@ -225,20 +154,19 @@ async function LiveChapterMasteryPanel({
   chapter: ChapterContent;
   masteryPromise: Promise<MasteryPayload>;
 }) {
-  return <ChapterMasteryPanel chapter={chapter} mastery={await masteryPromise} />;
+  return (
+    <ChapterMasteryPanel
+      chapter={chapter}
+      mastery={await masteryPromise}
+    />
+  );
 }
 
-async function ChapterMasteryDetails({
-  chapter,
+async function ChapterProgressDetails({
   chapterSlug,
-  hasLessonNotes,
-  hasPackNotes,
   masteryPromise,
 }: {
-  chapter: ChapterContent;
   chapterSlug: string;
-  hasLessonNotes: boolean;
-  hasPackNotes: boolean;
   masteryPromise: Promise<MasteryPayload>;
 }) {
   const mastery = await masteryPromise;
@@ -254,85 +182,52 @@ async function ChapterMasteryDetails({
 
   return (
     <>
-      <section className="section-shell chapter-reward-strip" aria-label="Chapter reward unlocks">
+      <section
+        className="section-shell chapter-reward-strip"
+        aria-label="Chapter reward unlocks"
+      >
         <div className="section-heading">
           <div>
             <p className="eyebrow">Chapter unlocks</p>
             <h2>Rewards follow your mastery score.</h2>
           </div>
           <span className="section-badge">
-            {masteryRewards[0]?.badgeCount ?? 0} chapter badge{masteryRewards[0]?.badgeCount === 1 ? '' : 's'}
+            {masteryRewards[0]?.badgeCount ?? 0} chapter badge
+            {masteryRewards[0]?.badgeCount === 1 ? '' : 's'}
           </span>
         </div>
         {chapterMastery ? (
           <div className="reward-grid compact">
             {masteryRewards.map((reward) => (
-            <article className={`reward-card ${reward.state}`} key={reward.level}>
-              <div>
-                <span className="reward-state">
-                  {reward.state === 'unlocked' ? 'Unlocked' : reward.isNext ? 'Next unlock' : 'Locked'}
-                </span>
-                <strong>{reward.rewardName}</strong>
-              </div>
-              <p>{reward.actionLabel}</p>
-              <div className="reward-meta">
-                <span>{formatMasteryLevel(reward.level)}</span>
-                <span>{reward.progressLabel}</span>
-              </div>
-            </article>
+              <article
+                className={`reward-card ${reward.state}`}
+                key={reward.level}
+              >
+                <div>
+                  <span className="reward-state">
+                    {reward.state === 'unlocked'
+                      ? 'Unlocked'
+                      : reward.isNext
+                        ? 'Next unlock'
+                        : 'Locked'}
+                  </span>
+                  <strong>{reward.rewardName}</strong>
+                </div>
+                <p>{reward.actionLabel}</p>
+                <div className="reward-meta">
+                  <span>{formatMasteryLevel(reward.level)}</span>
+                  <span>{reward.progressLabel}</span>
+                </div>
+              </article>
             ))}
           </div>
         ) : (
           <p className="subtext compact">
-            Start a lesson or take the chapter quiz to begin earning mastery rewards.
+            Study the chapter or take its quiz to begin earning mastery
+            rewards.
           </p>
         )}
       </section>
-
-      {hasPackNotes ? (
-        <section className="section-shell chapter-definition-grid">
-          <article className="definition-card">
-            <p className="eyebrow">
-              Chapter notes
-            </p>
-            <h2>
-              {hasLessonNotes
-                ? 'All sections in one reading view'
-                : `${chapter.title} notes are live.`}
-            </h2>
-            <p className="subtext compact">
-              {hasLessonNotes
-                ? 'Start with Introduction, then continue through every available textbook section, exercise, and practice note without returning to separate cards.'
-                : 'Read the complete chapter pack with goals, concept flow, exam-friendly points, common mistakes, and practice prompts.'}
-            </p>
-          </article>
-          <article className="definition-card soft">
-            <p className="eyebrow">
-              {hasLessonNotes ? 'Reading path' : 'Revision path'}
-            </p>
-            <ul>
-              {hasLessonNotes ? (
-                <>
-                  <li>Begin with Introduction.</li>
-                  <li>Follow parent sections before child subsections.</li>
-                  <li>Use the chapter contents to jump to a weak concept.</li>
-                </>
-              ) : (
-                <>
-                  <li>Start with the chapter goal.</li>
-                  <li>Revise each concept in order.</li>
-                  <li>Finish with the practice and board tips.</li>
-                </>
-              )}
-            </ul>
-            <Link className="card-link" href={`/chapters/${chapterSlug}/notes`}>
-              {hasLessonNotes
-                ? 'Open complete chapter notes'
-                : 'Read chapter notes'}
-            </Link>
-          </article>
-        </section>
-      ) : null}
 
       {activeMission ? (
         <section className="section-shell chapter-mission-callout">
@@ -342,10 +237,14 @@ async function ChapterMasteryDetails({
             <p className="subtext compact">{activeMission.reason}</p>
             <p className="subtext compact">
               Target: {activeMission.targetScore}% ·{' '}
-              {activeMission.recommendedSteps[0] ?? 'Retry the quiz after revision.'}
+              {activeMission.recommendedSteps[0] ??
+                'Retry the quiz after revision.'}
             </p>
           </div>
-          <Link className="button-link" href={`/chapters/${chapterSlug}/quiz`}>
+          <Link
+            className="button-link"
+            href={`/chapters/${chapterSlug}/quiz`}
+          >
             Retry quiz
           </Link>
         </section>
@@ -354,9 +253,13 @@ async function ChapterMasteryDetails({
   );
 }
 
-function ChapterMasteryDetailsLoading() {
+function ChapterProgressDetailsLoading() {
   return (
-    <section aria-busy="true" aria-label="Loading chapter mastery" className="section-shell chapter-reward-strip">
+    <section
+      aria-busy="true"
+      aria-label="Loading chapter mastery"
+      className="section-shell chapter-reward-strip"
+    >
       <div className="section-heading">
         <div>
           <p className="eyebrow">Chapter unlocks</p>

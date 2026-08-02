@@ -1,46 +1,44 @@
 ---
-title: Class 10 Mathematics Chapter Packs
+title: Class 10 Mathematics Content Index
 audience: CBSE Class 10
 subject: Mathematics
-status: draft
+status: maintained
 content_type: chapter-index
 ---
 
-# Class 10 Mathematics Chapter Packs
+# Class 10 Mathematics content index
 
-This folder now contains chapter-pack notes for the full NCERT Class 10 Mathematics sequence.
+All 14 chapters now have live lesson-wise notes, NCERT exercise revision and metadata-complete quizzes under `apps/web/content/<chapter-slug>/lessons/`. The source and figure mapping is maintained in `source-fidelity-tracker.md`.
 
 ## chapters covered
 
-1. `real-numbers/chapter-pack.md`
-2. `polynomials/chapter-pack.md`
-3. `pair-of-linear-equations-in-two-variables/chapter-pack.md`
-4. `quadratic-equations/chapter-pack.md`
-5. `arithmetic-progressions/chapter-pack.md`
-6. `triangles/chapter-pack.md`
-7. `coordinate-geometry/chapter-pack.md`
-8. `introduction-to-trigonometry/chapter-pack.md`
-9. `some-applications-of-trigonometry/chapter-pack.md`
-10. `circles/chapter-pack.md`
-11. `areas-related-to-circles/chapter-pack.md`
-12. `surface-areas-and-volumes/chapter-pack.md`
-13. `statistics/chapter-pack.md`
-14. `probability/chapter-pack.md`
+1. Real Numbers
+2. Polynomials
+3. Pair of Linear Equations in Two Variables
+4. Quadratic Equations
+5. Arithmetic Progressions
+6. Triangles
+7. Coordinate Geometry
+8. Introduction to Trigonometry
+9. Some Applications of Trigonometry
+10. Circles
+11. Areas Related to Circles
+12. Surface Areas and Volumes
+13. Statistics
+14. Probability
 
-## note style used
+## live note pattern
 
-Each chapter pack follows the same broad structure:
-- chapter goal
-- textbook alignment note
-- chapter flow
-- topic-wise explanation in simple English
-- exam-friendly summary notes
-- common mistakes
-- board tips
-- solved practice
-- short answer practice
-- mini quiz
+Each live chapter contains:
 
-## review note
+- exact current NCERT numbered-section headings
+- simplified concepts and textbook example mappings
+- exercise-block coverage and revision guidance
+- common mistakes, board tips and quick practice
+- a four-panel comic recap
+- one accessible NCERT-matched core schematic
+- an eight-question chapter quiz with topic, difficulty, source and explanation metadata
 
-The content is written to match the standard Class 10 NCERT maths chapter list already reflected in the repo. Chapter 1 keeps its existing richer lesson split, while Chapters 2 to 14 now have chapter-pack coverage in the same teaching voice.
+## legacy chapter packs
+
+The `chapter-pack.md` files in this directory are older fallback artifacts. They are not the canonical live Maths notes and must not be used as current-scope evidence until separately reconciled and regenerated.

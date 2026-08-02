@@ -6,137 +6,176 @@ chapter_number: 2
 chapter_slug: forest-and-wildlife-resources
 status: draft
 content_type: chapter-pack
-source_textbook: textbooks/textbooks/socialscience-geography/jess102.pdf
+source_textbook: textbooks/socialscience-geography/jess102.pdf
+source_edition: Reprint 2026-27
 ---
 
-# Forest and Wildlife Resources
+# Chapter 2: Forest and Wildlife Resources
 
-## chapter goal
+A forest is not only a collection of trees. It is a living network that supports air, water, soil, food, livelihoods and millions of species, including us.
 
-By the end of this chapter, a student should be able to:
-- explain biodiversity and its value
-- identify causes of forest and wildlife loss
-- describe conservation efforts in India
-- distinguish reserved, protected, and unclassed forests
-- explain the role of communities in conservation
+## Chapter goal
 
-## teacher note on textbook alignment
+- Explain biodiversity and its value for human life.
+- Understand India's conservation laws, protected areas and species projects.
+- Compare reserved, protected and unclassed forests.
+- Show how local communities conserve forests and wildlife.
 
-This pack follows `jess102.pdf`: biodiversity, flora and fauna in India, endangered species, reasons for depletion, conservation, Project Tiger, forest categories, and community-led conservation.
+## Textbook path
 
-## chapter flow for the platform
+1. Flora and Fauna in India
+2. Conservation of Forest and Wildlife in India
+3. Project Tiger
+4. Types and Distribution of Forest and Wildlife Resources
+5. Community and Conservation
+6. Sacred groves - a wealth of diverse and rare species
 
-1. Biodiversity and ecological balance
-2. Flora and fauna in India
-3. Why forests and wildlife are declining
-4. Conservation of forest and wildlife
-5. Project Tiger and protected areas
-6. Types of forests by legal status
-7. Community and conservation
+## Flora and Fauna in India
 
-## 1) biodiversity and ecological balance
+Biodiversity means wildlife and cultivated species that differ in form and function but remain closely connected through many interdependencies.
 
-Biodiversity means the variety of living organisms: plants, animals, microorganisms, and their ecosystems.
+Forests are primary producers. They support food chains, clean air, water, fertile soil and human livelihoods. The textbook asks us to see human beings as part of this ecological system, not outside it.
 
-Forests are primary producers. They support food chains, water cycles, soil quality, and air quality.
+### Textbook activity
 
-Human beings are part of this ecological system, not separate from it.
+Find stories from your region that show a harmonious relationship between human beings and nature.
 
-## 2) flora and fauna in India
+## Conservation of Forest and Wildlife in India
 
-Flora means plant life. Fauna means animal life.
+Conservation protects ecological diversity and the life-support systems of water, air and soil. It also preserves genetic diversity, which helps agriculture, fisheries and future adaptation.
 
-India has rich biological diversity because of its varied climate, landforms, forests, rivers, mountains, deserts, and coasts.
+The Indian Wildlife (Protection) Act was implemented in 1972. Hunting was banned for endangered species, their habitats received legal protection, and trade in wildlife was restricted. National parks, wildlife sanctuaries and species-specific programmes followed.
 
-Species may be normal, endangered, vulnerable, rare, endemic, or extinct depending on population and survival risk.
+The textbook names the tiger, one-horned rhinoceros, Kashmir stag or hangul, three crocodile species, Asiatic lion, Indian elephant, black buck, great Indian bustard and snow leopard as examples needing protection.
 
-## 3) why forests and wildlife are declining
+## Project Tiger
 
-Major reasons include:
+Project Tiger began in 1973. Tiger protection also protects the forest, prey and water systems within its habitat.
 
-- agricultural expansion
-- shifting cultivation in some regions
-- large development projects
-- mining
-- grazing and fuelwood collection pressure
-- hunting and poaching
-- pollution and forest fires
+The textbook explains threats such as poaching, shrinking habitat, falling prey numbers, population pressure and the trade in tiger skins and bones. It names Corbett, Sunderbans, Bandhavgarh, Sariska, Manas and Periyar among India's tiger reserves.
 
-The greatest pressure often comes from unequal and careless use of resources.
+[REMEMBER: Protecting a top predator's habitat protects many other species at the same time.]
 
-## 4) conservation of forest and wildlife
+## Types and Distribution of Forest and Wildlife Resources
 
-Conservation protects ecological diversity and life-support systems such as water, air, and soil.
+| Forest category | Textbook meaning |
+| --- | --- |
+| Reserved forests | More than half of total forest land; treated as the most valuable for conservation |
+| Protected forests | Almost one-third; protected from further depletion |
+| Unclassed forests | Other forests and wastelands belonging to government, communities or private owners |
 
-It also preserves genetic diversity, which is important for crops, animals, medicines, and future adaptation.
+Reserved and protected forests together are called permanent forest estates. Their purpose includes timber production as well as conservation.
 
-Conservation in India includes wildlife laws, national parks, wildlife sanctuaries, biosphere reserves, and species-specific projects.
+Madhya Pradesh has a large share of permanent forests. Jammu and Kashmir, Andhra Pradesh, Uttarakhand, Kerala, Tamil Nadu, West Bengal and Maharashtra also have large reserved-forest shares. Much of the forest area in north-eastern states and parts of Gujarat is managed as unclassed forest by local communities.
 
-## 5) Project Tiger
+### Textbook activity
 
-Project Tiger was launched to protect tigers and their habitats.
+Collect information about wildlife sanctuaries and national parks and locate them on an outline map of India.
 
-The tiger is a top predator. Protecting tiger habitats also protects forests, prey species, and local ecosystems.
+## Community and Conservation
 
-## 6) types of forests by legal status
+Conservation works best when local people share decisions and benefits.
 
-Reserved forests: most valuable for conservation and usually have the highest level of protection.
+- Villagers around Sariska Tiger Reserve opposed mining through the Wildlife Protection Act.
+- Five villages in Alwar protected about 1,200 hectares as the Bhairodev Dakav Sonchuri and made local rules against hunting and encroachment.
+- The Chipko movement resisted deforestation and showed that community afforestation with indigenous species can succeed.
+- Beej Bachao Andolan and Navdanya showed that diverse crops can be grown without synthetic chemicals and can still be economically viable.
+- Joint Forest Management gives village institutions a role in restoring degraded forests. The textbook highlights Odisha's 1988 resolution and benefit sharing through successful protection.
 
-Protected forests: protected from further depletion but with comparatively fewer restrictions than reserved forests.
+## Sacred groves - a wealth of diverse and rare species
 
-Unclassed forests: forests and wastelands belonging to government, communities, or private individuals that are not classified as reserved or protected.
+Sacred groves are forest patches protected by communities because of religious and cultural belief.
 
-## 7) community and conservation
+The Mundas and Santhals worship mahua and kadamba. Tribes in Odisha and Bihar worship tamarind and mango during weddings. In and around Bishnoi villages in Rajasthan, blackbuck, chinkara, nilgai and peacocks are protected as part of community life.
 
-Communities can protect forests through sacred groves, local rules, joint forest management, and resistance to destructive use.
+### Textbook activity
 
-Conservation succeeds better when local people are treated as partners, not as outsiders.
+Write a short essay about everyday practices that conserve and protect the environment around you.
 
-## exam-friendly summary notes
+## NCERT figure and source-box tracker
 
-- Biodiversity keeps ecosystems stable.
-- Forest loss affects water, soil, climate, and livelihoods.
-- Conservation preserves ecological and genetic diversity.
-- Reserved forests have stronger legal protection.
-- Community participation is essential for long-term conservation.
+| Source item | What the student must notice |
+| --- | --- |
+| Figure 2.1 | Tribal women using bamboo saplings, selling minor forest produce and collecting leaves; forests are also livelihood spaces |
+| Figure 2.2: Rhino and deer in Kaziranga National Park | Protected habitats conserve whole communities of species |
+| Gharial and Yamuna newspaper panel | Pollution and habitat loss can push species towards extinction; identify the causes shown |
+| Project Tiger box | Tiger population decline, trade, habitat pressure and the need for reserves |
+| Sacred groves box | Community belief can protect rare plants and animals over long periods |
 
-## common mistakes students make
+## NCERT exercise questions and answers
 
-1. Using flora and fauna as the same term.
-2. Writing only "cutting trees" as the cause of depletion.
-3. Forgetting that development projects and mining also affect forests.
-4. Treating local communities only as destroyers, not conservation partners.
+### 1. Multiple choice question
 
-## board tips
+**(i) Which of the following conservation strategies do not directly involve community participation?**
 
-- In conservation answers, include both government action and community action.
-- Mention examples like Project Tiger when asked about wildlife protection.
-- Explain why biodiversity matters, not just that it should be saved.
+*Answer:* (d) Demarcation of Wildlife sanctuaries.
 
-## short answer practice
+### 2. Match the following
 
-1. What is biodiversity?
-2. Why do we need to conserve forests and wildlife?
-3. What is the difference between reserved and protected forests?
-4. How do communities help conservation?
-5. Why is Project Tiger important?
+| Item | Correct match |
+| --- | --- |
+| Reserved forests | Forests regarded as most valuable for conservation of forest and wildlife resources |
+| Protected forests | Forest lands protected from any further depletion |
+| Unclassed forests | Other forests and wastelands belonging to government, private individuals and communities |
 
-## mini quiz with answers
+### 3. Answer the following questions in about 30 words
 
-1. Flora means plant life.
-2. Fauna means animal life.
-3. Reserved forests are highly protected.
-4. Project Tiger protects tiger habitats.
-5. Sacred groves are examples of community conservation.
+**(i) What is biodiversity? Why is biodiversity important for human lives?**
 
-## comic style recap
+*Answer:* Biodiversity is the variety of wildlife and cultivated species connected within an ecosystem. It supplies food, air, water, soil fertility, medicines and other life-support services needed by people.
 
-Panel 1: Forest Friend says, "Biodiversity is the whole living team."
+**(ii) How have human activities affected the depletion of flora and fauna? Explain.**
 
-Panel 2: Tiger Guard points to a forest map: "Save habitat, save many species."
+*Answer:* Habitat clearing, mining, hunting, pollution, commercial exploitation and unequal resource use have reduced forests and wildlife. These pressures break food webs and shrink the space in which species can survive.
 
-Panel 3: Village Elder says, "Our sacred grove is protected by community rules."
+### 4. Answer the following questions in about 120 words
 
-Panel 4: Soil and River shout, "Forests protect us too!"
+**(i) Describe how communities have conserved and protected forests and wildlife in India?**
 
-Panel 5: Eco Captain concludes, "Conservation works best when people and nature are partners."
+*Answer:* Communities conserve nature through sacred groves, local rules and organised movements. Sariska villagers opposed mining. Five Alwar villages protected the Bhairodev Dakav Sonchuri and banned hunting and encroachment. The Chipko movement resisted tree felling. Bishnoi communities protect blackbuck and other animals. Beej Bachao Andolan and Navdanya conserve crop diversity, while Joint Forest Management involves villages in restoring degraded forests and sharing benefits. These examples show that conservation becomes stronger when local people are partners.
+
+**(ii) Write a note on good practices towards conserving forest and wildlife.**
+
+*Answer:* Good conservation protects habitats, stops hunting and illegal trade, restores native vegetation and reduces pollution. National parks and sanctuaries need scientific management, but community knowledge and participation are equally important. Sacred groves, local protection rules, mixed native planting, sustainable harvesting and Joint Forest Management join livelihood needs with ecological care. Benefits should be shared fairly so that protection remains meaningful for nearby communities.
+
+## Common mistakes
+
+- Treating biodiversity as only the number of wild animals.
+- Saying every local community destroys forests.
+- Mixing up reserved, protected and unclassed forests.
+- Describing Project Tiger as protection of one animal only, without its habitat.
+
+## Board tips
+
+- In a conservation answer, include both law or protected areas and community action.
+- Use one named example and explain what people actually did.
+- For forest categories, compare ownership or protection status clearly.
+
+## Quick practice
+
+1. Why does protecting a tiger reserve help more than tigers?
+2. Which forest category may belong to communities or private owners?
+3. Name two community-led conservation examples from the chapter.
+4. How is a sacred grove different from an ordinary plantation?
+
+## Answer check
+
+1. It protects prey, plants, water and the whole habitat food web.
+2. Unclassed forests.
+3. Any two: Chipko, Beej Bachao Andolan, Navdanya, Bishnoi protection, Alwar's Bhairodev Dakav Sonchuri or Joint Forest Management.
+4. A sacred grove is a long-protected natural patch tied to community belief; a plantation is planted for a planned purpose and may contain fewer species.
+
+## One-minute revision
+
+- Biodiversity is a connected web of living variety.
+- Conservation protects ecological and genetic diversity.
+- Wildlife Protection Act: 1972; Project Tiger: 1973.
+- Reserved forests have the highest conservation value in the textbook classification.
+- Community protection can conserve both nature and livelihoods.
+
+## Comic recap
+
+- Priya: "A forest is a living network, not a timber warehouse."
+- Rahul: "Laws and reserves protect habitats, but local people must be partners."
+- Priya: "Sariska, Chipko and sacred groves show conservation in action."
+- Rahul: "Save the habitat, share the benefits and many species survive together."

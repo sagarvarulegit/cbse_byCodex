@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 
 import type { QuizAttemptHistory, QuizAttemptSummary } from '../lib/quiz-attempts';
 import { buildQuizRecoveryMessage, getWeakTopicLabels } from '../lib/quiz-recovery';
+import MathText from './MathText';
 
 type WeakTopicOption = {
   label: string;
@@ -311,7 +312,7 @@ export default function QuizScoreForm({
                   ))}
                 </div>
               ) : null}
-              <p>{question.prompt}</p>
+              <p><MathText text={question.prompt} /></p>
               <div className="quiz-option-list">
                 {question.options.map((option, optionIndex) => {
                   const inputId = `${question.id}-${optionIndex}`;
@@ -342,7 +343,7 @@ export default function QuizScoreForm({
                         value={option.value}
                       />
                       <span>{option.value}</span>
-                      <strong>{option.label}</strong>
+                      <strong><MathText text={option.label} /></strong>
                     </label>
                   );
                 })}
@@ -350,7 +351,7 @@ export default function QuizScoreForm({
               {hasSubmitted && question.explanation ? (
                 <div className="quiz-review-note">
                   <span>Explanation</span>
-                  <p>{question.explanation}</p>
+                  <p><MathText text={question.explanation} /></p>
                 </div>
               ) : null}
             </fieldset>

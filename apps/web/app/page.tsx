@@ -18,7 +18,7 @@ const signupReasons = [
     body: 'The pilot already includes real notes and chapter flows, so students can try the experience before more subjects go live.',
     accent: 'green',
     badge: 'Free pilot',
-    href: '/chapters/real-numbers',
+    href: '/chapters/real-numbers/notes',
     cta: 'Open Real Numbers',
   },
   {
@@ -109,7 +109,7 @@ export default async function HomePage() {
             <Link className="button-link" href={session ? '/dashboard' : '/register'}>
               {session ? 'Open student dashboard' : 'Create free account'}
             </Link>
-            <Link className="ghost-link" href="/chapters/real-numbers">
+            <Link className="ghost-link" href="/chapters/real-numbers/notes" prefetch={false}>
               Try Real Numbers first
             </Link>
           </div>
@@ -198,7 +198,7 @@ export default async function HomePage() {
                 ))}
               </ul>
               <div className="pilot-card-actions">
-                <Link className="card-link" href={subject.notesHref}>
+                <Link className="card-link" href={subject.notesHref} prefetch={false}>
                   Study notes
                 </Link>
                 <Link className="ghost-link" href={subject.quizHref}>

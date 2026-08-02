@@ -10,8 +10,9 @@ content_type: subject-index
 
 This folder contains original chapter-pack notes for the local CBSE Class 10 English textbooks in `textbooks/textbooks/english-*`.
 
-The notes are grouped by book:
+The notes are grouped by domain and book:
 
+- Board skills: reading, grammar, formal letter, and analytical paragraph strategy notes.
 - First Flight: main reader units with prose, poems, themes, character notes, literary devices, and exam practice.
 - Footprints without Feet: supplementary reader story notes with plot, theme, character, and inference practice.
 - Words and Expressions 2: workbook unit notes for reading, vocabulary, grammar, editing, listening, speaking, writing, and project work.

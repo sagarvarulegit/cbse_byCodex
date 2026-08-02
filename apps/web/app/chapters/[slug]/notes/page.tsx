@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../components/PilotEngagementTracker';
+import MathText from '../../../../components/MathText';
 import { getChapterPackContent } from '../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../lib/course-content';
 import { parseInlineMarkup, type InlineMarkupToken } from '../../../../lib/lesson-inline-markup';
@@ -140,7 +141,7 @@ function renderInlineTokens(tokens: InlineMarkupToken[], keyPrefix: string): Rea
     }
 
     if (token.type === 'text') {
-      return <span key={key}>{token.value}</span>;
+      return <MathText key={key} text={token.value} />;
     }
 
     return null;

@@ -1,0 +1,5 @@
+# Transient agent and browser work products
+.superpowers/
+docs/superpowers/
+tmp/
+.playwright-mcp/

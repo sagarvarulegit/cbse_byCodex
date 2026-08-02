@@ -19,5 +19,5 @@ npm.cmd run skillopt:run
 
 - Keep `.skillopt-sleep/` untracked; it can contain harvested session review data and staged proposals.
 - Review staged edits before applying them.
-- Do not let SkillOpt overwrite `AGENTS.md`, `docs/architecture.md`, or `docs/project-memory.md` unless the user explicitly requests that target.
+- Do not let SkillOpt overwrite `AGENTS.md`, `docs/architecture.md`, `docs/project-memory.md`, or any file under `docs/project-memory/` unless the user explicitly requests that target.
 - If a command needs model credentials, use existing environment variables only. Never write API keys into repository files.

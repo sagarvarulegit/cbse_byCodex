@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
+import { useId } from 'react';
 
 export type GlossaryPayload = {
   term: string;
@@ -15,49 +13,38 @@ export default function GlossaryTerm({
   label: string;
   payload: GlossaryPayload;
 }) {
-  const [open, setOpen] = useState(false);
-  const wrapperRef = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    function handlePointer(event: MouseEvent) {
-      if (!wrapperRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handlePointer);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('mousedown', handlePointer);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, []);
+  const popoverId = useId();
 
   return (
-    <span className="glossary-inline" ref={wrapperRef}>
+    <span className="glossary-inline">
       <button
-        aria-expanded={open}
-        className={open ? 'glossary-trigger open' : 'glossary-trigger'}
-        onClick={() => setOpen((value) => !value)}
+        aria-haspopup="dialog"
+        className="glossary-trigger"
+        popoverTarget={popoverId}
         type="button"
       >
         {label}
       </button>
 
-      {open ? (
-        <span className="glossary-popover" role="dialog">
-          <strong>{payload.term}</strong>
-          <span>{payload.shortMeaning}</span>
-          {payload.example ? <em>Example: {payload.example}</em> : null}
-        </span>
-      ) : null}
+      <span
+        aria-label={`${payload.term} glossary definition`}
+        className="glossary-popover"
+        id={popoverId}
+        popover="auto"
+        role="dialog"
+      >
+        <strong>{payload.term}</strong>
+        <span>{payload.shortMeaning}</span>
+        {payload.example ? <em>Example: {payload.example}</em> : null}
+        <button
+          className="glossary-popover-close"
+          popoverTarget={popoverId}
+          popoverTargetAction="hide"
+          type="button"
+        >
+          Close
+        </button>
+      </span>
     </span>
   );
 }

@@ -1,4 +1,5 @@
 import { getChapter, hasChapterPack } from './course-content';
+import { getChapterSubjectNavigation } from './curriculum/subject-navigation';
 
 export const PILOT_CHAPTER_SLUGS = [
   'real-numbers',
@@ -15,7 +16,6 @@ export type PilotPathStep = {
 
 export type PilotChapterCard = {
   accent: 'blue' | 'green';
-  chapterHref: string;
   minutesLabel: string;
   notesHref: string;
   pathSteps: PilotPathStep[];
@@ -40,13 +40,9 @@ function getAccent(subject: string): 'blue' | 'green' {
 
 function getPilotNotesHref(slug: PilotChapterSlug) {
   const chapter = getChapter(slug);
-  const firstLesson = chapter?.lessons.find((lesson) => lesson.fileName);
+  const hasPublishedLesson = chapter?.lessons.some((lesson) => lesson.fileName);
 
-  if (firstLesson) {
-    return `/chapters/${slug}/lessons/${firstLesson.slug}`;
-  }
-
-  if (hasChapterPack(slug)) {
+  if (hasPublishedLesson || hasChapterPack(slug)) {
     return `/chapters/${slug}/notes`;
   }
 
@@ -66,18 +62,19 @@ export function getPilotChapterCard(slug: PilotChapterSlug): PilotChapterCard | 
 
   const notesHref = getPilotNotesHref(slug);
   const quizHref = `/chapters/${slug}/quiz`;
+  const subjectNavigation = getChapterSubjectNavigation(slug);
 
   return {
     accent: getAccent(chapter.subject),
-    chapterHref: `/chapters/${slug}`,
     minutesLabel: pilotMinutes[slug],
     notesHref,
     pathSteps: [
-      { href: '/register', label: 'Register' },
-      { href: '/subjects', label: 'Choose chapter' },
-      { href: notesHref, label: 'Study notes' },
+      { href: '/subjects', label: 'Choose subject' },
+      ...(subjectNavigation
+        ? [{ href: subjectNavigation.href, label: 'View chapters' }]
+        : []),
+      { href: notesHref, label: 'Study chapter' },
       { href: quizHref, label: 'Take quiz' },
-      { href: '/dashboard', label: 'Review progress' },
     ],
     quizHref,
     slug,

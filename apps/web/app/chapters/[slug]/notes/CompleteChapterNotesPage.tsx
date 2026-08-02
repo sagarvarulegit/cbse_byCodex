@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 import {
   getLessonSectionId,
@@ -9,15 +10,24 @@ import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, {
   PilotCompletionButton,
 } from '../../../../components/PilotEngagementTracker';
+import ReadingCompanion from '../../../../components/ReadingCompanion';
+import StudentTopbar from '../../../../components/StudentTopbar';
 import { getStudentSession } from '../../../../lib/auth';
 import {
   getAvailableLessons,
   getChapter,
   getChapterPackContent,
+  getQuizContent,
   getLessonContent,
   type MarkdownBlock,
   type LessonContent,
 } from '../../../../lib/course-content';
+import { getChapterSubjectNavigation } from '../../../../lib/curriculum/subject-navigation';
+import {
+  getChapterMasteryDisplay,
+  getStudentMastery,
+  type MasteryPayload,
+} from '../../../../lib/mastery';
 import { isPilotChapter } from '../../../../lib/pilot';
 
 export default async function CompleteChapterNotesPage({
@@ -33,11 +43,16 @@ export default async function CompleteChapterNotesPage({
   }
 
   const availableLessons = getAvailableLessons(chapter);
-  const lessonContents = (
-    await Promise.all(
+  const [session, loadedLessonContents, quizContent] = await Promise.all([
+    getStudentSession(),
+    Promise.all(
       availableLessons.map((lesson) => getLessonContent(slug, lesson.slug)),
-    )
-  ).filter((content): content is LessonContent => Boolean(content));
+    ),
+    getQuizContent(slug),
+  ]);
+  const lessonContents = loadedLessonContents.filter(
+    (content): content is LessonContent => Boolean(content),
+  );
   const packContent = getChapterPackContent(slug);
 
   if (lessonContents.length === 0 && !packContent) {
@@ -45,13 +60,14 @@ export default async function CompleteChapterNotesPage({
   }
 
   if (lessonContents.some((content) => !content.lesson.free)) {
-    const session = await getStudentSession();
     if (!session) {
       redirect(`/login?next=${encodeURIComponent(`/chapters/${slug}/notes`)}`);
     }
   }
 
   const isPilot = isPilotChapter(slug);
+  const subjectNavigation = getChapterSubjectNavigation(slug);
+  const masteryPromise = getStudentMastery(slug);
   const outline =
     lessonContents.length > 0
       ? buildChapterOutline(lessonContents)
@@ -64,6 +80,16 @@ export default async function CompleteChapterNotesPage({
     (total, content) => total + content.lesson.minutes,
     0,
   );
+  const readingSections = [
+    { id: 'introduction', label: 'Introduction' },
+    ...outline.flatMap((item) => [
+      {
+        id: `lesson-${item.lessonSlug}`,
+        label: item.title,
+      },
+      ...item.sections,
+    ]),
+  ];
 
   return (
     <main className="lesson-page">
@@ -80,40 +106,52 @@ export default async function CompleteChapterNotesPage({
         />
       ) : null}
 
-      <nav className="topbar" aria-label="Chapter notes navigation">
-        <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
-        </Link>
-        <div className="nav-links lesson-links">
-          <Link href={`/chapters/${slug}`}>Chapter</Link>
-          <a href="#introduction">Notes</a>
-          <Link href={`/chapters/${slug}/quiz`}>Quiz</Link>
-          <Link href="/subjects">Subjects</Link>
-        </div>
-        <Link className="nav-cta" href={`/chapters/${slug}`}>
-          Chapter overview
-        </Link>
-      </nav>
+      <StudentTopbar
+        contextLabel={`${chapter.subject} notes`}
+        session={session}
+      />
 
       <section className="lesson-hero section-shell">
         <div className="lesson-hero-card">
-          <p className="eyebrow">{chapter.subject} · Complete chapter notes</p>
+          <nav className="breadcrumb-row" aria-label="Student learning path">
+            <Link href="/dashboard">Dashboard</Link>
+            <span>/</span>
+            <Link href="/subjects">Subjects</Link>
+            {subjectNavigation ? (
+              <>
+                <span>/</span>
+                <Link href={subjectNavigation.href}>
+                  {subjectNavigation.chapterListLabel}
+                </Link>
+              </>
+            ) : null}
+            <span>/</span>
+            <span aria-current="page">{chapter.title}</span>
+          </nav>
+          <p className="eyebrow">{chapter.subject} · Chapter content</p>
           <h1>{chapter.title}</h1>
           <p className="subtext">{chapter.summary}</p>
           <div className="hero-actions">
             <a className="button-link" href="#introduction">
               Start with Introduction
             </a>
-            <Link className="ghost-link" href={`/chapters/${slug}/quiz`}>
-              Take chapter quiz
-            </Link>
+            {quizContent ? (
+              <Link className="ghost-link" href={`/chapters/${slug}/quiz`}>
+                Take chapter quiz
+              </Link>
+            ) : null}
           </div>
         </div>
 
         <aside className="lesson-summary-card">
           <p className="eyebrow">Study snapshot</p>
           <ul className="lesson-summary-list">
+            <Suspense fallback={<ChapterContentProgressLoading />}>
+              <ChapterContentProgress
+                chapterSlug={slug}
+                masteryPromise={masteryPromise}
+              />
+            </Suspense>
             <li>
               <strong>{lessonContents.length || 1} chapter parts</strong>
               <span>Opened together in textbook order</span>
@@ -130,21 +168,20 @@ export default async function CompleteChapterNotesPage({
         </aside>
       </section>
 
+      <ReadingCompanion
+        chapterSlug={slug}
+        chapterTitle={chapter.title}
+        contentRootId="chapter-notes"
+        readingId="complete-chapter"
+        sections={readingSections}
+        studentId={session?.id ?? 'guest'}
+      />
+
       <section
         className="lesson-shell section-shell complete-chapter-shell"
         id="chapter-notes"
       >
         <article className="lesson-main complete-chapter-notes">
-          <div className="breadcrumb-row">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <Link href="/subjects">Subjects</Link>
-            <span>/</span>
-            <Link href={`/chapters/${slug}`}>{chapter.title}</Link>
-            <span>/</span>
-            <span>Complete notes</span>
-          </div>
-
           <section className="chapter-notes-introduction" id="introduction">
             <p className="eyebrow">Introduction</p>
             <h2>Learn the whole chapter in one place</h2>
@@ -245,6 +282,40 @@ export default async function CompleteChapterNotesPage({
         </section>
       ) : null}
     </main>
+  );
+}
+
+async function ChapterContentProgress({
+  chapterSlug,
+  masteryPromise,
+}: {
+  chapterSlug: string;
+  masteryPromise: Promise<MasteryPayload>;
+}) {
+  const mastery = await masteryPromise;
+  const masteryDisplay = getChapterMasteryDisplay(mastery.masteries[0]);
+
+  return (
+    <li className="chapter-content-progress">
+      <strong>{masteryDisplay.score}% chapter mastery</strong>
+      <span>{masteryDisplay.label}</span>
+      <div
+        className="progress-track"
+        aria-label={`${masteryDisplay.score}% mastered`}
+      >
+        <span style={{ width: `${masteryDisplay.score}%` }} />
+      </div>
+      <Link href={`/chapters/${chapterSlug}`}>View progress details</Link>
+    </li>
+  );
+}
+
+function ChapterContentProgressLoading() {
+  return (
+    <li aria-busy="true" className="chapter-content-progress">
+      <strong>Loading chapter mastery...</strong>
+      <div className="route-loading-bar" />
+    </li>
   );
 }
 

@@ -5,68 +5,127 @@ class_level: 10
 chapter: Statistics
 chapter_slug: statistics
 content_type: quiz
-status: draft
+status: ready
 ---
 
 # Statistics chapter quiz
 
-Answer these quick questions after revising the chapter notes.
+## 1. Class mark
 
-## 1. Mean
+The class mark of the interval $20$-$30$ is:
 
-Mean is calculated by:
+1. $10$
+2. $20$
+3. $25$
+4. $30$
 
-1. adding values and dividing by number of values
-2. multiplying values only
-3. subtracting every value
+Answer: 3
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 13.2 aligned
+Explanation: Class mark is the average of the lower and upper limits: $(20+30)/2=25$.
+
+## 2. Direct mean
+
+For grouped data, the direct-method mean is:
+
+1. $\sum f_i/\sum x_i$
+2. $\sum f_ix_i/\sum f_i$
+3. $\sum x_i/n$
+4. $\sum f_ix_i$
+
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 13.2 aligned
+Explanation: Each class mark is weighted by its frequency.
+
+## 3. Assumed mean
+
+The main purpose of choosing an assumed mean is to:
+
+1. change the data
+2. make arithmetic simpler
+3. remove a class interval
+4. find the mode directly
+
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 13.2 aligned
+Explanation: Deviations from a convenient central value are usually easier to calculate.
+
+## 4. Modal class
+
+The modal class is the class interval with the:
+
+1. lowest frequency
+2. highest frequency
+3. widest interval
+4. highest upper limit
+
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 13.3 aligned
+Explanation: Mode estimates the value occurring most often, so its class has maximum frequency.
+
+## 5. Median class
+
+For grouped data with total frequency $N$, the median class is the class whose cumulative frequency first becomes:
+
+1. less than $N/4$
+2. equal to zero
+3. greater than $N/2$
+4. greater than $N$
+
+Answer: 3
+Topic: core-notes
+Difficulty: medium
+Source: NCERT Section 13.4 aligned
+Explanation: The textbook selects the class whose cumulative frequency is just greater than $N/2$.
+
+## 6. Continuous classes
+
+Before applying the grouped-data mode or median formula, inclusive class intervals may need to be:
+
+1. reversed
+2. made continuous
+3. deleted
+4. converted to angles
+
+Answer: 2
+Topic: core-notes
+Difficulty: medium
+Source: NCERT Chapter 13 Note to the Reader aligned
+Explanation: The formulas assume continuous class boundaries without gaps.
+
+## 7. Effect of an extreme value
+
+Which measure is usually affected most by a very large extreme observation?
+
+1. Mean
+2. Median
+3. Mode
+4. Class width
 
 Answer: 1
-Explanation: Mean is the sum of values divided by the number of values.
+Topic: ncert-exercises-and-revision
+Difficulty: easy
+Source: NCERT Chapter 13 concept aligned
+Explanation: Every numerical value contributes directly to the mean.
 
-## 2. Median
+## 8. Scope boundary
 
-Median is the:
+Which representation is outside the current chapter's numbered core sections?
 
-1. middle value after arranging data
-2. most repeated value only
-3. largest value only
+1. Mean of grouped data
+2. Mode of grouped data
+3. Median of grouped data
+4. Ogive construction
 
-Answer: 1
-Explanation: Median is the middle value after data is arranged.
-
-## 3. Mode
-
-Mode is the value that:
-
-1. appears most often
-2. appears once only
-3. appears in the middle only
-
-Answer: 1
-Explanation: Mode is the value that occurs most frequently.
-
-## 4. Frequency
-
-Frequency means:
-
-1. number of times a value occurs
-2. sum of all values
-3. square of values
-
-Answer: 1
-Explanation: Frequency tells how many times a value appears.
-
-## 5. Data use
-
-Statistics helps us study:
-
-1. data in a clear summary form
-2. only triangles
-3. only prime numbers
-
-Answer: 1
-Explanation: Statistics helps summarise and understand data.
-
-## revision reminder
-
-Recheck mean, median, mode, and frequency before retrying.
+Answer: 4
+Topic: ncert-exercises-and-revision
+Difficulty: easy
+Source: NCERT Chapter 13 section map aligned
+Explanation: The current PDF ends after the grouped-data mean, mode and median sections and summary.

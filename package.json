@@ -14,6 +14,8 @@
     "dev:api": "npm run dev -w apps/api",
     "build": "npm run build -w apps/web && npm run build -w apps/admin && npm run build -w apps/api",
     "lint": "npm run lint -w apps/web && npm run lint -w apps/admin && npm run lint -w apps/api",
+    "graphify:code:update": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/update-graphify-code.ps1",
+    "graphify:code:benchmark": "graphify benchmark graphify-out/code/graph.json",
     "skillopt:status": "python -m skillopt_sleep status --project . --json",
     "skillopt:dry-run": "python -m skillopt_sleep dry-run --project . --source codex --backend mock --max-sessions 5 --max-tasks 3 --json",
     "skillopt:harvest": "python -m skillopt_sleep harvest --project . --source codex --max-sessions 5 --max-tasks 3 --output skillopt-reviewed-tasks.json",

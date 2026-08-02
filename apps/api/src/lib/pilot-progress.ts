@@ -4,6 +4,8 @@ export const PILOT_ENGAGEMENT_EVENT_TYPES = [
   'quiz_start',
   'dashboard_view',
   'chapter_open',
+  'focus_mix_start',
+  'focus_mix_complete',
 ] as const;
 
 export const PILOT_FEEDBACK_SURFACES = ['lesson', 'quiz', 'dashboard'] as const;
@@ -12,7 +14,7 @@ export const PILOT_FEEDBACK_CATEGORIES = ['feedback', 'bug'] as const;
 type PilotEngagementEventType = (typeof PILOT_ENGAGEMENT_EVENT_TYPES)[number];
 type PilotFeedbackSurface = (typeof PILOT_FEEDBACK_SURFACES)[number];
 type PilotFeedbackCategory = (typeof PILOT_FEEDBACK_CATEGORIES)[number];
-type PilotEngagementSurface = PilotFeedbackSurface | 'chapter';
+type PilotEngagementSurface = PilotFeedbackSurface | 'chapter' | 'study_remix';
 
 type Result<T> =
   | {
@@ -90,7 +92,9 @@ function isPilotEngagementEventType(value: string): value is PilotEngagementEven
 }
 
 function isPilotEngagementSurface(value: string): value is PilotEngagementSurface {
-  return [...PILOT_FEEDBACK_SURFACES, 'chapter'].includes(value as PilotEngagementSurface);
+  return [...PILOT_FEEDBACK_SURFACES, 'chapter', 'study_remix'].includes(
+    value as PilotEngagementSurface,
+  );
 }
 
 function isPilotFeedbackSurface(value: string): value is PilotFeedbackSurface {
@@ -111,13 +115,17 @@ export function normalizePilotEngagementPayload(value: unknown): Result<Normaliz
   if (!eventType || !isPilotEngagementEventType(eventType)) {
     return {
       data: null,
-      error: 'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, or chapter_open.',
+      error:
+        'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, or focus_mix_complete.',
     };
   }
 
   const surface = readText(body.surface);
   if (!surface || !isPilotEngagementSurface(surface)) {
-    return { data: null, error: 'surface must be lesson, quiz, dashboard, or chapter.' };
+    return {
+      data: null,
+      error: 'surface must be lesson, quiz, dashboard, chapter, or study_remix.',
+    };
   }
 
   return {

@@ -5,68 +5,127 @@ class_level: 10
 chapter: Some Applications of Trigonometry
 chapter_slug: some-applications-of-trigonometry
 content_type: quiz
-status: draft
+status: ready
 ---
 
 # Some Applications of Trigonometry chapter quiz
 
-Answer these quick questions after revising the chapter notes.
+## 1. Line of sight
 
-## 1. Use
+The line drawn from an observer's eye to the object being viewed is the:
 
-This chapter mainly applies trigonometry to:
+1. horizontal line
+2. line of sight
+3. vertical height
+4. shadow line
 
-1. heights and distances
-2. factorisation
-3. probability tables
-
-Answer: 1
-Explanation: The chapter uses trigonometry for heights and distances.
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 9.1 aligned
+Explanation: Angles of elevation and depression are measured using the line of sight and the horizontal.
 
 ## 2. Angle of elevation
 
-An angle of elevation is measured when looking:
+When an object is above the observer's horizontal level, the angle between the horizontal and line of sight is the angle of:
 
-1. downward
-2. upward
-3. only straight ahead
+1. depression
+2. elevation
+3. reflection
+4. rotation
 
 Answer: 2
-Explanation: Angle of elevation is measured when looking upward from the horizontal.
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 9.1 aligned
+Explanation: The observer looks upward from the horizontal.
 
 ## 3. Angle of depression
 
-An angle of depression is measured when looking:
+The angle of depression from the top of a tower equals the angle of elevation from the ground point because the two horizontal lines are:
 
-1. downward from the horizontal
-2. upward from the horizontal
-3. from the origin only
+1. perpendicular
+2. parallel
+3. equal in length
+4. vertical
 
-Answer: 1
-Explanation: Angle of depression is measured when looking downward from the horizontal.
+Answer: 2
+Topic: core-notes
+Difficulty: medium
+Source: NCERT Section 9.1 aligned
+Explanation: The line of sight acts as a transversal, making the alternate interior angles equal.
 
-## 4. Real life
+## 4. Finding a height
 
-Trigonometry helps find heights and distances when:
+From a point $20$ m from a tower, the angle of elevation of its top is $45^\circ$. The tower height is:
 
-1. direct measurement is difficult
-2. the object is always tiny
-3. the triangle is isosceles only
+1. $10$ m
+2. $20$ m
+3. $20\sqrt2$ m
+4. $40$ m
 
-Answer: 1
-Explanation: Trigonometry is useful when direct measurement is hard.
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Example pattern, Section 9.1
+Explanation: $\tan45^\circ=h/20=1$, so $h=20$ m.
 
-## 5. Main idea
+## 5. Observer's height
 
-The chapter turns trig ratios into:
+If the angle is measured from an observer's eye, the final object height is usually:
 
-1. practical measurement tools
-2. algebraic only rules
-3. memory-less facts
+1. the calculated vertical difference minus eye height
+2. the calculated vertical difference plus eye height
+3. only the horizontal distance
+4. independent of eye height
 
-Answer: 1
-Explanation: The chapter makes trig ratios useful for practical measurement.
+Answer: 2
+Topic: core-notes
+Difficulty: medium
+Source: NCERT Section 9.1 aligned
+Explanation: The right triangle gives height above eye level, so eye height must be added.
 
-## revision reminder
+## 6. Choosing a ratio
 
-Revise elevation, depression, and right-triangle setup before retrying.
+When the known side is horizontal distance and the unknown side is vertical height, the most direct ratio is usually:
+
+1. sine
+2. cosine
+3. tangent
+4. cosecant
+
+Answer: 3
+Topic: ncert-exercises-and-revision
+Difficulty: easy
+Source: NCERT Exercise 9.1 aligned
+Explanation: Tangent equals opposite/adjacent, exactly height over horizontal distance.
+
+## 7. Two observation points
+
+A height-and-distance problem uses two observation points on the same straight ground line. A useful first step is to:
+
+1. draw two separate unrelated triangles
+2. label a shared height and the related horizontal distances
+3. assume both angles are equal
+4. ignore the nearer point
+
+Answer: 2
+Topic: ncert-exercises-and-revision
+Difficulty: medium
+Source: NCERT Exercise 9.1 aligned
+Explanation: Both right triangles refer to the same vertical object and must be solved together.
+
+## 8. Exact values
+
+A $30^\circ$ angle of elevation is observed from a point $30\sqrt3$ m from a tower. The tower height is:
+
+1. $10$ m
+2. $30$ m
+3. $30\sqrt3$ m
+4. $90$ m
+
+Answer: 2
+Topic: ncert-exercises-and-revision
+Difficulty: medium
+Source: NCERT Exercise 9.1 aligned
+Explanation: $h=30\sqrt3\tan30^\circ=30$ m.

@@ -28,8 +28,30 @@ test('normalizePilotEngagementPayload accepts lesson completion context', () => 
 test('normalizePilotEngagementPayload rejects unsupported events', () => {
   assert.deepEqual(normalizePilotEngagementPayload({ eventType: 'share_clicked', surface: 'lesson' }), {
     data: null,
-    error: 'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, or chapter_open.',
+    error:
+      'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, or focus_mix_complete.',
   });
+});
+
+test('normalizePilotEngagementPayload accepts Study Remix activity', () => {
+  assert.deepEqual(
+    normalizePilotEngagementPayload({
+      chapterSlug: 'chemical-reactions-and-equations',
+      eventType: 'focus_mix_start',
+      path: '/dashboard',
+      surface: 'study_remix',
+    }),
+    {
+      data: {
+        chapterSlug: 'chemical-reactions-and-equations',
+        eventType: 'focus_mix_start',
+        lessonSlug: null,
+        path: '/dashboard',
+        surface: 'study_remix',
+      },
+      error: null,
+    },
+  );
 });
 
 test('normalizePilotFeedbackPayload accepts feedback and trims metadata', () => {

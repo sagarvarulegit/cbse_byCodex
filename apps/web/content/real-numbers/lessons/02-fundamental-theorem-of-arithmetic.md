@@ -1,237 +1,138 @@
 ---
-title: Fundamental theorem of arithmetic
+title: 1.1-1.2 The Fundamental Theorem of Arithmetic
 subject: Mathematics
 class_level: 10
 chapter: Real Numbers
 chapter_slug: real-numbers
-lesson_number: 2
+lesson_number: 1
 lesson_slug: fundamental-theorem-of-arithmetic
-estimated_minutes: 10
-access_level: premium
-status: draft
+estimated_minutes: 38
+access_level: free
+status: ready
+source_textbook: textbooks/maths/jemh101.pdf
 ---
 
-# Fundamental theorem of arithmetic
+# 1.1-1.2 The Fundamental Theorem of Arithmetic
 
-This lesson is the backbone of the chapter. If a student understands `prime numbers` and `prime factorisation` properly, many later questions become much easier.
+Think of every composite number as a model built from prime-number bricks. You can rearrange the bricks, but you cannot secretly replace them with different prime bricks.
 
-## first fix one small basic doubt
+## 1.1 Introduction
 
-### what is a `factor`?
-A `factor` is a number that divides another number exactly.
+You already know Euclid's division algorithm from Class IX. This chapter now uses a different idea: prime factorisation. It helps us find HCF and LCM, test whether certain powers can end in zero, and prove irrationality.
 
-Example:
-Factors of `12` are:
-- `1`
-- `2`
-- `3`
-- `4`
-- `6`
-- `12`
+The current chapter has two core ideas:
 
-Why?
-Because each one divides `12` without leaving a `remainder`.
+- the Fundamental Theorem of Arithmetic
+- irrational numbers and proof by contradiction
 
-## now the next basic idea
+## 1.2 The Fundamental Theorem of Arithmetic
 
-### `prime numbers`
-A `prime number` has exactly two `factors`:
-- `1`
-- the number itself
+A prime number has exactly two positive factors: $1$ and itself. A composite number has more than two positive factors.
 
-Examples:
-- `2`
-- `3`
-- `5`
-- `7`
-- `11`
+**Remember:** The number $1$ is neither prime nor composite.
 
-### `composite numbers`
-A `composite number` has more than two `factors`.
+The theorem says:
 
-Examples:
-- `4`
-- `6`
-- `8`
-- `9`
-- `10`
+**Fundamental Theorem of Arithmetic:** Every composite number can be expressed as a product of primes, and this factorisation is unique apart from the order of the prime factors.
 
-### very important fact
-`1` is neither `prime` nor `composite`.
+For example,
 
-Students often lose marks here. So let this line live in your memory rent-free.
+$$32760=2^3\times3^2\times5\times7\times13.$$
 
-## what is `prime factorisation`?
+Writing the same primes in another order does not create a different factorisation.
 
-`Prime factorisation` means writing a number as a product of `prime numbers` only.
+### Figure tracker
 
-Example:
-`12 = 2 × 2 × 3 = 2² × 3`
+- The factor tree on the opening pages breaks $32760$ down to prime factors.
+- The Carl Friedrich Gauss box explains why the theorem is also called the unique factorisation theorem.
 
-Example:
-`30 = 2 × 3 × 5`
+[[demo:math-ch1-prime-factor-tree]]
 
-## easy way to think
+### Theorem 1.2
 
-A big number is made of prime bricks.
-`Prime factorisation` shows the bricks.
+Let $p$ be a prime number. If $p$ divides $a^2$, then $p$ divides $a$, where $a$ is a positive integer.
 
-## how to do `prime factorisation`
+This result is used in the irrationality proofs in Section 1.3.
 
-1. Start with the smallest `prime number`.
-2. Divide if possible.
-3. Keep dividing until that `prime` no longer works.
-4. Move to the next `prime number`.
-5. Stop when the last answer is `prime`.
+**Example 1**
 
-## solved example 1
-Write `140` as a product of `prime factors`.
+Can $4^n$ end with the digit $0$ for a natural number $n$?
 
-Start dividing by `2`.
+**Solution:**
+$4^n=2^{2n}$. A number ending in $0$ must contain both $2$ and $5$ in its prime factorisation. No factor $5$ occurs, so $4^n$ cannot end in $0$.
 
-`140 = 2 × 70`
-`70 = 2 × 35`
-`35 = 5 × 7`
+**Example 2**
 
-So,
-`140 = 2 × 2 × 5 × 7 = 2² × 5 × 7`
+Find the HCF and LCM of $6$ and $20$ by prime factorisation.
 
-## solved example 2
-Write `156` as a product of `prime factors`.
+**Solution:**
+$6=2\times3$ and $20=2^2\times5$.
 
-`156 = 2 × 78`
-`78 = 2 × 39`
-`39 = 3 × 13`
+$$\operatorname{HCF}=2,\qquad \operatorname{LCM}=2^2\times3\times5=60.$$
 
-So,
-`156 = 2 × 2 × 3 × 13 = 2² × 3 × 13`
+For two positive integers $a$ and $b$,
 
-## solved example 3
-Write `5005` as a product of `prime factors`.
+$$\operatorname{HCF}(a,b)\times\operatorname{LCM}(a,b)=a\times b.$$
 
-`5005 = 5 × 1001`
-`1001 = 7 × 143`
-`143 = 11 × 13`
+**Example 3**
 
-So,
-`5005 = 5 × 7 × 11 × 13`
+Find the HCF of $96$ and $404$. Hence, find their LCM.
 
-## the theorem in easy English
+**Solution:**
+$96=2^5\times3$ and $404=2^2\times101$.
 
-Every `composite number` can be written as a product of `prime numbers`.
-This `factorisation` is unique, except for the order.
+$$\operatorname{HCF}=2^2=4.$$
 
-That means the answer for a number is fixed.
-Only the order may change.
+$$\operatorname{LCM}=\frac{96\times404}{4}=9696.$$
 
-For example:
-`60 = 2 × 2 × 3 × 5`
+**Example 4**
 
-You may also write:
-`60 = 5 × 3 × 2 × 2`
+Find the HCF and LCM of $6$, $72$ and $120$.
 
-Both are correct because the same `prime factors` are present.
+**Solution:**
+$6=2\times3$, $72=2^3\times3^2$, and $120=2^3\times3\times5$.
 
-## what does unique mean?
+$$\operatorname{HCF}=2\times3=6,$$
 
-It means you cannot get a different set of `prime factors` for the same number.
+$$\operatorname{LCM}=2^3\times3^2\times5=360.$$
 
-For `24`, the correct `prime factorisation` is:
-`24 = 2 × 2 × 2 × 3 = 2³ × 3`
+**Remember:** The product rule for HCF and LCM is stated here for two positive integers. Do not apply it unchanged to three numbers.
 
-You cannot say:
-`24 = 2 × 2 × 6`
+## Common mistakes
 
-That is wrong because `6` is not a `prime number`.
-`Prime factorisation` must end only in `prime numbers`.
+- stopping the factorisation while a composite factor remains
+- using largest powers for HCF instead of the smallest common powers
+- forgetting a prime that occurs in only one number while finding LCM
+- saying a power ends in zero without checking for both $2$ and $5$
 
-## why this theorem matters
+## Board tips
 
-This theorem helps in:
-- `HCF`
-- `LCM`
-- understanding `irrational numbers`
-- checking decimal expansion later
+- Write the complete prime factorisation before selecting powers.
+- In an ending-zero question, connect the last digit to the factor $10=2\times5$.
+- In a proof, state the theorem or property you use; do not jump from $p\mid a^2$ to $p\mid a$ without reason.
 
-So this lesson is not alone. It is helping its chapter friends too.
+## Quick practice
 
-## factor tree idea
+1. Write $3825$ as a product of prime factors.
+2. Find the HCF and LCM of $26$ and $91$.
+3. Can $6^n$ end in $0$ for any natural number $n$?
 
-Some students like repeated division.
-Some like factor trees.
-Both are fine.
+## Answer check
 
-Example for `72`:
-`72 = 8 × 9`
-`8 = 2 × 2 × 2`
-`9 = 3 × 3`
+1. $3825=3^2\times5^2\times17$.
+2. HCF $=13$ and LCM $=182$.
+3. No. The factorisation of $6^n$ has $2$ and $3$, but no $5$.
 
-So,
-`72 = 2³ × 3²`
+## One-minute revision
 
-## quick check on a harder number
+- Composite numbers have unique prime factorisations.
+- HCF takes the smallest common powers.
+- LCM takes the largest powers of all required primes.
+- A number ending in zero needs both $2$ and $5$.
 
-`7429 = 17 × 19 × 23`
+## Comic recap
 
-This is also a correct `prime factor form` because all three numbers are `prime`.
-
-## common mistakes
-
-1. Treating `1` as a `prime number`
-2. Stopping before all `factors` become `prime`
-3. Forgetting repeated `prime factors`
-4. Writing `factors` correctly but not using powers
-5. Mixing `factors` with `multiples`
-
-## memory trick
-
-One number has one prime fingerprint.
-
-## board tip
-
-If the question says “express as a product of prime factors”, your final answer must contain only `prime numbers`.
-
-## short solved check
-
-Write `525` as a product of `prime factors`.
-
-`525 = 5 × 105`
-`105 = 5 × 21`
-`21 = 3 × 7`
-
-So,
-`525 = 3 × 5 × 5 × 7 = 3 × 5² × 7`
-
-## quick practice
-
-1. Write `90` as a product of `prime factors`.
-2. Write `180` as a product of `prime factors`.
-3. Write `3825` as a product of `prime factors`.
-4. Why is `2 × 3 × 4` not a `prime factorisation`?
-
-## answer check
-
-1. `90 = 2 × 3² × 5`
-2. `180 = 2² × 3² × 5`
-3. `3825 = 3² × 5² × 17`
-4. Because `4` is not a `prime number`
-
-## one-minute revision
-
-- a `factor` divides exactly
-- `prime numbers` have exactly two `factors`
-- `composite numbers` have more than two `factors`
-- `1` is neither `prime` nor `composite`
-- `prime factorisation` means writing a number only in `prime factors`
-- `prime factorisation` is unique, except for the order
-
-## comic recap
-
-- `Factor`: “I divide exactly. No leftover drama.”
-- `Prime number`: “I only allow two VIP entries: 1 and me.”
-- `Composite number`: “I have more factors. I am a crowded apartment.”
-- `Prime factorisation`: “Break the number until only prime bricks are left.”
-
-## remember this line
-
-`Prime factorisation` means breaking a number until only prime bricks are left.
+- Prime: "I am one indivisible building brick."
+- Composite: "Break me fully before you stop."
+- HCF: "I keep only the common part."
+- LCM: "I collect enough prime powers for everyone."

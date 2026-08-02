@@ -6,148 +6,192 @@ chapter_number: 3
 chapter_slug: water-resources
 status: draft
 content_type: chapter-pack
-source_textbook: textbooks/textbooks/socialscience-geography/jess103.pdf
+source_textbook: textbooks/socialscience-geography/jess103.pdf
+source_edition: Reprint 2026-27
 ---
 
-# Water Resources
+# Chapter 3: Water Resources
 
-## chapter goal
+Water moves in a cycle, yet a town with heavy rainfall can still face dry taps. The problem is not only how much water exists. It is also how water is used, polluted, stored and shared.
 
-By the end of this chapter, a student should be able to:
-- explain freshwater availability and water scarcity
-- identify causes of water stress
-- discuss multipurpose river projects
-- explain rainwater harvesting
-- connect water management with sustainable development
+## Chapter goal
 
-## teacher note on textbook alignment
+- Explain why renewable water can still become scarce.
+- Connect water scarcity with population, farming, industry, pollution and unequal access.
+- Weigh the benefits and costs of multi-purpose river projects.
+- Explain traditional and modern rainwater-harvesting methods.
 
-This pack follows `jess103.pdf`: hydrological cycle, water scarcity, conservation and management, multipurpose river projects, their benefits and criticism, traditional water harvesting, rooftop harvesting, and bamboo drip irrigation.
+## Textbook path
 
-## chapter flow for the platform
+1. Water Scarcity and the Need for Water Conservation and Management
+2. Multi-Purpose River Projects and Integrated Water Resources Management
+3. Rainwater Harvesting
 
-1. Water as a renewable resource
-2. Water scarcity
-3. Need for conservation and management
-4. Multipurpose river projects
-5. Problems linked with big dams
-6. Rainwater harvesting
-7. Traditional and local water systems
+## Water Scarcity and the Need for Water Conservation and Management
 
-## 1) water as a renewable resource
+Freshwater is renewed through the hydrological cycle. Rainfall becomes surface runoff and groundwater, but usable freshwater is limited and unevenly distributed.
 
-Water moves through the hydrological cycle. Freshwater is mainly available through rainfall, rivers, lakes, surface runoff, and groundwater.
+Water scarcity means that enough safe water is not available where and when people need it. Main causes include:
 
-Although water is renewable, usable freshwater is limited and unevenly distributed.
+- a large and growing population
+- intensive irrigation and water-intensive crops
+- over-exploitation of groundwater
+- industrialisation and urbanisation
+- pollution from domestic, industrial and agricultural waste
+- unequal access among social groups
+- low rainfall in some regions
 
-## 2) water scarcity
+A high-rainfall place can still face scarcity if its water is polluted, overused or shared unfairly.
 
-Water scarcity means lack of enough usable water for people, agriculture, industry, and ecosystems.
+The textbook's Atal Bhujal Yojana box presents community-based groundwater management in water-stressed blocks. It also notes the importance of regular safe household water through the Jal Jeevan Mission.
 
-It can happen because of:
+### Textbook activity
 
-- low rainfall
-- overuse of groundwater
-- growing population
-- unequal access
-- water-intensive agriculture
-- industrial use and pollution
-- urbanisation
+Use your everyday experience to write a short proposal explaining how your community can conserve water.
 
-An area can have water but still face scarcity if the water is polluted or poorly distributed.
+## Multi-Purpose River Projects and Integrated Water Resources Management
 
-## 3) need for conservation and management
+A dam is a barrier across flowing water that stores, directs or controls the flow. A reservoir may support irrigation, electricity generation, flood control, water supply, navigation, fish breeding and recreation. Because the stored water serves several purposes, these are called multi-purpose projects.
 
-Water conservation is needed for drinking, irrigation, food security, industry, and ecosystem balance.
+The textbook gives Bhakra-Nangal and Hirakud as examples. It also explains that hydraulic structures existed in ancient India, including dams, lakes, tanks and irrigation systems.
 
-Good water management includes reducing waste, recharging groundwater, preventing pollution, using efficient irrigation, and sharing water fairly.
+### Why large dams are debated
 
-## 4) multipurpose river projects
+| Expected benefit | Major concern |
+| --- | --- |
+| Irrigation and water supply | Displacement and loss of livelihoods |
+| Hydroelectricity | Submergence of forests, soil and habitats |
+| Flood control | Sediment trapped in reservoirs can reduce natural soil renewal downstream |
+| Navigation and other uses | River fragmentation harms aquatic life and fish movement |
+| Regional development | Benefits and costs may be shared unequally, causing conflicts |
 
-Multipurpose projects are large dams and reservoirs planned for several uses:
+Reservoirs may also trigger waterlogging, salinity and ecological change. Dams built for flood control may fail during very heavy rain when reservoirs are already full.
 
-- irrigation
-- electricity generation
-- flood control
-- water supply
-- inland navigation
-- fish breeding
-- recreation
+### Textbook source boxes and activities
 
-Because they serve many goals, dams were often called temples of modern India.
+- Find out about one traditional method of building dams or irrigation works.
+- Collect information about floods caused by heavy rain in different parts of India.
+- Study the Sardar Sarovar case and its promised irrigation and drought benefits.
+- Discuss the Krishna-Godavari dispute as an example of inter-state conflict.
+- Make a list of inter-state water disputes.
 
-## 5) problems linked with big dams
+## Rainwater Harvesting
 
-Large dams can also create problems:
+Rainwater harvesting collects local rainfall instead of letting it run away. Traditional systems were adapted to local relief, rainfall and soil.
 
-- displacement of people
-- loss of forests and habitats
-- sediment trapping
-- water conflicts between states
-- changes in river ecology
-- unequal benefits
+Examples in the textbook include:
 
-So dams must be assessed carefully, not praised or rejected blindly.
+- *guls* or *kuls* in the Western Himalayas
+- inundation channels in Bengal's flood plains
+- *khadins* in Jaisalmer and *johads* in other parts of Rajasthan
+- underground *tankas* in Bikaner, Phalodi and Barmer
+- rooftop harvesting in Rajasthan, Shillong and Gendathur in Karnataka
+- bamboo drip irrigation in Meghalaya
 
-## 6) rainwater harvesting
+In rooftop systems, pipes carry rain from roofs to a tank or a recharge structure. The first rain may be allowed to clean the roof and pipes; later rain is stored. In Meghalaya's bamboo system, gravity carries spring water through bamboo channels and reduces it to drops near the plant.
 
-Rainwater harvesting means collecting and storing rainwater for future use.
+The textbook notes that Tamil Nadu made rooftop rainwater harvesting compulsory through legal provisions.
 
-Methods include rooftop harvesting, recharge pits, tanks, ponds, check dams, and underground storage.
+### Textbook activities
 
-It is useful because it reduces runoff, recharges groundwater, and provides local water security.
+- Find other rainwater-harvesting systems in and around your locality.
+- Collect information on industries polluting water resources.
+- Enact a local water dispute with classmates to understand competing needs.
 
-## 7) traditional and local water systems
+## NCERT figure and map tracker
 
-Different regions developed local systems depending on climate and landform.
+| Source item | What the student must notice |
+| --- | --- |
+| Figure 3.1: Water Scarcity | Scarcity appears in flood, drought, disaster and unequal-access situations |
+| Figure 3.2: Hirakud Dam | A large reservoir stores and regulates river water |
+| Map: India - Major Rivers and Dams | Locate the prescribed dam-river relationships in the textbook and current CBSE map list |
+| Flood newspaper panel | Floods cause human loss, erosion and infrastructure damage; dams do not remove every flood risk |
+| Figure 3.3: Rooftop Rainwater Harvesting | Recharge through a hand pump or abandoned dugwell |
+| Figure 3.4: Are you a water harvester? | Water conservation needs public participation |
+| Figure 3.5: Traditional method of rainwater harvesting | A *kul* feeds the circular village tank at Kaza |
+| Figure 3.6 | Rooftop pipe sends rainwater through a hole into an underground *tanka* |
+| Figure 3.7: Bamboo Drip Irrigation System | Bamboo channels use gravity and controlled joints to deliver drops near roots |
 
-Examples include tankas in dry regions, johads and check dams in semi-arid areas, rooftop systems, and bamboo drip irrigation in parts of the northeast.
+## NCERT exercise questions and answers
 
-## exam-friendly summary notes
+### 1. Multiple choice and correction questions
 
-- Water is renewable but usable freshwater is limited.
-- Scarcity is caused by overuse, pollution, population growth, and unequal access.
-- Multipurpose projects provide irrigation, power, and flood control.
-- Dams can also cause displacement and ecological damage.
-- Rainwater harvesting is decentralised water conservation.
+**(i) Based on the information given below classify each of the situations as 'suffering from water scarcity' or 'not suffering from water scarcity'.**
 
-## common mistakes students make
+*Answer:* (a) High annual rainfall alone: not necessarily scarce. (b) High rainfall and large population: may suffer scarcity. (c) High rainfall but highly polluted water: suffers scarcity. (d) Low rainfall and low population: may not suffer scarcity if demand stays within supply.
 
-1. Writing that scarcity happens only in deserts.
-2. Ignoring water pollution as a cause of scarcity.
-3. Listing dam benefits but not limitations.
-4. Confusing rooftop harvesting with ordinary storage tanks.
+**(ii) Which one of the following statements is not an argument in favour of multi-purpose river projects?**
 
-## board tips
+*Answer:* (c) Multi-purpose projects lead to large scale displacements and loss of livelihood.
 
-- Use cause + effect format in water scarcity answers.
-- For dams, write a balanced answer with benefits and concerns.
-- Add one local example in rainwater harvesting answers.
+**(iii) Here are some false statements. Identify the mistakes and rewrite them correctly.**
 
-## short answer practice
+*Answer:* (a) Growing cities and water-intensive urban lifestyles have increased pressure on water resources. (b) Damming changes a river's natural flow and sediment movement. (c) Rooftop harvesting declined in parts of Rajasthan after canal water became available, though some places still use it for drinking water.
 
-1. Why can water scarcity occur in a city with high rainfall?
-2. What are multipurpose river projects?
-3. Give two problems caused by large dams.
-4. What is rainwater harvesting?
-5. Why is groundwater recharge important?
+### 2. Answer the following questions in about 30 words
 
-## mini quiz with answers
+**(i) Explain how water becomes a renewable resource.**
 
-1. The hydrological cycle renews water.
-2. Irrigated agriculture is a major user of water.
-3. Dams can generate hydroelectricity.
-4. Rooftop rainwater harvesting can recharge groundwater.
-5. Bamboo drip irrigation is a local water management method.
+*Answer:* Solar heat, evaporation, condensation and rainfall move water through the hydrological cycle. Rain recharges rivers, surface runoff and groundwater, so water is renewed.
 
-## comic style recap
+**(ii) What is water scarcity and what are its main causes?**
 
-Panel 1: Water Drop says, "I travel in a cycle, but usable freshwater is limited."
+*Answer:* Water scarcity is inadequate safe water for people's needs. It results from low rainfall, overuse, population growth, irrigation, industry, urban demand, pollution and unequal access.
 
-Panel 2: City Tap complains, "Pollution and overuse can create scarcity."
+**(iii) Compare the advantages and disadvantages of multi-purpose river projects.**
 
-Panel 3: Dam Builder says, "I give power and irrigation, but plan me carefully."
+*Answer:* They can supply irrigation, power, drinking water and flood control. They may also displace people, submerge habitats, trap sediment, fragment rivers and create water conflicts.
 
-Panel 4: Roof Collector catches rain: "Every drop can recharge the ground."
+### 3. Answer the following questions in about 120 words
 
-Panel 5: Water Wise Team says, "Save, share, and manage water locally."
+**(i) Discuss how rainwater harvesting in semi-arid regions of Rajasthan is carried out.**
+
+*Answer:* Houses in semi-arid Rajasthan traditionally used underground *tankas* for drinking water. Sloping roofs carried rain through pipes into a covered tank built inside the house or courtyard. The first shower was usually not stored because it cleaned the roof and pipe. Later rain filled the *tanka*. The underground room stayed cool and the stored *palar pani* could last into the dry season. Fields also used *khadins* and *johads* to hold runoff and moisten the soil.
+
+**(ii) Describe how modern adaptations of traditional rainwater harvesting methods are being carried out to conserve and store water.**
+
+*Answer:* Modern rooftop systems use gutters and pipes to carry rain to tanks, recharge pits, hand-pump shafts or abandoned wells. Filters remove dirt and the first flush is separated. Shillong households collect part of their water from roofs, while Gendathur villagers use rooftop systems to meet household needs. Tamil Nadu supports rooftop harvesting through legal rules. These adaptations keep the local principle of catching rain where it falls while using safer pipes, filters and recharge structures.
+
+## Common mistakes
+
+- Saying scarcity occurs only where rainfall is low.
+- Listing only the benefits or only the harms of dams.
+- Treating a storage tank and a groundwater-recharge structure as the same thing.
+- Forgetting that pollution makes water unusable even when water is present.
+
+## Board tips
+
+- Build a water-scarcity answer as cause, effect and management response.
+- For multi-purpose projects, present a balanced table of benefits and costs.
+- Use one named traditional system and explain how it works.
+- Practise dams on the official map list; the chapter map is the source for location learning.
+
+## Quick practice
+
+1. Why can a city with high rainfall face scarcity?
+2. Give two ecological costs of large dams.
+3. What is the purpose of discarding the first rooftop shower?
+4. How does bamboo drip irrigation control water delivery?
+
+## Answer check
+
+1. High demand, pollution, overuse and unequal access can make safe water scarce.
+2. Any two: habitat submergence, sediment trapping, river fragmentation or harm to aquatic life.
+3. It cleans dust and dirt from the roof and pipes.
+4. Bamboo channels use gravity and smaller sections to reduce stream water to controlled drops near plants.
+
+## One-minute revision
+
+- Renewable does not mean unlimited.
+- Scarcity can result from low supply, high demand, pollution or unequal access.
+- Multi-purpose projects bring benefits and social-ecological costs.
+- Rajasthan: *khadins*, *johads* and *tankas*.
+- Meghalaya: bamboo drip irrigation.
+- Catch rain where it falls and recharge local stores.
+
+## Comic recap
+
+- Priya: "Rain keeps returning, but safe water can still be scarce."
+- Rahul: "A dam can irrigate fields and make power, yet it can also displace people and damage rivers."
+- Priya: "Traditional systems matched local land and rainfall."
+- Rahul: "So the smart rule is catch locally, use carefully and share fairly."

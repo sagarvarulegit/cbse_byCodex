@@ -13,6 +13,8 @@ status: draft
 
 # Euclid division lemma
 
+**Scope note:** This is an unnumbered Class IX support lesson. It is not a numbered core section of the current NCERT Class 10 Chapter 1 PDF or active 2026-27 board scope.
+
 This lesson is a support lesson for the `Real Numbers` chapter. It helps us understand division properly first, so `HCF` questions later do not feel scary.
 
 Also, one small English help before we start: `lemma` means a small helpful rule. So do not panic. Big word, simple idea.

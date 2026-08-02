@@ -4,9 +4,9 @@ Use this skill for implementation, review, TODO, content, release, or repo-maint
 
 ## Grounding
 
-Before implementation work, read `docs/architecture.md` and `docs/project-memory.md`. For architecture or cross-module questions, inspect the relevant source files, TypeScript imports, route wiring, and focused tests.
+Before implementation work, read `docs/architecture.md` and the routing index in `docs/project-memory.md`, then read only the linked memory files relevant to the task. For architecture or cross-module questions, query `graphify-out/code/graph.json` first when it exists, then inspect the returned source files, TypeScript imports, route wiring, and focused tests.
 
-Root `TODO.md` is the immediate handoff. `master_todo.md` is the broader backlog. `docs/project-memory.md` is the durable learning log.
+Root `TODO.md` is the immediate handoff. `master_todo.md` is the broader backlog. `docs/project-memory.md` routes to the durable topic logs under `docs/project-memory/`.
 
 ## Project Rules
 
@@ -20,6 +20,6 @@ Root `TODO.md` is the immediate handoff. `master_todo.md` is the broader backlog
 
 ## Completion Loop
 
-For code changes, verify with the narrowest meaningful test first, then broader build/lint when the blast radius warrants it. Graphify is optional local tooling and is never part of the completion or push requirements.
+Use `$cbse-focused-workflow` only when its narrow design, hard-debugging, or material-completion triggers match. For code changes, follow the current `AGENTS.md` verification preference: perform only an authorised focused check, and do not run tests, builds, lint, quiz validators, or broad browser sweeps merely because the blast radius is large. Graphify is advisory local context and is never part of the completion or push requirements; do not install hooks, refresh it automatically, or commit its output.
 
 When the user asks to commit and push, also update `TODO.md` with the next task after a successful push.

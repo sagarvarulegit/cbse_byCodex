@@ -1,6 +1,5 @@
 'use client';
 
-import Hls from 'hls.js';
 import { useEffect, useRef, useState } from 'react';
 
 type LessonVideoPlayerProps = {
@@ -30,31 +29,54 @@ export default function LessonVideoPlayer({
       return;
     }
 
+    setPlayerError(null);
+
     if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = playbackUrl;
       return;
     }
 
-    if (!Hls.isSupported()) {
-      setPlayerError('This browser cannot play the lesson video stream.');
-      return;
+    let cancelled = false;
+    let hls: { destroy: () => void } | null = null;
+
+    async function preparePlayer() {
+      try {
+        const { default: Hls } = await import('hls.js');
+
+        if (cancelled) {
+          return;
+        }
+
+        if (!Hls.isSupported()) {
+          setPlayerError('This browser cannot play the lesson video stream.');
+          return;
+        }
+
+        const player = new Hls({
+          enableWorker: true,
+          lowLatencyMode: false,
+        });
+        hls = player;
+
+        player.loadSource(playbackUrl);
+        player.attachMedia(video);
+        player.on(Hls.Events.ERROR, (_event, data) => {
+          if (data.fatal) {
+            setPlayerError('The lesson video could not be loaded. Please refresh and try again.');
+          }
+        });
+      } catch {
+        if (!cancelled) {
+          setPlayerError('The lesson video could not be loaded. Please refresh and try again.');
+        }
+      }
     }
 
-    const hls = new Hls({
-      enableWorker: true,
-      lowLatencyMode: false,
-    });
-
-    hls.loadSource(playbackUrl);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.ERROR, (_event, data) => {
-      if (data.fatal) {
-        setPlayerError('The lesson video could not be loaded. Please refresh and try again.');
-      }
-    });
+    void preparePlayer();
 
     return () => {
-      hls.destroy();
+      cancelled = true;
+      hls?.destroy();
     };
   }, [playbackUrl]);
 

@@ -2,10 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-type PilotEngagementEventType = 'lesson_start' | 'lesson_complete' | 'quiz_start' | 'dashboard_view' | 'chapter_open';
-type PilotEngagementSurface = 'lesson' | 'quiz' | 'dashboard' | 'chapter';
+export type PilotEngagementEventType =
+  | 'lesson_start'
+  | 'lesson_complete'
+  | 'quiz_start'
+  | 'dashboard_view'
+  | 'chapter_open'
+  | 'focus_mix_start'
+  | 'focus_mix_complete';
+export type PilotEngagementSurface =
+  | 'lesson'
+  | 'quiz'
+  | 'dashboard'
+  | 'chapter'
+  | 'study_remix';
 
-type PilotEngagementPayload = {
+export type PilotEngagementPayload = {
   chapterSlug?: string;
   eventType: PilotEngagementEventType;
   lessonSlug?: string;
@@ -21,10 +33,11 @@ type PilotCompletionButtonProps = Omit<PilotEngagementPayload, 'eventType'> & {
   label?: string;
 };
 
-async function postPilotEngagement(payload: PilotEngagementPayload) {
+export async function postPilotEngagement(payload: PilotEngagementPayload) {
   const path = payload.path ?? (typeof window !== 'undefined' ? window.location.pathname : undefined);
 
   return fetch('/api/progress/engagement', {
+    keepalive: true,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -51,14 +64,28 @@ export default function PilotEngagementTracker({
       return;
     }
 
-    hasPosted.current = true;
-    void postPilotEngagement({
-      chapterSlug,
-      eventType,
-      lessonSlug,
-      path,
-      surface,
-    }).catch(() => undefined);
+    const postWhenIdle = () => {
+      if (hasPosted.current) {
+        return;
+      }
+
+      hasPosted.current = true;
+      void postPilotEngagement({
+        chapterSlug,
+        eventType,
+        lessonSlug,
+        path,
+        surface,
+      }).catch(() => undefined);
+    };
+
+    if ('requestIdleCallback' in window) {
+      const idleCallback = window.requestIdleCallback(postWhenIdle, { timeout: 2500 });
+      return () => window.cancelIdleCallback(idleCallback);
+    }
+
+    const timeout = window.setTimeout(postWhenIdle, 1200);
+    return () => window.clearTimeout(timeout);
   }, [auto, chapterSlug, eventType, lessonSlug, path, surface]);
 
   return null;

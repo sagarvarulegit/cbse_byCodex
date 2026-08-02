@@ -5,68 +5,127 @@ class_level: 10
 chapter: Areas Related to Circles
 chapter_slug: areas-related-to-circles
 content_type: quiz
-status: draft
+status: ready
 ---
 
 # Areas Related to Circles chapter quiz
 
-Answer these quick questions after revising the chapter notes.
-
 ## 1. Sector
 
-A sector is a part of a circle enclosed by:
+The region bounded by two radii and their included arc is a:
 
-1. two radii and an arc
-2. one chord only
-3. one tangent only
+1. chord
+2. sector
+3. segment
+4. semicircle only
 
-Answer: 1
-Explanation: A sector is bounded by two radii and the arc between them.
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 11.1 aligned
+Explanation: A sector is the fraction of a circular disc swept out by a central angle.
 
 ## 2. Segment
 
-A segment is formed by:
+The region bounded by a chord and its corresponding arc is a:
 
-1. two radii and a chord
-2. a chord and the arc
-3. only the center and radius
-
-Answer: 2
-Explanation: A segment is the region bounded by a chord and its arc.
-
-## 3. Circle area
-
-The area of a circle is:
-
-1. `2pi r`
-2. `pi r^2`
-3. `pi d`
+1. sector
+2. segment
+3. radius
+4. tangent
 
 Answer: 2
-Explanation: The area of a circle is `pi r^2`.
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 11.1 aligned
+Explanation: The chord, not two radii, is the straight boundary of a segment.
 
-## 4. Circumference
+## 3. Area of a sector
 
-The circumference formula is:
+The area of a $60^\circ$ sector of a circle of radius $6$ cm is:
 
-1. `2pi r`
-2. `pi r^2`
-3. `r^2 / pi`
+1. $3\pi$ cm$^2$
+2. $6\pi$ cm$^2$
+3. $12\pi$ cm$^2$
+4. $36\pi$ cm$^2$
+
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 11.1 aligned
+Explanation: $(60/360)\pi(6)^2=6\pi$ cm$^2$.
+
+## 4. Arc length
+
+The length of a $90^\circ$ arc in a circle of radius $14$ cm is:
+
+1. $7\pi$ cm
+2. $14\pi$ cm
+3. $28\pi$ cm
+4. $49\pi$ cm
 
 Answer: 1
-Explanation: Circumference is the distance around the circle, which is `2pi r`.
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 11.1 aligned
+Explanation: $(90/360)\cdot2\pi\cdot14=7\pi$ cm.
 
-## 5. Real use
+## 5. Minor-segment area
 
-This chapter helps find area and perimeter of:
+For a central angle less than $180^\circ$, the minor-segment area is generally:
 
-1. circular pieces and related shapes
-2. only squares
-3. only triangles
+1. sector area plus triangle area
+2. sector area minus triangle area
+3. circle area minus arc length
+4. triangle area minus sector area
 
-Answer: 1
-Explanation: The formulas are used for circular regions and shapes built from them.
+Answer: 2
+Topic: core-notes
+Difficulty: medium
+Source: NCERT Section 11.1 aligned
+Explanation: The sector contains both the central triangle and the minor segment.
 
-## revision reminder
+## 6. Major sector
 
-Recheck sector, segment, area, and circumference before retrying.
+The area of a major sector with angle $300^\circ$ can be found most directly as:
+
+1. area of the $60^\circ$ minor sector
+2. circle area minus area of the $60^\circ$ minor sector
+3. triangle area only
+4. circumference minus radius
+
+Answer: 2
+Topic: core-notes
+Difficulty: easy
+Source: NCERT Section 11.1 aligned
+Explanation: The major and complementary minor sectors together make the full circle.
+
+## 7. Units
+
+Which unit is correct for an area related to a circle?
+
+1. cm
+2. cm$^2$
+3. cm$^3$
+4. degrees
+
+Answer: 2
+Topic: ncert-exercises-and-revision
+Difficulty: easy
+Source: NCERT Exercise 11.1 aligned
+Explanation: Area is measured in square units.
+
+## 8. Composite figure
+
+For a shaded circular design, the most reliable method is to:
+
+1. use one formula without splitting the figure
+2. decompose it into named sectors, segments and simple shapes
+3. measure the drawing with a ruler
+4. always subtract from a semicircle
+
+Answer: 2
+Topic: ncert-exercises-and-revision
+Difficulty: medium
+Source: NCERT Exercise 11.1 aligned
+Explanation: A clear add/subtract plan prevents double-counting and makes the chosen formulas traceable.

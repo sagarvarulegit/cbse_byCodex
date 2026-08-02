@@ -6,133 +6,248 @@ chapter_number: 5
 chapter_slug: minerals-and-energy-resources
 status: draft
 content_type: chapter-pack
-source_textbook: textbooks/textbooks/socialscience-geography/jess105.pdf
+source_textbook: textbooks/socialscience-geography/jess105.pdf
+source_edition: Reprint 2026-27
 ---
 
-# Minerals and Energy Resources
+# Chapter 5: Minerals and Energy Resources
 
-## chapter goal
+Toothpaste, a road, a phone and a light bulb look unrelated. Yet all depend on minerals, and every stage from mining to use needs energy.
 
-By the end of this chapter, a student should be able to:
-- define minerals and explain their occurrence
-- classify minerals into metallic, non-metallic, and energy minerals
-- identify major mineral examples and uses
-- explain conventional and non-conventional energy resources
-- discuss conservation of minerals and energy
+## Chapter goal
 
-## teacher note on textbook alignment
+- Explain what minerals are and how they occur.
+- Compare ferrous, non-ferrous and non-metallic minerals.
+- Locate the main mineral and conventional-energy regions from the textbook maps.
+- Distinguish conventional and non-conventional energy.
+- Explain why conservation is necessary.
 
-This pack follows `jess105.pdf`: meaning of minerals, mode of occurrence, ferrous and non-ferrous minerals, non-metallic minerals, energy resources, conventional and non-conventional sources, and conservation.
-
-## chapter flow for the platform
+## Textbook path
 
 1. What is a mineral?
-2. Mode of occurrence of minerals
-3. Metallic minerals
-4. Non-metallic minerals
-5. Conventional energy resources
-6. Non-conventional energy resources
-7. Conservation of minerals and energy
+2. Mode of Occurrence of Minerals
+3. Ferrous Minerals
+4. Non-Ferrous Minerals
+5. Non-Metallic Minerals
+6. Rock Minerals
+7. Hazards of Mining
+8. Conservation of Minerals
+9. Energy Resources
+10. Conventional Sources of Energy
+11. Non-Conventional Sources of Energy
+12. Conservation of Energy Resources
 
-## 1) what is a mineral?
+## What is a mineral?
 
-A mineral is a naturally occurring substance with a definite internal structure.
+Geologists define a mineral as a homogeneous, naturally occurring substance with a definite internal structure. Minerals vary in colour, hardness, crystal form, lustre and density.
 
-Minerals are unevenly distributed. Their use depends on concentration, accessibility, technology, and cost of extraction.
+Rocks usually contain several minerals. A mineral becomes an ore when it occurs in enough concentration for economical extraction.
 
-## 2) mode of occurrence
+## Mode of Occurrence of Minerals
 
-Minerals occur in igneous and metamorphic rocks as veins and lodes.
+| Mode | How it forms | Examples |
+| --- | --- | --- |
+| Veins and lodes | Molten material fills cracks in igneous and metamorphic rocks | Tin, copper, zinc and lead |
+| Beds and layers | Deposition and concentration in sedimentary rocks | Coal, gypsum, potash salt and sodium salt |
+| Residual deposits | Weathering removes soluble material and leaves a mass | Bauxite |
+| Alluvial or placer deposits | Heavy, water-resistant minerals collect in valley sands and hill bases | Gold, silver, tin and platinum |
+| Ocean water and ocean beds | Minerals dissolved in water or present as nodules | Common salt, magnesium, bromine and manganese nodules |
 
-In sedimentary rocks, minerals occur in beds or layers.
+Minerals are unevenly distributed because geological processes differ from place to place and take very long periods.
 
-Some minerals are found in placer deposits, where flowing water concentrates them.
+## Ferrous Minerals
 
-Some minerals are obtained from ocean water and ocean beds.
+Ferrous minerals contain iron and provide a base for metallurgical industries.
 
-## 3) metallic minerals
+### Iron Ore
 
-Ferrous minerals contain iron. Examples include iron ore, manganese, and chromite. They are important for steel and heavy industries.
+Magnetite has very high iron content and magnetic qualities. Hematite is the most important industrial iron ore by use.
 
-Non-ferrous minerals do not contain iron. Examples include copper, bauxite, lead, zinc, and gold.
+The textbook groups India's main iron-ore belts as:
 
-Iron ore types include magnetite and hematite. Bauxite is the ore of aluminium.
+- Odisha-Jharkhand belt
+- Durg-Bastar-Chandrapur belt
+- Ballari-Chitradurga-Chikkamagaluru-Tumakuru belt
+- Maharashtra-Goa belt
 
-## 4) non-metallic minerals
+### Manganese
 
-Non-metallic minerals include mica, limestone, gypsum, and many industrial minerals.
+Manganese is mainly used to manufacture steel and ferro-manganese alloy. It is also used in bleaching powder, insecticides and paints.
 
-Mica is used in electrical and electronic industries. Limestone is important for cement and iron smelting.
+## Non-Ferrous Minerals
 
-## 5) conventional energy resources
+Non-ferrous minerals do not contain iron. Copper is malleable, ductile and a good conductor, so it is used in electrical cables, electronics and chemicals. Balaghat in Madhya Pradesh, Khetri in Rajasthan and Singhbhum in Jharkhand are leading copper areas named in the textbook.
 
-Conventional energy sources include coal, petroleum, natural gas, and electricity from thermal and hydel power.
+Bauxite is the ore from which alumina and then aluminium are obtained. It forms through decomposition of aluminium-rich rocks. Odisha is highlighted as a major producer, with Panchpatmali deposits in Koraput district.
 
-Coal is found in different grades such as anthracite, bituminous, lignite, and peat.
+## Non-Metallic Minerals
 
-Petroleum provides fuel and raw material for many industries.
+Mica splits into thin sheets and has strong insulating and heat-resistant properties. It is important in electrical and electronic industries. The textbook names the northern Chota Nagpur plateau, Ajmer area and Nellore belt.
 
-Natural gas is cleaner than coal and oil and is used as fuel and industrial feedstock.
+## Rock Minerals
 
-## 6) non-conventional energy resources
+Limestone is mainly calcium carbonate. It is the basic raw material for cement and is essential in iron smelting.
 
-Non-conventional sources include solar, wind, tidal, geothermal, biogas, and nuclear energy.
+## Hazards of Mining
 
-They are important because fossil fuels are limited and polluting.
+Dust and fumes can cause lung disease. Mine collapse, inundation and fires threaten workers. Waste and slurry pollute land, soil, streams and rivers. The textbook's Jharia panel draws attention to unsafe mining and displacement.
 
-India has strong potential for solar and wind energy in many regions.
+Safety rules, dust control, waste treatment, land restoration and enforcement are necessary.
 
-## 7) conservation
+## Conservation of Minerals
 
-Minerals are finite and take geological time to form. Energy conservation reduces waste and pollution.
+Mineral formation is extremely slow, so economically useful deposits are finite and non-renewable. Planned use, better technology, recycling scrap metal and using suitable substitutes can reduce waste.
 
-Conservation steps include recycling metals, using substitutes, improving technology, reducing wastage, and shifting to renewable energy.
+## Energy Resources
 
-## exam-friendly summary notes
+Energy is needed for cooking, lighting, transport, industry and agriculture. Sources are grouped as conventional and non-conventional.
 
-- Minerals are naturally occurring substances with internal structure.
-- Veins and lodes occur in igneous and metamorphic rocks.
-- Metallic minerals: ferrous and non-ferrous.
-- Conventional energy includes coal, petroleum, natural gas, hydel and thermal power.
-- Non-conventional energy includes solar, wind, tidal, geothermal, biogas, and nuclear.
+## Conventional Sources of Energy
 
-## common mistakes students make
+### Coal
 
-1. Calling bauxite a metal instead of an ore.
-2. Confusing ferrous and non-ferrous minerals.
-3. Writing that all energy minerals are renewable.
-4. Forgetting conservation in mineral answers.
+Coal grades include peat, lignite, bituminous coal and anthracite. Gondwana coal is over 200 million years old and occurs mainly in the Damodar valley and other peninsular basins. Tertiary coal is found in north-eastern states. Coal is bulky and causes serious pollution when burnt.
 
-## board tips
+### Petroleum and Natural Gas
 
-- For mineral occurrence, mention rock type and form.
-- In energy answers, classify conventional and non-conventional sources.
-- Add one use for each mineral example.
+Petroleum occurs in anticlines and fault traps in tertiary rocks. Mumbai High, Gujarat and Assam are important regions named in the textbook. Natural gas often occurs with petroleum and is used as domestic fuel, industrial raw material and power fuel.
 
-## short answer practice
+The Hazira-Vijaipur-Jagdishpur pipeline linked western gas fields with fertiliser, power and industrial centres in western and northern India. The text also discusses expanding national gas infrastructure.
 
-1. What is a mineral?
-2. How do minerals occur in sedimentary rocks?
-3. What is the difference between ferrous and non-ferrous minerals?
-4. Why should minerals be conserved?
-5. Name two non-conventional energy sources.
+### Electricity
 
-## mini quiz with answers
+Hydroelectricity uses fast-flowing water and is renewable. Thermal electricity burns coal, petroleum or natural gas and depends on exhaustible fuels.
 
-1. Bauxite is the ore of aluminium.
-2. Mica is useful in electrical industries.
-3. Coal is a conventional energy source.
-4. Solar energy is non-conventional.
-5. Limestone is used in cement industry.
+## Non-Conventional Sources of Energy
 
-## comic style recap
+### Nuclear or Atomic Energy
 
-Panel 1: Mineral Mapper says, "Minerals hide in rocks, layers, placers, and oceans."
+Nuclear power uses energy released by altering the structure of atoms. Uranium and thorium are key minerals. Kerala's monazite sands contain thorium.
 
-Panel 2: Steel Worker lifts iron ore: "Ferrous minerals build heavy industry."
+### Solar, Wind and Biogas
 
-Panel 3: Energy Meter warns, "Coal and oil are useful but limited."
+India has strong solar potential. Solar devices can reduce dependence on firewood and dung cakes. Tamil Nadu has a major wind cluster; Andhra Pradesh, Karnataka, Gujarat, Kerala, Maharashtra and Lakshadweep also have wind potential.
 
-Panel 4: Solar Kid raises a panel: "Renewables help the future."
+Biogas uses shrubs, farm waste and animal or human waste. It gives cleaner fuel and improved manure.
 
-Panel 5: Conservation Captain says, "Recycle, save energy, and use minerals wisely."
+### Tidal and Geothermal Energy
+
+Tidal plants use water moving through floodgates and turbines. The Gulf of Khambhat, Gulf of Kuchchh and the Sundarban delta are named as suitable areas. Geothermal energy uses heat from the earth's interior; experimental Indian projects are named near Manikaran and in the Puga Valley.
+
+## Conservation of Energy Resources
+
+Energy conservation and renewable sources are both needed. Public transport, switching off unused power, energy-efficient devices and careful fuel use reduce pressure on limited reserves.
+
+## NCERT activity, figure and map tracker
+
+| Source item | What the student must notice |
+| --- | --- |
+| Figure 5.1: Classification of Minerals | Metallic branches into ferrous, non-ferrous and precious; non-metallic and energy minerals form other groups |
+| Figures 5.2-5.3 | Iron-ore mine and state share of manganese production |
+| Map: Iron Ore, Manganese, Bauxite and Mica | Compare belts, mines, ports and mineral locations |
+| Figures 5.4-5.6 | Copper mine, bauxite state share and a bauxite mine |
+| Figures 5.7-5.8 | Limestone state share and mining-related air pollution |
+| Figures 5.9(a)-5.9(b) | Inside and outside views of a coal mine |
+| Map: Coal, Oil and Natural Gas | Coal fields, coal mines, oil fields, gas reserves and pipeline |
+| Map: Nuclear and Thermal Power Plants | Compare thermal and nuclear locations |
+| Figures 5.10-5.12 | Solar milk-testing equipment, Nagercoil windmills and a biogas plant |
+| Dig-a-little-deeper prompts | Minerals in daily products, labels, mine types, maps, substitutes and power sources |
+| Energy activities | GAIL pipeline, river-valley projects, solar plants and local power stations |
+| Final crossword | Recall mineral names from formation, property and use clues |
+
+## NCERT exercise questions and answers
+
+### 1. Multiple choice questions
+
+**(i) Which one of the following minerals is formed by decomposition of rocks, leaving a residual mass of weathered material?**
+
+*Answer:* (b) Bauxite.
+
+**(ii) Koderma, in Jharkhand is the leading producer of which one of the following minerals?**
+
+*Answer:* (b) Mica.
+
+**(iii) Minerals are deposited and accumulated in the stratas of which of the following rocks?**
+
+*Answer:* (a) Sedimentary rocks.
+
+**(iv) Which one of the following minerals is contained in the Monazite sand?**
+
+*Answer:* (c) Thorium.
+
+### 2. Answer the following questions in about 30 words
+
+**(i)(a) Distinguish between ferrous and non-ferrous minerals.**
+
+*Answer:* Ferrous minerals contain iron, such as iron ore and manganese. Non-ferrous minerals do not contain iron, such as copper, bauxite, lead and zinc.
+
+**(i)(b) Distinguish between conventional and non-conventional sources of energy.**
+
+*Answer:* Conventional sources have long been commonly used, such as coal, petroleum, natural gas and large hydel power. Non-conventional sources include solar, wind, tidal, geothermal and biogas.
+
+**(ii) What is a mineral?**
+
+*Answer:* A mineral is a homogeneous, naturally occurring substance with a definite internal structure and characteristic physical and chemical properties.
+
+**(iii) How are minerals formed in igneous and metamorphic rocks?**
+
+*Answer:* Molten or gaseous mineral matter is forced into cracks, faults and joints. It cools and solidifies there, forming smaller veins and larger lodes.
+
+**(iv) Why do we need to conserve mineral resources?**
+
+*Answer:* Mineral deposits take millions of years to form and are used much faster than they are replaced. Economically useful reserves are therefore finite and non-renewable.
+
+### 3. Answer the following questions in about 120 words
+
+**(i) Describe the distribution of coal in India.**
+
+*Answer:* Gondwana coal, over 200 million years old, supplies most Indian coal. Major fields lie in the Damodar valley, especially Jharia, Raniganj and Bokaro. The Godavari, Mahanadi, Son and Wardha valleys also contain coal. Tertiary coal, about 55 million years old, occurs in Meghalaya, Assam, Arunachal Pradesh and Nagaland. Lignite, a low-grade brown coal, is found at Neyveli in Tamil Nadu and is used for electricity generation. Coal quality and accessibility differ across these regions.
+
+**(ii) Why do you think that solar energy has a bright future in India?**
+
+*Answer:* India receives abundant sunshine for much of the year and has large open areas suited to solar power. Solar systems can serve remote villages without long fuel supply lines, reduce dependence on coal and petroleum, and lower pollution. Rooftop systems and solar devices can provide local electricity and useful services. In rural areas they can also reduce the burning of firewood and dung cakes, leaving dung available as manure. Falling technology costs can expand these benefits.
+
+## Common mistakes
+
+- Calling every rock a single mineral.
+- Mixing veins and lodes with sedimentary beds and layers.
+- Treating bauxite as aluminium rather than the ore used to obtain aluminium.
+- Calling hydroelectricity non-renewable because a dam is built of concrete.
+- Listing a mineral location without connecting it to the correct mineral or map symbol.
+
+## Board tips
+
+- For occurrence questions, write rock type, formation process and example.
+- Compare mineral groups by iron content, not by colour.
+- In energy answers, state whether the source is renewable and give one location or use.
+- Practise all three textbook maps and the current prescribed map list.
+
+## Quick practice
+
+1. Why are placer deposits different from veins and lodes?
+2. Name India's four iron-ore belts from the chapter.
+3. Which coal is the highest-quality hard coal?
+4. Give one environmental and one economic reason to save energy.
+
+## Answer check
+
+1. Placer minerals collect in alluvial sand; veins and lodes fill rock cracks from molten or gaseous material.
+2. Odisha-Jharkhand; Durg-Bastar-Chandrapur; Ballari-Chitradurga-Chikkamagaluru-Tumakuru; Maharashtra-Goa.
+3. Anthracite.
+4. Saving energy reduces pollution and preserves limited fuels, while also lowering waste and cost.
+
+## One-minute revision
+
+- Mineral = natural, homogeneous and definite internal structure.
+- Ore = enough mineral concentration for economical extraction.
+- Ferrous contains iron; non-ferrous does not.
+- Bauxite is a residual deposit and aluminium ore.
+- Conventional and non-conventional sources must both be conserved and planned.
+- Recycle minerals; use energy efficiently; expand renewables.
+
+## Comic recap
+
+- Priya: "Minerals hide in cracks, layers, weathered rock, river sand and even seawater."
+- Rahul: "The way they form explains where we find them."
+- Priya: "Energy turns minerals into useful goods, but fossil fuels and ores are finite."
+- Rahul: "So map carefully, mine safely, recycle metals and waste less energy."

@@ -7,11 +7,14 @@ import LessonDemo from '../../../../../components/LessonDemo';
 import LessonVideoPlayer from '../../../../../components/LessonVideoPlayer';
 import PilotFeedbackForm from '../../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../../components/PilotEngagementTracker';
+import ReadingCompanion from '../../../../../components/ReadingCompanion';
+import StudentTopbar from '../../../../../components/StudentTopbar';
 import WrittenPracticeCard from '../../../../../components/WrittenPracticeCard';
 import { getWrittenPracticeDefinition } from '../../../../../lib/chapter-practice';
 import { getExamPracticeDefinition } from '../../../../../lib/exam-practice';
 import { getAvailableLessons, getChapter, getLessonContent } from '../../../../../lib/course-content';
 import type { MarkdownBlock } from '../../../../../lib/course-content';
+import { getChapterSubjectNavigation } from '../../../../../lib/curriculum/subject-navigation';
 import { getStudentSession } from '../../../../../lib/auth';
 import { GLOSSARY } from '../../../../../lib/glossary';
 import { getLessonVideo } from '../../../../../lib/lesson-video';
@@ -32,7 +35,10 @@ export default async function LessonPage({
     notFound();
   }
 
-  const content = await getLessonContent(slug, lessonSlug);
+  const [content, session] = await Promise.all([
+    getLessonContent(slug, lessonSlug),
+    getStudentSession(),
+  ]);
 
   if (!content) {
     notFound();
@@ -43,7 +49,6 @@ export default async function LessonPage({
 
   // Check authentication for premium lessons
   if (!content.lesson.free) {
-    const session = await getStudentSession();
     if (!session) {
       // Redirect to login with return URL
       const returnUrl = encodeURIComponent(`/chapters/${slug}/lessons/${lessonSlug}`);
@@ -52,6 +57,7 @@ export default async function LessonPage({
   }
 
   const isPilot = isPilotChapter(slug);
+  const subjectNavigation = getChapterSubjectNavigation(slug);
 
   return (
     <main className="lesson-page">
@@ -62,23 +68,32 @@ export default async function LessonPage({
         <PilotEngagementTracker chapterSlug={slug} eventType="lesson_start" lessonSlug={lessonSlug} surface="lesson" />
       ) : null}
 
-      <nav className="topbar" aria-label="Lesson navigation">
-        <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
-        </Link>
-        <div className="nav-links lesson-links">
-          <Link href={`/chapters/${slug}`}>Chapter</Link>
-          <a href="#lesson-notes">Notes</a>
-          <a href="#quick-practice">Practice</a>
-        </div>
-        <Link className="nav-cta" href={`/chapters/${slug}`}>
-          Back to chapter
-        </Link>
-      </nav>
+      <StudentTopbar
+        contextLabel={`${chapter.subject} lesson`}
+        session={session}
+      />
 
       <section className="lesson-hero section-shell">
         <div className="lesson-hero-card">
+          <nav className="breadcrumb-row" aria-label="Student learning path">
+            <Link href="/dashboard">Dashboard</Link>
+            <span>/</span>
+            <Link href="/subjects">Subjects</Link>
+            {subjectNavigation ? (
+              <>
+                <span>/</span>
+                <Link href={subjectNavigation.href}>
+                  {subjectNavigation.chapterListLabel}
+                </Link>
+              </>
+            ) : null}
+            <span>/</span>
+            <Link href={`/chapters/${slug}/notes`} prefetch={false}>
+              {chapter.title}
+            </Link>
+            <span>/</span>
+            <span aria-current="page">{content.lesson.title}</span>
+          </nav>
           <p className="eyebrow">{chapter.subject} · Pilot lesson</p>
           <h1>{content.lesson.title}</h1>
           <p className="subtext">{content.lesson.preview}</p>
@@ -118,16 +133,20 @@ export default async function LessonPage({
         <LessonVideoSection chapterSlug={slug} lessonSlug={lessonSlug} />
       </Suspense>
 
+      <ReadingCompanion
+        chapterSlug={slug}
+        chapterTitle={content.lesson.title}
+        contentRootId="lesson-notes"
+        readingId={`lesson-${lessonSlug}`}
+        sections={[
+          { id: 'lesson-notes', label: 'Lesson notes' },
+          ...numberedSections,
+        ]}
+        studentId={session?.id ?? 'guest'}
+      />
+
       <section className="lesson-shell section-shell" id="lesson-notes">
         <article className="lesson-main" id="practice-zone">
-          <div className="breadcrumb-row">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <Link href={`/chapters/${slug}`}>{chapter.title}</Link>
-            <span>/</span>
-            <span>{content.lesson.title}</span>
-          </div>
-
           <div className="lesson-prose">{renderLessonBlocks(content.blocks)}</div>
         </article>
 
@@ -171,6 +190,7 @@ export default async function LessonPage({
                     className={isActive ? 'sidebar-lesson-item active' : 'sidebar-lesson-item'}
                     href={href}
                     key={lessonItem.slug}
+                    prefetch={false}
                   >
                     <span>{String(index + 1).padStart(2, '0')}</span>
                     <div>
@@ -191,8 +211,8 @@ export default async function LessonPage({
                   ← {content.previousLesson.title}
                 </Link>
               ) : (
-                <Link className="ghost-link" href={`/chapters/${slug}`}>
-                  ← Chapter overview
+                <Link className="ghost-link" href={`/chapters/${slug}/notes`} prefetch={false}>
+                  ← Complete chapter
                 </Link>
               )}
 
@@ -201,8 +221,8 @@ export default async function LessonPage({
                   Next: {content.nextLesson.title}
                 </Link>
               ) : (
-                <Link className="button-link" href={`/chapters/${slug}`}>
-                  Back to chapter
+                <Link className="button-link" href={`/chapters/${slug}/notes`} prefetch={false}>
+                  Back to chapter content
                 </Link>
               )}
             </div>
@@ -224,7 +244,7 @@ export default async function LessonPage({
             <span>Previous</span>
           </Link>
         ) : (
-          <Link href={`/chapters/${slug}`}>
+          <Link href={`/chapters/${slug}/notes`} prefetch={false}>
             <span aria-hidden="true">←</span>
             <span>Chapter</span>
           </Link>
@@ -235,7 +255,7 @@ export default async function LessonPage({
             <span aria-hidden="true">→</span>
           </Link>
         ) : (
-          <Link href={`/chapters/${slug}`}>
+          <Link href={`/chapters/${slug}/notes`} prefetch={false}>
             <span>Chapter</span>
             <span aria-hidden="true">→</span>
           </Link>
