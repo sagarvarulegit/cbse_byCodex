@@ -99,9 +99,11 @@ export function PilotCompletionButton({
   surface,
 }: PilotCompletionButtonProps) {
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [resultNote, setResultNote] = useState<string | null>(null);
 
   async function saveCompletion() {
     setStatus('saving');
+    setResultNote(null);
 
     try {
       const response = await postPilotEngagement({
@@ -111,8 +113,16 @@ export function PilotCompletionButton({
         path,
         surface,
       });
+      const payload = await response.json().catch(() => null);
+      const badgeName = payload?.gamification?.awardedBadges?.[0]?.name;
+      const currentStreakDays = payload?.gamification?.streak?.currentStreakDays;
 
       setStatus(response.ok ? 'saved' : 'error');
+      if (response.ok && badgeName) {
+        setResultNote(`Badge earned: ${badgeName}.`);
+      } else if (response.ok && currentStreakDays) {
+        setResultNote(`Study streak: ${currentStreakDays} day${currentStreakDays === 1 ? '' : 's'}.`);
+      }
     } catch {
       setStatus('error');
     }
@@ -123,6 +133,7 @@ export function PilotCompletionButton({
       <button className="ghost-button" disabled={status === 'saving' || status === 'saved'} onClick={saveCompletion} type="button">
         {status === 'saving' ? 'Saving...' : status === 'saved' ? 'Studied' : label}
       </button>
+      {resultNote ? <span role="status">{resultNote}</span> : null}
       {status === 'error' ? <span role="status">Login needed to save.</span> : null}
     </div>
   );

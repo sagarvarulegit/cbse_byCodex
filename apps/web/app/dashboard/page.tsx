@@ -53,7 +53,7 @@ export default async function DashboardPage() {
           <summary className={styles.backstageSummary}>
             <span>
               <span className={styles.backstageEyebrow}>Backstage</span>
-              <strong>Your progress, rewards, and account tools</strong>
+              <strong>Your progress, badges, and account tools</strong>
             </span>
             <span className={styles.backstageCounts}>
               <span>
@@ -86,7 +86,7 @@ export default async function DashboardPage() {
 
             <section className="dashboard-grid">
               <article className="dashboard-card gamification-card">
-                <p>Daily practice streak</p>
+                <p>Study streak</p>
                 <strong>
                   {mastery.streak?.currentStreakDays ?? 0} day
                   {mastery.streak?.currentStreakDays === 1 ? '' : 's'}
@@ -113,21 +113,21 @@ export default async function DashboardPage() {
                   <p>Recent badges</p>
                   <strong>Ready to earn</strong>
                   <span>
-                    Your first completed quiz or improvement can unlock a
-                    personal badge.
+                    Mark a lesson studied, save a quiz, or complete written
+                    practice to earn a personal badge.
                   </span>
                 </article>
               )}
             </section>
 
             <section
-              aria-label="Personal mastery rewards"
+              aria-label="Personal mastery milestones"
               className="reward-panel"
             >
               <div className="section-heading">
                 <div>
-                  <p className="eyebrow">Reward unlocks</p>
-                  <h2>Personal tools, not public ranks.</h2>
+                  <p className="eyebrow">Mastery milestones</p>
+                  <h2>Badges and next actions, not public ranks.</h2>
                 </div>
                 <span className="section-badge">
                   {mastery.badges.length} badge
@@ -143,10 +143,10 @@ export default async function DashboardPage() {
                     <div>
                       <span className="reward-state">
                         {reward.state === 'unlocked'
-                          ? 'Unlocked'
+                          ? 'Reached'
                           : reward.isNext
-                            ? 'Next unlock'
-                            : 'Locked'}
+                            ? 'Next milestone'
+                            : 'Upcoming'}
                       </span>
                       <strong>{reward.rewardName}</strong>
                     </div>
@@ -199,16 +199,18 @@ export default async function DashboardPage() {
                   {activeMissions.map((mission) => (
                     <Link
                       className="mission-row"
-                      href={`/chapters/${mission.chapterSlug}/quiz`}
+                      href={mission.recommendedActions?.[0]?.href ?? `/chapters/${mission.chapterSlug}/notes`}
                       key={mission.id}
+                      prefetch={false}
                     >
                       <span>{mission.subjectName}</span>
                       <strong>{mission.chapterTitle}</strong>
                       <small>{mission.reason}</small>
                       <small>
                         Target: {mission.targetScore}% ·{' '}
-                        {mission.recommendedSteps[0] ??
-                          'Retry the quiz after revision.'}
+                        {mission.recommendedActions?.[0]?.step ??
+                          mission.recommendedSteps[0] ??
+                          'Review the chapter notes, then retry the quiz.'}
                       </small>
                     </Link>
                   ))}

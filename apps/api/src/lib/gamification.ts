@@ -7,14 +7,20 @@ const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 type PrismaExecutor = PrismaClient | Prisma.TransactionClient;
 
-export type QuizBadgeCode = 'first_quiz' | 'score_improvement' | 'topic_mastery' | 'comeback_after_weak_score';
+export type PersonalBadgeCode =
+  | 'first_lesson_completed'
+  | 'first_quiz'
+  | 'three_day_streak'
+  | 'first_written_practice'
+  | 'comeback_after_weak_score';
 
-export type QuizBadgeCandidate = {
-  code: QuizBadgeCode;
+export type PersonalBadgeCandidate = {
+  code: PersonalBadgeCode;
   description: string;
   iconName: string;
   name: string;
   scope: 'global' | 'chapter';
+  source: 'lesson_complete' | 'quiz_attempt' | 'study_streak' | 'written_practice';
 };
 
 export type DailyPracticeStreakInput = {
@@ -32,18 +38,27 @@ export type DailyPracticeStreakResult = {
 };
 
 export type AwardedBadgeSummary = {
-  code: QuizBadgeCode;
+  code: PersonalBadgeCode;
   description: string;
   name: string;
 };
 
-export const QUIZ_BADGE_DEFINITIONS: Record<QuizBadgeCode, QuizBadgeCandidate> = {
+export const PERSONAL_BADGE_DEFINITIONS: Record<PersonalBadgeCode, PersonalBadgeCandidate> = {
   comeback_after_weak_score: {
     code: 'comeback_after_weak_score',
     description: 'Raised a quiz score back above the revision threshold after a weak attempt.',
     iconName: 'rotate-ccw',
     name: 'Comeback Star',
     scope: 'chapter',
+    source: 'quiz_attempt',
+  },
+  first_lesson_completed: {
+    code: 'first_lesson_completed',
+    description: 'Marked the first lesson as studied.',
+    iconName: 'book-open-check',
+    name: 'First Lesson Studied',
+    scope: 'global',
+    source: 'lesson_complete',
   },
   first_quiz: {
     code: 'first_quiz',
@@ -51,22 +66,26 @@ export const QUIZ_BADGE_DEFINITIONS: Record<QuizBadgeCode, QuizBadgeCandidate> =
     iconName: 'badge-check',
     name: 'First Quiz',
     scope: 'global',
+    source: 'quiz_attempt',
   },
-  score_improvement: {
-    code: 'score_improvement',
-    description: 'Improved on the previous best score for this chapter.',
-    iconName: 'trending-up',
-    name: 'Score Climber',
-    scope: 'chapter',
+  first_written_practice: {
+    code: 'first_written_practice',
+    description: 'Saved the first written-practice self-check.',
+    iconName: 'pencil-line',
+    name: 'First Written Practice',
+    scope: 'global',
+    source: 'written_practice',
   },
-  topic_mastery: {
-    code: 'topic_mastery',
-    description: 'Scored at least 80% without weak topics in this chapter quiz.',
-    iconName: 'target',
-    name: 'Topic Mastery',
-    scope: 'chapter',
+  three_day_streak: {
+    code: 'three_day_streak',
+    description: 'Practised on three India-calendar days in a row.',
+    iconName: 'flame',
+    name: 'Three-Day Streak',
+    scope: 'global',
+    source: 'study_streak',
   },
 };
+export const PERSONAL_BADGE_CODES = Object.keys(PERSONAL_BADGE_DEFINITIONS) as PersonalBadgeCode[];
 
 function getActivityDateKey(date: Date) {
   const shiftedDate = new Date(date.getTime() + INDIA_TIME_ZONE_OFFSET_MINUTES * 60 * 1000);
@@ -122,28 +141,42 @@ export function getQuizBadgeCandidates(params: {
   attemptNumber: number;
   previousScores: number[];
   scorePercent: number;
-  weakTopicSlugs: string[];
-}): QuizBadgeCandidate[] {
-  const candidates: QuizBadgeCandidate[] = [];
-  const previousBestScore = params.previousScores.length > 0 ? Math.max(...params.previousScores) : null;
+}): PersonalBadgeCandidate[] {
+  const candidates: PersonalBadgeCandidate[] = [];
 
   if (params.attemptNumber === 1) {
-    candidates.push(QUIZ_BADGE_DEFINITIONS.first_quiz);
-  }
-
-  if (previousBestScore !== null && params.scorePercent > previousBestScore) {
-    candidates.push(QUIZ_BADGE_DEFINITIONS.score_improvement);
-  }
-
-  if (params.scorePercent >= 80 && params.weakTopicSlugs.length === 0) {
-    candidates.push(QUIZ_BADGE_DEFINITIONS.topic_mastery);
+    candidates.push(PERSONAL_BADGE_DEFINITIONS.first_quiz);
   }
 
   if (params.scorePercent >= 60 && params.previousScores.some((score) => score < 60)) {
-    candidates.push(QUIZ_BADGE_DEFINITIONS.comeback_after_weak_score);
+    candidates.push(PERSONAL_BADGE_DEFINITIONS.comeback_after_weak_score);
   }
 
   return candidates;
+}
+
+export function getEngagementBadgeCandidates(params: {
+  eventType: string;
+}): PersonalBadgeCandidate[] {
+  return params.eventType === 'lesson_complete'
+    ? [PERSONAL_BADGE_DEFINITIONS.first_lesson_completed]
+    : [];
+}
+
+export function getPracticeBadgeCandidates(params: {
+  practiceKind?: string | null;
+}): PersonalBadgeCandidate[] {
+  return params.practiceKind === 'written_practice'
+    ? [PERSONAL_BADGE_DEFINITIONS.first_written_practice]
+    : [];
+}
+
+export function getStreakBadgeCandidates(params: {
+  currentStreakDays: number;
+}): PersonalBadgeCandidate[] {
+  return params.currentStreakDays >= 3
+    ? [PERSONAL_BADGE_DEFINITIONS.three_day_streak]
+    : [];
 }
 
 export async function refreshDailyPracticeStreak(params: {
@@ -179,52 +212,38 @@ export async function refreshDailyPracticeStreak(params: {
   });
 }
 
-export async function awardQuizBadges(params: {
-  attemptNumber: number;
-  chapterId: string;
+export async function awardPersonalBadges(params: {
+  candidates: PersonalBadgeCandidate[];
+  chapterId?: string | null;
   db?: PrismaExecutor;
-  scorePercent: number;
   userId: string;
-  weakTopicSlugs: string[];
 }) {
   const db = params.db ?? prisma;
-  const previousAttempts = await db.quizAttempt.findMany({
-    where: {
-      attemptNumber: { lt: params.attemptNumber },
-      chapterId: params.chapterId,
-      userId: params.userId,
-    },
-    select: { scorePercent: true },
-  });
-
-  const candidates = getQuizBadgeCandidates({
-    attemptNumber: params.attemptNumber,
-    previousScores: previousAttempts.map((attempt) => attempt.scorePercent),
-    scorePercent: params.scorePercent,
-    weakTopicSlugs: params.weakTopicSlugs,
-  });
   const awardedBadges: AwardedBadgeSummary[] = [];
 
-  for (const candidate of candidates) {
+  for (const candidate of params.candidates) {
     const badge = await db.badge.upsert({
       where: { code: candidate.code },
       create: {
         code: candidate.code,
         criteria: {
-          source: 'quiz_attempt',
+          source: candidate.source,
         } satisfies Prisma.InputJsonValue,
         description: candidate.description,
         iconName: candidate.iconName,
         name: candidate.name,
       },
       update: {
+        criteria: {
+          source: candidate.source,
+        } satisfies Prisma.InputJsonValue,
         description: candidate.description,
         iconName: candidate.iconName,
         isActive: true,
         name: candidate.name,
       },
     });
-    const scopeKey = candidate.scope === 'chapter' ? params.chapterId : 'global';
+    const scopeKey = candidate.scope === 'chapter' && params.chapterId ? params.chapterId : 'global';
 
     const existingAward = await db.userBadge.findUnique({
       where: {
@@ -243,7 +262,7 @@ export async function awardQuizBadges(params: {
     await db.userBadge.create({
       data: {
         badgeId: badge.id,
-        chapterId: candidate.scope === 'chapter' ? params.chapterId : null,
+        chapterId: candidate.scope === 'chapter' ? params.chapterId ?? null : null,
         scopeKey,
         userId: params.userId,
       },
@@ -256,4 +275,73 @@ export async function awardQuizBadges(params: {
   }
 
   return awardedBadges;
+}
+
+export async function awardEngagementBadges(params: {
+  chapterId?: string | null;
+  currentStreakDays: number;
+  db?: PrismaExecutor;
+  eventType: string;
+  userId: string;
+}) {
+  return awardPersonalBadges({
+    candidates: [
+      ...getEngagementBadgeCandidates({ eventType: params.eventType }),
+      ...getStreakBadgeCandidates({ currentStreakDays: params.currentStreakDays }),
+    ],
+    chapterId: params.chapterId,
+    db: params.db,
+    userId: params.userId,
+  });
+}
+
+export async function awardPracticeBadges(params: {
+  chapterId?: string | null;
+  currentStreakDays: number;
+  db?: PrismaExecutor;
+  practiceKind?: string | null;
+  userId: string;
+}) {
+  return awardPersonalBadges({
+    candidates: [
+      ...getPracticeBadgeCandidates({ practiceKind: params.practiceKind }),
+      ...getStreakBadgeCandidates({ currentStreakDays: params.currentStreakDays }),
+    ],
+    chapterId: params.chapterId,
+    db: params.db,
+    userId: params.userId,
+  });
+}
+
+export async function awardQuizBadges(params: {
+  attemptNumber: number;
+  chapterId: string;
+  currentStreakDays: number;
+  db?: PrismaExecutor;
+  scorePercent: number;
+  userId: string;
+}) {
+  const db = params.db ?? prisma;
+  const previousAttempts = await db.quizAttempt.findMany({
+    where: {
+      attemptNumber: { lt: params.attemptNumber },
+      chapterId: params.chapterId,
+      userId: params.userId,
+    },
+    select: { scorePercent: true },
+  });
+
+  return awardPersonalBadges({
+    candidates: [
+      ...getQuizBadgeCandidates({
+        attemptNumber: params.attemptNumber,
+        previousScores: previousAttempts.map((attempt) => attempt.scorePercent),
+        scorePercent: params.scorePercent,
+      }),
+      ...getStreakBadgeCandidates({ currentStreakDays: params.currentStreakDays }),
+    ],
+    chapterId: params.chapterId,
+    db,
+    userId: params.userId,
+  });
 }

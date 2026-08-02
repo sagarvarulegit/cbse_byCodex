@@ -257,6 +257,7 @@ export default function WrittenPracticeCard({
           earnedRubricPointIds: selectedPointIds,
           lessonSlug: definition.lessonSlug,
           maxScoreHalfMarks: maxHalfMarks,
+          practiceKind: 'written_practice',
           practiceItemId: definition.id,
           scoreHalfMarks,
           weakSkillSlugs,
@@ -285,8 +286,14 @@ export default function WrittenPracticeCard({
         setAttempts(syncedAttempts);
         setSyncState('saved');
         setAccountRetention(payload.retention ?? null);
+        const badgeName = payload.gamification?.awardedBadges?.[0]?.name;
+        const currentStreakDays = payload.gamification?.streak?.currentStreakDays;
         setMessage(
-          `Attempt ${syncedAttempt.attemptNumber}: ${formatHalfMarks(scoreHalfMarks)}/${formatHalfMarks(maxHalfMarks)} marks.`,
+          badgeName
+            ? `Attempt ${syncedAttempt.attemptNumber}: ${formatHalfMarks(scoreHalfMarks)}/${formatHalfMarks(maxHalfMarks)} marks. Badge earned: ${badgeName}.`
+            : currentStreakDays
+              ? `Attempt ${syncedAttempt.attemptNumber}: ${formatHalfMarks(scoreHalfMarks)}/${formatHalfMarks(maxHalfMarks)} marks. Study streak: ${currentStreakDays} day${currentStreakDays === 1 ? '' : 's'}.`
+              : `Attempt ${syncedAttempt.attemptNumber}: ${formatHalfMarks(scoreHalfMarks)}/${formatHalfMarks(maxHalfMarks)} marks.`,
         );
       } else {
         setSyncState('local');

@@ -77,7 +77,7 @@ export default async function ChapterProgressPage({
           <p className="eyebrow">{chapter.subject} · Optional progress view</p>
           <h1>{chapter.title} progress</h1>
           <p className="subtext">
-            Check your mastery, rewards, and next revision target. Chapter
+            Check your mastery, milestones, and next revision target. Chapter
             selections open the learning content directly.
           </p>
           <div className="hero-actions">
@@ -172,6 +172,10 @@ async function ChapterProgressDetails({
   const mastery = await masteryPromise;
   const chapterMastery = mastery.masteries[0];
   const activeMission = mastery.revisionMissions[0];
+  const missionPrimaryAction = activeMission?.recommendedActions?.[0];
+  const missionRetryAction = activeMission?.recommendedActions?.find((action) =>
+    action.href.endsWith('/quiz'),
+  );
   const masteryRewards = chapterMastery
     ? buildMasteryRewards({
         badges: mastery.badges,
@@ -184,12 +188,12 @@ async function ChapterProgressDetails({
     <>
       <section
         className="section-shell chapter-reward-strip"
-        aria-label="Chapter reward unlocks"
+        aria-label="Chapter mastery milestones"
       >
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Chapter unlocks</p>
-            <h2>Rewards follow your mastery score.</h2>
+            <p className="eyebrow">Chapter milestones</p>
+            <h2>Milestones follow your saved mastery score.</h2>
           </div>
           <span className="section-badge">
             {masteryRewards[0]?.badgeCount ?? 0} chapter badge
@@ -206,10 +210,10 @@ async function ChapterProgressDetails({
                 <div>
                   <span className="reward-state">
                     {reward.state === 'unlocked'
-                      ? 'Unlocked'
+                      ? 'Reached'
                       : reward.isNext
-                        ? 'Next unlock'
-                        : 'Locked'}
+                        ? 'Next milestone'
+                        : 'Upcoming'}
                   </span>
                   <strong>{reward.rewardName}</strong>
                 </div>
@@ -223,8 +227,8 @@ async function ChapterProgressDetails({
           </div>
         ) : (
           <p className="subtext compact">
-            Study the chapter or take its quiz to begin earning mastery
-            rewards.
+            Study the chapter or take its quiz to begin recording mastery
+            milestones.
           </p>
         )}
       </section>
@@ -237,16 +241,27 @@ async function ChapterProgressDetails({
             <p className="subtext compact">{activeMission.reason}</p>
             <p className="subtext compact">
               Target: {activeMission.targetScore}% ·{' '}
-              {activeMission.recommendedSteps[0] ??
-                'Retry the quiz after revision.'}
+              {missionPrimaryAction?.step ??
+                activeMission.recommendedSteps[0] ??
+                'Review the chapter notes, then retry the quiz.'}
             </p>
           </div>
-          <Link
-            className="button-link"
-            href={`/chapters/${chapterSlug}/quiz`}
-          >
-            Retry quiz
-          </Link>
+          <div className="hero-actions">
+            <Link
+              className="button-link"
+              href={missionPrimaryAction?.href ?? `/chapters/${chapterSlug}/notes`}
+              prefetch={false}
+            >
+              {missionPrimaryAction?.label ?? 'Review notes'}
+            </Link>
+            <Link
+              className="ghost-link"
+              href={missionRetryAction?.href ?? `/chapters/${chapterSlug}/quiz`}
+              prefetch={false}
+            >
+              Retry quiz
+            </Link>
+          </div>
         </section>
       ) : null}
     </>
@@ -262,8 +277,8 @@ function ChapterProgressDetailsLoading() {
     >
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Chapter unlocks</p>
-          <h2>Loading your mastery rewards...</h2>
+          <p className="eyebrow">Chapter milestones</p>
+          <h2>Loading your mastery milestones...</h2>
         </div>
       </div>
       <div className="route-loading-bar" />

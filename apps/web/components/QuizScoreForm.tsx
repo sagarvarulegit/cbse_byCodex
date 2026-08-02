@@ -55,6 +55,11 @@ type QuizProgressResponse = {
   message?: string;
   revisionMission?: {
     id: string;
+    recommendedActions?: Array<{
+      href: string;
+      label: string;
+      step: string;
+    }>;
     recommendedSteps?: string[];
     state: 'created' | 'refreshed' | 'completed';
     targetScore?: number;
@@ -184,6 +189,10 @@ export default function QuizScoreForm({
     [weakTopicSlugs, weakTopicOptions],
   );
   const visibleAttempts = attemptHistory.attempts.slice(0, 5);
+  const recoveryAction =
+    recoveryResult?.mission && 'recommendedActions' in recoveryResult.mission
+      ? recoveryResult.mission.recommendedActions?.[0]
+      : undefined;
 
   function selectAnswer(questionId: string, optionIndex: number) {
     if (hasSubmitted) {
@@ -397,6 +406,9 @@ export default function QuizScoreForm({
             {'targetScore' in recoveryResult.mission && recoveryResult.mission.targetScore ? (
               <span>Target score: {recoveryResult.mission.targetScore}%</span>
             ) : null}
+            {recoveryAction ? (
+              <a href={recoveryAction.href}>{recoveryAction.label}</a>
+            ) : null}
           </section>
         ) : null}
 
@@ -458,7 +470,7 @@ export default function QuizScoreForm({
             </div>
             {gamificationResult.streak ? (
               <div className="streak-summary">
-                <span>Daily streak</span>
+                <span>Study streak</span>
                 <strong>{gamificationResult.streak.currentStreakDays} day{gamificationResult.streak.currentStreakDays === 1 ? '' : 's'}</strong>
                 <small>Best: {gamificationResult.streak.longestStreakDays} day{gamificationResult.streak.longestStreakDays === 1 ? '' : 's'}</small>
               </div>
@@ -476,7 +488,7 @@ export default function QuizScoreForm({
                 ))}
               </div>
             ) : (
-              <p className="quiz-celebration-note">Keep improving to unlock the next badge.</p>
+              <p className="quiz-celebration-note">Keep studying to build your personal badge record.</p>
             )}
           </section>
         ) : null}

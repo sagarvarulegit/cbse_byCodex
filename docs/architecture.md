@@ -46,7 +46,7 @@ This document is the repository's concise architecture map. Update it when modul
 1. `/dashboard` remains an async Server Component. It loads the authenticated student and mastery aggregates in parallel, then `apps/web/lib/study-remix.ts` combines those aggregates with the three published pilot chapters into a plain serializable mix model.
 2. `StudyRemixDashboard` owns album selection and tomorrow-cue controls. `StudyRemixProvider` lives in the root web layout so an active 45-minute session can continue across client-side navigation to subjects, notes, lessons, and quizzes.
 3. The active timer is temporary, student-scoped `sessionStorage` state. Reload restores it paused so time away is not counted. A separately queued tomorrow cue is device-local `localStorage` state keyed to the student and India calendar date.
-4. Focus sessions emit `focus_mix_start` and `focus_mix_complete` engagement events, but never mutate `ChapterMastery`, complete lessons, or unlock rewards. Quiz and video evidence remain the only inputs to the current mastery formula.
+4. Focus sessions emit `focus_mix_start` and `focus_mix_complete` engagement events, but never mutate `ChapterMastery`, complete lessons, or award badges. Quiz and video evidence remain the only inputs to the current mastery formula; study streaks count only persisted lesson completion, quiz-save, and practice-save activity.
 
 ### Student visual system
 
@@ -59,15 +59,16 @@ This document is the repository's concise architecture map. Update it when modul
 
 1. Quiz markdown is parsed and validated in `apps/web/lib/quiz-content.ts` and related validation helpers.
 2. The web client submits immutable quiz attempts to the API progress routes.
-3. The API stores attempts and updates mastery, streaks, revision missions, and badges through Prisma transactions.
-4. Student dashboards and chapter pages read the resulting aggregates without treating missing data as completed progress.
+3. The API stores attempts and updates mastery, study streaks, revision missions, and personal badges through Prisma transactions. Passive views stay analytics-only; study streaks are refreshed by persisted lesson completions, quiz saves, and practice saves.
+4. Revision missions return concrete note and quiz action links, so dashboards can send students to the next real remediation step instead of a fake or unavailable tool.
+5. Student dashboards and chapter pages read the resulting aggregates without treating missing data as completed progress.
 
 ### Constructed-response practice
 
 1. Reusable written-practice definitions live in `apps/web/lib/chapter-practice.ts`; lesson markdown places a definition with `[[written-practice:<item-id>]]`.
 2. `WrittenPracticeCard` keeps the student's answer text in browser memory only. After a genuine attempt, the student reveals and self-checks an integer half-mark rubric.
 3. The web sends only structured evidence—score, rubric point ids, weak skill slugs, answer length, and an idempotent client attempt id—to `/v1/progress/practice`.
-4. The API validates that the chapter and lesson are published, stores an immutable `WrittenPracticeAttempt`, and emits `written_practice_scored`. Recent structured attempts can be restored across devices.
+4. The API validates that the chapter and lesson are published, stores an immutable `WrittenPracticeAttempt`, and emits `written_practice_scored` with a practice-kind marker for written practice, timed diagnostics, or workbenches. Recent structured attempts can be restored across devices.
 5. D0/D3/D7 retention is derived from immutable attempt timestamps rather than mutable completion flags. D0 starts at the first score of at least 80%; separate qualifying attempts on or after day 3 and day 7 complete the later checkpoints. One late attempt cannot satisfy both D3 and D7.
 6. Written-practice evidence remains separate from `ChapterMastery` until a reviewed readiness formula exists; recording a self-score or waiting for a date must not silently award exam readiness.
 

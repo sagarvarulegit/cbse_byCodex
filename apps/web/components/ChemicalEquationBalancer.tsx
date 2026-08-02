@@ -322,6 +322,7 @@ export default function ChemicalEquationBalancer({
           earnedRubricPointIds: independentIds,
           lessonSlug: workbench.lessonSlug,
           maxScoreHalfMarks,
+          practiceKind: 'workbench',
           practiceItemId: workbench.practiceItemId,
           scoreHalfMarks,
           weakSkillSlugs:

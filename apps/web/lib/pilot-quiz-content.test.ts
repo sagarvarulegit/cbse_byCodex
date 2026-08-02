@@ -9,14 +9,14 @@ import { parseQuizContent, slugifyQuizTopic } from './quiz-content';
 
 const expectedAnswerValues: Record<(typeof PILOT_CHAPTER_SLUGS)[number], number[]> = {
   'chemical-reactions-and-equations': [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4],
-  'real-numbers': [2, 1, 1, 3, 1],
-  'two-stories-about-flying': [1, 1, 1, 1, 1],
+  'real-numbers': [2, 3, 3, 2, 1, 2, 1, 4],
+  'two-stories-about-flying': [2, 3, 4, 1, 3, 2, 3, 1, 4, 2],
 };
 
 const expectedQuestionCounts: Record<(typeof PILOT_CHAPTER_SLUGS)[number], number> = {
   'chemical-reactions-and-equations': 20,
-  'real-numbers': 5,
-  'two-stories-about-flying': 5,
+  'real-numbers': 8,
+  'two-stories-about-flying': 10,
 };
 
 function getValidTopicSlugs(chapterSlug: (typeof PILOT_CHAPTER_SLUGS)[number]) {

@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { calculateDailyPracticeStreak, getQuizBadgeCandidates } from './gamification.js';
+import {
+  calculateDailyPracticeStreak,
+  getEngagementBadgeCandidates,
+  getPracticeBadgeCandidates,
+  getQuizBadgeCandidates,
+  getStreakBadgeCandidates,
+} from './gamification.js';
 
-test('calculateDailyPracticeStreak starts a daily practice streak on the first quiz day', () => {
+test('calculateDailyPracticeStreak starts a study streak on the first counted activity day', () => {
   const result = calculateDailyPracticeStreak({
     currentStreakDays: 0,
     lastActivityDate: null,
@@ -31,7 +37,7 @@ test('calculateDailyPracticeStreak extends across consecutive India calendar day
   assert.equal(result.isNewPracticeDay, true);
 });
 
-test('calculateDailyPracticeStreak does not increment twice on the same practice day', () => {
+test('calculateDailyPracticeStreak does not increment twice on the same study day', () => {
   const result = calculateDailyPracticeStreak({
     currentStreakDays: 3,
     lastActivityDate: new Date('2026-06-14T00:00:00.000Z'),
@@ -44,17 +50,16 @@ test('calculateDailyPracticeStreak does not increment twice on the same practice
   assert.equal(result.isNewPracticeDay, false);
 });
 
-test('getQuizBadgeCandidates awards first quiz, improvement, mastery, and comeback badges from quiz history', () => {
+test('getQuizBadgeCandidates awards comeback badges from quiz history', () => {
   const badges = getQuizBadgeCandidates({
     attemptNumber: 3,
     previousScores: [45, 58],
     scorePercent: 82,
-    weakTopicSlugs: [],
   });
 
   assert.deepEqual(
     badges.map((badge) => badge.code),
-    ['score_improvement', 'topic_mastery', 'comeback_after_weak_score'],
+    ['comeback_after_weak_score'],
   );
 });
 
@@ -64,8 +69,25 @@ test('getQuizBadgeCandidates awards the first quiz badge only for attempt one', 
       attemptNumber: 1,
       previousScores: [],
       scorePercent: 40,
-      weakTopicSlugs: ['linear-equations'],
     }).map((badge) => badge.code),
     ['first_quiz'],
   );
+});
+
+test('personal badges come only from matching persisted learning actions', () => {
+  assert.deepEqual(
+    getEngagementBadgeCandidates({ eventType: 'lesson_complete' }).map((badge) => badge.code),
+    ['first_lesson_completed'],
+  );
+  assert.deepEqual(getEngagementBadgeCandidates({ eventType: 'lesson_start' }), []);
+  assert.deepEqual(
+    getPracticeBadgeCandidates({ practiceKind: 'written_practice' }).map((badge) => badge.code),
+    ['first_written_practice'],
+  );
+  assert.deepEqual(getPracticeBadgeCandidates({ practiceKind: 'timed_diagnostic' }), []);
+  assert.deepEqual(
+    getStreakBadgeCandidates({ currentStreakDays: 3 }).map((badge) => badge.code),
+    ['three_day_streak'],
+  );
+  assert.deepEqual(getStreakBadgeCandidates({ currentStreakDays: 2 }), []);
 });

@@ -238,6 +238,7 @@ export default function ExamPracticeCard({
           earnedRubricPointIds: [],
           lessonSlug: definition.lessonSlug,
           maxScoreHalfMarks,
+          practiceKind: 'timed_diagnostic',
           practiceItemId: definition.practiceItemId,
           retentionEligible,
           scoreHalfMarks,

@@ -18,12 +18,12 @@ test('buildQuizRecoveryMessage explains created and completed mission states', (
     buildQuizRecoveryMessage({
       masteryScore: 42,
       revisionMission: {
-        recommendedSteps: ['Rewatch the lesson section for euclid-division-lemma.'],
+        recommendedSteps: ["Open the notes for Euclid's Division Lemma."],
         state: 'created',
         targetScore: 60,
       },
     }),
-    'Submitted and saved. Mastery score is 42%. Recovery mission started: rewatch the lesson section for euclid-division-lemma, then retry for 60% or more.',
+    "Submitted and saved. Mastery score is 42%. Recovery mission started: open the notes for Euclid's Division Lemma, then retry for 60% or more.",
   );
 
   assert.equal(

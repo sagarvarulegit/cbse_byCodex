@@ -7,6 +7,7 @@ export type NormalizedWrittenPracticeAttempt = {
   earnedRubricPointIds: string[];
   lessonSlug: string;
   maxScoreHalfMarks: number;
+  practiceKind: 'timed_diagnostic' | 'written_practice' | 'workbench';
   practiceItemId: string;
   retentionEligible: boolean;
   scoreHalfMarks: number;
@@ -70,6 +71,12 @@ function readOptionalBoolean(value: unknown, fallback: boolean) {
   return typeof value === 'boolean' ? value : fallback;
 }
 
+function readPracticeKind(value: unknown): NormalizedWrittenPracticeAttempt['practiceKind'] {
+  return value === 'timed_diagnostic' || value === 'workbench'
+    ? value
+    : 'written_practice';
+}
+
 function readUniqueSlugs(value: unknown, maximumItems: number) {
   if (!Array.isArray(value)) {
     return null;
@@ -93,6 +100,7 @@ export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult
   const clientAttemptId = readClientAttemptId(body.clientAttemptId);
   const lessonSlug = readSlug(body.lessonSlug);
   const practiceItemId = readSlug(body.practiceItemId);
+  const practiceKind = readPracticeKind(body.practiceKind);
   const retentionEligible = readOptionalBoolean(body.retentionEligible, true);
   const scoreHalfMarks = readBoundedInteger(body.scoreHalfMarks, 0, 80);
   const maxScoreHalfMarks = readBoundedInteger(body.maxScoreHalfMarks, 1, 80);
@@ -129,6 +137,7 @@ export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult
       earnedRubricPointIds,
       lessonSlug,
       maxScoreHalfMarks,
+      practiceKind,
       practiceItemId,
       retentionEligible,
       scoreHalfMarks,

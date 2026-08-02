@@ -20,6 +20,11 @@ export type RevisionMissionSummary = {
   chapterTitle: string;
   id: string;
   reason: string;
+  recommendedActions?: Array<{
+    href: string;
+    label: string;
+    step: string;
+  }>;
   recommendedSteps: string[];
   status: string;
   subjectName: string;

@@ -7,12 +7,12 @@ const badge = {
   awardedAt: '2026-06-21T10:00:00.000Z',
   chapterSlug: 'real-numbers',
   chapterTitle: 'Real Numbers',
-  code: 'topic_mastery',
-  description: 'Mastered a weak topic.',
-  name: 'Topic Mastery',
+  code: 'first_quiz',
+  description: 'Saved the first chapter quiz score.',
+  name: 'First Quiz',
 };
 
-test('buildMasteryRewards unlocks personal rewards from mastery thresholds', () => {
+test('buildMasteryRewards tracks personal milestones from mastery thresholds', () => {
   const rewards = buildMasteryRewards({
     badges: [badge],
     chapterSlug: 'real-numbers',
@@ -34,16 +34,16 @@ test('buildMasteryRewards unlocks personal rewards from mastery thresholds', () 
     ],
   );
   assert.equal(rewards[2].badgeCount, 1);
-  assert.equal(rewards[3].progressLabel, '18% to unlock');
+  assert.equal(rewards[3].progressLabel, '18% to next milestone');
 });
 
 test('buildMasteryRewards counts all badges for dashboard-wide rewards', () => {
   const rewards = buildMasteryRewards({
-    badges: [badge, { ...badge, chapterSlug: 'chemical-reactions-and-equations', code: 'score_improvement' }],
+    badges: [badge, { ...badge, chapterSlug: 'chemical-reactions-and-equations', code: 'first_lesson_completed' }],
     masteryScore: 38,
   });
 
   assert.equal(rewards[0].badgeCount, 2);
   assert.equal(rewards[1].isNext, true);
-  assert.equal(rewards[1].progressLabel, '2% to unlock');
+  assert.equal(rewards[1].progressLabel, '2% to next milestone');
 });

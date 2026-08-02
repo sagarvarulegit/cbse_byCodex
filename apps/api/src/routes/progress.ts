@@ -1,8 +1,15 @@
 import { Prisma } from '@prisma/client';
 import { Router } from 'express';
 
-import { awardQuizBadges, refreshDailyPracticeStreak } from '../lib/gamification.js';
 import {
+  awardEngagementBadges,
+  awardPracticeBadges,
+  awardQuizBadges,
+  PERSONAL_BADGE_CODES,
+  refreshDailyPracticeStreak,
+} from '../lib/gamification.js';
+import {
+  buildRevisionMissionActions,
   completeSatisfiedRevisionMissions,
   createOrRefreshRevisionMission,
   refreshChapterMastery,
@@ -70,6 +77,10 @@ function normalizeWeakTopicSlugs(value: unknown) {
 
 function normalizeRecommendedSteps(value: Prisma.JsonValue) {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+function shouldCountForStudyStreak(eventType: string) {
+  return eventType === 'lesson_complete';
 }
 
 function isRetryableQuizTransactionError(error: unknown) {
@@ -189,24 +200,70 @@ progressRouter.post('/engagement', async (req, res) => {
 
     const engagement = payload.data;
     const chapterId = await findPublishedChapterId(engagement.chapterSlug);
+    const occurredAt = new Date();
 
-    await prisma.progressEvent.create({
-      data: {
-        chapterId,
-        eventType: engagement.eventType,
-        metadata: {
-          chapterSlug: engagement.chapterSlug,
-          lessonSlug: engagement.lessonSlug,
-          path: engagement.path,
-          source: 'free_student_pilot',
-          surface: engagement.surface,
-        } satisfies Prisma.InputJsonValue,
-        occurredAt: new Date(),
-        userId: user.id,
-      },
+    const gamification = shouldCountForStudyStreak(engagement.eventType)
+      ? await prisma.$transaction(async (tx) => {
+          await tx.progressEvent.create({
+            data: {
+              chapterId,
+              eventType: engagement.eventType,
+              metadata: {
+                chapterSlug: engagement.chapterSlug,
+                lessonSlug: engagement.lessonSlug,
+                path: engagement.path,
+                source: 'free_student_pilot',
+                surface: engagement.surface,
+              } satisfies Prisma.InputJsonValue,
+              occurredAt,
+              userId: user.id,
+            },
+          });
+          const studyStreak = await refreshDailyPracticeStreak({
+            db: tx,
+            occurredAt,
+            userId: user.id,
+          });
+          const awardedBadges = await awardEngagementBadges({
+            chapterId,
+            currentStreakDays: studyStreak.currentStreakDays,
+            db: tx,
+            eventType: engagement.eventType,
+            userId: user.id,
+          });
+
+          return {
+            awardedBadges,
+            streak: {
+              currentStreakDays: studyStreak.currentStreakDays,
+              longestStreakDays: studyStreak.longestStreakDays,
+            },
+          };
+        })
+      : null;
+
+    if (!gamification) {
+      await prisma.progressEvent.create({
+        data: {
+          chapterId,
+          eventType: engagement.eventType,
+          metadata: {
+            chapterSlug: engagement.chapterSlug,
+            lessonSlug: engagement.lessonSlug,
+            path: engagement.path,
+            source: 'free_student_pilot',
+            surface: engagement.surface,
+          } satisfies Prisma.InputJsonValue,
+          occurredAt,
+          userId: user.id,
+        },
+      });
+    }
+
+    return res.status(202).json({
+      gamification,
+      saved: true,
     });
-
-    return res.status(202).json({ saved: true });
   } catch (error) {
     console.error('Failed to save pilot engagement', error);
     return res.status(500).json({ message: 'Unable to save pilot activity right now.' });
@@ -336,10 +393,10 @@ progressRouter.post('/practice', async (req, res) => {
       return res.status(404).json({ message: 'Published chapter lesson was not found.' });
     }
 
-    let savedAttempt;
+    let savedResult;
     for (let attemptIndex = 0; attemptIndex < MAX_PRACTICE_TRANSACTION_ATTEMPTS; attemptIndex += 1) {
       try {
-        savedAttempt = await prisma.$transaction(
+        savedResult = await prisma.$transaction(
           async (tx) => {
             const existingAttempt = await tx.writtenPracticeAttempt.findUnique({
               where: {
@@ -350,7 +407,11 @@ progressRouter.post('/practice', async (req, res) => {
               },
             });
             if (existingAttempt) {
-              return existingAttempt;
+              return {
+                attempt: existingAttempt,
+                awardedBadges: [],
+                studyStreak: null,
+              };
             }
 
             const latestAttempt = await tx.writtenPracticeAttempt.findFirst({
@@ -394,6 +455,7 @@ progressRouter.post('/practice', async (req, res) => {
                   earnedRubricPointIds: attempt.earnedRubricPointIds,
                   lessonSlug: attempt.lessonSlug,
                   maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+                  practiceKind: practice.practiceKind,
                   practiceItemId: attempt.practiceItemId,
                   retentionEligible: attempt.retentionEligible,
                   scoreHalfMarks: attempt.scoreHalfMarks,
@@ -404,7 +466,24 @@ progressRouter.post('/practice', async (req, res) => {
               },
             });
 
-            return attempt;
+            const studyStreak = await refreshDailyPracticeStreak({
+              db: tx,
+              occurredAt: attempt.createdAt,
+              userId: user.id,
+            });
+            const awardedBadges = await awardPracticeBadges({
+              chapterId: chapter.id,
+              currentStreakDays: studyStreak.currentStreakDays,
+              db: tx,
+              practiceKind: practice.practiceKind,
+              userId: user.id,
+            });
+
+            return {
+              attempt,
+              awardedBadges,
+              studyStreak,
+            };
           },
           {
             isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
@@ -423,9 +502,10 @@ progressRouter.post('/practice', async (req, res) => {
       }
     }
 
-    if (!savedAttempt) {
+    if (!savedResult) {
       throw new Error('Written-practice transaction did not complete.');
     }
+    const savedAttempt = savedResult.attempt;
     if (!matchesWrittenPracticeAttempt(savedAttempt, practice, chapter.id)) {
       return res.status(409).json({
         message:
@@ -459,6 +539,15 @@ progressRouter.post('/practice', async (req, res) => {
         scoreHalfMarks: savedAttempt.scoreHalfMarks,
         weakSkillSlugs: savedAttempt.weakSkillSlugs,
       },
+      gamification: savedResult.studyStreak
+        ? {
+            awardedBadges: savedResult.awardedBadges,
+            streak: {
+              currentStreakDays: savedResult.studyStreak.currentStreakDays,
+              longestStreakDays: savedResult.studyStreak.longestStreakDays,
+            },
+          }
+        : null,
       retention: buildPracticeRetention(retentionAttempts),
     });
   } catch (error) {
@@ -583,6 +672,10 @@ progressRouter.post('/quiz', async (req, res) => {
 
     const chapterTopicSlugs = new Set(chapter.topics.map((chapterTopic) => chapterTopic.slug));
     const topic = topicSlug ? chapter.topics.find((chapterTopic) => chapterTopic.slug === topicSlug) : null;
+    const missionTopic =
+      weakTopicSlugs.length > 0
+        ? chapter.topics.find((chapterTopic) => chapterTopic.slug === weakTopicSlugs[0]) ?? topic
+        : topic;
     if (topicSlug && !topic) {
       return res.status(400).json({ message: 'topicSlug must belong to the selected chapter.' });
     }
@@ -644,8 +737,9 @@ progressRouter.post('/quiz', async (req, res) => {
               chapterId: chapter.id,
               db: tx,
               scorePercent: derivedScorePercent,
-              topicId: topic?.id ?? null,
+              topicId: missionTopic?.id ?? null,
               userId: user.id,
+              weakTopicLabel: missionTopic?.title ?? null,
               weakTopicSlugs,
             });
             const mastery = await refreshChapterMastery({
@@ -661,10 +755,10 @@ progressRouter.post('/quiz', async (req, res) => {
             const awardedBadges = await awardQuizBadges({
               attemptNumber: attempt.attemptNumber,
               chapterId: chapter.id,
+              currentStreakDays: studyStreak.currentStreakDays,
               db: tx,
               scorePercent: derivedScorePercent,
               userId: user.id,
-              weakTopicSlugs,
             });
 
             return { attempt, awardedBadges, mastery, revisionMission, studyStreak };
@@ -713,6 +807,11 @@ progressRouter.post('/quiz', async (req, res) => {
         ? {
             id: result.revisionMission.mission.id,
             reason: result.revisionMission.mission.reason,
+            recommendedActions: buildRevisionMissionActions({
+              chapterSlug,
+              primaryWeakTopicLabel: missionTopic?.title ?? null,
+              weakTopicSlugs,
+            }),
             recommendedSteps: normalizeRecommendedSteps(result.revisionMission.mission.recommendedSteps),
             state: result.revisionMission.state,
             status: result.revisionMission.mission.status,
@@ -830,6 +929,7 @@ progressRouter.get('/mastery', async (req, res) => {
               subject: true,
             },
           },
+          topic: true,
         },
         orderBy: {
           updatedAt: 'desc',
@@ -842,6 +942,11 @@ progressRouter.get('/mastery', async (req, res) => {
       }),
       prisma.userBadge.findMany({
         where: {
+          badge: {
+            code: {
+              in: PERSONAL_BADGE_CODES,
+            },
+          },
           userId: user.id,
         },
         include: {
@@ -884,6 +989,11 @@ progressRouter.get('/mastery', async (req, res) => {
         chapterTitle: mission.chapter.title,
         id: mission.id,
         reason: mission.reason,
+        recommendedActions: buildRevisionMissionActions({
+          chapterSlug: mission.chapter.slug,
+          primaryWeakTopicLabel: mission.topic?.title ?? null,
+          weakTopicSlugs: mission.topic?.slug ? [mission.topic.slug] : [],
+        }),
         recommendedSteps: normalizeRecommendedSteps(mission.recommendedSteps),
         status: mission.status,
         subjectName: mission.chapter.subject.name,

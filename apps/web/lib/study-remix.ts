@@ -155,11 +155,15 @@ function buildMissionCue(mission: RevisionMissionSummary, fallback: StudyRemixBl
     };
   }
 
-  const recommendedStep = mission.recommendedSteps[0] ?? 'Retry the quiz after revision.';
+  const recommendedAction = mission.recommendedActions?.[0];
+  const recommendedStep =
+    recommendedAction?.step ??
+    mission.recommendedSteps[0] ??
+    'Review the chapter notes, then retry the quiz.';
 
   return {
     copy: `${mission.reason} ${recommendedStep} Target: ${mission.targetScore}%.`,
-    href: `/chapters/${mission.chapterSlug}/quiz`,
+    href: recommendedAction?.href ?? `/chapters/${mission.chapterSlug}/notes`,
     source: 'revision_mission' as const,
     title: 'Rewind cue · active revision mission',
   };

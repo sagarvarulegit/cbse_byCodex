@@ -17,31 +17,31 @@ export type MasteryReward = RewardDefinition & {
 
 const REWARD_DEFINITIONS: RewardDefinition[] = [
   {
-    actionLabel: 'Open chapter map',
-    description: 'Start with a clean lesson path and keep every attempt saved for review.',
+    actionLabel: 'Open chapter notes',
+    description: 'Use the chapter notes path and save real attempts when you practise.',
     level: 'learner',
-    rewardName: 'Lesson map',
+    rewardName: 'Lesson path',
     threshold: 0,
   },
   {
-    actionLabel: 'Recover weak topics',
-    description: 'Unlock revision missions that point back to the topics costing marks.',
+    actionLabel: 'Review weak-topic notes',
+    description: 'Use active revision missions to revisit the lesson area costing marks.',
     level: 'skilled',
-    rewardName: 'Weak-topic drill',
+    rewardName: 'Weak-topic recovery',
     threshold: 40,
   },
   {
-    actionLabel: 'Review exam notes',
-    description: 'Unlock a tighter board-style review loop once the chapter is exam ready.',
+    actionLabel: 'Retry after revision',
+    description: 'Use saved quiz attempts to confirm the chapter is holding at exam level.',
     level: 'exam_ready',
-    rewardName: 'Exam review kit',
+    rewardName: 'Exam-ready check',
     threshold: 70,
   },
   {
     actionLabel: 'Push for 90%+',
-    description: 'Unlock the topper-track challenge for polishing accuracy and speed.',
+    description: 'Treat 90% as a personal accuracy milestone, not a separate locked feature.',
     level: 'topper_track',
-    rewardName: 'Topper challenge',
+    rewardName: 'Topper-track milestone',
     threshold: 90,
   },
 ];
@@ -71,7 +71,7 @@ export function buildMasteryRewards(params: {
       ...reward,
       badgeCount,
       isNext: nextLockedReward?.level === reward.level,
-      progressLabel: unlocked ? `${formatMasteryLevel(reward.level)} unlocked` : `${remaining}% to unlock`,
+      progressLabel: unlocked ? `${formatMasteryLevel(reward.level)} reached` : `${remaining}% to next milestone`,
       state: unlocked ? 'unlocked' : 'locked',
     };
   });

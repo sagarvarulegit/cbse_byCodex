@@ -7,19 +7,59 @@ const REVISION_THRESHOLD_PERCENT = 60;
 
 type PrismaExecutor = PrismaClient | Prisma.TransactionClient;
 
+export type RevisionMissionAction = {
+  href: string;
+  label: string;
+  step: string;
+};
+
 export function shouldCreateRevisionMission(scorePercent: number) {
   return scorePercent < REVISION_THRESHOLD_PERCENT;
 }
 
-export function buildRevisionMissionSteps(weakTopicSlugs: string[]) {
-  const firstStep = weakTopicSlugs[0]
-    ? `Rewatch the lesson section for ${weakTopicSlugs[0]}.`
-    : 'Rewatch the most recent lesson video for this chapter.';
+function formatWeakTopicLabel(slug: string) {
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
+    .join(' ');
+}
+
+export function buildRevisionMissionSteps(weakTopicSlugs: string[], primaryWeakTopicLabel?: string | null) {
+  const weakTopicLabel = primaryWeakTopicLabel ?? (weakTopicSlugs[0] ? formatWeakTopicLabel(weakTopicSlugs[0]) : null);
+  const firstStep = weakTopicLabel
+    ? `Open the notes for ${weakTopicLabel}.`
+    : 'Open the chapter notes and review the common mistakes section.';
 
   return [
     firstStep,
-    'Revise quick notes, formulas, and common mistakes for the weak area.',
-    'Retry a focused 5-question practice set and aim for at least 60%.',
+    'Use quick practice or written practice before revealing the answer check.',
+    'Retry the chapter quiz and aim for at least 60%.',
+  ];
+}
+
+export function buildRevisionMissionActions(params: {
+  chapterSlug: string;
+  primaryWeakTopicLabel?: string | null;
+  weakTopicSlugs: string[];
+}): RevisionMissionAction[] {
+  const steps = buildRevisionMissionSteps(params.weakTopicSlugs, params.primaryWeakTopicLabel);
+  const weakTopicSlug = params.weakTopicSlugs[0] ?? null;
+  const notesHref = weakTopicSlug
+    ? `/chapters/${params.chapterSlug}/notes#lesson-${weakTopicSlug}`
+    : `/chapters/${params.chapterSlug}/notes`;
+
+  return [
+    {
+      href: notesHref,
+      label: weakTopicSlug ? 'Review weak-topic notes' : 'Review chapter notes',
+      step: steps[0],
+    },
+    {
+      href: `/chapters/${params.chapterSlug}/quiz`,
+      label: 'Retry chapter quiz',
+      step: steps[2],
+    },
   ];
 }
 
@@ -215,6 +255,7 @@ export async function createOrRefreshRevisionMission(params: {
   scorePercent: number;
   topicId?: string | null;
   userId: string;
+  weakTopicLabel?: string | null;
   weakTopicSlugs: string[];
 }) {
   const db = params.db ?? prisma;
@@ -246,7 +287,7 @@ export async function createOrRefreshRevisionMission(params: {
 
   const data = {
     reason: `Quiz score ${params.scorePercent}% is below the 60% revision threshold.`,
-    recommendedSteps: buildRevisionMissionSteps(params.weakTopicSlugs),
+    recommendedSteps: buildRevisionMissionSteps(params.weakTopicSlugs, params.weakTopicLabel),
     targetScore: REVISION_THRESHOLD_PERCENT,
     topicId: params.topicId ?? null,
   };

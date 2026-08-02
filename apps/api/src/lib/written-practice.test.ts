@@ -26,6 +26,7 @@ test('normalizes a structured attempt without accepting answer text', () => {
 
   assert.ok(result.data);
   assert.equal('answer' in result.data, false);
+  assert.equal(result.data.practiceKind, 'written_practice');
   assert.equal(result.data.retentionEligible, true);
   assert.deepEqual(result.data.weakSkillSlugs, ['observation']);
 });
@@ -33,10 +34,12 @@ test('normalizes a structured attempt without accepting answer text', () => {
 test('keeps an explicit exam-integrity exclusion', () => {
   const result = normalizeWrittenPracticeAttempt({
     ...validAttempt,
+    practiceKind: 'timed_diagnostic',
     retentionEligible: false,
   });
 
   assert.ok(result.data);
+  assert.equal(result.data.practiceKind, 'timed_diagnostic');
   assert.equal(result.data.retentionEligible, false);
 });
 

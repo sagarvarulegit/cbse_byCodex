@@ -4,6 +4,7 @@ import test from 'node:test';
 import { Prisma } from '@prisma/client';
 
 import {
+  buildRevisionMissionActions,
   buildRevisionMissionSteps,
   completeSatisfiedRevisionMissions,
   createOrRefreshRevisionMission,
@@ -22,12 +23,12 @@ test('shouldCreateRevisionMission is true below 60 percent', () => {
 });
 
 test('buildRevisionMissionSteps creates useful exam-focused actions', () => {
-  const steps = buildRevisionMissionSteps(['euclid-division-lemma']);
+  const steps = buildRevisionMissionSteps(['euclid-division-lemma'], "Euclid's Division Lemma");
 
   assert.deepEqual(steps, [
-    'Rewatch the lesson section for euclid-division-lemma.',
-    'Revise quick notes, formulas, and common mistakes for the weak area.',
-    'Retry a focused 5-question practice set and aim for at least 60%.',
+    "Open the notes for Euclid's Division Lemma.",
+    'Use quick practice or written practice before revealing the answer check.',
+    'Retry the chapter quiz and aim for at least 60%.',
   ]);
 });
 
@@ -35,9 +36,30 @@ test('buildRevisionMissionSteps falls back to chapter revision when weak topics 
   const steps = buildRevisionMissionSteps([]);
 
   assert.deepEqual(steps, [
-    'Rewatch the most recent lesson video for this chapter.',
-    'Revise quick notes, formulas, and common mistakes for the weak area.',
-    'Retry a focused 5-question practice set and aim for at least 60%.',
+    'Open the chapter notes and review the common mistakes section.',
+    'Use quick practice or written practice before revealing the answer check.',
+    'Retry the chapter quiz and aim for at least 60%.',
+  ]);
+});
+
+test('buildRevisionMissionActions points to real chapter notes and quiz routes', () => {
+  const actions = buildRevisionMissionActions({
+    chapterSlug: 'real-numbers',
+    primaryWeakTopicLabel: "Euclid's Division Lemma",
+    weakTopicSlugs: ['euclid-division-lemma'],
+  });
+
+  assert.deepEqual(actions, [
+    {
+      href: '/chapters/real-numbers/notes#lesson-euclid-division-lemma',
+      label: 'Review weak-topic notes',
+      step: "Open the notes for Euclid's Division Lemma.",
+    },
+    {
+      href: '/chapters/real-numbers/quiz',
+      label: 'Retry chapter quiz',
+      step: 'Retry the chapter quiz and aim for at least 60%.',
+    },
   ]);
 });
 
