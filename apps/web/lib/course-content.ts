@@ -78,7 +78,7 @@ const chapters: Record<string, ChapterContent> = {
         title: '1.3 Revisiting Irrational Numbers',
         type: 'Proof and reasoning lesson',
         minutes: 32,
-        free: false,
+        free: true,
         preview: 'Write complete contradiction proofs for square roots and rational-irrational combinations.',
       },
       {
@@ -87,7 +87,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'NCERT Exercises and Chapter Revision',
         type: 'Textbook practice',
         minutes: 55,
-        free: false,
+        free: true,
         preview: 'Attempt both NCERT exercises before checking the factorisation, HCF-LCM and proof answers.',
       },
       {
@@ -96,7 +96,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Support - Euclid Division Lemma',
         type: 'Unnumbered support concept',
         minutes: 8,
-        free: false,
+        free: true,
         preview: 'Review the Class IX division algorithm without treating it as current Chapter 1 board scope.',
       },
       {
@@ -105,7 +105,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Support - Decimal Expansion of Rational Numbers',
         type: 'Unnumbered support concept',
         minutes: 7,
-        free: false,
+        free: true,
         preview: 'Review the denominator test without treating decimal expansion as current Chapter 1 board scope.',
       },
     ],
@@ -309,7 +309,7 @@ const chapters: Record<string, ChapterContent> = {
         title: '1.1.2 Balanced Chemical Equations',
         type: 'Guided balancing practice',
         minutes: 40,
-        free: false,
+        free: true,
         preview:
           'Use conservation of mass, coefficients, and a repeatable atom-counting method to balance equations safely.',
       },
@@ -319,7 +319,7 @@ const chapters: Record<string, ChapterContent> = {
         title: '1.2 Types of Chemical Reactions - 1.2.1 Combination and 1.2.2 Decomposition',
         type: 'Visual explainer',
         minutes: 30,
-        free: false,
+        free: true,
         preview:
           'Learn how combination and decomposition reactions work, plus the difference between thermal, electrolytic, and photolytic breakdown.',
       },
@@ -329,7 +329,7 @@ const chapters: Record<string, ChapterContent> = {
         title: '1.2.3 Displacement and 1.2.4 Double Displacement Reactions',
         type: 'Activity breakdown',
         minutes: 18,
-        free: false,
+        free: true,
         preview:
           'Use relative reactivity and ion exchange to spot displacement, double displacement, and precipitate-forming reactions.',
       },
@@ -339,7 +339,7 @@ const chapters: Record<string, ChapterContent> = {
         title: '1.2.5 Oxidation and Reduction; 1.3 Effects of Oxidation in Everyday Life',
         type: 'Revision sprint',
         minutes: 18,
-        free: false,
+        free: true,
         preview:
           'Revise oxidation, reduction, redox, corrosion, and rancidity with prevention methods and quick examples.',
       },
@@ -349,7 +349,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'NCERT Chapter Exercises and Revision',
         type: 'Exam practice',
         minutes: 55,
-        free: false,
+        free: true,
         preview: 'Attempt all twenty NCERT exercises, reveal concise answers, and finish with a repeatable revision ladder.',
       },
       {
@@ -358,7 +358,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Board Exam Practice - Verified Previous-Year Questions',
         type: 'Board exam supplement',
         minutes: 90,
-        free: false,
+        free: true,
         preview:
           'Practise visually verified board questions from 2023-2026, learn how marking points are earned, and close the oxidising-agent and reducing-agent gap.',
       },
@@ -368,7 +368,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Board Readiness Diagnostic - 30 Marks',
         type: 'Timed assessment',
         minutes: 38,
-        free: false,
+        free: true,
         preview:
           'Attempt a 30-mark mixed-format paper without notes, then use the hidden marking guide to identify the exact skill that needs revision.',
       },
@@ -378,7 +378,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Board Readiness Diagnostic B - Transfer Check - 20 Marks',
         type: 'Transfer assessment',
         minutes: 27,
-        free: false,
+        free: true,
         preview:
           'Use a second unseen paper to test electrolysis ratios, unfamiliar redox agents, observations, and complete equations without memorising Diagnostic A.',
       },
@@ -1126,7 +1126,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'His First Flight: courage and family pressure',
         type: 'Theme and character note',
         minutes: 9,
-        free: false,
+        free: true,
         preview:
           'See how family pressure, the mother seagull, and one risky dive turn fear into confidence.',
       },
@@ -1136,7 +1136,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'The Black Aeroplane: storm and mystery',
         type: 'Suspense reading note',
         minutes: 9,
-        free: false,
+        free: true,
         preview:
           'Follow the pilot into storm clouds, failed instruments, and the suspense that makes the rescue feel urgent.',
       },
@@ -1146,7 +1146,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'The Black Aeroplane: unknown helper',
         type: 'Inference and theme note',
         minutes: 9,
-        free: false,
+        free: true,
         preview:
           'Understand the mystery of the black aeroplane, the control room reveal, and how to answer without inventing certainty.',
       },
@@ -1156,7 +1156,7 @@ const chapters: Record<string, ChapterContent> = {
         title: 'Poems: Wild Animals and The Ball Poem',
         type: 'Poem revision note',
         minutes: 10,
-        free: false,
+        free: true,
         preview:
           'Revise humour and exaggeration in How to Tell Wild Animals, plus loss, symbol, and growing up in The Ball Poem.',
       },
