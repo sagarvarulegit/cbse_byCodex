@@ -29,10 +29,11 @@ export default function LessonVideoPlayer({
       return;
     }
 
+    const mediaElement: HTMLVideoElement = video;
     setPlayerError(null);
 
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = playbackUrl;
+    if (mediaElement.canPlayType('application/vnd.apple.mpegurl')) {
+      mediaElement.src = playbackUrl;
       return;
     }
 
@@ -59,7 +60,7 @@ export default function LessonVideoPlayer({
         hls = player;
 
         player.loadSource(playbackUrl);
-        player.attachMedia(video);
+        player.attachMedia(mediaElement);
         player.on(Hls.Events.ERROR, (_event, data) => {
           if (data.fatal) {
             setPlayerError('The lesson video could not be loaded. Please refresh and try again.');

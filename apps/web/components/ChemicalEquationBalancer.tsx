@@ -227,6 +227,7 @@ export default function ChemicalEquationBalancer({
   }
 
   const activeEquation = equation;
+  const activeWorkbench = workbench;
 
   function updateCoefficient(index: number, value: string) {
     setCoefficients((current) =>
@@ -281,7 +282,7 @@ export default function ChemicalEquationBalancer({
   function moveToNextEquation() {
     const nextIndex = equationIndex + 1;
     setEquationIndex(nextIndex);
-    const nextEquation = workbench.equations[nextIndex];
+    const nextEquation = activeWorkbench.equations[nextIndex];
     setCoefficients(
       emptyCoefficients(nextEquation.reactants.length + nextEquation.products.length),
     );
@@ -294,7 +295,7 @@ export default function ChemicalEquationBalancer({
     const independentIds = completedEquations
       .filter((completed) => completed.independent)
       .map((completed) => completed.id);
-    const maxScoreHalfMarks = workbench.equations.length * 2;
+    const maxScoreHalfMarks = activeWorkbench.equations.length * 2;
     const scoreHalfMarks = independentIds.length * 2;
     const clientAttemptId = createClientAttemptId();
     const localAttempt: LocalWorkbenchAttempt = {
@@ -308,7 +309,7 @@ export default function ChemicalEquationBalancer({
     };
     const nextLocalAttempts = [...localAttempts, localAttempt].slice(-20);
     window.localStorage.setItem(
-      localStorageKey(workbench.practiceItemId),
+      localStorageKey(activeWorkbench.practiceItemId),
       JSON.stringify(nextLocalAttempts),
     );
     setLocalAttempts(nextLocalAttempts);
@@ -319,13 +320,13 @@ export default function ChemicalEquationBalancer({
       const response = await fetch('/api/progress/practice', {
         body: JSON.stringify({
           answerLength: 0,
-          chapterSlug: workbench.chapterSlug,
+          chapterSlug: activeWorkbench.chapterSlug,
           clientAttemptId,
           earnedRubricPointIds: independentIds,
-          lessonSlug: workbench.lessonSlug,
+          lessonSlug: activeWorkbench.lessonSlug,
           maxScoreHalfMarks,
           practiceKind: 'workbench',
-          practiceItemId: workbench.practiceItemId,
+          practiceItemId: activeWorkbench.practiceItemId,
           scoreHalfMarks,
           weakSkillSlugs:
             scoreHalfMarks === maxScoreHalfMarks ? [] : ['balancing'],
@@ -346,7 +347,7 @@ export default function ChemicalEquationBalancer({
             : attempt,
         );
         window.localStorage.setItem(
-          localStorageKey(workbench.practiceItemId),
+          localStorageKey(activeWorkbench.practiceItemId),
           JSON.stringify(syncedAttempts),
         );
         setLocalAttempts(syncedAttempts);
@@ -366,8 +367,8 @@ export default function ChemicalEquationBalancer({
     setEquationIndex(0);
     setCoefficients(
       emptyCoefficients(
-        workbench.equations[0].reactants.length +
-          workbench.equations[0].products.length,
+        activeWorkbench.equations[0].reactants.length +
+          activeWorkbench.equations[0].products.length,
       ),
     );
     setCompletedEquations([]);

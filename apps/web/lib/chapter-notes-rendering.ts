@@ -139,6 +139,8 @@ export function getSectionTextLines(blocks: MarkdownBlock[]) {
         case 'h1':
         case 'h2':
           return [];
+        default:
+          return [];
       }
     })
     .map((line) => line.trim())

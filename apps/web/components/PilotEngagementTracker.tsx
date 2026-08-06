@@ -84,8 +84,8 @@ export default function PilotEngagementTracker({
       return () => window.cancelIdleCallback(idleCallback);
     }
 
-    const timeout = window.setTimeout(postWhenIdle, 1200);
-    return () => window.clearTimeout(timeout);
+    const timeout = globalThis.setTimeout(postWhenIdle, 1200);
+    return () => globalThis.clearTimeout(timeout);
   }, [auto, chapterSlug, eventType, lessonSlug, path, surface]);
 
   return null;
