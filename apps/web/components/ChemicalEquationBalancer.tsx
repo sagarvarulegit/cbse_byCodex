@@ -226,6 +226,8 @@ export default function ChemicalEquationBalancer({
     return null;
   }
 
+  const activeEquation = equation;
+
   function updateCoefficient(index: number, value: string) {
     setCoefficients((current) =>
       current.map((coefficient, coefficientIndex) =>
@@ -240,8 +242,8 @@ export default function ChemicalEquationBalancer({
       setMessage('Every coefficient must be a positive whole number.');
       return;
     }
-    if (!isBalanced(equation, values)) {
-      const mismatched = equation.elementOrder.filter(
+    if (!isBalanced(activeEquation, values)) {
+      const mismatched = activeEquation.elementOrder.filter(
         (element) => reactantCounts[element] !== productCounts[element],
       );
       setMessage(`Not balanced yet. Recheck ${mismatched.join(', ')}.`);
@@ -253,11 +255,11 @@ export default function ChemicalEquationBalancer({
     }
 
     const independent =
-      hintLevel === 0 && !hintedEquationIds.includes(equation.id);
+      hintLevel === 0 && !hintedEquationIds.includes(activeEquation.id);
     setCurrentPassed(true);
     setCompletedEquations((current) => [
-      ...current.filter((completed) => completed.id !== equation.id),
-      { id: equation.id, independent },
+      ...current.filter((completed) => completed.id !== activeEquation.id),
+      { id: activeEquation.id, independent },
     ]);
     setMessage(
       independent
