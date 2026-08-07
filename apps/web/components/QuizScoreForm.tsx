@@ -188,6 +188,10 @@ export default function QuizScoreForm({
     () => getWeakTopicLabels(weakTopicSlugs, weakTopicOptions),
     [weakTopicSlugs, weakTopicOptions],
   );
+  const weakTopicLabelBySlug = useMemo(
+    () => new Map(weakTopicOptions.map((topic) => [topic.slug, topic.label])),
+    [weakTopicOptions],
+  );
   const visibleAttempts = attemptHistory.attempts.slice(0, 5);
   const recoveryAction =
     recoveryResult?.mission && 'recommendedActions' in recoveryResult.mission
@@ -228,6 +232,21 @@ export default function QuizScoreForm({
         body: JSON.stringify({
           chapterSlug,
           correctAnswers,
+          questionResults: questions.map((question) => {
+            const selectedOptionIndex = selectedAnswers[question.id];
+            const topicSlug = question.topicSlug ?? null;
+            return {
+              correctAnswer: question.options[question.correctOptionIndex]?.label ?? 'Correct option',
+              explanation: question.explanation ?? null,
+              isCorrect: selectedOptionIndex === question.correctOptionIndex,
+              prompt: question.prompt,
+              questionId: question.id,
+              selectedAnswer: question.options[selectedOptionIndex]?.label ?? 'No answer',
+              title: question.title,
+              topicLabel: topicSlug ? weakTopicLabelBySlug.get(topicSlug) ?? null : null,
+              topicSlug,
+            };
+          }),
           scorePercent,
           totalQuestions,
           weakTopicSlugs,
@@ -306,7 +325,11 @@ export default function QuizScoreForm({
           ].filter((chip): chip is string => Boolean(chip));
 
           return (
-            <fieldset className="quiz-question-card" key={question.id}>
+            <fieldset
+              className="quiz-question-card"
+              id={`quiz-question-${question.id}`}
+              key={question.id}
+            >
               <legend>
                 <span>Question {questionIndex + 1}</span>
                 {hasSubmitted && isAnswered ? (

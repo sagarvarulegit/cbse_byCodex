@@ -1,7 +1,18 @@
-# Current Handoff - 2026-08-02
+# Current Handoff - 2026-08-06
+
+- [x] Made the three FREE PILOT chapters (`real-numbers`, `chemical-reactions-and-equations`, `two-stories-about-flying`) accessible to signed-out guests: flipped all 16 pilot-lesson `free: false` flags to `free: true` in `apps/web/lib/course-content.ts` so landing-page pilot cards open chapters directly instead of redirecting to `/login`. Non-pilot premium gating untouched.
+- [x] Pushed to `main`: `03f99f8` (pilot fix), `e3bfd09` + `5d97f5f` (pre-existing type errors in `ChemicalEquationBalancer.tsx`, `LessonVideoPlayer.tsx`, `PilotEngagementTracker.tsx`, `chapter-notes-rendering.ts` that were blocking the production build).
+- [x] Deployed web production alias `https://cbse-bycodex-web.vercel.app` (Ready, ~54s). Live smoke passed as guest: pilot notes/lesson/quiz pages render with no login redirect; `/chapters/polynomials/notes` still gates to login.
+- [ ] Next task: configure production `PRIVACY_CONTACT_EMAIL`, then run credentialed student registration/write-path and admin pilot-review smoke before widening invites.
 
 - [x] Commit and push the free-pilot gamification truthfulness, revision mission, and pilot quiz hardening package requested by the user.
-- [ ] Next task: run the focused gamification, mission-action, and pilot quiz metadata checks, then apply the `WrittenPracticeAttempt` production migration and run the pilot smoke checklist before inviting the first 2-5 students.
+- [x] Focused gamification, mission-action, and pilot quiz metadata checks passed on 2026-08-02.
+- [x] Applied production migration `20260726123000_add_written_practice_attempts` with `npm.cmd run prisma:migrate:deploy -w apps/api`; Prisma reported all 9 migrations applied.
+- [x] Read-only production smoke passed: API health, pilot catalog, web/admin aliases, unauthenticated session protection, and unauthenticated pilot-review protection.
+- [x] Implement minimal guardian self-attestation, a versioned pilot privacy notice, and broad subject/chapter coverage with honest lesson-wise, revision-pack, and coming-soon labels.
+- [x] Applied production migration `20260804090000_add_guardian_consent` and deployed API, web, and admin production aliases on 2026-08-04.
+- [x] Post-deploy read-only smoke passed for API health/catalog/protection, web `/`, `/privacy`, `/register`, and admin `/login`.
+- [ ] Next task: configure production `PRIVACY_CONTACT_EMAIL`, then run credentialed student registration/write-path and admin pilot-review smoke before widening invites.
 
 # Science Chapter 1 Quality Remediation Implementation Plan
 

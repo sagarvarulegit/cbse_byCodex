@@ -3,7 +3,13 @@
 import { useState } from 'react';
 
 type PilotFeedbackSurface = 'lesson' | 'quiz' | 'dashboard';
-type PilotFeedbackCategory = 'feedback' | 'bug';
+type PilotFeedbackCategory = 'stuck' | 'feedback' | 'bug';
+type PilotStuckReason =
+  | 'explanation_unclear'
+  | 'question_unclear'
+  | 'activity_unusable'
+  | 'answer_incorrect'
+  | 'need_example';
 
 type PilotFeedbackFormProps = {
   chapterSlug?: string;
@@ -15,10 +21,20 @@ type PilotFeedbackFormProps = {
 const categoryLabels: Record<PilotFeedbackCategory, string> = {
   bug: 'Bug',
   feedback: 'Feedback',
+  stuck: 'I’m stuck',
+};
+
+const stuckReasonLabels: Record<PilotStuckReason, string> = {
+  activity_unusable: 'I cannot use this activity',
+  answer_incorrect: 'The answer looks incorrect',
+  explanation_unclear: 'I don’t understand the explanation',
+  need_example: 'I need another example',
+  question_unclear: 'I don’t understand the question',
 };
 
 export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surface }: PilotFeedbackFormProps) {
-  const [category, setCategory] = useState<PilotFeedbackCategory>('feedback');
+  const [category, setCategory] = useState<PilotFeedbackCategory>('stuck');
+  const [stuckReason, setStuckReason] = useState<PilotStuckReason>('explanation_unclear');
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState('4');
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -41,7 +57,8 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
           lessonSlug,
           message,
           path: path ?? window.location.pathname,
-          rating: Number(rating),
+          rating: category === 'stuck' ? 1 : Number(rating),
+          stuckReason: category === 'stuck' ? stuckReason : null,
           surface,
         }),
       });
@@ -55,7 +72,11 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
 
       setMessage('');
       setStatus('saved');
-      setStatusMessage('Feedback sent.');
+      setStatusMessage(
+        category === 'stuck'
+          ? 'We got it. A pilot reviewer can help manually.'
+          : 'Feedback sent.',
+      );
     } catch {
       setStatus('error');
       setStatusMessage('Unable to send feedback right now.');
@@ -65,8 +86,9 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
   return (
     <form className="pilot-feedback-form" onSubmit={submitFeedback}>
       <div>
-        <p className="eyebrow">Pilot feedback</p>
-        <h3>Tell us what to fix next</h3>
+        <p className="eyebrow">Learning help</p>
+        <h3>I’m stuck</h3>
+        <p>Choose the closest problem. During the pilot, a person reviews these messages.</p>
       </div>
 
       <div className="feedback-category-row" role="group" aria-label="Feedback type">
@@ -82,10 +104,27 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
         ))}
       </div>
 
+      {category === 'stuck' ? (
+        <div className="feedback-stuck-grid" role="radiogroup" aria-label="What are you stuck on?">
+          {(Object.keys(stuckReasonLabels) as PilotStuckReason[]).map((reason) => (
+            <button
+              aria-checked={stuckReason === reason}
+              className={stuckReason === reason ? 'selected' : ''}
+              key={reason}
+              onClick={() => setStuckReason(reason)}
+              role="radio"
+              type="button"
+            >
+              {stuckReasonLabels[reason]}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       <label className="feedback-field">
-        <span>Message</span>
+        <span>{category === 'stuck' ? 'Add a short note (optional)' : 'Message'}</span>
         <textarea
-          minLength={8}
+          minLength={category === 'stuck' ? undefined : 8}
           onChange={(event) => {
             setMessage(event.target.value);
             if (status !== 'idle') {
@@ -93,14 +132,18 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
               setStatusMessage(null);
             }
           }}
-          placeholder="Share the confusing step, bug, or missing detail."
-          required
+          placeholder={
+            category === 'stuck'
+              ? 'Tell us the question number or confusing step.'
+              : 'Share the confusing step, bug, or missing detail.'
+          }
+          required={category !== 'stuck'}
           rows={4}
           value={message}
         />
       </label>
 
-      <label className="feedback-field compact-field">
+      {category !== 'stuck' ? <label className="feedback-field compact-field">
         <span>Rating</span>
         <select onChange={(event) => setRating(event.target.value)} value={rating}>
           <option value="5">5 - Great</option>
@@ -109,10 +152,14 @@ export default function PilotFeedbackForm({ chapterSlug, lessonSlug, path, surfa
           <option value="2">2 - Confusing</option>
           <option value="1">1 - Blocked</option>
         </select>
-      </label>
+      </label> : null}
 
       <button className="button-link" disabled={status === 'saving'} type="submit">
-        {status === 'saving' ? 'Sending...' : 'Send feedback'}
+        {status === 'saving'
+          ? 'Sending...'
+          : category === 'stuck'
+            ? 'Send help request'
+            : 'Send feedback'}
       </button>
 
       {statusMessage ? (

@@ -170,3 +170,15 @@ videos/
 videos/*
 !videos/reaction-detectives-pilot/
 !videos/reaction-detectives-pilot/**
+!videos/balance-equation-short/
+!videos/balance-equation-short/**
+!videos/why-sky-is-blue-short/
+!videos/why-sky-is-blue-short/**
+!videos/threejs-scattering-proof/
+!videos/threejs-scattering-proof/**
+!videos/threejs-premium-quality-gate/
+!videos/threejs-premium-quality-gate/**
+
+.vercel
+# Local rendering tools copied from system installations
+.codex-tmp/

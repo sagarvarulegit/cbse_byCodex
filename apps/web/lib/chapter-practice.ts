@@ -18,6 +18,18 @@ export type WrittenPracticeDefinition = {
   id: string;
   lessonSlug: string;
   minimumCharacters: number;
+  practiceFlow?: {
+    guidedQuestion: {
+      hints: string[];
+      prompt: string;
+    };
+    independentQuestion: string;
+    modelAnswer: string;
+    workedExample: {
+      prompt: string;
+      solution: string;
+    };
+  };
   rubricPoints: PracticeRubricPoint[];
   title: string;
 };
@@ -868,6 +880,66 @@ const chapterThreeDefinitions: WrittenPracticeDefinition[] = [
 
 const practicePacks: ChapterPracticePack[] = [
   {
+    chapterSlug: 'real-numbers',
+    definitions: [
+      {
+        chapterSlug: 'real-numbers',
+        id: 'rn-exercise-1-1-hcf-lcm',
+        lessonSlug: 'ncert-exercises-and-revision',
+        minimumCharacters: 80,
+        practiceFlow: {
+          workedExample: {
+            prompt: 'Find the HCF of 96 and 404. Hence, find their LCM.',
+            solution:
+              '96 = 2^5 × 3 and 404 = 2^2 × 101. HCF = 2^2 = 4. LCM = (96 × 404) ÷ 4 = 9696.',
+          },
+          guidedQuestion: {
+            prompt:
+              'Find the LCM and HCF of 26 and 91 and verify that LCM × HCF equals the product of the two numbers.',
+            hints: [
+              'Write 26 and 91 as products of prime factors.',
+              'For HCF, take the shared smallest power. For LCM, take every largest power needed.',
+              'Multiply your HCF and LCM, then compare it with 26 × 91.',
+            ],
+          },
+          independentQuestion:
+            'Find the LCM and HCF of 510 and 92 and verify that LCM × HCF equals the product of the two numbers.',
+          modelAnswer:
+            '510 = 2 × 3 × 5 × 17 and 92 = 2^2 × 23. HCF = 2. LCM = 2^2 × 3 × 5 × 17 × 23 = 23460. LCM × HCF = 46920 = 510 × 92.',
+        },
+        rubricPoints: [
+          { halfMarks: 2, id: 'prime-factorisation', label: 'Both prime factorisations are correct', skillSlug: 'prime-factorisation' },
+          { halfMarks: 2, id: 'hcf-smallest-power', label: 'HCF uses the shared smallest power', skillSlug: 'hcf-lcm-powers' },
+          { halfMarks: 2, id: 'lcm-largest-powers', label: 'LCM uses every required largest power', skillSlug: 'hcf-lcm-powers' },
+          { halfMarks: 2, id: 'product-verification', label: 'LCM × HCF is verified against the product', skillSlug: 'product-verification' },
+        ],
+        title: 'Exercise 1.1 active practice ladder',
+      },
+    ],
+    remediations: [
+      {
+        href: '/chapters/real-numbers/lessons/fundamental-theorem-of-arithmetic#1-2-the-fundamental-theorem-of-arithmetic',
+        label: 'Review unique prime factorisation',
+        skillSlug: 'prime-factorisation',
+      },
+      {
+        href: '/chapters/real-numbers/lessons/fundamental-theorem-of-arithmetic#common-mistakes',
+        label: 'Review smallest HCF powers and largest LCM powers',
+        skillSlug: 'hcf-lcm-powers',
+      },
+      {
+        href: '/chapters/real-numbers/lessons/ncert-exercises-and-revision#exercise-1-1',
+        label: 'Retry the two-number HCF-LCM verification pattern',
+        skillSlug: 'product-verification',
+      },
+    ],
+    skillLabels: {
+      'hcf-lcm-powers': 'Choose the correct HCF and LCM powers',
+      'prime-factorisation': 'Prime factorise both integers',
+      'product-verification': 'Verify LCM × HCF',
+    },
+  },
+  {
     chapterSlug: 'chemical-reactions-and-equations',
     definitions: chapterOneDefinitions,
     remediations: CHAPTER_ONE_REMEDIATION,
@@ -884,6 +956,65 @@ const practicePacks: ChapterPracticePack[] = [
     definitions: chapterThreeDefinitions,
     remediations: CHAPTER_THREE_REMEDIATION,
     skillLabels: CHAPTER_THREE_SKILL_LABELS,
+  },
+  {
+    chapterSlug: 'two-stories-about-flying',
+    definitions: [
+      {
+        chapterSlug: 'two-stories-about-flying',
+        id: 'tsf-his-first-flight-text-questions',
+        lessonSlug: 'his-first-flight-fear-and-hunger',
+        minimumCharacters: 120,
+        practiceFlow: {
+          workedExample: {
+            prompt: 'Why was the young seagull afraid to fly?',
+            solution:
+              'He feared that his wings would not support him over the great stretch of sea below. The height and the thought of falling stopped him from taking the plunge.',
+          },
+          guidedQuestion: {
+            prompt:
+              '“The sight of the food maddened him.” What does this suggest? What compelled the young seagull to finally fly?',
+            hints: [
+              'Explain what his strong reaction to the food shows about his hunger.',
+              'Notice what his mother does with the piece of fish.',
+              'Connect his dive for food with the moment his wings begin to work.',
+            ],
+          },
+          independentQuestion:
+            '“They were beckoning to him, calling shrilly.” Why did the seagull’s father and mother threaten him and cajole him to fly?',
+          modelAnswer:
+            'His parents knew that he was physically able to fly but was held back by fear. They called and encouraged him, then threatened to leave him hungry, so that he would overcome fear, take the plunge, and learn to use his wings.',
+        },
+        rubricPoints: [
+          { halfMarks: 2, id: 'physical-ability', label: 'States that the seagull was able to fly but was afraid', skillSlug: 'text-evidence' },
+          { halfMarks: 2, id: 'parent-methods', label: 'Includes both encouragement/cajoling and the hunger threat', skillSlug: 'answer-completeness' },
+          { halfMarks: 2, id: 'purpose', label: 'Explains that the parents wanted him to overcome fear and fly', skillSlug: 'cause-and-effect' },
+        ],
+        title: 'His First Flight active practice ladder',
+      },
+    ],
+    remediations: [
+      {
+        href: '/chapters/two-stories-about-flying/lessons/his-first-flight-fear-and-hunger#story-context',
+        label: 'Review the fear, height and wing-support evidence',
+        skillSlug: 'text-evidence',
+      },
+      {
+        href: '/chapters/two-stories-about-flying/lessons/his-first-flight-fear-and-hunger#board-tips',
+        label: 'Use every part of the question in the answer',
+        skillSlug: 'answer-completeness',
+      },
+      {
+        href: '/chapters/two-stories-about-flying/lessons/his-first-flight-fear-and-hunger#key-idea',
+        label: 'Review how pressure leads to the first brave action',
+        skillSlug: 'cause-and-effect',
+      },
+    ],
+    skillLabels: {
+      'answer-completeness': 'Answer every part of the literature question',
+      'cause-and-effect': 'Explain cause and effect',
+      'text-evidence': 'Use precise story evidence',
+    },
   },
 ];
 

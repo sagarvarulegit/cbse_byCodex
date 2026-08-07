@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
+import BrandLockup from '../../../../components/BrandLockup';
 import PilotFeedbackForm from '../../../../components/PilotFeedbackForm';
 import PilotEngagementTracker, { PilotCompletionButton } from '../../../../components/PilotEngagementTracker';
 import MathText from '../../../../components/MathText';
@@ -47,8 +48,7 @@ async function LegacyChapterNotesPage({ params }: { params: Promise<{ slug: stri
 
       <nav className="topbar" aria-label="Chapter notes navigation">
         <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
+          <BrandLockup />
         </Link>
         <div className="nav-links lesson-links">
           <Link href={`/chapters/${slug}`}>Chapter</Link>

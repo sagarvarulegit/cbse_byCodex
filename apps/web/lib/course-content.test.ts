@@ -14,6 +14,7 @@ import { getCurriculumSubject, getVisibleCurriculumSubjects } from './curriculum
 import {
   buildSubjectCatalog,
   buildCurriculumChapterCards,
+  getChapterDeliveryKind,
   getCurriculumSubjectChapterEntries,
   resolveCurriculumSubjectSlug,
   SUBJECT_ROUTE_ALIASES,
@@ -34,7 +35,15 @@ function getH2Headings(blocks: MarkdownBlock[]) {
 
 function getAllText(blocks: MarkdownBlock[]) {
   return blocks
-    .flatMap((block) => ('text' in block ? [block.text] : block.items))
+    .flatMap((block) => {
+      if ('text' in block) {
+        return [block.text];
+      }
+      if ('items' in block) {
+        return block.items;
+      }
+      return [block.headers.join(' '), ...block.rows.map((row) => row.join(' '))];
+    })
     .join('\n');
 }
 
@@ -1704,7 +1713,7 @@ test('subject navigation excludes duplicate Social Science mappings from exclude
   assert.equal(subjectChapterSlugs.includes('globalisation-and-the-indian-economy'), false);
 });
 
-test('subject catalog does not let excluded Social Science duplicate packs inflate live counts', () => {
+test('subject catalog separates Social Science revision packs from lesson-wise chapters', () => {
   const socialScienceCatalogItem = buildSubjectCatalog(
     getVisibleCurriculumSubjects(),
     getChapterEntries(),
@@ -1712,10 +1721,13 @@ test('subject catalog does not let excluded Social Science duplicate packs infla
 
   assert.ok(socialScienceCatalogItem);
   assert.equal(socialScienceCatalogItem.chapterCount, 22);
-  assert.equal(socialScienceCatalogItem.liveCount, 17);
+  assert.equal(socialScienceCatalogItem.availableCount, 22);
+  assert.equal(socialScienceCatalogItem.lessonWiseCount, 0);
+  assert.equal(socialScienceCatalogItem.revisionPackCount, 22);
+  assert.equal(socialScienceCatalogItem.liveCount, 22);
 });
 
-test('subject catalog live status uses available lessons rather than unpublished lesson metadata', () => {
+test('subject catalog availability uses published lessons rather than draft metadata', () => {
   const subject: CurriculumSubject = {
     activationBlockers: [],
     academicSession: '2026-27',
@@ -1784,16 +1796,18 @@ test('subject catalog live status uses available lessons rather than unpublished
   };
 
   assert.equal(
-    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.liveCount,
+    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.availableCount,
     0,
   );
+  assert.equal(getChapterDeliveryKind('unpublished-chapter', chapter), 'coming-soon');
 
   chapter.lessons[0]!.fileName = 'published.md';
 
   assert.equal(
-    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.liveCount,
+    buildSubjectCatalog([subject], [['unpublished-chapter', chapter]])[0]?.lessonWiseCount,
     1,
   );
+  assert.equal(getChapterDeliveryKind('unpublished-chapter', chapter), 'lesson-wise');
 });
 
 test('subject chapter cards expose official registry topics and scopes, not legacy topic metadata', () => {

@@ -3,7 +3,7 @@ type: ProjectMemoryTopic
 title: Architecture and Services Memory
 description: Durable backend, storage, video, and service-boundary learnings.
 tags: ['memory', 'architecture', 'api', 'video', 'storage']
-timestamp: 2026-07-30T00:00:00Z
+timestamp: 2026-08-04T00:00:00Z
 ---
 
 # Architecture and Services Memory
@@ -18,6 +18,13 @@ Read this file for API, Prisma, authentication, Bunny, Supabase, and service-bou
 - Bunny Stream is the video delivery layer.
 - Bunny Storage is used for master MP4 archives.
 - Supabase/Postgres stores metadata only.
+
+## Registration and privacy
+
+- New student registration requires a guardian self-attestation validated by `apps/api/src/lib/guardian-consent.ts`; the authoritative notice version is `2026-08-04` in both API and web constants.
+- Prisma stores one optional `GuardianConsent` per `User`, including guardian name/email, parent or lawful-guardian relationship, notice version, consent timestamp, revocation timestamp, and `verificationStatus`.
+- The only implemented verification status is `self_attested`. This is a controlled-pilot record, not legal identity or age verification; an unrestricted public launch needs a compliance decision and stronger verification if required.
+- The public `/privacy` route documents collection, use, providers, retention, and guardian request rights. Configure server-only `PRIVACY_CONTACT_EMAIL` before onboarding is widened.
 
 ## Bunny video
 
@@ -40,3 +47,4 @@ Read this file for API, Prisma, authentication, Bunny, Supabase, and service-bou
   - `apps/api/src/lib/session.ts`
   - `apps/api/src/lib/access.ts`
 - Prefer cached or aggregated reads for high-traffic endpoints.
+- `MistakeReviewItem` and `ExamReadyChecklist` are owned by the progress API. The former stores bounded learning-recovery evidence and three-day retry dates; the latter stores only student-confirmed checklist fields while automatic readiness is derived at read time.

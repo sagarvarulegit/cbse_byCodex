@@ -123,3 +123,39 @@ Use this checklist before widening free-pilot access. Record exact evidence so t
 - Fix completed in this session: yes / no
 - If no, next implementation task:
 - Safe to invite more students: yes / no
+
+## Smoke Evidence Log
+
+### 2026-08-04 Guardian Consent Migration And Production Deploy
+
+- Vercel CLI was re-authorized with the OAuth device flow as `sagarvarule-4946`.
+- Migration: `npm.cmd run prisma:migrate:deploy -w apps/api` applied `20260804090000_add_guardian_consent`; Prisma reported 10 migrations found and all migrations successfully applied.
+- API deploy: `cbse-bycodex-api`, deployment `dpl_J9gV2rxGa8HRwksH4T7NbETU2o44`, aliased to `https://cbse-bycodex-api.vercel.app`.
+- Student web deploy: `cbse-bycodex-web`, deployment `dpl_3DkXxFpPCu112m71pk3WJHYvgCQ6`, aliased to `https://cbse-bycodex-web.vercel.app`.
+- Admin deploy: `cbse-bycodex-admin`, deployment `dpl_GXrifuxuapDTaWHDmqNyZy59NesW`, aliased to `https://cbse-bycodex-admin.vercel.app`.
+- The first web deploy attempt failed on TypeScript nullability and target errors. Focused local `npm.cmd run lint -w apps/web` passed after narrow type repairs, and the redeploy build completed.
+- `GET /health`: returned `200` with `status: ok` and `service: cbse-api`.
+- `GET /v1/catalog/pilot`: returned `200` with Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying.
+- `GET /v1/auth/session` without a token: returned `401 Unauthorized`.
+- `GET /v1/progress/pilot-review?windowDays=14` without a token: returned `403 Forbidden`.
+- Student web alias `/`, `/privacy`, and `/register` returned `200 OK`.
+- Admin root returned `307` to `/login`; admin `/login` returned `200 OK`.
+- The deployed `/privacy` page rendered the fallback contact wording, so production `PRIVACY_CONTACT_EMAIL` still needs configuration and redeploy before access is widened.
+- Credentialed registration, engagement/feedback/write-path, and admin-review smoke were not run because they require approved student/admin test account use and create production records.
+- Safe to invite more students: no. Configure the privacy contact and complete credentialed smoke first.
+
+### 2026-08-02 Production Read-Only And Migration Smoke
+
+- Migration: `npm.cmd run prisma:migrate:deploy -w apps/api` applied `20260726123000_add_written_practice_attempts`; Prisma reported 9 migrations found and all migrations successfully applied.
+- Focused API checks: `node --import tsx --test src/lib/gamification.test.ts src/lib/mastery-aggregation.test.ts src/lib/quiz-topic-slugs.test.ts` passed 19/19 assertions.
+- Focused web checks: `node --import tsx --test lib/mastery.test.ts lib/mastery-rewards.test.ts lib/quiz-recovery.test.ts lib/pilot-quiz-content.test.ts` passed 9/9 assertions.
+- API base URL: `https://cbse-bycodex-api.vercel.app`.
+- Student web alias: `https://cbse-bycodex-web.vercel.app` returned `200 OK` to a public HEAD request.
+- Admin web alias: `https://cbse-bycodex-admin.vercel.app` returned `200 OK` to a public HEAD request.
+- `GET /health`: returned `200` with `status: ok` and `service: cbse-api`.
+- `GET /v1/catalog/pilot`: returned `200` with the three free-preview pilot chapters: Real Numbers, Chemical Reactions and Equations, and Two Stories about Flying.
+- `GET /v1/auth/session` without a token: returned `401 Unauthorized`.
+- `GET /v1/progress/pilot-review?windowDays=14` without a token: returned `403 Forbidden`.
+- Credentialed write smoke was not run. Creating a production smoke-test student account and writing engagement, quiz, written-practice, and feedback rows requires explicit approval because it persists test data in pilot metrics.
+- Admin review smoke was not run because no admin session token or credentials were available.
+- Safe to invite more students: no. The credentialed student write path and admin review path must still be verified against production before invites widen.

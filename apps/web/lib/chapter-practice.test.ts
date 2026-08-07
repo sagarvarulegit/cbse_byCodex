@@ -55,6 +55,20 @@ test('unknown practice ids and other chapters do not receive Chapter 1 content',
   assert.equal(getPracticeRemediation('another-chapter', 'balancing'), null);
 });
 
+test('the other two pilot chapters expose the complete active-practice ladder', () => {
+  for (const id of [
+    'rn-exercise-1-1-hcf-lcm',
+    'tsf-his-first-flight-text-questions',
+  ]) {
+    const definition = getWrittenPracticeDefinition(id);
+    assert.ok(definition?.practiceFlow, `Missing active-practice flow for ${id}`);
+    assert.ok(definition.practiceFlow.workedExample.solution.length > 20);
+    assert.ok(definition.practiceFlow.guidedQuestion.hints.length >= 2);
+    assert.ok(definition.practiceFlow.independentQuestion.length > 20);
+    assert.ok(definition.practiceFlow.modelAnswer.length > 40);
+  }
+});
+
 test('a second chapter can register practice without renderer or API changes', () => {
   const registry = createChapterPracticeRegistry([
     {

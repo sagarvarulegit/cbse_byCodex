@@ -9,6 +9,10 @@ import {
   refreshDailyPracticeStreak,
 } from '../lib/gamification.js';
 import {
+  buildExamReadyChecklist,
+  hasThreeDayRecall,
+} from '../lib/exam-readiness.js';
+import {
   buildRevisionMissionActions,
   completeSatisfiedRevisionMissions,
   createOrRefreshRevisionMission,
@@ -21,6 +25,11 @@ import {
   normalizePilotReviewWindowDays,
 } from '../lib/pilot-review.js';
 import { buildPracticeRetention } from '../lib/practice-retention.js';
+import {
+  normalizeQuizQuestionResults,
+  syncPracticeMistakes,
+  syncQuizMistakes,
+} from '../lib/mistake-review.js';
 import { prisma } from '../lib/prisma.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { findInvalidWeakTopicSlug } from '../lib/quiz-topic-slugs.js';
@@ -115,6 +124,96 @@ async function findPublishedChapterId(chapterSlug: string | null) {
   });
 
   return chapter?.id ?? null;
+}
+
+function readLessonSlugFromMetadata(metadata: Prisma.JsonValue | null) {
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return null;
+  }
+
+  const lessonSlug = (metadata as Prisma.JsonObject).lessonSlug;
+  return typeof lessonSlug === 'string' ? lessonSlug : null;
+}
+
+async function loadExamReadiness(userId: string, chapterSlug: string) {
+  const chapter = await prisma.chapter.findFirst({
+    where: { isPublished: true, slug: chapterSlug },
+    select: {
+      id: true,
+      topics: {
+        select: {
+          lessons: {
+            where: { publishStatus: 'published' },
+            select: { slug: true },
+          },
+        },
+      },
+    },
+  });
+  if (!chapter) {
+    return null;
+  }
+
+  const [
+    storedChecklist,
+    lessonCompletions,
+    practiceAttempts,
+    mastery,
+    unresolvedMistakeCount,
+  ] = await Promise.all([
+    prisma.examReadyChecklist.findUnique({
+      where: { userId_chapterId: { chapterId: chapter.id, userId } },
+    }),
+    prisma.progressEvent.findMany({
+      where: { chapterId: chapter.id, eventType: 'lesson_complete', userId },
+      select: { metadata: true },
+    }),
+    prisma.writtenPracticeAttempt.findMany({
+      where: { chapterId: chapter.id, userId },
+      select: {
+        answerLength: true,
+        attemptNumber: true,
+        createdAt: true,
+        maxScoreHalfMarks: true,
+        practiceKind: true,
+        practiceItemId: true,
+        retentionEligible: true,
+        scoreHalfMarks: true,
+      },
+    }),
+    prisma.chapterMastery.findUnique({
+      where: { userId_chapterId: { chapterId: chapter.id, userId } },
+      select: { bestQuizScorePercent: true },
+    }),
+    prisma.mistakeReviewItem.count({
+      where: { chapterId: chapter.id, resolvedAt: null, userId },
+    }),
+  ]);
+
+  const publishedLessonSlugs = new Set(
+    chapter.topics.flatMap((topic) => topic.lessons.map((lesson) => lesson.slug)),
+  );
+  const completedLessonSlugs = new Set(
+    lessonCompletions
+      .map((event) => readLessonSlugFromMetadata(event.metadata))
+      .filter((slug): slug is string => slug !== null && publishedLessonSlugs.has(slug)),
+  );
+
+  return buildExamReadyChecklist({
+    bestQuizScorePercent: mastery?.bestQuizScorePercent ?? 0,
+    chapterSlug,
+    completedLessonCount: completedLessonSlugs.size,
+    conceptsStudiedConfirmed: storedChecklist?.conceptsStudiedConfirmed ?? false,
+    ncertQuestionsAttempted: storedChecklist?.ncertQuestionsAttempted ?? false,
+    publishedLessonCount: publishedLessonSlugs.size,
+    threeDayRecallCompleted: hasThreeDayRecall(practiceAttempts),
+    unresolvedMistakeCount,
+    weakAreasRevised: storedChecklist?.weakAreasRevised ?? false,
+    writtenAnswerCount: practiceAttempts.filter(
+      (attempt) =>
+        attempt.practiceKind === 'written_practice' && attempt.answerLength > 0,
+    ).length,
+  });
 }
 
 export const progressRouter = Router();
@@ -297,6 +396,7 @@ progressRouter.post('/feedback', async (req, res) => {
           path: feedback.path,
           rating: feedback.rating,
           source: 'free_student_pilot',
+          stuckReason: feedback.stuckReason,
           surface: feedback.surface,
         } satisfies Prisma.InputJsonValue,
         occurredAt: new Date(),
@@ -436,10 +536,13 @@ progressRouter.post('/practice', async (req, res) => {
                 earnedRubricPointIds: practice.earnedRubricPointIds,
                 lessonSlug: practice.lessonSlug,
                 maxScoreHalfMarks: practice.maxScoreHalfMarks,
+                missedRubricPointIds: practice.missedRubricPoints.map((point) => point.id),
+                practiceKind: practice.practiceKind,
                 practiceItemId: practice.practiceItemId,
                 retentionEligible: practice.retentionEligible,
                 scoreHalfMarks: practice.scoreHalfMarks,
                 userId: user.id,
+                usedHints: practice.usedHints,
                 weakSkillSlugs: practice.weakSkillSlugs,
               },
             });
@@ -455,15 +558,34 @@ progressRouter.post('/practice', async (req, res) => {
                   earnedRubricPointIds: attempt.earnedRubricPointIds,
                   lessonSlug: attempt.lessonSlug,
                   maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+                  missedRubricPointIds: attempt.missedRubricPointIds,
                   practiceKind: practice.practiceKind,
                   practiceItemId: attempt.practiceItemId,
                   retentionEligible: attempt.retentionEligible,
                   scoreHalfMarks: attempt.scoreHalfMarks,
+                  usedHints: attempt.usedHints,
                   weakSkillSlugs: attempt.weakSkillSlugs,
                 } satisfies Prisma.InputJsonValue,
                 occurredAt: attempt.createdAt,
                 userId: user.id,
               },
+            });
+
+            await syncPracticeMistakes({
+              attemptedAt: attempt.createdAt,
+              chapterId: chapter.id,
+              chapterSlug: practice.chapterSlug,
+              db: tx,
+              earnedRubricPointIds: attempt.earnedRubricPointIds,
+              hintPrompt: practice.hintPrompt,
+              lessonSlug: attempt.lessonSlug,
+              missedRubricPoints: practice.missedRubricPoints,
+              practiceItemId: attempt.practiceItemId,
+              practiceKind: practice.practiceKind,
+              practicePrompt: practice.practicePrompt,
+              practiceTitle: practice.practiceTitle,
+              usedHints: attempt.usedHints,
+              userId: user.id,
             });
 
             const studyStreak = await refreshDailyPracticeStreak({
@@ -535,8 +657,10 @@ progressRouter.post('/practice', async (req, res) => {
         createdAt: savedAttempt.createdAt.toISOString(),
         earnedRubricPointIds: savedAttempt.earnedRubricPointIds,
         maxScoreHalfMarks: savedAttempt.maxScoreHalfMarks,
+        missedRubricPointIds: savedAttempt.missedRubricPointIds,
         retentionEligible: savedAttempt.retentionEligible,
         scoreHalfMarks: savedAttempt.scoreHalfMarks,
+        usedHints: savedAttempt.usedHints,
         weakSkillSlugs: savedAttempt.weakSkillSlugs,
       },
       gamification: savedResult.studyStreak
@@ -591,8 +715,10 @@ progressRouter.get('/practice-attempts', async (req, res) => {
           createdAt: true,
           earnedRubricPointIds: true,
           maxScoreHalfMarks: true,
+          missedRubricPointIds: true,
           retentionEligible: true,
           scoreHalfMarks: true,
+          usedHints: true,
           weakSkillSlugs: true,
         },
         take: 5,
@@ -617,9 +743,11 @@ progressRouter.get('/practice-attempts', async (req, res) => {
         clientAttemptId: attempt.clientAttemptId,
         earnedRubricPointIds: attempt.earnedRubricPointIds,
         maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+        missedRubricPointIds: attempt.missedRubricPointIds,
         retentionEligible: attempt.retentionEligible,
         savedAt: attempt.createdAt.toISOString(),
         scoreHalfMarks: attempt.scoreHalfMarks,
+        usedHints: attempt.usedHints,
         weakSkillSlugs: attempt.weakSkillSlugs,
       })),
       retention: buildPracticeRetention(retentionAttempts),
@@ -643,6 +771,12 @@ progressRouter.post('/quiz', async (req, res) => {
     const totalQuestions = normalizePositiveInteger(req.body?.totalQuestions);
     const correctAnswers = normalizePositiveInteger(req.body?.correctAnswers);
     const weakTopicSlugs = normalizeWeakTopicSlugs(req.body?.weakTopicSlugs);
+    const normalizedQuestionResults = normalizeQuizQuestionResults(req.body?.questionResults);
+
+    if (!normalizedQuestionResults.data) {
+      return res.status(400).json({ message: normalizedQuestionResults.error });
+    }
+    const questionResults = normalizedQuestionResults.data;
 
     if (!chapterSlug || scorePercent === null || totalQuestions === null || correctAnswers === null) {
       return res
@@ -652,6 +786,16 @@ progressRouter.post('/quiz', async (req, res) => {
 
     if (totalQuestions <= 0 || correctAnswers > totalQuestions) {
       return res.status(400).json({ message: 'Quiz answers must fit within the total question count.' });
+    }
+
+    if (
+      questionResults.length > 0 &&
+      (questionResults.length !== totalQuestions ||
+        questionResults.filter((result) => result.isCorrect).length !== correctAnswers)
+    ) {
+      return res.status(400).json({
+        message: 'questionResults must match the submitted quiz totals.',
+      });
     }
 
     const derivedScorePercent = Math.round((correctAnswers / totalQuestions) * 100);
@@ -707,6 +851,10 @@ progressRouter.post('/quiz', async (req, res) => {
                 attemptNumber: previousAttempts + 1,
                 chapterId: chapter.id,
                 correctAnswers,
+                questionResults:
+                  questionResults.length > 0
+                    ? (questionResults as unknown as Prisma.InputJsonValue)
+                    : undefined,
                 scorePercent: derivedScorePercent,
                 topicId: topic?.id ?? null,
                 totalQuestions,
@@ -732,6 +880,18 @@ progressRouter.post('/quiz', async (req, res) => {
                 userId: user.id,
               },
             });
+
+            if (questionResults.length > 0 || weakTopicSlugs.length > 0) {
+              await syncQuizMistakes({
+                attemptedAt: attempt.createdAt,
+                chapterId: chapter.id,
+                chapterSlug,
+                db: tx,
+                questionResults,
+                userId: user.id,
+                weakTopicSlugs,
+              });
+            }
 
             const revisionMission = await createOrRefreshRevisionMission({
               chapterId: chapter.id,
@@ -883,6 +1043,214 @@ progressRouter.get('/quiz-attempts', async (req, res) => {
   } catch (error) {
     console.error('Failed to load quiz attempts', error);
     return res.status(500).json({ message: 'Unable to load quiz attempts right now.' });
+  }
+});
+
+progressRouter.get('/mistakes', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to view My Mistakes.' });
+    }
+
+    const chapterSlug =
+      typeof req.query.chapterSlug === 'string' ? req.query.chapterSlug.trim() : null;
+    const status =
+      req.query.status === 'resolved' || req.query.status === 'all'
+        ? req.query.status
+        : 'active';
+    const items = await prisma.mistakeReviewItem.findMany({
+      where: {
+        chapter: chapterSlug ? { slug: chapterSlug } : undefined,
+        resolvedAt:
+          status === 'all' ? undefined : status === 'resolved' ? { not: null } : null,
+        userId: user.id,
+      },
+      orderBy: [{ retryAt: 'asc' }, { lastSeenAt: 'desc' }],
+      select: {
+        chapter: {
+          select: {
+            slug: true,
+            subject: { select: { name: true } },
+            title: true,
+          },
+        },
+        conceptSlug: true,
+        detail: true,
+        id: true,
+        kind: true,
+        lastSeenAt: true,
+        metadata: true,
+        occurrenceCount: true,
+        resolvedAt: true,
+        retryAt: true,
+        reviewHref: true,
+        sourceItemId: true,
+        title: true,
+      },
+      take: 200,
+    });
+    const now = new Date();
+
+    return res.json({
+      items: items.map((item) => ({
+        chapterSlug: item.chapter.slug,
+        chapterTitle: item.chapter.title,
+        conceptSlug: item.conceptSlug,
+        detail: item.detail,
+        due: item.resolvedAt === null && item.retryAt <= now,
+        id: item.id,
+        kind: item.kind,
+        lastSeenAt: item.lastSeenAt.toISOString(),
+        metadata: item.metadata,
+        occurrenceCount: item.occurrenceCount,
+        resolvedAt: item.resolvedAt?.toISOString() ?? null,
+        retryAt: item.retryAt.toISOString(),
+        reviewHref: item.reviewHref,
+        sourceItemId: item.sourceItemId,
+        subject: item.chapter.subject.name,
+        title: item.title,
+      })),
+      status,
+    });
+  } catch (error) {
+    console.error('Failed to load My Mistakes', error);
+    return res.status(500).json({ message: 'Unable to load My Mistakes right now.' });
+  }
+});
+
+progressRouter.patch('/mistakes/:mistakeId', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to update My Mistakes.' });
+    }
+    if (typeof req.body?.resolved !== 'boolean') {
+      return res.status(400).json({ message: 'resolved must be true or false.' });
+    }
+
+    const existing = await prisma.mistakeReviewItem.findFirst({
+      where: { id: req.params.mistakeId, userId: user.id },
+      select: { chapterId: true, id: true },
+    });
+    if (!existing) {
+      return res.status(404).json({ message: 'Mistake item was not found.' });
+    }
+
+    const resolvedAt = req.body.resolved ? new Date() : null;
+    const updated = await prisma.$transaction(async (tx) => {
+      const item = await tx.mistakeReviewItem.update({
+        where: { id: existing.id },
+        data: { resolvedAt },
+      });
+      const remaining = await tx.mistakeReviewItem.count({
+        where: {
+          chapterId: existing.chapterId,
+          id: { not: existing.id },
+          resolvedAt: null,
+          userId: user.id,
+        },
+      });
+      await tx.examReadyChecklist.upsert({
+        where: {
+          userId_chapterId: { chapterId: existing.chapterId, userId: user.id },
+        },
+        create: {
+          chapterId: existing.chapterId,
+          userId: user.id,
+          weakAreasRevised: Boolean(resolvedAt) && remaining === 0,
+        },
+        update: {
+          weakAreasRevised: Boolean(resolvedAt) && remaining === 0,
+        },
+      });
+      return item;
+    });
+
+    return res.json({
+      id: updated.id,
+      resolvedAt: updated.resolvedAt?.toISOString() ?? null,
+    });
+  } catch (error) {
+    console.error('Failed to update My Mistakes', error);
+    return res.status(500).json({ message: 'Unable to update this mistake right now.' });
+  }
+});
+
+progressRouter.get('/exam-readiness', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to view Exam Ready.' });
+    }
+    const chapterSlug =
+      typeof req.query.chapterSlug === 'string' ? req.query.chapterSlug.trim() : null;
+    if (!chapterSlug) {
+      return res.status(400).json({ message: 'chapterSlug is required.' });
+    }
+
+    const checklist = await loadExamReadiness(user.id, chapterSlug);
+    if (!checklist) {
+      return res.status(404).json({ message: 'Chapter was not found.' });
+    }
+    return res.json(checklist);
+  } catch (error) {
+    console.error('Failed to load Exam Ready checklist', error);
+    return res.status(500).json({ message: 'Unable to load Exam Ready right now.' });
+  }
+});
+
+progressRouter.patch('/exam-readiness', async (req, res) => {
+  try {
+    const user = await requireSessionUser(req);
+    if (!user) {
+      return res.status(401).json({ message: 'Please log in to update Exam Ready.' });
+    }
+    const chapterSlug =
+      typeof req.body?.chapterSlug === 'string' ? req.body.chapterSlug.trim() : null;
+    const itemId = req.body?.itemId;
+    const complete = req.body?.complete;
+    if (
+      !chapterSlug ||
+      typeof complete !== 'boolean' ||
+      !['conceptsStudied', 'ncertQuestionsAttempted', 'weakAreasRevised'].includes(itemId)
+    ) {
+      return res.status(400).json({
+        message: 'chapterSlug, a student-confirmed checklist item, and complete are required.',
+      });
+    }
+
+    const chapterId = await findPublishedChapterId(chapterSlug);
+    if (!chapterId) {
+      return res.status(404).json({ message: 'Chapter was not found.' });
+    }
+    if (itemId === 'weakAreasRevised' && complete) {
+      const unresolvedMistakes = await prisma.mistakeReviewItem.count({
+        where: { chapterId, resolvedAt: null, userId: user.id },
+      });
+      if (unresolvedMistakes > 0) {
+        return res.status(409).json({
+          message: 'Revise or resolve every active My Mistakes item first.',
+        });
+      }
+    }
+
+    const update =
+      itemId === 'conceptsStudied'
+        ? { conceptsStudiedConfirmed: complete }
+        : itemId === 'ncertQuestionsAttempted'
+          ? { ncertQuestionsAttempted: complete }
+          : { weakAreasRevised: complete };
+    await prisma.examReadyChecklist.upsert({
+      where: { userId_chapterId: { chapterId, userId: user.id } },
+      create: { chapterId, userId: user.id, ...update },
+      update,
+    });
+
+    return res.json(await loadExamReadiness(user.id, chapterSlug));
+  } catch (error) {
+    console.error('Failed to update Exam Ready checklist', error);
+    return res.status(500).json({ message: 'Unable to update Exam Ready right now.' });
   }
 });
 

@@ -1,230 +1,203 @@
 import Link from 'next/link';
 
-import { logoutAction } from './auth-actions';
+import BrandLockup from '../components/BrandLockup';
 import { getStudentSession } from '../lib/auth';
+import { getChapterEntries } from '../lib/course-content';
+import { getVisibleCurriculumSubjects } from '../lib/curriculum/registry';
+import { buildSubjectCatalog } from '../lib/curriculum/subject-navigation';
 import { getPilotChapterCards } from '../lib/pilot';
 
-const signupReasons = [
-  {
-    title: 'Keep your Class 10 study links in one place',
-    body: 'Create one account and open Maths and Science pilot chapters from a single student hub.',
-    accent: 'blue',
-    badge: 'Student hub',
-    href: '/register',
-    cta: 'Create account',
-  },
-  {
-    title: 'Start with free live chapters before the full rollout',
-    body: 'The pilot already includes real notes and chapter flows, so students can try the experience before more subjects go live.',
-    accent: 'green',
-    badge: 'Free pilot',
-    href: '/chapters/real-numbers/notes',
-    cta: 'Open Real Numbers',
-  },
-  {
-    title: 'Return faster instead of searching through PDFs again',
-    body: 'Login makes the platform your study home, so you can come back directly when you want to revise.',
-    accent: 'blue',
-    badge: 'Less friction',
-    href: '/login',
-    cta: 'Login now',
-  },
-  {
-    title: 'Be ready as new chapters and quizzes are added',
-    body: 'Students who create accounts are already inside the system when new Maths and Science content starts shipping.',
-    accent: 'green',
-    badge: 'Ready for updates',
-    href: '/register',
-    cta: 'Join early',
-  },
+const heroHighlights = [
+  'Textbook-fidelity',
+  'Simplified notes',
+  'Mastery + revision',
 ];
 
-const modernStudyMoves = [
+const landingAdvantages = [
   {
-    label: 'Concept first, memorization second',
-    detail: 'Students should understand the idea in simple English before they are asked to remember formulas or definitions.',
-    note: 'Clearer understanding',
+    title: 'Textbook-fidelity first',
+    detail:
+      'Chapter order, numbering, and scope stay close to NCERT so students revise what they actually study in class.',
   },
   {
-    label: 'Visual notes over textbook wall-of-text',
-    detail: 'Comic recap patterns, worked examples, and compact sections make revision feel lighter and easier to re-open.',
-    note: 'Modern format',
+    title: 'Simplified notes',
+    detail:
+      'Dense textbook ideas are condensed into short, visual explanations that are easier to remember before tests.',
   },
   {
-    label: 'One platform instead of scattered notes',
-    detail: 'Account-based access turns the portal into a repeatable study place rather than just another link to forget.',
-    note: 'Better recall loop',
+    title: 'Mastery and revision',
+    detail:
+      'Quizzes, saved progress, and revision missions turn weak spots into the next best action.',
+  },
+  {
+    title: 'Accessible figures and activities',
+    detail:
+      'Textbook figures, activities, and labels are redrawn in an accessible format instead of hidden inside scans.',
   },
 ];
 
 export default async function HomePage() {
   const session = await getStudentSession();
   const sampleChapters = getPilotChapterCards();
+  const subjectCatalog = buildSubjectCatalog(
+    getVisibleCurriculumSubjects(),
+    getChapterEntries(),
+  );
+  const firstName = session?.fullName.trim().split(/\s+/)[0];
 
   return (
-    <main>
-      <nav className="topbar" aria-label="Main navigation">
+    <main className="home-page">
+      <nav className="topbar home-topbar" aria-label="Main navigation">
         <Link className="brand" href="/">
-          <span className="brand-mark">10</span>
-          <span>CBSE Sprint</span>
+          <BrandLockup />
         </Link>
-        <div className="nav-links">
-          <a href="#why-account">Why account</a>
-          <a href="#sample-chapters">Sample chapters</a>
-          <a href="#modern-study">Modern study</a>
-        </div>
-        <div className="topbar-actions">
-          {session ? (
-            <>
-              <Link className="nav-cta" href="/dashboard">
-                Dashboard
-              </Link>
-              <form action={logoutAction} className="topbar-form">
-                <button className="ghost-button" type="submit">
-                  Logout
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link className="ghost-link" href="/login">
-                Login
-              </Link>
-              <Link className="nav-cta" href="/register">
-                Create free account
-              </Link>
-            </>
-          )}
+
+        <div className="home-topbar-actions">
+          <Link className="ghost-link" href="/subjects">
+            Subjects
+          </Link>
+          <Link className="nav-cta" href={session ? '/dashboard' : '/login'}>
+            {session ? 'Dashboard' : 'Login'}
+          </Link>
         </div>
       </nav>
 
-      <section className="hero-shell">
-        <div className="hero-copy">
-          <p className="eyebrow">CBSE Class 10, redesigned for today</p>
-          <h1>Make Class 10 prep feel clear, visual, and easy to restart.</h1>
-          <p className="subtext">
-            CBSE Sprint is built for students who are tired of messy PDFs, textbook overload, and random YouTube hopping. Create a free account to enter a cleaner study flow with live pilot chapters, simpler notes, and one home for revision.
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-hero-copy">
+          <p className="eyebrow">
+            {firstName
+              ? `Welcome back, ${firstName}`
+              : 'Class 10 | NCERT-aligned learning'}
           </p>
-          <div className="hero-actions">
-            <Link className="button-link" href={session ? '/dashboard' : '/register'}>
-              {session ? 'Open student dashboard' : 'Create free account'}
+          <h1 id="home-title">From textbook to test-ready, in one guided flow.</h1>
+          <p className="home-hero-subtext">
+            Textbook-faithful notes, simplified explanations, and a mastery-backed
+            revision loop - all in one place.
+          </p>
+          <ul className="home-hero-highlights" aria-label="Key advantages">
+            {heroHighlights.map((highlight) => (
+              <li key={highlight}>{highlight}</li>
+            ))}
+          </ul>
+          <div className="home-hero-actions">
+            <Link
+              className="button-link"
+              href={session ? '/dashboard' : '/subjects'}
+            >
+              {session ? 'Continue studying' : 'Explore subjects'}
             </Link>
-            <Link className="ghost-link" href="/chapters/real-numbers/notes" prefetch={false}>
-              Try Real Numbers first
+            <Link
+              className="ghost-link"
+              href={session ? '/subjects' : '/register'}
+            >
+              {session ? 'Choose a subject' : 'Create free account'}
             </Link>
           </div>
-        </div>
-
-        <aside className="learning-console" aria-label="Why students should create an account">
-          <div className="console-header">
-            <div>
-              <p className="eyebrow">Why join</p>
-              <h2>Create your study account</h2>
-            </div>
-            <span className="live-pill">Free start</span>
-          </div>
-
-          <div className="video-preview">
-            <div className="play-orb">Join</div>
-            <div>
-              <p>Modern Class 10 study flow</p>
-              <strong>Visual notes, chapter access, and one place to come back to</strong>
-            </div>
-          </div>
-
-          <div className="metric-row">
-            <div className="metric-tile">
-              <span>1 login</span>
-              <p>Keep Maths and Science pilot content in one student hub.</p>
-            </div>
-            <div className="metric-tile">
-              <span>Free pilot</span>
-              <p>Try live chapters before the full platform expands.</p>
-            </div>
-            <div className="metric-tile">
-              <span>New drops</span>
-              <p>Be ready when more chapters, quizzes, and revision flows launch.</p>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section className="section-shell" id="why-account">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Why students create an account</p>
-            <h2>Give them a reason to enter, not just browse.</h2>
-          </div>
-        </div>
-        <div className="chapter-grid" aria-label="Reasons to create an account">
-          {signupReasons.map((reason) => (
-            <article className={`chapter-card ${reason.accent}`} key={reason.title}>
-              <div className="chapter-topline">
-                <span>Student benefit</span>
-                <strong>{reason.badge}</strong>
-              </div>
-              <h3>{reason.title}</h3>
-              <p>{reason.body}</p>
-              <Link className="card-link" href={reason.href}>
-                {reason.cta}
-              </Link>
-            </article>
-          ))}
         </div>
       </section>
 
-      <section className="section-shell" id="sample-chapters">
-        <div className="section-heading">
+      <section
+        className="home-section home-advantages"
+        aria-labelledby="advantages-title"
+      >
+        <div className="home-section-heading">
           <div>
-            <p className="eyebrow">Try the product now</p>
-            <h2>Live pilot chapters students can open today</h2>
+            <p className="eyebrow">Why students choose ChapterReady</p>
+            <h2 id="advantages-title">
+              Textbook-first notes built for faster revision
+            </h2>
           </div>
+          <p className="home-section-note">
+            A focused Class 10 flow that keeps NCERT chapters, simplified notes, and
+            practice in the same place.
+          </p>
         </div>
-        <div className="chapter-grid" aria-label="Live pilot chapters">
-          {sampleChapters.map((subject) => (
-            <article className={`chapter-card ${subject.accent}`} key={subject.slug}>
-              <div className="chapter-topline">
-                <span>{subject.subject}</span>
-                <strong>{subject.status}</strong>
-              </div>
-              <h3>{subject.title}</h3>
-              <p>{subject.minutesLabel} of notes, examples, quiz practice, and progress review.</p>
-              <div className="progress-track" aria-label="100% pilot path available now">
-                <span style={{ width: '100%' }} />
-              </div>
-              <ul>
-                {subject.topics.map((topic) => (
-                  <li key={topic}>{topic}</li>
-                ))}
-              </ul>
-              <div className="pilot-card-actions">
-                <Link className="card-link" href={subject.notesHref} prefetch={false}>
-                  Study notes
-                </Link>
-                <Link className="ghost-link" href={subject.quizHref}>
-                  Take quiz
-                </Link>
+
+        <div className="home-advantages-grid">
+          {landingAdvantages.map((advantage, index) => (
+            <article key={advantage.title}>
+              <span aria-hidden="true">0{index + 1}</span>
+              <div>
+                <h2>{advantage.title}</h2>
+                <p>{advantage.detail}</p>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section-shell mission-layout" id="modern-study">
-        <div>
-          <p className="eyebrow">Why this feels modern</p>
-          <h2>Students do not want another boring content dump.</h2>
-          <p className="subtext compact">
-            The pitch should be simple: less confusion, faster restart, cleaner revision, and content that respects how students actually study online now.
+      <section className="home-section" aria-labelledby="guided-chapters-title">
+        <div className="home-section-heading">
+          <div>
+            <p className="eyebrow">Start with a guided chapter</p>
+            <h2 id="guided-chapters-title">Popular chapters</h2>
+          </div>
+          <Link className="home-text-link" href="/subjects">
+            View all chapters <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </div>
+
+        <div className="home-chapter-grid">
+          {sampleChapters.map((chapter) => (
+            <Link
+              className="home-chapter-card"
+              href={chapter.notesHref}
+              key={chapter.slug}
+              prefetch={false}
+            >
+              <div className="home-card-topline">
+                <span>{chapter.subject}</span>
+                <strong>{chapter.status}</strong>
+              </div>
+              <h3>{chapter.title}</h3>
+              <div className="home-card-footer">
+                <span>{chapter.minutesLabel}</span>
+                <span className="home-card-arrow" aria-hidden="true">
+                  &rarr;
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="home-section home-subjects-section"
+        id="subjects"
+        aria-labelledby="subjects-title"
+      >
+        <div className="home-section-heading">
+          <div>
+            <p className="eyebrow">Your Class 10 library</p>
+            <h2 id="subjects-title">Choose a subject</h2>
+          </div>
+          <p className="home-section-note">
+            {subjectCatalog.length} subjects in the active curriculum
           </p>
         </div>
-        <div className="mission-board">
-          {modernStudyMoves.map((item) => (
-            <div className="mission-row" key={item.label}>
-              <span className="check done">New</span>
-              <p>{item.label}<br />{item.detail}</p>
-              <strong>{item.note}</strong>
-            </div>
+
+        <div className="home-subject-grid">
+          {subjectCatalog.map((subject, index) => (
+            <Link
+              className="home-subject-card"
+              href={`/subjects/${subject.slug}`}
+              key={subject.slug}
+            >
+              <span className="home-subject-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span className="home-subject-copy">
+                <strong>{subject.title}</strong>
+                <small>
+                  {subject.liveCount > 0
+                    ? `${subject.liveCount} of ${subject.chapterCount} chapters available`
+                    : 'Coming soon'}
+                </small>
+              </span>
+              <span className="home-card-arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </Link>
           ))}
         </div>
       </section>

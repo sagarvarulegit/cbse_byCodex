@@ -16,6 +16,15 @@ type AuthResponse = {
   user: SessionUser;
 };
 
+export type GuardianRegistrationConsent = {
+  adultConfirmed: boolean;
+  consentConfirmed: boolean;
+  guardianEmail: string;
+  guardianFullName: string;
+  policyVersion: string;
+  relationship: string;
+};
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 const SESSION_COOKIE_NAME = 'cbse_student_session';
 const SESSION_MAX_AGE_SECONDS = 14 * 24 * 60 * 60;
@@ -80,14 +89,26 @@ export async function loginStudent(email: string, password: string) {
   return data.user;
 }
 
-export async function registerStudent(fullName: string, email: string, password: string, classLevel: number) {
+export async function registerStudent(
+  fullName: string,
+  email: string,
+  password: string,
+  classLevel: number,
+  guardianConsent: GuardianRegistrationConsent,
+) {
   const response = await fetchAuthApi('/v1/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     cache: 'no-store',
-    body: JSON.stringify({ classLevel, fullName, email, password }),
+    body: JSON.stringify({
+      classLevel,
+      email,
+      fullName,
+      password,
+      ...guardianConsent,
+    }),
   });
 
   const data = (await parseApiResponse(response)) as AuthResponse;

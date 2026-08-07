@@ -55,6 +55,9 @@ export default async function LoginPage({
         <p className="auth-hint">
           New here? <Link href="/register">Create your student account</Link>.
         </p>
+        <p className="auth-hint">
+          Read the <Link href="/privacy">Pilot Privacy Notice</Link>.
+        </p>
       </section>
     </main>
   );

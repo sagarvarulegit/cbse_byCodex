@@ -3,7 +3,7 @@ type: ProjectMemoryTopic
 title: Curriculum and Content Memory
 description: Durable curriculum-registry, textbook-fidelity, chapter-publication, and board-evidence learnings.
 tags: ['memory', 'curriculum', 'content', 'textbook', 'cbse']
-timestamp: 2026-08-01T00:00:00Z
+timestamp: 2026-08-04T00:00:00Z
 ---
 
 # Curriculum and Content Memory
@@ -23,6 +23,8 @@ Read this file for curriculum registry, lesson publication, textbook-derived not
 - Mathematics Basic is a hidden `future` subject until a separate activation review is completed.
 - Subject pages render official curriculum chapter titles, scopes, and topic scopes from the registry; legacy `course-content.ts` topic strings are platform metadata, not official 2026-27 scope.
 - The student subject pages consume the registry instead of hard-coded subject lists: `apps/web/app/subjects/page.tsx` uses `getVisibleCurriculumSubjects()` plus `buildSubjectCatalog()`, and `apps/web/app/subjects/[slug]/page.tsx` resolves a registry subject before rendering mapped chapter routes.
+- Broad library availability is derived from one catalog classifier and must remain explicit: `lesson-wise` means at least one published lesson file, `revision-pack` means pack fallback only, and `coming-soon` means neither is available. Lesson-wise takes precedence when both sources exist.
+- The 2026-08-04 active inventory is Maths 14/14 lesson-wise, Science 13/13 lesson-wise, Social Science 22/22 revision packs, English 1 lesson-wise plus 39 revision packs, Hindi 27 revision packs, and HPE 0/5 available. These are availability counts, not claims that every item is source-reviewed or pilot-ready.
 
 ## Lesson publication and chapter navigation
 
@@ -66,6 +68,7 @@ Read this file for curriculum registry, lesson publication, textbook-derived not
 - Life Processes has six lesson-wise pages under `apps/web/content/life-processes/lessons/`, registered in `lessonDirectories`, with `quiz.md` expanded to NCERT exercise/in-text anchors. Keep textbook numbering visible, show parent sections before child sections, and place exact textbook `QUESTIONS` blocks where NCERT places them. Preserve Activities 5.1-5.8, Figures 5.1-5.14, Amoeba/Paramoecium, dental caries, ATP/pyruvate pathways, alveoli/haemoglobin, blood pressure, platelets, lymph, xylem/phloem with ATP-powered translocation, nephron/Bowman's capsule, dialysis, organ donation, and all plant-excretion methods.
 - Control and Coordination has five live lesson-wise pages under `apps/web/content/control-and-coordination/lessons/`, registered in `lessonDirectories`, with `quiz.md` and the chapter pack aligned to NCERT `jesc106.pdf`. Preserve `6.1`, `6.1.1`, `6.1.2-6.1.4`, `6.2`, `6.3`, Activities 6.1-6.4, Figures 6.1-6.7, Table 6.1, exact textbook `Questions`, and end exercises. Keep all named receptors, brain parts, tropisms, hormones, endocrine conditions, and feedback mechanisms explicit. Figures 6.1-6.4 and Activity/Figures 6.2, 6.5, and 6.6 have specific placement and composition requirements recorded in their trackers; Figure 6.3 belongs under `6.1.2 Human Brain`, and Figure 6.4 belongs under `6.2.1 Immediate Response to Stimulus`.
 - Two Stories about Flying is the third lesson-wise free-pilot chapter. Its five visible lesson rows come from `apps/web/lib/course-content.ts` and `apps/web/content/two-stories-about-flying/lessons/`; pilot quiz topics map to lesson slugs rather than old chapter-pack strings.
+- Real Numbers and Two Stories about Flying now reuse the constructed-response renderer through textbook-anchored active-practice ladders. Each ladder contains a worked example, a similar question with staged hints, an independent answer, a model answer/rubric, and D3 retention; keep the Real Numbers items tied to Exercise 1.1 and the English questions tied to the current Reprint 2026-27 `Thinking about the Text` pages.
 - English and Hindi subject pages now use generated chapter-pack fallback notes for broad draft coverage of board skills, first-class English poems, Hindi Sparsh prose/poetry, and Hindi Sanchayan supplementary texts. Keep the packs marked draft until exact textbook question blocks and source-fidelity trackers are built. Hindi Sanchayan Reprint 2026-27 PDFs were downloaded from official NCERT URLs into `textbooks/hindi-sanchayan/` on 2 August 2026 (`jhsy1ps.pdf`, `jhsy101.pdf`, `jhsy102.pdf`, `jhsy103.pdf`); use those files for the next source-fidelity review.
 - Science Chapters 2-13 have live lesson-wise notes, chapter quizzes, source-fidelity trackers, and board-exam evidence records. The cross-chapter gate is in `docs/content/class-10/science/remaining-chapters-board-coverage-audit.md`; archive extraction is only a discovery index and any published PYQ still needs original-paper visual verification.
 - Board archive folder names are not evidence. On 29 July 2026 the local 2022 Science question-paper folder contained a Security paper, while both official CBSE 2022 Science archive links returned HTTP 500. Keep 2022 outside Chapter 2 PYQ claims until original question and marking-scheme pages are rendered and checked.

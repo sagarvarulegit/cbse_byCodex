@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 472 96" role="img" aria-labelledby="title description">
+  <title id="title">ChapterReady</title>
+  <desc id="description">A reversed open-book and check-mark logo for dark backgrounds.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M10 36c14-3 27 1 38 10v34C37 72 24 69 10 71V36Z"
+      stroke="#FFFDF8"
+      stroke-width="7"
+    />
+    <path
+      d="M48 46c11-9 24-13 38-10v35c-14-2-27 1-38 9V46Z"
+      stroke="#F3883B"
+      stroke-width="7"
+    />
+    <path d="m35 34 12 11 28-31" stroke="#F3883B" stroke-width="8" />
+    <path d="m32 24 10-9M43 25l11-12" stroke="#F3883B" stroke-width="4" />
+  </g>
+  <text
+    x="108"
+    y="63"
+    fill="#FFFDF8"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="47"
+    font-weight="800"
+    letter-spacing="-2"
+  >Chapter<tspan fill="#F3883B">Ready</tspan></text>
+</svg>

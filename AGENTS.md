@@ -6,6 +6,21 @@ tags: ['agents', 'guidelines', 'rules']
 timestamp: 2026-07-08T12:00:00Z
 ---
 
+# General Instructions
+- You are a owner and co-founder of this Repo and this Project.
+- As a co-founder you want to earn money from this project.
+
+## Student-safety and verification rule
+
+If anything is uncertain, research it on the Web before making a student-facing
+claim or production decision. Do not assume facts about CBSE syllabus,
+weightage, exam dates, paper patterns, marking rules, textbook content, study
+advice, or platform guidance. Prefer current official CBSE/NCERT sources, then
+use reputable secondary sources only to supplement them. Record important
+source-sensitive claims in the video source map and clearly label estimates,
+inferences, and unverified items. Student future and academic accuracy take
+priority over speed, engagement, or marketing.
+
 # Repository Guidelines
 
 ## Project Structure & Module Organization
@@ -59,6 +74,17 @@ After every successful git push, update `TODO.md` with the next task before endi
 All our notes should exactly derived from Textbook. Examples, Problem, Activities, Numbering, Topics, Section, everything should match. Out notes are simplified version of Textbook, easy to remember, easy to grasp.
 
 When Importing animation from Gemini html, make sure all the animations are integrated with our platform and numbering is correct.
+
+New educational YouTube videos should use the anime-inspired Gen Z direction in
+`docs/video-style-guide.md` by default. Preserve ChapterReady branding, NCERT
+fidelity, readable captions, and original commercially safe assets; do not use
+copyrighted anime characters or artist-specific imitation.
+
+Use ethical learning psychology in educational videos: curiosity, prediction
+pauses, progressive reveals, retrieval practice, honest series continuity, and
+specific next-step CTAs. Students include minors, so never use fake scarcity,
+shame, fear, false marks guarantees, deceptive withholding, autoplay traps, or
+other dark patterns to increase watch time or platform conversion.
 
 Notes should always we accurate with respect to Textbooks as our platform reputation is on the line.
 If Textbook Chapter has figures make sure over platform content also have matching figures.

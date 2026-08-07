@@ -72,11 +72,25 @@ test('normalizePilotFeedbackPayload accepts feedback and trims metadata', () => 
         message: 'The second quiz option looks confusing on mobile.',
         path: '/chapters/two-stories-about-flying/quiz',
         rating: 2,
+        stuckReason: null,
         surface: 'quiz',
       },
       error: null,
     },
   );
+});
+
+test('normalizePilotFeedbackPayload accepts a one-tap stuck reason', () => {
+  const result = normalizePilotFeedbackPayload({
+    category: 'stuck',
+    chapterSlug: 'real-numbers',
+    stuckReason: 'need_example',
+    surface: 'lesson',
+  });
+
+  assert.ok(result.data);
+  assert.equal(result.data.message, 'I need another example.');
+  assert.equal(result.data.stuckReason, 'need_example');
 });
 
 test('normalizePilotFeedbackPayload requires a useful message', () => {

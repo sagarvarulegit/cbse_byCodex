@@ -19,6 +19,10 @@ export type SubjectCatalogItem = {
   assessmentLabel: string;
   academicSession: string;
   chapterCount: number;
+  availableCount: number;
+  lessonWiseCount: number;
+  revisionPackCount: number;
+  /** @deprecated Use the explicit availability counts above. */
   liveCount: number;
   accent: 'blue' | 'green';
   description: string;
@@ -36,6 +40,11 @@ export type CurriculumChapterCard = {
     scope: CurriculumScope;
   }>;
 };
+
+export type ChapterDeliveryKind =
+  | 'lesson-wise'
+  | 'revision-pack'
+  | 'coming-soon';
 
 export type ChapterSubjectNavigation = {
   chapterListLabel: string;
@@ -134,6 +143,14 @@ export function buildSubjectCatalog(
 ): SubjectCatalogItem[] {
   return subjects.map((subject) => {
     const subjectChapterEntries = getCurriculumSubjectChapterEntries(subject, chapterEntries);
+    const lessonWiseCount = subjectChapterEntries.filter(
+      ([, chapter]) => getAvailableLessons(chapter).length > 0,
+    ).length;
+    const revisionPackCount = subjectChapterEntries.filter(
+      ([slug, chapter]) =>
+        getAvailableLessons(chapter).length === 0 && hasChapterPack(slug),
+    ).length;
+    const availableCount = lessonWiseCount + revisionPackCount;
 
     return {
       slug: subject.slug,
@@ -142,13 +159,31 @@ export function buildSubjectCatalog(
       assessmentLabel: getAssessmentLabel(subject.assessmentMode),
       academicSession: subject.academicSession,
       chapterCount: subjectChapterEntries.length,
-      liveCount: subjectChapterEntries.filter(isLiveChapterEntry).length,
+      availableCount,
+      lessonWiseCount,
+      revisionPackCount,
+      liveCount: availableCount,
       accent: SUBJECT_ACCENTS[subject.slug] ?? 'blue',
       description:
         SUBJECT_DESCRIPTIONS[subject.slug] ??
         'Browse the current curriculum map, active chapters, and revision-ready learning paths.',
     };
   });
+}
+
+export function getChapterDeliveryKind(
+  chapterSlug: string,
+  chapter: ChapterContent,
+): ChapterDeliveryKind {
+  if (getAvailableLessons(chapter).length > 0) {
+    return 'lesson-wise';
+  }
+
+  if (hasChapterPack(chapterSlug)) {
+    return 'revision-pack';
+  }
+
+  return 'coming-soon';
 }
 
 export function buildCurriculumChapterCards(
@@ -202,8 +237,4 @@ function getCurriculumSubjectChapterSlugs(subject: CurriculumSubject): string[] 
       chapter.scope === 'excluded' ? [] : chapter.platformChapterSlugs,
     ),
   );
-}
-
-function isLiveChapterEntry([slug, chapter]: [string, ChapterContent]): boolean {
-  return getAvailableLessons(chapter).length > 0 || hasChapterPack(slug);
 }

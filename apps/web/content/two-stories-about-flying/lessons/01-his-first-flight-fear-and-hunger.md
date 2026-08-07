@@ -84,6 +84,10 @@ Answer: No. He is afraid, and the story repeatedly shows that fear is the main p
 4. What does the family do around him?
 5. What is the main lesson of this story part?
 
+## Active practice ladder
+
+[[written-practice:tsf-his-first-flight-text-questions]]
+
 ## Answer check
 
 1. He refuses to fly because he is afraid.

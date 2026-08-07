@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+import ExamReadyChecklist from '../../../components/ExamReadyChecklist';
 import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../components/StudentTopbar';
 import { getStudentSession } from '../../../lib/auth';
@@ -13,6 +14,10 @@ import {
   type ChapterContent,
 } from '../../../lib/course-content';
 import { getChapterSubjectNavigation } from '../../../lib/curriculum/subject-navigation';
+import {
+  getStudentExamReadiness,
+  type ExamReadyChecklistState,
+} from '../../../lib/exam-readiness';
 import {
   formatMasteryLevel,
   getChapterMasteryDisplay,
@@ -36,6 +41,7 @@ export default async function ChapterProgressPage({
   }
 
   const masteryPromise = getStudentMastery(slug);
+  const examReadinessPromise = getStudentExamReadiness(slug);
   const [quizContent, session] = await Promise.all([
     getQuizContent(slug),
     getStudentSession(),
@@ -109,6 +115,7 @@ export default async function ChapterProgressPage({
       <Suspense fallback={<ChapterProgressDetailsLoading />}>
         <ChapterProgressDetails
           chapterSlug={slug}
+          examReadinessPromise={examReadinessPromise}
           masteryPromise={masteryPromise}
         />
       </Suspense>
@@ -164,12 +171,17 @@ async function LiveChapterMasteryPanel({
 
 async function ChapterProgressDetails({
   chapterSlug,
+  examReadinessPromise,
   masteryPromise,
 }: {
   chapterSlug: string;
+  examReadinessPromise: Promise<ExamReadyChecklistState | null>;
   masteryPromise: Promise<MasteryPayload>;
 }) {
-  const mastery = await masteryPromise;
+  const [mastery, examReadiness] = await Promise.all([
+    masteryPromise,
+    examReadinessPromise,
+  ]);
   const chapterMastery = mastery.masteries[0];
   const activeMission = mastery.revisionMissions[0];
   const missionPrimaryAction = activeMission?.recommendedActions?.[0];
@@ -232,6 +244,11 @@ async function ChapterProgressDetails({
           </p>
         )}
       </section>
+
+      <ExamReadyChecklist
+        chapterSlug={chapterSlug}
+        initialState={examReadiness}
+      />
 
       {activeMission ? (
         <section className="section-shell chapter-mission-callout">

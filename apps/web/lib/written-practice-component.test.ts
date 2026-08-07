@@ -14,6 +14,12 @@ test('written practice enforces write-before-check, structured saving, repair an
   assert.match(component, /Tick only what you actually wrote/);
   assert.match(component, /earnedRubricPointIds: selectedPointIds/);
   assert.match(component, /weakSkillSlugs/);
+  assert.match(component, /missedRubricPoints/);
+  assert.match(component, /usedHints/);
+  assert.match(component, /Worked example/);
+  assert.match(component, /Similar question with hints/);
+  assert.match(component, /Independent question/);
+  assert.match(component, /Model answer/);
   assert.match(component, /mergeAttemptHistories/);
   assert.match(component, /clientAttemptId/);
   assert.match(component, /getPracticeRemediation/);

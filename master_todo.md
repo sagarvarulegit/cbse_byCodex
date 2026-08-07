@@ -4,7 +4,7 @@ Last updated: 2026-07-01
 
 Role: Product Owner assessment
 
-Purpose: This file is the organized product-readiness backlog for CBSE Sprint. It separates what is ready for a small student pilot from what is still missing for public beta, paid launch, and scale.
+Purpose: This file is the organized product-readiness backlog for ChapterReady. It separates what is ready for a small student pilot from what is still missing for public beta, paid launch, and scale.
 
 ## Executive Assessment
 

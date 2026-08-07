@@ -1,3 +1,5 @@
+import type { MissedRubricPoint } from './mistake-review.js';
+
 export type WrittenPracticeSkill = string;
 
 export type NormalizedWrittenPracticeAttempt = {
@@ -5,12 +7,17 @@ export type NormalizedWrittenPracticeAttempt = {
   chapterSlug: string;
   clientAttemptId: string;
   earnedRubricPointIds: string[];
+  hintPrompt: string | null;
   lessonSlug: string;
   maxScoreHalfMarks: number;
+  missedRubricPoints: MissedRubricPoint[];
   practiceKind: 'timed_diagnostic' | 'written_practice' | 'workbench';
   practiceItemId: string;
+  practicePrompt: string | null;
+  practiceTitle: string;
   retentionEligible: boolean;
   scoreHalfMarks: number;
+  usedHints: boolean;
   weakSkillSlugs: WrittenPracticeSkill[];
 };
 
@@ -20,9 +27,12 @@ export type StoredWrittenPracticeAttempt = {
   earnedRubricPointIds: string[];
   lessonSlug: string;
   maxScoreHalfMarks: number;
+  missedRubricPointIds: string[];
+  practiceKind: string;
   practiceItemId: string;
   retentionEligible: boolean;
   scoreHalfMarks: number;
+  usedHints: boolean;
   weakSkillSlugs: string[];
 };
 
@@ -71,6 +81,18 @@ function readOptionalBoolean(value: unknown, fallback: boolean) {
   return typeof value === 'boolean' ? value : fallback;
 }
 
+function readOptionalText(value: unknown, maxLength: number) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const text = value.trim();
+  return text ? text.slice(0, maxLength) : null;
+}
+
 function readPracticeKind(value: unknown): NormalizedWrittenPracticeAttempt['practiceKind'] {
   return value === 'timed_diagnostic' || value === 'workbench'
     ? value
@@ -90,6 +112,31 @@ function readUniqueSlugs(value: unknown, maximumItems: number) {
   return Array.from(new Set(slugs));
 }
 
+function readMissedRubricPoints(value: unknown) {
+  if (value === null || value === undefined) {
+    return [];
+  }
+  if (!Array.isArray(value) || value.length > 80) {
+    return null;
+  }
+
+  const points: MissedRubricPoint[] = [];
+  const ids = new Set<string>();
+  for (const valueItem of value) {
+    const item = readRecord(valueItem);
+    const id = readSlug(item?.id);
+    const label = readOptionalText(item?.label, 300);
+    const skillSlug = readSlug(item?.skillSlug);
+    if (!item || !id || !label || !skillSlug || ids.has(id)) {
+      return null;
+    }
+    ids.add(id);
+    points.push({ id, label, skillSlug });
+  }
+
+  return points;
+}
+
 export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult {
   const body = readRecord(value);
   if (!body) {
@@ -101,12 +148,18 @@ export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult
   const lessonSlug = readSlug(body.lessonSlug);
   const practiceItemId = readSlug(body.practiceItemId);
   const practiceKind = readPracticeKind(body.practiceKind);
-  const retentionEligible = readOptionalBoolean(body.retentionEligible, true);
+  const usedHints = readOptionalBoolean(body.usedHints, false);
+  const retentionEligible =
+    readOptionalBoolean(body.retentionEligible, true) && !usedHints;
   const scoreHalfMarks = readBoundedInteger(body.scoreHalfMarks, 0, 80);
   const maxScoreHalfMarks = readBoundedInteger(body.maxScoreHalfMarks, 1, 80);
   const answerLength = readBoundedInteger(body.answerLength, 0, 10000);
   const earnedRubricPointIds = readUniqueSlugs(body.earnedRubricPointIds, 80);
+  const hintPrompt = readOptionalText(body.hintPrompt, 2000);
+  const missedRubricPoints = readMissedRubricPoints(body.missedRubricPoints);
   const weakSkillSlugs = readUniqueSlugs(body.weakSkillSlugs, 20);
+  const practiceTitle = readOptionalText(body.practiceTitle, 240) ?? practiceItemId;
+  const practicePrompt = readOptionalText(body.practicePrompt, 2000);
 
   if (
     !chapterSlug ||
@@ -117,6 +170,8 @@ export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult
     maxScoreHalfMarks === null ||
     answerLength === null ||
     !earnedRubricPointIds ||
+    !missedRubricPoints ||
+    !practiceTitle ||
     !weakSkillSlugs
   ) {
     return {
@@ -135,12 +190,17 @@ export function normalizeWrittenPracticeAttempt(value: unknown): NormalizeResult
       chapterSlug,
       clientAttemptId,
       earnedRubricPointIds,
+      hintPrompt,
       lessonSlug,
       maxScoreHalfMarks,
+      missedRubricPoints,
       practiceKind,
       practiceItemId,
+      practicePrompt,
+      practiceTitle,
       retentionEligible,
       scoreHalfMarks,
+      usedHints,
       weakSkillSlugs,
     },
     error: null,
@@ -166,9 +226,15 @@ export function matchesWrittenPracticeAttempt(
     stored.chapterId === chapterId &&
     stored.lessonSlug === incoming.lessonSlug &&
     stored.maxScoreHalfMarks === incoming.maxScoreHalfMarks &&
+    stored.practiceKind === incoming.practiceKind &&
+    sameStringSet(
+      stored.missedRubricPointIds,
+      incoming.missedRubricPoints.map((point) => point.id),
+    ) &&
     stored.practiceItemId === incoming.practiceItemId &&
     stored.retentionEligible === incoming.retentionEligible &&
     stored.scoreHalfMarks === incoming.scoreHalfMarks &&
+    stored.usedHints === incoming.usedHints &&
     sameStringSet(
       stored.earnedRubricPointIds,
       incoming.earnedRubricPointIds,

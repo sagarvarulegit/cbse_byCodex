@@ -1,9 +1,10 @@
+import BrandLockup from '../components/BrandLockup';
+
 export default function Loading() {
   return (
     <main aria-busy="true" aria-live="polite" className="route-loading-shell">
       <div className="route-loading-topbar">
-        <span className="brand-mark">10</span>
-        <strong>CBSE Sprint</strong>
+        <BrandLockup compact />
       </div>
       <section className="route-loading-card">
         <p className="eyebrow">Opening your study page</p>

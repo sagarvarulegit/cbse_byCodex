@@ -15,6 +15,7 @@ import {
   type PracticeRetentionCheckpoint,
   type PracticeRetentionSummary,
 } from '../lib/practice-retention';
+import MathText from './MathText';
 
 type SavedPracticeAttempt = {
   answerLength: number;
@@ -22,9 +23,11 @@ type SavedPracticeAttempt = {
   clientAttemptId: string;
   earnedRubricPointIds: string[];
   maxScoreHalfMarks: number;
+  retentionEligible: boolean;
   savedAt: string;
   scoreHalfMarks: number;
   synced: boolean;
+  usedHints: boolean;
   weakSkillSlugs: PracticeSkillSlug[];
 };
 
@@ -97,6 +100,8 @@ export default function WrittenPracticeCard({
   definition: WrittenPracticeDefinition;
 }) {
   const [answer, setAnswer] = useState('');
+  const [guidedAnswer, setGuidedAnswer] = useState('');
+  const [hintLevel, setHintLevel] = useState(0);
   const [attempts, setAttempts] = useState<SavedPracticeAttempt[]>([]);
   const [message, setMessage] = useState('');
   const [phase, setPhase] = useState<PracticePhase>('writing');
@@ -118,6 +123,8 @@ export default function WrittenPracticeCard({
     setAttempts(localAttempts);
     setAccountRetention(null);
     setAccountHistoryState('idle');
+    setGuidedAnswer('');
+    setHintLevel(0);
   }, [definition.id]);
 
   async function loadAccountHistory() {
@@ -187,6 +194,7 @@ export default function WrittenPracticeCard({
       attempts.map((attempt) => ({
         attemptNumber: attempt.attemptNumber,
         maxScoreHalfMarks: attempt.maxScoreHalfMarks,
+        retentionEligible: attempt.retentionEligible,
         savedAt: attempt.savedAt,
         scoreHalfMarks: attempt.scoreHalfMarks,
       })),
@@ -224,15 +232,25 @@ export default function WrittenPracticeCard({
     }
 
     const answerLength = answer.trim().length;
+    const usedHints = hintLevel > 0;
+    const missedRubricPoints = definition.rubricPoints
+      .filter((point) => !selectedPointIds.includes(point.id))
+      .map((point) => ({
+        id: point.id,
+        label: point.label,
+        skillSlug: point.skillSlug,
+      }));
     const savedAttempt: SavedPracticeAttempt = {
       answerLength,
       attemptNumber,
       clientAttemptId: createClientAttemptId(),
       earnedRubricPointIds: selectedPointIds,
       maxScoreHalfMarks: maxHalfMarks,
+      retentionEligible: !usedHints,
       savedAt: new Date().toISOString(),
       scoreHalfMarks,
       synced: false,
+      usedHints,
       weakSkillSlugs,
     };
     const nextAttempts = [...attempts, savedAttempt].slice(-20);
@@ -255,11 +273,17 @@ export default function WrittenPracticeCard({
           chapterSlug: definition.chapterSlug,
           clientAttemptId: savedAttempt.clientAttemptId,
           earnedRubricPointIds: selectedPointIds,
+          hintPrompt: definition.practiceFlow?.guidedQuestion.prompt ?? null,
           lessonSlug: definition.lessonSlug,
           maxScoreHalfMarks: maxHalfMarks,
+          missedRubricPoints,
           practiceKind: 'written_practice',
           practiceItemId: definition.id,
+          practicePrompt: definition.practiceFlow?.independentQuestion ?? null,
+          practiceTitle: definition.title,
+          retentionEligible: !usedHints,
           scoreHalfMarks,
+          usedHints,
           weakSkillSlugs,
         }),
         headers: { 'Content-Type': 'application/json' },
@@ -305,6 +329,8 @@ export default function WrittenPracticeCard({
 
   function retry() {
     setAnswer('');
+    setGuidedAnswer('');
+    setHintLevel(0);
     setMessage('A fresh attempt has started. Write the complete answer again.');
     setPhase('writing');
     setSelectedPointIds([]);
@@ -327,8 +353,59 @@ export default function WrittenPracticeCard({
         </span>
       </div>
 
+      {definition.practiceFlow ? (
+        <div className="active-practice-flow">
+          <article>
+            <span>1 · Worked example</span>
+            <strong><MathText text={definition.practiceFlow.workedExample.prompt} /></strong>
+            <p><MathText text={definition.practiceFlow.workedExample.solution} /></p>
+          </article>
+
+          <article>
+            <span>2 · Similar question with hints</span>
+            <strong><MathText text={definition.practiceFlow.guidedQuestion.prompt} /></strong>
+            <label>
+              <span>Your guided answer</span>
+              <textarea
+                disabled={phase !== 'writing'}
+                onChange={(event) => setGuidedAnswer(event.target.value)}
+                placeholder="Try the similar question before opening a hint."
+                rows={4}
+                value={guidedAnswer}
+              />
+            </label>
+            <button
+              className="ghost-button"
+              disabled={
+                phase !== 'writing' ||
+                guidedAnswer.trim().length < 10 ||
+                hintLevel >= definition.practiceFlow.guidedQuestion.hints.length
+              }
+              onClick={() => setHintLevel((current) => current + 1)}
+              type="button"
+            >
+              {guidedAnswer.trim().length < 10
+                ? 'Try first to unlock a hint'
+                : hintLevel >= definition.practiceFlow.guidedQuestion.hints.length
+                  ? 'All hints shown'
+                  : `Show hint ${hintLevel + 1}`}
+            </button>
+            {hintLevel > 0 ? (
+              <ol className="active-practice-hints">
+                {definition.practiceFlow.guidedQuestion.hints
+                  .slice(0, hintLevel)
+                  .map((hint) => <li key={hint}>{hint}</li>)}
+              </ol>
+            ) : null}
+          </article>
+        </div>
+      ) : null}
+
       <label className="written-practice-answer">
-        <span>Your answer</span>
+        <span>{definition.practiceFlow ? '3 · Independent question' : 'Your answer'}</span>
+        {definition.practiceFlow ? (
+          <strong><MathText text={definition.practiceFlow.independentQuestion} /></strong>
+        ) : null}
         <textarea
           disabled={phase !== 'writing'}
           onChange={(event) => setAnswer(event.target.value)}
@@ -363,20 +440,28 @@ export default function WrittenPracticeCard({
       ) : null}
 
       {phase !== 'writing' ? (
-        <fieldset className="written-practice-rubric" disabled={phase === 'saved'}>
-          <legend>Tick only what you actually wrote</legend>
-          {definition.rubricPoints.map((point) => (
-            <label key={point.id}>
-              <input
-                checked={selectedPointIds.includes(point.id)}
-                onChange={() => togglePoint(point.id)}
-                type="checkbox"
-              />
-              <span>{point.label}</span>
-              <strong>{formatHalfMarks(point.halfMarks)} mark</strong>
-            </label>
-          ))}
-        </fieldset>
+        <>
+          {definition.practiceFlow ? (
+            <div className="active-practice-model-answer">
+              <span>4 · Model answer</span>
+              <p><MathText text={definition.practiceFlow.modelAnswer} /></p>
+            </div>
+          ) : null}
+          <fieldset className="written-practice-rubric" disabled={phase === 'saved'}>
+            <legend>Tick only what you actually wrote</legend>
+            {definition.rubricPoints.map((point) => (
+              <label key={point.id}>
+                <input
+                  checked={selectedPointIds.includes(point.id)}
+                  onChange={() => togglePoint(point.id)}
+                  type="checkbox"
+                />
+                <span>{point.label}</span>
+                <strong>{formatHalfMarks(point.halfMarks)} mark</strong>
+              </label>
+            ))}
+          </fieldset>
+        </>
       ) : null}
 
       {phase === 'self-marking' ? (

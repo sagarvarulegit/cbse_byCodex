@@ -3,7 +3,7 @@ type: Architecture
 title: CBSE Learning Platform Architecture
 description: Manually maintained map of module boundaries, data ownership, and primary application flows.
 tags: ['architecture', 'modules', 'data-flow', 'onboarding']
-timestamp: 2026-07-31T00:00:00Z
+timestamp: 2026-08-04T00:00:00Z
 ---
 
 # CBSE Learning Platform Architecture
@@ -28,15 +28,23 @@ This document is the repository's concise architecture map. Update it when modul
 - Lesson markdown lives in `apps/web/content/<chapter-slug>/lessons/`.
 - Maintained chapter packs live under `docs/content/`; generated web pack data lives in `apps/web/lib/chapter-packs.generated.ts`.
 - Database models and migrations live under `apps/api/prisma/`. PostgreSQL/Supabase stores application metadata and student state.
+- Guardian permission is stored in the one-to-one `GuardianConsent` record owned by the API. It records the accepted notice version and a deliberately explicit `self_attested` verification status.
 - Bunny Stream delivers lesson video. Bunny Storage holds master MP4 archives.
 - Textbook fidelity rules live in `NOTES_GUIDELINES_STANDARDS.md`; evolving chapter-specific learnings live in `docs/project-memory/curriculum-and-content.md`.
 
 ## Primary flows
 
+### Student registration and privacy
+
+1. `/register` requires the student account fields plus a parent or lawful guardian name, email, relationship, adult confirmation, and acceptance of the current pilot privacy notice.
+2. The web server action sends the notice version and confirmations to `POST /v1/auth/register`. `apps/api/src/lib/guardian-consent.ts` is the server-side validation boundary; browser-required fields alone are never treated as proof of consent.
+3. The API creates `User`, `UserProfile`, and `GuardianConsent` together. The MVP status is `self_attested`; it is suitable only for the controlled pilot and must not be represented as identity or age verification.
+4. `/privacy` is public and versioned. `PRIVACY_CONTACT_EMAIL` supplies the correction, withdrawal, and deletion contact and must be configured before onboarding is widened.
+
 ### Student lessons
 
 1. Student login lands on `/dashboard`. The canonical catalog path is `/dashboard` â†’ `/subjects` â†’ `/subjects/<subject-slug>` â†’ `/chapters/<chapter-slug>/notes`; personalised dashboard shortcuts may deep-link to recent content without replacing that hierarchy.
-2. Subject chapter cards open the continuous chapter content directly. `apps/web/lib/curriculum/subject-navigation.ts` resolves the parent subject for chapter-child breadcrumbs and reverse navigation. The breadcrumb is the single hierarchy control; the sticky top bar is reserved for branding and account actions.
+2. `apps/web/lib/curriculum/subject-navigation.ts` classifies each mapped chapter as `lesson-wise`, `revision-pack`, or `coming-soon`. The home page, dashboard, and subject routes use the same catalog counts, and subject chapter cards open the continuous chapter content directly. The helper also resolves the parent subject for chapter-child breadcrumbs and reverse navigation.
 3. The continuous `/chapters/<slug>/notes` route loads every available lesson in catalog order and includes compact mastery plus a single quiz action. `/chapters/<slug>` remains an optional detailed progress and rewards view, while individual lesson routes remain available for direct remediation links. Lesson markdown is loaded from `apps/web/content/` and parsed into student-facing headings, paragraphs, lists, tables, code blocks, and interactive markers.
 4. Static activity and figure markers route through the server-rendered `LessonDemo`, `ActivityIllustration`, and `StaticFigureDemo` path. Only genuinely interactive demos such as the equation workbench and step walkthroughs cross a client boundary.
 5. Session-aware video, mastery, attempt-history, and feedback data is requested from the API; lesson notes remain readable when optional video lookup is unavailable. HLS support is loaded in the browser only when native HLS playback is unavailable.
@@ -50,10 +58,11 @@ This document is the repository's concise architecture map. Update it when modul
 
 ### Student visual system
 
-1. `apps/web/app/globals.css` continues to own structural layout and the detailed lesson-component contracts. The root layout then loads `apps/web/app/platform-remix.css`, which is the student app's visual-theme boundary and applies the Study Remix language across public, authentication, catalog, chapter, notes, lesson, quiz, practice, feedback, and loading routes.
+1. `apps/web/app/globals.css` continues to own structural layout and the detailed lesson-component contracts. The root layout then loads `apps/web/app/platform-remix.css`, which is the student app's visual-theme boundary and applies the ChapterReady language across public, authentication, catalog, chapter, notes, lesson, quiz, practice, feedback, and loading routes. Study Remix remains the name of the focused dashboard experience rather than the master brand.
 2. The platform palette is warm paper and white, near-black ink, and the approved `#f3883b` orange. Shared navigation, tactile controls, asymmetric cards, grid texture, record-deck surfaces, focus states, and responsive treatments should be added to the theme layer instead of copied into route files.
 3. The dashboard remains a scoped CSS Module because its player has specialised record, setlist, and mini-player geometry; its tokens mirror the platform palette. Educational diagrams and correctness/error states may retain semantic colours inside their themed frames.
 4. Authenticated student routes share the server-rendered `StudentTopbar` for brand, library/dashboard shortcuts, real student identity, and account actions. Notes and lesson routes add a small `ReadingCompanion` client island for device-local reading progress, per-page resume position, contents navigation, and focus mode; it does not write progress or mastery evidence.
+5. The master brand is `ChapterReady`; customer-facing lockups use the descriptor `For CBSE Class 10`. `BrandLockup` owns the shared web rendering, while reusable SVG marks and wordmarks live under `apps/web/public/brand/`. The symbol is an open book with an evident orange check mark and must not incorporate the official CBSE logo or seal.
 
 ### Quizzes and progress
 
@@ -62,15 +71,24 @@ This document is the repository's concise architecture map. Update it when modul
 3. The API stores attempts and updates mastery, study streaks, revision missions, and personal badges through Prisma transactions. Passive views stay analytics-only; study streaks are refreshed by persisted lesson completions, quiz saves, and practice saves.
 4. Revision missions return concrete note and quiz action links, so dashboards can send students to the next real remediation step instead of a fake or unavailable tool.
 5. Student dashboards and chapter pages read the resulting aggregates without treating missing data as completed progress.
+6. Quiz saves include bounded question-level review evidence. Incorrect question ids and weak topic slugs upsert personal `MistakeReviewItem` records; a later correct answer resolves the matching question item.
 
 ### Constructed-response practice
 
 1. Reusable written-practice definitions live in `apps/web/lib/chapter-practice.ts`; lesson markdown places a definition with `[[written-practice:<item-id>]]`.
 2. `WrittenPracticeCard` keeps the student's answer text in browser memory only. After a genuine attempt, the student reveals and self-checks an integer half-mark rubric.
 3. The web sends only structured evidence—score, rubric point ids, weak skill slugs, answer length, and an idempotent client attempt id—to `/v1/progress/practice`.
-4. The API validates that the chapter and lesson are published, stores an immutable `WrittenPracticeAttempt`, and emits `written_practice_scored` with a practice-kind marker for written practice, timed diagnostics, or workbenches. Recent structured attempts can be restored across devices.
+4. The API validates that the chapter and lesson are published, stores an immutable `WrittenPracticeAttempt` with its practice kind, and emits `written_practice_scored` for written practice, timed diagnostics, or workbenches. Recent structured attempts can be restored across devices.
 5. D0/D3/D7 retention is derived from immutable attempt timestamps rather than mutable completion flags. D0 starts at the first score of at least 80%; separate qualifying attempts on or after day 3 and day 7 complete the later checkpoints. One late attempt cannot satisfy both D3 and D7.
 6. Written-practice evidence remains separate from `ChapterMastery` until a reviewed readiness formula exists; recording a self-score or waiting for a date must not silently award exam readiness.
+7. Structured practice saves also record whether hints were opened and which rubric point ids were missed. Draft and final answer text remain browser-only; only the bounded review evidence can create `hint_used` or `written_marking_point` mistake items.
+
+### Personal recovery and Exam Ready
+
+1. `MistakeReviewItem` is the API-owned personal revision queue for incorrect quiz questions, weak concepts, hint use, and missed written-answer marking points. Repeated evidence reopens the same stable item and schedules the next retry three days after the newest attempt.
+2. `/my-mistakes` loads active, revised, or all items from `/v1/progress/mistakes`. Students can mark an item revised or reopen it; new evidence always reopens the item.
+3. `ExamReadyChecklist` stores only the three honest student confirmations: concepts studied, NCERT questions attempted, and weak areas revised. Written-answer completion, a 70% quiz target, and D3 recall are derived from immutable evidence.
+4. A chapter can show Exam Ready only from its saved checklist and evidence. Page views, elapsed dates, and focus-session timers never complete checklist evidence.
 
 Timed diagnostics use the same chapter-independent attempt API through
 definitions in `apps/web/lib/exam-practice.ts` and
@@ -93,6 +111,7 @@ without a Chapter 1 branch in the component or API.
 1. Admin routes require an admin session.
 2. The admin app calls protected API review endpoints.
 3. The API aggregates `ProgressEvent` engagement and feedback records for decision-making surfaces.
+4. Learning help uses a `stuck` feedback category with five fixed reasons. These stay in the manual pilot-review queue; no AI tutor or automated answer generation is attached.
 
 ## Dependency and impact checks
 

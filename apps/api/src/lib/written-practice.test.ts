@@ -28,6 +28,8 @@ test('normalizes a structured attempt without accepting answer text', () => {
   assert.equal('answer' in result.data, false);
   assert.equal(result.data.practiceKind, 'written_practice');
   assert.equal(result.data.retentionEligible, true);
+  assert.equal(result.data.usedHints, false);
+  assert.deepEqual(result.data.missedRubricPoints, []);
   assert.deepEqual(result.data.weakSkillSlugs, ['observation']);
 });
 
@@ -41,6 +43,18 @@ test('keeps an explicit exam-integrity exclusion', () => {
   assert.ok(result.data);
   assert.equal(result.data.practiceKind, 'timed_diagnostic');
   assert.equal(result.data.retentionEligible, false);
+});
+
+test('excludes hinted attempts from retention even if a client marks them eligible', () => {
+  const result = normalizeWrittenPracticeAttempt({
+    ...validAttempt,
+    retentionEligible: true,
+    usedHints: true,
+  });
+
+  assert.ok(result.data);
+  assert.equal(result.data.retentionEligible, false);
+  assert.equal(result.data.usedHints, true);
 });
 
 test('rejects impossible scores and malformed skill slugs', () => {
@@ -66,6 +80,7 @@ test('accepts exact idempotent retries and rejects conflicting identity reuse', 
   const stored = {
     ...normalized.data,
     chapterId: 'chapter-1',
+    missedRubricPointIds: normalized.data.missedRubricPoints.map((point) => point.id),
   };
 
   assert.equal(

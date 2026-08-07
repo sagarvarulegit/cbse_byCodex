@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
+import BrandLockup from '../components/BrandLockup';
 import StudyRemixProvider from '../components/StudyRemixProvider';
 
 import 'katex/dist/katex.min.css';
@@ -7,8 +9,12 @@ import './globals.css';
 import './platform-remix.css';
 
 export const metadata: Metadata = {
-  title: 'CBSE Class 10 Learning Portal',
-  description: 'Video-first CBSE Class 10 learning for Mathematics and Science.',
+  title: {
+    default: 'ChapterReady for CBSE Class 10',
+    template: '%s | ChapterReady',
+  },
+  description:
+    'Textbook-faithful CBSE Class 10 notes, quizzes, practice, and guided revision.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -16,6 +22,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <StudyRemixProvider>{children}</StudyRemixProvider>
+        <footer className="site-footer">
+          <Link aria-label="ChapterReady home" className="footer-brand" href="/">
+            <BrandLockup compact showDescriptor={false} />
+          </Link>
+          <Link href="/privacy">Privacy and guardian consent</Link>
+        </footer>
       </body>
     </html>
   );

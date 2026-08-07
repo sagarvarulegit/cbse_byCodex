@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { logoutAction } from '../app/auth-actions';
 import type { SessionUser } from '../lib/auth';
+import BrandLockup from './BrandLockup';
 
 type StudentTopbarProps = {
   contextLabel?: string;
@@ -28,15 +29,11 @@ export default function StudentTopbar({
   return (
     <header className="student-topbar">
       <Link
-        aria-label="CBSE Sprint Study Remix dashboard"
+        aria-label="ChapterReady dashboard"
         className="student-topbar-brand"
         href={session ? '/dashboard' : '/'}
       >
-        <span className="student-topbar-mark">10</span>
-        <span className="student-topbar-brand-copy">
-          <strong>CBSE Sprint</strong>
-          <span>Study Remix</span>
-        </span>
+        <BrandLockup compact />
       </Link>
 
       {contextLabel ? (
@@ -46,6 +43,7 @@ export default function StudentTopbar({
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/subjects">Library</Link>
+        {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
       </nav>
 
       {session ? (
@@ -72,6 +70,7 @@ export default function StudentTopbar({
               </span>
               <Link href="/dashboard">Today&apos;s mix</Link>
               <Link href="/subjects">Full subject library</Link>
+              <Link href="/my-mistakes">My Mistakes</Link>
               <form action={logoutAction}>
                 <button type="submit">Logout</button>
               </form>

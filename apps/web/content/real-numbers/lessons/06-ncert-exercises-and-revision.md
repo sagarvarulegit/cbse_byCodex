@@ -107,6 +107,10 @@ For three positive integers, the textbook gives separate HCF and LCM relations. 
 - Have you used the correct HCF/LCM powers?
 - Have you stated "lowest form" and the final contradiction in every proof?
 
+## Active practice ladder
+
+[[written-practice:rn-exercise-1-1-hcf-lcm]]
+
 ## One-minute revision
 
 Prime factorisation controls the arithmetic. Lowest-form contradiction controls the proofs.

@@ -56,7 +56,12 @@ export default async function SubjectsPage() {
                 <h3>{subject.title}</h3>
                 <p>{subject.description}</p>
                 <div className="subject-card-meta">
-                  Session {subject.academicSession} • {subject.liveCount} of {subject.chapterCount} chapters live
+                  Session {subject.academicSession} | {subject.availableCount} of{' '}
+                  {subject.chapterCount} chapters available
+                </div>
+                <div className="subject-card-coverage">
+                  <span>{subject.lessonWiseCount} lesson-wise</span>
+                  <span>{subject.revisionPackCount} revision packs</span>
                 </div>
                 <Link
                   className="card-link"

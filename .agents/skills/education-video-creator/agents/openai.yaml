@@ -1,0 +1,4 @@
+interface:
+  display_name: "Education Video Creator"
+  short_description: "Turn textbook concepts into memorable videos"
+  default_prompt: "Use $education-video-creator to turn this textbook concept into an accurate, easy-to-understand educational video."

@@ -113,7 +113,11 @@ function getTopKey(counts: Map<string, number>) {
 }
 
 function isFrictionSignal(feedback: PilotReviewFeedback) {
-  return feedback.category === 'bug' || (feedback.rating !== null && feedback.rating <= 2);
+  return (
+    feedback.category === 'bug' ||
+    feedback.category === 'stuck' ||
+    (feedback.rating !== null && feedback.rating <= 2)
+  );
 }
 
 function compareFrictionSignals(left: PilotReviewFeedback, right: PilotReviewFeedback) {

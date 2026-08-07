@@ -2,6 +2,7 @@ import { UserRole } from '@prisma/client';
 import { Router } from 'express';
 
 import { hashPassword, readSessionToken, verifyPassword } from '../lib/auth.js';
+import { normalizeGuardianConsent } from '../lib/guardian-consent.js';
 import { prisma } from '../lib/prisma.js';
 import { rateLimit } from '../lib/rate-limiter.js';
 import { normalizeRegistrationClassLevel } from '../lib/registration.js';
@@ -72,6 +73,7 @@ authRouter.post('/register', authLimiter, async (req, res) => {
     const password = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
     const passwordError = validatePassword(password);
     const { classLevel, error: classLevelError } = normalizeRegistrationClassLevel(req.body?.classLevel);
+    const guardianConsent = normalizeGuardianConsent(req.body);
 
     if (!fullName) {
       return res.status(400).json({ message: 'Full name must be at least 2 characters.' });
@@ -89,6 +91,10 @@ authRouter.post('/register', authLimiter, async (req, res) => {
       return res.status(400).json({ message: classLevelError ?? 'Please choose your class to continue.' });
     }
 
+    if (!guardianConsent.data) {
+      return res.status(400).json({ message: guardianConsent.error });
+    }
+
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ message: 'An account already exists for this email.' });
@@ -99,6 +105,9 @@ authRouter.post('/register', authLimiter, async (req, res) => {
       data: {
         email,
         passwordHash,
+        guardianConsent: {
+          create: guardianConsent.data,
+        },
         profile: {
           create: {
             classLevel,

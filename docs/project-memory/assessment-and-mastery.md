@@ -3,7 +3,7 @@ type: ProjectMemoryTopic
 title: Assessment and Mastery Memory
 description: Durable quiz, constructed-response, diagnostic, retention, workbench, mastery, and gamification learnings.
 tags: ['memory', 'assessment', 'quiz', 'mastery', 'gamification']
-timestamp: 2026-07-30T00:00:00Z
+timestamp: 2026-08-04T00:00:00Z
 ---
 
 # Assessment and Mastery Memory
@@ -13,7 +13,7 @@ Read this file for quizzes, written practice, timed diagnostics, balancing workb
 ## Constructed response and retention
 
 - The Chapter 1 concept quiz is a 20-question check mapped to six core lesson slugs. `07-board-exam-practice.md` adds nine verified constructed-response questions and a two-pass oxidising/reducing-agent bridge; `08-board-readiness-diagnostic.md` is an original 30-mark mixed-format assessment; `09-board-readiness-diagnostic-b.md` is a separate 20-mark transfer check. Do not force supplement slugs into the core quiz coverage set.
-- Chapter 1 constructed-response practice uses reusable definitions in `apps/web/lib/chapter-practice.ts` and `[[written-practice:<item-id>]]` lesson markers. Typed answers remain in browser memory; only rubric point ids, half-mark score, weak-skill slugs, answer length, and idempotent attempt identity are stored in `WrittenPracticeAttempt`. Keep self-marked attempts out of mastery until retention and reviewed-readiness rules are explicit.
+- Chapter 1 constructed-response practice uses reusable definitions in `apps/web/lib/chapter-practice.ts` and `[[written-practice:<item-id>]]` lesson markers. Typed answers remain in browser memory; only rubric point ids, missed point ids, hint use, practice kind, half-mark score, weak-skill slugs, answer length, and idempotent attempt identity are stored in `WrittenPracticeAttempt`. Keep self-marked attempts out of mastery until retention and reviewed-readiness rules are explicit.
 - Timed diagnostics use definitions in `apps/web/lib/exam-practice.ts` and `[[exam-practice:<item-id>]]` markers. Writing and checking deadlines are wall-clock values persisted locally, so refresh does not restart them. Scores support half marks. Any unchecked integrity confirmation makes the saved attempt practice-only with `retentionEligible: false`.
 - Remediation links must use live lesson slugs, not numbered Markdown filenames: `/lessons/balancing-equations`, not `/lessons/02-balancing-equations`. The practice contract resolves every skill URL to a catalog lesson file and proves that its generated heading anchor exists.
 - Written-practice retention is derived: the first immutable attempt at 80% or above completes D0, a separate qualifying attempt on or after day 3 completes D3, and another separate qualifying attempt on or after day 7 completes D7. A single late retry may complete D3 but cannot also complete D7. Dates alone never create completion, and this evidence does not alter `ChapterMastery`.
@@ -50,3 +50,10 @@ Read this file for quizzes, written practice, timed diagnostics, balancing workb
 - Mastery Reward Unlock V1 derives a personal surface from mastery and badges. `apps/web/lib/mastery-rewards.ts` maps Learner, Skilled, Exam Ready, and Topper Track thresholds to locked/unlocked study-tool rewards.
 - Study Remix focus sessions are navigation and time-management aids, not mastery evidence. Their temporary timer lives in student-scoped browser session storage, a queued tomorrow cue is device-local, and neither starting nor completing a mix marks a lesson complete or changes `ChapterMastery`.
 - `focus_mix_start` and `focus_mix_complete` are pilot engagement events only. Revision missions may choose the opening album and replace its curated rewind cue, but the mission lifecycle and target score continue to be owned by the existing mastery API.
+
+## My Mistakes and Exam Ready
+
+- My Mistakes is a persisted personal recovery queue, not another mastery score. Stable keys deduplicate quiz questions, weak concepts, hint use, and written marking points; repeated evidence reopens an item and moves its retry date to three days after the newest attempt.
+- Quiz attempts now keep bounded question-level review evidence so a later correct answer can resolve the exact prior question. Written answers remain browser-only; practice attempts store hint use and missed rubric point ids only.
+- The Exam Ready checklist uses a 70% saved quiz target. Written-answer completion counts only `written_practice` attempts, while D3 recall may come from any qualifying practice kind; concepts studied, NCERT questions attempted, and weak areas revised require saved student confirmation unless the lesson-completion record already covers every published lesson.
+- Resolving the last active mistake can complete the weak-areas confirmation. Any new mistake immediately clears it. Waiting for the retry date never marks an item revised or completes D3 recall.

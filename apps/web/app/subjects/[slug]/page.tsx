@@ -1,16 +1,13 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import StudentTopbar from '../../../components/StudentTopbar';
-import {
-  getAvailableLessons,
-  getChapterEntries,
-  hasChapterPack,
-} from '../../../lib/course-content';
+import { getChapterEntries } from '../../../lib/course-content';
 import { requireStudentSession } from '../../../lib/auth';
 import { getCurriculumSubject } from '../../../lib/curriculum/registry';
 import {
   buildSubjectCatalog,
   buildCurriculumChapterCards,
+  getChapterDeliveryKind,
   resolveCurriculumSubjectSlug,
 } from '../../../lib/curriculum/subject-navigation';
 import { isPilotChapter } from '../../../lib/pilot';
@@ -54,7 +51,9 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
             <p className="eyebrow">Class 10 CBSE</p>
             <h1>{subjectCatalogItem.title} Chapters</h1>
             <p className="subtext compact">
-              Choose a chapter to open its complete learning content. Read in textbook order, jump to any section, or take the chapter quiz when you are ready.
+              Lesson-wise chapters contain the guided learning flow. Revision packs
+              provide the current condensed chapter notes, while remaining syllabus
+              chapters are clearly marked coming soon.
             </p>
           </div>
 
@@ -70,7 +69,8 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
               <h2>Choose a chapter</h2>
             </div>
             <span className="section-badge">
-              {subjectCatalogItem.liveCount} of {subjectCatalogItem.chapterCount} chapters live
+              {subjectCatalogItem.availableCount} of{' '}
+              {subjectCatalogItem.chapterCount} chapters available
             </span>
           </div>
 
@@ -83,33 +83,32 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                 curriculumTitle,
                 curriculumTopics,
               } = chapterCard;
-              const isLive =
-                getAvailableLessons(chapter).length > 0 ||
-                hasChapterPack(chapterSlug);
+              const deliveryKind = getChapterDeliveryKind(chapterSlug, chapter);
+              const isAvailable = deliveryKind !== 'coming-soon';
               const isPilot = isPilotChapter(chapterSlug);
               return (
                 <article
-                  className={`chapter-card subject-card ${subjectCatalogItem.accent} ${!isLive ? 'soft' : ''}`}
+                  className={`chapter-card subject-card ${subjectCatalogItem.accent} ${!isAvailable ? 'soft' : ''}`}
                   data-subject-motif={subjectCatalogItem.slug}
                   key={chapterSlug}
-                  style={!isLive ? { opacity: 0.8 } : undefined}
+                  style={!isAvailable ? { opacity: 0.8 } : undefined}
                 >
                   <div className="chapter-topline">
                     <span>{formatCurriculumScope(curriculumScope)}</span>
-                    <strong style={!isLive ? { background: 'var(--border)', color: 'var(--muted)' } : undefined}>
+                    <strong style={!isAvailable ? { background: 'var(--border)', color: 'var(--muted)' } : undefined}>
                       {isPilot
-                        ? 'Free pilot'
-                        : isLive
-                          ? chapter.mastery === 'Coming soon'
-                            ? 'Notes live'
-                            : chapter.mastery
-                          : 'Coming soon'}
+                        ? 'Pilot lesson-wise'
+                        : deliveryKind === 'lesson-wise'
+                          ? 'Lesson-wise'
+                          : deliveryKind === 'revision-pack'
+                            ? 'Revision pack'
+                            : 'Coming soon'}
                     </strong>
                   </div>
                   <h3>{curriculumTitle}</h3>
                   <p>{chapter.summary}</p>
 
-                  {isLive && chapter.progress > 0 && (
+                  {deliveryKind === 'lesson-wise' && chapter.progress > 0 && (
                     <div className="progress-track" aria-label={`${chapter.progress}% complete`} style={{ margin: '14px 0 10px' }}>
                       <span style={{ width: `${chapter.progress}%` }} />
                     </div>
@@ -119,19 +118,23 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
                     <ul>
                       {curriculumTopics.map((topic) => (
                         <li key={topic.id}>
-                          {topic.title} · {formatCurriculumScope(topic.scope)}
+                          {topic.title} | {formatCurriculumScope(topic.scope)}
                         </li>
                       ))}
                     </ul>
                   )}
 
-                  {isLive ? (
+                  {isAvailable ? (
                     <Link
                       className="card-link"
                       href={`/chapters/${chapterSlug}/notes`}
                       prefetch={false}
                     >
-                      {chapter.progress > 0 ? 'Continue chapter' : 'Start chapter'}
+                      {deliveryKind === 'revision-pack'
+                        ? 'Open revision pack'
+                        : chapter.progress > 0
+                          ? 'Continue lessons'
+                          : 'Open lessons'}
                     </Link>
                   ) : (
                     <div className="card-link card-link-disabled">

@@ -303,7 +303,7 @@ export default function ChemicalEquationBalancer({
         Math.max(0, ...localAttempts.map((attempt) => attempt.attemptNumber)) + 1,
       clientAttemptId,
       maxScoreHalfMarks,
-      retentionEligible: true,
+      retentionEligible: hintedEquationIds.length === 0,
       savedAt: new Date().toISOString(),
       scoreHalfMarks,
     };
@@ -323,11 +323,21 @@ export default function ChemicalEquationBalancer({
           chapterSlug: activeWorkbench.chapterSlug,
           clientAttemptId,
           earnedRubricPointIds: independentIds,
+          hintPrompt: activeWorkbench.equations
+            .filter((equation) => hintedEquationIds.includes(equation.id))
+            .map(
+              (equation) =>
+                `${equation.reactants.map((compound) => compound.formula).join(' + ')} → ${equation.products.map((compound) => compound.formula).join(' + ')}`,
+            )
+            .join('; '),
           lessonSlug: activeWorkbench.lessonSlug,
           maxScoreHalfMarks,
           practiceKind: 'workbench',
           practiceItemId: activeWorkbench.practiceItemId,
+          practiceTitle: activeWorkbench.title,
+          retentionEligible: hintedEquationIds.length === 0,
           scoreHalfMarks,
+          usedHints: hintedEquationIds.length > 0,
           weakSkillSlugs:
             scoreHalfMarks === maxScoreHalfMarks ? [] : ['balancing'],
         }),
@@ -380,12 +390,12 @@ export default function ChemicalEquationBalancer({
   }
 
   const workbenchFinished =
-    equationIndex === workbench.equations.length - 1 && currentPassed;
+    equationIndex === activeWorkbench.equations.length - 1 && currentPassed;
   const masteryCount = completedEquations.filter(
     (completed) => completed.independent,
   ).length;
   const balancingRemediation = getPracticeRemediation(
-    workbench.chapterSlug,
+    activeWorkbench.chapterSlug,
     'balancing',
   );
 
@@ -394,19 +404,19 @@ export default function ChemicalEquationBalancer({
       <header className="balancer-header">
         <div>
           <p className="eyebrow">Interactive practice</p>
-          <h4 id={`${demoId}-title`}>{workbench.title}</h4>
-          <p>{workbench.subtitle}</p>
+          <h4 id={`${demoId}-title`}>{activeWorkbench.title}</h4>
+          <p>{activeWorkbench.subtitle}</p>
         </div>
         <strong>
-          Equation {equationIndex + 1}/{workbench.equations.length}
+          Equation {equationIndex + 1}/{activeWorkbench.equations.length}
         </strong>
       </header>
 
-      <div className="balancer-source">{equation.sourceAnchor}</div>
+      <div className="balancer-source">{activeEquation.sourceAnchor}</div>
 
       <div aria-label="Equation coefficients" className="balancer-equation">
         <div className="balancer-side">
-          {equation.reactants.map((currentCompound, index) => (
+          {activeEquation.reactants.map((currentCompound, index) => (
             <div className="balancer-term" key={currentCompound.formula}>
               {index > 0 ? <span aria-hidden="true">+</span> : null}
               <CompoundInput
@@ -423,8 +433,8 @@ export default function ChemicalEquationBalancer({
           →
         </span>
         <div className="balancer-side">
-          {equation.products.map((currentCompound, index) => {
-            const coefficientIndex = equation.reactants.length + index;
+          {activeEquation.products.map((currentCompound, index) => {
+            const coefficientIndex = activeEquation.reactants.length + index;
             return (
               <div className="balancer-term" key={currentCompound.formula}>
                 {index > 0 ? <span aria-hidden="true">+</span> : null}
@@ -453,7 +463,7 @@ export default function ChemicalEquationBalancer({
             </tr>
           </thead>
           <tbody>
-            {equation.elementOrder.map((element) => {
+            {activeEquation.elementOrder.map((element) => {
               const matches = reactantCounts[element] === productCounts[element];
               return (
                 <tr key={element}>
@@ -474,15 +484,15 @@ export default function ChemicalEquationBalancer({
         </button>
         <button
           className="ghost-link"
-          disabled={currentPassed || hintLevel >= equation.hints.length}
+          disabled={currentPassed || hintLevel >= activeEquation.hints.length}
           onClick={() => {
             setHintLevel((current) =>
-              Math.min(current + 1, equation.hints.length),
+              Math.min(current + 1, activeEquation.hints.length),
             );
             setHintedEquationIds((current) =>
-              current.includes(equation.id)
+              current.includes(activeEquation.id)
                 ? current
-                : [...current, equation.id],
+                : [...current, activeEquation.id],
             );
           }}
           type="button"
@@ -496,7 +506,7 @@ export default function ChemicalEquationBalancer({
 
       {hintLevel > 0 ? (
         <ol className="balancer-hints">
-          {equation.hints.slice(0, hintLevel).map((hint, index) => (
+          {activeEquation.hints.slice(0, hintLevel).map((hint, index) => (
             <li key={hint}>
               <strong>Hint {index + 1}:</strong> {hint}
             </li>
@@ -517,7 +527,7 @@ export default function ChemicalEquationBalancer({
       {workbenchFinished && saveState === 'idle' ? (
         <div className="balancer-completion">
           <strong>
-            Independent mastery: {masteryCount}/{workbench.equations.length}
+            Independent mastery: {masteryCount}/{activeWorkbench.equations.length}
           </strong>
           <p>
             D0 starts only when all four are completed without hints. Guided
@@ -539,7 +549,7 @@ export default function ChemicalEquationBalancer({
                 ? 'Saved to your account.'
                 : 'Saved on this device. Sign in to sync across devices.'}
           </span>
-          {masteryCount < workbench.equations.length && balancingRemediation ? (
+          {masteryCount < activeWorkbench.equations.length && balancingRemediation ? (
             <p>
               First repair:{' '}
               <Link href={balancingRemediation.href}>

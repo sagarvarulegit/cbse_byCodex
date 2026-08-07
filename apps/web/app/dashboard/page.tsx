@@ -4,8 +4,12 @@ import PilotFeedbackForm from '../../components/PilotFeedbackForm';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import StudyRemixDashboard from '../../components/StudyRemixDashboard';
+import SyllabusLibraryGrid from '../../components/SyllabusLibraryGrid';
 import styles from '../../components/study-remix.module.css';
 import { requireStudentSession } from '../../lib/auth';
+import { getChapterEntries } from '../../lib/course-content';
+import { getVisibleCurriculumSubjects } from '../../lib/curriculum/registry';
+import { buildSubjectCatalog } from '../../lib/curriculum/subject-navigation';
 import {
   formatMasteryLevel,
   getNextMasteryLabel,
@@ -32,6 +36,10 @@ export default async function DashboardPage() {
     masteryScore: bestMasteryScore,
   });
   const remixModel = buildStudyRemixDashboardModel({ mastery, session });
+  const subjectCatalog = buildSubjectCatalog(
+    getVisibleCurriculumSubjects(),
+    getChapterEntries(),
+  );
 
   return (
     <main className={styles.page}>
@@ -47,6 +55,23 @@ export default async function DashboardPage() {
       />
 
       <StudyRemixDashboard model={remixModel} />
+
+      <section className="syllabus-library-section dashboard-syllabus-library">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Full syllabus library</p>
+            <h2>Study beyond today&apos;s pilot mix.</h2>
+          </div>
+          <Link className="card-link" href="/subjects">
+            Browse all subjects
+          </Link>
+        </div>
+        <p className="syllabus-library-intro">
+          Open lesson-wise chapters or use the available revision packs. Chapters
+          still being prepared remain labeled coming soon.
+        </p>
+        <SyllabusLibraryGrid subjects={subjectCatalog} />
+      </section>
 
       <section className={styles.backstageWrap}>
         <details className={styles.backstage} id="backstage">
@@ -217,6 +242,20 @@ export default async function DashboardPage() {
                 </div>
               </section>
             ) : null}
+
+            <section className="dashboard-profile mistakes-dashboard-callout">
+              <div>
+                <p className="eyebrow">Personal revision</p>
+                <h2>Turn every mistake into the next study step.</h2>
+                <p>
+                  Quiz errors, hint use, weak concepts, and missed marking points
+                  collect automatically with a three-day retry date.
+                </p>
+              </div>
+              <Link className="button-link" href="/my-mistakes">
+                Open My Mistakes
+              </Link>
+            </section>
 
             <PilotFeedbackForm surface="dashboard" />
 

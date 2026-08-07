@@ -220,7 +220,7 @@ project, the current repo docs, and the git history through `d2040ac`.
 
 ## Open Questions
 
-- [ ] What is the final brand name? Current UI uses `CBSE Sprint`.
+- [x] Final brand name: `ChapterReady`, presented to customers as `ChapterReady for CBSE Class 10`.
 - [ ] Which master asset storage should be used: Cloudflare R2, Bunny Storage, S3, or Supabase Storage?
 - [ ] What is the initial subscription price for the one-year plan?
 - [ ] Which language should the first content ship in: English, Hindi, Hinglish, or multiple tracks?
