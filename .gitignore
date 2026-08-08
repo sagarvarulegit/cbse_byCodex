@@ -188,3 +188,5 @@ videos/*
 .vercel
 # Local rendering tools copied from system installations
 .codex-tmp/
+# Reasonix local session artifacts
+.reasonix/
