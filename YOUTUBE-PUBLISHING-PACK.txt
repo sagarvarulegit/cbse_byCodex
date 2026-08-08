@@ -1,0 +1,142 @@
+YOUTUBE PUBLISHING PACK — CBSE Class 10 Video Series (ChapterReady)
+====================================================================
+Prepared: 2026-08-08 · 3 uploads · copy-paste ready
+Files referenced: renders/ + thumbnails/ under each video project.
+
+Order suggestion: publish the MAIN VIDEO first, then the two Shorts
+(Shorts drive viewers to the main video — its description/end screen
+links to the channel).
+
+
+####################################################################
+UPLOAD 1 — MAIN VIDEO (4 min)
+File: videos/cbse-class-10-maths-marks-plan/renders/cbse-class-10-maths-marks-plan_with-audio.mp4
+Thumbnail: videos/cbse-class-10-maths-marks-plan/thumbnails/thumbnail.jpg (1280x720)
+####################################################################
+
+TITLE
+========================================
+CBSE Class 10 Maths: Your Board Paper Is a Marks Map, Not a Guessing Game
+
+DESCRIPTION
+========================================
+Your CBSE Class 10 Maths board paper is not a guessing game — it's a marks map. This 4-minute guide shows you how to read the official 80-mark blueprint and turn it into a Learn → Practise → Timed paper → Error-repair routine you can actually finish.
+
+📊 The official marks map (Class X 2026-27):
+• Algebra — 20 marks
+• Geometry — 15
+• Trigonometry — 12
+• Statistics & Probability — 11
+• Mensuration — 10
+• Number Systems — 6
+• Coordinate Geometry — 6
+Plus 20 internal-assessment marks (pen-paper tests, portfolio, lab practicals).
+
+⏱️ Chapters:
+0:00 Hook — not a guessing game
+0:12 One paper, two scores
+0:27 The marks map
+0:48 Algebra's share
+1:03 60 marks outside Algebra
+1:21 Standard 041 vs Basic 241
+1:43 Three question levels
+1:59 The other 20 marks
+2:14 The cycle
+2:31 Step 1: Learn
+2:45 Step 2: Practise
+2:59 Step 3: Timed paper
+3:15 Step 4: Repair
+3:29 Retrieval close
+3:51 Your next step
+
+No repeat-question predictions and no "most important chapters" hype — just the official syllabus read as a plan. Every number verified against the CBSE Class X Mathematics (Standard 041 / Basic 241) curriculum 2026-27.
+
+📚 Free CBSE Class 10 notes, examples & quizzes: http://www.chapterready.in
+
+#CBSE #Class10 #Maths #BoardExam #StudyPlan #MarksDistribution #ChapterReady
+
+TAGS
+========================================
+CBSE, Class 10, Maths, Mathematics, CBSE Class 10 Maths, Class 10 Maths, CBSE Class 10 Mathematics, board exam, CBSE board exam 2026, Class 10 board exam preparation, maths exam preparation, maths study plan, study plan for Class 10, marks distribution, CBSE marks distribution, Class 10 maths syllabus, CBSE syllabus 2026-27, Mathematics Standard 041, Mathematics Basic 241, maths strategy, how to prepare for maths exam, Class 10 maths strategy, board paper pattern, NCERT maths, exam tips, study tips for students, ChapterReady, CBSE Sprint, class 10 maths marks, algebra marks
+
+
+####################################################################
+UPLOAD 2 — SHORT: Maths teaser (30s)
+File: videos/cbse-class-10-maths-marks-plan/renders/cbse-class-10-maths-marks-plan_short.mp4
+Note: Shorts don't accept custom thumbnails (YouTube auto-picks).
+CTA = watch the full video (on-screen).
+####################################################################
+
+TITLE
+========================================
+Your CBSE Maths board paper is NOT a guessing game 🎯
+
+DESCRIPTION
+========================================
+Your CBSE Maths board paper is NOT a guessing game — it's a marks map.
+
+Watch the FULL 4-minute plan on this channel → the official 80-mark breakdown (Algebra 20 · Geometry 15 · Trigonometry 12 · Mensuration 10 · Stats & Probability 11 · Number Systems 6 · Coordinate Geometry 6), the 20 internal-assessment marks, and the cycle that turns the map into marks:
+
+Learn → Practise → Timed paper → Repair
+
+👉 Tap the full video before this Short ends — it changes how you plan your board paper.
+📚 Free CBSE Class 10 notes, examples & quizzes: http://www.chapterready.in
+
+#CBSE #Class10 #Maths #BoardExam #StudyPlan #ChapterReady #CBSESprint
+
+TAGS
+========================================
+CBSE Class 10 Maths, Class 10 board exam, marks map, marks distribution, maths study plan, board exam 2026, maths strategy, how to prepare for maths exam, CBSE Maths Standard 041, CBSE Maths Basic 241, study plan for Class 10, board paper pattern, ChapterReady, CBSE Sprint, study tips
+
+
+####################################################################
+UPLOAD 3 — SHORT: Board exam habits (54s)
+File: videos/board-exam-habits-short/renders/board-exam-habits-short_with-audio.mp4
+####################################################################
+
+TITLE
+========================================
+Board Exams Are Won by Habits, Not 15-Hour Days 📚
+
+DESCRIPTION
+========================================
+Discipline beats motivation.
+
+Your Class 10 board exam doesn't start when you open the textbook — it starts with your daily habits:
+
+😴 Sleep well — a tired brain doesn't learn efficiently
+🥗 Eat smart — feed your brain, not your cravings
+⚽ Move your body — play to refresh, not to escape studying
+🔥 Discipline — a routine beats motivation every time
+
+Marks are the result. Habits are the cause. Board exams are not a one-day battle — they are a daily habit.
+
+⏱️ Chapters:
+0:00 It starts with your habits
+0:07 Habit 1 — Sleep
+0:15 Habit 2 — Eat smart
+0:23 Habit 3 — Move
+0:31 Habit 4 — Discipline beats motivation
+0:41 Marks are the result. Habits are the cause.
+
+Subscribe for more Class 10 study systems.
+📚 Free CBSE Class 10 notes, examples & quizzes: http://www.chapterready.in
+
+#Shorts #CBSE #Class10 #BoardExam #StudyHabits #Discipline #StudyMotivation #ChapterReady
+
+TAGS
+========================================
+board exam habits, CBSE Class 10, Class 10 board exam, study habits, discipline beats motivation, how to study for exams, exam preparation tips, sleep and study, study motivation, Class 10 study plan, board exam preparation, daily routine for students, study routine, CBSE, Class 10, study tips, exam tips, motivation for students, healthy habits for students, study discipline, how to score good marks in Class 10, ChapterReady, CBSE Sprint, board exam motivation
+
+
+====================================================================
+PUBLISHING CHECKLIST
+====================================================================
+[ ] Push repo (git push — needs your GitHub credentials)
+[ ] Upload main video (4 min) + thumbnail.jpg + title/description/tags
+[ ] Upload Short 1 (Maths teaser) + title/description/tags
+[ ] Upload Short 2 (Habits) + title/description/tags
+[ ] Pin a comment on each Short: "Watch the full 4-minute plan → [main video link]"
+[ ] End screen on the main video: point to the channel
+[ ] Verify music licensing is clear for YouTube (educational_upbeat.mp3,
+    paulyudin-minimal-tech-151890.mp3 are user-supplied)
