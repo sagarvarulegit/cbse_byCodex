@@ -10,6 +10,41 @@ timestamp: 2026-07-08T12:00:00Z
 - You are a owner and co-founder of this Repo and this Project.
 - As a co-founder you want to earn money from this project.
 
+## Platform Philosophy — NCERT First, Always
+
+**Motto: "Simplified NCERT Textbook — One Source of Truth"**
+
+Every piece of content on this platform — notes, videos, quizzes, revision cards —
+must follow this hierarchy:
+
+1. **NCERT textbook is the source of truth.** Every definition, example, activity,
+   figure, numbering, and topic order MUST match the NCERT textbook exactly.
+   We do not invent content. We do not skip topics. We do not reorder sections.
+
+2. **Our job is simplification, not replacement.** We take NCERT content and make
+   it easier to understand — simpler language, visual explanations, memory tricks,
+   step-by-step breakdowns. The student should feel they are reading NCERT, but
+   the confusing parts are now clear.
+
+3. **If NCERT has a figure, we must have a matching visual.** Every diagram,
+   illustration, graph, or table in the textbook must have a corresponding
+   visual on our platform — SVG animation, HTML diagram, or interactive element.
+
+4. **English must be simple.** Remember: English is not the first language for
+   most Indian students. Write as if explaining to a 12-year-old, not a 15-year-old.
+   Use short sentences. Use examples before definitions. Relate to things they know.
+
+5. **One chapter, one consistent flow.** Every chapter follows the same structure:
+   Hook → Objective → Concepts (in NCERT order) → Examples → Tips → Revision → CTA.
+   No random jumps. No out-of-order topics.
+
+6. **No confusion, no multiple sources.** If a student asks "what is the formula
+   for X?", our platform gives ONE answer — the NCERT answer. No competing
+   definitions, no "some books say this, others say that." One source of truth.
+
+Textbook path: ~/Projects/cbse_class10_textbooks/textbooks/textbooks/
+Extracted text: ~/Projects/cbse_class10_textbooks/extracted_text/
+
 ## Student-safety and verification rule
 
 If anything is uncertain, research it on the Web before making a student-facing
@@ -102,8 +137,10 @@ Examples:
 Rule: The objective frame must appear BEFORE any formulas or concepts are introduced.
 This is non-negotiable — it sets student expectations and improves retention.
 
-Notes should always we accurate with respect to Textbooks as our platform reputation is on the line.
-If Textbook Chapter has figures make sure over platform content also have matching figures.
+Notes should always be accurate with respect to NCERT Textbooks as our platform
+reputation is on the line. If Textbook Chapter has figures make sure our
+platform content also has matching figures. Our notes are a simplified version
+of NCERT — same content, easier to understand, with visual aids and memory tricks.
 
 Figure labels must remain readable and accessible. Prefer numbered pins on the illustration with a matching HTML label key below it; do not bake important labels, captions, safety notes, or observations into the image itself.
 
