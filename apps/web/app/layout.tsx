@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import BrandLockup from '../components/BrandLockup';
+import FeedbackButton from '../components/FeedbackButton';
 import StudyRemixProvider from '../components/StudyRemixProvider';
 
 import 'katex/dist/katex.min.css';
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <StudyRemixProvider>{children}</StudyRemixProvider>
+        <FeedbackButton />
         <footer className="site-footer">
           <Link aria-label="ChapterReady home" className="footer-brand" href="/">
             <BrandLockup compact showDescriptor={false} />

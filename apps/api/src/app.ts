@@ -3,6 +3,7 @@ import express from 'express';
 
 import { authRouter } from './routes/auth.js';
 import { catalogRouter } from './routes/catalog.js';
+import { feedbackRouter } from './routes/feedback.js';
 import { progressRouter } from './routes/progress.js';
 import { videoRouter } from './routes/video.js';
 
@@ -31,5 +32,6 @@ app.use('/v1/auth', authRouter);
 app.use('/v1/catalog', catalogRouter);
 app.use('/v1/lessons', videoRouter);
 app.use('/v1/progress', progressRouter);
+app.use('/v1/feedback', feedbackRouter);
 
 export default app;
