@@ -86,6 +86,22 @@ specific next-step CTAs. Students include minors, so never use fake scarcity,
 shame, fear, false marks guarantees, deceptive withholding, autoplay traps, or
 other dark patterns to increase watch time or platform conversion.
 
+## Video Objective Rule (MANDATORY)
+
+Every video MUST state its objective clearly in Frame 2 (right after the Hook).
+This creates a mental map for the student — they know exactly what the video
+will cover before diving into content.
+
+Format: Frame 2 should answer "What will I learn from this video?" in 2-3 sentences.
+
+Examples:
+- SAV video: "Today we cover all 14 formulas for Surface Areas and Volumes — CSA, TSA, and Volume for every shape, plus tips and tricks to remember them."
+- Quadratic video: "This video teaches every method to solve quadratic equations — factorisation, completing the square, the quadratic formula — and shortcuts like the discriminant and sum/product of roots."
+- Life Processes video: "We will cover nutrition, respiration, transportation, and excretion — the four life processes that keep organisms alive."
+
+Rule: The objective frame must appear BEFORE any formulas or concepts are introduced.
+This is non-negotiable — it sets student expectations and improves retention.
+
 Notes should always we accurate with respect to Textbooks as our platform reputation is on the line.
 If Textbook Chapter has figures make sure over platform content also have matching figures.
 
