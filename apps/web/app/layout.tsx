@@ -29,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <BrandLockup compact showDescriptor={false} />
           </Link>
           <Link href="/privacy">Privacy and guardian consent</Link>
+          <Link href="/feedback" style={{ fontWeight: 700 }}>💬 Give Feedback</Link>
         </footer>
       </body>
     </html>
