@@ -1,39 +1,3 @@
-:root {
-  color-scheme: light;
-  --background: #f5fff8;
-  --foreground: #101816;
-  --muted: #5d6f68;
-  --card: #ffffff;
-  --card-soft: #effff5;
-  --surface: var(--card);
-  --border: #d9ede2;
-  --primary: #04966f;
-  --primary-strong: #03795b;
-  --accent: var(--primary);
-  --cyan: #0b95d8;
-  --pink: #f04473;
-  --yellow: #f6c744;
-  --shadow: 0 18px 50px rgba(9, 54, 42, 0.14);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #0d1210;
-    --foreground: #f7fff9;
-    --muted: #aec7bb;
-    --card: #141d19;
-    --card-soft: #10251d;
-    --border: #284238;
-    --primary: #25d69b;
-    --primary-strong: #7ff0c7;
-    --cyan: #5ac8ff;
-    --pink: #ff6f98;
-    --yellow: #ffda6b;
-    --shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
-  }
-}
-
 * {
   box-sizing: border-box;
 }
@@ -45,10 +9,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(37, 214, 155, 0.22), transparent 34rem),
-    radial-gradient(circle at top right, rgba(11, 149, 216, 0.18), transparent 30rem),
-    linear-gradient(180deg, var(--background), #ffffff 58%, var(--background));
+  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -240,11 +201,11 @@ button:focus-visible {
   bottom: 28px;
   width: 180px;
   height: 180px;
-  border: 2px solid rgba(4, 150, 111, 0.4);
+  border: 2px solid rgba(243, 136, 59, 0.4);
   border-radius: 50%;
   background:
-    linear-gradient(90deg, transparent 48%, rgba(4, 150, 111, 0.22) 49%, rgba(4, 150, 111, 0.22) 51%, transparent 52%),
-    linear-gradient(0deg, transparent 48%, rgba(4, 150, 111, 0.22) 49%, rgba(4, 150, 111, 0.22) 51%, transparent 52%);
+    linear-gradient(90deg, transparent 48%, rgba(243, 136, 59, 0.22) 49%, rgba(243, 136, 59, 0.22) 51%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(243, 136, 59, 0.22) 49%, rgba(243, 136, 59, 0.22) 51%, transparent 52%);
   content: "";
 }
 
@@ -372,10 +333,7 @@ h3 {
   padding: 22px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(4, 150, 111, 0.2), rgba(11, 149, 216, 0.26)),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.28), rgba(255,255,255,0.28) 1px, transparent 1px, transparent 28px),
-    var(--card-soft);
+  background: var(--card-soft);
 }
 
 .video-preview::before,
@@ -816,7 +774,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(4, 150, 111, 0.14), transparent 36%),
+    linear-gradient(135deg, rgba(243, 136, 59, 0.14), transparent 36%),
     var(--card);
   box-shadow: var(--shadow);
 }
@@ -1105,9 +1063,9 @@ h3 {
   gap: 8px;
   margin: 2px 0 8px;
   padding: 18px;
-  border: 1px solid rgba(11, 149, 216, 0.32);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(11, 149, 216, 0.1), var(--card));
+  background: var(--card);
 }
 
 .lesson-practice-answer details {
@@ -1134,7 +1092,7 @@ h3 {
 }
 
 .lesson-practice-answer summary:focus-visible {
-  outline: 3px solid rgba(11, 149, 216, 0.28);
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
 }
 
@@ -1476,7 +1434,7 @@ h3 {
   padding-top: 20px;
   background:
     radial-gradient(circle at 50% 26px, rgba(255, 255, 255, 0.72), transparent 23px),
-    linear-gradient(180deg, rgba(4, 150, 111, 0.18), rgba(11, 149, 216, 0.14));
+    var(--card-soft);
   color: var(--foreground);
   font-size: 0.82rem;
   font-weight: 900;
@@ -1484,66 +1442,51 @@ h3 {
 }
 
 .chapter-pack-section.standard .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(93, 111, 104, 0.16), rgba(11, 149, 216, 0.06));
+  background: var(--card-soft);
 }
 
 .chapter-pack-section.goals {
-  border-color: rgba(4, 150, 111, 0.34);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.flow {
-  border-color: rgba(11, 149, 216, 0.34);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.concept,
 .chapter-pack-section.formula {
-  border-color: rgba(4, 150, 111, 0.22);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.example,
 .chapter-pack-section.practice {
-  border-color: rgba(246, 199, 68, 0.48);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.summary {
-  border-color: rgba(246, 199, 68, 0.5);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.mistakes {
-  border-color: rgba(240, 68, 115, 0.34);
+  border-color: var(--border);
 }
 
 .chapter-pack-section.tips,
 .chapter-pack-section.quiz {
-  border-color: rgba(11, 149, 216, 0.32);
+  border-color: var(--border);
 }
 
-.chapter-pack-section.goals .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(4, 150, 111, 0.24), rgba(4, 150, 111, 0.08));
-}
-
-.chapter-pack-section.flow .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(11, 149, 216, 0.24), rgba(11, 149, 216, 0.08));
-}
-
+.chapter-pack-section.goals .chapter-pack-section-accent,
+.chapter-pack-section.flow .chapter-pack-section-accent,
 .chapter-pack-section.concept .chapter-pack-section-accent,
-.chapter-pack-section.formula .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(4, 150, 111, 0.2), rgba(4, 150, 111, 0.06));
-}
-
+.chapter-pack-section.formula .chapter-pack-section-accent,
 .chapter-pack-section.example .chapter-pack-section-accent,
 .chapter-pack-section.practice .chapter-pack-section-accent,
-.chapter-pack-section.summary .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(246, 199, 68, 0.34), rgba(246, 199, 68, 0.1));
-}
-
-.chapter-pack-section.mistakes .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(240, 68, 115, 0.24), rgba(240, 68, 115, 0.08));
-}
-
+.chapter-pack-section.summary .chapter-pack-section-accent,
+.chapter-pack-section.mistakes .chapter-pack-section-accent,
 .chapter-pack-section.tips .chapter-pack-section-accent,
 .chapter-pack-section.quiz .chapter-pack-section-accent {
-  background: linear-gradient(180deg, rgba(11, 149, 216, 0.24), rgba(11, 149, 216, 0.08));
+  background: var(--card-soft);
 }
 
 .chapter-pack-section-content {
@@ -1669,7 +1612,7 @@ h3 {
   width: 34px;
   height: 34px;
   place-items: center;
-  border: 1px solid rgba(11, 149, 216, 0.45);
+  border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--card);
   color: var(--primary-strong);
@@ -1681,10 +1624,8 @@ h3 {
 .chapter-pack-formula-card {
   display: grid;
   gap: 8px;
-  border: 1px solid rgba(11, 149, 216, 0.28);
-  background:
-    linear-gradient(135deg, rgba(11, 149, 216, 0.12), rgba(246, 199, 68, 0.1)),
-    var(--card-soft);
+  border: 1px solid var(--border);
+  background: var(--card-soft);
 }
 
 .chapter-pack-formula-card span {
@@ -1715,9 +1656,7 @@ h3 {
   overflow-wrap: anywhere;
   border: 2px solid var(--foreground);
   border-radius: 12px;
-  background:
-    linear-gradient(90deg, rgba(246, 199, 68, 0.22), transparent 34%),
-    linear-gradient(135deg, rgba(11, 149, 216, 0.12), rgba(240, 68, 115, 0.1), var(--card));
+  background: var(--card);
   box-shadow: 8px 8px 0 rgba(16, 24, 22, 0.14);
 }
 
@@ -1787,7 +1726,7 @@ h3 {
 }
 
 .chapter-comic-panel.idea {
-  background: linear-gradient(180deg, rgba(11, 149, 216, 0.1), var(--card));
+  background: linear-gradient(180deg, rgba(243, 136, 59, 0.1), var(--card));
 }
 
 .chapter-comic-panel.warning {
@@ -1842,7 +1781,7 @@ h3 {
   border-radius: 12px;
   background:
     radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.8), transparent 18px),
-    linear-gradient(135deg, var(--yellow), rgba(11, 149, 216, 0.28));
+    linear-gradient(135deg, var(--yellow), rgba(243, 136, 59, 0.28));
 }
 
 .chapter-comic-visual span {
@@ -2821,7 +2760,7 @@ h3 {
   border-radius: 18px;
   background:
     radial-gradient(circle at top left, rgba(246, 199, 68, 0.3), transparent 30%),
-    radial-gradient(circle at top right, rgba(11, 149, 216, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(243, 136, 59, 0.2), transparent 28%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 255, 245, 0.98));
   box-shadow: 10px 10px 0 rgba(16, 24, 22, 0.18);
 }
@@ -3601,7 +3540,7 @@ h3 {
   width: fit-content;
   margin-top: 0;
   padding: 6px 10px;
-  border: 1px solid rgba(4, 150, 111, 0.22);
+  border: 1px solid rgba(243, 136, 59, 0.22);
   border-radius: 999px;
   background: var(--card-soft);
   color: var(--primary-strong);
@@ -3624,7 +3563,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 8px;
   background:
-    linear-gradient(90deg, rgba(4, 150, 111, 0.1), transparent 34%),
+    linear-gradient(90deg, rgba(243, 136, 59, 0.1), transparent 34%),
     rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow);
 }
@@ -3656,9 +3595,9 @@ h3 {
 }
 
 .reward-card.unlocked {
-  border-color: rgba(4, 150, 111, 0.34);
+  border-color: rgba(243, 136, 59, 0.34);
   background:
-    linear-gradient(180deg, rgba(4, 150, 111, 0.12), transparent 52%),
+    linear-gradient(180deg, rgba(243, 136, 59, 0.12), transparent 52%),
     var(--card);
 }
 
@@ -3713,7 +3652,7 @@ h3 {
 .reward-meta span {
   display: inline-flex;
   padding: 6px 8px;
-  border: 1px solid rgba(4, 150, 111, 0.18);
+  border: 1px solid rgba(243, 136, 59, 0.18);
   color: var(--primary-strong);
 }
 
@@ -3878,7 +3817,7 @@ h3 {
 }
 
 .quiz-question-card legend strong.correct {
-  background: rgba(4, 150, 111, 0.14);
+  background: rgba(243, 136, 59, 0.14);
   color: var(--primary-strong);
 }
 
@@ -3900,7 +3839,7 @@ h3 {
 .quiz-question-meta span {
   min-height: 28px;
   padding: 6px 9px;
-  border: 1px solid rgba(11, 149, 216, 0.22);
+  border: 1px solid rgba(243, 136, 59, 0.22);
   border-radius: 999px;
   background: var(--card-soft);
   color: var(--muted);
@@ -3920,7 +3859,7 @@ h3 {
 .quiz-progress-chip {
   flex: 0 0 auto;
   padding: 0 12px;
-  border: 1px solid rgba(4, 150, 111, 0.24);
+  border: 1px solid rgba(243, 136, 59, 0.24);
   background: var(--card-soft);
   color: var(--primary-strong);
 }
@@ -3952,8 +3891,8 @@ h3 {
 
 .quiz-option:hover,
 .quiz-option:has(input:focus-visible) {
-  border-color: rgba(11, 149, 216, 0.46);
-  box-shadow: 0 10px 24px rgba(11, 149, 216, 0.12);
+  border-color: rgba(243, 136, 59, 0.46);
+  box-shadow: 0 10px 24px rgba(243, 136, 59, 0.12);
   transform: translateY(-1px);
 }
 
@@ -3983,7 +3922,7 @@ h3 {
 
 .quiz-option.selected {
   border-color: var(--cyan);
-  background: linear-gradient(135deg, rgba(11, 149, 216, 0.12), var(--card));
+  background: linear-gradient(135deg, rgba(243, 136, 59, 0.12), var(--card));
 }
 
 .quiz-option.selected span {
@@ -3994,8 +3933,8 @@ h3 {
 }
 
 .quiz-option.correct {
-  border-color: rgba(4, 150, 111, 0.55);
-  background: rgba(4, 150, 111, 0.12);
+  border-color: rgba(243, 136, 59, 0.55);
+  background: rgba(243, 136, 59, 0.12);
 }
 
 .quiz-option.incorrect {
@@ -4015,7 +3954,7 @@ h3 {
   display: grid;
   gap: 6px;
   padding: 14px;
-  border: 1px solid rgba(4, 150, 111, 0.22);
+  border: 1px solid rgba(243, 136, 59, 0.22);
   border-radius: 8px;
   background: var(--card-soft);
 }
@@ -4074,7 +4013,7 @@ h3 {
 
 .quiz-score-grid input:focus,
 .weak-topic-list input:focus-visible {
-  outline: 3px solid rgba(11, 149, 216, 0.22);
+  outline: 3px solid rgba(243, 136, 59, 0.22);
   outline-offset: 2px;
 }
 
@@ -4085,9 +4024,9 @@ h3 {
   justify-content: space-between;
   gap: 16px;
   padding: 16px;
-  border: 1px solid rgba(11, 149, 216, 0.25);
+  border: 1px solid rgba(243, 136, 59, 0.25);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(11, 149, 216, 0.12), var(--card-soft));
+  background: linear-gradient(135deg, rgba(243, 136, 59, 0.12), var(--card-soft));
 }
 
 .quiz-score-preview span {
@@ -4278,9 +4217,9 @@ h3 {
 .quiz-result-message {
   margin: 0;
   padding: 12px 14px;
-  border: 1px solid rgba(4, 150, 111, 0.28);
+  border: 1px solid rgba(243, 136, 59, 0.28);
   border-radius: 8px;
-  background: rgba(4, 150, 111, 0.12);
+  background: rgba(243, 136, 59, 0.12);
   color: var(--foreground);
   font-weight: 800;
   line-height: 1.45;
@@ -4301,7 +4240,7 @@ h3 {
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(246, 199, 68, 0.16), transparent 48%),
-    linear-gradient(180deg, rgba(11, 149, 216, 0.08), var(--card));
+    linear-gradient(180deg, rgba(243, 136, 59, 0.08), var(--card));
 }
 
 .celebration-burst {
@@ -4344,7 +4283,7 @@ h3 {
   display: grid;
   gap: 4px;
   padding: 14px;
-  border: 1px solid rgba(11, 149, 216, 0.22);
+  border: 1px solid rgba(243, 136, 59, 0.22);
   border-radius: 8px;
   background: var(--card-soft);
 }
@@ -4585,9 +4524,9 @@ h3 {
 .feedback-status {
   margin: 0;
   padding: 12px;
-  border: 1px solid rgba(4, 150, 111, 0.28);
+  border: 1px solid rgba(243, 136, 59, 0.28);
   border-radius: 8px;
-  background: rgba(4, 150, 111, 0.12);
+  background: rgba(243, 136, 59, 0.12);
   font-weight: 800;
 }
 
@@ -4991,8 +4930,8 @@ h3 {
 }
 
 .written-practice-retention .retention-complete {
-  border-color: rgba(4, 150, 111, 0.4);
-  background: rgba(4, 150, 111, 0.09);
+  border-color: rgba(243, 136, 59, 0.4);
+  background: rgba(243, 136, 59, 0.09);
 }
 
 .written-practice-retention .retention-due {
@@ -5175,9 +5114,9 @@ h3 {
   display: grid;
   gap: 10px;
   padding: 16px;
-  border: 1px solid rgba(4, 150, 111, 0.38);
+  border: 1px solid rgba(243, 136, 59, 0.38);
   border-radius: 12px;
-  background: rgba(4, 150, 111, 0.09);
+  background: rgba(243, 136, 59, 0.09);
 }
 
 .balancer-completion p,
