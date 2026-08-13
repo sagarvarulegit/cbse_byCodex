@@ -490,3 +490,103 @@ model StudentFeedback {
   @@index([status])
   @@index([createdAt])
 }
+
+// Sample Test Exam Paper Generator (Maths 041 pilot).
+// QuestionBankQuestion is the curated, verifiable question pool. ExamPaper and
+// ExamPaperQuestion snapshot every generated paper so it stays reproducible
+// and auditable after the bank or blueprint changes. JSON columns keep the
+// statement/answer content self-contained; provenance and verification verdicts
+// mirror the board-exam-evidence publication rules in docs/.
+
+enum QuestionSourceKind {
+  ncert_exercise
+  verified_pyq
+  board_style
+}
+
+enum QuestionVerificationStatus {
+  unverified
+  review
+  verified
+  rejected
+}
+
+enum ExamPaperVerificationStatus {
+  unverified
+  review
+  verified
+  rejected
+}
+
+model QuestionBankQuestion {
+  id                 String                    @id @default(cuid())
+  subjectSlug        String
+  bankKey            String
+  chapterSlug        String
+  unitId             String
+  topicId            String
+  questionType       String
+  marks              Int
+  difficulty         String                    @default("medium")
+  sourceKind         QuestionSourceKind        @default(board_style)
+  provenanceJson     Json?
+  variantsJson       Json
+  verificationStatus QuestionVerificationStatus @default(unverified)
+  reviewNotes        String?
+  verifiedAt         DateTime?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  papers ExamPaperQuestion[]
+
+  @@unique([subjectSlug, bankKey])
+  @@index([subjectSlug, verificationStatus])
+  @@index([subjectSlug, unitId, questionType, marks])
+  @@index([topicId])
+}
+
+model ExamPaper {
+  id                 String                     @id @default(cuid())
+  userId             String?
+  subjectSlug        String
+  title              String
+  totalMarks         Int
+  durationMinutes    Int
+  readingTimeMinutes Int
+  seed               Int
+  layoutVersion      String
+  sectionsJson       Json
+  verificationStatus ExamPaperVerificationStatus @default(unverified)
+  verificationJson   Json?
+  publishStatus      String                     @default("draft")
+  createdAt          DateTime                   @default(now())
+  updatedAt          DateTime                   @updatedAt
+
+  questions ExamPaperQuestion[]
+
+  @@index([userId, createdAt])
+  @@index([subjectSlug, verificationStatus])
+}
+
+model ExamPaperQuestion {
+  id                 String   @id @default(cuid())
+  examPaperId        String
+  questionBankId     String?
+  sectionId          String
+  questionNumber     Int
+  questionType       String
+  marks              Int
+  statementJson      Json
+  answerKeyJson      Json
+  sourceKind         String
+  provenanceJson     Json?
+  verificationStatus String   @default("unverified")
+  verificationJson   Json?
+  sortOrder          Int
+
+  examPaper    ExamPaper             @relation(fields: [examPaperId], references: [id], onDelete: Cascade)
+  questionBank QuestionBankQuestion? @relation(fields: [questionBankId], references: [id])
+
+  @@unique([examPaperId, questionNumber])
+  @@index([examPaperId, sectionId])
+}

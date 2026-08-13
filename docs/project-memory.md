@@ -20,6 +20,7 @@ This file is intentionally short. Before implementation, read `docs/architecture
 | API, Prisma, authentication, Bunny, Supabase, service boundaries | [`project-memory/architecture-and-services.md`](project-memory/architecture-and-services.md) |
 | Curriculum registry, textbook notes, chapter publication, board evidence | [`project-memory/curriculum-and-content.md`](project-memory/curriculum-and-content.md) |
 | Quizzes, written practice, diagnostics, retention, mastery, gamification | [`project-memory/assessment-and-mastery.md`](project-memory/assessment-and-mastery.md) |
+| Sample test papers, question bank, blueprint snapshot, Gemini verification | [`project-memory/exam-papers.md`](project-memory/exam-papers.md) |
 | Lesson rendering, figures, accessibility, client boundaries, performance, video aesthetics | [`project-memory/rendering-and-media.md`](project-memory/rendering-and-media.md) |
 | Free pilot, deployments, production smoke, subscriptions, blockers | [`project-memory/pilot-and-operations.md`](project-memory/pilot-and-operations.md) |
 

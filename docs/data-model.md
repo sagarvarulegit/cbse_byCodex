@@ -284,6 +284,58 @@ Fields:
 - is_correct
 - created_at
 
+## Sample Test Paper Entities
+
+### question_bank_questions
+
+Curated, verifiable pool for the sample-test-paper generator (Maths 041 pilot).
+
+Fields:
+
+- id
+- subject_slug
+- bank_key (stable unique identity within subject, e.g. `maths-041-rn-hcf-lcm-mcq-1`)
+- chapter_slug / unit_id / topic_id (must resolve against the Maths 041 curriculum snapshot)
+- question_type (one of the `BoardQuestionType` values)
+- marks (1-6, must be an allowed mark value)
+- difficulty (easy | medium | hard)
+- source_kind (ncert_exercise | verified_pyq | board_style)
+- provenance_json (year/paperCode/questionNo/page — REQUIRED for verified_pyq)
+- variants_json (array of `{variantKey, params, statement, answerKey}`; the seed's numeric variants give papers variety)
+- verification_status (unverified | review | verified | rejected) — only `verified` rows can enter papers
+- review_notes / verified_at
+
+### exam_papers
+
+A generated, immutable paper snapshot.
+
+Fields:
+
+- id
+- user_id (generator/owner)
+- subject_slug
+- title / total_marks / duration_minutes / reading_time_minutes
+- seed (deterministic — same seed + bank = same paper)
+- layout_version (points at the sourced section layout)
+- sections_json (section metadata, not the questions)
+- verification_status (unverified | review | verified | rejected)
+- verification_json (Gemini verdicts: per-question + paper-level)
+- publish_status (draft | published | rejected) — set to published only by admin approve
+
+### exam_paper_questions
+
+Question-level snapshots of one generated paper.
+
+Fields:
+
+- id
+- exam_paper_id (cascade delete)
+- question_bank_id (nullable FK to the source bank row)
+- section_id / question_number / question_type / marks
+- statement_json / answer_key_json (snapshots so the paper survives bank changes)
+- source_kind / provenance_json
+- verification_status / verification_json
+
 ## Subscription and Payment Entities
 
 ### subscriptions

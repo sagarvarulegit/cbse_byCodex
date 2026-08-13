@@ -63,6 +63,14 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
             <span>Session {subjectCatalogItem.academicSession}</span>
           </div>
 
+          {subject.examProfile?.blueprintStatus === 'ready' && (
+            <div style={{ marginTop: '1.25rem' }}>
+              <Link className="card-link" href="/exam-papers" prefetch={false}>
+                Generate CBSE-format sample test papers for this subject
+              </Link>
+            </div>
+          )}
+
           <div className="section-heading" style={{ marginTop: '2rem' }}>
             <div>
               <p className="eyebrow">Step 2 of 3</p>

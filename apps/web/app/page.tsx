@@ -11,6 +11,7 @@ const heroHighlights = [
   'Textbook-fidelity',
   'Simplified notes',
   'Mastery + revision',
+  'Unlimited sample test papers',
 ];
 
 const landingAdvantages = [
@@ -28,6 +29,11 @@ const landingAdvantages = [
     title: 'Mastery and revision',
     detail:
       'Quizzes, saved progress, and revision missions turn weak spots into the next best action.',
+  },
+  {
+    title: 'Unlimited sample test papers',
+    detail:
+      'Full CBSE-format papers (80 marks, 3 hours) generated in one click - assembled from the verified question bank so the pattern always matches the official blueprint.',
   },
   {
     title: 'Accessible figures and activities',
@@ -91,6 +97,12 @@ export default async function HomePage() {
               href={session ? '/subjects' : '/register'}
             >
               {session ? 'Choose a subject' : 'Create free account'}
+            </Link>
+            <Link
+              className="ghost-link"
+              href={session ? '/exam-papers' : '/login'}
+            >
+              Try a sample test paper
             </Link>
           </div>
         </div>

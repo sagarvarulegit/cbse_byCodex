@@ -65,6 +65,9 @@ export default async function DashboardPage() {
           <Link className="card-link" href="/subjects">
             Browse all subjects
           </Link>
+          <Link className="card-link" href="/exam-papers">
+            Sample test papers
+          </Link>
         </div>
         <p className="syllabus-library-intro">
           Open lesson-wise chapters or use the available revision packs. Chapters

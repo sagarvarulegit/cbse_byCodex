@@ -31,6 +31,7 @@ This document is the repository's concise architecture map. Update it when modul
 - Guardian permission is stored in the one-to-one `GuardianConsent` record owned by the API. It records the accepted notice version and a deliberately explicit `self_attested` verification status.
 - Bunny Stream delivers lesson video. Bunny Storage holds master MP4 archives.
 - Textbook fidelity rules live in `NOTES_GUIDELINES_STANDARDS.md`; evolving chapter-specific learnings live in `docs/project-memory/curriculum-and-content.md`.
+- The sample-test-paper engine, curated question bank, and Gemini verification live under `apps/api/src/lib/exam-papers/` with a registry-derived blueprint snapshot; the student UI lives in `apps/web/app/exam-papers/`.
 
 ## Primary flows
 
@@ -112,6 +113,15 @@ without a Chapter 1 branch in the component or API.
 2. The admin app calls protected API review endpoints.
 3. The API aggregates `ProgressEvent` engagement and feedback records for decision-making surfaces.
 4. Learning help uses a `stuck` feedback category with five fixed reasons. These stay in the manual pilot-review queue; no AI tutor or automated answer generation is attached.
+
+### Sample test papers (Maths 041 pilot)
+
+1. The paper engine lives in `apps/api/src/lib/exam-papers/`: a sourced section layout, a seeded demand planner that holds every unit to its exact official weightage, and a coverage-aware selector that fails loudly instead of emitting an invalid paper.
+2. The single source of truth for the Maths 041 blueprint is the web curriculum registry. `npm run exam:snapshot` regenerates `apps/api/src/lib/exam-papers/maths-041-blueprint.generated.ts`, and a drift-guard test prevents silent divergence. Only blueprint-ready subjects (`blueprintStatus: ready`) can generate papers.
+3. The curated question bank lives in the `QuestionBankQuestion` table. Seeded rows start in `review`; only `verified` questions enter papers (`npm run seed:bank`, `seed:bank:validate`, `seed:bank:analyze` -w apps/api).
+4. `POST /v1/exam-papers/generate` assembles a paper from verified bank rows, runs advisory AI verification (Gemini, clean pass only), persists `ExamPaper` + `ExamPaperQuestion` snapshots, and returns the paper. `GET /v1/exam-papers/:id` is owner/admin scoped.
+5. Admin review surfaces in `apps/api/src/routes/exam-papers.ts`: paper approve/reject and bank verify/approve/reject. AI verdicts never auto-publish; only an admin approve marks a paper `published`.
+6. The student web app generates papers via `/exam-papers` and renders printable papers (with an answer-key toggle) at `/exam-papers/[id]`; subject pages link to the generator only for blueprint-ready subjects.
 
 ## Dependency and impact checks
 
