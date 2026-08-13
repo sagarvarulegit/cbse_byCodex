@@ -137,6 +137,94 @@ Examples:
 Rule: The objective frame must appear BEFORE any formulas or concepts are introduced.
 This is non-negotiable — it sets student expectations and improves retention.
 
+## Video Narration Text Rule (MANDATORY)
+
+Narration text sent to ElevenLabs TTS MUST be plain spoken English — never math
+notation. Spell every formula read-aloud: "x squared minus 45x plus 324 equals
+zero", "two x plus 1, times x, equals 300", "x equals three halves", "minus
+twelve point five". Keep the real math notation in the `**VISUAL:**` line and
+on-screen graphics — only the voice changes. Captions follow the spoken words
+(plain English), so the student reads what they hear while the visuals show the
+actual equation.
+
+Why: ElevenLabs garbles math notation (`x²`, `−`, `×`, `=`, parentheses,
+fractions, `±`, `√`, `→`). The failure is sneaky — the returned word/character
+alignment (used for captions) can look perfectly correct while the actual audio
+is unintelligible gibberish, so a matching transcript is NOT proof the audio is
+clear. The generator also uses a fixed seed (1107), so re-running the exact
+same text reproduces the same garbled audio; change the wording (or the seed)
+to fix a bad line.
+
+## Video narration rebuild workflow (learned from the quadratic-equations garble)
+
+- `SCRIPT.md` is the single source of truth for narration. Update the
+  `**NARRATION:**` line to plain English AND regenerate the audio — never edit
+  only the generated `audio/metadata.json`. Translate every affected frame,
+  including untitled ones written as `### Frame 34` (no ` — Title` suffix).
+- Regenerate ONLY the lines whose text changed; keep unchanged lines' audio and
+  requestIds byte-identical. Use the ElevenLabs `with-timestamps` endpoint with
+  the same voice/model/settings, passing `previous_text`, `next_text`, and the
+  last 3 `previous_request_ids` in order so context stays consistent.
+- After regeneration: recompute the cumulative timeline (each segment's
+  `timelineStart/End` from `actualDuration` + tail padding ≥ 0.03s), rebuild
+  `audio/narration.wav` + `.mp3` from the concat list, rebuild captions from
+  per-line alignments, then update `audio/metadata.json` and
+  `audio/alignment.provider.json`. Verify the timeline math closes: sum of
+  segment durations + padding must equal the final narration duration.
+- `index.html` scene-clip timings are hand-tuned to the actual narration. When
+  narration lengths change, re-sync each `data-start`/`data-duration` by mapping
+  old boundaries through a per-line piecewise-linear transform (old line window
+  → new line window) so scene-vs-content alignment is preserved, and update the
+  root + caption-layer `data-duration` to the new total.
+- Caption global names must match `index.html` (it reads
+  `window.__cbseQuadraticCaptions`). The generator used to emit
+  `__cbseSavCaptions`, which silently disabled captions in renders — keep them
+  in sync.
+- When editing any file programmatically, never mutate the target while
+  iterating over pre-computed match offsets — collect all edits first and apply
+  them in reverse order. Files under `videos/*` are gitignored (no git backup),
+  so verify scripts against the original content before running them.
+- Reference implementation: `videos/cbse-class-10-maths-quadratic/scripts/`
+  (`apply-translations.mjs`, `regenerate-lines.mjs`, `rebuild-narration.mjs`,
+  `resync-scenes.mjs`, `line-translations.json`).
+
+## Video folder git policy (all videos, current and future)
+
+Every folder under `videos/` is source controlled — the root `.gitignore`
+wildcard-whitelists them (`!videos/*/`), so no per-folder whitelist edits are
+ever needed for new videos. Tracked as assets: script/storyboard/design
+templates, PAID ElevenLabs audio (`audio/**/*.mp3`, `audio/metadata.json`,
+`audio/alignment.provider.json`, `audio/sample/`), `.thumbnails/`, and all
+`captions/` files. Ignored as regenerable/heavy: `node_modules/`, `renders/`,
+`snapshots*/`, ffmpeg wav conversions (`audio/work/`, `audio/*.wav`),
+`capture/`, `*.log`, `*.bak`, `.hyperframes/*.log`.
+
+Every video folder MUST have a local `.gitignore` copied from the canonical
+template (`videos/cbse-class-10-maths-quadratic/.gitignore`):
+
+```
+node_modules/
+renders/
+snapshots*/
+narration/
+audio_meta.json
+caption_groups.json
+capture/
+*.log
+*.bak
+.hyperframes/*.log
+
+# Regenerable ffmpeg conversions of the paid ElevenLabs mp3s (keep the mp3s)
+audio/work/
+audio/*.wav
+```
+
+When scaffolding a new video, create its local `.gitignore` from this template
+(plus folder-specific extras, e.g. downloaded tools like
+`chrome-headless-shell/`). Do NOT ignore `audio/` wholesale — the ElevenLabs
+output is paid content and must stay tracked; only the regenerable wavs are
+ignored.
+
 Notes should always be accurate with respect to NCERT Textbooks as our platform
 reputation is on the line. If Textbook Chapter has figures make sure our
 platform content also has matching figures. Our notes are a simplified version

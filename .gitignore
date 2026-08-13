@@ -144,7 +144,6 @@ vite.config.ts.timestamp-*
 
 # HyperFrames generated local assets
 videos/*/chrome-headless-shell/
-videos/*/.thumbnails/
 videos/*/.waveform-cache/
 
 # Optional local Graphify output
@@ -162,28 +161,19 @@ output/
 .vercel/
 **/.vercel/
 .vercel
-# Video work is ignored by default. The first production pilot is source
-# controlled so its storyboard, design system, and reusable scene templates do
-# not disappear between machines.
+# Video work is source controlled: script, storyboard, design system, scene
+# templates, and PAID generated assets (ElevenLabs mp3s, thumbnails, captions)
+# are tracked as our assets. Heavy/regenerable output (renders, node_modules,
+# ffmpeg wav conversions, backups) is ignored via each video folder's local
+# .gitignore — see the canonical template in AGENTS.md (Video folder git policy).
 videos/
 !videos/
 videos/*
-!videos/reaction-detectives-pilot/
-!videos/reaction-detectives-pilot/**
-!videos/cbse-class-10-maths-marks-plan/
-!videos/cbse-class-10-maths-marks-plan/**
-!videos/board-exam-habits-short/
-!videos/board-exam-habits-short/**
-!videos/cbse-class-10-maths-sav/
-!videos/cbse-class-10-maths-sav/**
-!videos/balance-equation-short/
-!videos/balance-equation-short/**
-!videos/why-sky-is-blue-short/
-!videos/why-sky-is-blue-short/**
-!videos/threejs-scattering-proof/
-!videos/threejs-scattering-proof/**
-!videos/threejs-premium-quality-gate/
-!videos/threejs-premium-quality-gate/**
+!videos/*/
+# Safety net for any video folder that lacks a local .gitignore yet
+**/renders/
+**/.hyperframes/
+**/snapshots*/
 
 .vercel
 # Local rendering tools copied from system installations
