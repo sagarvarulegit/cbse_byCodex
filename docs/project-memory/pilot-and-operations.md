@@ -46,3 +46,9 @@ Read this file for the free student pilot, admin review, production deploys, smo
 4. Invite a very small real student pilot, review the deployed admin pilot-review dashboard after actual sessions, and fix the highest-friction chapter, surface, or feedback theme before widening access.
 5. Add the payments and subscription foundation after real student usage and platform hardening.
 6. Keep extending the API through feature routers rather than expanding `app.ts`.
+
+## 2026-08-14 — Gemini AI verification now live; env-var gotchas
+
+- `GEMINI_API_KEY` is configured in Vercel production for `cbse-bycodex-api` (added via `vercel env add`, value from stdin). Deployed API calls Gemini `gemini-2.5-flash` for exam-paper + question-bank verification (`apps/api/src/lib/exam-papers/verify.ts`). Verified end-to-end at runtime: `POST /v1/exam-papers/generate` with `verify:true` returns `verified`/`review` with Gemini verdicts stored in `verificationJson`.
+- All project env vars are now `type=sensitive` (mass-converted at some point), so `vercel env pull` returns masked/empty values and the REST API masks them — do not trust a pulled value to check a secret. New vars added via `vercel env add` default to decryptable `encrypted` type.
+- Question bank re-verified with real AI: 63 questions `verified` (AI), 4 `review` (`sav-csa-mcq-1` topicId mismatch, `stats-mcq-1` scope mismatch, `circle-tangent-angle-sa-3` questionType mismatch — content correct, `tri-bpt-proof-3` BPT proof missing the altitudes/area-ratio step). The 4 flagged questions need metadata/content fixes before re-verification; until then the generation pool is 63 (layout needs 38, so generation still works).

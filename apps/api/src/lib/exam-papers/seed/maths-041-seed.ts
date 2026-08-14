@@ -1318,30 +1318,30 @@ export const MATHS_041_SEED: BankQuestion[] = [
     variants: [
       {
         variantKey: 'a',
-        params: { angle: 60 },
+        params: {},
         statement:
-          'Two tangents TP and TQ are drawn to a circle with centre O from an external point T. If ∠PTQ = 60°, find ∠POQ.',
+          'Two tangents TP and TQ are drawn to a circle with centre O from an external point T, touching the circle at P and Q. Prove that ∠PTQ + ∠POQ = 180°.',
         answerKey: {
           valuePoints: [
             '∠OPT = ∠OQT = 90° (tangent ⊥ radius)',
-            'In quadrilateral OPTQ, ∠POQ = 360° − (90° + 90° + 60°) = 120°',
+            'In quadrilateral OPTQ, sum of angles is 360°: ∠POQ + ∠PTQ + 90° + 90° = 360°',
+            'Hence ∠POQ + ∠PTQ = 180°.',
           ],
           modelAnswer:
-            '∠OPT = ∠OQT = 90°. Sum of angles of quadrilateral OPTQ gives ' +
-            '∠POQ = 360° − 90° − 90° − 60° = 120°.',
+            'In quadrilateral OPTQ, ∠OPT = ∠OQT = 90°. So ∠POQ + ∠PTQ = 360° − 180° = 180°.',
         },
       },
       {
         variantKey: 'b',
-        params: { angle: 80 },
+        params: {},
         statement:
-          'Two tangents TP and TQ are drawn to a circle with centre O from an external point T. If ∠PTQ = 80°, find ∠POQ.',
+          'Two tangents TP and TQ are drawn to a circle with centre O from an external point T, touching the circle at P and Q. Prove that ∠PTQ and ∠POQ are supplementary.',
         answerKey: {
           valuePoints: [
             '∠OPT = ∠OQT = 90° (tangent ⊥ radius)',
-            '∠POQ = 360° − (90° + 90° + 80°) = 100°',
+            'In quadrilateral OPTQ, ∠POQ + ∠PTQ = 360° − 90° − 90° = 180°',
           ],
-          modelAnswer: '∠POQ = 360° − 90° − 90° − 80° = 100°.',
+          modelAnswer: '∠POQ + ∠PTQ = 180°, so the two angles are supplementary.',
         },
       },
     ],
@@ -1781,23 +1781,23 @@ export const MATHS_041_SEED: BankQuestion[] = [
       {
         variantKey: 'a',
         params: { radius: 7, height: 10 },
-        statement: 'The curved surface area of a right circular cylinder of radius 7 cm and height 10 cm is:',
+        statement: 'A solid is formed by a right circular cylinder of radius 7 cm and height 10 cm with a hemisphere of the same radius fixed on its top. The curved surface area of the solid is:',
         answerKey: {
-          options: ['440 cm²', '154 cm²', '308 cm²', '220 cm²'],
+          options: ['748 cm²', '440 cm²', '308 cm²', '594 cm²'],
           correctOptionIndex: 0,
-          valuePoints: ['CSA = 2 × (22/7) × 7 × 10 = 440 cm².'],
-          modelAnswer: '440 cm²',
+          valuePoints: ['CSA = 2πrh + 2πr² = 2 × (22/7) × 7 × 10 + 2 × (22/7) × 7²', '= 440 + 308 = 748 cm².'],
+          modelAnswer: '748 cm²',
         },
       },
       {
         variantKey: 'b',
         params: { radius: 7, height: 5 },
-        statement: 'The curved surface area of a right circular cylinder of radius 7 cm and height 5 cm is:',
+        statement: 'A solid is formed by a right circular cylinder of radius 7 cm and height 5 cm with a hemisphere of the same radius fixed on its top. The curved surface area of the solid is:',
         answerKey: {
-          options: ['220 cm²', '154 cm²', '110 cm²', '440 cm²'],
+          options: ['528 cm²', '220 cm²', '308 cm²', '484 cm²'],
           correctOptionIndex: 0,
-          valuePoints: ['CSA = 2 × (22/7) × 7 × 5 = 220 cm².'],
-          modelAnswer: '220 cm²',
+          valuePoints: ['CSA = 2πrh + 2πr² = 2 × (22/7) × 7 × 5 + 2 × (22/7) × 7²', '= 220 + 308 = 528 cm².'],
+          modelAnswer: '528 cm²',
         },
       },
     ],
@@ -2089,24 +2089,24 @@ export const MATHS_041_SEED: BankQuestion[] = [
     variants: [
       {
         variantKey: 'a',
-        params: { data: '5, 7, 9, 11, 13' },
-        statement: 'The mean of 5, 7, 9, 11 and 13 is:',
+        params: { classes: ['0–10', '10–20', '20–30', '30–40'], frequencies: [3, 5, 7, 5] },
+        statement: 'The mean of the grouped frequency distribution with classes 0–10, 10–20, 20–30, 30–40 and frequencies 3, 5, 7, 5 respectively is:',
         answerKey: {
-          options: ['9', '10', '11', '8'],
+          options: ['22', '20', '25', '21'],
           correctOptionIndex: 0,
-          valuePoints: ['Mean = (5 + 7 + 9 + 11 + 13)/5 = 45/5 = 9.'],
-          modelAnswer: '9',
+          valuePoints: ['Midpoints: 5, 15, 25, 35; Σfx = 15 + 75 + 175 + 175 = 440, Σf = 20', 'Mean = 440/20 = 22.'],
+          modelAnswer: '22',
         },
       },
       {
         variantKey: 'b',
-        params: { data: '2, 4, 6, 8, 10' },
-        statement: 'The mean of 2, 4, 6, 8 and 10 is:',
+        params: { classes: ['0–10', '10–20', '20–30'], frequencies: [4, 6, 10] },
+        statement: 'The mean of the grouped frequency distribution with classes 0–10, 10–20, 20–30 and frequencies 4, 6, 10 respectively is:',
         answerKey: {
-          options: ['5', '6', '7', '8'],
-          correctOptionIndex: 1,
-          valuePoints: ['Mean = 30/5 = 6.'],
-          modelAnswer: '6',
+          options: ['18', '15', '20', '16'],
+          correctOptionIndex: 0,
+          valuePoints: ['Midpoints: 5, 15, 25; Σfx = 20 + 90 + 250 = 360, Σf = 20', 'Mean = 360/20 = 18.'],
+          modelAnswer: '18',
         },
       },
     ],
