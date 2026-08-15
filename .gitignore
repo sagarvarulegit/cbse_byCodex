@@ -180,3 +180,7 @@ videos/*
 .codex-tmp/
 # Reasonix local session artifacts
 .reasonix/
+
+# Large textbook archives/extractions (source of truth lives outside the repo)
+textbooks/textbooks/
+textbooks-*.zip

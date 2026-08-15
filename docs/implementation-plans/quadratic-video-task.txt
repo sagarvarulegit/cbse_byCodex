@@ -1,0 +1,104 @@
+Task: Create a CBSE Class 10 Maths video — Quadratic Equations (NCERT Chapter 4)
+
+## Objective
+
+Create a HyperFrames video composition teaching ALL formulas and concepts for Quadratic Equations, with tips and tricks to remember them. Similar to the SAV video we just built at ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-sav/
+
+## What to Create
+
+Create a new directory: `~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/`
+
+Copy the structure from the SAV video (same package.json, hyperframes.json, meta.json pattern) but with new content.
+
+## NCERT Chapter 4 — Quadratic Equations Content
+
+### Key Concepts to Cover:
+
+**1. What is a Quadratic Equation?**
+- Standard form: ax² + bx + c = 0 (a ≠ 0)
+- Degree 2 polynomial equation
+- Examples: x² - 5x + 6 = 0, 2x² + 3x - 5 = 0
+
+**2. Solving Methods:**
+- **Factorisation** — splitting the middle term
+  - Example: x² - 5x + 6 = 0 → (x-2)(x-3) = 0 → x = 2 or x = 3
+- **Completing the Square** — converting to (x + a)² = b form
+  - Example: x² + 6x + 5 = 0 → (x+3)² = 4 → x = -1 or x = -5
+- **Quadratic Formula** — x = (-b ± √(b²-4ac)) / 2a
+  - Works for ANY quadratic equation
+
+**3. Nature of Roots (Discriminant)**
+- D = b² - 4ac
+- D > 0 → Two distinct real roots
+- D = 0 → Two equal real roots (one repeated root)
+- D < 0 → No real roots (two complex roots)
+
+**4. Sum and Product of Roots**
+- If roots are α and β:
+  - Sum: α + β = -b/a
+  - Product: α × β = c/a
+
+**5. Forming Quadratic Equations from Roots**
+- x² - (sum of roots)x + (product of roots) = 0
+- x² - (α+β)x + αβ = 0
+
+### Tips & Tricks to Include:
+1. **Quadratic Formula memory aid**: "x equals minus b, plus or minus root b squared minus 4ac, all over 2a" — sing it like a song
+2. **Discriminant shortcut**: Just check b² - 4ac sign. Positive = 2 roots, Zero = 1 root, Negative = no real roots
+3. **Factorisation trick**: Find two numbers that MULTIPLY to give ac and ADD to give b
+4. **Completing the square**: Half of b, square it, add to both sides
+5. **Sum/product shortcut**: α+β = -b/a, αβ = c/a — no need to find actual roots
+6. **Common mistakes**: Forgetting a≠0, sign errors in quadratic formula, wrong discriminant calculation
+7. **Real-world connection**: Projectile motion, area problems, speed/distance problems use quadratic equations
+
+## Frame Structure (suggest 12-15 frames)
+
+Frame 1: Hook — "Every 5-Mark Question. One Formula. Memorise It."
+Frame 2: Why it matters — marks weightage (Algebra = 20 marks, biggest unit)
+Frame 3: What is a Quadratic Equation — standard form, examples
+Frame 4: Factorisation method — splitting middle term
+Frame 5: Completing the Square — step by step
+Frame 6: Quadratic Formula — the master formula + memory trick
+Frame 7: Discriminant (D = b²-4ac) — nature of roots
+Frame 8: Sum & Product of Roots — shortcuts without solving
+Frame 9: Forming equations from roots — reverse engineering
+Frame 10: Common mistakes & traps
+Frame 11: Quick revision — all formulas at a glance
+Frame 12: Tips & Tricks recap — memory aids
+Frame 13: CTA — practise on ChapterReady
+
+## Design Constraints
+
+- Use the SAV video as template: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-sav/
+- Copy the same fonts (Bangers, RocknRoll One, Space Mono) from the SAV assets
+- Same color palette: #f7f2e7 (paper), #171513 (ink), #f3883b (accent), #a84a08 (deep), #2f8f68 (green tips), #c4473d (red warnings)
+- Use SVG shapes where helpful (parabola curve for discriminant visualization, number line for root positions)
+- Each formula in Space Mono bold
+- Tips in green pill badges, warnings in red pills
+- Same GSAP SavMotion animation engine
+- Same caption system
+- Target 5-7 minutes total (300-420 seconds)
+
+## Output Files
+
+Create all files in ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/:
+1. package.json (copy from SAV, change name)
+2. hyperframes.json (copy from SAV, change name)
+3. meta.json (copy from SAV, change name)
+4. index.html (new timeline for 13 frames)
+5. SCRIPT.md (full narration for each frame)
+6. STORYBOARD.md (frame-by-frame visual plan)
+7. SOURCE_MAP.md (mark claims as estimates)
+8. compositions/frames/*.html (13 frame files)
+9. compositions/frame-motion.js (copy from SAV)
+10. captions/captions.js (empty initially)
+
+After creating all files, run: cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic && npm install --save-dev hyperframes@0.7.101 2>/dev/null; npm run check
+
+## Important
+
+- Do NOT modify any files in the SAV video directory
+- Create everything fresh in the new quadratic directory
+- Use deepseek-v4-flash model for efficiency
+- All math formulas must be correct (double-check the quadratic formula, discriminant, sum/product rules)
+- The narration should be warm, patient, encouraging — like a tutor explaining to a student

@@ -1,0 +1,100 @@
+Task: Rewrite CBSE Class 10 Maths SAV video — new objective: "All Formulas + Explanations + Tips & Tricks to Remember"
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-sav/
+This is a HyperFrames video composition (HTML/CSS/JS + GSAP animations) about Surface Areas and Volumes (NCERT Class 10, Chapter 12).
+
+The current video is a 3-minute overview/trailer. The user wants to CHANGE the objective to:
+
+**NEW OBJECTIVE: Teach ALL formulas with clear explanations, and provide tips & tricks to remember each formula.**
+
+This should be a proper teaching video, NOT a teaser.
+
+## What to change
+
+Rewrite these 3 files:
+1. `SCRIPT.md` — the narration script
+2. `STORYBOARD.md` — the frame-by-frame visual plan  
+3. `compositions/frames/*.html` — the actual frame HTML files (update text content, NOT the SVG shapes)
+
+## NCERT Chapter 12 Formulas to Cover
+
+### Surface Area formulas:
+- CSA of cylinder = 2πrh
+- TSA of cylinder = 2πr(r+h)
+- CSA of cone = πrl
+- TSA of cone = πr(r+l)
+- CSA of sphere = 4πr²
+- CSA of hemisphere = 2πr²
+- TSA of hemisphere = 3πr²
+
+### Volume formulas:
+- Volume of cylinder = πr²h
+- Volume of cone = (1/3)πr²h
+- Volume of sphere = (4/3)πr³
+- Volume of hemisphere = (2/3)πr³
+
+### Combination formulas:
+- Volume of combination = sum of individual volumes (no hidden faces)
+- Surface area of combination = sum of visible surfaces only (joined faces hide)
+
+### Conversion:
+- V(old shape) = V(new shape)
+
+### Frustum:
+- Volume = (1/3)πh(r₁² + r₂² + r₁r₂)
+- CSA = π(r₁+r₂)l
+- TSA = π(r₁+r₂)l + πr₁² + πr₂²
+
+## Tips & Tricks to Include
+
+1. **Cylinder formula pattern**: CSA = 2πrh (circumference × height). TSA = CSA + 2 × base = 2πrh + 2πr² = 2πr(h+r)
+2. **Cone formula pattern**: CSA = πrl (half circumference × slant). TSA = CSA + base = πrl + πr² = πr(l+r)
+3. **Sphere is simple**: Just 4πr² for everything (CSA = TSA = 4πr²)
+4. **Hemisphere trick**: CSA = 2πr² (half of sphere). TSA = 3πr² (add one flat circle)
+5. **Cone volume**: It's exactly 1/3 of a cylinder with same base and height
+6. **Combination SA trap**: Don't add both TSAs — joined faces are invisible
+7. **Combination volume is easy**: Just add volumes, no hidden faces
+8. **Conversion golden rule**: Volume never changes when melting/recasting
+9. **Frustum memory aid**: "Big cone minus small cone" — the formula is (1/3)πh(r₁² + r₂² + r₁r₂)
+10. **r₁ vs r₂**: r₁ is the smaller radius (top cut), r₂ is the bigger radius (bottom base)
+
+## Frame Structure (suggest 12-15 frames)
+
+Frame 1: Hook — "14 Formulas. One Chapter. Memorise Them Once."
+Frame 2: Why it matters — marks weightage
+Frame 3: Cylinder formulas (CSA + TSA + Volume) with tip
+Frame 4: Cone formulas (CSA + TSA + Volume) with tip  
+Frame 5: Sphere formulas (CSA + Volume) with tip
+Frame 6: Hemisphere formulas (CSA + TSA + Volume) with tip
+Frame 7: Combination Surface Area — the trap + how to handle it
+Frame 8: Combination Volume — simpler, just add
+Frame 9: Conversion of solids — golden rule
+Frame 10: Frustum — the "scary" formula demystified
+Frame 11: Quick revision card — all 14 formulas at a glance
+Frame 12: Tips & Tricks recap — memory aids
+Frame 13: CTA — practise on ChapterReady
+
+## Design Constraints
+
+- Keep the existing SVG shapes (they are correct now)
+- Use the existing fonts: Bangers, RocknRoll One, Space Mono
+- Keep the color palette: #f7f2e7 (paper), #171513 (ink), #f3883b (accent), #a84a08 (deep), #2f8f68 (green), #c4473d (red)
+- Each formula should be displayed in Space Mono bold
+- Tips/tricks should be in green (#2f8f68) pill badges
+- Warnings/traps should be in red (#c4473d) pills
+- Use the same GSAP animation pattern (SavMotion.animate)
+- Keep the caption system
+- Each frame should be self-contained HTML in compositions/frames/
+
+## Duration
+- Target 5-7 minutes total (300-420 seconds)
+- Each formula frame: ~20-30 seconds
+
+## Output
+- Rewrite SCRIPT.md with full narration for each frame
+- Rewrite STORYBOARD.md with frame descriptions
+- Update the frame HTML files with new text content
+- Do NOT modify the SVG shape elements — only update text, formulas, tips, and layout
+- Run: cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-sav && npm run check

@@ -1,0 +1,71 @@
+Task: Research and rank the most important CBSE Class 10 topics for video production based on marks weightage and previous year board exam frequency.
+
+## Objective
+
+Find out which CBSE Class 10 topics we should create videos for next. Rank them by importance using two criteria:
+1. **Marks weightage** — how many marks does this topic carry in the board exam?
+2. **Previous year frequency** — how often has this topic appeared in board exams (2020-2026)?
+
+## What to Research
+
+Search the web for:
+1. CBSE Class 10 2026 board exam pattern and marks distribution by chapter/subject
+2. Previous year CBSE Class 10 board paper analysis (2020-2026) — which chapters/topics appeared most frequently
+3. Chapter-wise marks weightage for Mathematics, Science, and Social Science
+4. Most repeated question types (MCQ, 2-mark, 3-mark, 5-mark, case-based)
+5. High-yield chapters that appear almost every year
+
+## Output Format
+
+Create a file at: `docs/implementation-plans/topic-priority-ranking.md`
+
+Format the output as:
+
+```
+# CBSE Class 10 Topic Priority Ranking
+
+## Methodology
+- Sources consulted: [list sources]
+- Data period: 2020-2026 board papers
+- Ranking criteria: marks weightage (50%) + frequency of appearance (50%)
+
+## Top 10 Priority Topics (Recommended for Video Production)
+
+### Rank 1: [Topic Name]
+- Subject: [Math/Science/SS]
+- Chapter: [NCERT chapter name and number]
+- Marks weightage: [X marks in 2026 pattern]
+- Frequency: appeared in [X] out of 6 years (2020-2026)
+- Common question types: [MCQ/2-mark/5-mark/case-based]
+- Why important: [brief reason]
+- Video priority: HIGH/MEDIUM/LOW
+
+[Repeat for all top 10]
+
+## By Subject Breakdown
+
+### Mathematics (80 marks)
+| Rank | Chapter | Marks | Frequency | Priority |
+|------|---------|-------|-----------|----------|
+
+### Science (80 marks)
+| Rank | Chapter | Marks | Frequency | Priority |
+|------|---------|-------|-----------|----------|
+
+### Social Science (80 marks)
+| Rank | Chapter | Marks | Frequency | Priority |
+|------|---------|-------|-----------|----------|
+
+## Already Covered
+- Surface Areas and Volumes (SAV) — video created
+
+## Recommendation
+[Brief recommendation on which topic to tackle next and why]
+```
+
+## Constraints
+- Use web search to find actual CBSE board paper analysis and marks distribution
+- Cite sources (CBSE official, Educart, Oswaal, selfstudys, etc.)
+- Focus on chapters that are both high-weightage AND frequently repeated
+- Consider that we already have a video for Surface Areas and Volumes
+- Mark each topic with video priority: HIGH (do next), MEDIUM (do soon), LOW (can wait)

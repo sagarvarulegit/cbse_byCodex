@@ -1,0 +1,80 @@
+Task: Create a YouTube Shorts TEASER for the Quadratic Equations video
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic-shorts/
+
+The full Quadratic Equations video exists at:
+~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/
+
+We need a 45-60 second vertical (9:16) YouTube Shorts teaser that:
+1. Hooks viewers in the first 3 seconds
+2. Shows the "mystery" of quadratic equations
+3. Teases 2-3 key moments from the full video
+4. Ends with a clear CTA: "Watch the full video"
+
+## YouTube Shorts Format
+
+- **Aspect ratio:** 9:16 (vertical)
+- **Resolution:** 1080 x 1920
+- **Duration:** 45-60 seconds max
+- **Style:** Fast-paced, punchy, no fluff
+
+## Script for the Short (45 seconds)
+
+### Hook (0-3 sec)
+**VISUAL:** Big equation appears: 2x² − 5x + 3 = 0
+**TEXT OVERLAY:** "This looks scary right?"
+**NARRATION:** This equation looks complicated...
+
+### Mystery (3-8 sec)
+**VISUAL:** Highlight the x
+**TEXT OVERLAY:** "But it's asking ONE simple question"
+**NARRATION:** But it's really asking one simple question: What value of x makes this true?
+
+### Tease 1 — Prayer Hall (8-15 sec)
+**VISUAL:** Quick flash of prayer hall → 2x² + x − 300 = 0
+**TEXT OVERLAY:** "Real problems become equations"
+**NARRATION:** A real prayer hall problem becomes this equation.
+
+### Tease 2 — Factorisation (15-25 sec)
+**VISUAL:** 2x² − 5x + 3 = 0 → split → group → (2x−3)(x−1) = 0 → x = 3/2, 1
+**TEXT OVERLAY:** "Split. Factorise. Solve."
+**NARRATION:** Split the middle term. Factorise. And suddenly... x equals 3/2 or 1.
+
+### Tease 3 — Discriminant (25-35 sec)
+**VISUAL:** D = b² − 4ac → D > 0 → "Two roots!" → D < 0 → "No real roots!"
+**TEXT OVERLAY:** "One number tells you everything"
+**NARRATION:** And this one number — the discriminant — tells you everything about the roots.
+
+### CTA (35-45 sec)
+**VISUAL:** Full video thumbnail / chapter title card
+**TEXT OVERLAY:** "Full video link in description 👇"
+**NARRATION:** Want to master all the formulas? Watch the full video. Link in description.
+
+## Design Constraints
+
+- Same visual style as the full video (Bangers font, same colors)
+- Fast cuts — each scene 3-5 seconds max
+- Bold text overlays (white on dark or dark on paper background)
+- Equation animations should be FAST (0.3s per step, not 0.5s)
+- End screen: "Watch Full Video" with arrow pointing down
+- Use 1080x1920 canvas (vertical)
+
+## Output
+
+Create all files in ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic-shorts/:
+1. package.json
+2. hyperframes.json
+3. meta.json
+4. index.html (vertical timeline)
+5. compositions/frames/01-hook.html
+6. compositions/frames/02-mystery.html
+7. compositions/frames/03-tease-prayer.html
+8. compositions/frames/04-tease-factor.html
+9. compositions/frames/05-tease-discriminant.html
+10. compositions/frames/06-cta.html
+11. SCRIPT.md (short script)
+
+After creating all files:
+cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic-shorts && npm install --save-dev hyperframes@0.7.101 2>/dev/null; npm run check

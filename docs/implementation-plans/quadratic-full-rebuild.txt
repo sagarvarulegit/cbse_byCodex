@@ -1,0 +1,90 @@
+Task: REBUILD Quadratic Equations video with FULL 57-beat script
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/
+
+The FULL script is at SCRIPT.md — it has 57 visual beats across 18 scenes.
+The production note says: "Combine adjacent beats when the animation can naturally carry the learner through multiple steps. Do NOT combine distinct learning moments."
+
+## Frame Grouping (57 beats → ~20 Hyperframes)
+
+| Hyperframe | Beats | NCERT Section | Content |
+|------------|-------|---------------|---------|
+| 01-hook | 1 | Hook | 2x²−5x+3=0 mystery |
+| 02-objective | 2 | Roadmap | What we'll learn |
+| 03-prayer-hall | 3-6 | 4.1 | Prayer hall → quadratic equation |
+| 04-what-is | 7-9 | 4.2 | Pattern → standard form → quick check |
+| 10-marbles-intro | 10-11 | 4.1 | Marble problem setup |
+| 12-marbles-lose | 12-13 | 4.1 | Both lose 5, product = multiply |
+| 14-marbles-simplify | 14 | 4.1 | Progressive simplification (5 steps) |
+| 15-looks-different | 15-16 | 4.2 | (x−2)²+1 — simplify first |
+| 17-not-quadratic | 17 | 4.2 | x² cancels — not quadratic |
+| 18-what-is-root | 18-21 | 4.3 | Root definition + try x=1 |
+| 22-root-solution-zero | 22 | 4.3 | Root = Solution = Zero |
+| 23-why-factor | 23-26 | 4.3 | Need better way → zero product rule |
+| 27-factor-example1 | 27-33 | 4.3 | 2x²−5x+3 full factorisation (7 beats) |
+| 34-factor-example2 | 34-36 | 4.3 | 6x²−x−2 factorisation |
+| 37-prayer-solved | 37-40 | 4.3 | Prayer hall solved (4 beats) |
+| 41-factor-hard | 41 | 4.4 | When factorisation is difficult |
+| 42-quadratic-formula | 42-43 | 4.4 | Formula + identify a,b,c |
+| 44-discriminant | 44-49 | 4.4 | D=b²−4ac, 3 cases (6 beats) |
+| 50-disc-examples | 50-52 | 4.4 | Examples 7 & 9 |
+| 53-summary | 53-54 | 4.5 | Journey + 4 things to remember |
+| 55-challenge | 55-56 | CTA | Your turn + answer |
+| 57-closing | 57 | Closing | Heart of quadratic equations |
+
+## What to Do
+
+### 1. Read SCRIPT.md — it has the FULL 57-beat script
+
+### 2. Create new frame HTML files for each Hyperframe above
+
+Each frame must have:
+- NCERT section kicker (e.g. "NCERT 4.1 · The Prayer Hall")
+- Title
+- Progressive equation steps (each step is a div with class="step step-N")
+- GSAP animation timeline
+
+### 3. Progressive Animation (MANDATORY)
+
+Every equation MUST animate step-by-step. Example for Frame 27-33 (factorisation):
+
+Beat 27: Show "2x² − 5x + 3 = 0"
+Beat 28: After "2×3=6", show "Product = 6, Sum = −5" → reveal "−2 and −3"
+Beat 29: After "split", show "2x² − 2x − 3x + 3"
+Beat 30: After "group", show "2x(x−1) − 3(x−1)" → "(2x−3)(x−1)"
+Beat 31: After "zero product", show "(2x−3)(x−1)=0" → "2x−3=0 OR x−1=0"
+Beat 32: After "solve", show "x=3/2" and "x=1"
+Beat 33: After "recipe", show "Split → Factorise → Set to zero → Solve"
+
+Each step appears AFTER the narrator explains it.
+Use GSAP timeline with staggered reveals (opacity 0→1, y 26→0, 0.5s duration).
+
+### 4. Update index.html
+
+- ~22 scenes (one per Hyperframe)
+- Total duration: ~480 seconds (8 minutes)
+- Each scene duration matches the narration length
+
+### 5. Update STORYBOARD.md
+
+Map all 57 beats to the 22 Hyperframes.
+
+### 6. Create .motion.json for each frame
+
+Duration + selector assertions.
+
+## Design Constraints
+
+- Keep existing SVG shapes where applicable
+- Same fonts: Bangers, RocknRoll One, Space Mono
+- Same colors: #f7f2e7, #171513, #f3883b, #a84a08, #2f8f68, #c4473d
+- GSAP SavMotion animation engine
+- Each equation step animates separately (opacity + y translate)
+- Stagger: 0.3-0.5s between equation steps
+
+## Verification
+
+After all changes:
+cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic && npm run check

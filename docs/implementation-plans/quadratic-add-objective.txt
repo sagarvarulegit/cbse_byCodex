@@ -1,0 +1,76 @@
+Task: Add an Objective scene to the Quadratic Equations video — right after the Hook.
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/
+
+The video currently has 13 frames. Frame 1 is the Hook. We need to insert a NEW Frame 2 (Objective) that tells students exactly what they will learn in this video.
+
+## What to Change
+
+### 1. Create new file: compositions/frames/02-objective.html
+
+This frame should:
+- Be visually clean and simple (not cluttered)
+- Title: "What You'll Learn Today" (or similar)
+- Display the video objective in 2-3 clear sentences:
+  "This video teaches every method to solve quadratic equations — factorisation, completing the square, the quadratic formula — and shortcuts like the discriminant and sum/product of roots."
+- Use the existing design system (Bangers font for title, Space Mono for any formulas, same colors)
+- Duration: ~12-15 seconds
+
+### 2. Rename existing files
+
+The current frames need to be renumbered:
+- Current 02-why.html → 03-why.html
+- Current 03-what-is.html → 04-what-is.html
+- Current 04-factorisation.html → 05-factorisation.html
+- Current 05-completing-square.html → 06-completing-square.html
+- Current 06-quadratic-formula.html → 07-quadratic-formula.html
+- Current 07-discriminant.html → 08-discriminant.html
+- Current 08-sum-product.html → 09-sum-product.html
+- Current 09-forming-equations.html → 10-forming-equations.html
+- Current 10-mistakes.html → 11-mistakes.html
+- Current 11-revision.html → 12-revision.html
+- Current 12-tips.html → 13-tips.html
+- Current 13-cta.html → 14-cta.html
+
+Use `mv` commands to rename. Do NOT rewrite file contents — just rename.
+
+### 3. Update index.html
+
+Update the timeline in index.html:
+- Add the new 02-objective frame with ~12-15s duration
+- Shift all subsequent frame start times
+- Update the total composition duration
+- Make sure the data-composition-id values match the new filenames
+
+### 4. Update SCRIPT.md
+
+Add a new Line 2 (Objective) right after Line 1 (Hook):
+
+```
+## Line 2 — Objective (Frame 2)
+
+**Time:** 0:15–0:27
+**Display:** What you'll learn today — 4 solving methods + 3 shortcuts
+
+    Before we dive in — here is exactly what this video covers. You will learn four ways to solve quadratic equations: factorisation, completing the square, the quadratic formula, and the discriminant. You will also learn two powerful shortcuts — sum and product of roots — that save you minutes in the exam. By the end, you will have every tool you need to score full marks on this chapter.
+```
+
+Then renumber all subsequent Line numbers (Line 3 becomes Line 4, etc.)
+
+### 5. Update STORYBOARD.md
+
+Add the objective frame description in the storyboard, in the correct position.
+
+### 6. Create motion JSON for the new frame
+
+Create: compositions/frames/02-objective.motion.json
+Use the same GSAP animation pattern as other frames (SavMotion.animate with profile "fixed").
+
+## Important Rules
+
+- Do NOT modify the content of existing frame HTML files (only rename them)
+- Do NOT break the existing SVG shapes or animations
+- The new objective frame must appear BEFORE any formulas or concepts
+- After all changes, run: cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic && npm run check

@@ -1,0 +1,126 @@
+Task: Build a Student Feedback Feature for the CBSE Class 10 Learning Platform
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/
+Stack: Next.js (apps/web) + Express API (apps/api) + Prisma + PostgreSQL
+
+The platform is a CBSE Class 10 learning platform with notes, quizzes, and videos. Students need a way to provide feedback, suggestions, and report issues.
+
+## What to Build
+
+### 1. Database Schema (Prisma)
+
+Add a `student_feedback` table to apps/api/prisma/schema.prisma:
+
+```prisma
+model StudentFeedback {
+  id            String   @id @default(uuid())
+  userId        String?  
+  category      String   // "suggestion", "bug", "content_error", "general"
+  subject       String?  // "mathematics", "science", "social_science", "english", "general"
+  chapter       String?  // specific chapter if related to content
+  title         String   @db.VarChar(200)
+  description   String   @db.Text
+  rating        Int?     // 1-5 stars, optional
+  status        String   @default("new") // "new", "reviewed", "in_progress", "resolved"
+  adminNotes    String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([category])
+  @@index([status])
+  @@index([createdAt])
+}
+```
+
+After adding to schema, run: cd apps/api && npx prisma migrate dev --name add-student-feedback
+
+### 2. Backend API (apps/api)
+
+Create routes in apps/api/src/routes/feedback.ts:
+
+- POST /api/feedback — submit feedback (public, no auth required for students)
+- GET /api/feedback — list all feedback (admin only, with filters: category, status, subject)
+- PATCH /api/feedback/:id — update status/adminNotes (admin only)
+- GET /api/feedback/stats — feedback stats (count by category, status, average rating)
+
+Wire the routes into the Express app in apps/api/src/index.ts or apps/api/src/app.ts.
+
+### 3. Frontend — Feedback Form (apps/web)
+
+Create a new page: apps/web/app/feedback/page.tsx
+
+Design requirements:
+- Clean, student-friendly form (not developer-looking)
+- Fields:
+  - Category (dropdown): Suggestion, Bug Report, Content Error, General Feedback
+  - Subject (dropdown): Mathematics, Science, Social Science, English, General
+  - Chapter (optional text input, appears when subject is selected)
+  - Title (text input, max 200 chars)
+  - Description (textarea, min 20 chars)
+  - Rating (optional 1-5 star selector)
+- Submit button with loading state
+- Success message after submission
+- "Thank you for your feedback!" confirmation
+
+Style:
+- Use the existing platform styling (globals.css variables)
+- Card-based layout with subtle shadow
+- Responsive (works on mobile)
+- Match the platform's navy/gold/orange color scheme
+
+### 4. Frontend — Admin Feedback Dashboard (apps/web or apps/admin)
+
+Create: apps/web/app/admin/feedback/page.tsx (or apps/admin if admin app exists)
+
+Features:
+- Table/list view of all feedback entries
+- Filter by: category, status, subject
+- Sort by: date, rating, status
+- Click to expand — see full description + admin notes
+- Change status dropdown (new → reviewed → in_progress → resolved)
+- Add admin notes text field
+- Stats summary at top: total feedback, new count, resolved count, average rating
+
+### 5. Floating Feedback Button
+
+Add a floating feedback button on the main platform:
+- Position: bottom-right corner, fixed
+- Icon: chat bubble or message icon
+- Opens the feedback form in a modal or navigates to /feedback
+- Visible on all pages except admin pages
+- Subtle animation on hover
+
+Create component: apps/web/components/FeedbackButton.tsx
+
+### 6. Integration
+
+- Add the FeedbackButton to the main layout in apps/web/app/layout.tsx
+- Add a "Feedback" link in the footer or navigation
+- Protect admin routes with existing auth middleware
+
+## File Changes Summary
+
+1. apps/api/prisma/schema.prisma — add StudentFeedback model
+2. apps/api/src/routes/feedback.ts — new file, all API routes
+3. apps/api/src/app.ts or index.ts — wire feedback routes
+4. apps/web/app/feedback/page.tsx — new file, student feedback form
+5. apps/web/components/FeedbackButton.tsx — new file, floating button
+6. apps/web/app/layout.tsx — add FeedbackButton
+7. apps/web/app/admin/feedback/page.tsx — new file, admin dashboard (if admin routes exist in web app)
+
+## Verification
+
+After all changes:
+1. cd apps/api && npx prisma migrate dev --name add-student-feedback
+2. cd apps/web && npm run build
+3. Test: submit feedback via the form, verify it appears in admin dashboard
+
+## Constraints
+
+- No auth required for submitting feedback (students should be able to give feedback freely)
+- Admin routes must be protected
+- Use existing platform styling, no new CSS frameworks
+- Keep it simple and clean — this is a utility feature, not a major UI overhaul
+- Use TypeScript throughout

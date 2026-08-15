@@ -15,6 +15,7 @@ export type ExamPaperQuestion = {
   statement: string;
   answerKey: ExamPaperAnswerKey;
   sourceKind: string;
+  chapterSlug?: string | null;
 };
 
 export type ExamPaperSection = {
@@ -49,6 +50,26 @@ export type ExamPaperSummary = {
   verificationStatus: string;
   publishStatus: string;
   createdAt: string;
+};
+
+export type MockTestSeriesPaper = {
+  number: number;
+  seed: number;
+  title: string;
+  id?: string;
+  verificationStatus?: string;
+  publishStatus?: string;
+  totalMarks?: number;
+  durationMinutes?: number;
+  isFreeSample?: boolean;
+};
+
+export type MockTestSeries = {
+  key: string;
+  title: string;
+  description: string;
+  subjectSlug: string;
+  freeSampleNumber: number;
 };
 
 type GenerateResponse = {
@@ -107,4 +128,105 @@ export async function getExamPaper(token: string | null, id: string) {
 
 export async function listExamPapers(token: string | null) {
   return apiFetch<{ papers: ExamPaperSummary[] }>(token, '/v1/exam-papers');
+}
+
+export async function getMockTestSeries(token: string | null) {
+  return apiFetch<{ series: MockTestSeries; papers: MockTestSeriesPaper[] }>(
+    token,
+    '/v1/exam-papers/series',
+  );
+}
+
+export type ExamPaperQuestionResult = {
+  questionNumber: number;
+  sectionId: string;
+  questionType: string;
+  chapterSlug: string;
+  marks: number;
+  earnedMarks: number;
+  correct: boolean;
+};
+
+export type SavedExamPaperAttempt = {
+  id: string;
+  clientAttemptId: string;
+  attemptNumber: number;
+  examPaperId: string;
+  totalMarks: number;
+  earnedMarks: number;
+  mcqCorrect: number;
+  mcqTotal: number;
+  writtenSelfMarked: boolean;
+  createdAt: string;
+};
+
+export type ExamPaperAttemptPayload = {
+  clientAttemptId: string;
+  totalMarks: number;
+  earnedMarks: number;
+  mcqCorrect: number;
+  mcqTotal: number;
+  writtenSelfMarked: boolean;
+  questionResults: ExamPaperQuestionResult[];
+};
+
+export type SubmitAttemptResponse = {
+  attempt: SavedExamPaperAttempt;
+  created: boolean;
+  matches: boolean;
+  weakAreas: { weakChapterSlugs: string[]; weakQuestionTypes: string[] };
+};
+
+export async function submitExamPaperAttempt(
+  token: string | null,
+  examPaperId: string,
+  payload: ExamPaperAttemptPayload,
+) {
+  return apiFetch<SubmitAttemptResponse>(
+    token,
+    `/v1/exam-papers/${encodeURIComponent(examPaperId)}/attempt`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    },
+  );
+}
+
+export type ExamPaperAttemptSummary = {
+  id: string;
+  clientAttemptId: string;
+  attemptNumber: number;
+  examPaperId: string;
+  paperTitle: string;
+  paperSeed: number;
+  totalMarks: number;
+  earnedMarks: number;
+  mcqCorrect: number;
+  mcqTotal: number;
+  writtenSelfMarked: boolean;
+  weakChapterSlugs: string[];
+  weakQuestionTypes: string[];
+  createdAt: string;
+};
+
+export type ExamPaperAttemptsResponse = {
+  attempts: ExamPaperAttemptSummary[];
+  weakAreas: { weakChapterSlugs: string[]; weakQuestionTypes: string[] };
+  aggregate: {
+    attempts: number;
+    averagePercent: number;
+    bestPercent: number;
+  } | null;
+};
+
+export async function listExamPaperAttempts(token: string | null, paperId?: string) {
+  const params = new URLSearchParams();
+  if (paperId) {
+    params.set('paperId', paperId);
+  }
+  const query = params.toString();
+  return apiFetch<ExamPaperAttemptsResponse>(
+    token,
+    `/v1/exam-papers/attempts${query ? `?${query}` : ''}`,
+  );
 }

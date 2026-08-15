@@ -1,0 +1,88 @@
+Task: REBUILD Quadratic Equations video with FINAL script + progressive animations
+
+## Context
+
+Project: ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic/
+
+The video already exists with 14 frames. You need to REBUILD it to match the final script at SCRIPT.md and implement progressive equation animations.
+
+## What to Change
+
+### 1. Update ALL frame HTML files to match the final SCRIPT.md
+
+Read SCRIPT.md first. Each frame must have:
+- Correct display text matching the script's Display: line
+- Correct narration text (will be used for voiceover later)
+- Proper NCERT section numbering (4.1, 4.2, 4.3, 4.4)
+
+### 2. Implement Progressive Equation Animations (CRITICAL)
+
+Every equation MUST animate step-by-step. DO NOT show the full equation at once.
+
+Example for factorisation (Frame 7):
+- Step 1: Show "2x² − 5x + 3 = 0"
+- Step 2: After narrator says "split the middle term", show "2x² − 2x − 3x + 3"
+- Step 3: After narrator says "factor", show "2x(x − 1) − 3(x − 1)"
+- Step 4: After narrator says "that gives us", show "(2x − 3)(x − 1) = 0"
+- Step 5: After narrator says "so either", show "x = 3/2 or x = 1"
+
+Each step should be a separate div that animates in (opacity 0 → 1) using the GSAP timeline.
+
+### 3. Visual Rhythm Rule (MANDATORY)
+
+Every frame must follow this pattern:
+1. Question/concept appears first
+2. Student gets a moment to think (brief pause in animation)
+3. Solution builds ONE STEP AT A TIME
+4. Each step appears AFTER the corresponding narration
+
+DO NOT: Show entire solution at once.
+DO: Build it step by step with GSAP staggered reveals.
+
+### 4. Update index.html
+
+- Add Frame 15 (Closing) if not present
+- Ensure all frame durations match the SCRIPT.md timings
+- Total duration should be ~395 seconds (6:35)
+
+### 5. Update SCRIPT.md
+
+Already updated with closing lines and directing notes. Just verify it's correct.
+
+### 6. Update STORYBOARD.md
+
+Match the new frame count and descriptions.
+
+## Frame-by-Frame Requirements
+
+| Frame | NCERT | Display Content | Animation Style |
+|-------|-------|-----------------|-----------------|
+| 01 | Hook | "Every 5-mark question..." | Text fade in |
+| 02 | Objective | "What you'll learn..." | Bullet points stagger |
+| 03 | 4.1 | Prayer hall → 2x²+x-300=0 | Building equation step by step |
+| 04 | 4.2 | ax²+bx+c=0 definition | Formula reveal |
+| 05 | 4.2 | Example 2: simplify first | Expand → simplify → reveal |
+| 06 | 4.3 | What is a root? | x=1 test → true/false |
+| 07 | 4.3 | Factorisation: 2x²-5x+3=0 | 5-step progressive animation |
+| 08 | 4.3 | Example 4: 6x²-x-2=0 | 5-step progressive animation |
+| 09 | 4.3 | Prayer hall solved | Connect back to Frame 3 |
+| 10 | 4.4 | Quadratic formula | Formula appears with memory song |
+| 11 | 4.4 | Discriminant D=b²-4ac | 3 cases animate in |
+| 12 | 4.4 | Examples 7 & 9 | D calculation step by step |
+| 13 | 4.5 | Summary grid | All formulas in grid |
+| 14 | CTA | Discriminant retrieval | Question → pause → answer |
+| 15 | Closing | "Heart of quadratic equations" | Reflective closing |
+
+## Design Constraints
+
+- Keep existing SVG shapes (they are correct)
+- Use same fonts: Bangers, RocknRoll One, Space Mono
+- Same colors: #f7f2e7, #171513, #f3883b, #a84a08, #2f8f68, #c4473d
+- GSAP SavMotion animation engine
+- Each equation step animates in separately (opacity + y translate)
+- Stagger: 0.3s between equation steps
+
+## Verification
+
+After all changes:
+cd ~/Projects/cbse_byCodex/videos/cbse-class-10-maths-quadratic && npm run check

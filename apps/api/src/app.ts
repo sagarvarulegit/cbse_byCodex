@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import type { ErrorRequestHandler, RequestHandler } from 'express';
 
 import { authRouter } from './routes/auth.js';
 import { catalogRouter } from './routes/catalog.js';
@@ -39,5 +40,19 @@ app.use('/v1/progress', progressRouter);
 app.use('/v1/feedback', feedbackRouter);
 app.use('/v1/exam-papers', examPapersRouter);
 app.use('/v1/admin/exam-papers', adminExamPapersRouter);
+
+// Express 4 does not catch rejected promises from async handlers; without this
+// a thrown error would leave the client hanging with no response.
+const notFoundHandler: RequestHandler = (_req, res) => {
+  res.status(404).json({ message: 'Not found.' });
+};
+
+const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+  console.error('Unhandled API error:', error);
+  res.status(500).json({ message: 'An unexpected error occurred.' });
+};
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;

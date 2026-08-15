@@ -64,6 +64,7 @@ model User {
   quizAttempts     QuizAttempt[]
   writtenPracticeAttempts WrittenPracticeAttempt[]
   mistakeReviewItems MistakeReviewItem[]
+  examPaperAttempts ExamPaperAttempt[]
   examReadyChecklists ExamReadyChecklist[]
   chapterMasteries ChapterMastery[]
   revisionMissions RevisionMission[]
@@ -323,6 +324,31 @@ model MistakeReviewItem {
   @@index([chapterId, kind, resolvedAt])
 }
 
+model ExamPaperAttempt {
+  id                String   @id @default(cuid())
+  userId            String
+  examPaperId       String
+  clientAttemptId   String
+  attemptNumber     Int
+  totalMarks        Int
+  earnedMarks       Int
+  mcqCorrect        Int
+  mcqTotal          Int
+  writtenSelfMarked Boolean  @default(false)
+  questionResults   Json?
+  weakChapterSlugs  String[] @default([])
+  weakQuestionTypes String[] @default([])
+  createdAt         DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+  examPaper ExamPaper @relation(fields: [examPaperId], references: [id])
+
+  @@unique([userId, examPaperId, attemptNumber])
+  @@unique([userId, clientAttemptId])
+  @@index([userId, createdAt])
+  @@index([examPaperId, createdAt])
+}
+
 model ExamReadyChecklist {
   id                       String   @id @default(cuid())
   userId                   String
@@ -563,6 +589,7 @@ model ExamPaper {
   updatedAt          DateTime                   @updatedAt
 
   questions ExamPaperQuestion[]
+  attempts ExamPaperAttempt[]
 
   @@index([userId, createdAt])
   @@index([subjectSlug, verificationStatus])

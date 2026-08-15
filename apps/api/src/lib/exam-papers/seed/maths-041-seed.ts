@@ -1,4 +1,5 @@
 import type { BankQuestion } from '../types.js';
+import { MATHS_041_SERIES_EXPANSION } from './maths-041-series-expansion.js';
 
 const SUBJECT = 'mathematics-standard';
 
@@ -2447,4 +2448,5 @@ export const MATHS_041_SEED: BankQuestion[] = [
       },
     ],
   }),
+  ...MATHS_041_SERIES_EXPANSION,
 ];
