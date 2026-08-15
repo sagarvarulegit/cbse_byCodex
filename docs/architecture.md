@@ -123,6 +123,15 @@ without a Chapter 1 branch in the component or API.
 5. Admin review surfaces in `apps/api/src/routes/exam-papers.ts`: paper approve/reject and bank verify/approve/reject. AI verdicts never auto-publish; only an admin approve marks a paper `published`.
 6. The student web app generates papers via `/exam-papers` and renders printable papers (with an answer-key toggle) at `/exam-papers/[id]`; subject pages link to the generator only for blueprint-ready subjects.
 
+### AI Tutor "Tara-Firefly"
+
+1. **RAG corpus**: `npm run rag:build -w apps/api` reads chapter packs (`docs/content/class-10/**/chapter-pack.md`) and lesson notes (`apps/web/content/**/lessons/*.md`), chunks by headings (300–600 words, undersized chunks merged), embeds with `gemini-embedding-001` (3072-dim), and upserts into `RagChunk` (pgvector). The build is incremental via `contentHash`. Design decisions: `docs/rag-corpus.md`.
+2. **Retrieval**: `apps/api/src/lib/rag/retrieve.ts` embeds the student query and returns top-k (6) chunks by cosine similarity with a 0.35 score floor; below the floor the tutor must answer honestly that the topic is not in its notes. `POST /v1/tutor/search` is the debug/QA surface.
+3. **Conversation persistence**: `TutorConversation`, `TutorMessage`, `TutorAttachment` (RLS, user-scoped) hold the per-student chat history. Attachments (image/PDF) are uploaded to the Bunny Storage zone; only metadata is stored in Postgres.
+4. **Answer generation**: `apps/api/src/lib/tutor/tara.ts` defines the Tara-Firefly persona (NCERT single source of truth, simple English, honest refusals, no fake marks guarantees). `generate.ts` calls `gemini-2.5-flash` (temperature 0.3, JSON output contract, HARM_CATEGORY safety settings) with retrieved chunks, conversation history, and any inline image parts. `format.ts` sanitizes the markdown (strips HTML, normalizes `$`/`$$` math) before storage/rendering.
+5. **Chat endpoint**: `POST /v1/tutor/conversations/:id/messages` accepts multipart (question + up to 5 files), validates types/sizes, persists the user message, retrieves chunks, streams the assistant answer as SSE, and persists it with `citedChunkIds`. A per-student daily quota (`TUTOR_DAILY_LIMIT`, default 30) is enforced server-side. A JSON fallback route exists for text-only sends.
+6. **Web UI**: `TaraWidget` (bubble + chat window) is mounted in the root web layout and auto-hides for unauthenticated visitors. It renders sanitized markdown with KaTeX math, shows citation chips, supports multi-file attach, and streams replies. Next.js proxy routes under `/api/tutor/**` forward to the API and pass SSE through without buffering.
+
 ## Dependency and impact checks
 
 For cross-module changes:

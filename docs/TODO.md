@@ -8,14 +8,14 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Project TODO
 
-Last updated: 2026-08-15
+Last updated: 2026-08-16
 
 This backlog was assembled from the accessible local Codex transcripts for this
 project, the current repo docs, and the git history through `d2040ac`.
 
 ## Current Priority
 
-- [ ] Next: Free/paid entitlement split on the Mock Test Series — Paper 1 open, Papers 2–5 gated behind access (pre-Razorpay step).
+- [ ] Next: Parent/guardian-facing tutor report (conversation summaries + weak-topic extraction from chat history) — the AI-tutor analytics layer.
 - [ ] Rotate the ElevenLabs API key that was pasted into chat, then update only server-side/local environment variables.
 - [ ] Create the Supabase project and configure `DATABASE_URL` plus `DIRECT_URL`.
 - [ ] Run the initial Prisma migration against Supabase with `npm run prisma:migrate:deploy -w apps/api`.
@@ -23,6 +23,17 @@ project, the current repo docs, and the git history through `d2040ac`.
 - [ ] Deploy three Vercel projects: `apps/api`, `apps/web`, and `apps/admin`.
 - [ ] Smoke test deployed API endpoints, student web, and admin web.
 - [ ] Build the first real pilot chapter flow end to end before scaling content.
+
+## AI Tutor "Tara-Firefly" — Shipped (2026-08-16)
+
+- [x] RAG corpus: `npm run rag:build -w apps/api` chunks chapter packs + lesson notes into 1128 pgvector rows (gemini-embedding-001, 3072-dim); `docs/rag-corpus.md` documents the design.
+- [x] Retrieval: `lib/rag/retrieve.ts` (pgvector cosine, top-k 6, 0.35 floor) + `POST /v1/tutor/search` debug endpoint.
+- [x] Conversation persistence: `TutorConversation`/`TutorMessage`/`TutorAttachment` models + CRUD routes (user-scoped, RLS).
+- [x] Gemini service: `lib/tutor/tara.ts` persona, `generate.ts` (gemini-2.5-flash, temp 0.3, JSON contract, safety settings), `format.ts` sanitizer; unit-tested.
+- [x] Chat endpoint: `POST /v1/tutor/conversations/:id/messages` (multipart, Bunny Storage attachments, SSE streaming, 30/day quota) + JSON fallback.
+- [x] Web UI: `TaraWidget` bubble in RootLayout (auth-gated), chat window with streaming, math rendering, citations, multi-file attach; Next.js proxy routes with SSE passthrough.
+- [ ] Pending: full PDF text extraction into Gemini context (currently PDFs are attachment notes only).
+- [ ] Pending: attachment download URLs for the student (Bunny CDN public URLs) in the UI.
 
 ## Mock Test Series — Shipped (2026-08-15)
 

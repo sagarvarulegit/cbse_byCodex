@@ -12,6 +12,7 @@
     "seed:bank:analyze": "tsx src/scripts/analyze-bank-coverage.ts",
     "verify:bank": "tsx src/scripts/verify-bank.ts",
     "verify:papers": "tsx src/scripts/verify-papers.ts",
+    "rag:build": "tsx src/scripts/build-rag-index.ts",
     "start": "node dist/main.js",
     "lint": "prisma generate && tsc -p tsconfig.json --noEmit",
     "prisma:generate": "prisma generate",
@@ -23,11 +24,13 @@
     "@prisma/client": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",
-    "express": "^4.19.0"
+    "express": "^4.19.0",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.13",
     "@types/node": "^22.0.0",
     "prisma": "^6.0.0",
     "tsx": "^4.19.0",

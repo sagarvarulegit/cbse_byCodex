@@ -1,11 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
 }
 
 enum UserRole {
@@ -65,6 +67,7 @@ model User {
   writtenPracticeAttempts WrittenPracticeAttempt[]
   mistakeReviewItems MistakeReviewItem[]
   examPaperAttempts ExamPaperAttempt[]
+  tutorConversations TutorConversation[]
   examReadyChecklists ExamReadyChecklist[]
   chapterMasteries ChapterMastery[]
   revisionMissions RevisionMission[]
@@ -616,4 +619,71 @@ model ExamPaperQuestion {
 
   @@unique([examPaperId, questionNumber])
   @@index([examPaperId, sectionId])
+}
+
+// RAG corpus for the Tara-Firefly AI Tutor.
+// RagChunk holds one indexed passage from the platform's NCERT-faithful
+// chapter packs / lesson notes. The embedding column uses the pgvector
+// extension; the build script (src/scripts/build-rag-index.ts) owns all rows.
+model RagChunk {
+  id           String                      @id @default(cuid())
+  subject      String
+  chapterSlug  String
+  sectionTitle String
+  content      String                      @db.Text
+  tokenCount   Int
+  sourcePath   String
+  sourceRank   Int                         @default(0)
+  contentHash  String
+  embedding    Unsupported("vector(3072)")?
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+
+  @@unique([contentHash])
+  @@index([subject, chapterSlug])
+}
+
+// Tara-Firefly AI Tutor conversations. Per-student persistence: a conversation
+// owns a thread of messages; attachments are stored in Bunny Storage and only
+// their metadata (path, kind, size) lives here.
+model TutorConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String   @default("New conversation")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User           @relation(fields: [userId], references: [id])
+  messages TutorMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model TutorMessage {
+  id              String   @id @default(cuid())
+  conversationId  String
+  role            String // "user" | "assistant"
+  contentMarkdown String   @db.Text
+  citedChunkIds   Json?
+  createdAt       DateTime @default(now())
+
+  conversation TutorConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  attachments  TutorAttachment[]
+
+  @@index([conversationId, createdAt])
+}
+
+model TutorAttachment {
+  id             String   @id @default(cuid())
+  messageId      String
+  kind           String // "image" | "pdf"
+  storagePath    String
+  mimeType       String
+  sizeBytes      Int
+  fileName       String
+  createdAt      DateTime @default(now())
+
+  message TutorMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
 }

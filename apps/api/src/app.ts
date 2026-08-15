@@ -10,6 +10,8 @@ import {
 } from './routes/exam-papers.js';
 import { feedbackRouter } from './routes/feedback.js';
 import { progressRouter } from './routes/progress.js';
+import { tutorChatRouter } from './routes/tutor-chat.js';
+import { tutorRouter } from './routes/tutor.js';
 import { videoRouter } from './routes/video.js';
 
 const allowedOrigins = process.env.CORS_ORIGIN
@@ -37,6 +39,8 @@ app.use('/v1/auth', authRouter);
 app.use('/v1/catalog', catalogRouter);
 app.use('/v1/lessons', videoRouter);
 app.use('/v1/progress', progressRouter);
+app.use('/v1/tutor', tutorRouter);
+app.use('/v1/tutor', tutorChatRouter);
 app.use('/v1/feedback', feedbackRouter);
 app.use('/v1/exam-papers', examPapersRouter);
 app.use('/v1/admin/exam-papers', adminExamPapersRouter);
