@@ -8,13 +8,14 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Project TODO
 
-Last updated: 2026-06-30
+Last updated: 2026-08-15
 
 This backlog was assembled from the accessible local Codex transcripts for this
 project, the current repo docs, and the git history through `d2040ac`.
 
 ## Current Priority
 
+- [ ] Next: Free/paid entitlement split on the Mock Test Series — Paper 1 open, Papers 2–5 gated behind access (pre-Razorpay step).
 - [ ] Rotate the ElevenLabs API key that was pasted into chat, then update only server-side/local environment variables.
 - [ ] Create the Supabase project and configure `DATABASE_URL` plus `DIRECT_URL`.
 - [ ] Run the initial Prisma migration against Supabase with `npm run prisma:migrate:deploy -w apps/api`.
@@ -22,6 +23,16 @@ project, the current repo docs, and the git history through `d2040ac`.
 - [ ] Deploy three Vercel projects: `apps/api`, `apps/web`, and `apps/admin`.
 - [ ] Smoke test deployed API endpoints, student web, and admin web.
 - [ ] Build the first real pilot chapter flow end to end before scaling content.
+
+## Mock Test Series — Shipped (2026-08-15)
+
+- [x] Fixed 5-paper Mock Test Series (Maths 041) with curated seeds, published as shared verified papers (`MATHS_041_SERIES`, `POST /v1/admin/exam-papers/series/publish`, idempotent).
+- [x] Take-the-test UX: timer, answer entry, MCQ auto-score, written self-marking against marking-scheme value points, weak-chapter report (`ExamPaperRunner`).
+- [x] Attempt persistence: `ExamPaperAttempt` model + migration, `POST /:id/attempt` (idempotent upsert on `clientAttemptId`), `GET /v1/exam-papers/attempts` with aggregate + weak-area report.
+- [x] Question bank expanded 67 → 88 verified stems (`maths-041-series-expansion.ts`); 5 papers AI-verified by Gemini; 6 content errors found and fixed.
+- [x] Verification scripts: `npm run verify:bank` and `npm run verify:papers -w apps/api` (needs a valid `GEMINI_API_KEY`).
+- [x] Global Express error handler added (`apps/api/src/app.ts`).
+- [ ] Pending: attempt persistence is client-driven; server-side attempt detail endpoint (`GET /attempts/:id`) for the parent-facing report is a follow-up.
 
 ## Foundation Already Done
 
