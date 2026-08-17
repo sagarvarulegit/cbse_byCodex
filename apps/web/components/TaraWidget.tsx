@@ -36,7 +36,7 @@ const CHAPTER_LINKS: Record<string, string> = {
 function fireflyAvatar() {
   return (
     <span className="tara-avatar" aria-hidden="true">
-      ✨
+      <img src="/logo/firefly.png" alt="" />
     </span>
   );
 }
@@ -70,6 +70,7 @@ function renderTaraContent(content: string, keyPrefix: string) {
 
 export default function TaraWidget() {
   const [open, setOpen] = useState(false);
+  const [maximized, setMaximized] = useState(false);
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -277,7 +278,7 @@ export default function TaraWidget() {
       </button>
 
       {open && (
-        <div className="tara-window">
+        <div className={`tara-window${maximized ? ' tara-window-maximized' : ''}`}>
           <div className="tara-header">
             <div className="tara-header-title">
               {fireflyAvatar()}
@@ -289,6 +290,15 @@ export default function TaraWidget() {
             <div className="tara-header-actions">
               <button type="button" onClick={() => void newConversation()} title="New chat">
                 +
+              </button>
+              <button
+                type="button"
+                onClick={() => setMaximized((current) => !current)}
+                title={maximized ? 'Minimize chat' : 'Maximize chat'}
+                aria-label={maximized ? 'Minimize chat' : 'Maximize chat'}
+                aria-pressed={maximized}
+              >
+                {maximized ? '↙' : '↗'}
               </button>
               <button type="button" onClick={() => void deleteConversation()} title="Delete chat" disabled={!activeId}>
                 🗑
@@ -426,7 +436,15 @@ export default function TaraWidget() {
           display: flex; flex-direction: column; z-index: 9998; overflow: hidden;
           font-family: 'Noto Sans JP', 'Segoe UI', Arial, sans-serif;
         }
-        .tara-avatar { display: inline-flex; align-items: center; justify-content: center; }
+        .tara-window-maximized {
+          inset: 0; width: auto; max-width: none; height: auto; max-height: none;
+          border-width: 0; border-radius: 0; box-shadow: none;
+        }
+        .tara-avatar {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 34px; height: 34px; flex: 0 0 34px;
+        }
+        .tara-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; }
         .tara-header {
           display: flex; justify-content: space-between; align-items: center; gap: 8px;
           padding: 12px 14px; background: linear-gradient(135deg, #ffd66b, #f3883b);
