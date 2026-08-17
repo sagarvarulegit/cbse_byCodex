@@ -1,0 +1,164 @@
+import { prisma } from '../prisma.js';
+import { ALL_SUBJECTS_MOCK_PACK_KEY, SINGLE_SUBJECT_MOCK_PASS_PREFIX } from './products.js';
+
+export type UserEntitlementSummary = {
+  id: string;
+  productKey: string;
+  subjectSlug: string | null;
+  scope: string;
+  status: string;
+  validFrom: Date;
+  validUntil: Date | null;
+  isAllSubjects: boolean;
+};
+
+/**
+ * Returns active entitlements for a given user.
+ */
+export async function getUserActiveEntitlements(
+  userId: string,
+): Promise<UserEntitlementSummary[]> {
+  const records = await prisma.userEntitlement.findMany({
+    where: {
+      userId,
+      status: 'active',
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return records.map((record) => ({
+    id: record.id,
+    productKey: record.productKey,
+    subjectSlug: record.subjectSlug,
+    scope: record.scope,
+    status: record.status,
+    validFrom: record.validFrom,
+    validUntil: record.validUntil,
+    isAllSubjects: record.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,
+  }));
+}
+
+/**
+ * Checks if a student is entitled to access a specific mock test paper.
+ * - Paper 1 (freeSampleNumber === 1): Always true (free sample).
+ * - Papers 2..5: True if student has active all-subjects pack or matching single-subject pass.
+ */
+export async function checkMockPaperAccess({
+  userId,
+  subjectSlug,
+  paperNumber,
+}: {
+  userId?: string | null;
+  subjectSlug: string;
+  paperNumber: number;
+}): Promise<{
+  isUnlocked: boolean;
+  isFreeSample: boolean;
+  reason?: string;
+}> {
+  // Paper 1 is free for everyone (even guests)
+  if (paperNumber === 1) {
+    return { isUnlocked: true, isFreeSample: true };
+  }
+
+  if (!userId) {
+    return {
+      isUnlocked: false,
+      isFreeSample: false,
+      reason: 'Sign in to access premium mock test papers.',
+    };
+  }
+
+  const entitlements = await getUserActiveEntitlements(userId);
+
+  const hasAllSubjects = entitlements.some(
+    (e) => e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,
+  );
+  if (hasAllSubjects) {
+    return { isUnlocked: true, isFreeSample: false };
+  }
+
+  const hasSubjectPass = entitlements.some(
+    (e) =>
+      e.subjectSlug === subjectSlug ||
+      e.productKey === `${SINGLE_SUBJECT_MOCK_PASS_PREFIX}-${subjectSlug}`,
+  );
+  if (hasSubjectPass) {
+    return { isUnlocked: true, isFreeSample: false };
+  }
+
+  return {
+    isUnlocked: false,
+    isFreeSample: false,
+    reason: 'Unlock the Mock Test Series to access Papers 2–5.',
+  };
+}
+
+/**
+ * Grants an active entitlement to a user upon successful payment.
+ */
+export async function grantEntitlement({
+  userId,
+  productKey,
+  subjectSlug,
+  paymentOrderId,
+}: {
+  userId: string;
+  productKey: string;
+  subjectSlug?: string | null;
+  paymentOrderId?: string;
+}) {
+  const normalizedSubjectSlug =
+    productKey === ALL_SUBJECTS_MOCK_PACK_KEY ? null : subjectSlug || null;
+
+  return prisma.userEntitlement.upsert({
+    where: {
+      userId_productKey_subjectSlug: {
+        userId,
+        productKey,
+        subjectSlug: normalizedSubjectSlug as string,
+      },
+    },
+    update: {
+      status: 'active',
+      paymentOrderId,
+      validFrom: new Date(),
+    },
+    create: {
+      userId,
+      productKey,
+      subjectSlug: normalizedSubjectSlug,
+      scope: 'mock_test_series',
+      status: 'active',
+      paymentOrderId,
+    },
+  });
+}
+
+/**
+ * Revokes an active entitlement (e.g. after refund).
+ */
+export async function revokeEntitlement({
+  userId,
+  productKey,
+  subjectSlug,
+}: {
+  userId: string;
+  productKey: string;
+  subjectSlug?: string | null;
+}) {
+  const normalizedSubjectSlug =
+    productKey === ALL_SUBJECTS_MOCK_PACK_KEY ? null : subjectSlug || null;
+
+  return prisma.userEntitlement.updateMany({
+    where: {
+      userId,
+      productKey,
+      subjectSlug: normalizedSubjectSlug,
+    },
+    data: {
+      status: 'revoked',
+    },
+  });
+}
+

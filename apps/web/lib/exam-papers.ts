@@ -62,6 +62,7 @@ export type MockTestSeriesPaper = {
   totalMarks?: number;
   durationMinutes?: number;
   isFreeSample?: boolean;
+  isUnlocked?: boolean;
 };
 
 export type MockTestSeries = {

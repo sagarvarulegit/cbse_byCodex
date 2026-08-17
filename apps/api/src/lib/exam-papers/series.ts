@@ -119,6 +119,7 @@ export type MockTestSeriesPaper = {
   totalMarks?: number;
   durationMinutes?: number;
   isFreeSample?: boolean;
+  isUnlocked?: boolean;
 };
 
 export function isSeriesPaper(paper: ExamPaper): boolean {
@@ -134,12 +135,14 @@ export function seriesPaperView(
   definition: MockTestSeriesPaper,
   paper?: ExamPaper,
   series: MockTestSeriesDefinition = MATHS_041_SERIES,
+  isUnlocked: boolean = definition.number === series.freeSampleNumber,
 ): MockTestSeriesPaper {
   return {
     number: definition.number,
     seed: definition.seed,
     title: definition.title,
     isFreeSample: definition.number === series.freeSampleNumber,
+    isUnlocked,
     ...(paper
       ? {
           id: paper.id,

@@ -8,6 +8,7 @@ import {
   requireStudentSession,
 } from '../../lib/auth';
 import { getMockTestSeries } from '../../lib/exam-papers';
+import { fetchStudentEntitlements } from '../../lib/payments';
 
 export default async function ExamPapersPage() {
   const [session, token] = await Promise.all([
@@ -15,11 +16,12 @@ export default async function ExamPapersPage() {
     getStudentSessionToken(),
   ]);
 
-  const [mathsData, scienceData, socialScienceData, englishData] = await Promise.all([
+  const [mathsData, scienceData, socialScienceData, englishData, entitlements] = await Promise.all([
     getMockTestSeries(token, 'mathematics-standard'),
     getMockTestSeries(token, 'science'),
     getMockTestSeries(token, 'social-science'),
     getMockTestSeries(token, 'english-language-and-literature'),
+    fetchStudentEntitlements(token),
   ]);
 
   const seriesList: SubjectSeriesEntry[] = [];
@@ -36,6 +38,10 @@ export default async function ExamPapersPage() {
     seriesList.push(englishData);
   }
 
+  const unlockedSubjects = entitlements?.hasAllSubjects
+    ? ['all', 'mathematics-standard', 'science', 'social-science', 'english-language-and-literature']
+    : entitlements?.unlockedSubjectSlugs ?? [];
+
   return (
     <main>
       <StudentTopbar contextLabel="Board Mock Test Series" session={session} />
@@ -48,7 +54,13 @@ export default async function ExamPapersPage() {
           </nav>
 
           {seriesList.length > 0 ? (
-            <MockTestSeriesCard seriesList={seriesList} />
+            <MockTestSeriesCard
+              seriesList={seriesList}
+              token={token}
+              userFullName={session.fullName}
+              userEmail={session.email || undefined}
+              unlockedSubjects={unlockedSubjects}
+            />
           ) : (
             <p className="subtext compact">
               The mock test series is being prepared. Check back soon.

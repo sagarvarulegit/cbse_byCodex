@@ -28,6 +28,7 @@ import type {
   PaperQuestion,
 } from '../lib/exam-papers/types.js';
 import { verifyBankQuestion, verifyPaper } from '../lib/exam-papers/verify.js';
+import { checkMockPaperAccess, getUserActiveEntitlements } from '../lib/payments/entitlements.js';
 import { prisma } from '../lib/prisma.js';
 import { getSessionUser, requireSessionUser } from '../lib/session.js';
 
@@ -236,10 +237,18 @@ examPapersRouter.get('/series', async (req, res) => {
     where: { subjectSlug: series.subjectSlug, userId: null, publishStatus: 'published' },
   });
   const bySeed = indexSeriesPapers(published);
+  const userEntitlements = user ? await getUserActiveEntitlements(user.id) : [];
+  const hasAll = userEntitlements.some((e) => e.isAllSubjects);
+  const hasSubject = userEntitlements.some((e) => e.subjectSlug === series.subjectSlug);
 
-  const papers = series.papers.map((definition) =>
-    seriesPaperView(definition, bySeed.get(definition.seed), series),
-  );
+  const papers = series.papers.map((definition) => {
+    const isUnlocked =
+      definition.number === series.freeSampleNumber ||
+      hasAll ||
+      hasSubject ||
+      user?.role === UserRole.admin;
+    return seriesPaperView(definition, bySeed.get(definition.seed), series, isUnlocked);
+  });
 
   return res.json({
     series: {
@@ -268,7 +277,7 @@ examPapersRouter.post('/:id/attempt', async (req, res) => {
   const examPaperId = String(req.params.id);
   const paper = await prisma.examPaper.findUnique({
     where: { id: examPaperId },
-    select: { id: true, userId: true, totalMarks: true, publishStatus: true },
+    select: { id: true, userId: true, totalMarks: true, publishStatus: true, subjectSlug: true, seed: true },
   });
   if (!paper) {
     return res.status(404).json({ message: 'Sample test paper not found.' });
@@ -276,6 +285,24 @@ examPapersRouter.post('/:id/attempt', async (req, res) => {
   const isPublishedSeries = paper.userId === null && paper.publishStatus === 'published';
   if (!isPublishedSeries && paper.userId !== user.id && user.role !== UserRole.admin) {
     return res.status(403).json({ message: 'You do not have access to this paper.' });
+  }
+
+  if (isPublishedSeries) {
+    const series = getMockTestSeriesForSubject(paper.subjectSlug);
+    const paperDef = series.papers.find((p) => p.seed === paper.seed);
+    const paperNumber = paperDef?.number ?? 1;
+    const access = await checkMockPaperAccess({
+      userId: user.id,
+      subjectSlug: paper.subjectSlug,
+      paperNumber,
+    });
+    if (!access.isUnlocked && user.role !== UserRole.admin) {
+      return res.status(403).json({
+        code: 'PAYWALL_LOCKED',
+        message: 'Unlock the Mock Test Series to submit attempts for Papers 2–5.',
+        freeSampleAvailable: true,
+      });
+    }
   }
 
   const normalized = normalizeExamPaperAttempt({ ...req.body, examPaperId });
@@ -534,6 +561,24 @@ examPapersRouter.get('/:id', async (req, res) => {
   const isPublishedSeries = isSeriesPaper(paper);
   if (!isPublishedSeries && paper.userId !== user.id && user.role !== UserRole.admin) {
     return res.status(403).json({ message: 'You do not have access to this paper.' });
+  }
+
+  if (isPublishedSeries) {
+    const series = getMockTestSeriesForSubject(paper.subjectSlug);
+    const paperDef = series.papers.find((p) => p.seed === paper.seed);
+    const paperNumber = paperDef?.number ?? 1;
+    const access = await checkMockPaperAccess({
+      userId: user.id,
+      subjectSlug: paper.subjectSlug,
+      paperNumber,
+    });
+    if (!access.isUnlocked && user.role !== UserRole.admin) {
+      return res.status(403).json({
+        code: 'PAYWALL_LOCKED',
+        message: 'Unlock the Mock Test Series to view Paper 2–5.',
+        freeSampleAvailable: true,
+      });
+    }
   }
 
   const questions = paper.questions.map((question) => ({

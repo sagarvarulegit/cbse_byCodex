@@ -41,6 +41,17 @@ paper assembly, the curriculum snapshot, mock test series, and Gemini verificati
 ## Endpoints and UI
 
 - Student: `POST /v1/exam-papers/generate` (with `subjectSlug`), `GET /v1/exam-papers/series?subjectSlug=...`, `GET /v1/exam-papers`, `GET /v1/exam-papers/:id`, `POST /v1/exam-papers/:id/attempt`, `GET /v1/exam-papers/attempts`.
+- Payments: `GET /v1/payments/products`, `GET /v1/payments/entitlements`, `POST /v1/payments/create-order`, `POST /v1/payments/verify`, `POST /v1/payments/webhook`.
 - Admin: `/v1/admin/exam-papers/review`, `/:id/approve|reject`, `/bank`, `/bank/:id/verify|approve|reject`.
 - Web: `/exam-papers` (subject tabs for mock series + generator + recent list for Maths 041, Science 086, Social Science 087, English 184) and `/exam-papers/[id]` (printable, answer-key toggle), `/exam-papers/[id]/take` (live CBT practice), `/exam-papers/attempts` (analytics).
+
+## Commercial Monetization & Paywall Gating
+
+- **The Gating Rule**: Paper 1 of every published Mock Test Series is 100% Free Forever (top-of-funnel lead magnet). Papers 2–5 require an active user entitlement.
+- **Packs & Pricing**:
+  - `cbse10-all-subjects-mock-pack`: ₹199 (All 20 full-length papers across 4 subjects).
+  - `cbse10-mock-pass-<subjectSlug>`: ₹99 (5 full-length papers for a single subject).
+- **Backend Access Control**: `checkMockPaperAccess` in `apps/api/src/lib/payments/entitlements.ts` gates `GET /v1/exam-papers/:id` and `POST /v1/exam-papers/:id/attempt` returning 403 `PAYWALL_LOCKED` when unauthorized.
+- **Payment Verification**: HMAC SHA-256 validation on `/v1/payments/verify` with instant database transaction activating `UserEntitlement` + `PaymentOrder`. Webhook listener handles asynchronous captures.
+
 

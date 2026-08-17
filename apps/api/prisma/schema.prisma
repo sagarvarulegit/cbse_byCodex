@@ -73,6 +73,9 @@ model User {
   revisionMissions RevisionMission[]
   studyStreak      StudyStreak?
   userBadges       UserBadge[]
+  paymentOrders    PaymentOrder[]
+  entitlements     UserEntitlement[]
+  refundRequests   RefundRequest[]
 }
 
 model GuardianConsent {
@@ -687,3 +690,98 @@ model TutorAttachment {
 
   @@index([messageId])
 }
+
+enum PaymentOrderStatus {
+  created
+  paid
+  failed
+  refunded
+}
+
+enum EntitlementStatus {
+  active
+  expired
+  revoked
+}
+
+model PaymentOrder {
+  id                String             @id @default(cuid())
+  userId            String
+  razorpayOrderId   String             @unique
+  amount            Int                // In paise (e.g. 19900 = ₹199)
+  currency          String             @default("INR")
+  productKey        String
+  subjectSlug       String?
+  status            PaymentOrderStatus @default(created)
+  razorpayPaymentId String?
+  razorpaySignature String?
+  receipt           String
+  notesJson         Json?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  user           User              @relation(fields: [userId], references: [id])
+  entitlements   UserEntitlement[]
+  refundRequests RefundRequest[]
+
+  @@index([userId, status])
+  @@index([razorpayOrderId])
+}
+
+model UserEntitlement {
+  id             String            @id @default(cuid())
+  userId         String
+  productKey     String
+  subjectSlug    String?
+  scope          String            @default("mock_test_series")
+  status         EntitlementStatus @default(active)
+  paymentOrderId String?
+  validFrom      DateTime          @default(now())
+  validUntil     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  paymentOrder PaymentOrder? @relation(fields: [paymentOrderId], references: [id])
+
+  @@unique([userId, productKey, subjectSlug])
+  @@index([userId, status])
+  @@index([userId, scope, status])
+}
+
+enum RefundRequestStatus {
+  pending
+  approved
+  rejected
+  processed
+}
+
+enum RefundType {
+  total
+  partial
+  subject_swap
+}
+
+model RefundRequest {
+  id               String              @id @default(cuid())
+  userId           String
+  paymentOrderId   String
+  reason           String              // "duplicate", "accidental", "technical", "other"
+  details          String?
+  refundType       RefundType          @default(total)
+  amountPaise      Int                 // in paise (e.g. 19900)
+  status           RefundRequestStatus @default(pending)
+  razorpayRefundId String?
+  adminNotes       String?
+  processedAt      DateTime?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id])
+  paymentOrder PaymentOrder @relation(fields: [paymentOrderId], references: [id])
+
+  @@index([userId, status])
+  @@index([paymentOrderId])
+}
+
+

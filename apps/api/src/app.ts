@@ -9,6 +9,7 @@ import {
   examPapersRouter,
 } from './routes/exam-papers.js';
 import { feedbackRouter } from './routes/feedback.js';
+import { paymentsRouter } from './routes/payments.js';
 import { progressRouter } from './routes/progress.js';
 import { tutorChatRouter } from './routes/tutor-chat.js';
 import { tutorRouter } from './routes/tutor.js';
@@ -42,6 +43,7 @@ app.use('/v1/progress', progressRouter);
 app.use('/v1/tutor', tutorRouter);
 app.use('/v1/tutor', tutorChatRouter);
 app.use('/v1/feedback', feedbackRouter);
+app.use('/v1/payments', paymentsRouter);
 app.use('/v1/exam-papers', examPapersRouter);
 app.use('/v1/admin/exam-papers', adminExamPapersRouter);
 
