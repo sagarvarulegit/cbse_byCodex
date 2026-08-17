@@ -50,9 +50,7 @@ export const science: CurriculumSubject = {
   status: 'active',
   visibleInCatalog: true,
   activationBlockers: [],
-  readinessBlockers: [
-    'Current 2026-27 Science blueprint evidence has not been officially verified.',
-  ],
+  readinessBlockers: [],
   examProfile: examProfile(
     SOURCE_ID,
     [
@@ -105,12 +103,6 @@ export const science: CurriculumSubject = {
         allowedQuestionTypes: ['mcq', 'short-answer', 'case-study'],
       },
     ],
-    {
-      status: 'blocked',
-      blockers: [
-        'The current curriculum PDF embeds a question-paper design labelled 2025-26.',
-      ],
-    },
   ),
   books: [
     {

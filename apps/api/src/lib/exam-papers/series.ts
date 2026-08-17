@@ -18,7 +18,7 @@ export const MATHS_041_SERIES = {
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading) ' +
     'assembled deterministically from the verified question bank, following ' +
-    'the official 2025-26 question-paper design. Paper 1 is free.',
+    'the official question-paper design. Paper 1 is free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -28,6 +28,86 @@ export const MATHS_041_SERIES = {
     { number: 5, seed: 505, title: 'Mock Test 5' },
   ],
 } as const;
+
+/**
+ * Fixed Board Mock Test Series definition for Science (086).
+ */
+export const SCIENCE_086_SERIES = {
+  key: 'science-086-board-mock-2026',
+  subjectSlug: 'science',
+  title: 'CBSE Class 10 Science (086) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 39 questions) ' +
+    'assembled deterministically from the verified question bank, following ' +
+    'the official CBSE Science question-paper design. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
+/**
+ * Fixed Board Mock Test Series definition for Social Science (087).
+ */
+export const SOCIAL_SCIENCE_087_SERIES = {
+  key: 'social-science-087-board-mock-2026',
+  subjectSlug: 'social-science',
+  title: 'CBSE Class 10 Social Science (087) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 37 questions across 6 sections) ' +
+    'covering History, Geography, Civics, and Economics from the verified question bank. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
+/**
+ * Fixed Board Mock Test Series definition for English Language & Literature (184).
+ */
+export const ENGLISH_184_SERIES = {
+  key: 'english-184-board-mock-2026',
+  subjectSlug: 'english-language-and-literature',
+  title: 'CBSE Class 10 English (184) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
+    'covering Reading Comprehension, Creative Writing, Grammar, and Literature from the verified question bank. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
+export type MockTestSeriesDefinition =
+  | typeof MATHS_041_SERIES
+  | typeof SCIENCE_086_SERIES
+  | typeof SOCIAL_SCIENCE_087_SERIES
+  | typeof ENGLISH_184_SERIES;
+
+export const TEST_SERIES_BY_SUBJECT: Record<string, MockTestSeriesDefinition> = {
+  'mathematics-standard': MATHS_041_SERIES,
+  'science': SCIENCE_086_SERIES,
+  'social-science': SOCIAL_SCIENCE_087_SERIES,
+  'english-language-and-literature': ENGLISH_184_SERIES,
+};
+
+export function getMockTestSeriesForSubject(
+  subjectSlug: string = 'mathematics-standard',
+): MockTestSeriesDefinition {
+  return TEST_SERIES_BY_SUBJECT[subjectSlug] ?? MATHS_041_SERIES;
+}
 
 export type MockTestSeriesPaper = {
   number: number;
@@ -53,12 +133,13 @@ export function indexSeriesPapers(papers: ExamPaper[]): Map<number, ExamPaper> {
 export function seriesPaperView(
   definition: MockTestSeriesPaper,
   paper?: ExamPaper,
+  series: MockTestSeriesDefinition = MATHS_041_SERIES,
 ): MockTestSeriesPaper {
   return {
     number: definition.number,
     seed: definition.seed,
     title: definition.title,
-    isFreeSample: definition.number === MATHS_041_SERIES.freeSampleNumber,
+    isFreeSample: definition.number === series.freeSampleNumber,
     ...(paper
       ? {
           id: paper.id,

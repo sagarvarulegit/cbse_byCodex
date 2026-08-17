@@ -1,0 +1,413 @@
+.studioContainer {
+  width: min(1320px, calc(100vw - 32px));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-bottom: 3rem;
+}
+
+/* Zone 2: 4 Subject Stations */
+.subjectsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sectionTitleGroup p {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c95014;
+  margin: 0 0 0.25rem 0;
+}
+
+.sectionTitleGroup h2 {
+  font-family: var(--font-bangers, 'Bangers', cursive, sans-serif);
+  font-size: 1.85rem;
+  letter-spacing: 0.5px;
+  color: #171513;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.subjectsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 1100px) {
+  .subjectsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .subjectsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subjectStationCard {
+  background: #ffffff;
+  border: 2.5px solid #171513;
+  border-radius: 18px;
+  padding: 1.35rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 4px 4px 0 #171513;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.subjectStationCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 #171513;
+}
+
+.subjectTopline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subjectCodeBadge {
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: #f3efe6;
+  border: 1.5px solid #171513;
+  color: #171513;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.subjectStatusText {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0b7a48;
+}
+
+.subjectStationCard h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #171513;
+  margin: 0.25rem 0 0.25rem 0;
+  line-height: 1.25;
+}
+
+.subjectStationCard p {
+  font-size: 0.85rem;
+  color: #55514b;
+  margin: 0;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.subjectMetaRow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #787168;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.subjectActionButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.btnNotes {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #171513;
+  border-radius: 10px;
+  background: #fbf9f4;
+  color: #171513;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+
+.btnNotes:hover {
+  background: #e9e4d9;
+}
+
+.btnMock {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #171513;
+  border-radius: 10px;
+  background: #ffe9b8;
+  color: #171513;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+
+.btnMock:hover {
+  background: #ffd98a;
+}
+
+/* Zone 3: Practice & Revision Hub (2 Columns) */
+.practiceHubGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .practiceHubGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hubCardMock {
+  background: linear-gradient(135deg, #fff9ed, #ffeed1);
+  border: 3px solid #171513;
+  border-radius: 20px;
+  padding: 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  box-shadow: 5px 5px 0 #171513;
+}
+
+.hubCardMistakes {
+  background: linear-gradient(135deg, #f3f9f7, #e3f3ee);
+  border: 3px solid #171513;
+  border-radius: 20px;
+  padding: 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  box-shadow: 5px 5px 0 #171513;
+}
+
+.hubHeader p {
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c95014;
+  margin: 0 0 0.35rem 0;
+}
+
+.hubCardMistakes .hubHeader p {
+  color: #0b7a48;
+}
+
+.hubHeader h3 {
+  font-family: var(--font-bangers, 'Bangers', cursive, sans-serif);
+  font-size: 1.75rem;
+  letter-spacing: 0.5px;
+  color: #171513;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.15;
+}
+
+.hubHeader span {
+  font-size: 0.9rem;
+  color: #4a453e;
+  line-height: 1.5;
+  display: block;
+}
+
+.missionPreviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0.5rem 0;
+}
+
+.missionItem {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #171513;
+  transition: background 0.12s ease;
+}
+
+.missionItem:hover {
+  background: #ffffff;
+}
+
+.hubActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primaryActionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border: 2.5px solid #171513;
+  border-radius: 12px;
+  background: #171513;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease, background 0.12s ease;
+}
+
+.primaryActionBtn:hover {
+  background: #332f2b;
+  transform: translateY(-1px);
+}
+
+.secondaryActionLink {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #171513;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Zone 4: Trophies & Milestones Shelf */
+.milestonesShelf {
+  background: #fffdfa;
+  border: 2.5px solid #171513;
+  border-radius: 20px;
+  padding: 1.5rem 1.6rem;
+  box-shadow: 4px 4px 0 #171513;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.milestonesGrid {
+  display: grid;
+  grid-template-columns: 240px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .milestonesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.streakCard {
+  background: #fff3e6;
+  border: 2px solid #171513;
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.streakCard strong {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #c95014;
+}
+
+.streakCard span {
+  font-size: 0.8rem;
+  color: #6a645d;
+}
+
+.badgesTray {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ffffff;
+  border: 1.5px solid #171513;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #171513;
+  box-shadow: 2px 2px 0 rgba(23, 21, 19, 0.08);
+}
+
+.badgePillEmpty {
+  font-size: 0.85rem;
+  color: #787168;
+  font-style: italic;
+}
+
+.nextMilestoneBadge {
+  background: #f6f3eb;
+  border: 1.5px dashed #171513;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #4a453e;
+  max-width: 260px;
+}
+
+/* Zone 5: Account & Tools Details */
+.accountToolsDetails {
+  border: 2px solid rgba(23, 21, 19, 0.25);
+  border-radius: 16px;
+  background: #fbf9f4;
+  overflow: hidden;
+}
+
+.accountToolsSummary {
+  padding: 1rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #55514b;
+}
+
+.accountToolsContent {
+  padding: 1.25rem 1.35rem;
+  border-top: 1.5px solid rgba(23, 21, 19, 0.15);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}

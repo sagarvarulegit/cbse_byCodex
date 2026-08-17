@@ -1,4 +1,3 @@
-import { MATHS_041_LAYOUT } from './layout.js';
 import type { SeededRng } from './prng.js';
 import type { PaperSectionDefinition } from './types.js';
 
@@ -60,22 +59,23 @@ export function allocateLargestRemainder(
   return counts;
 }
 
-/**
- * Moves one question of `fromUnitId`'s section allocation to `toUnitId` within
- * the same section. Returns the marks of the moved question, or null when the
- * source unit has no movable question.
- */
 function moveQuestion(
   allocations: Map<string, Map<string, number>>,
   fromUnitId: string,
   toUnitId: string,
+  sections: PaperSectionDefinition[],
+  eligibleUnitsBySection?: Map<string, string[]>,
 ): number | null {
   for (const [sectionId, sectionAllocation] of allocations) {
     const count = sectionAllocation.get(fromUnitId) ?? 0;
     if (count <= 0) {
       continue;
     }
-    const section = MATHS_041_LAYOUT.sections.find((s) => s.id === sectionId);
+    const eligibleIds = eligibleUnitsBySection?.get(sectionId);
+    if (eligibleIds && !eligibleIds.includes(toUnitId)) {
+      continue;
+    }
+    const section = sections.find((s) => s.id === sectionId);
     if (!section) {
       continue;
     }
@@ -89,13 +89,14 @@ function moveQuestion(
 function findMovableMarks(
   allocations: Map<string, Map<string, number>>,
   unitId: string,
+  sections: PaperSectionDefinition[],
 ): number | null {
   for (const [sectionId, sectionAllocation] of allocations) {
     const count = sectionAllocation.get(unitId) ?? 0;
     if (count <= 0) {
       continue;
     }
-    const section = MATHS_041_LAYOUT.sections.find((s) => s.id === sectionId);
+    const section = sections.find((s) => s.id === sectionId);
     if (section) {
       return section.marksPerQuestion;
     }
@@ -107,8 +108,8 @@ function findMovableMarks(
  * Plans how many questions of every section each unit contributes so that:
  *  1. per-section question counts match the official layout exactly,
  *  2. each unit's total marks equal its official weightage exactly,
- *  3. Section E (case studies) only draws from units that own case-study
- *     questions, and
+ *  3. Section E (case studies) and specialized sections only draw from units
+ *     that own eligible questions, and
  *  4. Section A (MCQ) counts stay close to the proportional target
  *     (weight × 20/80), which keeps papers realistic and balanced.
  *
@@ -117,9 +118,14 @@ function findMovableMarks(
 export function buildDemandPlan(
   units: Array<{ id: string; title: string; marks: number }>,
   sections: PaperSectionDefinition[],
-  caseStudyUnitIds: string[],
+  eligibleUnitsOrCaseStudyIds: Map<string, string[]> | string[],
   _rng: SeededRng,
 ): DemandPlan {
+  const eligibleUnitsBySection =
+    eligibleUnitsOrCaseStudyIds instanceof Map
+      ? eligibleUnitsOrCaseStudyIds
+      : new Map<string, string[]>([['E', eligibleUnitsOrCaseStudyIds]]);
+
   const sectionA = sections.find((section) => section.id === 'A');
   const constructedSections = sections.filter((section) => section.id !== 'A');
   if (!sectionA) {
@@ -140,26 +146,27 @@ export function buildDemandPlan(
   }
 
   // 1. Proportional MCQ targets (soft): the paper's one-mark MCQs spread
-  //    across units by weightage.
+  //    across units by weightage among units eligible for Section A.
+  const sectionAEligible = eligibleUnitsBySection.get('A');
+  const mcqCandidateUnits = sectionAEligible
+    ? units.filter((unit) => sectionAEligible.includes(unit.id))
+    : units;
   const mcqTargets = allocateLargestRemainder(
-    units.map((unit) => ({ id: unit.id, weight: unit.marks })),
+    mcqCandidateUnits.map((unit) => ({ id: unit.id, weight: unit.marks })),
     sectionA.questionCount,
     unitOrder,
   );
 
-  // 2. Allocate constructed sections. Section E is restricted to units that
-  //    own case-study questions in the bank.
+  // 2. Allocate constructed sections. Filter by eligible units per section.
   const allocations = new Map<string, Map<string, number>>();
   for (const section of constructedSections) {
-    const candidateUnits =
-      section.id === 'E'
-        ? units.filter((unit) => caseStudyUnitIds.includes(unit.id))
-        : units;
-    if (candidateUnits.length < section.questionCount) {
+    const eligibleIds = eligibleUnitsBySection.get(section.id);
+    const candidateUnits = eligibleIds
+      ? units.filter((unit) => eligibleIds.includes(unit.id))
+      : units;
+    if (candidateUnits.length === 0) {
       throw new Error(
-        `Section ${section.id} needs ${section.questionCount} questions but only ` +
-          `${candidateUnits.length} units can supply them (case-study units: ` +
-          `${caseStudyUnitIds.join(', ') || 'none'}).`,
+        `Section ${section.id} has no candidate units to supply questions.`,
       );
     }
     allocations.set(
@@ -210,7 +217,13 @@ export function buildDemandPlan(
           `no other unit can absorb a question.`,
       );
     }
-    const movedMarks = moveQuestion(allocations, deficitUnit.id, surplusUnit.id);
+    const movedMarks = moveQuestion(
+      allocations,
+      deficitUnit.id,
+      surplusUnit.id,
+      sections,
+      eligibleUnitsBySection,
+    );
     if (movedMarks === null) {
       throw new Error(
         `Cannot repair the plan: unit "${deficitUnit.id}" is over-allocated in ` +
@@ -229,10 +242,10 @@ export function buildDemandPlan(
   guard = 0;
   while (guard < 60) {
     guard += 1;
-    const highUnit = units
+    const highUnit = mcqCandidateUnits
       .filter((unit) => (mcqCounts.get(unit.id) ?? 0) > (mcqTargets.get(unit.id) ?? 0) + 1)
       .sort((a, b) => (mcqCounts.get(b.id) ?? 0) - (mcqCounts.get(a.id) ?? 0))[0];
-    const lowUnit = units
+    const lowUnit = mcqCandidateUnits
       .filter((unit) => (mcqCounts.get(unit.id) ?? 0) < (mcqTargets.get(unit.id) ?? 0) - 1)
       .sort((a, b) => (mcqCounts.get(a.id) ?? 0) - (mcqCounts.get(b.id) ?? 0))[0];
 
@@ -240,11 +253,17 @@ export function buildDemandPlan(
       break;
     }
     const headroom = mcqCounts.get(highUnit.id) ?? 0;
-    const movableMarks = findMovableMarks(allocations, lowUnit.id);
+    const movableMarks = findMovableMarks(allocations, lowUnit.id, sections);
     if (movableMarks === null || movableMarks > headroom) {
       break;
     }
-    const movedMarks = moveQuestion(allocations, lowUnit.id, highUnit.id);
+    const movedMarks = moveQuestion(
+      allocations,
+      lowUnit.id,
+      highUnit.id,
+      sections,
+      eligibleUnitsBySection,
+    );
     if (movedMarks === null) {
       break;
     }

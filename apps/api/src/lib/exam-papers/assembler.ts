@@ -1,11 +1,11 @@
 import {
-  BLUEPRINT,
+  getBlueprint,
   getBoardTopicIds,
   getBoardUnits,
   getExcludedTopicIds,
 } from './blueprint.js';
 import { buildDemandPlan } from './demand.js';
-import { MATHS_041_LAYOUT } from './layout.js';
+import { getPaperLayout, type PaperLayout } from './layout.js';
 import { createSeededRng } from './prng.js';
 import type {
   AnswerKey,
@@ -30,7 +30,7 @@ export type AssemblePaperInput = {
 };
 
 /**
- * Deterministically assembles a full CBSE-format Maths 041 paper from the
+ * Deterministically assembles a full CBSE-format paper from the
  * verified question bank. The same seed + bank always produces the same paper;
  * distinct seeds vary question selection and numeric variants. Fails loudly
  * instead of returning an invalid paper.
@@ -40,13 +40,14 @@ export function assemblePaper({
   seed,
   questions,
 }: AssemblePaperInput): GeneratedPaper {
-  if (subjectSlug !== BLUEPRINT.slug) {
+  const blueprint = getBlueprint(subjectSlug);
+  if (!blueprint) {
     throw new PaperAssemblyError(
-      `Paper generation supports ${BLUEPRINT.slug} only (received "${subjectSlug}").`,
+      `Paper generation does not support subject "${subjectSlug}".`,
     );
   }
-  if (BLUEPRINT.blueprintStatus !== 'ready') {
-    throw new PaperAssemblyError(`The ${BLUEPRINT.title} blueprint is not ready.`);
+  if (blueprint.blueprintStatus !== 'ready') {
+    throw new PaperAssemblyError(`The ${blueprint.title} blueprint is not ready.`);
   }
 
   const bank = questions.filter(
@@ -60,11 +61,11 @@ export function assemblePaper({
     );
   }
 
-  const layout = MATHS_041_LAYOUT;
+  const layout = getPaperLayout(subjectSlug);
   const rng = createSeededRng(seed);
-  const units = getBoardUnits();
+  const units = getBoardUnits(subjectSlug);
 
-  const excludedTopicIds = new Set(getExcludedTopicIds());
+  const excludedTopicIds = new Set(getExcludedTopicIds(subjectSlug));
   const excludedInBank = bank.filter((question) => excludedTopicIds.has(question.topicId));
   if (excludedInBank.length > 0) {
     throw new PaperAssemblyError(
@@ -81,24 +82,33 @@ export function assemblePaper({
     bankByUnit.set(question.unitId, list);
   }
 
-  const caseStudyUnitIds = [
-    ...new Set(
-      bank
-        .filter(
-          (question) =>
-            question.questionType === 'case-study' && question.marks === 4,
-        )
-        .map((question) => question.unitId),
-    ),
-  ];
-  if (caseStudyUnitIds.length < 3) {
+  const eligibleUnitsBySection = new Map<string, string[]>();
+  for (const section of layout.sections) {
+    const unitIds = [
+      ...new Set(
+        bank
+          .filter(
+            (q) =>
+              q.marks === section.marksPerQuestion &&
+              section.allowedBankTypes.includes(q.questionType),
+          )
+          .map((q) => q.unitId),
+      ),
+    ];
+    eligibleUnitsBySection.set(section.id, unitIds);
+  }
+
+  const sectionE = layout.sections.find((s) => s.id === 'E');
+  const requiredCaseStudyUnits = sectionE ? sectionE.questionCount : 0;
+  const caseStudyUnitIds = eligibleUnitsBySection.get('E') ?? [];
+
+  if (requiredCaseStudyUnits > 0 && caseStudyUnitIds.length === 0) {
     throw new PaperAssemblyError(
-      `Section E needs 3 case-study units but the bank covers only ` +
-        `${caseStudyUnitIds.length} (${caseStudyUnitIds.join(', ') || 'none'}).`,
+      `Section E needs case-study questions but the bank has no units covering case studies.`,
     );
   }
 
-  const plan = buildDemandPlan(units, layout.sections, caseStudyUnitIds, rng);
+  const plan = buildDemandPlan(units, layout.sections, eligibleUnitsBySection, rng);
 
   const topicCoverage = new Map<string, number>();
   const selectedBankKeys = new Set<string>();
@@ -161,7 +171,6 @@ export function assemblePaper({
   };
 
   // Emit sections in official order (A first) so numbering matches the layout:
-  // A = Q1-20, B = Q21-25, C = Q26-31, D = Q32-35, E = Q36-38.
   for (const section of layout.sections) {
     if (section.id === 'A') {
       for (const unit of units) {
@@ -181,12 +190,12 @@ export function assemblePaper({
     }
   }
 
-  const compliance = buildComplianceReport(questionsOut, bank, units, topicCoverage);
-  assertPaperInvariants(questionsOut, compliance);
+  const compliance = buildComplianceReport(questionsOut, bank, units, topicCoverage, subjectSlug);
+  assertPaperInvariants(questionsOut, compliance, layout);
 
   return {
-    subjectSlug: BLUEPRINT.slug,
-    title: `${BLUEPRINT.title} — Sample Test Paper`,
+    subjectSlug: blueprint.slug,
+    title: `${blueprint.title} — Sample Test Paper`,
     seed,
     layoutVersion: layout.layoutVersion,
     totalMarks: layout.totalMarks,
@@ -209,6 +218,7 @@ function buildComplianceReport(
   bank: BankQuestion[],
   units: Array<{ id: string; title: string; marks: number }>,
   topicCoverage: Map<string, number>,
+  subjectSlug: string,
 ): PaperComplianceReport {
   const unitOf = new Map(bank.map((question) => [question.bankKey, question.unitId]));
 
@@ -235,16 +245,15 @@ function buildComplianceReport(
   const coveredTopicIds = [...topicCoverage.keys()];
   const coveredSet = new Set(coveredTopicIds);
   const excludedTopicViolations = questions
-    .filter((question) => new Set(getExcludedTopicIds()).has(question.topicId))
+    .filter((question) => new Set(getExcludedTopicIds(subjectSlug)).has(question.topicId))
     .map((question) => question.topicId);
 
-  const boardTopicIds = getBoardTopicIds();
+  const boardTopicIds = getBoardTopicIds(subjectSlug);
   const uncoveredBoardTopicIds = boardTopicIds.filter((topicId) => !coveredSet.has(topicId));
 
   return {
     unitMarks,
     coveredTopicIds,
-    // Reported (not fatal): a 38-question paper cannot cover every board topic.
     uncoveredBoardTopicIds,
     excludedTopicViolations,
     questionBankKeys: questions.map((question) => question.bankKey),
@@ -254,15 +263,16 @@ function buildComplianceReport(
 function assertPaperInvariants(
   questions: PaperQuestion[],
   compliance: PaperComplianceReport,
+  layout: PaperLayout,
 ): void {
   const totalMarks = questions.reduce((sum, question) => sum + question.marks, 0);
-  if (totalMarks !== MATHS_041_LAYOUT.totalMarks) {
+  if (totalMarks !== layout.totalMarks) {
     throw new PaperAssemblyError(
-      `Paper totals ${totalMarks} marks, expected ${MATHS_041_LAYOUT.totalMarks}.`,
+      `Paper totals ${totalMarks} marks, expected ${layout.totalMarks}.`,
     );
   }
 
-  for (const section of MATHS_041_LAYOUT.sections) {
+  for (const section of layout.sections) {
     const sectionQuestions = questions.filter((q) => q.sectionId === section.id);
     if (sectionQuestions.length !== section.questionCount) {
       throw new PaperAssemblyError(

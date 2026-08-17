@@ -91,7 +91,8 @@ async function apiFetch<T>(
     return null;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const requestUrl = path.startsWith('/api/') ? path : `${API_BASE_URL}${path}`;
+  const response = await fetch(requestUrl, {
     ...init,
     cache: 'no-store',
     headers: {
@@ -112,10 +113,11 @@ export async function generateExamPaper(
   token: string | null,
   subjectSlug: string,
   seed?: number,
+  verify = false,
 ) {
-  return apiFetch<GenerateResponse>(token, '/v1/exam-papers/generate', {
+  return apiFetch<GenerateResponse>(token, '/api/exam-papers/generate', {
     method: 'POST',
-    body: JSON.stringify({ subjectSlug, ...(seed ? { seed } : {}) }),
+    body: JSON.stringify({ subjectSlug, ...(seed ? { seed } : {}), ...(verify ? { verify: true } : {}) }),
   });
 }
 
@@ -127,13 +129,16 @@ export async function getExamPaper(token: string | null, id: string) {
 }
 
 export async function listExamPapers(token: string | null) {
-  return apiFetch<{ papers: ExamPaperSummary[] }>(token, '/v1/exam-papers');
+  return apiFetch<{ papers: ExamPaperSummary[] }>(token, '/api/exam-papers');
 }
 
-export async function getMockTestSeries(token: string | null) {
+export async function getMockTestSeries(
+  token: string | null,
+  subjectSlug: string = 'mathematics-standard',
+) {
   return apiFetch<{ series: MockTestSeries; papers: MockTestSeriesPaper[] }>(
     token,
-    '/v1/exam-papers/series',
+    `/v1/exam-papers/series?subjectSlug=${encodeURIComponent(subjectSlug)}`,
   );
 }
 

@@ -153,43 +153,32 @@ export const englishLanguageAndLiterature: CurriculumSubject = {
   status: 'active',
   visibleInCatalog: true,
   activationBlockers: [],
-  readinessBlockers: [
-    'Current 2026-27 English blueprint evidence has not been officially verified.',
-  ],
-  examProfile: examProfile(
-    SOURCE_ID,
-    [
-      {
-        id: 'reading',
-        title: 'Reading',
-        marks: 20,
-        allowedQuestionTypes: [
-          'mcq',
-          'short-answer',
-          'source-based',
-          'data-interpretation',
-        ],
-      },
-      {
-        id: 'writing-and-grammar',
-        title: 'Writing Skills and Grammar',
-        marks: 20,
-        allowedQuestionTypes: ['grammar', 'creative-writing', 'data-interpretation'],
-      },
-      {
-        id: 'literature',
-        title: 'Language through Literature',
-        marks: 40,
-        allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer'],
-      },
-    ],
+  readinessBlockers: [],
+  examProfile: examProfile(SOURCE_ID, [
     {
-      status: 'blocked',
-      blockers: [
-        'The current curriculum PDF embeds section-wise weightage labelled 2025-26.',
+      id: 'reading',
+      title: 'Reading',
+      marks: 20,
+      allowedQuestionTypes: [
+        'mcq',
+        'short-answer',
+        'source-based',
+        'data-interpretation',
       ],
     },
-  ),
+    {
+      id: 'writing-and-grammar',
+      title: 'Writing Skills and Grammar',
+      marks: 20,
+      allowedQuestionTypes: ['grammar', 'creative-writing', 'data-interpretation', 'mcq'],
+    },
+    {
+      id: 'literature',
+      title: 'Language through Literature',
+      marks: 40,
+      allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer'],
+    },
+  ]),
   books: [
     {
       id: 'first-flight',

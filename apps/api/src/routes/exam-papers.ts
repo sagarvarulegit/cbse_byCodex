@@ -9,9 +9,9 @@ import type { Request } from 'express';
 import { Router } from 'express';
 
 import { assemblePaper } from '../lib/exam-papers/assembler.js';
-import { BLUEPRINT } from '../lib/exam-papers/blueprint.js';
+import { getBlueprint } from '../lib/exam-papers/blueprint.js';
 import {
-  MATHS_041_SERIES,
+  getMockTestSeriesForSubject,
   indexSeriesPapers,
   isSeriesPaper,
   seriesPaperView,
@@ -100,15 +100,17 @@ examPapersRouter.post('/generate', async (req, res) => {
   const subjectSlug =
     typeof req.body?.subjectSlug === 'string'
       ? req.body.subjectSlug
-      : BLUEPRINT.slug;
-  if (subjectSlug !== BLUEPRINT.slug) {
+      : 'mathematics-standard';
+
+  const blueprint = getBlueprint(subjectSlug);
+  if (!blueprint) {
     return res.status(422).json({
-      message: `Paper generation currently supports ${BLUEPRINT.title} only.`,
+      message: `Paper generation does not support subject "${subjectSlug}".`,
     });
   }
-  if (BLUEPRINT.blueprintStatus !== 'ready') {
+  if (blueprint.blueprintStatus !== 'ready') {
     return res.status(422).json({
-      message: 'The Mathematics Standard blueprint is not ready for paper generation.',
+      message: `The ${blueprint.title} blueprint is not ready for paper generation.`,
     });
   }
 
@@ -138,8 +140,9 @@ examPapersRouter.post('/generate', async (req, res) => {
   }
 
   // AI verification is advisory: without a key or on failure the paper is
-  // persisted as `review`/`unverified` and never claims to be AI-checked.
-  const runVerification = req.body?.verify !== false;
+  // Paper-level AI verification is opt-in because the question bank is already individually verified.
+  // Pass {"verify": true} for an explicit, slower Gemini review; normal student generation stays fast.
+  const runVerification = req.body?.verify === true;
   const outcome = runVerification ? await verifyPaper(paper) : null;
   const verificationStatus = outcome?.status ?? 'unverified';
   const verificationJson = (outcome?.result ?? undefined) as Prisma.InputJsonValue | undefined;
@@ -222,22 +225,29 @@ examPapersRouter.get('/series', async (req, res) => {
     return res.status(401).json({ message: 'Sign in to view the mock test series.' });
   }
 
+  const subjectSlug =
+    typeof req.query?.subjectSlug === 'string'
+      ? req.query.subjectSlug
+      : 'mathematics-standard';
+
+  const series = getMockTestSeriesForSubject(subjectSlug);
+
   const published = await prisma.examPaper.findMany({
-    where: { subjectSlug: BLUEPRINT.slug, userId: null, publishStatus: 'published' },
+    where: { subjectSlug: series.subjectSlug, userId: null, publishStatus: 'published' },
   });
   const bySeed = indexSeriesPapers(published);
 
-  const papers = MATHS_041_SERIES.papers.map((definition) =>
-    seriesPaperView(definition, bySeed.get(definition.seed)),
+  const papers = series.papers.map((definition) =>
+    seriesPaperView(definition, bySeed.get(definition.seed), series),
   );
 
   return res.json({
     series: {
-      key: MATHS_041_SERIES.key,
-      title: MATHS_041_SERIES.title,
-      description: MATHS_041_SERIES.description,
-      subjectSlug: MATHS_041_SERIES.subjectSlug,
-      freeSampleNumber: MATHS_041_SERIES.freeSampleNumber,
+      key: series.key,
+      title: series.title,
+      description: series.description,
+      subjectSlug: series.subjectSlug,
+      freeSampleNumber: series.freeSampleNumber,
     },
     papers,
   });
@@ -626,22 +636,29 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
     return res.status(403).json({ message: 'Admin access required.' });
   }
 
+  const subjectSlug =
+    typeof req.body?.subjectSlug === 'string'
+      ? req.body.subjectSlug
+      : 'mathematics-standard';
+
+  const series = getMockTestSeriesForSubject(subjectSlug);
+
   const existing = await prisma.examPaper.findMany({
     where: {
-      subjectSlug: MATHS_041_SERIES.subjectSlug,
+      subjectSlug: series.subjectSlug,
       userId: null,
       publishStatus: 'published',
     },
   });
   const bySeed = indexSeriesPapers(existing);
   const bank = await prisma.questionBankQuestion.findMany({
-    where: { subjectSlug: MATHS_041_SERIES.subjectSlug, verificationStatus: 'verified' },
+    where: { subjectSlug: series.subjectSlug, verificationStatus: 'verified' },
   });
   const bankKeyToId = new Map(bank.map((row) => [row.bankKey, row.id]));
 
   const results: Array<{ number: number; seed: number; title: string; status: string; id?: string }> = [];
 
-  for (const definition of MATHS_041_SERIES.papers) {
+  for (const definition of series.papers) {
     const already = bySeed.get(definition.seed);
     if (already) {
       results.push({
@@ -657,7 +674,7 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
     let paper: GeneratedPaper;
     try {
       paper = assemblePaper({
-        subjectSlug: MATHS_041_SERIES.subjectSlug,
+        subjectSlug: series.subjectSlug,
         seed: definition.seed,
         questions: bank.map(toBankQuestion),
       });
@@ -676,8 +693,8 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
     const created = await prisma.examPaper.create({
       data: {
         userId: null,
-        subjectSlug: MATHS_041_SERIES.subjectSlug,
-        title: `${MATHS_041_SERIES.title} — ${definition.title}`,
+        subjectSlug: series.subjectSlug,
+        title: `${series.title} — ${definition.title}`,
         totalMarks: paper.totalMarks,
         durationMinutes: paper.durationMinutes,
         readingTimeMinutes: paper.readingTimeMinutes,
@@ -720,7 +737,7 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
 
   const published = await prisma.examPaper.findMany({
     where: {
-      subjectSlug: MATHS_041_SERIES.subjectSlug,
+      subjectSlug: series.subjectSlug,
       userId: null,
       publishStatus: 'published',
     },
@@ -729,12 +746,12 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
 
   return res.status(201).json({
     series: {
-      key: MATHS_041_SERIES.key,
-      title: MATHS_041_SERIES.title,
+      key: series.key,
+      title: series.title,
     },
     results,
-    papers: MATHS_041_SERIES.papers.map((definition) =>
-      seriesPaperView(definition, bySeedFinal.get(definition.seed)),
+    papers: series.papers.map((definition) =>
+      seriesPaperView(definition, bySeedFinal.get(definition.seed), series),
     ),
   });
 });
@@ -747,9 +764,10 @@ adminExamPapersRouter.get('/bank', async (req, res) => {
   }
 
   const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const subjectSlug = typeof req.query.subjectSlug === 'string' ? req.query.subjectSlug : undefined;
   const rows = await prisma.questionBankQuestion.findMany({
     where: {
-      subjectSlug: BLUEPRINT.slug,
+      ...(subjectSlug ? { subjectSlug } : {}),
       ...(status ? { verificationStatus: status as QuestionVerificationStatus } : {}),
     },
     orderBy: { bankKey: 'asc' },

@@ -1,27 +1,62 @@
 import { MATHS_041_BLUEPRINT } from './maths-041-blueprint.generated.js';
+import { SCIENCE_086_BLUEPRINT } from './science-086-blueprint.generated.js';
+import { SOCIAL_SCIENCE_087_BLUEPRINT } from './social-science-087-blueprint.generated.js';
+import { ENGLISH_184_BLUEPRINT } from './english-184-blueprint.generated.js';
 
-type SnapshotUnit = (typeof MATHS_041_BLUEPRINT.units)[number];
-type SnapshotChapter = SnapshotUnit['chapters'][number];
-type SnapshotTopic = SnapshotChapter['topics'][number];
+export type AnyBlueprint =
+  | typeof MATHS_041_BLUEPRINT
+  | typeof SCIENCE_086_BLUEPRINT
+  | typeof SOCIAL_SCIENCE_087_BLUEPRINT
+  | typeof ENGLISH_184_BLUEPRINT;
+export type SnapshotUnit = AnyBlueprint['units'][number];
+export type SnapshotChapter = SnapshotUnit['chapters'][number];
+export type SnapshotTopic = SnapshotChapter['topics'][number];
+
+export const BLUEPRINTS: Record<string, AnyBlueprint> = {
+  [MATHS_041_BLUEPRINT.slug]: MATHS_041_BLUEPRINT,
+  [SCIENCE_086_BLUEPRINT.slug]: SCIENCE_086_BLUEPRINT,
+  [SOCIAL_SCIENCE_087_BLUEPRINT.slug]: SOCIAL_SCIENCE_087_BLUEPRINT,
+  [ENGLISH_184_BLUEPRINT.slug]: ENGLISH_184_BLUEPRINT,
+};
 
 /**
- * Read-only helpers over the generated Mathematics Standard (041) curriculum
- * snapshot. The snapshot is regenerated from the web registry (single source
- * of truth) via `npm run exam:snapshot`; the drift guard lives in
+ * Read-only helpers over the generated CBSE curriculum snapshots.
+ * Snapshots are regenerated from the web registry (single source of truth)
+ * via `npm run exam:snapshot`; drift guards live in
  * `apps/web/lib/exam-curriculum-snapshot.test.ts`.
  */
 export const BLUEPRINT = MATHS_041_BLUEPRINT;
 
-export function getUnit(unitId: string): SnapshotUnit | null {
-  return BLUEPRINT.units.find((unit) => unit.id === unitId) ?? null;
+export function getBlueprint(subjectSlug: string = 'mathematics-standard'): AnyBlueprint | null {
+  return BLUEPRINTS[subjectSlug] ?? null;
 }
 
-export function getTopic(topicId: string): SnapshotTopic | null {
-  for (const unit of BLUEPRINT.units) {
-    for (const chapter of unit.chapters) {
-      const topic = chapter.topics.find((candidate) => candidate.id === topicId);
-      if (topic) {
-        return topic;
+function resolveBlueprints(subjectSlug?: string): AnyBlueprint[] {
+  if (subjectSlug) {
+    const bp = getBlueprint(subjectSlug);
+    return bp ? [bp] : [];
+  }
+  return Object.values(BLUEPRINTS);
+}
+
+export function getUnit(unitId: string, subjectSlug?: string): SnapshotUnit | null {
+  for (const bp of resolveBlueprints(subjectSlug)) {
+    const found = bp.units.find((unit) => unit.id === unitId);
+    if (found) {
+      return found;
+    }
+  }
+  return null;
+}
+
+export function getTopic(topicId: string, subjectSlug?: string): SnapshotTopic | null {
+  for (const bp of resolveBlueprints(subjectSlug)) {
+    for (const unit of bp.units) {
+      for (const chapter of unit.chapters) {
+        const topic = chapter.topics.find((candidate) => candidate.id === topicId);
+        if (topic) {
+          return topic;
+        }
       }
     }
   }
@@ -29,11 +64,13 @@ export function getTopic(topicId: string): SnapshotTopic | null {
   return null;
 }
 
-export function getUnitForTopic(topicId: string): SnapshotUnit | null {
-  for (const unit of BLUEPRINT.units) {
-    for (const chapter of unit.chapters) {
-      if (chapter.topics.some((topic) => topic.id === topicId)) {
-        return unit;
+export function getUnitForTopic(topicId: string, subjectSlug?: string): SnapshotUnit | null {
+  for (const bp of resolveBlueprints(subjectSlug)) {
+    for (const unit of bp.units) {
+      for (const chapter of unit.chapters) {
+        if (chapter.topics.some((topic) => topic.id === topicId)) {
+          return unit;
+        }
       }
     }
   }
@@ -41,11 +78,13 @@ export function getUnitForTopic(topicId: string): SnapshotUnit | null {
   return null;
 }
 
-export function getChapterForTopic(topicId: string): SnapshotChapter | null {
-  for (const unit of BLUEPRINT.units) {
-    for (const chapter of unit.chapters) {
-      if (chapter.topics.some((topic) => topic.id === topicId)) {
-        return chapter;
+export function getChapterForTopic(topicId: string, subjectSlug?: string): SnapshotChapter | null {
+  for (const bp of resolveBlueprints(subjectSlug)) {
+    for (const unit of bp.units) {
+      for (const chapter of unit.chapters) {
+        if (chapter.topics.some((topic) => topic.id === topicId)) {
+          return chapter;
+        }
       }
     }
   }
@@ -53,16 +92,20 @@ export function getChapterForTopic(topicId: string): SnapshotChapter | null {
   return null;
 }
 
-export function getUnitWeight(unitId: string): number {
-  return getUnit(unitId)?.marks ?? 0;
+export function getUnitWeight(unitId: string, subjectSlug?: string): number {
+  return getUnit(unitId, subjectSlug)?.marks ?? 0;
 }
 
-export function isExcludedTopic(topicId: string): boolean {
-  return getTopic(topicId)?.scope === 'excluded';
+export function isExcludedTopic(topicId: string, subjectSlug?: string): boolean {
+  return getTopic(topicId, subjectSlug)?.scope === 'excluded';
 }
 
-export function getExcludedTopicIds(): string[] {
-  return BLUEPRINT.units.flatMap((unit) =>
+export function getExcludedTopicIds(subjectSlug: string = 'mathematics-standard'): string[] {
+  const bp = getBlueprint(subjectSlug);
+  if (!bp) {
+    return [];
+  }
+  return bp.units.flatMap((unit) =>
     unit.chapters.flatMap((chapter) =>
       chapter.topics
         .filter((topic) => topic.scope === 'excluded')
@@ -71,8 +114,12 @@ export function getExcludedTopicIds(): string[] {
   );
 }
 
-export function getBoardTopicIds(): string[] {
-  return BLUEPRINT.units.flatMap((unit) =>
+export function getBoardTopicIds(subjectSlug: string = 'mathematics-standard'): string[] {
+  const bp = getBlueprint(subjectSlug);
+  if (!bp) {
+    return [];
+  }
+  return bp.units.flatMap((unit) =>
     unit.chapters.flatMap((chapter) =>
       chapter.topics
         .filter((topic) => topic.scope !== 'excluded')
@@ -82,8 +129,14 @@ export function getBoardTopicIds(): string[] {
 }
 
 /** Ordered board units with their official weightage (sums to 80). */
-export function getBoardUnits(): Array<{ id: string; title: string; marks: number }> {
-  return BLUEPRINT.units.flatMap((unit) => {
+export function getBoardUnits(
+  subjectSlug: string = 'mathematics-standard',
+): Array<{ id: string; title: string; marks: number }> {
+  const bp = getBlueprint(subjectSlug);
+  if (!bp) {
+    return [];
+  }
+  return bp.units.flatMap((unit) => {
     const marks = unit.marks ?? 0;
     if (marks <= 0) {
       return [];

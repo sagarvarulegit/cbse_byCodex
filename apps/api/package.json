@@ -11,7 +11,7 @@
     "seed:bank:validate": "tsx src/scripts/validate-bank-seed.ts",
     "seed:bank:analyze": "tsx src/scripts/analyze-bank-coverage.ts",
     "verify:bank": "tsx src/scripts/verify-bank.ts",
-    "verify:papers": "tsx src/scripts/verify-papers.ts",
+    "publish:series": "tsx src/scripts/publish-series.ts",
     "rag:build": "tsx src/scripts/build-rag-index.ts",
     "start": "node dist/main.js",
     "lint": "prisma generate && tsc -p tsconfig.json --noEmit",

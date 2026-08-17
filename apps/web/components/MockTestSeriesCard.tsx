@@ -1,29 +1,82 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 import type { MockTestSeries, MockTestSeriesPaper } from '../lib/exam-papers';
+
+export type SubjectSeriesEntry = {
+  series: MockTestSeries;
+  papers: MockTestSeriesPaper[];
+};
+
+const SUBJECT_LABELS: Record<string, string> = {
+  'mathematics-standard': 'Maths Standard (041)',
+  'science': 'Science (086)',
+  'social-science': 'Social Science (087)',
+  'english-language-and-literature': 'English (184)',
+};
 
 export default function MockTestSeriesCard({
   series,
   papers,
+  seriesList,
 }: {
-  series: MockTestSeries;
-  papers: MockTestSeriesPaper[];
+  series?: MockTestSeries;
+  papers?: MockTestSeriesPaper[];
+  seriesList?: SubjectSeriesEntry[];
 }) {
-  const published = papers.filter((paper) => paper.id);
-  const freePaper = papers.find((paper) => paper.isFreeSample);
+  const allSeries: SubjectSeriesEntry[] =
+    seriesList && seriesList.length > 0
+      ? seriesList
+      : series && papers
+      ? [{ series, papers }]
+      : [];
+
+  const [activeSubject, setActiveSubject] = useState<string>(
+    allSeries[0]?.series.subjectSlug ?? 'mathematics-standard',
+  );
+
+  if (allSeries.length === 0) {
+    return null;
+  }
+
+  const current =
+    allSeries.find((entry) => entry.series.subjectSlug === activeSubject) ?? allSeries[0];
+  const activeSeries = current.series;
+  const activePapers = current.papers;
+  const freePaper = activePapers.find((paper) => paper.isFreeSample);
 
   return (
     <div className="mock-series">
+      {allSeries.length > 1 && (
+        <div className="mock-series-tabs" role="tablist" aria-label="Select Mock Test Series Subject">
+          {allSeries.map((entry) => {
+            const isSelected = entry.series.subjectSlug === activeSubject;
+            return (
+              <button
+                key={entry.series.subjectSlug}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                className={`mock-series-tab ${isSelected ? 'active' : ''}`}
+                onClick={() => setActiveSubject(entry.series.subjectSlug)}
+              >
+                {SUBJECT_LABELS[entry.series.subjectSlug] ?? entry.series.title}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       <div className="mock-series-hero">
         <p className="eyebrow">ChapterReady · CBSE Class 10</p>
-        <h1>{series.title}</h1>
-        <p className="subtext">{series.description}</p>
+        <h1>{activeSeries.title}</h1>
+        <p className="subtext">{activeSeries.description}</p>
       </div>
 
       <div className="mock-series-papers">
-        {papers.map((paper) => {
+        {activePapers.map((paper) => {
           const available = Boolean(paper.id);
           return (
             <div
@@ -69,6 +122,10 @@ export default function MockTestSeriesCard({
 
       <style>{`
         .mock-series { margin: 1rem 0 2rem; }
+        .mock-series-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
+        .mock-series-tab { padding: 0.5rem 1rem; border-radius: 8px; border: 1.5px solid var(--border, #ddd); background: #fff; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.15s ease; color: inherit; }
+        .mock-series-tab:hover { border-color: #c98a2c; background: #fffdfa; }
+        .mock-series-tab.active { border-color: #8a5314; background: #faede0; font-weight: 700; color: #5a3205; }
         .mock-series-hero { margin-bottom: 1.25rem; }
         .mock-series-papers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
         .mock-series-paper { background: #faf6f0; border: 1px solid var(--border, #eee); border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }

@@ -1,11 +1,29 @@
-# Current Handoff - Sample Test Paper Generator (Maths 041 pilot)
+# Current Handoff - Dashboard Study Studio & Jukebox Reorganization
 
-- [x] Built and shipped the Sample Test Exam Paper Generator end-to-end. Engine: `apps/api/src/lib/exam-papers/` (official A-E section layout, seeded demand planner holding every unit to its exact weightage, coverage-aware selector that fails loudly, `maths-041-blueprint.generated.ts` snapshot regenerated from the web curriculum registry with a drift guard). Bank: `QuestionBankQuestion` + `ExamPaper`/`ExamPaperQuestion` models (migration `20260815090000_add_exam_papers`), 67-question curated seed (`npm run seed:bank`, `seed:bank:validate`, `seed:bank:analyze` -w apps/api). Verification: Gemini REST client (advisory; model `gemini-2.5-flash` via `GEMINI_API_KEY`/`GEMINI_MODEL`, server-only). API: `/v1/exam-papers` generate/get/list + admin bank/paper review (`/v1/admin/exam-papers/...`). Web: `/exam-papers` + `/exam-papers/[id]` (printable, answer-key toggle), Dashboard "Sample test papers" link, subject-page link (blueprint-ready only), landing hero highlight/CTA. Student-facing UI has zero "AI"/"Gemini" wording.
-- [x] Applied the migration + seeded the Supabase DB (67 rows, verified for local dev via `SEED_BANK_AS_VERIFIED=1`), restarted the API on 4000, fixed the Gemini model 404 by defaulting to `gemini-2.5-flash`. Live end-to-end smoke: login → generate → 38-question/80-mark paper, verification `pass`, note "Verification passed."
-- [x] Removed the legacy mint/green theme from `apps/web/app/globals.css`: deleted the green `:root` palette (+ dark `:root`), neutralized the green body gradients, and converted all 36 green/cyan component tints to the brand orange (`rgba(243, 136, 59, …)` / `var(--primary)`). The 12 dead `@media (prefers-color-scheme: dark)` blocks remain (never active; light-only theme).
-- [x] Committed + pushed to `main`: `6c82f5e` (Add sample test paper generator), `0ff10bf` (Remove legacy green theme).
-- [x] Gemini AI verification is LIVE in production: `GEMINI_API_KEY` configured (Vercel prod, type `encrypted`), verified end-to-end via `POST /v1/exam-papers/generate` (verdicts stored in `verificationJson`). Re-verified the whole 67-question bank with real AI → 66 `verified`, 1 `review`. Fixed 3 AI-flagged questions in the seed + prod DB (commit `314396b`): `sav-csa-mcq-1` (single cylinder → cylinder+hemisphere combination CSA), `stats-mcq-1` (ungrouped → grouped-data mean), `circle-tangent-angle-sa-3` (find-angle → NCERT Theorem 10.2 proof). Ops gotcha recorded in `docs/project-memory/pilot-and-operations.md`: all Vercel env vars are `type=sensitive` so `vercel env pull` masks values; vars added via `vercel env add` default to decryptable `encrypted`.
-- [ ] Next task: fix `maths-041-tri-bpt-proof-3` (BPT proof variant 'a' missing the altitudes/area-ratio step — add the derivation per NCERT, then re-verify with Gemini); also apply the same combination-of-solids treatment to `maths-041-sav-csa-sa-2` (latent single-cylinder mismatch); then grow the 67-question bank (`npm run seed:bank:analyze -w apps/api` to find under-supplied combinations) and implement the deferred online attempt + auto-marking phase (scope in `docs/project-memory/exam-papers.md`).
+- [x] Reorganized the student dashboard into a clean, 4-zone "Study Studio" that retains the Jukebox/music player identity while eliminating clutter and redundancy:
+  - Zone 1 (Hero): Interactive Turntable & Focus Jukebox (`StudyRemixDashboard`) with album covers, track scrubber, and break timers.
+  - Zone 2 (Academic Hub): 4 Core Board Subject Stations (Maths 041, Science 086, SST 087, English 184) with 1-click Notes and Mock Papers launchers.
+  - Zone 3 (Practice Hub): 2 balanced side-by-side studio cards for the 80-mark Board Mock Test Series and Spaced Repetition / My Mistakes Vault with active revision targets.
+  - Zone 4 (Trophies & Milestones): Unhidden horizontal milestone shelf displaying study streak, unlocked achievement badges, and next milestone targets (replacing the cluttered collapsed backstage drawer).
+  - Zone 5: Compact account details & feedback tray.
+- [ ] Next task: Open `/dashboard` in the browser or continue with next priority feature (PDF export, basic maths, or payment gating).
+
+# Current Handoff - AI Tutor Tara
+
+- [x] Added the Firefly logo asset to Tara and added maximize/minimize controls for the chat window. Feature commit `0aa2305` is pushed to `main`.
+- [ ] Next task: run a focused browser check of Tara's floating and maximized layouts at desktop and mobile widths.
+
+# Current Handoff - Multi-Subject Sample Test Paper Generator (Maths 041 + Science 086 + Social Science 087 + English 184)
+
+- [x] Expanded the Sample Test Exam Paper Generator to full 4-subject core coverage: CBSE Class 10 English Language & Literature (184), Social Science (087), Science (086), and Mathematics Standard (041).
+  - Curriculum Snapshot: Generated `english-184-blueprint.generated.ts`, `social-science-087-blueprint.generated.ts`, `science-086-blueprint.generated.ts`, verified 80-mark sums and drift guards across all subjects.
+  - Layout & Assembly: Registered `ENGLISH_184_LAYOUT` (34 Qs: 20x1m Objective/Grammar, 4x5m Writing/Extracts, 6x3m Literature SA, 2x6m Literature LA, 2x5m Reading Passages = 80 marks).
+  - Generalized Demand Planner: Section-specific candidate unit filtering and Section A buffer distribution across all board paper layouts.
+  - Question Bank: Curated 59 high-yield NCERT board-style questions for English (184) across First Flight, Footprints Without Feet, Grammar, Writing Skills, and Reading Comprehension in `english-184-seed.ts`. Validated all 283 questions across all 4 subjects with `npm run seed:bank:validate` (0 errors).
+  - Test Suite: All 33 tests passing cleanly (`assembler.test.ts`, `verify.test.ts`, `exam-curriculum-snapshot.test.ts`) across 50 distinct seeds per subject.
+  - Database: Seeded 283 verified questions into PostgreSQL. Published official Mock Test Series (Papers 1..5) for all 4 subjects (20 mock papers total).
+  - Web UI: Added tabbed Subject Selector on `/exam-papers` (Studio generator and Mock Test Series card) supporting Maths Standard (041), Science (086), Social Science (087), and English (184).
+- [ ] Next task: Add Mathematics Basic (241), or implement PDF export and Razorpay paywall gating.
 
 # Current Handoff - Quadratic Equations Video (plain-English narration fix + git policy)
 

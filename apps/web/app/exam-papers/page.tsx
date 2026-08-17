@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import ExamPaperStudio from '../../components/ExamPaperStudio';
-import MockTestSeriesCard from '../../components/MockTestSeriesCard';
+import MockTestSeriesCard, { type SubjectSeriesEntry } from '../../components/MockTestSeriesCard';
 import StudentTopbar from '../../components/StudentTopbar';
 import {
   getStudentSessionToken,
@@ -14,7 +14,27 @@ export default async function ExamPapersPage() {
     requireStudentSession(),
     getStudentSessionToken(),
   ]);
-  const seriesData = await getMockTestSeries(token);
+
+  const [mathsData, scienceData, socialScienceData, englishData] = await Promise.all([
+    getMockTestSeries(token, 'mathematics-standard'),
+    getMockTestSeries(token, 'science'),
+    getMockTestSeries(token, 'social-science'),
+    getMockTestSeries(token, 'english-language-and-literature'),
+  ]);
+
+  const seriesList: SubjectSeriesEntry[] = [];
+  if (mathsData) {
+    seriesList.push(mathsData);
+  }
+  if (scienceData) {
+    seriesList.push(scienceData);
+  }
+  if (socialScienceData) {
+    seriesList.push(socialScienceData);
+  }
+  if (englishData) {
+    seriesList.push(englishData);
+  }
 
   return (
     <main>
@@ -27,8 +47,8 @@ export default async function ExamPapersPage() {
             <span aria-current="page">Mock Test Series</span>
           </nav>
 
-          {seriesData ? (
-            <MockTestSeriesCard series={seriesData.series} papers={seriesData.papers} />
+          {seriesList.length > 0 ? (
+            <MockTestSeriesCard seriesList={seriesList} />
           ) : (
             <p className="subtext compact">
               The mock test series is being prepared. Check back soon.

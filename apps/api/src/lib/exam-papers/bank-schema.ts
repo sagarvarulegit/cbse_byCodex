@@ -7,7 +7,12 @@ import {
 } from './blueprint.js';
 import type { AnswerKey, BankQuestion, BankQuestionVariant } from './types.js';
 
-export const VALID_SUBJECT_SLUGS = ['mathematics-standard'] as const;
+export const VALID_SUBJECT_SLUGS = [
+  'mathematics-standard',
+  'science',
+  'social-science',
+  'english-language-and-literature',
+] as const;
 export const ALLOWED_MARK_VALUES = [1, 2, 3, 4, 5, 6] as const;
 export const VALID_SOURCE_KINDS = ['ncert_exercise', 'verified_pyq', 'board_style'] as const;
 export const VALID_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
@@ -18,7 +23,16 @@ export const VALID_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
  * and data-interpretation items. The topic list drives constructed-response
  * legality only.
  */
-const LAYOUT_PLACED_TYPES = new Set(['mcq', 'case-study', 'data-interpretation']);
+const LAYOUT_PLACED_TYPES = new Set([
+  'mcq',
+  'case-study',
+  'data-interpretation',
+  'source-based',
+  'map-skill',
+  'extract-based',
+  'creative-writing',
+  'grammar',
+]);
 
 export type BankValidationIssue = {
   bankKey: string;
@@ -52,11 +66,11 @@ export function validateBankQuestion(question: BankQuestion): BankValidationIssu
     }
   }
 
-  const topic = getTopic(question.topicId);
+  const topic = getTopic(question.topicId, question.subjectSlug);
   if (!topic) {
-    push(`topicId "${question.topicId}" is not in the Maths 041 curriculum snapshot.`);
+    push(`topicId "${question.topicId}" is not in the ${question.subjectSlug} curriculum snapshot.`);
   } else {
-    if (isExcludedTopic(question.topicId)) {
+    if (isExcludedTopic(question.topicId, question.subjectSlug)) {
       push(`topicId "${question.topicId}" is excluded from the current syllabus.`);
     }
     if (!LAYOUT_PLACED_TYPES.has(question.questionType) && topic.requiredQuestionTypes.length > 0) {
@@ -68,14 +82,14 @@ export function validateBankQuestion(question: BankQuestion): BankValidationIssu
       }
     }
 
-    const actualUnit = getUnitForTopic(question.topicId);
+    const actualUnit = getUnitForTopic(question.topicId, question.subjectSlug);
     if (!actualUnit) {
       push(`topicId "${question.topicId}" has no owning unit.`);
     } else if (question.unitId !== actualUnit.id) {
       push(`unitId "${question.unitId}" does not own topic "${question.topicId}" (owned by ${actualUnit.id}).`);
     }
 
-    const actualChapter = getChapterForTopic(question.topicId);
+    const actualChapter = getChapterForTopic(question.topicId, question.subjectSlug);
     if (actualChapter && question.chapterSlug !== actualChapter.id) {
       push(
         `chapterSlug "${question.chapterSlug}" does not match the topic's chapter "${actualChapter.id}".`,
@@ -83,8 +97,8 @@ export function validateBankQuestion(question: BankQuestion): BankValidationIssu
     }
   }
 
-  if (!getUnit(question.unitId)) {
-    push(`unitId "${question.unitId}" is not in the Maths 041 curriculum snapshot.`);
+  if (!getUnit(question.unitId, question.subjectSlug)) {
+    push(`unitId "${question.unitId}" is not in the ${question.subjectSlug} curriculum snapshot.`);
   }
 
   if (question.variants.length === 0) {
