@@ -8,7 +8,25 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Deployment Runbook
 
-This repo is ready to deploy as three Vercel projects backed by one Supabase Postgres database.
+This repo is deployed as three Vercel projects backed by one Supabase Postgres database.
+
+## Live Production (2026-08-16)
+
+| App | URL | Notes |
+| --- | --- | --- |
+| Student web | https://www.chapterready.in | Alias of the web Vercel project (`cbse-bycodex-web`) |
+| API | https://cbse-bycodex-api.vercel.app | Express app via `api/index.ts` |
+| Admin | https://cbse-bycodex-admin.vercel.app | Redirects to `/login` |
+
+Deploy commands (from each app directory):
+
+```bash
+cd apps/api && npx vercel deploy --prod --yes
+cd apps/web && npx vercel deploy --prod --yes
+cd apps/admin && npx vercel deploy --prod --yes
+```
+
+Each command aliases the new deployment to the project's production URL automatically. Deploy order: API first, then web/admin (they need the API URL at build time).
 
 ## Target Topology
 

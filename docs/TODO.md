@@ -15,14 +15,10 @@ project, the current repo docs, and the git history through `d2040ac`.
 
 ## Current Priority
 
-- [ ] Next: Parent/guardian-facing tutor report (conversation summaries + weak-topic extraction from chat history) — the AI-tutor analytics layer.
+- [x] Deploy three Vercel projects: `apps/api`, `apps/web`, and `apps/admin` (2026-08-16: web https://www.chapterready.in, API https://cbse-bycodex-api.vercel.app, admin https://cbse-bycodex-admin.vercel.app; smoke-tested health/auth/catalog/exam-papers/tutor).
+- [ ] Next: Free/paid entitlement split on the Mock Test Series — Paper 1 open, Papers 2–5 gated behind access (pre-Razorpay step). The platform is now live, so gating has a real surface.
 - [ ] Rotate the ElevenLabs API key that was pasted into chat, then update only server-side/local environment variables.
-- [ ] Create the Supabase project and configure `DATABASE_URL` plus `DIRECT_URL`.
-- [ ] Run the initial Prisma migration against Supabase with `npm run prisma:migrate:deploy -w apps/api`.
-- [ ] Create the Bunny Stream library and configure server-only Bunny env vars.
-- [ ] Deploy three Vercel projects: `apps/api`, `apps/web`, and `apps/admin`.
 - [ ] Smoke test deployed API endpoints, student web, and admin web.
-- [ ] Build the first real pilot chapter flow end to end before scaling content.
 
 ## AI Tutor "Tara-Firefly" — Shipped (2026-08-16)
 

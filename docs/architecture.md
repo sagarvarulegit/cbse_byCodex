@@ -7,7 +7,6 @@ timestamp: 2026-08-04T00:00:00Z
 ---
 
 # CBSE Learning Platform Architecture
-
 This document is the repository's concise architecture map. Update it when module boundaries, data ownership, or deployment flows change. Route durable discoveries through `docs/project-memory.md` into the narrowest topic file.
 
 ## Workspace map
@@ -16,7 +15,7 @@ This document is the repository's concise architecture map. Update it when modul
 | --- | --- | --- |
 | `apps/web` | Student-facing Next.js application, lesson and quiz rendering, curriculum registry, and student flows | `app/`, `components/`, `lib/`, `content/` |
 | `apps/admin` | Admin CMS and pilot-review surfaces | `app/`, `lib/` |
-| `apps/api` | Express API, authentication, catalog, video, progress, mastery, feedback, and database access | `src/app.ts`, `src/routes/`, `src/lib/`, `prisma/` |
+| `apps/api` | Express API, authentication, catalog, video, progress, mastery, feedback, tutor, exam papers, and database access | `src/app.ts`, `src/routes/`, `src/lib/`, `prisma/` |
 | `apps/mobile` | Placeholder for future Flutter clients | application scaffold only |
 | `docs` | Product decisions, content standards, runbooks, architecture, and durable project memory | `architecture.md`, the `project-memory.md` index, `project-memory/`, curriculum and content docs |
 | `videos` | Code-generated lesson-video projects and media tooling | per-video project directories |
