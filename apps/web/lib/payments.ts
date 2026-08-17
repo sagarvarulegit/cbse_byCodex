@@ -1,4 +1,12 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
+function getApiBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
+    return process.env.NEXT_PUBLIC_API_BASE_URL;
+  }
+  if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
+    return 'https://cbse-bycodex-api.vercel.app';
+  }
+  return 'http://localhost:4000';
+}
 
 export const ALL_SUBJECTS_MOCK_PACK_KEY = 'cbse10-all-subjects-mock-pack';
 
@@ -61,8 +69,9 @@ async function apiFetch<T>(
   }
   headers.set('Content-Type', 'application/json');
 
+  const baseUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${API_BASE_URL}${path}`, {
+    const res = await fetch(`${baseUrl}${path}`, {
       ...init,
       headers,
     });

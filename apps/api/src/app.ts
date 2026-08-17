@@ -15,21 +15,45 @@ import { tutorChatRouter } from './routes/tutor-chat.js';
 import { tutorRouter } from './routes/tutor.js';
 import { videoRouter } from './routes/video.js';
 
-const allowedOrigins = process.env.CORS_ORIGIN
-  ?.split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
-const corsOptions = allowedOrigins?.length
-  ? { origin: allowedOrigins, credentials: true }
-  : process.env.NODE_ENV === 'production'
-    ? { origin: false }
-    : undefined;
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://www.chapterready.in',
+  'https://chapterready.in',
+  'https://cbse-bycodex-web.vercel.app',
+  'https://cbse-bycodex-admin.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+
+function isOriginAllowed(origin: string | undefined): boolean {
+  if (!origin) return true;
+  if (DEFAULT_ALLOWED_ORIGINS.includes(origin)) return true;
+  if (origin.endsWith('.vercel.app')) return true;
+  if (process.env.CORS_ORIGIN) {
+    const envOrigins = process.env.CORS_ORIGIN.split(',').map((o) => o.trim()).filter(Boolean);
+    if (envOrigins.includes(origin) || envOrigins.includes('*')) return true;
+  }
+  return false;
+}
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin not allowed by CORS: ${origin}`));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-razorpay-signature', 'Accept'],
+};
 
 const app = express();
 
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/health', (_req, res) => {
