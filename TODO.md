@@ -1,3 +1,11 @@
+# Current Handoff - Live Production Deployment on Vercel
+
+- [x] Successfully deployed all 3 projects to live production on Vercel:
+  - **Student Web**: [https://www.chapterready.in](https://www.chapterready.in) (`cbse-bycodex-web`, HTTP 200 OK).
+  - **API Service**: [https://cbse-bycodex-api.vercel.app](https://cbse-bycodex-api.vercel.app) (`cbse-bycodex-api`, `/health` returns `{"status":"ok","service":"cbse-api"}`).
+  - **Admin App**: [https://cbse-bycodex-admin.vercel.app](https://cbse-bycodex-admin.vercel.app) (`cbse-bycodex-admin`, HTTP 307 redirect to `/login`).
+- [ ] Next task: Test live user flows on [https://www.chapterready.in](https://www.chapterready.in) or continue with next prioritized feature (PDF Export, Mathematics Basic 241, or Razorpay Paywall gating).
+
 # Current Handoff - Dashboard Study Studio & Jukebox Reorganization
 
 - [x] Reorganized the student dashboard into a clean, 4-zone "Study Studio" that retains the Jukebox/music player identity while eliminating clutter and redundancy:
@@ -6,7 +14,6 @@
   - Zone 3 (Practice Hub): 2 balanced side-by-side studio cards for the 80-mark Board Mock Test Series and Spaced Repetition / My Mistakes Vault with active revision targets.
   - Zone 4 (Trophies & Milestones): Unhidden horizontal milestone shelf displaying study streak, unlocked achievement badges, and next milestone targets (replacing the cluttered collapsed backstage drawer).
   - Zone 5: Compact account details & feedback tray.
-- [ ] Next task: Open `/dashboard` in the browser or continue with next priority feature (PDF export, basic maths, or payment gating).
 
 # Current Handoff - AI Tutor Tara
 
