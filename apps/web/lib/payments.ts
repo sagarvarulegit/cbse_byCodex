@@ -87,16 +87,8 @@ async function apiFetch<T>(
 }
 
 export async function fetchPaymentProducts(): Promise<PaymentProduct[]> {
-  try {
-    const res = await fetch(`${API_BASE_URL}/v1/payments/products`);
-    if (!res.ok) {
-      return [];
-    }
-    const data = (await res.json()) as { products: PaymentProduct[] };
-    return data.products || [];
-  } catch {
-    return [];
-  }
+  const data = await apiFetch<{ products: PaymentProduct[] }>(null, '/v1/payments/products');
+  return data?.products || [];
 }
 
 export async function fetchStudentEntitlements(
