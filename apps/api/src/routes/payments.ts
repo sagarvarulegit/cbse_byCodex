@@ -285,7 +285,11 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Failed to create Razorpay order:', error);
-    return res.status(500).json({ message: 'Failed to initiate payment. Please try again.' });
+    const message = error instanceof Error ? error.message : 'Failed to initiate payment.';
+    return res.status(500).json({
+      message: 'Failed to initiate payment. Please try again.',
+      details: message,
+    });
   }
 });
 

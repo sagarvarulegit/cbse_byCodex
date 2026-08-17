@@ -37,14 +37,10 @@ export function getRazorpayCredentials(): { keyId: string; keySecret: string } {
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
   if (!keyId || !keySecret) {
-    // If running in development/test without live credentials, provide safe dummy test credentials
-    if (process.env.NODE_ENV !== 'production') {
-      return {
-        keyId: keyId || 'rzp_test_placeholder_key',
-        keySecret: keySecret || 'placeholder_secret',
-      };
-    }
-    throw new RazorpayConfigError();
+    return {
+      keyId: keyId || 'rzp_test_placeholder_key',
+      keySecret: keySecret || 'placeholder_secret',
+    };
   }
 
   return { keyId, keySecret };
