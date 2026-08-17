@@ -73,11 +73,12 @@ export function validateBankQuestion(question: BankQuestion): BankValidationIssu
     if (isExcludedTopic(question.topicId, question.subjectSlug)) {
       push(`topicId "${question.topicId}" is excluded from the current syllabus.`);
     }
-    if (!LAYOUT_PLACED_TYPES.has(question.questionType) && topic.requiredQuestionTypes.length > 0) {
-      if (!topic.requiredQuestionTypes.includes(question.questionType)) {
+    const requiredTypes: readonly string[] = topic.requiredQuestionTypes;
+    if (!LAYOUT_PLACED_TYPES.has(question.questionType) && requiredTypes.length > 0) {
+      if (!requiredTypes.includes(question.questionType)) {
         push(
           `questionType "${question.questionType}" is not allowed for topic "${question.topicId}" ` +
-            `(allowed: ${topic.requiredQuestionTypes.join(', ')}).`,
+            `(allowed: ${requiredTypes.join(', ')}).`,
         );
       }
     }
