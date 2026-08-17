@@ -56,6 +56,42 @@ export default async function DashboardPage() {
 
       <StudyRemixDashboard model={remixModel} />
 
+      <section className="dashboard-mock-series">
+        <div className="dashboard-mock-series-inner">
+          <div className="dashboard-mock-series-text">
+            <p className="eyebrow">Board exam practice</p>
+            <h2>Mock Test Series — 5 full board papers</h2>
+            <p className="subtext">
+              Five 80-mark, 3-hour papers in the official CBSE format. Paper 1 is
+              free. Get timed practice, marking-scheme answers, and a weak-chapter
+              report after every attempt.
+            </p>
+          </div>
+          <div className="dashboard-mock-series-actions">
+            <Link className="card-link" href="/exam-papers" prefetch={false}>
+              Take a mock test →
+            </Link>
+            <Link className="text-link" href="/exam-papers/attempts" prefetch={false}>
+              My attempts &amp; weak areas
+            </Link>
+          </div>
+        </div>
+        <style>{`
+          .dashboard-mock-series {
+            margin: 1.25rem 0 2.25rem; padding: 1.5rem 1.5rem;
+            background: linear-gradient(135deg, #fff7e6, #ffe9b8);
+            border: 3px solid #171513; border-radius: 16px;
+            box-shadow: 6px 6px 0 rgba(23,21,19,0.08);
+          }
+          .dashboard-mock-series-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+          .dashboard-mock-series-text h2 { font-family: 'Bangers', cursive; font-size: 30px; letter-spacing: 0.5px; margin: 0.25rem 0; }
+          .dashboard-mock-series-text .subtext { max-width: 42rem; }
+          .dashboard-mock-series-actions { display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+          .dashboard-mock-series-actions .card-link { margin: 0; }
+          .dashboard-mock-series-actions .text-link { font-size: 0.9rem; color: var(--muted, #555); }
+        `}</style>
+      </section>
+
       <section className="syllabus-library-section dashboard-syllabus-library">
         <div className="section-heading">
           <div>
@@ -66,7 +102,7 @@ export default async function DashboardPage() {
             Browse all subjects
           </Link>
           <Link className="card-link" href="/exam-papers">
-            Sample test papers
+            Mock test series
           </Link>
         </div>
         <p className="syllabus-library-intro">
