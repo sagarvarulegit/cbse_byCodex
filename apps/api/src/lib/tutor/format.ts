@@ -7,7 +7,8 @@
 
 const SCRIPT_TAG = /<script[\s\S]*?<\/script>/gi;
 const STYLE_TAG = /<style[\s\S]*?<\/style>/gi;
-const HTML_TAG = /<\/?(?:[a-zA-Z][^>]*?)>/g;
+const HTML_TAG =
+  /<\/?(?:[a-zA-Z][a-zA-Z0-9]*)(?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=><`]+))?)*\s*\/?>/gi;
 
 /** Replace inline math delimiters like \( ... \) with $ ... $ */
 function normalizeInlineMath(text: string): string {

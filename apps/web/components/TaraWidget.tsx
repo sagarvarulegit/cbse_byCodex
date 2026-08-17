@@ -110,7 +110,7 @@ export default function TaraWidget() {
     }
   }, []);
 
-  const newConversation = useCallback(async () => {
+  const newConversation = useCallback(async (): Promise<ConversationSummary | null> => {
     const response = await fetch('/api/tutor/conversations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -123,7 +123,9 @@ export default function TaraWidget() {
       setActiveId(conv.id);
       setMessages([]);
       setError(null);
+      return conv;
     }
+    return null;
   }, []);
 
   // Auto-open a conversation on first render if one exists.
@@ -139,9 +141,10 @@ export default function TaraWidget() {
   }, [messages, streamText]);
 
   const sendMessage = useCallback(
-    async (text?: string) => {
+    async (text?: string, targetConvId?: string) => {
+      const convId = targetConvId ?? activeId;
       const question = (text ?? input).trim();
-      if (!question || !activeId || streaming) {
+      if (!question || !convId || streaming) {
         return;
       }
       setInput('');
@@ -165,7 +168,7 @@ export default function TaraWidget() {
       }
 
       try {
-        const response = await fetch(`/api/tutor/conversations/${activeId}/messages`, {
+        const response = await fetch(`/api/tutor/conversations/${convId}/messages`, {
           method: 'POST',
           body: attachments.length > 0 ? form : JSON.stringify({ question }),
           headers: attachments.length > 0 ? {} : { 'Content-Type': 'application/json' },
@@ -181,6 +184,7 @@ export default function TaraWidget() {
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
+        let accumulatedText = '';
         let final: Message | null = null;
 
         while (true) {
@@ -202,26 +206,38 @@ export default function TaraWidget() {
             const data = JSON.parse(dataLine.slice(6));
 
             if (event === 'token') {
-              setStreamText((current) => current + (data.text ?? ''));
+              accumulatedText += data.text ?? '';
+              setStreamText(accumulatedText);
+            } else if (event === 'message') {
+              if (data.content) {
+                accumulatedText = data.content;
+                setStreamText(accumulatedText);
+              }
             } else if (event === 'done') {
               final = {
                 id: data.messageId ?? `done-${Date.now()}`,
                 role: 'assistant',
-                contentMarkdown: data.error ? 'Sorry — Tara hit a snag. Try again?' : (data.refused ? data.content : streamText),
+                contentMarkdown: data.error
+                  ? 'Sorry — Tara hit a snag. Try again?'
+                  : (accumulatedText || (data.refused ? data.content : '✨')),
                 citedChunkIds: data.citedChunkIds ?? [],
               };
             }
           }
         }
 
-        // The final message content was streamed via tokens; use the accumulated text.
-        const finalContent = final?.contentMarkdown === 'Sorry — Tara hit a snag. Try again?' ? final.contentMarkdown : streamText;
+        // The final message content was streamed via tokens or message event; use accumulatedText.
+        const finalContent =
+          final?.contentMarkdown === 'Sorry — Tara hit a snag. Try again?'
+            ? final.contentMarkdown
+            : (accumulatedText || final?.contentMarkdown || '✨');
+
         setMessages((current) => [
           ...current,
           {
             id: final?.id ?? `done-${Date.now()}`,
             role: 'assistant',
-            contentMarkdown: finalContent || '✨',
+            contentMarkdown: finalContent,
             citedChunkIds: final?.citedChunkIds ?? [],
           },
         ]);
@@ -232,7 +248,7 @@ export default function TaraWidget() {
         setStreaming(false);
       }
     },
-    [activeId, attachments, input, streaming, streamText],
+    [activeId, attachments, input, streaming],
   );
 
   const deleteConversation = useCallback(async () => {
@@ -292,9 +308,12 @@ export default function TaraWidget() {
                     <button
                       key={question}
                       type="button"
-                      onClick={() => {
+                      onClick={async () => {
                         if (!activeId) {
-                          void newConversation().then(() => setTimeout(() => void sendMessage(question), 200));
+                          const conv = await newConversation();
+                          if (conv?.id) {
+                            void sendMessage(question, conv.id);
+                          }
                         } else {
                           void sendMessage(question);
                         }

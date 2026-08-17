@@ -123,11 +123,11 @@ export async function retrieveChunks(
     topK * 4,
   );
 
-  // pgvector <-> returns L2 distance; for normalized vectors cosine = 1 - d²/2.
-  // Recompute a true cosine-like score in [0,1].
+  // pgvector <=> returns cosine distance: dist = 1 - cosine similarity.
+  // Recompute true cosine similarity score in [0,1].
   return candidates
     .map((row) => {
-      const score = Math.max(0, Math.min(1, 1 - row.dist * row.dist / 2));
+      const score = Math.max(0, Math.min(1, 1 - row.dist));
       return {
         id: row.id,
         subject: row.subject,

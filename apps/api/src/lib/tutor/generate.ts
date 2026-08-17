@@ -126,7 +126,7 @@ export async function generateTutorAnswer(
     const parts: Array<Record<string, unknown>> = [{ text: buildPrompt(options) }];
     for (const image of options.imageParts ?? []) {
       parts.push({
-        inline_data: { mime_type: image.mimeType, data: image.base64Data },
+        inlineData: { mimeType: image.mimeType, data: image.base64Data },
       });
     }
 

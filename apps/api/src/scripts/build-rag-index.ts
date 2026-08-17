@@ -16,7 +16,8 @@ type RawChunk = {
   sourceRank: number;
 };
 
-// The API workspace runs from apps/api; the web content lives two levels up.
+// Resolve the repository root relative to the API workspace. The build script
+// runs from apps/api (tsx), so two levels up is the repo root.
 const REPO_ROOT = path.resolve(process.cwd(), '..', '..');
 const DOCS_CONTENT_DIR = path.join(REPO_ROOT, 'docs', 'content', 'class-10');
 const WEB_CONTENT_DIR = path.join(REPO_ROOT, 'apps', 'web', 'content');

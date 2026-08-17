@@ -186,15 +186,11 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
 
     const markdown = sanitizeTutorMarkdown(answer.answerMarkdown);
 
-    if (answer.refused) {
-      sse(res, 'message', { type: 'refused', content: markdown });
-    } else {
-      // Stream in a few chunks for the typing effect (still one persisted message).
-      const step = Math.max(200, Math.floor(markdown.length / 5));
-      for (let i = 0; i < markdown.length; i += step) {
-        sse(res, 'token', { text: markdown.slice(i, i + step) });
-        await new Promise((resolve) => setTimeout(resolve, 30));
-      }
+    // Stream in chunks for the typing effect (still one persisted message).
+    const step = Math.max(200, Math.floor(markdown.length / 5));
+    for (let i = 0; i < markdown.length; i += step) {
+      sse(res, 'token', { text: markdown.slice(i, i + step) });
+      await new Promise((resolve) => setTimeout(resolve, 30));
     }
 
     const assistantMessage = await prisma.tutorMessage.create({
@@ -275,14 +271,10 @@ tutorChatRouter.post('/conversations/:id/messages-json', async (req, res) => {
     const history = conversation.messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.contentMarkdown }));
     const answer = await generateTutorAnswer({ chunks, history: [...history, { role: 'user', content: question }], question });
     const markdown = sanitizeTutorMarkdown(answer.answerMarkdown);
-    if (answer.refused) {
-      sse(res, 'message', { type: 'refused', content: markdown });
-    } else {
-      const step = Math.max(200, Math.floor(markdown.length / 5));
-      for (let i = 0; i < markdown.length; i += step) {
-        sse(res, 'token', { text: markdown.slice(i, i + step) });
-        await new Promise((resolve) => setTimeout(resolve, 30));
-      }
+    const step = Math.max(200, Math.floor(markdown.length / 5));
+    for (let i = 0; i < markdown.length; i += step) {
+      sse(res, 'token', { text: markdown.slice(i, i + step) });
+      await new Promise((resolve) => setTimeout(resolve, 30));
     }
     const assistantMessage = await prisma.tutorMessage.create({
       data: {
