@@ -261,7 +261,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <style jsx>{`
+      <style>{`
         .home-announcement-banner {
           background: #171513;
           color: #fff;

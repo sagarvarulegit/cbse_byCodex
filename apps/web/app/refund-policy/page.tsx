@@ -100,7 +100,7 @@ export default function RefundPolicyPage() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .legal-page {
           min-height: 100vh;
           background: #faf8f5;
