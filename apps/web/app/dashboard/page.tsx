@@ -255,6 +255,9 @@ export default async function DashboardPage() {
               <p style={{ margin: '0 0 4px 0', fontSize: '0.75rem', color: '#787168', textTransform: 'uppercase', fontWeight: 800 }}>Student</p>
               <strong>{session.fullName}</strong>
               <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#555' }}>{session.email ?? 'No email'}</p>
+              <Link href="/profile" style={{ display: 'inline-block', marginTop: '6px', fontSize: '0.8125rem', fontWeight: 800, color: '#c25e00', textDecoration: 'underline' }}>
+                ⚙️ Edit Profile &amp; Phone →
+              </Link>
             </div>
             <div>
               <p style={{ margin: '0 0 4px 0', fontSize: '0.75rem', color: '#787168', textTransform: 'uppercase', fontWeight: 800 }}>Class Level</p>

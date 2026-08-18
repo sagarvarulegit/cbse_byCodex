@@ -73,6 +73,7 @@ export default function StudentTopbar({
               <Link href="/subjects">Full subject library</Link>
               <Link href="/my-mistakes">My Mistakes</Link>
               <Link href="/orders">📦 My Purchases &amp; Receipts</Link>
+              <Link href="/profile">⚙️ Edit Profile &amp; Phone</Link>
               <form action={logoutAction}>
                 <button type="submit">Logout</button>
               </form>
