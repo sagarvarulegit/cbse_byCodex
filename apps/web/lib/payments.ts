@@ -39,11 +39,14 @@ export type StudentEntitlementsResponse = {
 };
 
 export type CreateOrderResponse = {
+  gateway?: 'cashfree' | 'razorpay';
   orderId: string;
+  paymentSessionId?: string;
   paymentOrderId: string;
   amount: number;
   currency: string;
-  keyId: string;
+  keyId?: string;
+  mode?: 'production' | 'sandbox';
   product: {
     key: string;
     title: string;
@@ -111,9 +114,10 @@ export async function createPaymentOrder(
 export async function verifyPayment(
   token: string | null,
   payload: {
-    razorpayOrderId: string;
-    razorpayPaymentId: string;
-    razorpaySignature: string;
+    orderId?: string;
+    razorpayOrderId?: string;
+    razorpayPaymentId?: string;
+    razorpaySignature?: string;
   },
 ): Promise<VerifyPaymentResponse | null> {
   return apiFetch<VerifyPaymentResponse>(token, '/v1/payments/verify', {

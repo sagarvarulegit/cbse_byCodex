@@ -1,6 +1,7 @@
 import { prisma } from '../prisma.js';
 import { ALL_SUBJECTS_MOCK_PACK_KEY, SINGLE_SUBJECT_MOCK_PASS_PREFIX, getSingleSubjectProductKey } from './products.js';
 import { createRazorpayRefund } from './razorpay.js';
+import { createCashfreeRefund } from './cashfree.js';
 import { revokeEntitlement } from './entitlements.js';
 
 export type RefundEligibilityResult = {
@@ -201,19 +202,32 @@ export async function executeAutoRefund({
     where: { id: orderId },
   });
 
-  if (!order || order.userId !== userId || order.status !== 'paid' || !order.razorpayPaymentId) {
+  if (!order || order.userId !== userId || order.status !== 'paid') {
     throw new Error('Order is not eligible for refund processing.');
   }
 
-  const refundRes = await createRazorpayRefund({
-    paymentId: order.razorpayPaymentId,
-    amount: order.amount,
-    notes: {
-      userId,
-      reason,
-      autoRefund: 'true',
-    },
-  });
+  let refundId = `rfd_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+
+  if (order.paymentGateway === 'cashfree' || !order.razorpayPaymentId) {
+    const cfRefund = await createCashfreeRefund({
+      orderId: order.razorpayOrderId,
+      refundId,
+      refundAmountPaise: order.amount,
+      refundNote: reason || 'Satisfaction Guarantee Refund',
+    });
+    refundId = cfRefund.refundId;
+  } else if (order.razorpayPaymentId) {
+    const refundRes = await createRazorpayRefund({
+      paymentId: order.razorpayPaymentId,
+      amount: order.amount,
+      notes: {
+        userId,
+        reason,
+        autoRefund: 'true',
+      },
+    });
+    refundId = refundRes.id;
+  }
 
   return prisma.$transaction(async (tx) => {
     await tx.paymentOrder.update({
@@ -243,7 +257,7 @@ export async function executeAutoRefund({
         refundType: 'total',
         amountPaise: order.amount,
         status: 'processed',
-        razorpayRefundId: refundRes.id,
+        razorpayRefundId: refundId,
         processedAt: new Date(),
       },
     });

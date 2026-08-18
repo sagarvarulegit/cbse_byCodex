@@ -705,20 +705,22 @@ enum EntitlementStatus {
 }
 
 model PaymentOrder {
-  id                String             @id @default(cuid())
-  userId            String
-  razorpayOrderId   String             @unique
-  amount            Int                // In paise (e.g. 19900 = ₹199)
-  currency          String             @default("INR")
-  productKey        String
-  subjectSlug       String?
-  status            PaymentOrderStatus @default(created)
-  razorpayPaymentId String?
-  razorpaySignature String?
-  receipt           String
-  notesJson         Json?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  id                      String             @id @default(cuid())
+  userId                  String
+  razorpayOrderId         String             @unique // acts as primary unique gateway order ID
+  paymentGateway          String             @default("cashfree") // "cashfree" | "razorpay"
+  gatewayPaymentSessionId String?
+  amount                  Int                // In paise (e.g. 19900 = ₹199)
+  currency                String             @default("INR")
+  productKey              String
+  subjectSlug             String?
+  status                  PaymentOrderStatus @default(created)
+  razorpayPaymentId       String?
+  razorpaySignature       String?
+  receipt                 String
+  notesJson               Json?
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
 
   user           User              @relation(fields: [userId], references: [id])
   entitlements   UserEntitlement[]

@@ -13,6 +13,11 @@ import {
   verifyRazorpayWebhookSignature,
 } from '../lib/payments/razorpay.js';
 import {
+  createCashfreeOrder,
+  fetchCashfreeOrder,
+  verifyCashfreeWebhookSignature,
+} from '../lib/payments/cashfree.js';
+import {
   getUserActiveEntitlements,
   grantEntitlement,
   revokeEntitlement,
@@ -218,7 +223,7 @@ paymentsRouter.get('/entitlements', async (req: Request, res: Response) => {
 /**
  * POST /v1/payments/create-order
  * Body: { productKey, subjectSlug? }
- * Creates a Razorpay order and a local PaymentOrder record.
+ * Creates a Cashfree order and a local PaymentOrder record.
  */
 paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
   const user = await requireSessionUser(req);
@@ -240,25 +245,27 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
     return res.status(400).json({ message: `Invalid productKey: ${productKey}` });
   }
 
+  const orderId = `order_${user.id.slice(-6)}_${Date.now().toString(36)}`;
   const receipt = `rcpt_${user.id.slice(-6)}_${Date.now().toString(36)}`;
 
   try {
-    const razorpayOrder = await createRazorpayOrder({
-      amount: product.pricePaise,
+    const cashfreeOrder = await createCashfreeOrder({
+      orderId,
+      amountPaise: product.pricePaise,
       currency: product.currency,
-      receipt,
-      notes: {
-        userId: user.id,
-        userEmail: user.email || '',
-        productKey: product.key,
-        subjectSlug: subjectSlug || '',
-      },
+      customerId: user.id,
+      customerName: user.fullName || 'Class 10 Student',
+      customerEmail: user.email || 'student@chapterready.in',
+      customerPhone: '9999999999',
+      orderNote: product.title,
     });
 
     const paymentOrder = await prisma.paymentOrder.create({
       data: {
         userId: user.id,
-        razorpayOrderId: razorpayOrder.id,
+        razorpayOrderId: cashfreeOrder.orderId,
+        paymentGateway: 'cashfree',
+        gatewayPaymentSessionId: cashfreeOrder.paymentSessionId,
         amount: product.pricePaise,
         currency: product.currency,
         productKey: product.key,
@@ -272,11 +279,13 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
     });
 
     return res.status(201).json({
-      orderId: razorpayOrder.id,
+      gateway: 'cashfree',
+      orderId: cashfreeOrder.orderId,
+      paymentSessionId: cashfreeOrder.paymentSessionId,
       paymentOrderId: paymentOrder.id,
-      amount: razorpayOrder.amount,
-      currency: razorpayOrder.currency,
-      keyId: razorpayOrder.keyId,
+      amount: cashfreeOrder.amount,
+      currency: cashfreeOrder.currency,
+      mode: cashfreeOrder.mode,
       product: {
         key: product.key,
         title: product.title,
@@ -284,7 +293,7 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('Failed to create Razorpay order:', error);
+    console.error('Failed to create Cashfree order:', error);
     const message = error instanceof Error ? error.message : 'Failed to initiate payment.';
     return res.status(500).json({
       message: 'Failed to initiate payment. Please try again.',
@@ -295,8 +304,8 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
 
 /**
  * POST /v1/payments/verify
- * Body: { razorpayOrderId, razorpayPaymentId, razorpaySignature }
- * Verifies payment signature and immediately activates user entitlement.
+ * Body: { orderId, razorpayOrderId?, razorpayPaymentId?, razorpaySignature? }
+ * Verifies payment status and immediately activates user entitlement.
  */
 paymentsRouter.post('/verify', async (req: Request, res: Response) => {
   const user = await requireSessionUser(req);
@@ -304,29 +313,150 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Sign in to verify payment.' });
   }
 
-  const { razorpayOrderId, razorpayPaymentId, razorpaySignature } = (req.body as {
+  const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = (req.body as {
+    orderId?: string;
     razorpayOrderId?: string;
     razorpayPaymentId?: string;
     razorpaySignature?: string;
   }) || {};
 
-  if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
-    return res.status(400).json({ message: 'Missing required Razorpay verification parameters.' });
-  }
-
-  const isValid = verifyRazorpaySignature({
-    orderId: razorpayOrderId,
-    paymentId: razorpayPaymentId,
-    signature: razorpaySignature,
-  });
-
-  if (!isValid) {
-    return res.status(400).json({ message: 'Payment verification failed: invalid signature.' });
+  const targetOrderId = orderId || razorpayOrderId;
+  if (!targetOrderId) {
+    return res.status(400).json({ message: 'Missing orderId parameter.' });
   }
 
   const paymentOrder = await prisma.paymentOrder.findUnique({
-    where: { razorpayOrderId },
+    where: { razorpayOrderId: targetOrderId },
   });
+
+  if (!paymentOrder) {
+    return res.status(404).json({ message: 'Order record not found.' });
+  }
+
+  if (paymentOrder.userId !== user.id) {
+    return res.status(403).json({ message: 'Order does not belong to this user.' });
+  }
+
+  // If already paid, return success immediately
+  if (paymentOrder.status === 'paid') {
+    return res.json({
+      success: true,
+      message: 'Payment already verified.',
+      productKey: paymentOrder.productKey,
+      subjectSlug: paymentOrder.subjectSlug,
+    });
+  }
+
+  if (paymentOrder.paymentGateway === 'cashfree') {
+    const cfOrder = await fetchCashfreeOrder(targetOrderId);
+    if (cfOrder.status !== 'PAID') {
+      return res.status(400).json({ message: `Payment not completed yet (status: ${cfOrder.status}).` });
+    }
+  } else if (razorpayOrderId && razorpayPaymentId && razorpaySignature) {
+    const isValid = verifyRazorpaySignature({
+      orderId: razorpayOrderId,
+      paymentId: razorpayPaymentId,
+      signature: razorpaySignature,
+    });
+    if (!isValid) {
+      return res.status(400).json({ message: 'Payment verification failed: invalid signature.' });
+    }
+  }
+
+  // Update order status and grant entitlement
+  await prisma.$transaction(async (tx) => {
+    await tx.paymentOrder.update({
+      where: { id: paymentOrder.id },
+      data: {
+        status: 'paid',
+        razorpayPaymentId: razorpayPaymentId || `cf_${targetOrderId}`,
+      },
+    });
+
+    await tx.userEntitlement.upsert({
+      where: {
+        userId_productKey_subjectSlug: {
+          userId: user.id,
+          productKey: paymentOrder.productKey,
+          subjectSlug: paymentOrder.subjectSlug ?? '',
+        },
+      },
+      update: {
+        status: 'active',
+        paymentOrderId: paymentOrder.id,
+        validFrom: new Date(),
+      },
+      create: {
+        userId: user.id,
+        productKey: paymentOrder.productKey,
+        subjectSlug: paymentOrder.subjectSlug,
+        scope: 'mock_test_series',
+        status: 'active',
+        paymentOrderId: paymentOrder.id,
+      },
+    });
+  });
+
+  return res.json({
+    success: true,
+    message: 'Payment verified and entitlement activated successfully.',
+    productKey: paymentOrder.productKey,
+    subjectSlug: paymentOrder.subjectSlug,
+  });
+});
+
+/**
+ * POST /v1/payments/cashfree-webhook
+ * Cashfree asynchronous webhook handler for order payment and refunds.
+ */
+paymentsRouter.post('/cashfree-webhook', async (req: Request, res: Response) => {
+  const signature = req.headers['x-webhook-signature'] as string | undefined;
+  const timestamp = req.headers['x-webhook-timestamp'] as string | undefined;
+  const rawBody = JSON.stringify(req.body);
+
+  if (signature && timestamp) {
+    const isValid = verifyCashfreeWebhookSignature({
+      rawBody,
+      timestamp,
+      signature,
+    });
+    if (!isValid) {
+      return res.status(400).json({ message: 'Invalid Cashfree webhook signature.' });
+    }
+  }
+
+  const type = req.body?.type;
+  const data = req.body?.data;
+  const orderId = data?.order?.order_id || data?.order_id;
+
+  if (type === 'PAYMENT_SUCCESS_WEBHOOK' || type === 'ORDER_PAID_SUCCESS' || data?.order?.order_status === 'PAID') {
+    if (orderId) {
+      const order = await prisma.paymentOrder.findUnique({
+        where: { razorpayOrderId: orderId },
+      });
+
+      if (order && order.status !== 'paid') {
+        await grantEntitlement({
+          userId: order.userId,
+          productKey: order.productKey,
+          subjectSlug: order.subjectSlug,
+          paymentOrderId: order.id,
+        });
+
+        await prisma.paymentOrder.update({
+          where: { id: order.id },
+          data: {
+            status: 'paid',
+            razorpayPaymentId: data?.payment?.cf_payment_id ? String(data.payment.cf_payment_id) : `cf_${orderId}`,
+          },
+        });
+      }
+    }
+  }
+
+  return res.json({ status: 'ok' });
+});
+
 
   if (!paymentOrder) {
     return res.status(404).json({ message: 'Order record not found.' });

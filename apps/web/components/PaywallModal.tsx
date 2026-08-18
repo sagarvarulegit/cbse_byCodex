@@ -12,6 +12,16 @@ declare global {
     Razorpay?: new (options: RazorpayOptions) => {
       open: () => void;
     };
+    Cashfree?: (options: { mode: 'production' | 'sandbox' }) => {
+      checkout: (options: {
+        paymentSessionId: string;
+        redirectTarget?: '_modal' | '_self' | '_blank';
+      }) => Promise<{
+        error?: { message: string; code: string };
+        redirect?: boolean;
+        paymentDetails?: { paymentMessage: string };
+      }>;
+    };
   }
 }
 
@@ -66,13 +76,21 @@ export default function PaywallModal({
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Load Razorpay checkout script on mount
+  // Load Cashfree & Razorpay checkout scripts on mount
   useEffect(() => {
-    if (typeof window !== 'undefined' && !window.Razorpay) {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.async = true;
-      document.body.appendChild(script);
+    if (typeof window !== 'undefined') {
+      if (!window.Cashfree) {
+        const cfScript = document.createElement('script');
+        cfScript.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
+        cfScript.async = true;
+        document.body.appendChild(cfScript);
+      }
+      if (!window.Razorpay) {
+        const rzpScript = document.createElement('script');
+        rzpScript.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        rzpScript.async = true;
+        document.body.appendChild(rzpScript);
+      }
     }
   }, []);
 
@@ -100,15 +118,11 @@ export default function PaywallModal({
         throw new Error('Could not initiate order with server. Please try again.');
       }
 
-      if (!window.Razorpay) {
-        // If razorpay script hasn't loaded or in simulation mode
-        if (orderData.keyId.startsWith('rzp_test_placeholder')) {
-          // Simulate local verification in dev mode
-          const simRes = await verifyPayment(token, {
-            razorpayOrderId: orderData.orderId,
-            razorpayPaymentId: `pay_sim_${Date.now()}`,
-            razorpaySignature: `sim_sig_${orderData.orderId}_pay_sim_${Date.now()}`,
-          });
+      // 1. Primary: Cashfree PG Modal Checkout
+      if (orderData.paymentSessionId) {
+        if (orderData.paymentSessionId.startsWith('session_sim_')) {
+          // Simulated test mode
+          const simRes = await verifyPayment(token, { orderId: orderData.orderId });
           if (simRes?.success) {
             setIsProcessing(false);
             onSuccess(productKey);
@@ -116,57 +130,98 @@ export default function PaywallModal({
             return;
           }
         }
-        throw new Error('Payment gateway is loading. Please try again in a moment.');
+
+        if (!window.Cashfree) {
+          throw new Error('Payment gateway is loading. Please try again in a few seconds.');
+        }
+
+        const cashfree = window.Cashfree({
+          mode: orderData.mode || 'production',
+        });
+
+        const checkoutResult = await cashfree.checkout({
+          paymentSessionId: orderData.paymentSessionId,
+          redirectTarget: '_modal',
+        });
+
+        if (checkoutResult?.error) {
+          setIsProcessing(false);
+          setErrorMessage(checkoutResult.error.message || 'Payment was cancelled or closed.');
+          return;
+        }
+
+        // Verify order on backend
+        const verifyRes = await verifyPayment(token, { orderId: orderData.orderId });
+        if (verifyRes?.success) {
+          setIsProcessing(false);
+          onSuccess(productKey);
+          onClose();
+          return;
+        } else {
+          setIsProcessing(false);
+          setErrorMessage(verifyRes?.message || 'Payment verification pending. Please refresh.');
+          return;
+        }
       }
 
-      const options: RazorpayOptions = {
-        key: orderData.keyId,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'ChapterReady CBSE Class 10',
-        description: orderData.product.title,
-        order_id: orderData.orderId,
-        prefill: {
-          name: userFullName,
-          email: userEmail,
-        },
-        theme: {
-          color: '#171513',
-        },
-        handler: async (response: RazorpayResponse) => {
-          try {
-            const verifyRes = await verifyPayment(token, {
-              razorpayOrderId: response.razorpay_order_id,
-              razorpayPaymentId: response.razorpay_payment_id,
-              razorpaySignature: response.razorpay_signature,
-            });
+      // 2. Razorpay Fallback (if configured)
+      if (orderData.keyId) {
+        if (!window.Razorpay) {
+          throw new Error('Payment gateway is loading. Please try again in a moment.');
+        }
 
-            if (verifyRes?.success) {
-              setIsProcessing(false);
-              onSuccess(productKey);
-              onClose();
-            } else {
-              setErrorMessage('Payment verification failed. Please contact support.');
+        const options: RazorpayOptions = {
+          key: orderData.keyId,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: 'ChapterReady CBSE Class 10',
+          description: orderData.product.title,
+          order_id: orderData.orderId,
+          prefill: {
+            name: userFullName,
+            email: userEmail,
+          },
+          theme: {
+            color: '#171513',
+          },
+          handler: async (response: RazorpayResponse) => {
+            try {
+              const verifyRes = await verifyPayment(token, {
+                orderId: response.razorpay_order_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              });
+
+              if (verifyRes?.success) {
+                setIsProcessing(false);
+                onSuccess(productKey);
+                onClose();
+              } else {
+                setErrorMessage('Payment verification failed. Please contact support.');
+                setIsProcessing(false);
+              }
+            } catch (err: unknown) {
+              setErrorMessage(
+                err instanceof Error ? err.message : 'Error verifying payment.',
+              );
               setIsProcessing(false);
             }
-          } catch (err: unknown) {
-            const message = err instanceof Error ? err.message : 'Payment verification error.';
-            setErrorMessage(message);
-            setIsProcessing(false);
-          }
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessing(false);
           },
-        },
-      };
+          modal: {
+            ondismiss: () => {
+              setIsProcessing(false);
+            },
+          },
+        };
 
-      const razorpayInstance = new window.Razorpay(options);
-      razorpayInstance.open();
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Payment initialization failed.';
-      setErrorMessage(message);
+      setErrorMessage(
+        err instanceof Error ? err.message : 'Unable to launch checkout. Please try again.',
+      );
       setIsProcessing(false);
     }
   }
