@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import MathText from './MathText';
+import TaraFireflyIcon from './TaraFireflyIcon';
 
 type Message = {
   id: string;
@@ -33,10 +34,14 @@ const CHAPTER_LINKS: Record<string, string> = {
   'a-letter-to-god': '/chapters/a-letter-to-god',
 };
 
-function fireflyAvatar() {
+function fireflyAvatar(size: number = 34) {
   return (
-    <span className="tara-avatar" aria-hidden="true">
-      <img src="/logo/firefly.png" alt="" />
+    <span
+      className="tara-avatar"
+      aria-hidden="true"
+      style={{ width: size, height: size, flex: `0 0 ${size}px` }}
+    >
+      <TaraFireflyIcon size={size} glow />
     </span>
   );
 }
@@ -273,15 +278,22 @@ export default function TaraWidget() {
         onClick={() => setOpen((current) => !current)}
         aria-label="Ask Tara-Firefly, your AI tutor"
         aria-expanded={open}
+        title="Ask Tara-Firefly (AI Tutor)"
       >
-        {open ? '✕' : fireflyAvatar()}
+        {open ? (
+          <span className="tara-bubble-close">✕</span>
+        ) : (
+          <span className="tara-bubble-icon">
+            <TaraFireflyIcon size={52} glow />
+          </span>
+        )}
       </button>
 
       {open && (
         <div className={`tara-window${maximized ? ' tara-window-maximized' : ''}`}>
           <div className="tara-header">
             <div className="tara-header-title">
-              {fireflyAvatar()}
+              {fireflyAvatar(40)}
               <div>
                 <strong>Tara-Firefly</strong>
                 <span className="tara-subtitle">Your Class 10 AI tutor</span>
@@ -338,7 +350,7 @@ export default function TaraWidget() {
               <div className="tara-thread">
                 {messages.map((message) => (
                   <div key={message.id} className={`tara-msg tara-msg-${message.role}`}>
-                    {message.role === 'assistant' && fireflyAvatar()}
+                    {message.role === 'assistant' && fireflyAvatar(32)}
                     <div className="tara-bubble-text">
                       <span>{renderTaraContent(message.contentMarkdown, message.id)}</span>
                       {message.attachments && message.attachments.length > 0 && (
@@ -354,7 +366,7 @@ export default function TaraWidget() {
                 ))}
                 {streaming && (
                   <div className="tara-msg tara-msg-assistant">
-                    {fireflyAvatar()}
+                    {fireflyAvatar(32)}
                     <div className="tara-bubble-text tara-streaming">
                       <span>{renderTaraContent(streamText, 'stream')}</span>
                       <span className="tara-typing">…</span>
@@ -421,16 +433,32 @@ export default function TaraWidget() {
 
       <style>{`
         .tara-bubble {
-          position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px;
-          border-radius: 50%; background: linear-gradient(135deg, #ffd66b, #f3883b);
-          color: #171513; border: 3px solid #171513; box-shadow: 4px 4px 0 #171513;
-          font-size: 26px; cursor: pointer; z-index: 9999;
+          position: fixed; bottom: 24px; right: 24px; width: 68px; height: 68px;
+          border-radius: 50%; background: linear-gradient(135deg, #fff3b0 0%, #ffd166 50%, #f77f00 100%);
+          color: #171513; border: 3px solid #171513; box-shadow: 4px 4px 0 #171513, 0 4px 20px rgba(247,127,0,0.4);
+          cursor: pointer; z-index: 9999;
           display: flex; align-items: center; justify-content: center;
-          transition: transform 0.15s;
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+          padding: 0;
         }
-        .tara-bubble:hover { transform: scale(1.1); }
+        .tara-bubble:hover {
+          transform: scale(1.12) translateY(-2px);
+          box-shadow: 5px 6px 0 #171513, 0 6px 25px rgba(247,127,0,0.55);
+        }
+        .tara-bubble-icon {
+          display: flex; align-items: center; justify-content: center;
+          width: 100%; height: 100%;
+          animation: fireflyFloat 3s ease-in-out infinite;
+        }
+        @keyframes fireflyFloat {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-3px) rotate(3deg); }
+        }
+        .tara-bubble-close {
+          font-size: 26px; font-weight: 900; line-height: 1;
+        }
         .tara-window {
-          position: fixed; bottom: 96px; right: 24px; width: 380px; max-width: calc(100vw - 48px);
+          position: fixed; bottom: 104px; right: 24px; width: 380px; max-width: calc(100vw - 48px);
           height: 560px; max-height: calc(100vh - 140px); background: #fff;
           border: 3px solid #171513; border-radius: 16px; box-shadow: 8px 8px 0 rgba(23,21,19,0.15);
           display: flex; flex-direction: column; z-index: 9998; overflow: hidden;
@@ -442,15 +470,13 @@ export default function TaraWidget() {
         }
         .tara-avatar {
           display: inline-flex; align-items: center; justify-content: center;
-          width: 34px; height: 34px; flex: 0 0 34px;
         }
-        .tara-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; }
         .tara-header {
           display: flex; justify-content: space-between; align-items: center; gap: 8px;
           padding: 12px 14px; background: linear-gradient(135deg, #ffd66b, #f3883b);
           border-bottom: 3px solid #171513;
         }
-        .tara-header-title { display: flex; align-items: center; gap: 8px; }
+        .tara-header-title { display: flex; align-items: center; gap: 10px; }
         .tara-header-title strong { font-family: 'Bangers', cursive; font-size: 22px; letter-spacing: 0.5px; }
         .tara-subtitle { display: block; font-size: 12px; color: #5a4a22; }
         .tara-header-actions button {
