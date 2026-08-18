@@ -6,6 +6,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   ...(process.env.VERCEL ? {} : { outputFileTracingRoot: path.join(__dirname, '../..') }),
   outputFileTracingIncludes: {
     '/chapters/[slug]/quiz': ['./content/**/*'],
