@@ -1,21 +1,14 @@
-# Current Handoff - Commercial Monetization, Conversion Psychology & Refund Engine
+# Current Handoff - Cashfree Payment Gateway & Refund Engine Live on Production
 
-- [x] Implemented complete Commercial Monetization, Paywall Gating, Psychological Conversion & Self-Service Refund Engine for CBSE Class 10 Mock Test Series:
-  - **The Gating Rule**: Mock Paper 1 is 100% Free Forever across all 4 subjects (Maths 041, Science 086, SST 087, English 184) as a high-converting lead magnet. Mock Papers 2–5 are locked behind the paywall.
-  - **Prisma & Database**: Added `PaymentOrder`, `UserEntitlement`, and `RefundRequest` models with enums `PaymentOrderStatus`, `EntitlementStatus`, `RefundRequestStatus`, `RefundType`. Synced to Supabase PostgreSQL.
-  - **Pricing & Products**: Built `apps/api/src/lib/payments/products.ts`:
-    - All 4-Subject Board Mock Pack (`cbse10-all-subjects-mock-pack`): ₹199 (20 Papers, 60% discount from ₹499, ₹10/paper).
-    - Single-Subject Pass (`cbse10-mock-pass-<subject>`): ₹99 (5 Papers per subject).
-  - **Razorpay Payments API**: Built `apps/api/src/lib/payments/razorpay.ts` (REST order creation, refund initiation, HMAC SHA-256 signature verification, webhook handler) and `apps/api/src/routes/payments.ts` (`/products`, `/orders`, `/entitlements`, `/create-order`, `/verify`, `/refund-request`, `/swap-subject`, `/admin/refund`, `/webhook`).
-  - **Refund Engine (`refund-rules.ts`)**: 
-    - Duplicate charge auto-detection & instant refund.
-    - 48-hour satisfaction guarantee with abuse prevention guard (<2 premium papers attempted = instant auto-refund; >2 papers = manual review).
-    - 1-click free subject swap for single-subject passes.
-  - **High-Converting Psychology & UI/UX**:
-    - Endowed progress stepper ("Step 1 of 5 Ready (20% Complete)").
-    - Juxtaposition comparison matrix (Physical books ₹1,600+ vs Coaching ₹3,000+ vs ChapterReady ₹199).
-    - Loss aversion / cost of careless mistakes framing.
-  - **Student Web UI**: Built `PaywallModal.tsx`, `RefundModal.tsx`, `refund-policy/page.tsx`, and updated `MockTestSeriesCard.tsx` and `app/page.tsx`.
+- [x] Integrated **Cashfree Payment Gateway (PG)** as primary checkout provider alongside robust self-service refund and subject swap engines:
+  - **Cashfree PG Engine (`apps/api/src/lib/payments/cashfree.ts`)**:
+    - REST Order creation with `x-api-version: 2023-08-01` returning `payment_session_id`.
+    - Real-time Order status check (`fetchCashfreeOrder`) to verify `PAID` status.
+    - Automated Instant Refunds (`createCashfreeRefund`) for duplicate orders and 48-hour satisfaction guarantee.
+    - Webhook Signature verification (`verifyCashfreeWebhookSignature`) using HMAC SHA-256.
+  - **Prisma Schema & Database**: Updated `PaymentOrder` with `paymentGateway: "cashfree"` and `gatewayPaymentSessionId`. Synced to Supabase PostgreSQL.
+  - **Checkout Modal (`PaywallModal.tsx`)**: Integrated Cashfree Web JS SDK (`https://sdk.cashfree.com/js/v3/cashfree.js`) with native popup checkout (`redirectTarget: "_modal"`). Supports UPI (GPay, PhonePe, Paytm, BHIM), Cards, and NetBanking.
+  - **Production Deployed**: Both `https://cbse-bycodex-api.vercel.app` and `https://www.chapterready.in` are deployed and verified live on Vercel.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
 
