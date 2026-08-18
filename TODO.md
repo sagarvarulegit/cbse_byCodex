@@ -1,13 +1,18 @@
-# Current Handoff - AI Tutor Tara Firefly Transparent Vector Avatar & Bubble Redesign Live on Production
+# Current Handoff - CBSE Board Exam Readiness Insights & Weak Area Diagnostics Live on Production
 
-- [x] Implemented and deployed **AI Tutor Tara Firefly Avatar Redesign**:
-  - **100% Vector Transparent Firefly Avatar ([`apps/web/components/TaraFireflyIcon.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/TaraFireflyIcon.tsx) & [`apps/web/public/logo/firefly.svg`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/public/logo/firefly.svg))**:
-    - Replaced pixelated raster graphic with a sharp, scalable transparent SVG vector icon.
-    - Designed with luminescent golden radial glow abdomen, translucent iridescent fairy wings, expressive friendly eyes, and playful antennae with sparks that adapts cleanly to any background.
-  - **Floating Bubble & Chat UI Integration ([`apps/web/components/TaraWidget.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/TaraWidget.tsx))**:
-    - Enlarged floating launcher bubble to 68px with golden gradient ring, dark comic border, and floating breathing animation (`@keyframes fireflyFloat`).
-    - Bubble firefly icon enlarged to 52px so the firefly character and glowing tail are unmistakably visible.
-    - Upgraded chat header avatar (40px) and assistant message response avatar (32px).
+- [x] Implemented and deployed **Insight-Driven Student Dashboard with Preserved Study Jukebox**:
+  - **Real-Time Board Readiness Gauge ([`apps/web/components/BoardReadinessGauge.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/BoardReadinessGauge.tsx))**:
+    - Weighted composite exam readiness index (Quizzes 40% + 80-Mark Mock Papers 40% + Syllabus Units Read 20%).
+    - Dynamic performance tiers (*Topper Track 90%+*, *Exam Ready 70%+*, *Skilled Learner 40%+*, *Getting Started*).
+    - Circular progress SVG ring and 4 micro-pillar stats (Quiz Mastery %, Mock Exam Avg %, Syllabus Covered X/48, Active Study Streak 🔥).
+  - **Signature Study Jukebox Preserved ([`apps/web/components/StudyRemixDashboard.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/StudyRemixDashboard.tsx))**:
+    - Kept our signature "Today's Study Remix" (Side A: Quick Focus, Side B: Deep Study) as the core daily focus & audio track engine.
+  - **Targeted Weak Area Diagnostics & Remedial Hub ([`apps/web/components/WeakAreaDiagnosticsCard.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/WeakAreaDiagnosticsCard.tsx))**:
+    - Automatically surfaces chapters and question types where the student struggled during quizzes or full mock papers.
+    - 1-Click **"🚀 5-Min Concept Recap"** buttons linking directly into simplified notes.
+    - Integrated Spaced Repetition Mistake Queue counter with 1-click **"Open Mistake Vault"** access.
+  - **Harmonious Dashboard Hierarchy ([`apps/web/app/dashboard/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/dashboard/page.tsx))**:
+    - Hero: Board Readiness Gauge + Streak ➔ Zone 1: Signature Jukebox ➔ Zone 2: Weak Area Diagnostics ➔ Zone 3: 4 Core Subject Stations (Maths, Science, SST, English) ➔ Zone 4: Trophies & Milestones ➔ Zone 5: Account Profile Tools.
   - **Production Deployed**: Web ([https://www.chapterready.in](https://www.chapterready.in)) is live and verified.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
