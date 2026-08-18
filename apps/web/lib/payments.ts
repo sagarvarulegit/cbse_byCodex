@@ -89,15 +89,52 @@ async function apiFetch<T>(
   }
 }
 
+// In-memory caches for high performance and reduced DB load
+let cachedProducts: { data: PaymentProduct[]; timestamp: number } | null = null;
+const entitlementsCache = new Map<string, { data: StudentEntitlementsResponse; timestamp: number }>();
+const ordersCache = new Map<string, { data: StudentOrder[]; timestamp: number }>();
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+
+export function invalidatePaymentsCache(token?: string | null) {
+  if (token) {
+    entitlementsCache.delete(token);
+    ordersCache.delete(token);
+  } else {
+    entitlementsCache.clear();
+    ordersCache.clear();
+  }
+}
+
 export async function fetchPaymentProducts(): Promise<PaymentProduct[]> {
+  const now = Date.now();
+  if (cachedProducts && now - cachedProducts.timestamp < 3600 * 1000) {
+    return cachedProducts.data;
+  }
+
   const data = await apiFetch<{ products: PaymentProduct[] }>(null, '/v1/payments/products');
-  return data?.products || [];
+  const products = data?.products || [];
+  if (products.length > 0) {
+    cachedProducts = { data: products, timestamp: now };
+  }
+  return products;
 }
 
 export async function fetchStudentEntitlements(
   token: string | null,
 ): Promise<StudentEntitlementsResponse | null> {
-  return apiFetch<StudentEntitlementsResponse>(token, '/v1/payments/entitlements');
+  if (!token) return null;
+
+  const now = Date.now();
+  const cached = entitlementsCache.get(token);
+  if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+    return cached.data;
+  }
+
+  const data = await apiFetch<StudentEntitlementsResponse>(token, '/v1/payments/entitlements');
+  if (data) {
+    entitlementsCache.set(token, { data, timestamp: now });
+  }
+  return data;
 }
 
 export async function createPaymentOrder(
@@ -120,10 +157,16 @@ export async function verifyPayment(
     razorpaySignature?: string;
   },
 ): Promise<VerifyPaymentResponse | null> {
-  return apiFetch<VerifyPaymentResponse>(token, '/v1/payments/verify', {
+  const res = await apiFetch<VerifyPaymentResponse>(token, '/v1/payments/verify', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+
+  if (res?.success) {
+    invalidatePaymentsCache(token);
+  }
+
+  return res;
 }
 
 export type StudentOrder = {
@@ -157,8 +200,20 @@ export type StudentOrder = {
 export async function fetchStudentOrders(
   token: string | null,
 ): Promise<StudentOrder[]> {
+  if (!token) return [];
+
+  const now = Date.now();
+  const cached = ordersCache.get(token);
+  if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   const data = await apiFetch<{ orders: StudentOrder[] }>(token, '/v1/payments/orders');
-  return data?.orders || [];
+  const orders = data?.orders || [];
+  if (orders.length > 0) {
+    ordersCache.set(token, { data: orders, timestamp: now });
+  }
+  return orders;
 }
 
 export async function submitRefundRequest(
@@ -169,22 +224,35 @@ export async function submitRefundRequest(
     details?: string;
   },
 ): Promise<{ success: boolean; status: string; message: string; refundId?: string } | null> {
-  return apiFetch(token, '/v1/payments/refund-request', {
+  const res = await apiFetch<{ success: boolean; status: string; message: string; refundId?: string }>(token, '/v1/payments/refund-request', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+
+  if (res?.success) {
+    invalidatePaymentsCache(token);
+  }
+
+  return res;
 }
 
 export async function swapSubjectPass(
   token: string | null,
   payload: {
     orderId: string;
-    targetSubjectSlug: string;
+    targetSubjectSlug?: string;
+    newSubjectSlug?: string;
   },
 ): Promise<{ success: boolean; message: string } | null> {
-  return apiFetch(token, '/v1/payments/swap-subject', {
+  const targetSubject = payload.targetSubjectSlug || payload.newSubjectSlug;
+  const res = await apiFetch<{ success: boolean; message: string }>(token, '/v1/payments/swap-subject', {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ orderId: payload.orderId, targetSubjectSlug: targetSubject }),
   });
-}
 
+  if (res?.success) {
+    invalidatePaymentsCache(token);
+  }
+
+  return res;
+}

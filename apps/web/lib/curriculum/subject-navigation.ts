@@ -137,11 +137,17 @@ export function getCurriculumSubjectChapterEntries(
   return entries;
 }
 
+let cachedSubjectCatalog: SubjectCatalogItem[] | null = null;
+
 export function buildSubjectCatalog(
   subjects: CurriculumSubject[],
   chapterEntries: ChapterEntry[],
 ): SubjectCatalogItem[] {
-  return subjects.map((subject) => {
+  if (cachedSubjectCatalog) {
+    return cachedSubjectCatalog;
+  }
+
+  const catalog = subjects.map((subject) => {
     const subjectChapterEntries = getCurriculumSubjectChapterEntries(subject, chapterEntries);
     const lessonWiseCount = subjectChapterEntries.filter(
       ([, chapter]) => getAvailableLessons(chapter).length > 0,
@@ -169,6 +175,9 @@ export function buildSubjectCatalog(
         'Browse the current curriculum map, active chapters, and revision-ready learning paths.',
     };
   });
+
+  cachedSubjectCatalog = catalog;
+  return catalog;
 }
 
 export function getChapterDeliveryKind(

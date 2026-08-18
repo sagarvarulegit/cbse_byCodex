@@ -38,6 +38,7 @@ export const paymentsRouter = Router();
  * Returns all available commercial packages and pricing.
  */
 paymentsRouter.get('/products', async (_req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400');
   const products = getAllAvailableProducts();
   return res.json({ products });
 });
@@ -202,6 +203,7 @@ paymentsRouter.get('/entitlements', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Sign in to check entitlements.' });
   }
 
+  res.setHeader('Cache-Control', 'private, max-age=30, stale-while-revalidate=60');
   const entitlements = await getUserActiveEntitlements(user.id);
   const hasAllSubjects = entitlements.some(
     (e) => e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,

@@ -103,10 +103,30 @@ export function getChapterMasteryDisplay(chapterMastery?: ChapterMasterySummary)
   } as const;
 }
 
+const masteryCache = new Map<string, { data: MasteryPayload; timestamp: number }>();
+const MASTERY_CACHE_TTL_MS = 15 * 1000; // 15s cache
+
+export function invalidateMasteryCache(token?: string | null) {
+  if (token) {
+    for (const key of masteryCache.keys()) {
+      if (key.startsWith(token)) masteryCache.delete(key);
+    }
+  } else {
+    masteryCache.clear();
+  }
+}
+
 export async function getStudentMastery(chapterSlug?: string): Promise<MasteryPayload> {
   const token = await getStudentSessionToken();
   if (!token) {
     return EMPTY_MASTERY_PAYLOAD;
+  }
+
+  const cacheKey = `${token}:${chapterSlug || 'global'}`;
+  const now = Date.now();
+  const cached = masteryCache.get(cacheKey);
+  if (cached && now - cached.timestamp < MASTERY_CACHE_TTL_MS) {
+    return cached.data;
   }
 
   const url = new URL('/v1/progress/mastery', API_BASE_URL);
@@ -125,5 +145,7 @@ export async function getStudentMastery(chapterSlug?: string): Promise<MasteryPa
     return EMPTY_MASTERY_PAYLOAD;
   }
 
-  return (await response.json().catch(() => EMPTY_MASTERY_PAYLOAD)) as MasteryPayload;
+  const data = (await response.json().catch(() => EMPTY_MASTERY_PAYLOAD)) as MasteryPayload;
+  masteryCache.set(cacheKey, { data, timestamp: now });
+  return data;
 }

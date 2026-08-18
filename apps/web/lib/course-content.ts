@@ -1838,7 +1838,15 @@ export function hasChapterPack(slug: string) {
   return slug in chapterPacks;
 }
 
+const chapterPackCache = new Map<string, ChapterPackContent>();
+const lessonContentCache = new Map<string, LessonContent>();
+const quizContentCache = new Map<string, string>();
+
 export function getChapterPackContent(chapterSlug: string): ChapterPackContent | null {
+  if (chapterPackCache.has(chapterSlug)) {
+    return chapterPackCache.get(chapterSlug)!;
+  }
+
   const chapter = getChapter(chapterSlug);
   const pack = chapterPacks[chapterSlug as keyof typeof chapterPacks];
 
@@ -1846,14 +1854,22 @@ export function getChapterPackContent(chapterSlug: string): ChapterPackContent |
     return null;
   }
 
-  return {
+  const content: ChapterPackContent = {
     chapterSlug,
     chapter,
     blocks: parseMarkdown(stripFrontmatter(pack.markdown)),
   };
+
+  chapterPackCache.set(chapterSlug, content);
+  return content;
 }
 
 export async function getLessonContent(chapterSlug: string, lessonSlug: string): Promise<LessonContent | null> {
+  const cacheKey = `${chapterSlug}:${lessonSlug}`;
+  if (lessonContentCache.has(cacheKey)) {
+    return lessonContentCache.get(cacheKey)!;
+  }
+
   const chapter = chapters[chapterSlug];
 
   if (!chapter) {
@@ -1887,7 +1903,7 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
 
   const markdown = stripFrontmatter(raw);
 
-  return {
+  const content: LessonContent = {
     chapterSlug,
     chapter,
     lesson,
@@ -1895,6 +1911,9 @@ export async function getLessonContent(chapterSlug: string, lessonSlug: string):
     previousLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, -1),
     nextLesson: getAdjacentAvailableLesson(chapter.lessons, lessonIndex, 1),
   };
+
+  lessonContentCache.set(cacheKey, content);
+  return content;
 }
 
 function getAdjacentAvailableLesson(
@@ -1922,13 +1941,19 @@ function getAdjacentAvailableLesson(
  * The file is expected at `${quizDirectories[chapterSlug]}/quiz.md`.
  */
 export async function getQuizContent(chapterSlug: string): Promise<string | null> {
+  if (quizContentCache.has(chapterSlug)) {
+    return quizContentCache.get(chapterSlug)!;
+  }
+
   const directory =
     quizDirectories[chapterSlug as keyof typeof quizDirectories] ??
     path.join(process.cwd(), 'content', chapterSlug, 'lessons');
   const quizPath = path.join(directory, 'quiz.md');
   try {
     const raw = await fs.readFile(quizPath, 'utf8');
-    return stripFrontmatter(raw);
+    const content = stripFrontmatter(raw);
+    quizContentCache.set(chapterSlug, content);
+    return content;
   } catch (e) {
     return null;
   }
