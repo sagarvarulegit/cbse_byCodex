@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 
+import { buildRecoveryEmailHtml, sendEmail } from '../lib/email.js';
 import { prisma } from '../lib/prisma.js';
 import { rateLimit } from '../lib/rate-limiter.js';
 import {
@@ -39,8 +40,15 @@ recoveryRouter.post('/forgot-password', recoveryLimiter, async (req: Request, re
   if (user) {
     const { otp, expiresAt } = await generateRecoveryOtp(user.id);
     console.log(`[ACCOUNT_RECOVERY] OTP for ${email} (${user.profile?.fullName || 'Student'}): ${otp} (expires ${expiresAt.toISOString()})`);
-    
-    // Debug helper for testing environments
+
+    // Dispatch email to student inbox
+    await sendEmail({
+      to: email,
+      subject: `${otp} is your ChapterReady account recovery code`,
+      html: buildRecoveryEmailHtml({ otp, studentName: user.profile?.fullName }),
+      text: `Your ChapterReady account recovery code is ${otp}. This code is valid for 15 minutes.`,
+    });
+
     return res.json({
       success: true,
       message: `A 6-digit recovery code has been sent to ${maskEmail(email)}.`,
@@ -88,6 +96,14 @@ recoveryRouter.post('/find-account', recoveryLimiter, async (req: Request, res: 
   // Generate and send recovery code immediately to the discovered account
   const { otp, expiresAt } = await generateRecoveryOtp(result.userId);
   console.log(`[ACCOUNT_RECOVERY] Discovered account for ${result.studentName || 'Student'} (${result.email}): OTP is ${otp} (expires ${expiresAt.toISOString()})`);
+
+  // Dispatch email to student inbox
+  await sendEmail({
+    to: result.email,
+    subject: `${otp} is your ChapterReady account recovery code`,
+    html: buildRecoveryEmailHtml({ otp, studentName: result.studentName }),
+    text: `Your ChapterReady account recovery code is ${otp}. This code is valid for 15 minutes.`,
+  });
 
   return res.json({
     success: true,
