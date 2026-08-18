@@ -23,25 +23,45 @@ export async function sendEmail(
   const resendApiKey = process.env.RESEND_API_KEY;
   const brevoApiKey = process.env.BREVO_API_KEY || process.env.SENDINBLUE_API_KEY;
   const sendgridApiKey = process.env.SENDGRID_API_KEY;
-  const fromEmail = process.env.EMAIL_FROM || 'ChapterReady <support@chapterready.in>';
+  const fromEmail = process.env.EMAIL_FROM || 'ChapterReady <onboarding@resend.dev>';
 
   // 1. Resend REST API
   if (resendApiKey) {
     try {
-      const response = await injectedFetch('https://api.resend.com/emails', {
+      let response = await injectedFetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${resendApiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: fromEmail.includes('@') ? fromEmail : 'ChapterReady <onboarding@resend.dev>',
+          from: fromEmail,
           to: [params.to],
           subject: params.subject,
           html: params.html,
           text: params.text || params.subject,
         }),
       });
+
+      // If initial attempt fails (e.g. domain not verified), retry with onboarding@resend.dev
+      if (!response.ok && fromEmail !== 'ChapterReady <onboarding@resend.dev>') {
+        const initialError = await response.text();
+        console.warn('Initial Resend dispatch failed, retrying with onboarding@resend.dev:', initialError);
+        response = await injectedFetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'ChapterReady <onboarding@resend.dev>',
+            to: [params.to],
+            subject: params.subject,
+            html: params.html,
+            text: params.text || params.subject,
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorText = await response.text();
