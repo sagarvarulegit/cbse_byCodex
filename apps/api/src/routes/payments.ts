@@ -254,7 +254,7 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
       amountPaise: product.pricePaise,
       currency: product.currency,
       customerId: user.id,
-      customerName: user.fullName || 'Class 10 Student',
+      customerName: user.profile?.fullName || 'Class 10 Student',
       customerEmail: user.email || 'student@chapterready.in',
       customerPhone: '9999999999',
       orderNote: product.title,
@@ -455,58 +455,6 @@ paymentsRouter.post('/cashfree-webhook', async (req: Request, res: Response) => 
   }
 
   return res.json({ status: 'ok' });
-});
-
-
-  if (!paymentOrder) {
-    return res.status(404).json({ message: 'Order record not found.' });
-  }
-
-  if (paymentOrder.userId !== user.id) {
-    return res.status(403).json({ message: 'Order does not belong to this user.' });
-  }
-
-  // Update order status and grant entitlement
-  await prisma.$transaction(async (tx) => {
-    await tx.paymentOrder.update({
-      where: { id: paymentOrder.id },
-      data: {
-        status: 'paid',
-        razorpayPaymentId,
-        razorpaySignature,
-      },
-    });
-
-    await tx.userEntitlement.upsert({
-      where: {
-        userId_productKey_subjectSlug: {
-          userId: user.id,
-          productKey: paymentOrder.productKey,
-          subjectSlug: paymentOrder.subjectSlug ?? '',
-        },
-      },
-      update: {
-        status: 'active',
-        paymentOrderId: paymentOrder.id,
-        validFrom: new Date(),
-      },
-      create: {
-        userId: user.id,
-        productKey: paymentOrder.productKey,
-        subjectSlug: paymentOrder.subjectSlug,
-        scope: 'mock_test_series',
-        status: 'active',
-        paymentOrderId: paymentOrder.id,
-      },
-    });
-  });
-
-  return res.json({
-    success: true,
-    message: 'Payment verified and entitlement activated successfully.',
-    productKey: paymentOrder.productKey,
-    subjectSlug: paymentOrder.subjectSlug,
-  });
 });
 
 /**
