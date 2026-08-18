@@ -1,18 +1,18 @@
-# Current Handoff - High-Performance Multi-Tier Caching Live on Production
+# Current Handoff - Student Profile & Mobile Phone Management Live on Production
 
-- [x] Implemented and deployed **Full-Stack Multi-Tier Caching Architecture**:
-  - **In-Memory Parsed Content Cache ([`apps/web/lib/course-content.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/lib/course-content.ts))**:
-    - Cached parsed Markdown AST blocks, lesson notes, and quizzes in memory (`chapterPackCache`, `lessonContentCache`, `quizContentCache`). Notes load in <1ms without re-parsing markdown on every request.
-  - **Syllabus & Curriculum Matrix Caching ([`apps/web/lib/curriculum/subject-navigation.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/lib/curriculum/subject-navigation.ts))**:
-    - In-memory cached subject catalog and availability matrix (`cachedSubjectCatalog`).
-  - **Commerce & Entitlements TTL Caching ([`apps/web/lib/payments.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/lib/payments.ts))**:
-    - In-memory 60s TTL session-scoped cache for active passes (`entitlementsCache`) and transaction history (`ordersCache`).
-    - Automated cache invalidation (`invalidatePaymentsCache()`) on checkout, payment verification, and refund requests.
-  - **Mastery & Revision State Caching ([`apps/web/lib/mastery.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/lib/mastery.ts))**:
-    - 15s session cache (`masteryCache`) preventing repeated network calls during note reading.
-  - **Static Asset & Network Edge Caching ([`apps/web/next.config.mjs`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/next.config.mjs) & API routes)**:
-    - Enabled Gzip/Brotli compression and 1-year immutable caching for static SVGs, images, and fonts (`Cache-Control: public, max-age=31536000, immutable`).
-    - Added HTTP Cache-Control headers with `stale-while-revalidate` for API endpoints (`/v1/payments/products`, `/v1/payments/entitlements`).
+- [x] Implemented and deployed **Student Profile & Mobile Phone Management**:
+  - **Dedicated Settings Page ([`apps/web/app/profile/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/profile/page.tsx) & [`apps/web/components/ProfileSettingsView.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/ProfileSettingsView.tsx))**:
+    - **📱 Mobile Phone Number Management**: Input with Indian mobile validation (`+91`), format checks, and instant persistence so students can use their phone for account recovery and SMS notifications.
+    - **👤 Personal Identification**: Student Full Name updates with real-time session cookie synchronization.
+    - **🎓 Academic & Target Profile**: Class Level display, Target Board Exam Year selector (2026, 2027, 2028), and School/Institution name field.
+    - **👨‍👩‍👦 Guardian Consent & Parent Info**: Parent Full Name, registered parent email, and guardian relationship view.
+    - **🔒 Security Quick Actions**: Direct links to Password Reset (`/recover-account?mode=password`) and Order History (`/orders`).
+  - **API Endpoints ([`apps/api/src/routes/auth.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/api/src/routes/auth.ts))**:
+    - `GET /v1/auth/profile`: Fetches authenticated user, profile, and guardian consent details.
+    - `PATCH /v1/auth/profile`: Validates phone uniqueness across accounts, updates `User.phone`, `UserProfile.fullName`, `UserProfile.schoolName`, `UserProfile.targetExamYear`, and `GuardianConsent.guardianFullName`, issuing a refreshed JWT session token.
+  - **Navigation Integration**:
+    - Added **"⚙️ Edit Profile & Phone"** link to [`StudentTopbar.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/StudentTopbar.tsx) account popover.
+    - Added **"⚙️ Edit Profile & Phone →"** launcher under Dashboard Zone 5 ([`apps/web/app/dashboard/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/dashboard/page.tsx)).
   - **Production Deployed**: Both API (`https://cbse-bycodex-api.vercel.app`) and Web (`https://www.chapterready.in`) are live and verified.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
