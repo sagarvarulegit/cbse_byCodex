@@ -1,23 +1,19 @@
-# Current Handoff - Account Recovery & Password Reset Live on Production
+# Current Handoff - Order Management, Purchases History & Printable Invoices Live on Production
 
-- [x] Implemented and deployed **Complete Student Account Recovery & Password Reset Engine**:
-  - **Prisma & Database**: Added `AccountRecoveryToken` model with `RecoveryTokenType` enum (`password_reset`, `account_recovery_otp`), 15-minute expiration, and SHA-256 token hashing.
-  - **Account Recovery Service (`apps/api/src/lib/recovery/service.ts`)**:
-    - Generates 6-digit numeric OTP with brute-force rate guards (max 5 incorrect attempts before automatic revocation).
-    - Multi-Identifier **"Find My Account"** engine:
-      - 📱 Search by **Registered Phone Number**.
-      - 🧾 Search by **Payment Order ID / Cashfree UPI Receipt Number** (`order_...`, `rcpt_...`).
-      - 👨‍👩‍👦 Search by **Guardian Email + Student Full Name**.
-    - Masked privacy hints (`sa***le@gmail.com`) to protect student identity and prevent enumeration.
-    - Password validation and instant session token minting for seamless auto-login.
-  - **API Routes (`apps/api/src/routes/recovery.ts`)**:
-    - `POST /v1/auth/recovery/forgot-password`
-    - `POST /v1/auth/recovery/find-account`
-    - `POST /v1/auth/recovery/verify-otp`
-    - `POST /v1/auth/recovery/reset-password`
-  - **Student Web UI (`apps/web/app/recover-account/page.tsx`)**:
-    - Interactive 4-step wizard with auto-advancing 6-box OTP input, resend countdown timer, and live password strength checklist.
-    - Added *"Forgot password?"* and *"Forgot which email you used? Find your account"* direct entry points in [`apps/web/app/login/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/login/page.tsx).
+- [x] Implemented and deployed **Student Order Management & Purchases Hub**:
+  - **Orders & Purchases Page ([`apps/web/app/orders/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/orders/page.tsx))**:
+    - Complete transaction ledger displaying active mock test passes, purchase dates, amounts, payment gateways (Cashfree UPI / Cards), and order reference IDs with 1-click copy tool.
+    - Filters for All Transactions, Active Purchases, and Refunds/Swaps.
+    - Active Entitlements status banner highlighting unrestricted access across all 20 board mock papers.
+  - **Official Tax Receipt & Invoice Modal ([`apps/web/components/OrderReceiptModal.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/OrderReceiptModal.tsx))**:
+    - Clean, printable invoice sheet with ChapterReady CBSE Class 10 branding, student name/email, order ID, gateway payment reference, itemized subtotal, and 1-click **"Print / Save PDF"** export.
+  - **Navigation & Dashboard Integration**:
+    - Added **"Purchases"** navigation link in [`StudentTopbar.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/StudentTopbar.tsx) and student menu popover.
+    - Added **"📦 View Order History & Receipts"** quick launcher under Dashboard Account Tools ([`apps/web/app/dashboard/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/dashboard/page.tsx)).
+  - **API Service ([`apps/api/src/routes/payments.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/api/src/routes/payments.ts))**:
+    - Enhanced `GET /v1/payments/orders` to return `orderId` (Cashfree/Razorpay gateway order reference), `paymentGateway`, and `paymentId`.
+  - **Production Deployed**: Both API (`https://cbse-bycodex-api.vercel.app`) and Web (`https://www.chapterready.in`) are live and verified.
+- [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
   - **Production Deployed**: Both API (`https://cbse-bycodex-api.vercel.app`) and Web (`https://www.chapterready.in`) are live and verified.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
