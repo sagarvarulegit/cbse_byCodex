@@ -1,17 +1,17 @@
-# Current Handoff - Printable CBSE Board Exam PDF & Official Marking Scheme Engine Live on Production
+# Current Handoff - CBSE Quick Quiz Arena & Daily Limit Freemium Paywall Live on Production
 
-- [x] Implemented and deployed **Printable CBSE Board Exam PDF & Official Marking Scheme Engine**:
-  - **Official CBSE Board Paper Layout ([`apps/web/components/PrintableExamPaper.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/PrintableExamPaper.tsx))**:
-    - Full official CBSE Class 10 formatting with bilingual header, 8-digit Roll Number box grid, Candidate Name line, General Instructions (Sections A to E), and page-turn footers.
-    - Two dedicated printing modes:
-      1. **📄 Clean Question Paper (Exam Mode)**: Spoilers removed, perfect for physical 3-hour pen-and-paper mock drills.
-      2. **📝 Official Marking Scheme (Evaluator Rubric)**: Includes step-wise value points, formula marks, and teacher grading criteria.
-  - **Dedicated Print Route ([`apps/web/app/exam-papers/[id]/print/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/exam-papers/[id]/print/page.tsx))**:
-    - Clean printer-optimized URL supporting `?mode=questions` and `?mode=solutions`.
-    - Print CSS rules (`@media print`) stripping out UI headers, toolbars, and background elements.
-  - **Quick 1-Click Print Integration ([`apps/web/components/MockTestSeriesCard.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/MockTestSeriesCard.tsx) & [`apps/web/components/ExamPaperViewer.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/ExamPaperViewer.tsx))**:
-    - Direct **"🖨️ Print PDF"** and **"📝 Solutions"** quick actions on every unlocked sample paper card in the test series.
-  - **Production Deployed**: Web ([https://www.chapterready.in](https://www.chapterready.in)) is live and verified.
+- [x] Implemented and deployed **CBSE Quick Quiz Arena, Random Challenge Generator & Freemium Paywall**:
+  - **The Quiz Arena (`/quizzes` & `/quiz`) ([`apps/web/app/quizzes/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/quizzes/page.tsx) & [`apps/web/components/QuizArenaClient.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/QuizArenaClient.tsx))**:
+    - **🎲 "Surprise Me / Roll Random Challenge"**: Instant 1-click randomized chapter selector across all 48 CBSE Class 10 NCERT units.
+    - **🔍 Live Topic & Chapter Search**: Real-time keyword filtering (e.g. *Chemical Reactions*, *Light*, *Quadratic*, *Heredity*).
+    - **📚 Subject Filter Grid**: Direct filtering by *Mathematics Standard (041)*, *Science (086)*, *Social Science (087)*, and *English (184)* with mastery badges (`🏆 90%`, `🎯 75%`, `🌱 Not Attempted`).
+  - **Freemium 3-Quiz Daily Limit & Monetization Paywall ([`apps/web/components/QuizPaywallModal.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/QuizPaywallModal.tsx) & [`apps/web/lib/payments.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/lib/payments.ts))**:
+    - Free tier includes **3 Free Quizzes per Day** with a live status badge (`⚡ 2 / 3 Left Today`).
+    - Attempting a 4th quiz triggers the high-converting **"Daily Limit Reached"** modal offering the **Unlimited CBSE Quiz Pass for `₹199`** with Razorpay checkout.
+    - Included automatically for all **All-Subjects Board Mock Pack (`₹499`)** purchasers (`🔓 Unlimited Quizzes Active`).
+  - **Global Navigation ([`apps/web/components/StudentTopbar.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/StudentTopbar.tsx))**:
+    - Added **"⚡ Quizzes"** in the top navigation bar.
+  - **Production Deployed**: API & Web ([https://www.chapterready.in](https://www.chapterready.in)) live and verified.
 - [ ] Next task: Mathematics Basic (241) dedicated syllabus & mock series pack, or AI "Snap & Grade" Written Answer Evaluator.
 
 
