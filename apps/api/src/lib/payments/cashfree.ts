@@ -129,7 +129,6 @@ export async function createCashfreeOrder(
         notify_url:
           params.notifyUrl ||
           'https://cbse-bycodex-api.vercel.app/v1/payments/cashfree-webhook',
-        payment_methods: 'upi,card,netbanking',
       },
       order_note: params.orderNote || 'ChapterReady CBSE Class 10 Mock Pass',
     }),
