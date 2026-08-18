@@ -4,12 +4,14 @@ export type TaraFireflyIconProps = {
   size?: number;
   className?: string;
   glow?: boolean;
+  animated?: boolean;
 };
 
 export default function TaraFireflyIcon({
   size = 40,
   className = '',
   glow = true,
+  animated = true,
 }: TaraFireflyIconProps) {
   return (
     <svg
@@ -23,33 +25,35 @@ export default function TaraFireflyIcon({
       aria-label="Tara Firefly"
     >
       <defs>
-        {/* Lantern Radial Glow */}
+        {/* Authentic Greenish-Yellow (Luciferin) Bioluminescent Radial Glow */}
         <radialGradient id="taraLanternGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#fff9c4" stopOpacity="1" />
-          <stop offset="35%" stopColor="#ffee58" stopOpacity="0.95" />
-          <stop offset="70%" stopColor="#f59e0b" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
+          <stop offset="0%" stopColor="#f7fee7" stopOpacity="1" />
+          <stop offset="25%" stopColor="#d9f99d" stopOpacity="0.98" />
+          <stop offset="60%" stopColor="#a3e635" stopOpacity="0.9" />
+          <stop offset="85%" stopColor="#65a30d" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#4d7c0f" stopOpacity="0" />
         </radialGradient>
 
-        {/* Ambient Halo */}
-        <radialGradient id="taraAura" cx="50%" cy="65%" r="45%">
-          <stop offset="0%" stopColor="#fde047" stopOpacity="0.6" />
-          <stop offset="60%" stopColor="#eab308" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#ca8a04" stopOpacity="0" />
+        {/* Ambient Pulsing Aura */}
+        <radialGradient id="taraAura" cx="50%" cy="65%" r="48%">
+          <stop offset="0%" stopColor="#d9f99d" stopOpacity="0.8" />
+          <stop offset="45%" stopColor="#a3e635" stopOpacity="0.45" />
+          <stop offset="80%" stopColor="#65a30d" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#3f6212" stopOpacity="0" />
         </radialGradient>
 
         {/* Wing Glass Gradient Left */}
         <linearGradient id="taraWingLeft" x1="20" y1="15" x2="45" y2="55" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="50%" stopColor="#e0f2fe" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#bae6fd" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.92" />
+          <stop offset="50%" stopColor="#ecfccb" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#bae6fd" stopOpacity="0.45" />
         </linearGradient>
 
         {/* Wing Glass Gradient Right */}
         <linearGradient id="taraWingRight" x1="80" y1="15" x2="55" y2="55" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="50%" stopColor="#e0f2fe" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#bae6fd" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.92" />
+          <stop offset="50%" stopColor="#ecfccb" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#bae6fd" stopOpacity="0.45" />
         </linearGradient>
 
         {/* Body Gradient */}
@@ -65,15 +69,111 @@ export default function TaraFireflyIcon({
         </linearGradient>
 
         {/* Outer Glow Filter */}
-        <filter id="taraFilterGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="3.5" result="blur" />
+        <filter id="taraFilterGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
           <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
+
+        <style>{`
+          .tara-lantern-flicker {
+            transform-origin: 50px 68px;
+            ${animated ? 'animation: fireflyBioluminescence 3.8s ease-in-out infinite;' : ''}
+          }
+          .tara-aura-flicker {
+            transform-origin: 50px 68px;
+            ${animated ? 'animation: fireflyAuraFlicker 3.8s ease-in-out infinite;' : ''}
+          }
+          .tara-antenna-spark {
+            transform-origin: center;
+            ${animated ? 'animation: antennaSpark 2.4s ease-in-out infinite alternate;' : ''}
+          }
+          .tara-spark-float {
+            ${animated ? 'animation: sparkTwinkle 2.8s ease-in-out infinite alternate;' : ''}
+          }
+
+          @keyframes fireflyBioluminescence {
+            0%, 100% {
+              opacity: 0.72;
+              transform: scale(0.96);
+            }
+            28% {
+              opacity: 0.96;
+              transform: scale(1.03);
+            }
+            34% {
+              opacity: 0.82;
+              transform: scale(0.99);
+            }
+            58% {
+              opacity: 1;
+              transform: scale(1.06);
+            }
+            64% {
+              opacity: 0.88;
+              transform: scale(1.01);
+            }
+            82% {
+              opacity: 0.76;
+              transform: scale(0.97);
+            }
+          }
+
+          @keyframes fireflyAuraFlicker {
+            0%, 100% {
+              opacity: 0.45;
+              transform: scale(0.92);
+            }
+            28% {
+              opacity: 0.85;
+              transform: scale(1.08);
+            }
+            34% {
+              opacity: 0.6;
+              transform: scale(0.98);
+            }
+            58% {
+              opacity: 1;
+              transform: scale(1.15);
+            }
+            64% {
+              opacity: 0.75;
+              transform: scale(1.04);
+            }
+            82% {
+              opacity: 0.52;
+              transform: scale(0.95);
+            }
+          }
+
+          @keyframes antennaSpark {
+            0%, 100% {
+              opacity: 0.65;
+              transform: scale(0.85);
+            }
+            50% {
+              opacity: 1;
+              transform: scale(1.2);
+            }
+          }
+
+          @keyframes sparkTwinkle {
+            0%, 100% {
+              opacity: 0.3;
+              transform: scale(0.8);
+            }
+            50% {
+              opacity: 1;
+              transform: scale(1.15);
+            }
+          }
+        `}</style>
       </defs>
 
-      {/* 1. Ambient Glow Aura behind abdomen */}
+      {/* 1. Ambient Glow Aura behind abdomen (Slow Flickering & Breathing) */}
       {glow && (
-        <circle cx="50" cy="68" r="32" fill="url(#taraAura)" />
+        <g className="tara-aura-flicker">
+          <circle cx="50" cy="68" r="34" fill="url(#taraAura)" />
+        </g>
       )}
 
       {/* 2. Antennae */}
@@ -85,8 +185,10 @@ export default function TaraFireflyIcon({
         strokeLinecap="round"
         fill="none"
       />
-      {/* Left Antenna Tip Spark */}
-      <circle cx="21" cy="10" r="3" fill="#facc15" stroke="#1c1917" strokeWidth="1.5" />
+      {/* Left Antenna Tip Glowing Spark */}
+      <g className="tara-antenna-spark" style={{ transformOrigin: '21px 10px' }}>
+        <circle cx="21" cy="10" r="3.2" fill="#d9f99d" stroke="#1c1917" strokeWidth="1.5" />
+      </g>
 
       {/* Right Antenna */}
       <path
@@ -96,11 +198,13 @@ export default function TaraFireflyIcon({
         strokeLinecap="round"
         fill="none"
       />
-      {/* Right Antenna Tip Spark */}
-      <circle cx="79" cy="10" r="3" fill="#facc15" stroke="#1c1917" strokeWidth="1.5" />
+      {/* Right Antenna Tip Glowing Spark */}
+      <g className="tara-antenna-spark" style={{ transformOrigin: '79px 10px' }}>
+        <circle cx="79" cy="10" r="3.2" fill="#d9f99d" stroke="#1c1917" strokeWidth="1.5" />
+      </g>
 
-      {/* 3. Luminescent Abdomen (The Glowing Firefly Lantern) */}
-      <g filter={glow ? 'url(#taraFilterGlow)' : undefined}>
+      {/* 3. Luminescent Greenish-Yellow Bioluminescent Abdomen (The Firefly Lantern) */}
+      <g className="tara-lantern-flicker" filter={glow ? 'url(#taraFilterGlow)' : undefined}>
         {/* Glow Core */}
         <ellipse cx="50" cy="68" rx="20" ry="22" fill="url(#taraLanternGlow)" />
         {/* Outer Ring Accent */}
@@ -109,28 +213,28 @@ export default function TaraFireflyIcon({
           cy="68"
           rx="19"
           ry="21"
-          stroke="#eab308"
+          stroke="#bef264"
           strokeWidth="2"
           fill="none"
-          strokeOpacity="0.8"
+          strokeOpacity="0.9"
         />
-        {/* Cute Segment Lines on glowing tail */}
+        {/* Natural Segment Lines on glowing lantern tail */}
         <path
           d="M 33 63 Q 50 67 67 63"
-          stroke="#ca8a04"
+          stroke="#65a30d"
           strokeWidth="2"
           strokeLinecap="round"
           fill="none"
         />
         <path
           d="M 36 72 Q 50 77 64 72"
-          stroke="#ca8a04"
+          stroke="#65a30d"
           strokeWidth="2"
           strokeLinecap="round"
           fill="none"
         />
         {/* Center Bright Sparkle */}
-        <circle cx="46" cy="64" r="3.5" fill="#ffffff" fillOpacity="0.9" />
+        <circle cx="46" cy="64" r="3.5" fill="#ffffff" fillOpacity="0.95" />
       </g>
 
       {/* 4. Translucent Fairy/Insect Wings */}
@@ -209,19 +313,21 @@ export default function TaraFireflyIcon({
       {/* Cute Smile */}
       <path
         d="M 47 29 Q 50 32 53 29"
-        stroke="#fbbf24"
+        stroke="#bef264"
         strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"
       />
 
-      {/* 8. Little Magic Sparks */}
-      <path
-        d="M 82 24 L 84 27 L 87 27 L 85 29 L 86 32 L 83 30 L 80 32 L 81 29 L 79 27 L 82 27 Z"
-        fill="#fde047"
-        opacity="0.85"
-      />
-      <circle cx="16" cy="62" r="2" fill="#fde047" opacity="0.75" />
+      {/* 8. Little Bioluminescent Magic Sparks */}
+      <g className="tara-spark-float" style={{ transformOrigin: '83px 28px' }}>
+        <path
+          d="M 82 24 L 84 27 L 87 27 L 85 29 L 86 32 L 83 30 L 80 32 L 81 29 L 79 27 L 82 27 Z"
+          fill="#d9f99d"
+          opacity="0.9"
+        />
+      </g>
+      <circle cx="16" cy="62" r="2" fill="#d9f99d" opacity="0.8" />
     </svg>
   );
 }

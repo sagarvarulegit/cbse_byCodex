@@ -434,25 +434,26 @@ export default function TaraWidget() {
       <style>{`
         .tara-bubble {
           position: fixed; bottom: 24px; right: 24px; width: 68px; height: 68px;
-          border-radius: 50%; background: linear-gradient(135deg, #fff3b0 0%, #ffd166 50%, #f77f00 100%);
-          color: #171513; border: 3px solid #171513; box-shadow: 4px 4px 0 #171513, 0 4px 20px rgba(247,127,0,0.4);
+          border-radius: 50%; background: linear-gradient(135deg, #f7fee7 0%, #d9f99d 35%, #84cc16 100%);
+          color: #171513; border: 3px solid #171513; box-shadow: 4px 4px 0 #171513, 0 4px 24px rgba(163, 230, 53, 0.55);
           cursor: pointer; z-index: 9999;
           display: flex; align-items: center; justify-content: center;
-          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
           padding: 0;
         }
         .tara-bubble:hover {
           transform: scale(1.12) translateY(-2px);
-          box-shadow: 5px 6px 0 #171513, 0 6px 25px rgba(247,127,0,0.55);
+          box-shadow: 5px 6px 0 #171513, 0 6px 30px rgba(190, 242, 100, 0.85);
         }
         .tara-bubble-icon {
           display: flex; align-items: center; justify-content: center;
           width: 100%; height: 100%;
-          animation: fireflyFloat 3s ease-in-out infinite;
+          animation: fireflyFloat 3.8s ease-in-out infinite;
         }
         @keyframes fireflyFloat {
           0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-3px) rotate(3deg); }
+          30% { transform: translateY(-4px) rotate(2.5deg); }
+          60% { transform: translateY(-1px) rotate(-1.5deg); }
         }
         .tara-bubble-close {
           font-size: 26px; font-weight: 900; line-height: 1;

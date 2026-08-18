@@ -1,25 +1,28 @@
 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <!-- Authentic Bioluminescent Greenish-Yellow Gradient -->
     <radialGradient id="taraLanternGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fff9c4" stop-opacity="1" />
-      <stop offset="35%" stop-color="#ffee58" stop-opacity="0.95" />
-      <stop offset="70%" stop-color="#f59e0b" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#d97706" stop-opacity="0" />
+      <stop offset="0%" stop-color="#f7fee7" stop-opacity="1" />
+      <stop offset="25%" stop-color="#d9f99d" stop-opacity="0.98" />
+      <stop offset="60%" stop-color="#a3e635" stop-opacity="0.9" />
+      <stop offset="85%" stop-color="#65a30d" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#4d7c0f" stop-opacity="0" />
     </radialGradient>
-    <radialGradient id="taraAura" cx="50%" cy="65%" r="45%">
-      <stop offset="0%" stop-color="#fde047" stop-opacity="0.6" />
-      <stop offset="60%" stop-color="#eab308" stop-opacity="0.25" />
-      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0" />
+    <radialGradient id="taraAura" cx="50%" cy="65%" r="48%">
+      <stop offset="0%" stop-color="#d9f99d" stop-opacity="0.8" />
+      <stop offset="45%" stop-color="#a3e635" stop-opacity="0.45" />
+      <stop offset="80%" stop-color="#65a30d" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#3f6212" stop-opacity="0" />
     </radialGradient>
     <linearGradient id="taraWingLeft" x1="20" y1="15" x2="45" y2="55" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
-      <stop offset="50%" stop-color="#e0f2fe" stop-opacity="0.75" />
-      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.4" />
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92" />
+      <stop offset="50%" stop-color="#ecfccb" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.45" />
     </linearGradient>
     <linearGradient id="taraWingRight" x1="80" y1="15" x2="55" y2="55" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
-      <stop offset="50%" stop-color="#e0f2fe" stop-opacity="0.75" />
-      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.4" />
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92" />
+      <stop offset="50%" stop-color="#ecfccb" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.45" />
     </linearGradient>
     <linearGradient id="taraBodyGrad" x1="50" y1="28" x2="50" y2="54" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#292524" />
@@ -32,20 +35,20 @@
   </defs>
 
   <!-- Ambient Glow Aura -->
-  <circle cx="50" cy="68" r="32" fill="url(#taraAura)" />
+  <circle cx="50" cy="68" r="34" fill="url(#taraAura)" />
 
   <!-- Antennae -->
   <path d="M 43 20 Q 30 6 22 10" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round" fill="none" />
-  <circle cx="21" cy="10" r="3" fill="#facc15" stroke="#1c1917" stroke-width="1.5" />
+  <circle cx="21" cy="10" r="3.2" fill="#d9f99d" stroke="#1c1917" stroke-width="1.5" />
   <path d="M 57 20 Q 70 6 78 10" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round" fill="none" />
-  <circle cx="79" cy="10" r="3" fill="#facc15" stroke="#1c1917" stroke-width="1.5" />
+  <circle cx="79" cy="10" r="3.2" fill="#d9f99d" stroke="#1c1917" stroke-width="1.5" />
 
   <!-- Luminescent Glowing Abdomen -->
   <ellipse cx="50" cy="68" rx="20" ry="22" fill="url(#taraLanternGlow)" />
-  <ellipse cx="50" cy="68" rx="19" ry="21" stroke="#eab308" stroke-width="2" fill="none" stroke-opacity="0.8" />
-  <path d="M 33 63 Q 50 67 67 63" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" fill="none" />
-  <path d="M 36 72 Q 50 77 64 72" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" fill="none" />
-  <circle cx="46" cy="64" r="3.5" fill="#ffffff" fill-opacity="0.9" />
+  <ellipse cx="50" cy="68" rx="19" ry="21" stroke="#bef264" stroke-width="2" fill="none" stroke-opacity="0.9" />
+  <path d="M 33 63 Q 50 67 67 63" stroke="#65a30d" stroke-width="2" stroke-linecap="round" fill="none" />
+  <path d="M 36 72 Q 50 77 64 72" stroke="#65a30d" stroke-width="2" stroke-linecap="round" fill="none" />
+  <circle cx="46" cy="64" r="3.5" fill="#ffffff" fill-opacity="0.95" />
 
   <!-- Translucent Wings -->
   <path d="M 45 36 C 24 16 8 28 14 46 C 18 58 35 56 46 45 Z" fill="url(#taraWingLeft)" stroke="#0284c7" stroke-width="1.8" stroke-opacity="0.6" />
@@ -69,9 +72,9 @@
   <circle cx="54.5" cy="23.5" r="2.2" fill="#0f172a" />
   <circle cx="53.8" cy="21.8" r="1.1" fill="#ffffff" />
 
-  <path d="M 47 29 Q 50 32 53 29" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <path d="M 47 29 Q 50 32 53 29" stroke="#bef264" stroke-width="1.5" stroke-linecap="round" fill="none" />
 
   <!-- Magic Sparkles -->
-  <path d="M 82 24 L 84 27 L 87 27 L 85 29 L 86 32 L 83 30 L 80 32 L 81 29 L 79 27 L 82 27 Z" fill="#fde047" opacity="0.85" />
-  <circle cx="16" cy="62" r="2" fill="#fde047" opacity="0.75" />
+  <path d="M 82 24 L 84 27 L 87 27 L 85 29 L 86 32 L 83 30 L 80 32 L 81 29 L 79 27 L 82 27 Z" fill="#d9f99d" opacity="0.9" />
+  <circle cx="16" cy="62" r="2" fill="#d9f99d" opacity="0.8" />
 </svg>
