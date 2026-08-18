@@ -1,19 +1,14 @@
-# Current Handoff - Student Profile & Mobile Phone Management Live on Production
+# Current Handoff - AI Tutor Tara Firefly Transparent Vector Avatar & Bubble Redesign Live on Production
 
-- [x] Implemented and deployed **Student Profile & Mobile Phone Management**:
-  - **Dedicated Settings Page ([`apps/web/app/profile/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/profile/page.tsx) & [`apps/web/components/ProfileSettingsView.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/ProfileSettingsView.tsx))**:
-    - **📱 Mobile Phone Number Management**: Input with Indian mobile validation (`+91`), format checks, and instant persistence so students can use their phone for account recovery and SMS notifications.
-    - **👤 Personal Identification**: Student Full Name updates with real-time session cookie synchronization.
-    - **🎓 Academic & Target Profile**: Class Level display, Target Board Exam Year selector (2026, 2027, 2028), and School/Institution name field.
-    - **👨‍👩‍👦 Guardian Consent & Parent Info**: Parent Full Name, registered parent email, and guardian relationship view.
-    - **🔒 Security Quick Actions**: Direct links to Password Reset (`/recover-account?mode=password`) and Order History (`/orders`).
-  - **API Endpoints ([`apps/api/src/routes/auth.ts`](file:///home/sagarv/Projects/cbse_byCodex/apps/api/src/routes/auth.ts))**:
-    - `GET /v1/auth/profile`: Fetches authenticated user, profile, and guardian consent details.
-    - `PATCH /v1/auth/profile`: Validates phone uniqueness across accounts, updates `User.phone`, `UserProfile.fullName`, `UserProfile.schoolName`, `UserProfile.targetExamYear`, and `GuardianConsent.guardianFullName`, issuing a refreshed JWT session token.
-  - **Navigation Integration**:
-    - Added **"⚙️ Edit Profile & Phone"** link to [`StudentTopbar.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/StudentTopbar.tsx) account popover.
-    - Added **"⚙️ Edit Profile & Phone →"** launcher under Dashboard Zone 5 ([`apps/web/app/dashboard/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/dashboard/page.tsx)).
-  - **Production Deployed**: Both API (`https://cbse-bycodex-api.vercel.app`) and Web (`https://www.chapterready.in`) are live and verified.
+- [x] Implemented and deployed **AI Tutor Tara Firefly Avatar Redesign**:
+  - **100% Vector Transparent Firefly Avatar ([`apps/web/components/TaraFireflyIcon.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/TaraFireflyIcon.tsx) & [`apps/web/public/logo/firefly.svg`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/public/logo/firefly.svg))**:
+    - Replaced pixelated raster graphic with a sharp, scalable transparent SVG vector icon.
+    - Designed with luminescent golden radial glow abdomen, translucent iridescent fairy wings, expressive friendly eyes, and playful antennae with sparks that adapts cleanly to any background.
+  - **Floating Bubble & Chat UI Integration ([`apps/web/components/TaraWidget.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/components/TaraWidget.tsx))**:
+    - Enlarged floating launcher bubble to 68px with golden gradient ring, dark comic border, and floating breathing animation (`@keyframes fireflyFloat`).
+    - Bubble firefly icon enlarged to 52px so the firefly character and glowing tail are unmistakably visible.
+    - Upgraded chat header avatar (40px) and assistant message response avatar (32px).
+  - **Production Deployed**: Web ([https://www.chapterready.in](https://www.chapterready.in)) is live and verified.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
 
