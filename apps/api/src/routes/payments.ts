@@ -71,6 +71,9 @@ paymentsRouter.get('/orders', async (req: Request, res: Response) => {
           : null;
       return {
         id: order.id,
+        orderId: order.razorpayOrderId,
+        paymentGateway: order.paymentGateway,
+        paymentId: order.razorpayPaymentId,
         amount: order.amount,
         currency: order.currency,
         productKey: order.productKey,

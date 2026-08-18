@@ -261,6 +261,12 @@ export default async function DashboardPage() {
               <strong>{session.classLevel}</strong>
               <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#555' }}>Role: {session.role}</p>
             </div>
+            <div>
+              <p style={{ margin: '0 0 4px 0', fontSize: '0.75rem', color: '#787168', textTransform: 'uppercase', fontWeight: 800 }}>Purchases &amp; Passes</p>
+              <Link href="/orders" style={{ fontSize: '0.875rem', fontWeight: 800, color: '#c25e00', textDecoration: 'underline' }}>
+                📦 View Order History &amp; Receipts →
+              </Link>
+            </div>
             <div style={{ gridColumn: '1 / -1' }}>
               <PilotFeedbackForm surface="dashboard" />
             </div>

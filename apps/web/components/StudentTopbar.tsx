@@ -44,6 +44,7 @@ export default function StudentTopbar({
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/subjects">Library</Link>
         {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
+        {session ? <Link href="/orders">Purchases</Link> : null}
       </nav>
 
       {session ? (
@@ -71,6 +72,7 @@ export default function StudentTopbar({
               <Link href="/dashboard">Today&apos;s mix</Link>
               <Link href="/subjects">Full subject library</Link>
               <Link href="/my-mistakes">My Mistakes</Link>
+              <Link href="/orders">📦 My Purchases &amp; Receipts</Link>
               <form action={logoutAction}>
                 <button type="submit">Logout</button>
               </form>

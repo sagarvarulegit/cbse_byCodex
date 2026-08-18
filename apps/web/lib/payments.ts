@@ -128,6 +128,9 @@ export async function verifyPayment(
 
 export type StudentOrder = {
   id: string;
+  orderId?: string;
+  paymentGateway?: string;
+  paymentId?: string | null;
   amount: number;
   currency: string;
   productKey: string;
