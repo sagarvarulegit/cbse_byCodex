@@ -1,14 +1,24 @@
-# Current Handoff - Cashfree Payment Gateway & Refund Engine Live on Production
+# Current Handoff - Account Recovery & Password Reset Live on Production
 
-- [x] Integrated **Cashfree Payment Gateway (PG)** as primary checkout provider alongside robust self-service refund and subject swap engines:
-  - **Cashfree PG Engine (`apps/api/src/lib/payments/cashfree.ts`)**:
-    - REST Order creation with `x-api-version: 2023-08-01` returning `payment_session_id`.
-    - Real-time Order status check (`fetchCashfreeOrder`) to verify `PAID` status.
-    - Automated Instant Refunds (`createCashfreeRefund`) for duplicate orders and 48-hour satisfaction guarantee.
-    - Webhook Signature verification (`verifyCashfreeWebhookSignature`) using HMAC SHA-256.
-  - **Prisma Schema & Database**: Updated `PaymentOrder` with `paymentGateway: "cashfree"` and `gatewayPaymentSessionId`. Synced to Supabase PostgreSQL.
-  - **Checkout Modal (`PaywallModal.tsx`)**: Integrated Cashfree Web JS SDK (`https://sdk.cashfree.com/js/v3/cashfree.js`) with native popup checkout (`redirectTarget: "_modal"`). Supports UPI (GPay, PhonePe, Paytm, BHIM), Cards, and NetBanking.
-  - **Production Deployed**: Both `https://cbse-bycodex-api.vercel.app` and `https://www.chapterready.in` are deployed and verified live on Vercel.
+- [x] Implemented and deployed **Complete Student Account Recovery & Password Reset Engine**:
+  - **Prisma & Database**: Added `AccountRecoveryToken` model with `RecoveryTokenType` enum (`password_reset`, `account_recovery_otp`), 15-minute expiration, and SHA-256 token hashing.
+  - **Account Recovery Service (`apps/api/src/lib/recovery/service.ts`)**:
+    - Generates 6-digit numeric OTP with brute-force rate guards (max 5 incorrect attempts before automatic revocation).
+    - Multi-Identifier **"Find My Account"** engine:
+      - 📱 Search by **Registered Phone Number**.
+      - 🧾 Search by **Payment Order ID / Cashfree UPI Receipt Number** (`order_...`, `rcpt_...`).
+      - 👨‍👩‍👦 Search by **Guardian Email + Student Full Name**.
+    - Masked privacy hints (`sa***le@gmail.com`) to protect student identity and prevent enumeration.
+    - Password validation and instant session token minting for seamless auto-login.
+  - **API Routes (`apps/api/src/routes/recovery.ts`)**:
+    - `POST /v1/auth/recovery/forgot-password`
+    - `POST /v1/auth/recovery/find-account`
+    - `POST /v1/auth/recovery/verify-otp`
+    - `POST /v1/auth/recovery/reset-password`
+  - **Student Web UI (`apps/web/app/recover-account/page.tsx`)**:
+    - Interactive 4-step wizard with auto-advancing 6-box OTP input, resend countdown timer, and live password strength checklist.
+    - Added *"Forgot password?"* and *"Forgot which email you used? Find your account"* direct entry points in [`apps/web/app/login/page.tsx`](file:///home/sagarv/Projects/cbse_byCodex/apps/web/app/login/page.tsx).
+  - **Production Deployed**: Both API (`https://cbse-bycodex-api.vercel.app`) and Web (`https://www.chapterready.in`) are live and verified.
 - [ ] Next task: Printable Board PDF & Official Marking Scheme PDF export, or Mathematics Basic (241) expansion.
 
 
