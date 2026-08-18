@@ -190,20 +190,41 @@ export default function MockTestSeriesCard({
 
               {available ? (
                 isPaperUnlocked ? (
-                  <Link
-                    className="card-link btn-take-test"
-                    href={`/exam-papers/${paper.id}/take`}
-                    prefetch={false}
-                  >
-                    Take this test →
-                  </Link>
+                  <div className="paper-action-stack">
+                    <Link
+                      className="card-link btn-take-test"
+                      href={`/exam-papers/${paper.id}/take`}
+                      prefetch={false}
+                    >
+                      ⏱️ Take Online Test →
+                    </Link>
+                    <div className="print-quick-links">
+                      <a
+                        className="quick-print-link"
+                        href={`/exam-papers/${paper.id}/print?mode=questions`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        🖨️ Print PDF
+                      </a>
+                      <span className="dot-sep">•</span>
+                      <a
+                        className="quick-print-link"
+                        href={`/exam-papers/${paper.id}/print?mode=solutions`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📝 Solutions
+                      </a>
+                    </div>
+                  </div>
                 ) : (
                   <button
                     type="button"
                     className="card-link btn-unlock-paywall"
                     onClick={() => setIsPaywallOpen(true)}
                   >
-                    Unlock Paper {paper.number} 🔒
+                    Unlock Paper &amp; Print PDF 🔒
                   </button>
                 )
               ) : (
@@ -462,9 +483,33 @@ export default function MockTestSeriesCard({
           color: #171513;
           transition: all 0.12s ease;
         }
-        .btn-refund-trigger:hover {
-          background: #171513;
-          color: #fff;
+        .paper-action-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .print-quick-links {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.4rem;
+          font-size: 0.75rem;
+        }
+        .quick-print-link {
+          color: #c25e00;
+          font-weight: 800;
+          text-decoration: none;
+          padding: 0.15rem 0.35rem;
+          border-radius: 4px;
+          transition: background 0.12s ease;
+        }
+        .quick-print-link:hover {
+          background: #fdf2e9;
+          text-decoration: underline;
+        }
+        .dot-sep {
+          color: #bbb;
         }
         .link-refund-policy {
           color: #0284c7;

@@ -111,25 +111,29 @@ export default function ExamPaperViewer({
       </div>
 
       <div className="exam-toolbar">
+        <a
+          className="card-link btn-print-pdf"
+          href={`/exam-papers/${paper.id}/print?mode=questions`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          🖨️ Official Printable Board PDF
+        </a>
+        <a
+          className="card-link btn-marking-pdf"
+          href={`/exam-papers/${paper.id}/print?mode=solutions`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          📝 Official Marking Scheme (PDF)
+        </a>
         <button
           className="card-link"
           type="button"
           onClick={() => setShowAnswers((current) => !current)}
         >
-          {showAnswers ? 'Hide answer key' : 'Show answer key'}
+          {showAnswers ? 'Hide Inline Solutions' : 'Show Inline Solutions'}
         </button>
-        <button className="card-link" type="button" onClick={() => window.print()}>
-          Print / save as PDF
-        </button>
-        {!compact && (
-          <button
-            className="card-link"
-            type="button"
-            onClick={() => window.location.reload()}
-          >
-            New paper
-          </button>
-        )}
       </div>
 
       {paper.sections.map((section) => {
