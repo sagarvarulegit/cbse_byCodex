@@ -9,6 +9,9 @@ export function getApiBaseUrl(): string {
 }
 
 export const ALL_SUBJECTS_MOCK_PACK_KEY = 'cbse10-all-subjects-mock-pack';
+export const UNLIMITED_QUIZ_PASS_KEY = 'cbse10-unlimited-quizzes-all';
+
+export const FREE_DAILY_QUIZ_LIMIT = 3;
 
 export type PaymentProduct = {
   key: string;
@@ -36,7 +39,16 @@ export type StudentEntitlementsResponse = {
   }>;
   hasAllSubjects: boolean;
   unlockedSubjectSlugs: string[];
+  hasUnlimitedQuizzes?: boolean;
 };
+
+export function checkHasUnlimitedQuizzes(entitlements: StudentEntitlementsResponse | null): boolean {
+  if (!entitlements) return false;
+  if (entitlements.hasAllSubjects) return true;
+  return entitlements.entitlements.some(
+    (e) => (e.productKey === UNLIMITED_QUIZ_PASS_KEY || e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY) && e.status === 'active',
+  );
+}
 
 export type CreateOrderResponse = {
   gateway?: 'cashfree' | 'razorpay';

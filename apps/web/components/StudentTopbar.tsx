@@ -42,9 +42,10 @@ export default function StudentTopbar({
 
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
+        <Link href="/quizzes">⚡ Quizzes</Link>
+        <Link href="/exam-papers">Mock Papers</Link>
         <Link href="/subjects">Library</Link>
         {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
-        {session ? <Link href="/orders">Purchases</Link> : null}
       </nav>
 
       {session ? (

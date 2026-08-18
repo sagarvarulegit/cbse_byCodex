@@ -64,11 +64,29 @@ export function buildSingleSubjectProduct(subjectSlug: string): PaymentProduct {
   };
 }
 
+export const UNLIMITED_QUIZ_PASS_KEY = 'cbse10-unlimited-quizzes-all';
+
+export const UNLIMITED_QUIZ_PASS: PaymentProduct = {
+  key: UNLIMITED_QUIZ_PASS_KEY,
+  title: 'Class 10 Unlimited CBSE Quiz Pass (All 4 Subjects)',
+  description:
+    'Unlimited daily quizzes and random challenges across all 48 CBSE Class 10 NCERT chapters. ' +
+    'Covers Mathematics, Science, Social Science, and English with instant scoring, ' +
+    'Spaced Repetition Mistake Vault access, and streak multipliers.',
+  pricePaise: 19900, // ₹199
+  originalPricePaise: 59900, // ₹599
+  currency: 'INR',
+  scope: 'all_subjects',
+  includedSubjects: [...CORE_BOARD_SUBJECTS],
+  paperCount: 48,
+  badge: 'Unlimited Practice',
+};
+
 export function getAllAvailableProducts(): PaymentProduct[] {
   const singleSubjectProducts = CORE_BOARD_SUBJECTS.map((slug) =>
     buildSingleSubjectProduct(slug),
   );
-  return [ALL_SUBJECTS_MOCK_PACK, ...singleSubjectProducts];
+  return [ALL_SUBJECTS_MOCK_PACK, UNLIMITED_QUIZ_PASS, ...singleSubjectProducts];
 }
 
 export function findProductByKey(
@@ -77,6 +95,9 @@ export function findProductByKey(
 ): PaymentProduct | null {
   if (productKey === ALL_SUBJECTS_MOCK_PACK_KEY) {
     return ALL_SUBJECTS_MOCK_PACK;
+  }
+  if (productKey === UNLIMITED_QUIZ_PASS_KEY) {
+    return UNLIMITED_QUIZ_PASS;
   }
   if (productKey.startsWith(SINGLE_SUBJECT_MOCK_PASS_PREFIX)) {
     const slug = subjectSlug || productKey.replace(`${SINGLE_SUBJECT_MOCK_PASS_PREFIX}-`, '');
