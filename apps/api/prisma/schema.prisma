@@ -76,6 +76,7 @@ model User {
   paymentOrders    PaymentOrder[]
   entitlements     UserEntitlement[]
   refundRequests   RefundRequest[]
+  recoveryTokens   AccountRecoveryToken[]
 }
 
 model GuardianConsent {
@@ -784,6 +785,27 @@ model RefundRequest {
 
   @@index([userId, status])
   @@index([paymentOrderId])
+}
+
+enum RecoveryTokenType {
+  password_reset
+  account_recovery_otp
+}
+
+model AccountRecoveryToken {
+  id         String            @id @default(cuid())
+  userId     String
+  tokenHash  String
+  tokenType  RecoveryTokenType @default(password_reset)
+  attempts   Int               @default(0)
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime          @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, tokenType])
+  @@index([expiresAt])
 }
 
 

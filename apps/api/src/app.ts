@@ -11,6 +11,7 @@ import {
 import { feedbackRouter } from './routes/feedback.js';
 import { paymentsRouter } from './routes/payments.js';
 import { progressRouter } from './routes/progress.js';
+import { recoveryRouter } from './routes/recovery.js';
 import { tutorChatRouter } from './routes/tutor-chat.js';
 import { tutorRouter } from './routes/tutor.js';
 import { videoRouter } from './routes/video.js';
@@ -61,6 +62,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/v1/auth', authRouter);
+app.use('/v1/auth/recovery', recoveryRouter);
 app.use('/v1/catalog', catalogRouter);
 app.use('/v1/lessons', videoRouter);
 app.use('/v1/progress', progressRouter);
