@@ -245,7 +245,7 @@ export default function RefundModal({
             </button>
 
             <p className="refund-policy-footer">
-              🔒 Refunds are processed back to the original UPI/Card account via Razorpay.
+              🔒 Refunds are processed back to the original UPI/Card account via Cashfree Payments.
             </p>
           </div>
         )}

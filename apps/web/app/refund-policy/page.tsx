@@ -69,7 +69,7 @@ export default function RefundPolicyPage() {
 
           <section>
             <h2>4. Refund Processing Timelines & Modes</h2>
-            <p>All refunds are processed directly back to the original payment method through Razorpay:</p>
+            <p>All refunds are processed directly back to the original payment method through Cashfree Payments:</p>
             <ul>
               <li><strong>UPI (Google Pay, PhonePe, Paytm, BHIM):</strong> Instant to 2 hours.</li>
               <li><strong>NetBanking:</strong> 1 to 2 business days.</li>

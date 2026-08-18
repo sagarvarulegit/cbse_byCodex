@@ -343,11 +343,11 @@ export default function PaywallModal({
           disabled={isProcessing}
           onClick={handleCheckout}
         >
-          {isProcessing ? 'Connecting to Razorpay…' : `Unlock Now for ₹${selectedPlan === 'all_subjects' ? '199' : '99'} →`}
+          {isProcessing ? 'Opening Secure Checkout…' : `Unlock Now for ₹${selectedPlan === 'all_subjects' ? '199' : '99'} →`}
         </button>
 
         <p className="paywall-guarantee">
-          🔒 Secure 256-bit payment via Razorpay · Instant Unlock · Academic Year 2026-27 Access
+          🔒 Secure 256-bit payment via Cashfree Payments (UPI / Cards / NetBanking) · Instant Unlock · Academic Year 2026-27 Access
         </p>
       </div>
 

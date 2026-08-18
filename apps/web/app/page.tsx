@@ -196,7 +196,7 @@ export default async function HomePage() {
                   Try Free Sample Paper 1 First
                 </Link>
               </div>
-              <p className="pass-security-note">🔒 100% Safe 256-bit UPI / Cards via Razorpay · Instant Unlock</p>
+              <p className="pass-security-note">🔒 100% Safe 256-bit UPI / Cards via Cashfree · Instant Unlock</p>
             </div>
           </div>
 
