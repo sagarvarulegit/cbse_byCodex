@@ -42,10 +42,10 @@ export default function StudentTopbar({
 
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
-        <Link href="/games">🎮 Arcade</Link>
+        <Link href="/games">🎮 Fun&amp;Games</Link>
         <Link href="/quizzes">⚡ Quizzes</Link>
         <Link href="/exam-papers">Mock Papers</Link>
-        <Link href="/subjects">Library</Link>
+        <Link href="/subjects">Subjects</Link>
         {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
       </nav>
 
@@ -72,8 +72,8 @@ export default function StudentTopbar({
                 <span>{session.email ?? `Class ${session.classLevel} student`}</span>
               </span>
               <Link href="/dashboard">Today&apos;s mix</Link>
-              <Link href="/games">🎮 Fun &amp; Games Arcade</Link>
-              <Link href="/subjects">Full subject library</Link>
+              <Link href="/games">🎮 Fun&amp;Games</Link>
+              <Link href="/subjects">Subjects</Link>
               <Link href="/my-mistakes">My Mistakes</Link>
               <Link href="/orders">📦 My Purchases &amp; Receipts</Link>
               <Link href="/profile">⚙️ Edit Profile &amp; Phone</Link>
