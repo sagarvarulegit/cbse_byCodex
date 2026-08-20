@@ -10,6 +10,9 @@ export function getApiBaseUrl(): string {
 
 export const ALL_SUBJECTS_MOCK_PACK_KEY = 'cbse10-all-subjects-mock-pack';
 export const UNLIMITED_QUIZ_PASS_KEY = 'cbse10-unlimited-quizzes-all';
+export const NCERT_ACTIVITY_DIAGRAM_PACK_KEY = 'cbse10-activity-diagram-pack';
+export const FORMULA_CHEATSHEET_PACK_KEY = 'cbse10-formula-cheatsheet-pack';
+export const ACTIVITY_FORMULA_COMBO_PACK_KEY = 'cbse10-activity-formula-combo';
 
 export const FREE_DAILY_QUIZ_LIMIT = 3;
 
@@ -49,6 +52,27 @@ export function checkHasUnlimitedQuizzes(entitlements: StudentEntitlementsRespon
     (e) => (e.productKey === UNLIMITED_QUIZ_PASS_KEY || e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY) && e.status === 'active',
   );
 }
+
+export function checkHasActivityDiagramPack(entitlements: StudentEntitlementsResponse | null): boolean {
+  if (!entitlements) return false;
+  return entitlements.entitlements.some(
+    (e) =>
+      (e.productKey === NCERT_ACTIVITY_DIAGRAM_PACK_KEY ||
+        e.productKey === ACTIVITY_FORMULA_COMBO_PACK_KEY) &&
+      e.status === 'active',
+  );
+}
+
+export function checkHasFormulaCheatsheetPack(entitlements: StudentEntitlementsResponse | null): boolean {
+  if (!entitlements) return false;
+  return entitlements.entitlements.some(
+    (e) =>
+      (e.productKey === FORMULA_CHEATSHEET_PACK_KEY ||
+        e.productKey === ACTIVITY_FORMULA_COMBO_PACK_KEY) &&
+      e.status === 'active',
+  );
+}
+
 
 export type CreateOrderResponse = {
   gateway?: 'cashfree' | 'razorpay';

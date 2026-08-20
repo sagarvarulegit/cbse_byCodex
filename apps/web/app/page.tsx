@@ -59,8 +59,17 @@ export default async function HomePage() {
         </Link>
 
         <div className="home-topbar-actions">
+          <Link className="ghost-link" href="/store" style={{ fontWeight: 800, color: '#c95014' }}>
+            🛍️ Store
+          </Link>
+          <Link className="ghost-link" href="/activities-and-diagrams">
+            🔬 Activities
+          </Link>
+          <Link className="ghost-link" href="/formula-cheatsheets">
+            ⚡ Formulas
+          </Link>
           <Link className="ghost-link" href="/games">
-            🎮 Fun&amp;Games
+            🎮 Arcade
           </Link>
           <Link className="ghost-link" href="/subjects">
             Subjects

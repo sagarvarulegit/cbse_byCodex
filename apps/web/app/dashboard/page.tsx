@@ -176,6 +176,75 @@ export default async function DashboardPage() {
           latestMockScore={latestMockScore}
         />
 
+        {/* BOARD REVISION COMPANIONS HIGHLIGHT */}
+        <section style={{
+          background: 'linear-gradient(135deg, #fffaf0, #feebc8)',
+          border: '2.5px solid #171513',
+          borderRadius: '18px',
+          padding: '1.25rem 1.5rem',
+          margin: '1.5rem 0',
+          boxShadow: '4px 4px 0 #171513',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '1.25rem',
+          flexWrap: 'wrap',
+        }}>
+          <div>
+            <span style={{
+              background: '#c25e00',
+              color: '#fff',
+              fontSize: '0.72rem',
+              fontWeight: 900,
+              padding: '0.15rem 0.55rem',
+              borderRadius: '999px',
+              textTransform: 'uppercase',
+              display: 'inline-block',
+              marginBottom: '0.35rem'
+            }}>
+              ⚡ Micro-Revision Packs
+            </span>
+            <h3 style={{ margin: '0 0 4px', fontSize: '1.15rem', fontWeight: 900, color: '#171513' }}>
+              Master NCERT Activities &amp; 1-Page Formula Sheets
+            </h3>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>
+              Directly targeted tools for rapid board recall under ₹99.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <Link
+              href="/activities-and-diagrams"
+              style={{
+                background: '#171513',
+                color: '#fff',
+                padding: '0.65rem 1.15rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                textDecoration: 'none',
+                boxShadow: '2px 2px 0 rgba(0,0,0,0.2)'
+              }}
+            >
+              🔬 NCERT Activities (₹99) →
+            </Link>
+            <Link
+              href="/formula-cheatsheets"
+              style={{
+                background: '#0b7a48',
+                color: '#fff',
+                padding: '0.65rem 1.15rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                textDecoration: 'none',
+                boxShadow: '2px 2px 0 rgba(0,0,0,0.2)'
+              }}
+            >
+              ⚡ Formula Sheets (₹49) →
+            </Link>
+          </div>
+        </section>
+
         {/* ZONE 3: 4 CORE BOARD SUBJECT STATIONS */}
         <section className={studioStyles.subjectsSection} aria-label="Core CBSE Board Subjects">
           <div className={studioStyles.sectionHeader}>

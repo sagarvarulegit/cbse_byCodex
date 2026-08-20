@@ -227,12 +227,34 @@ export default async function LessonPage({
               )}
             </div>
           </div>
+          <div className="sidebar-card compact-card">
+            <p className="eyebrow">Board Exam Companions</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.4rem' }}>
+              {chapter.subject.toLowerCase().includes('science') && (
+                <Link
+                  href="/activities-and-diagrams"
+                  className="ghost-link"
+                  style={{ fontSize: '0.82rem', padding: '0.45rem 0.65rem' }}
+                >
+                  🔬 NCERT Activities (₹99) →
+                </Link>
+              )}
+              {(chapter.subject.toLowerCase().includes('math') || chapter.subject.toLowerCase().includes('science')) && (
+                <Link
+                  href="/formula-cheatsheets"
+                  className="ghost-link"
+                  style={{ fontSize: '0.82rem', padding: '0.45rem 0.65rem' }}
+                >
+                  ⚡ 1-Page Cheatsheets (₹49) →
+                </Link>
+              )}
+            </div>
+          </div>
         </aside>
       </section>
 
       {isPilot ? (
         <section className="section-shell pilot-feedback-section">
-          <PilotCompletionButton chapterSlug={slug} lessonSlug={lessonSlug} surface="lesson" />
           <PilotFeedbackForm chapterSlug={slug} lessonSlug={lessonSlug} surface="lesson" />
         </section>
       ) : null}

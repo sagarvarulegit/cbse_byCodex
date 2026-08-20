@@ -44,6 +44,13 @@ export default function QuizPaywallModal({
     setLoading(true);
     setErrorMessage(null);
 
+    if (!token) {
+      if (typeof window !== 'undefined') {
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+      }
+      return;
+    }
+
     try {
       const order = await createPaymentOrder(token, UNLIMITED_QUIZ_PASS_KEY);
       if (!order || !order.paymentOrderId) {

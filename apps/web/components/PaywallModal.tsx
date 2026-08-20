@@ -102,6 +102,13 @@ export default function PaywallModal({
     setIsProcessing(true);
     setErrorMessage(null);
 
+    if (!token) {
+      if (typeof window !== 'undefined') {
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+      }
+      return;
+    }
+
     const productKey =
       selectedPlan === 'all_subjects'
         ? ALL_SUBJECTS_MOCK_PACK_KEY

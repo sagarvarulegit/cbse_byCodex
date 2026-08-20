@@ -63,9 +63,14 @@ export default function OrdersClientView({
             Track your active mock test passes, download official tax receipts, and manage your payment transactions.
           </p>
         </div>
-        <Link href="/exam-papers" className="primary-header-btn">
-          📄 Browse Mock Papers →
-        </Link>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <Link href="/store" className="primary-header-btn" style={{ background: '#c95014', borderColor: '#c95014' }}>
+            🛍️ Visit Store →
+          </Link>
+          <Link href="/exam-papers" className="primary-header-btn">
+            📄 Browse Mock Papers →
+          </Link>
+        </div>
       </div>
 
       {/* Active Entitlement Status Banner */}
@@ -152,19 +157,51 @@ export default function OrdersClientView({
               minute: '2-digit',
             });
 
+            const isActivityPack = order.productKey === 'cbse10-activity-diagram-pack';
+            const isFormulaPack = order.productKey === 'cbse10-formula-cheatsheet-pack';
+            const isComboPack = order.productKey === 'cbse10-activity-formula-combo';
+
+            const productBadge = isComboPack
+              ? '👑 SUPER COMBO PACK'
+              : isActivityPack
+              ? '🔬 NCERT ACTIVITY PACK'
+              : isFormulaPack
+              ? '⚡ FORMULA CHEATSHEET PACK'
+              : isAllSubjects
+              ? '⭐ ALL 4 SUBJECTS PACK'
+              : '📚 SINGLE SUBJECT PASS';
+
+            const productTitle = isComboPack
+              ? 'Class 10 Activity, Diagram & Formula Super Combo'
+              : isActivityPack
+              ? 'NCERT Science Activity & Diagram Mastery Pack'
+              : isFormulaPack
+              ? 'Class 10 Formula & Reaction Cheatsheet Pack'
+              : isAllSubjects
+              ? 'Class 10 All-Subjects Board Mock Pack (20 Papers)'
+              : `Class 10 Mock Pass — ${order.subjectSlug || 'Subject'} (5 Papers)`;
+
+            const launchHref = isActivityPack || isComboPack
+              ? '/activities-and-diagrams'
+              : isFormulaPack
+              ? '/formula-cheatsheets'
+              : '/exam-papers';
+
+            const launchLabel = isActivityPack
+              ? '🔬 Open Activities'
+              : isFormulaPack
+              ? '⚡ Open Cheatsheets'
+              : isComboPack
+              ? '🚀 Open Revision Packs'
+              : '🚀 Open Mock Papers';
+
             return (
               <article className="order-card" key={order.id}>
                 {/* Order Topline */}
                 <div className="order-topline">
                   <div>
-                    <span className="product-badge">
-                      {isAllSubjects ? '⭐ ALL 4 SUBJECTS PACK' : '📚 SINGLE SUBJECT PASS'}
-                    </span>
-                    <h3 className="order-title">
-                      {isAllSubjects
-                        ? 'Class 10 All-Subjects Board Mock Pack (20 Papers)'
-                        : `Class 10 Mock Pass — ${order.subjectSlug || 'Subject'} (5 Papers)`}
-                    </h3>
+                    <span className="product-badge">{productBadge}</span>
+                    <h3 className="order-title">{productTitle}</h3>
                     <p className="order-meta">
                       Purchased on {formattedDate} · Gateway:{' '}
                       <strong>{order.paymentGateway === 'cashfree' ? 'Cashfree Payments' : 'Razorpay'}</strong>
@@ -213,8 +250,8 @@ export default function OrdersClientView({
                     📄 View &amp; Print Receipt
                   </button>
 
-                  <Link href="/exam-papers" className="btn-launch">
-                    🚀 Open Mock Papers
+                  <Link href={launchHref} className="btn-launch">
+                    {launchLabel}
                   </Link>
 
                   {order.status === 'paid' && !order.refundRequest && (

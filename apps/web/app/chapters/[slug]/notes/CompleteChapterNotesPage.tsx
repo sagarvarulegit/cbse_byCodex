@@ -137,6 +137,16 @@ export default async function CompleteChapterNotesPage({
             <a className="button-link" href="#introduction">
               Start with Introduction
             </a>
+            {chapter.subject.toLowerCase().includes('science') && (
+              <Link className="ghost-link" href="/activities-and-diagrams">
+                🔬 NCERT Activities &amp; Diagrams (₹99)
+              </Link>
+            )}
+            {(chapter.subject.toLowerCase().includes('math') || chapter.subject.toLowerCase().includes('science')) && (
+              <Link className="ghost-link" href="/formula-cheatsheets">
+                ⚡ 1-Page Formula Cheatsheet (₹49)
+              </Link>
+            )}
             {quizContent ? (
               <Link className="ghost-link" href={`/chapters/${slug}/quiz`}>
                 Take chapter quiz

@@ -1,3 +1,29 @@
+# Current Handoff - CBSE Class 10 Phase 1 Micro-Monetization & Official Store Live
+
+- [x] Implemented and deployed **CBSE Class 10 Phase 1 Micro-Monetization & Official Platform Store**:
+  - **🛍️ ChapterReady Store (`/store` & [`apps/web/app/store/page.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/app/store/page.tsx) & [`apps/web/components/StoreClientView.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/StoreClientView.tsx))**:
+    - Centralized catalog of all commercial products on the platform, strictly priced under ₹200 INR.
+    - Category filtering: *All Items*, *⚡ Revision Packs (₹49–₹129)*, *📄 80-Mark Mock Papers (₹99–₹199)*, and *🎯 Unlimited Quizzes (₹199)*.
+    - Dynamic ownership state: automatically detects if user owns the pack and presents "✓ Unlocked / Open Hub" button.
+    - Trust badges: 256-bit Secure UPI & Card checkout, instant multi-device access, and 48-Hour Satisfaction Guarantee.
+  - **🔬 NCERT Activity & Diagram Mastery Pack (`/activities-and-diagrams`, ₹99)**:
+    - Complete breakdown of all Class 10 NCERT Science activities across Chemistry, Biology, and Physics.
+    - Setups, apparatus lists, balanced chemical equations, interactive SVG diagrams via `ActivityIllustration`, and verified CBSE 3/5-mark board questions.
+    - Free sample preview mode + 1-click printable PDF Handbook.
+  - **⚡ Class 10 Formula & Reaction Cheatsheet Pack (`/formula-cheatsheets`, ₹49)**:
+    - 1-page high-density printable summary sheets for Class 10 Maths & Science.
+    - LaTeX master formula vault, negative marking trap alerts, and 3D digital interactive flashcards for active recall.
+  - **👑 Super Combo Pack (`₹129`)**:
+    - Bundled package containing both the Activity Pack and Formula Cheatsheet Pack at 67% discount.
+  - **Commercial Backend & Entitlements**:
+    - Product definitions and entitlement helpers added in [`apps/api/src/lib/payments/products.ts`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/api/src/lib/payments/products.ts) and [`apps/web/lib/payments.ts`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/lib/payments.ts).
+    - Unified [`ProductCheckoutModal.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/ProductCheckoutModal.tsx) with Cashfree & Razorpay support.
+  - **Global Navigation & In-Notes Wiring**:
+    - Added `🛍️ Store`, `🔬 Activities`, and `⚡ Formulas` to `StudentTopbar` and public landing page.
+    - Added contextual in-notes companion links in [`CompleteChapterNotesPage.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/app/chapters/[slug]/notes/CompleteChapterNotesPage.tsx) and lesson sidebars.
+    - Added Store link to [`OrdersClientView.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/OrdersClientView.tsx) and dashboard.
+- [ ] Next task: Phase 2 Monetization (Competency & Assertion-Reason Question Bank @ ₹149 or AI Answer Evaluator).
+
 # Current Handoff - CBSE Class 10 Fun & Games Arcade & Formula Rush Live
 
 - [x] Implemented and deployed **CBSE Class 10 Fun & Games Arcade and Formula Rush Flagship Game**:
