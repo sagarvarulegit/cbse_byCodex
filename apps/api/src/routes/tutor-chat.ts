@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { Router } from 'express';
 import multer from 'multer';
 
-import { generateTutorAnswer } from '../lib/tutor/generate.js';
+import { generateTutorAnswer, type TutorPageContext } from '../lib/tutor/generate.js';
 import { sanitizeTutorMarkdown } from '../lib/tutor/format.js';
 import { assertUnderDailyLimit } from '../lib/tutor/quota.js';
 import { serializeConversationDetail } from '../lib/tutor/serialize.js';
@@ -12,6 +12,24 @@ import { retrieveChunks, type RetrievedChunk } from '../lib/rag/retrieve.js';
 import { requireSessionUser } from '../lib/session.js';
 
 export const tutorChatRouter = Router();
+
+function parsePageContext(raw: unknown): TutorPageContext | null {
+  if (!raw) {
+    return null;
+  }
+  if (typeof raw === 'string') {
+    try {
+      const parsed = JSON.parse(raw);
+      return typeof parsed === 'object' && parsed !== null ? (parsed as TutorPageContext) : null;
+    } catch {
+      return null;
+    }
+  }
+  if (typeof raw === 'object') {
+    return raw as TutorPageContext;
+  }
+  return null;
+}
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -34,6 +52,15 @@ function extensionForMime(mimeType: string): string {
 function sanitizeFileName(name: string): string {
   const cleaned = name.replace(/[^\w.\- ]/g, '').slice(0, 120).trim();
   return cleaned || 'attachment';
+}
+
+function deriveConversationTitle(question: string, context?: TutorPageContext | null): string {
+  const clean = question.replace(/[\n\r]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (context?.chapterTitle && clean.length >= 3) {
+    const snippet = clean.length > 35 ? `${clean.slice(0, 32)}...` : clean;
+    return `${context.chapterTitle}: ${snippet}`;
+  }
+  return clean.length > 45 ? `${clean.slice(0, 42)}...` : clean;
 }
 
 async function loadOwnConversation(conversationId: string, userId: string) {
@@ -142,10 +169,21 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
     return res.status(500).json({ message: 'Failed to store an attachment.' });
   }
 
-  // Retrieve RAG chunks for the question.
+  // Parse optional screen/page context sent from the client
+  const pageContext = parsePageContext(req.body?.pageContext);
+
+  // Retrieve RAG chunks for the question (augmented with screen context if question is brief).
   let chunks: RetrievedChunk[] = [];
   try {
-    chunks = await retrieveChunks(question, { topK: 6 });
+    const searchContext = [
+      pageContext?.chapterTitle || pageContext?.chapterSlug || '',
+      pageContext?.activeItem?.title || '',
+      question,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    chunks = await retrieveChunks(searchContext || question, { topK: 6 });
   } catch (error) {
     console.error('Retrieval failed.', error);
     chunks = [];
@@ -175,13 +213,18 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
   res.flushHeaders();
 
   try {
-    const history = conversation.messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.contentMarkdown }));
+    // Sliding context window: last 10 messages (5 user/assistant turns) for optimal token usage
+    const recentHistory = conversation.messages
+      .slice(-10)
+      .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.contentMarkdown }));
+
     const answer = await generateTutorAnswer({
       chunks,
-      history: [...history, { role: 'user', content: question }],
+      history: [...recentHistory, { role: 'user', content: question }],
       question,
       attachmentText,
       imageParts,
+      pageContext,
     });
 
     const markdown = sanitizeTutorMarkdown(answer.answerMarkdown);
@@ -201,9 +244,20 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
         citedChunkIds: answer.citedChunkIds as unknown as Prisma.InputJsonValue,
       },
     });
+
+    const isDefaultTitle =
+      !conversation.title ||
+      conversation.title === 'New conversation' ||
+      conversation.title === 'New doubt' ||
+      conversation.messages.length === 0;
+    const titleUpdate = isDefaultTitle ? deriveConversationTitle(question, pageContext) : undefined;
+
     await prisma.tutorConversation.update({
       where: { id: conversationId },
-      data: { updatedAt: new Date() },
+      data: {
+        updatedAt: new Date(),
+        ...(titleUpdate ? { title: titleUpdate } : {}),
+      },
     });
 
     sse(res, 'done', {
@@ -211,6 +265,7 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
       citedChunkIds: answer.citedChunkIds,
       confidence: answer.confidence,
       refused: answer.refused,
+      title: titleUpdate,
       quota: { used: quota.used + 1, limit: quota.limit },
     });
     res.end();
@@ -230,7 +285,7 @@ tutorChatRouter.post('/conversations/:id/messages', upload.array('files', 5), as
   }
 });
 
-/** POST /v1/tutor/conversations/:id/messages — JSON fallback (no attachments). */
+/** POST /v1/tutor/conversations/:id/messages-json — JSON fallback (no attachments). */
 tutorChatRouter.post('/conversations/:id/messages-json', async (req, res) => {
   // Forward to the multipart handler by wrapping the body into a fake file list.
   // Simpler: handle the JSON path inline (question only).
@@ -252,13 +307,23 @@ tutorChatRouter.post('/conversations/:id/messages-json', async (req, res) => {
     return res.status(429).json({ message: `Daily limit of ${quota.limit} doubts reached.` });
   }
 
+  const pageContext = parsePageContext(req.body?.pageContext);
+
   await prisma.tutorMessage.create({
     data: { conversationId, role: 'user', contentMarkdown: question, citedChunkIds: null as unknown as Prisma.InputJsonValue },
   });
 
   let chunks: RetrievedChunk[] = [];
   try {
-    chunks = await retrieveChunks(question, { topK: 6 });
+    const searchContext = [
+      pageContext?.chapterTitle || pageContext?.chapterSlug || '',
+      pageContext?.activeItem?.title || '',
+      question,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    chunks = await retrieveChunks(searchContext || question, { topK: 6 });
   } catch {
     chunks = [];
   }
@@ -268,8 +333,17 @@ tutorChatRouter.post('/conversations/:id/messages-json', async (req, res) => {
   res.flushHeaders();
 
   try {
-    const history = conversation.messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.contentMarkdown }));
-    const answer = await generateTutorAnswer({ chunks, history: [...history, { role: 'user', content: question }], question });
+    // Sliding context window: last 10 messages (5 user/assistant turns) for optimal token usage
+    const recentHistory = conversation.messages
+      .slice(-10)
+      .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.contentMarkdown }));
+
+    const answer = await generateTutorAnswer({
+      chunks,
+      history: [...recentHistory, { role: 'user', content: question }],
+      question,
+      pageContext,
+    });
     const markdown = sanitizeTutorMarkdown(answer.answerMarkdown);
     const step = Math.max(200, Math.floor(markdown.length / 5));
     for (let i = 0; i < markdown.length; i += step) {
@@ -284,8 +358,30 @@ tutorChatRouter.post('/conversations/:id/messages-json', async (req, res) => {
         citedChunkIds: answer.citedChunkIds as unknown as Prisma.InputJsonValue,
       },
     });
-    await prisma.tutorConversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } });
-    sse(res, 'done', { messageId: assistantMessage.id, citedChunkIds: answer.citedChunkIds, confidence: answer.confidence, refused: answer.refused, quota: { used: quota.used + 1, limit: quota.limit } });
+
+    const isDefaultTitle =
+      !conversation.title ||
+      conversation.title === 'New conversation' ||
+      conversation.title === 'New doubt' ||
+      conversation.messages.length === 0;
+    const titleUpdate = isDefaultTitle ? deriveConversationTitle(question, pageContext) : undefined;
+
+    await prisma.tutorConversation.update({
+      where: { id: conversationId },
+      data: {
+        updatedAt: new Date(),
+        ...(titleUpdate ? { title: titleUpdate } : {}),
+      },
+    });
+
+    sse(res, 'done', {
+      messageId: assistantMessage.id,
+      citedChunkIds: answer.citedChunkIds,
+      confidence: answer.confidence,
+      refused: answer.refused,
+      title: titleUpdate,
+      quota: { used: quota.used + 1, limit: quota.limit },
+    });
     res.end();
   } catch (error) {
     console.error('Tutor answer generation failed.', error);

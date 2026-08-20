@@ -88,6 +88,37 @@ tutorRouter.get('/conversations/:id', async (req, res) => {
 });
 
 /**
+ * PATCH /v1/tutor/conversations/:id
+ * Updates one of the student's conversations (e.g. title/rename).
+ */
+tutorRouter.patch('/conversations/:id', async (req, res) => {
+  const user = await requireSessionUser(req);
+  if (!user) {
+    return res.status(401).json({ message: 'Sign in to rename a chat.' });
+  }
+
+  const title = typeof req.body?.title === 'string' ? req.body.title.trim().slice(0, 200) : '';
+  if (!title) {
+    return res.status(400).json({ message: 'Title is required.' });
+  }
+
+  const existing = await prisma.tutorConversation.findFirst({
+    where: { id: String(req.params.id), userId: user.id },
+    select: { id: true },
+  });
+  if (!existing) {
+    return res.status(404).json({ message: 'Conversation not found.' });
+  }
+
+  const updated = await prisma.tutorConversation.update({
+    where: { id: existing.id },
+    data: { title },
+  });
+
+  return res.json({ conversation: serializeConversationSummary(updated) });
+});
+
+/**
  * DELETE /v1/tutor/conversations/:id
  * Deletes one of the student's conversations (messages cascade).
  */

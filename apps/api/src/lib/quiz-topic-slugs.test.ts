@@ -22,3 +22,34 @@ test('rejects weak topic slugs outside the selected chapter and pilot chapter al
 
   assert.equal(invalidSlug, 'two-stories-about-flying');
 });
+
+test('accepts standard lesson slugs core-notes and ncert-exercises-and-revision for any chapter', () => {
+  const invalidSlug = findInvalidWeakTopicSlug({
+    chapterSlug: 'polynomials',
+    chapterTopicSlugs: [],
+    weakTopicSlugs: ['core-notes', 'ncert-exercises-and-revision'],
+  });
+
+  assert.equal(invalidSlug, null);
+});
+
+test('accepts Social Science topic slugs for Rise of Nationalism in Europe', () => {
+  const invalidSlug = findInvalidWeakTopicSlug({
+    chapterSlug: 'rise-of-nationalism-in-europe',
+    chapterTopicSlugs: ['core-notes', 'ncert-exercises-and-revision'],
+    weakTopicSlugs: ['french-revolution-ideas', 'unification-of-italy-germany'],
+  });
+
+  assert.equal(invalidSlug, null);
+});
+
+test('accepts Social Science alias slug the-rise-of-nationalism-in-europe', () => {
+  const invalidSlug = findInvalidWeakTopicSlug({
+    chapterSlug: 'the-rise-of-nationalism-in-europe',
+    chapterTopicSlugs: ['core-notes', 'ncert-exercises-and-revision'],
+    weakTopicSlugs: ['french-revolution-ideas'],
+  });
+
+  assert.equal(invalidSlug, null);
+});
+

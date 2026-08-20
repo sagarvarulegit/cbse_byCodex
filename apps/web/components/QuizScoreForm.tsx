@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
+import { useTutorPageContext } from '../contexts/TutorPageContext';
 import type { QuizAttemptHistory, QuizAttemptSummary } from '../lib/quiz-attempts';
 import { buildQuizRecoveryMessage, getWeakTopicLabels } from '../lib/quiz-recovery';
 import MathText from './MathText';
@@ -154,10 +155,40 @@ export default function QuizScoreForm({
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [focusedQuestionIndex, setFocusedQuestionIndex] = useState(0);
+  const { setPageContext } = useTutorPageContext();
 
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(selectedAnswers).length;
   const isComplete = answeredCount === totalQuestions;
+
+  // Sync active quiz question context with Tara AI Tutor
+  useEffect(() => {
+    const activeQuestion = questions[focusedQuestionIndex] || questions[0];
+    if (!activeQuestion) return;
+
+    const selectedOptionIndex = selectedAnswers[activeQuestion.id];
+    const selectedOption = selectedOptionIndex !== undefined ? activeQuestion.options[selectedOptionIndex] : undefined;
+    const correctOption = activeQuestion.options[activeQuestion.correctOptionIndex];
+    const isCorrect = selectedOptionIndex !== undefined ? selectedOptionIndex === activeQuestion.correctOptionIndex : undefined;
+
+    setPageContext({
+      pageType: 'quiz',
+      pageUrl: `/chapters/${chapterSlug}/quiz`,
+      chapterSlug,
+      activeItem: {
+        id: activeQuestion.id,
+        label: `Question ${focusedQuestionIndex + 1} of ${questions.length}`,
+        title: activeQuestion.title,
+        prompt: activeQuestion.prompt,
+        options: activeQuestion.options.map((o) => `${o.value}. ${o.label}`),
+        selectedAnswer: selectedOption ? `${selectedOption.value}. ${selectedOption.label}` : undefined,
+        correctAnswer: hasSubmitted && correctOption ? `${correctOption.value}. ${correctOption.label}` : undefined,
+        isCorrect,
+        explanation: hasSubmitted ? activeQuestion.explanation : undefined,
+      },
+    });
+  }, [chapterSlug, focusedQuestionIndex, hasSubmitted, questions, selectedAnswers, setPageContext]);
 
   const correctAnswers = useMemo(
     () =>
@@ -329,6 +360,8 @@ export default function QuizScoreForm({
               className="quiz-question-card"
               id={`quiz-question-${question.id}`}
               key={question.id}
+              onClick={() => setFocusedQuestionIndex(questionIndex)}
+              onFocus={() => setFocusedQuestionIndex(questionIndex)}
             >
               <legend>
                 <span>Question {questionIndex + 1}</span>

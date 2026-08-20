@@ -11,6 +11,7 @@ import PilotEngagementTracker, {
   PilotCompletionButton,
 } from '../../../../components/PilotEngagementTracker';
 import ReadingCompanion from '../../../../components/ReadingCompanion';
+import SectionFocusHandler from '../../../../components/SectionFocusHandler';
 import StudentTopbar from '../../../../components/StudentTopbar';
 import { getStudentSession } from '../../../../lib/auth';
 import {
@@ -93,6 +94,7 @@ export default async function CompleteChapterNotesPage({
 
   return (
     <main className="lesson-page">
+      <SectionFocusHandler />
       <a className="skip-link" href="#introduction">
         Skip to chapter notes
       </a>

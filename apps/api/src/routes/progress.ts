@@ -31,6 +31,7 @@ import {
   syncQuizMistakes,
 } from '../lib/mistake-review.js';
 import { prisma } from '../lib/prisma.js';
+import { ensureChapter } from '../lib/curriculum-chapters.js';
 import { summarizeQuizAttempts } from '../lib/quiz-attempts.js';
 import { findInvalidWeakTopicSlug } from '../lib/quiz-topic-slugs.js';
 import { requireSessionUser } from '../lib/session.js';
@@ -40,9 +41,11 @@ import {
 } from '../lib/written-practice.js';
 
 const MAX_QUIZ_TRANSACTION_ATTEMPTS = 3;
-const QUIZ_TRANSACTION_MAX_WAIT_MS = 5000;
-const QUIZ_TRANSACTION_TIMEOUT_MS = 15000;
+const QUIZ_TRANSACTION_MAX_WAIT_MS = 15000;
+const QUIZ_TRANSACTION_TIMEOUT_MS = 60000;
 const MAX_PRACTICE_TRANSACTION_ATTEMPTS = 3;
+const PRACTICE_TRANSACTION_MAX_WAIT_MS = 15000;
+const PRACTICE_TRANSACTION_TIMEOUT_MS = 60000;
 
 function normalizePercentComplete(value: unknown) {
   const numericValue = Number(value);
@@ -113,16 +116,7 @@ async function findPublishedChapterId(chapterSlug: string | null) {
     return null;
   }
 
-  const chapter = await prisma.chapter.findFirst({
-    where: {
-      isPublished: true,
-      slug: chapterSlug,
-    },
-    select: {
-      id: true,
-    },
-  });
-
+  const chapter = await ensureChapter(prisma, chapterSlug);
   return chapter?.id ?? null;
 }
 
@@ -136,7 +130,7 @@ function readLessonSlugFromMetadata(metadata: Prisma.JsonValue | null) {
 }
 
 async function loadExamReadiness(userId: string, chapterSlug: string) {
-  const chapter = await prisma.chapter.findFirst({
+  let chapter = await prisma.chapter.findFirst({
     where: { isPublished: true, slug: chapterSlug },
     select: {
       id: true,
@@ -150,6 +144,23 @@ async function loadExamReadiness(userId: string, chapterSlug: string) {
       },
     },
   });
+  if (!chapter) {
+    await ensureChapter(prisma, chapterSlug);
+    chapter = await prisma.chapter.findFirst({
+      where: { isPublished: true, slug: chapterSlug },
+      select: {
+        id: true,
+        topics: {
+          select: {
+            lessons: {
+              where: { publishStatus: 'published' },
+              select: { slug: true },
+            },
+          },
+        },
+      },
+    });
+  }
   if (!chapter) {
     return null;
   }
@@ -608,9 +619,8 @@ progressRouter.post('/practice', async (req, res) => {
             };
           },
           {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-            maxWait: QUIZ_TRANSACTION_MAX_WAIT_MS,
-            timeout: QUIZ_TRANSACTION_TIMEOUT_MS,
+            maxWait: PRACTICE_TRANSACTION_MAX_WAIT_MS,
+            timeout: PRACTICE_TRANSACTION_TIMEOUT_MS,
           },
         );
         break;
@@ -800,15 +810,7 @@ progressRouter.post('/quiz', async (req, res) => {
 
     const derivedScorePercent = Math.round((correctAnswers / totalQuestions) * 100);
 
-    const chapter = await prisma.chapter.findFirst({
-      where: {
-        isPublished: true,
-        slug: chapterSlug,
-      },
-      include: {
-        topics: true,
-      },
-    });
+    const chapter = await ensureChapter(prisma, chapterSlug);
 
     if (!chapter) {
       return res.status(404).json({ message: 'Chapter was not found.' });
@@ -924,7 +926,6 @@ progressRouter.post('/quiz', async (req, res) => {
             return { attempt, awardedBadges, mastery, revisionMission, studyStreak };
           },
           {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
             maxWait: QUIZ_TRANSACTION_MAX_WAIT_MS,
             timeout: QUIZ_TRANSACTION_TIMEOUT_MS,
           },
@@ -1000,17 +1001,7 @@ progressRouter.get('/quiz-attempts', async (req, res) => {
       return res.status(400).json({ message: 'chapterSlug is required.' });
     }
 
-    const chapter = await prisma.chapter.findFirst({
-      where: {
-        isPublished: true,
-        slug: chapterSlug,
-      },
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-      },
-    });
+    const chapter = await ensureChapter(prisma, chapterSlug);
 
     if (!chapter) {
       return res.status(404).json({ message: 'Chapter was not found.' });

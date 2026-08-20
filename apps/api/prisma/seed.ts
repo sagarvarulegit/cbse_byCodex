@@ -1,5 +1,6 @@
 import { PrismaClient, UserRole, AccessLevel, PublishStatus } from '@prisma/client';
 import { hashPassword } from '../src/lib/auth.js';
+import { ensureChapter, KNOWN_CHAPTERS } from '../src/lib/curriculum-chapters.js';
 
 const prisma = new PrismaClient();
 
@@ -433,6 +434,13 @@ async function main() {
     }
   }
   console.log('English Two Stories about Flying topics and lessons seeded.');
+
+  // 7. Ensure all other CBSE Class 10 chapters and topics are seeded
+  console.log(`Seeding ${Object.keys(KNOWN_CHAPTERS).length} curriculum chapters...`);
+  for (const slug of Object.keys(KNOWN_CHAPTERS)) {
+    await ensureChapter(prisma, slug);
+  }
+  console.log('All CBSE Class 10 curriculum chapters successfully seeded.');
 
   console.log('Database seeding finished.');
 }

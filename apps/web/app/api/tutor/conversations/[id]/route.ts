@@ -22,6 +22,33 @@ export async function GET(
   return NextResponse.json(data ?? { conversation: null }, { status: response.status });
 }
 
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const token = await getStudentSessionToken();
+  if (!token) {
+    return NextResponse.json({ message: 'Sign in to rename a chat.' }, { status: 401 });
+  }
+
+  const { id } = await params;
+  const body = await request.json().catch(() => null);
+  if (!body) {
+    return NextResponse.json({ message: 'Invalid payload.' }, { status: 400 });
+  }
+
+  const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => null);
+  return NextResponse.json(data ?? { conversation: null }, { status: response.status });
+}
+
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },

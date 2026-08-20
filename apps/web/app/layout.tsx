@@ -5,10 +5,12 @@ import BrandLockup from '../components/BrandLockup';
 import FeedbackButton from '../components/FeedbackButton';
 import StudyRemixProvider from '../components/StudyRemixProvider';
 import TaraWidget from '../components/TaraWidget';
+import { TutorPageProvider } from '../contexts/TutorPageContext';
 
 import 'katex/dist/katex.min.css';
 import './globals.css';
 import './platform-remix.css';
+import './arcade.css';
 
 export const metadata: Metadata = {
   title: {
@@ -23,9 +25,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <StudyRemixProvider>{children}</StudyRemixProvider>
-        <FeedbackButton />
-        <TaraWidget />
+        <TutorPageProvider>
+          <StudyRemixProvider>{children}</StudyRemixProvider>
+          <FeedbackButton />
+          <TaraWidget />
+        </TutorPageProvider>
         <footer className="site-footer">
           <Link aria-label="ChapterReady home" className="footer-brand" href="/">
             <BrandLockup compact showDescriptor={false} />

@@ -157,6 +157,18 @@ export default async function DashboardPage() {
           <StudyRemixDashboard model={remixModel} />
         </section>
 
+        {/* ARCADE POWER BREAK */}
+        <section className="dashboard-arcade-banner" aria-label="Arcade Power Break">
+          <div className="arcade-banner-content">
+            <span className="arcade-banner-badge">🎮 3-MIN STUDY BREAK</span>
+            <h3>Need a fast brain recharge? Play Formula Rush!</h3>
+            <p>Drill high-yield Maths &amp; Science formulas in 60-second blitzes. Build muscle memory for board exams.</p>
+          </div>
+          <Link className="arcade-banner-btn" href="/games/formula-rush">
+            ⚡ Play Formula Rush →
+          </Link>
+        </section>
+
         {/* ZONE 2: PERFORMANCE INSIGHTS & WEAK AREA DIAGNOSTICS */}
         <WeakAreaDiagnosticsCard
           diagnostics={diagnostics}

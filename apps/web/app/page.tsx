@@ -59,6 +59,9 @@ export default async function HomePage() {
         </Link>
 
         <div className="home-topbar-actions">
+          <Link className="ghost-link" href="/games">
+            🎮 Games
+          </Link>
           <Link className="ghost-link" href="/subjects">
             Subjects
           </Link>

@@ -9,6 +9,31 @@ export type TutorHistoryItem = {
   content: string;
 };
 
+export type TutorActiveItemContext = {
+  id?: string;
+  label?: string;
+  title?: string;
+  prompt?: string;
+  options?: string[];
+  selectedAnswer?: string;
+  correctAnswer?: string;
+  isCorrect?: boolean;
+  explanation?: string;
+  sectionExcerpt?: string;
+};
+
+export type TutorPageContext = {
+  pageType?: string;
+  pageUrl?: string;
+  pageTitle?: string;
+  subject?: string;
+  chapterSlug?: string;
+  chapterTitle?: string;
+  lessonSlug?: string;
+  lessonTitle?: string;
+  activeItem?: TutorActiveItemContext;
+};
+
 export type TutorAnswer = {
   answerMarkdown: string;
   citedChunkIds: string[];
@@ -23,9 +48,68 @@ export type GenerateOptions = {
   attachmentText?: string | null;
   /** Optional base64 image parts to send inline to Gemini (multimodal). */
   imageParts?: Array<{ mimeType: string; base64Data: string }>;
+  /** Optional structured context of the student's current screen/page. */
+  pageContext?: TutorPageContext | null;
 };
 
 const MODEL = 'gemini-2.5-flash';
+
+function buildPageContextBlock(context?: TutorPageContext | null): string {
+  if (!context) {
+    return '';
+  }
+
+  const lines: string[] = ['## Current Student Screen Context (What the student is viewing right now)'];
+  if (context.pageTitle || context.pageUrl) {
+    lines.push(`- Current Page: ${context.pageTitle || context.pageUrl} (${context.pageUrl || ''})`);
+  }
+  if (context.subject) {
+    lines.push(`- Subject: ${context.subject}`);
+  }
+  if (context.chapterTitle || context.chapterSlug) {
+    lines.push(`- Chapter: ${context.chapterTitle || context.chapterSlug}`);
+  }
+  if (context.lessonTitle || context.lessonSlug) {
+    lines.push(`- Lesson/Section: ${context.lessonTitle || context.lessonSlug}`);
+  }
+
+  if (context.activeItem) {
+    const item = context.activeItem;
+    lines.push(`- Active/Focused Item: ${item.label || item.title || 'Current Question/Problem'}`);
+    if (item.title) {
+      lines.push(`  - Topic: ${item.title}`);
+    }
+    if (item.prompt) {
+      lines.push(`  - Problem/Question Text: "${item.prompt}"`);
+    }
+    if (item.options && item.options.length > 0) {
+      lines.push(`  - Options:\n${item.options.map((opt) => `    * ${opt}`).join('\n')}`);
+    }
+    if (item.selectedAnswer) {
+      lines.push(
+        `  - Student's Selected Option: "${item.selectedAnswer}" (${
+          item.isCorrect === true ? 'Correct' : item.isCorrect === false ? 'Incorrect' : 'Selected'
+        })`,
+      );
+    }
+    if (item.correctAnswer) {
+      lines.push(`  - Correct Answer: "${item.correctAnswer}"`);
+    }
+    if (item.explanation) {
+      lines.push(`  - Solution/Explanation: "${item.explanation}"`);
+    }
+    if (item.sectionExcerpt) {
+      lines.push(`  - Section Excerpt: "${item.sectionExcerpt}"`);
+    }
+  }
+
+  lines.push('');
+  lines.push(
+    'GUIDELINES ON CONTEXT: If the student asks "Why is my answer wrong?", "Explain this question", "How do I solve step 2?", "Give me a hint", or "Explain this formula", use the screen context above to answer directly about that exact question or topic without asking them to type it out.',
+  );
+
+  return lines.join('\n');
+}
 
 function buildChunksBlock(chunks: RetrievedChunk[]): string {
   if (chunks.length === 0) {
@@ -49,10 +133,13 @@ function buildHistoryBlock(history: TutorHistoryItem[]): string {
 }
 
 function buildPrompt(options: GenerateOptions): string {
-  const { chunks, history, question, attachmentText } = options;
+  const { chunks, history, question, attachmentText, pageContext } = options;
+  const contextBlock = buildPageContextBlock(pageContext);
+
   return [
     TARA_SYSTEM_PROMPT,
     '',
+    ...(contextBlock ? [contextBlock, ''] : []),
     '## Retrieved study-notes passages',
     buildChunksBlock(chunks),
     '',

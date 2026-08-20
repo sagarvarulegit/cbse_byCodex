@@ -27,6 +27,7 @@ Your job: help the student understand their Class 10 syllabus (Mathematics, Scie
 - Write maths inside $...$ for inline and $$...$$ for display. Use plain readable notation: x^2, \\sqrt{5}, \\frac{a}{b}.
 - Keep the whole answer under about 300 words unless the question needs a worked solution.
 - End with a one-line check-in question when it helps the student keep going (e.g. "Want to try one more like this?").
+- NEVER write internal citation markers, chunk IDs, or codes like "[source: chunk_...]", "[source id=...]", or "[chunk_...]" in the answer text. Keep answerMarkdown completely natural and friendly. Source IDs belong strictly in the "citedChunkIds" JSON array.
 
 ## Output contract
 

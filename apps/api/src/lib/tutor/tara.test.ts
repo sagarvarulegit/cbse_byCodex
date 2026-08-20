@@ -120,6 +120,15 @@ test('sanitize collapses whitespace', () => {
   assert.equal(out.endsWith('Line two.'), true);
 });
 
+test('sanitize strips internal source and chunk tags from output text', () => {
+  const input =
+    'This is super important! [source: chunk_738_19c9b058e8f1, chunk_739_d51e02ee2282] Check your score [source: chunk_739_d51e02ee2282].';
+  const out = sanitizeTutorMarkdown(input);
+  assert.ok(!out.includes('[source:'));
+  assert.ok(!out.includes('chunk_'));
+  assert.ok(out.includes('This is super important! Check your score .') || out.includes('This is super important!'));
+});
+
 test('generateTutorAnswer formats multimodal imageParts using inlineData', async () => {
   let capturedBody: string | null = null;
   const customFetch = (async (_url: string, init?: RequestInit) => {
@@ -168,4 +177,65 @@ test('generateTutorAnswer formats multimodal imageParts using inlineData', async
 test('generateTutorAnswer rejects a non-object JSON response', async () => {
   const fetchImpl = fakeFetch('["not", "an", "object"]');
   await assert.rejects(() => generateTutorAnswer(BASE_OPTIONS, fetchImpl));
+});
+
+test('generateTutorAnswer injects screen and question context into the prompt', async () => {
+  let capturedBody: string | null = null;
+  const customFetch = (async (_url: string, init?: RequestInit) => {
+    capturedBody = (init?.body as string) ?? null;
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    answerMarkdown: 'The sum of zeroes is -b/a = 7/2.',
+                    citedChunkIds: [],
+                    confidence: 0.95,
+                    refused: false,
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    } as unknown as Response;
+  }) as unknown as typeof fetch;
+
+  const answer = await generateTutorAnswer(
+    {
+      ...BASE_OPTIONS,
+      question: 'Why is my answer wrong?',
+      pageContext: {
+        pageType: 'quiz',
+        pageUrl: '/chapters/polynomials/quiz',
+        chapterSlug: 'polynomials',
+        chapterTitle: 'Polynomials',
+        activeItem: {
+          id: 'q-3',
+          label: 'Question 3',
+          prompt: 'For 2x^2 - 7x + 3, the sum of zeroes is:',
+          options: ['1. 7/2', '2. 3/2', '3. -7/2', '4. 3'],
+          selectedAnswer: '2. 3/2',
+          correctAnswer: '1. 7/2',
+          isCorrect: false,
+        },
+      },
+    },
+    customFetch,
+  );
+
+  assert.equal(answer.refused, false);
+  assert.ok(capturedBody !== null);
+  const parsedBody = JSON.parse(capturedBody);
+  const promptText = parsedBody.contents[0].parts[0].text;
+  assert.ok(promptText.includes('Current Student Screen Context'));
+  assert.ok(promptText.includes('Polynomials'));
+  assert.ok(promptText.includes('For 2x^2 - 7x + 3, the sum of zeroes is:'));
+  assert.ok(promptText.includes('Student\'s Selected Option: "2. 3/2" (Incorrect)'));
 });
