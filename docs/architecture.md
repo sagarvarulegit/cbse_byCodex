@@ -139,6 +139,28 @@ without a Chapter 1 branch in the component or API.
 5. **Chat endpoint**: `POST /v1/tutor/conversations/:id/messages` accepts multipart (question + up to 5 files), validates types/sizes, persists the user message, retrieves chunks, streams the assistant answer as SSE, and persists it with `citedChunkIds`. A per-student daily quota (`TUTOR_DAILY_LIMIT`, default 30) is enforced server-side. A JSON fallback route exists for text-only sends.
 6. **Web UI**: `TaraWidget` (bubble + chat window) is mounted in the root web layout and auto-hides for unauthenticated visitors. It renders sanitized markdown with KaTeX math, shows citation chips, supports multi-file attach, and streams replies. Next.js proxy routes under `/api/tutor/**` forward to the API and pass SSE through without buffering.
 
+### Store, Micro-Monetization & Content Protection
+
+1. **Free Core vs Monetized Add-ons**: Core textbook notes, lesson videos, and 3 daily quizzes remain **100% free forever**. Monetized tools are supplementary, high-density study accelerators strictly priced **under ₹200 INR**:
+   - `NCERT Activity & Diagram Mastery Pack` (`/activities-and-diagrams`, **₹99**): All 13 Science chapter experimental setups, observations, reactions, interactive diagram hotspots, and 3/5-mark CBSE model answers.
+   - `Formula & Reaction Cheatsheets` (`/formula-cheatsheets`, **₹49**): 1-page high-density printable summary sheets per chapter for Class 10 Maths & Science + 3D active-recall interactive flashcards.
+   - `Activity + Formula Super Combo` (**₹129**): Bundled package granting access to both revision tools.
+   - `All-Subjects Board Mock Pack` (`/exam-papers`, **₹199**): 20 full-length 80-mark mock papers across Maths, Science, SST, and English with CBT timers and step-wise marking schemes.
+   - `Single Subject Mock Pass` (`/exam-papers`, **₹99**): 5 full-length papers for a chosen subject.
+   - `Unlimited CBSE Quiz Pass` (`/quizzes`, **₹199**): Removes daily 3-quiz limit across all 48 NCERT chapters and unlocks the Spaced Repetition Mistake Vault.
+2. **Centralized Store (`/store` & `StoreClientView.tsx`)**:
+   - Unified catalog displaying transparent pricing, discounts, and feature checklists.
+   - Category filtering (*All*, *Revision Packs*, *80-Mark Mock Papers*, *Unlimited Quizzes*).
+   - Dynamic ownership detection: checks student entitlements and renders `"✓ Unlocked"` with direct hub launch targets instead of checkout buttons.
+3. **Payment & Entitlement Infrastructure**:
+   - `POST /v1/payments/create-order` creates a Cashfree payment session (supporting UPI QR, Google Pay, PhonePe, Paytm, RuPay/Visa/MasterCard, NetBanking) with Razorpay fallback, persisting a `PaymentOrder` in PostgreSQL.
+   - `POST /v1/payments/verify` verifies gateway signatures/status, marks the order `paid`, and upserts `UserEntitlement` with status `active`.
+   - Reusable `ProductCheckoutModal.tsx`, `PaywallModal.tsx`, and `QuizPaywallModal.tsx` provide instant in-app checkout and unauthenticated guest login redirection.
+4. **Anti-Piracy & Content Protection Engine**:
+   - **Dynamic Forensic Watermarking**: Displays and bakes student full name, email, and roll ref (`Licensed to: [Name] ([Email]) • ChapterReady.in`) across screen cards and printable PDFs.
+   - **DOM Copy Lockdown**: `user-select: none` applied across formula card grids, observation tables, and model answers.
+   - **Viral Print Footer**: Every printable sheet includes an official platform QR conversion badge and legal single-user license notice, turning shared printouts into organic student acquisition funnels.
+
 ## Dependency and impact checks
 
 For cross-module changes:

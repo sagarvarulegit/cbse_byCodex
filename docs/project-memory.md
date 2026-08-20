@@ -3,12 +3,12 @@ type: ProjectMemory
 title: Project Memory Index
 description: Lightweight routing index for durable CBSE learning-platform knowledge.
 tags: ['memory', 'routing', 'onboarding']
-timestamp: 2026-07-30T00:00:00Z
+timestamp: 2026-08-20T00:00:00Z
 ---
 
 # Project Memory Index
 
-Last updated: 2026-07-30
+Last updated: 2026-08-20
 
 This file is intentionally short. Before implementation, read `docs/architecture.md`, then load only the memory topics that match the task. Repository source remains authoritative.
 
@@ -23,6 +23,7 @@ This file is intentionally short. Before implementation, read `docs/architecture
 | Sample test papers, question bank, blueprint snapshot, Gemini verification | [`project-memory/exam-papers.md`](project-memory/exam-papers.md) |
 | Lesson rendering, figures, accessibility, client boundaries, performance, video aesthetics | [`project-memory/rendering-and-media.md`](project-memory/rendering-and-media.md) |
 | Free pilot, deployments, production smoke, subscriptions, blockers | [`project-memory/pilot-and-operations.md`](project-memory/pilot-and-operations.md) |
+| Store, micro-monetization, Cashfree/Razorpay payments, DRM watermarking | [`project-memory/payments-and-monetization.md`](project-memory/payments-and-monetization.md) |
 
 Read more than one topic when a change crosses those boundaries. Do not read every topic by default.
 
