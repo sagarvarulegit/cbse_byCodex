@@ -1,3 +1,20 @@
+# Current Handoff - CBSE Class 10 Fun & Games Arcade & Formula Rush Live
+
+- [x] Implemented and deployed **CBSE Class 10 Fun & Games Arcade and Formula Rush Flagship Game**:
+  - **Arcade Hub (`/games` & [`apps/web/components/games/GamesArcadeHub.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/games/GamesArcadeHub.tsx))**:
+    - **⚡ Formula Rush (Featured & Live)**: 60s Blitz, 3-Lives Survival, and Topic-Specific Practice modes.
+    - **🚀 Upcoming Games Pipeline**: Teaser cards and feature roadmap for *Sci-Wordle*, *Chemical Balancer Blitz*, *GeoQuest: Map Hunter*, and *Circuit Overlord*.
+    - **🏆 Personal Bests & Streak Tracking**: Persisted local records for high scores and blitz records.
+  - **Flagship Game: Formula Rush (`/games/formula-rush` & [`apps/web/components/games/FormulaRushGame.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/games/FormulaRushGame.tsx))**:
+    - **📚 NCERT Question Bank ([`apps/web/lib/games/formula-rush-data.ts`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/lib/games/formula-rush-data.ts))**: 50+ verified Class 10 formulas across Maths (*Trigonometry, Surface Areas & Volumes, Quadratic Equations, AP, Coordinate Geometry, Statistics*) and Science (*Electricity, Light/Optics, Chemical Reactions*).
+    - **🎵 Web Audio SFX Engine ([`apps/web/lib/games/sound-effects.ts`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/lib/games/sound-effects.ts))**: Zero-lag synthesized chimes, combo streak melodies, error thuds, and victory fanfare + mute control.
+    - **🔍 High-Contrast Post-Game Mistake Review**: Side-by-side comparison of student answers vs correct NCERT formulas + textbook tips with high readability in both dark and light modes.
+  - **Global Navigation & Dashboard Wiring**:
+    - Added `🎮 Arcade` to `StudentTopbar` and user popover.
+    - Added `🎮 Games` to public homepage topbar.
+    - Added 3-Minute Study Break banner to `/dashboard`.
+- [ ] Next task: Build **Sci-Wordle** (Daily NCERT 5-Letter Term Game) or **Chemical Balancer Blitz** (Stoichiometric coefficient slider lab).
+
 # Current Handoff - CBSE Quick Quiz Arena & Daily Limit Freemium Paywall Live on Production
 
 - [x] Implemented and deployed **CBSE Quick Quiz Arena, Random Challenge Generator & Freemium Paywall**:
