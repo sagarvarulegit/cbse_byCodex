@@ -30,8 +30,8 @@ export default async function FormulaCheatsheetsPage() {
         <FormulaCheatsheetViewer
           isUnlocked={isUnlocked}
           token={token}
-          userFullName={session?.user?.fullName}
-          userEmail={session?.user?.email || undefined}
+          userFullName={session?.fullName}
+          userEmail={session?.email || undefined}
         />
       </main>
     </div>
