@@ -90,6 +90,14 @@ This document is the repository's concise architecture map. Update it when modul
 3. `ExamReadyChecklist` stores only the three honest student confirmations: concepts studied, NCERT questions attempted, and weak areas revised. Written-answer completion, a 70% quiz target, and D3 recall are derived from immutable evidence.
 4. A chapter can show Exam Ready only from its saved checklist and evidence. Page views, elapsed dates, and focus-session timers never complete checklist evidence.
 
+### Fun&Games Arcade & Formula Rush
+
+1. The `/games` route is the student Arcade hub (`GamesArcadeHub.tsx`), serving gamified active recall power breaks derived 100% from NCERT textbooks.
+2. **Formula Rush** (`/games/formula-rush` and `FormulaRushGame.tsx`) is the first playable game engine, supporting 60s Blitz (with streak multipliers), 3-Lives Survival, and Topic-Specific Practice.
+3. Questions and formulas live in `apps/web/lib/games/formula-rush-data.ts` using KaTeX formatting, with instant explanations and NCERT chapter references.
+4. `apps/web/lib/games/sound-effects.ts` provides zero-lag synthesized Web Audio SFX (chimes, combo chords, error thuds, victory fanfare) with local mute control.
+5. Post-game mistake review UI uses namespaced `.rush-mistake-*` styling in `arcade.css` to guarantee high contrast across light and dark themes.
+
 Timed diagnostics use the same chapter-independent attempt API through
 definitions in `apps/web/lib/exam-practice.ts` and
 `[[exam-practice:<item-id>]]` lesson markers. `ExamPracticeCard` stores

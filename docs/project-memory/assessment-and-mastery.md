@@ -57,3 +57,13 @@ Read this file for quizzes, written practice, timed diagnostics, balancing workb
 - Quiz attempts now keep bounded question-level review evidence so a later correct answer can resolve the exact prior question. Written answers remain browser-only; practice attempts store hint use and missed rubric point ids only.
 - The Exam Ready checklist uses a 70% saved quiz target. Written-answer completion counts only `written_practice` attempts, while D3 recall may come from any qualifying practice kind; concepts studied, NCERT questions attempted, and weak areas revised require saved student confirmation unless the lesson-completion record already covers every published lesson.
 - Resolving the last active mistake can complete the weak-areas confirmation. Any new mistake immediately clears it. Waiting for the retry date never marks an item revised or completes D3 recall.
+
+## CBSE Class 10 Fun&Games Arcade & Formula Rush
+
+- The Fun&Games Arcade (`/games` and `apps/web/components/games/GamesArcadeHub.tsx`) provides 3-minute active recall power breaks mapped 100% directly to NCERT textbooks.
+- The flagship game **Formula Rush** (`/games/formula-rush` and `apps/web/components/games/FormulaRushGame.tsx`) features 3 game modes: ⏱️ 60s Blitz (Time Attack with $2\times, 3\times, 4\times$ combo multipliers), ❤️ 3-Lives Survival (sudden death precision), and 🎯 Subject/Chapter Focus.
+- Formula dataset (`apps/web/lib/games/formula-rush-data.ts`) contains 50+ NCERT-verified Class 10 questions across Maths (Trigonometry, Surface Areas & Volumes, Quadratic Equations, AP, Coordinate Geometry, Statistics) and Science (Electricity, Light/Optics, Chemical Reactions).
+- Web Audio API synthesizer (`apps/web/lib/games/sound-effects.ts`) produces lag-free audio (chimes, combo chords, mistake thuds, countdown ticks, victory fanfare) with `localStorage`-backed mute control.
+- Mistake review cards use strict `.rush-mistake-*` namespaced CSS rules in `apps/web/app/arcade.css` to prevent theme leakage from global `.mistake-prompt` styles, ensuring high contrast in dark and light themes.
+- Student top-nav labels use `🎮 Fun&Games` and `Subjects`, and the dashboard displays a 3-minute Arcade Power Break banner.
+
