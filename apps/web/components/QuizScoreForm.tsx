@@ -374,8 +374,8 @@ export default function QuizScoreForm({
                         type="radio"
                         value={option.value}
                       />
-                      <span>{option.value}</span>
-                      <strong><MathText text={option.label} /></strong>
+                      <span className="quiz-option-badge">{option.value}</span>
+                      <strong className="quiz-option-text"><MathText text={option.label} /></strong>
                     </label>
                   );
                 })}
@@ -538,6 +538,111 @@ export default function QuizScoreForm({
           </p>
         ) : null}
       </aside>
+
+      <style jsx>{`
+        .quiz-option-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: 14px;
+        }
+
+        .quiz-option {
+          position: relative;
+          display: flex !important;
+          align-items: center;
+          gap: 14px;
+          min-height: 56px;
+          padding: 12px 16px;
+          border: 2px solid #171513;
+          border-radius: 12px;
+          background: #ffffff;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          box-shadow: 2px 2px 0 rgba(23, 21, 19, 0.08);
+          box-sizing: border-box;
+        }
+
+        .quiz-option:hover:not(:has(input:disabled)) {
+          border-color: #c25e00;
+          background: #fffdfa;
+          transform: translateY(-1px);
+          box-shadow: 3px 3px 0 #171513;
+        }
+
+        .quiz-option input[type="radio"] {
+          position: absolute;
+          opacity: 0;
+          pointer-events: none;
+          width: 0;
+          height: 0;
+          margin: 0;
+        }
+
+        .quiz-option-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+          border-radius: 8px;
+          border: 1.5px solid #171513;
+          background: #f1ede4;
+          font-weight: 900;
+          font-size: 0.95rem;
+          color: #171513;
+          flex-shrink: 0;
+          box-sizing: border-box;
+        }
+
+        .quiz-option-text {
+          flex: 1 1 auto;
+          min-width: 0;
+          font-size: 0.95rem;
+          font-weight: 600;
+          line-height: 1.45;
+          color: #171513;
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        }
+
+        .quiz-option.selected {
+          border-color: #171513;
+          background: #fff8eb;
+          box-shadow: 4px 4px 0 #171513;
+        }
+
+        .quiz-option.selected .quiz-option-badge {
+          background: #171513;
+          color: #ffffff;
+          border-color: #171513;
+        }
+
+        .quiz-option.correct {
+          border-color: #059669 !important;
+          background: #ecfdf5 !important;
+          box-shadow: 4px 4px 0 #059669 !important;
+        }
+
+        .quiz-option.correct .quiz-option-badge {
+          background: #059669 !important;
+          color: #ffffff !important;
+          border-color: #059669 !important;
+        }
+
+        .quiz-option.incorrect {
+          border-color: #dc2626 !important;
+          background: #fef2f2 !important;
+          box-shadow: 4px 4px 0 #dc2626 !important;
+        }
+
+        .quiz-option.incorrect .quiz-option-badge {
+          background: #dc2626 !important;
+          color: #ffffff !important;
+          border-color: #dc2626 !important;
+        }
+      `}</style>
     </form>
   );
 }

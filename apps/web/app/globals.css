@@ -3871,17 +3871,17 @@ h3 {
 
 .quiz-option {
   position: relative;
-  display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 12px;
+  display: flex;
   align-items: center;
-  min-height: 58px;
-  padding: 10px 12px;
+  gap: 14px;
+  min-height: 56px;
+  padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--card);
   color: var(--foreground);
   cursor: pointer;
+  box-sizing: border-box;
   transition:
     background 160ms ease,
     border-color 160ms ease,
@@ -3892,7 +3892,7 @@ h3 {
 .quiz-option:hover,
 .quiz-option:has(input:focus-visible) {
   border-color: rgba(243, 136, 59, 0.46);
-  box-shadow: 0 10px 24px rgba(243, 136, 59, 0.12);
+  box-shadow: 0 6px 18px rgba(243, 136, 59, 0.12);
   transform: translateY(-1px);
 }
 
@@ -3900,24 +3900,34 @@ h3 {
   position: absolute;
   opacity: 0;
   pointer-events: none;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
 .quiz-option span {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex: 0 0 36px;
+  align-items: center;
+  justify-content: center;
   border: 2px solid var(--border);
   border-radius: 8px;
   background: var(--card-soft);
   color: var(--muted);
   font-weight: 900;
+  box-sizing: border-box;
 }
 
 .quiz-option strong {
+  flex: 1 1 auto;
   min-width: 0;
   font-size: 0.98rem;
-  line-height: 1.35;
+  line-height: 1.45;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .quiz-option.selected {
@@ -5224,12 +5234,15 @@ h3 {
   }
 
   .quiz-option {
-    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 12px;
   }
 
   .quiz-option span {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    flex: 0 0 32px;
   }
 
   .quiz-score-grid,
