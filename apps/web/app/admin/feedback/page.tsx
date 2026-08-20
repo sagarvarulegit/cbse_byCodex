@@ -28,16 +28,16 @@ export default function AdminFeedbackPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/v1/feedback')
+    fetch('/api/feedback')
       .then(r => r.json())
-      .then(d => { setFeedback(d.data || []); setLoading(false); })
+      .then(d => { setFeedback(d.items || d.data || []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
 
   const filtered = filter === 'all' ? feedback : feedback.filter(f => f.status === filter);
 
   const updateStatus = async (id: string, status: string) => {
-    await fetch(`/v1/feedback/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+    await fetch(`/api/feedback/${encodeURIComponent(id)}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
     setFeedback(prev => prev.map(f => f.id === id ? { ...f, status } : f));
   };
 

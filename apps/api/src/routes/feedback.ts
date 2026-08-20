@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import { buildFeedbackEmailHtml, sendEmail } from '../lib/email.js';
 import { prisma } from '../lib/prisma.js';
 import { rateLimit } from '../lib/rate-limiter.js';
 import { getSessionUser, requireSessionUser } from '../lib/session.js';
@@ -167,6 +168,63 @@ feedbackRouter.post('/', feedbackLimiter, async (req, res) => {
         id: true,
       },
     });
+
+    // Send email notification to support inbox
+    const categoryLabels: Record<string, string> = {
+      suggestion: '💡 Suggestion',
+      bug: '🐛 Bug Report',
+      content_error: '📝 Content Error',
+      general: '💬 General Feedback',
+    };
+    const categoryLabel = categoryLabels[feedback.category] || feedback.category;
+    const targetInbox = process.env.FEEDBACK_NOTIFICATION_EMAIL || 'support@chapterready.in';
+    const emailSubject = `[Feedback: ${categoryLabel}] ${feedback.title}`;
+
+    const emailHtml = buildFeedbackEmailHtml({
+      feedbackId: saved.id,
+      category: feedback.category,
+      subject: feedback.subject,
+      chapter: feedback.chapter,
+      title: feedback.title,
+      description: feedback.description,
+      rating: feedback.rating,
+      studentName: user?.profile?.fullName,
+      studentEmail: user?.email,
+      studentPhone: user?.phone,
+      classLevel: user?.profile?.classLevel,
+      createdAt: saved.createdAt,
+    });
+
+    const emailText = `New Feedback Received on ChapterReady
+
+Category: ${categoryLabel}
+Subject: ${feedback.subject ?? 'General'}
+Chapter: ${feedback.chapter ?? 'N/A'}
+Rating: ${feedback.rating ? `${feedback.rating}/5 stars` : 'Not provided'}
+Title: ${feedback.title}
+
+Description:
+${feedback.description}
+
+Submitted By:
+Name: ${user?.profile?.fullName ?? 'Anonymous Student'}
+Email: ${user?.email ?? 'Not logged in (Guest)'}
+Phone: ${user?.phone ?? 'N/A'}
+Class Level: ${user?.profile?.classLevel ? `Class ${user.profile.classLevel}` : 'Class 10'}
+Feedback ID: ${saved.id}
+Date: ${saved.createdAt.toISOString()}
+`;
+
+    try {
+      await sendEmail({
+        to: targetInbox,
+        subject: emailSubject,
+        html: emailHtml,
+        text: emailText,
+      });
+    } catch (emailErr) {
+      console.error('[FEEDBACK_EMAIL_ERROR] Failed to send feedback notification email:', emailErr);
+    }
 
     return res.status(201).json({ feedbackId: saved.id, saved: true });
   } catch (error) {

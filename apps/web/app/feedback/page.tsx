@@ -43,10 +43,13 @@ export default function FeedbackPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category, subject: subject || null, chapter: chapter || null, title: title.trim(), description: description.trim(), rating: rating || null }),
       });
-      if (!res.ok) throw new Error('Failed to submit');
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error(data?.message || 'Failed to submit');
+      }
       setSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }

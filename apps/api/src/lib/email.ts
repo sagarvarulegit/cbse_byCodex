@@ -211,3 +211,161 @@ export function buildRecoveryEmailHtml({
 </html>
 `;
 }
+
+/**
+ * Builds standard, clean HTML template for feedback notification sent to support@chapterready.in.
+ */
+export function buildFeedbackEmailHtml({
+  feedbackId,
+  category,
+  subject,
+  chapter,
+  title,
+  description,
+  rating,
+  studentName,
+  studentEmail,
+  studentPhone,
+  classLevel,
+  createdAt = new Date(),
+}: {
+  feedbackId: string;
+  category: string;
+  subject?: string | null;
+  chapter?: string | null;
+  title: string;
+  description: string;
+  rating?: number | null;
+  studentName?: string | null;
+  studentEmail?: string | null;
+  studentPhone?: string | null;
+  classLevel?: number | null;
+  createdAt?: Date;
+}): string {
+  const categoryLabels: Record<string, string> = {
+    suggestion: '💡 Suggestion',
+    bug: '🐛 Bug Report',
+    content_error: '📝 Content Error',
+    general: '💬 General Feedback',
+  };
+  const categoryLabel = categoryLabels[category] || category;
+
+  const formattedDate = createdAt.toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Asia/Kolkata',
+  });
+
+  const ratingStars = rating ? '★'.repeat(rating) + '☆'.repeat(5 - rating) + ` (${rating}/5)` : 'Not provided';
+  const submitterName = studentName || (studentEmail ? 'Registered Student' : 'Anonymous Student');
+  const submitterEmail = studentEmail || 'Not provided (Guest)';
+  const submitterPhone = studentPhone || 'N/A';
+  const submitterClass = classLevel ? `Class ${classLevel}` : 'Class 10';
+
+  const escapedDescription = description
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br/>');
+
+  const escapedTitle = title
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Feedback Received</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fbf8f3; margin: 0; padding: 24px; color: #171513;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e7e2d6; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <tr>
+      <td style="padding: 24px 32px; background-color: #171513; text-align: left;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">ChapterReady Feedback</h1>
+              <p style="color: #ff8c37; margin: 2px 0 0 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Support Inbox Notification</p>
+            </td>
+            <td style="text-align: right;">
+              <span style="background-color: #ff8c37; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">${categoryLabel}</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 32px 32px 24px 32px;">
+        <h2 style="font-size: 20px; font-weight: 700; margin: 0 0 16px 0; color: #171513; border-bottom: 2px solid #f0eae1; padding-bottom: 12px;">
+          ${escapedTitle}
+        </h2>
+
+        <div style="background-color: #fcfbf9; border: 1px solid #e7e2d6; border-radius: 8px; padding: 16px; margin: 0 0 24px 0;">
+          <p style="font-size: 15px; line-height: 1.6; color: #2a2622; margin: 0;">
+            ${escapedDescription}
+          </p>
+        </div>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="6" style="margin-bottom: 24px; font-size: 14px;">
+          <tr>
+            <td width="30%" style="color: #797167; font-weight: 600;">Category:</td>
+            <td style="color: #171513; font-weight: 700;">${categoryLabel}</td>
+          </tr>
+          ${subject ? `<tr>
+            <td style="color: #797167; font-weight: 600;">Subject:</td>
+            <td style="color: #171513; text-transform: capitalize;">${subject.replace(/_/g, ' ')}</td>
+          </tr>` : ''}
+          ${chapter ? `<tr>
+            <td style="color: #797167; font-weight: 600;">Chapter:</td>
+            <td style="color: #171513;">${chapter}</td>
+          </tr>` : ''}
+          <tr>
+            <td style="color: #797167; font-weight: 600;">Rating:</td>
+            <td style="color: #c25e00; font-weight: 700;">${ratingStars}</td>
+          </tr>
+          <tr>
+            <td style="color: #797167; font-weight: 600;">Submitted At:</td>
+            <td style="color: #171513;">${formattedDate}</td>
+          </tr>
+        </table>
+
+        <div style="border-top: 1px solid #e7e2d6; padding-top: 20px;">
+          <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; color: #797167;">Student Details</h3>
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" style="font-size: 13px;">
+            <tr>
+              <td width="30%" style="color: #797167;">Name:</td>
+              <td style="color: #171513; font-weight: 600;">${submitterName}</td>
+            </tr>
+            <tr>
+              <td style="color: #797167;">Email:</td>
+              <td style="color: #171513;">${submitterEmail}</td>
+            </tr>
+            <tr>
+              <td style="color: #797167;">Phone:</td>
+              <td style="color: #171513;">${submitterPhone}</td>
+            </tr>
+            <tr>
+              <td style="color: #797167;">Level:</td>
+              <td style="color: #171513;">${submitterClass}</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 16px 32px; background-color: #fbf8f3; border-top: 1px solid #e7e2d6; text-align: center;">
+        <p style="font-size: 12px; color: #8c8276; margin: 0; line-height: 1.4;">
+          Feedback ID: <code>${feedbackId}</code><br>
+          Delivered to ChapterReady Support (<a href="mailto:support@chapterready.in" style="color: #c25e00; text-decoration: none;">support@chapterready.in</a>)
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+}
