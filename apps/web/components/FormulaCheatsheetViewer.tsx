@@ -156,21 +156,37 @@ export default function FormulaCheatsheetViewer({
             className={`filter-btn ${activeSubject === 'all' ? 'active' : ''}`}
             onClick={() => setActiveSubject('all')}
           >
-            All
+            All (27 Chapters)
           </button>
           <button
             type="button"
             className={`filter-btn ${activeSubject === 'maths' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('maths')}
+            onClick={() => {
+              setActiveSubject('maths');
+              const mathsChapters = CHAPTER_CHEATSHEETS_DATA.filter((ch) => ch.subject === 'maths');
+              if (!mathsChapters.some((ch) => ch.id === selectedChapterId)) {
+                setSelectedChapterId(mathsChapters[0]?.id || 'math-ch1');
+                setCurrentCardIndex(0);
+                setIsCardFlipped(false);
+              }
+            }}
           >
-            📐 Maths
+            📐 Maths (14)
           </button>
           <button
             type="button"
             className={`filter-btn ${activeSubject === 'science' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('science')}
+            onClick={() => {
+              setActiveSubject('science');
+              const sciChapters = CHAPTER_CHEATSHEETS_DATA.filter((ch) => ch.subject === 'science');
+              if (!sciChapters.some((ch) => ch.id === selectedChapterId)) {
+                setSelectedChapterId(sciChapters[0]?.id || 'sci-ch1');
+                setCurrentCardIndex(0);
+                setIsCardFlipped(false);
+              }
+            }}
           >
-            🧪 Science
+            🧪 Science (13)
           </button>
         </div>
       </div>

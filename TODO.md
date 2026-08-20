@@ -1,3 +1,38 @@
+# Current Handoff - Complete 27-Chapter Class 10 Formula & Reaction Cheatsheet Pack Live
+
+- [x] Expanded and deployed **Complete 27-Chapter Class 10 Formula & Reaction Cheatsheet Pack (`/formula-cheatsheets`, ₹49 / Super Combo ₹129)**:
+  - **📐 Complete Mathematics Coverage (All 14 NCERT Chapters)**:
+    - *Ch 1 Real Numbers*: Fundamental Theorem of Arithmetic, prime powers $\text{HCF} \times \text{LCM} = a \times b$, terminating decimal $2^n \cdot 5^m$ criterion, and $\sqrt{p}$ contradiction irrationality proofs.
+    - *Ch 2 Polynomials*: Relations between zeroes and coefficients ($\alpha + \beta = -b/a, \alpha\beta = c/a$), quadratic formation $k[x^2 - Sx + P]$, symmetric identities $\alpha^2 + \beta^2$, and cubic relations.
+    - *Ch 3 Linear Equations in Two Variables*: Consistency ratios ($a_1/a_2 \ne b_1/b_2$ unique, $a_1/a_2 = b_1/b_2 = c_1/c_2$ infinite coincident, $a_1/a_2 = b_1/b_2 \ne c_1/c_2$ parallel inconsistent), upstream/downstream boat speed equations.
+    - *Ch 4 Quadratic Equations*: Standard form $ax^2+bx+c=0$, discriminant $D=b^2-4ac$, quadratic formula $x=\frac{-b \pm \sqrt{D}}{2a}$, nature of roots, and time difference formulas.
+    - *Ch 5 Arithmetic Progressions*: General term $a_n = a + (n-1)d$, sum $S_n = \frac{n}{2}[2a+(n-1)d]$, $n$th term from sum $a_n = S_n - S_{n-1}$, $n$th term from end $l - (n-1)d$, and symmetric term assumption.
+    - *Ch 6 Triangles*: Thales / Basic Proportionality Theorem ($AD/DB = AE/EC$), Converse of BPT, similarity criteria (AAA/AA, SAS, SSS), perimeter and altitude ratios.
+    - *Ch 7 Coordinate Geometry*: Distance formula $\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$, section formula $\left(\frac{m_1x_2+m_2x_1}{m_1+m_2}, \frac{m_1y_2+m_2y_1}{m_1+m_2}\right)$, midpoint formula, and triangle centroid.
+    - *Ch 8 Introduction to Trigonometry*: Ratios P/B/H, reciprocal and quotient relations, 3 fundamental identities ($\sin^2\theta+\cos^2\theta=1, 1+\tan^2\theta=\sec^2\theta, 1+\cot^2\theta=\csc^2\theta$), and standard angle values table.
+    - *Ch 9 Some Applications of Trigonometry*: Line of sight, angle of elevation and depression, $30^\circ$-$60^\circ$-$90^\circ$ ($1:\sqrt{3}:2$) and $45^\circ$-$45^\circ$-$90^\circ$ ($1:1:\sqrt{2}$) shortcuts, two-observation point formulas.
+    - *Ch 10 Circles*: Tangent $\perp$ radius ($OP \perp PT$), tangents from external point $PA = PB$, supplementary angles $\angle APB + \angle AOB = 180^\circ$, and circumscribed quadrilateral $AB+CD=AD+BC$.
+    - *Ch 11 Areas Related to Circles*: Arc length $l = \frac{\theta}{360^\circ}2\pi r$, sector area $\frac{\theta}{360^\circ}\pi r^2 = \frac{1}{2}lr$, minor and major segment areas, closed semicircle perimeter $\pi r + 2r$, and wheel rotation counts.
+    - *Ch 12 Surface Areas & Volumes*: Complete CSA, TSA, Volume, and Diagonals for Cuboid, Cube, Cylinder, Cone ($l = \sqrt{r^2+h^2}$), Sphere, Hemisphere, and combined solids.
+    - *Ch 13 Statistics*: Direct Mean, Assumed Mean ($a + \frac{\sum f_i d_i}{\sum f_i}$), Step-deviation, Mode ($l + \frac{f_1-f_0}{2f_1-f_0-f_2}h$), Median ($l + \frac{N/2-cf}{f}h$), and empirical relation $\text{Mode} = 3\text{Median} - 2\text{Mean}$.
+    - *Ch 14 Probability*: Classical $P(E) = n(E)/n(S)$, complementary $P(\bar{E}) = 1 - P(E)$, coin powers $2^n$, 2-dice 36-outcome matrix, 52-card deck breakdown, and leap year probabilities.
+  - **🧪 Complete Science Coverage (All 13 NCERT Chapters)**:
+    - *Ch 1 Chemical Reactions & Equations*: 5 reaction types, whitewashing marble reaction, thermal decompositions (Lead Nitrate, Ferrous Sulphate), water electrolysis ($2:1$ ratio), black & white photography, and redox.
+    - *Ch 2 Acids, Bases and Salts*: Metal/carbonate reactions, lime water test, Chlor-alkali process, Bleaching powder, Baking soda, Washing soda, Plaster of Paris $\leftrightarrow$ Gypsum, and full indicator color chart.
+    - *Ch 3 Metals & Non-metals*: Reactivity series mnemonic, amphoteric oxides ($\text{Al}_2\text{O}_3, \text{ZnO}$), Aqua Regia ($3:1$), Roasting vs Calcination, Thermite track welding, and electrolytic refining of copper.
+    - *Ch 4 Carbon & its Compounds*: Catenation, tetravalency, homologous series ($\text{C}_n\text{H}_{2n+2}, \text{C}_n\text{H}_{2n}, \text{C}_n\text{H}_{2n-2}$), functional groups, combustion, oxidation, addition (hydrogenation), substitution, esterification, saponification, and micelle cleansing.
+    - *Ch 5 Life Processes*: Photosynthesis balanced equation ($6\text{CO}_2+12\text{H}_2\text{O} \to \text{C}_6\text{H}_{12}\text{O}_6+6\text{O}_2+6\text{H}_2\text{O}$), 3-pathway glucose breakdown (Mitochondria, Yeast, Muscle), digestive enzymes, double circulation, blood pressure ($120/80\text{ mmHg}$), and nephron filtration.
+    - *Ch 6 Control & Coordination*: Neuron transmission, reflex arc, brain divisions (Forebrain, Midbrain, Hindbrain), plant phytohormones, tropisms, and endocrine hormones.
+    - *Ch 7 How do Organisms Reproduce?*: Asexual modes, double fertilisation ($2n$ zygote + $3n$ endosperm), human reproductive anatomy, contraception, and STDs.
+    - *Ch 8 Heredity*: Mendel's monohybrid ($3:1, 1:2:1$) and dihybrid ($9:3:3:1$) crosses, and human sex determination ($50\%$ boy/girl, father determines sex).
+    - *Ch 9 Light - Reflection & Refraction*: Mirror and lens formulas, magnification sign conventions ($m = -v/u$ vs $m = +v/u$), Snell's law, refractive index, and lens power $P = 1/f(m)$.
+    - *Ch 10 The Human Eye & Colourful World*: Near point ($25\text{ cm}$) and far point ($\infty$), Myopia vs Hypermetropia lens corrections, prism dispersion (VIBGYOR), atmospheric refraction, and Rayleigh scattering ($I \propto 1/\lambda^4$).
+    - *Ch 11 Electricity*: Current $I=Q/t$, Ohm's law, resistivity $R = \rho l/A$, series vs parallel resistor combinations, Joule's heating $H=I^2Rt$, electric power, and $1\text{ kWh} = 3.6 \times 10^6\text{ J}$.
+    - *Ch 12 Magnetic Effects of Electric Current*: Magnetic field lines, Right-Hand Thumb Rule, Solenoid $B = \mu_0 n I$, Fleming's Left-Hand Rule (Motor), Induction & Fleming's Right-Hand Rule, domestic wiring (Live 220V, Neutral 0V, Earth), and fuse safety.
+    - *Ch 13 Our Environment*: Ecosystem components, Lindeman's 10% Energy transfer law, biomagnification (DDT), ozone formation and CFC depletion mechanism, and Montreal Protocol.
+  - **🗂️ Interactive Flashcards & Traps**: 162 total master LaTeX formulas + 100 active-recall flashcards + board exam negative marking warnings.
+- [ ] Next task: Phase 2 Monetization (Competency & Assertion-Reason Question Bank @ ₹149 or AI Answer Evaluator).
+
 # Current Handoff - CBSE Class 10 Phase 1 Micro-Monetization & Official Store Live
 
 - [x] Implemented and deployed **CBSE Class 10 Phase 1 Micro-Monetization & Official Platform Store**:
