@@ -1,18 +1,23 @@
-# Current Handoff - Student Feedback Form 404 Fix & Support Inbox Notifications Live
+# Current Handoff - Unified 10-Section Learning System Landing Page Live
 
-- [x] Fixed student feedback submission 404 error and enabled support email delivery:
-  - **🌐 Next.js API Routes (`apps/web/app/api/feedback/route.ts` & `[id]/route.ts`)**:
-    - Created Next.js route handlers proxying `POST` (student feedback creation) and `GET` (admin list) requests to Express API `${API_BASE_URL}/v1/feedback`.
-    - Created `PATCH` handler at `apps/web/app/api/feedback/[id]/route.ts` to forward admin status updates to `${API_BASE_URL}/v1/feedback/:id`.
-    - Attached session authorization tokens when available.
-  - **📧 Support Inbox Email Notification (`support@chapterready.in`)**:
-    - Implemented `buildFeedbackEmailHtml` in `apps/api/src/lib/email.ts` with branded HTML template (Category badge, Rating stars, Title, Description, Student profile details, IST timestamp, Feedback ID).
-    - Integrated `sendEmail` dispatch in `apps/api/src/routes/feedback.ts` targeting `support@chapterready.in` (configurable via `FEEDBACK_NOTIFICATION_EMAIL`).
-    - Handled delivery errors gracefully without blocking the 201 response to students.
-  - **🖥️ Admin & Student Feedback UI Updates**:
-    - Updated `apps/web/app/admin/feedback/page.tsx` to query `/api/feedback` and handle `items` payload.
-    - Enhanced error handling in `apps/web/app/feedback/page.tsx` to surface detailed server validation messages.
+- [x] Redesigned and deployed **ChapterReady Unified 10-Section Learning System Landing Page (`/`)**:
+  - **🎯 Intent-First Architecture**:
+    - Replaced abstract messaging with clear value proposition: *"Master Class 10, one chapter at a time."*
+    - Added **"What do you want to do today?"** goal selector (📖 *Learn a Chapter*, ✍️ *Practice Questions*, 🎯 *Prepare for Boards*).
+    - Moved **"What are you studying today?"** (Subject Launcher) high up for frictionless 1-click chapter entry.
+  - **🔄 The ChapterReady 5-Step Method**:
+    - Visual learning journey: `01 Pick a Chapter → 02 Learn → 03 Practice → 04 Master → 05 Revise → Board Ready`.
+  - **🤖 Dedicated AI Coach Section ([`AICoachShowcase.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/AICoachShowcase.tsx))**:
+    - Interactive prompt chips (*"Explain like I'm 12"*, *"Give me a hint"*, *"Real-life example"*, *"Quiz me"*) with live Socratic explanations and 1-click Tara tutor activation.
+  - **🔬 Interactive Learning & Virtual Labs Hub**:
+    - Clean explore grid linking *Virtual Labs & Diagrams*, *Formula Cheatsheets*, *Arcade & Formula Rush*, and *AI Coach*.
+  - **📄 Strategic Board Exam Prep Positioning**:
+    - Structured CBT simulator, CBSE step-wise marking schemes, and weak-topic diagnostics showcase with ₹199 Mock Paper Pass (Paper 1 100% Free).
+  - **💬 Social Proof & FAQ Accordion ([`HomeFAQ.tsx`](file:///c:/Sagar/Projects/CBSE/cbse_byCodex/apps/web/components/HomeFAQ.tsx))**:
+    - Verified trust metrics (4.9/5 ⭐, 280+ Qs, 100% CBSE Blueprint) and interactive accordion answering student & parent questions.
 - [ ] Next task: Phase 2 Monetization (Competency & Assertion-Reason Question Bank @ ₹149 or AI Answer Evaluator).
+
+# Current Handoff - Student Feedback Form 404 Fix & Support Inbox Notifications Live
 
 # Current Handoff - Complete 27-Chapter Class 10 Formula & Reaction Cheatsheet Pack Live
 
