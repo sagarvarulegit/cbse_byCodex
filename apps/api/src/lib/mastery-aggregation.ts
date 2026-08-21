@@ -91,14 +91,20 @@ export async function completeSatisfiedRevisionMissions<TMission extends { chapt
   const completedAt = params.completedAt ?? new Date();
   const visibleMissions: TMission[] = [];
 
+  const satisfiedMissionIds: string[] = [];
+
   for (const mission of params.missions) {
     if (!isRevisionMissionSatisfied(mission, params.masteries)) {
       visibleMissions.push(mission);
       continue;
     }
 
-    await db.revisionMission.update({
-      where: { id: mission.id },
+    satisfiedMissionIds.push(mission.id);
+  }
+
+  if (satisfiedMissionIds.length > 0) {
+    await db.revisionMission.updateMany({
+      where: { id: { in: satisfiedMissionIds } },
       data: {
         completedAt,
         status: 'completed',

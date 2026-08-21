@@ -6,7 +6,15 @@ type MathSegment =
   | { type: 'math'; display: boolean; value: string };
 
 export default function MathText({ text }: { text: string }) {
-  return <>{splitMathSegments(text).map(renderSegment)}</>;
+  const segments = splitMathSegments(text);
+
+  // If there are no math segments, return plain text directly
+  const hasMath = segments.some((s) => s.type === 'math');
+  if (!hasMath) {
+    return <>{segments.map((seg, i) => <span key={`text-${i}`}>{seg.value}</span>)}</>;
+  }
+
+  return <>{segments.map(renderSegment)}</>;
 }
 
 function renderSegment(segment: MathSegment, index: number): ReactNode {

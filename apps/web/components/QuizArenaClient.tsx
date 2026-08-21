@@ -2,9 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 
-import QuizPaywallModal from './QuizPaywallModal';
+const QuizPaywallModal = dynamic(() => import('./QuizPaywallModal'));
 import { FREE_DAILY_QUIZ_LIMIT } from '../lib/payments';
 
 export type ChapterQuizCardItem = {

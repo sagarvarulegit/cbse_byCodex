@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic';
 import { hasBalanceWorkbench } from '../lib/chemical-equation-balancing';
 import ActivityIllustration, {
   hasActivityIllustration,
 } from './ActivityIllustration';
-import ChemicalEquationBalancer from './ChemicalEquationBalancer';
+const ChemicalEquationBalancer = dynamic(() => import('./ChemicalEquationBalancer'));
 import MathFigureDemo, {
   hasMathFigureDemo,
 } from './MathFigureDemo';

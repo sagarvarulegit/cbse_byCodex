@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 
-import ExamPaperRunner from '../../../../components/ExamPaperRunner';
+const ExamPaperRunner = dynamic(() => import('../../../../components/ExamPaperRunner'));
 import StudentTopbar from '../../../../components/StudentTopbar';
 import {
   getStudentSessionToken,

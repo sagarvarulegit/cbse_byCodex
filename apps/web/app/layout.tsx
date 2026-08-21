@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import BrandLockup from '../components/BrandLockup';
 import FeedbackButton from '../components/FeedbackButton';
 import StudyRemixProvider from '../components/StudyRemixProvider';
-import TaraWidget from '../components/TaraWidget';
 import { TutorPageProvider } from '../contexts/TutorPageContext';
+
+// Lazy-load TaraWidget (46KB + KaTeX 250KB) — only hydrates when student
+// interacts with the floating Tara button instead of bloating every page.
+const TaraWidget = dynamic(() => import('../components/TaraWidget'));
 
 import 'katex/dist/katex.min.css';
 import './globals.css';
 import './platform-remix.css';
-import './arcade.css';
+// arcade.css moved to app/games/layout.tsx — only loaded on game routes
 
 export const metadata: Metadata = {
   title: {

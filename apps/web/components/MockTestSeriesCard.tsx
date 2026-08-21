@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 
 import type { MockTestSeries, MockTestSeriesPaper } from '../lib/exam-papers';
 import { fetchStudentOrders, type StudentOrder } from '../lib/payments';
-import PaywallModal from './PaywallModal';
-import RefundModal from './RefundModal';
+const PaywallModal = dynamic(() => import('./PaywallModal'));
+const RefundModal = dynamic(() => import('./RefundModal'));
 
 export type SubjectSeriesEntry = {
   series: MockTestSeries;

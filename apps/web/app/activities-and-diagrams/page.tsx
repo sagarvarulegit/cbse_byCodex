@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import StudentTopbar from '../../components/StudentTopbar';
-import ActivityDiagramViewer from '../../components/ActivityDiagramViewer';
+const ActivityDiagramViewer = dynamic(() => import('../../components/ActivityDiagramViewer'));
 import { getStudentSession, getStudentSessionToken } from '../../lib/auth';
 import { fetchStudentEntitlements, checkHasActivityDiagramPack } from '../../lib/payments';
 

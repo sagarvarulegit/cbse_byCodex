@@ -177,51 +177,53 @@ export async function syncQuizMistakes(params: {
     ),
   );
 
-  for (const result of incorrectQuestions) {
-    await params.db.mistakeReviewItem.upsert({
-      where: {
-        userId_itemKey: {
+  await Promise.all(
+    incorrectQuestions.map((result) =>
+      params.db.mistakeReviewItem.upsert({
+        where: {
+          userId_itemKey: {
+            itemKey: questionItemKey(params.chapterSlug, result.questionId),
+            userId: params.userId,
+          },
+        },
+        create: {
+          chapterId: params.chapterId,
+          conceptSlug: result.topicSlug,
+          detail: `You chose “${result.selectedAnswer}”. Correct answer: “${result.correctAnswer}”.`,
           itemKey: questionItemKey(params.chapterSlug, result.questionId),
+          kind: 'quiz_question',
+          lastSeenAt: params.attemptedAt,
+          metadata: {
+            correctAnswer: result.correctAnswer,
+            explanation: result.explanation,
+            prompt: result.prompt,
+            selectedAnswer: result.selectedAnswer,
+          } satisfies Prisma.InputJsonValue,
+          retryAt,
+          reviewHref: `${reviewHref}#quiz-question-${result.questionId}`,
+          sourceItemId: result.questionId,
+          title: result.title,
           userId: params.userId,
         },
-      },
-      create: {
-        chapterId: params.chapterId,
-        conceptSlug: result.topicSlug,
-        detail: `You chose “${result.selectedAnswer}”. Correct answer: “${result.correctAnswer}”.`,
-        itemKey: questionItemKey(params.chapterSlug, result.questionId),
-        kind: 'quiz_question',
-        lastSeenAt: params.attemptedAt,
-        metadata: {
-          correctAnswer: result.correctAnswer,
-          explanation: result.explanation,
-          prompt: result.prompt,
-          selectedAnswer: result.selectedAnswer,
-        } satisfies Prisma.InputJsonValue,
-        retryAt,
-        reviewHref: `${reviewHref}#quiz-question-${result.questionId}`,
-        sourceItemId: result.questionId,
-        title: result.title,
-        userId: params.userId,
-      },
-      update: {
-        conceptSlug: result.topicSlug,
-        detail: `You chose “${result.selectedAnswer}”. Correct answer: “${result.correctAnswer}”.`,
-        lastSeenAt: params.attemptedAt,
-        metadata: {
-          correctAnswer: result.correctAnswer,
-          explanation: result.explanation,
-          prompt: result.prompt,
-          selectedAnswer: result.selectedAnswer,
-        } satisfies Prisma.InputJsonValue,
-        occurrenceCount: { increment: 1 },
-        resolvedAt: null,
-        retryAt,
-        reviewHref: `${reviewHref}#quiz-question-${result.questionId}`,
-        title: result.title,
-      },
-    });
-  }
+        update: {
+          conceptSlug: result.topicSlug,
+          detail: `You chose “${result.selectedAnswer}”. Correct answer: “${result.correctAnswer}”.`,
+          lastSeenAt: params.attemptedAt,
+          metadata: {
+            correctAnswer: result.correctAnswer,
+            explanation: result.explanation,
+            prompt: result.prompt,
+            selectedAnswer: result.selectedAnswer,
+          } satisfies Prisma.InputJsonValue,
+          occurrenceCount: { increment: 1 },
+          resolvedAt: null,
+          retryAt,
+          reviewHref: `${reviewHref}#quiz-question-${result.questionId}`,
+          title: result.title,
+        },
+      })
+    )
+  );
 
   const labelBySlug = new Map(
     params.questionResults
@@ -249,37 +251,39 @@ export async function syncQuizMistakes(params: {
     });
   }
 
-  for (const conceptSlug of params.weakTopicSlugs) {
-    const conceptLabel = labelBySlug.get(conceptSlug) ?? formatSlug(conceptSlug);
-    await params.db.mistakeReviewItem.upsert({
-      where: {
-        userId_itemKey: {
+  await Promise.all(
+    params.weakTopicSlugs.map((conceptSlug) => {
+      const conceptLabel = labelBySlug.get(conceptSlug) ?? formatSlug(conceptSlug);
+      return params.db.mistakeReviewItem.upsert({
+        where: {
+          userId_itemKey: {
+            itemKey: conceptItemKey(params.chapterSlug, conceptSlug),
+            userId: params.userId,
+          },
+        },
+        create: {
+          chapterId: params.chapterId,
+          conceptSlug,
+          detail: 'This concept appeared in one or more incorrect quiz answers.',
           itemKey: conceptItemKey(params.chapterSlug, conceptSlug),
+          kind: 'weak_concept',
+          lastSeenAt: params.attemptedAt,
+          retryAt,
+          reviewHref: `/chapters/${params.chapterSlug}/notes`,
+          sourceItemId: conceptSlug,
+          title: `Weak concept: ${conceptLabel}`,
           userId: params.userId,
         },
-      },
-      create: {
-        chapterId: params.chapterId,
-        conceptSlug,
-        detail: 'This concept appeared in one or more incorrect quiz answers.',
-        itemKey: conceptItemKey(params.chapterSlug, conceptSlug),
-        kind: 'weak_concept',
-        lastSeenAt: params.attemptedAt,
-        retryAt,
-        reviewHref: `/chapters/${params.chapterSlug}/notes`,
-        sourceItemId: conceptSlug,
-        title: `Weak concept: ${conceptLabel}`,
-        userId: params.userId,
-      },
-      update: {
-        lastSeenAt: params.attemptedAt,
-        occurrenceCount: { increment: 1 },
-        resolvedAt: null,
-        retryAt,
-        title: `Weak concept: ${conceptLabel}`,
-      },
-    });
-  }
+        update: {
+          lastSeenAt: params.attemptedAt,
+          occurrenceCount: { increment: 1 },
+          resolvedAt: null,
+          retryAt,
+          title: `Weak concept: ${conceptLabel}`,
+        },
+      });
+    })
+  );
 
   if (incorrectQuestions.length > 0 || params.weakTopicSlugs.length > 0) {
     await flagOpenWeakAreas(params.db, params.userId, params.chapterId);
@@ -320,48 +324,50 @@ export async function syncPracticeMistakes(params: {
     ),
   );
 
-  for (const point of params.missedRubricPoints) {
-    await params.db.mistakeReviewItem.upsert({
-      where: {
-        userId_itemKey: {
+  await Promise.all(
+    params.missedRubricPoints.map((point) =>
+      params.db.mistakeReviewItem.upsert({
+        where: {
+          userId_itemKey: {
+            itemKey: markingPointItemKey(params.chapterSlug, params.practiceItemId, point.id),
+            userId: params.userId,
+          },
+        },
+        create: {
+          chapterId: params.chapterId,
+          conceptSlug: point.skillSlug,
+          detail: `Your self-check did not include this marking point: ${point.label}`,
           itemKey: markingPointItemKey(params.chapterSlug, params.practiceItemId, point.id),
+          kind: 'written_marking_point',
+          lastSeenAt: params.attemptedAt,
+          lessonSlug: params.lessonSlug,
+          metadata: {
+            practicePrompt: params.practicePrompt,
+            practiceTitle: params.practiceTitle,
+          } satisfies Prisma.InputJsonValue,
+          retryAt,
+          reviewHref,
+          sourceItemId: point.id,
+          title: `Missed marking point: ${point.label}`,
           userId: params.userId,
         },
-      },
-      create: {
-        chapterId: params.chapterId,
-        conceptSlug: point.skillSlug,
-        detail: `Your self-check did not include this marking point: ${point.label}`,
-        itemKey: markingPointItemKey(params.chapterSlug, params.practiceItemId, point.id),
-        kind: 'written_marking_point',
-        lastSeenAt: params.attemptedAt,
-        lessonSlug: params.lessonSlug,
-        metadata: {
-          practicePrompt: params.practicePrompt,
-          practiceTitle: params.practiceTitle,
-        } satisfies Prisma.InputJsonValue,
-        retryAt,
-        reviewHref,
-        sourceItemId: point.id,
-        title: `Missed marking point: ${point.label}`,
-        userId: params.userId,
-      },
-      update: {
-        conceptSlug: point.skillSlug,
-        detail: `Your self-check did not include this marking point: ${point.label}`,
-        lastSeenAt: params.attemptedAt,
-        metadata: {
-          practicePrompt: params.practicePrompt,
-          practiceTitle: params.practiceTitle,
-        } satisfies Prisma.InputJsonValue,
-        occurrenceCount: { increment: 1 },
-        resolvedAt: null,
-        retryAt,
-        reviewHref,
-        title: `Missed marking point: ${point.label}`,
-      },
-    });
-  }
+        update: {
+          conceptSlug: point.skillSlug,
+          detail: `Your self-check did not include this marking point: ${point.label}`,
+          lastSeenAt: params.attemptedAt,
+          metadata: {
+            practicePrompt: params.practicePrompt,
+            practiceTitle: params.practiceTitle,
+          } satisfies Prisma.InputJsonValue,
+          occurrenceCount: { increment: 1 },
+          resolvedAt: null,
+          retryAt,
+          reviewHref,
+          title: `Missed marking point: ${point.label}`,
+        },
+      })
+    )
+  );
 
   const hintKey = hintItemKey(params.chapterSlug, params.practiceItemId);
   if (params.usedHints) {

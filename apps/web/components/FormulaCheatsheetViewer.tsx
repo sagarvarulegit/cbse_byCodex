@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import {
   CHAPTER_CHEATSHEETS_DATA,
   type ChapterCheatsheet,
@@ -8,7 +9,7 @@ import {
   type FlashcardItem,
 } from '../lib/content/cheatsheets-data';
 import MathText from './MathText';
-import ProductCheckoutModal from './ProductCheckoutModal';
+const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { FORMULA_CHEATSHEET_PACK_KEY } from '../lib/payments';
 
 export type FormulaCheatsheetViewerProps = {

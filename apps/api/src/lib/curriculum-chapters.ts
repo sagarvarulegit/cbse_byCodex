@@ -2160,22 +2160,24 @@ export async function ensureChapter(prisma: PrismaClient, chapterSlug: string) {
   });
 
   // 3. Ensure topics are created
-  for (const lesson of meta.lessons) {
-    await prisma.topic.upsert({
-      where: {
-        chapterId_slug: {
-          chapterId: chapter.id,
-          slug: lesson.slug,
-        },
-      },
-      update: { isPublished: true },
-      create: {
+  if (meta.lessons.length > 0) {
+    await prisma.topic.createMany({
+      data: meta.lessons.map((lesson) => ({
         chapterId: chapter.id,
         title: lesson.title,
         slug: lesson.slug,
         sortOrder: lesson.sortOrder,
         isPublished: true,
+      })),
+      skipDuplicates: true,
+    });
+
+    await prisma.topic.updateMany({
+      where: {
+        chapterId: chapter.id,
+        slug: { in: meta.lessons.map((lesson) => lesson.slug) },
       },
+      data: { isPublished: true },
     });
   }
 

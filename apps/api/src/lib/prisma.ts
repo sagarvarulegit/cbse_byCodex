@@ -10,6 +10,9 @@ export const prisma =
     log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
   });
 
+// Pre-warm the connection pool on serverless cold start
+prisma.$connect().catch(() => {});
+
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }

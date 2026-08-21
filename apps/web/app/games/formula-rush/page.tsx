@@ -1,6 +1,7 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import StudentTopbar from '../../../components/StudentTopbar';
-import FormulaRushGame from '../../../components/games/FormulaRushGame';
+const FormulaRushGame = dynamic(() => import('../../../components/games/FormulaRushGame'));
 import { getStudentSession } from '../../../lib/auth';
 
 export const metadata = {

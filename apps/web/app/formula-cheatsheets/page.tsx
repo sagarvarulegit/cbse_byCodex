@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import StudentTopbar from '../../components/StudentTopbar';
-import FormulaCheatsheetViewer from '../../components/FormulaCheatsheetViewer';
+const FormulaCheatsheetViewer = dynamic(() => import('../../components/FormulaCheatsheetViewer'));
 import { getStudentSession, getStudentSessionToken } from '../../lib/auth';
 import { fetchStudentEntitlements, checkHasFormulaCheatsheetPack } from '../../lib/payments';
 

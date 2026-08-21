@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import type { SessionUser } from '../lib/auth';
 import {
   type StudentEntitlementsResponse,
@@ -11,9 +12,9 @@ import {
   ACTIVITY_FORMULA_COMBO_PACK_KEY,
   UNLIMITED_QUIZ_PASS_KEY,
 } from '../lib/payments';
-import ProductCheckoutModal from './ProductCheckoutModal';
-import PaywallModal from './PaywallModal';
-import QuizPaywallModal from './QuizPaywallModal';
+const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
+const PaywallModal = dynamic(() => import('./PaywallModal'));
+const QuizPaywallModal = dynamic(() => import('./QuizPaywallModal'));
 
 export type StoreCategory = 'all' | 'revision' | 'mock_papers' | 'practice';
 

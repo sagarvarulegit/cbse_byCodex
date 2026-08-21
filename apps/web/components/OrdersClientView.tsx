@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import type { SessionUser } from '../lib/auth';
 import {
@@ -9,8 +10,8 @@ import {
   type StudentEntitlementsResponse,
   type StudentOrder,
 } from '../lib/payments';
-import OrderReceiptModal from './OrderReceiptModal';
-import RefundModal from './RefundModal';
+const OrderReceiptModal = dynamic(() => import('./OrderReceiptModal'));
+const RefundModal = dynamic(() => import('./RefundModal'));
 
 export type OrdersClientViewProps = {
   session: SessionUser;

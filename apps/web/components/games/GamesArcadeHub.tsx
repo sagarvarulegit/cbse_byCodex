@@ -10,13 +10,39 @@ interface GamesArcadeHubProps {
 export default function GamesArcadeHub({ userFullName }: GamesArcadeHubProps) {
   const [blitzBest, setBlitzBest] = useState<number>(0);
   const [survivalBest, setSurvivalBest] = useState<number>(0);
+  const [clientUserName, setClientUserName] = useState<string | undefined>(userFullName);
 
   useEffect(() => {
     const savedBlitz = localStorage.getItem('cbse_fr_highscore_blitz');
     if (savedBlitz) setBlitzBest(parseInt(savedBlitz, 10));
     const savedSurv = localStorage.getItem('cbse_fr_highscore_survival');
     if (savedSurv) setSurvivalBest(parseInt(savedSurv, 10));
-  }, []);
+
+    if (!userFullName) {
+      const cookie = document.cookie.split('; ').find(row => row.startsWith('cbse_student_session='));
+      if (cookie) {
+        try {
+          const token = decodeURIComponent(cookie.split('=')[1]);
+          const payloadStr = token.split('.')[0];
+          if (payloadStr) {
+            const base64 = payloadStr.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+              atob(base64)
+                .split('')
+                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+            );
+            const payload = JSON.parse(jsonPayload);
+            if (payload && payload.fullName) {
+              setClientUserName(payload.fullName);
+            }
+          }
+        } catch (e) {
+          // ignore parsing errors
+        }
+      }
+    }
+  }, [userFullName]);
 
   return (
     <div className="arcade-hub-root">
@@ -25,7 +51,7 @@ export default function GamesArcadeHub({ userFullName }: GamesArcadeHubProps) {
         <div className="arcade-hero-copy">
           <span className="arcade-hero-eyebrow">⚡ CBSE Class 10 Game Arcade</span>
           <h1 className="arcade-hero-title">
-            {userFullName ? `Welcome to the Arcade, ${userFullName.split(' ')[0]}!` : 'Master Class 10 with 3-Minute Power Games'}
+            {clientUserName ? `Welcome to the Arcade, ${clientUserName.split(' ')[0]}!` : 'Master Class 10 with 3-Minute Power Games'}
           </h1>
           <p className="arcade-hero-desc">
             Guilt-free study breaks that supercharge active recall. Every question is derived 100% directly from NCERT textbooks.

@@ -2,10 +2,11 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { NCERT_ACTIVITIES_DATA, type NcertActivity, type ActivitySubject } from '../lib/content/activities-data';
 import ActivityIllustration from './ActivityIllustration';
 import MathText from './MathText';
-import ProductCheckoutModal from './ProductCheckoutModal';
+const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { NCERT_ACTIVITY_DIAGRAM_PACK_KEY } from '../lib/payments';
 
 export type ActivityDiagramViewerProps = {
