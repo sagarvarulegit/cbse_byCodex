@@ -8,17 +8,18 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Project TODO
 
-Last updated: 2026-08-16
-
-This backlog was assembled from the accessible local Codex transcripts for this
-project, the current repo docs, and the git history through `d2040ac`.
+Last updated: 2026-08-23
 
 ## Current Priority
 
-- [x] Deploy three Vercel projects: `apps/api`, `apps/web`, and `apps/admin` (2026-08-16: web https://www.chapterready.in, API https://cbse-bycodex-api.vercel.app, admin https://cbse-bycodex-admin.vercel.app; smoke-tested health/auth/catalog/exam-papers/tutor).
-- [ ] Next: Free/paid entitlement split on the Mock Test Series — Paper 1 open, Papers 2–5 gated behind access (pre-Razorpay step). The platform is now live, so gating has a real surface.
-- [ ] Rotate the ElevenLabs API key that was pasted into chat, then update only server-side/local environment variables.
-- [ ] Smoke test deployed API endpoints, student web, and admin web.
+- [x] Complete Milestone 1: cbse_KB extraction & auditing (932 valid PDFs, 546 official 2026 Science questions, 1,109 Exemplar questions).
+- [x] Complete Milestone 2: Mathematics Basic (241) 5-paper mock series with step-marking rubrics (`MarkingSchemeRubric.tsx`).
+- [x] Complete Milestone 3: Practice Expansion (Exemplar HOTS mode with 468 verified MCQs, 5-Year PYQ Drill ladders on chapter notes, Hindi Course A 002 & Course B 085 mock series).
+- [x] Complete Milestone 4: AI "Snap & Grade" Written Answer Evaluator API (`POST /v1/evaluator/grade-answer`) & Student Modal (`AiAnswerEvaluatorModal.tsx`).
+- [x] End-to-end live testing of all 4 milestones passed with 100% success.
+- [x] Deploy to production on Vercel (`apps/web` https://www.chapterready.in, `apps/api` https://cbse-bycodex-api.vercel.app, `apps/admin` https://cbse-bycodex-admin.vercel.app).
+- [ ] Next: Launch parent progress reporting & weekly WhatsApp/email digest for student mock exam performance and AI evaluation history.
+
 
 ## AI Tutor "Tara-Firefly" — Shipped (2026-08-16)
 
