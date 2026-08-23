@@ -79,6 +79,28 @@ const AVAILABLE_SUBJECTS: SubjectOption[] = [
     readingMinutes: 15,
     description: '34 questions · 80 marks · 3 hours · Sections A–E (Reading, Writing, Grammar, Literature)',
   },
+  {
+    slug: 'hindi-course-a',
+    code: '002',
+    title: 'Hindi Course A',
+    badge: 'Hindi 002',
+    questionCount: 34,
+    totalMarks: 80,
+    durationMinutes: 180,
+    readingMinutes: 15,
+    description: '34 questions · 80 marks · 3 hours · Sections A–E (Reading, Grammar, Literature, Creative Writing)',
+  },
+  {
+    slug: 'hindi-course-b',
+    code: '085',
+    title: 'Hindi Course B',
+    badge: 'Hindi 085',
+    questionCount: 34,
+    totalMarks: 80,
+    durationMinutes: 180,
+    readingMinutes: 15,
+    description: '34 questions · 80 marks · 3 hours · Sections A–E (Reading, Grammar, Literature, Creative Writing)',
+  },
 ];
 
 export default function ExamPaperStudio({

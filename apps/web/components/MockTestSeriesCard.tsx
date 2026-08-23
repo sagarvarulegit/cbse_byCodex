@@ -20,6 +20,8 @@ const SUBJECT_LABELS: Record<string, string> = {
   'science': 'Science (086)',
   'social-science': 'Social Science (087)',
   'english-language-and-literature': 'English (184)',
+  'hindi-course-a': 'Hindi Course A (002)',
+  'hindi-course-b': 'Hindi Course B (085)',
 };
 
 export default function MockTestSeriesCard({

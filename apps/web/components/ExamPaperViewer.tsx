@@ -93,9 +93,7 @@ export default function ExamPaperViewer({
           <p className="eyebrow">ChapterReady · CBSE Class 10</p>
           <h1>{paper.title}</h1>
           <p className="subtext compact">
-            Mathematics Standard (041) · {paper.totalMarks} marks ·{' '}
-            {paper.durationMinutes} minutes (+ {paper.readingTimeMinutes} minutes
-            reading) · Seed {paper.seed}
+            {paper.totalMarks} marks · {paper.durationMinutes} minutes (+ {paper.readingTimeMinutes} minutes reading) · Seed {paper.seed}
           </p>
         </div>
         <VerificationBadge paper={paper} />

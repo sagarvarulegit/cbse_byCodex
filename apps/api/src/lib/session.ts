@@ -89,16 +89,21 @@ export async function getSessionUser(req: Request) {
     return null;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    include: { profile: true },
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.userId },
+      include: { profile: true },
+    });
 
-  if (!user || user.status !== 'active') {
+    if (!user || user.status !== 'active') {
+      return null;
+    }
+
+    return user;
+  } catch (error) {
+    console.error('Database connection error in getSessionUser:', error);
     return null;
   }
-
-  return user;
 }
 
 export async function requireSessionUser(req: Request) {
