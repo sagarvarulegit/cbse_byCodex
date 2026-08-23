@@ -111,24 +111,37 @@ export function evaluateAnswerHeuristically(input: EvaluateAnswerRequest): Evalu
     const allocated = weightMatch ? parseFloat(weightMatch[1]) : input.maxMarks / input.officialValuePoints.length;
     const desc = weightMatch ? weightMatch[2] : rawPoint;
 
-    // Extract significant keywords (length >= 3, excluding common stop words)
-    const stopWords = new Set(['the', 'and', 'for', 'with', 'from', 'that', 'this', 'are', 'was', 'were', 'which']);
-    const words = desc
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .split(/\s+/)
-      .filter((w) => w.length >= 3 && !stopWords.has(w));
+    // Extract significant keywords and formula symbols
+    const stopWords = new Set(['the', 'and', 'for', 'with', 'from', 'that', 'this', 'are', 'was', 'were', 'which', 'has', 'have']);
+    
+    // Normalized text without spaces for formula checks (e.g. "v=ir", "c6h12o6")
+    const condensedStudent = studentText.replace(/[\s\-_*.]/g, '');
+    const condensedDesc = desc.toLowerCase().replace(/[\s\-_*.]/g, '');
 
-    const matched = words.filter((w) => studentText.includes(w) || (w.length > 5 && studentText.includes(w.slice(0, -2))));
-    const missing = words.filter((w) => !studentText.includes(w) && !(w.length > 5 && studentText.includes(w.slice(0, -2))));
+    const rawTokens = desc
+      .replace(/[^a-zA-Z0-9\s=]/g, ' ')
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const words = rawTokens
+      .map((t) => t.toLowerCase())
+      .filter((w) => (w.length >= 3 || /[0-9=]/.test(w) || ['v', 'i', 'r', 'p', 'f', 'u', 'm', 'q'].includes(w)) && !stopWords.has(w));
+
+    const matched = words.filter(
+      (w) =>
+        studentText.includes(w) ||
+        (w.length > 4 && studentText.includes(w.slice(0, -2))) ||
+        (condensedDesc.includes(w) && condensedStudent.includes(w))
+    );
+    const missing = words.filter((w) => !matched.includes(w));
 
     let ratio = words.length > 0 ? matched.length / words.length : 0.5;
     if (studentText.length < 15 || studentText.includes('do not know')) ratio = 0;
 
     let earned = 0;
-    if (ratio >= 0.5) {
+    if (ratio >= 0.45) {
       earned = allocated;
-    } else if (ratio >= 0.25) {
+    } else if (ratio >= 0.2) {
       earned = Math.max(0.5, Math.round((allocated * 0.5) * 2) / 2);
     }
     if (earned > allocated) earned = allocated;
