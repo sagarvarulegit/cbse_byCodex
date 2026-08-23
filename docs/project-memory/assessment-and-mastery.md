@@ -67,3 +67,15 @@ Read this file for quizzes, written practice, timed diagnostics, balancing workb
 - Mistake review cards use strict `.rush-mistake-*` namespaced CSS rules in `apps/web/app/arcade.css` to prevent theme leakage from global `.mistake-prompt` styles, ensuring high contrast in dark and light themes.
 - Student top-nav labels use `🎮 Fun&Games` and `Subjects`, and the dashboard displays a 3-minute Arcade Power Break banner.
 
+## Exemplar HOTS Arena & Chapter PYQ Drill Ladders
+
+- **Exemplar HOTS Arena (`/quizzes` & `QuizArenaClient.tsx`)**: Sourced directly from official NCERT Exemplar problems (`exemplar-questions.generated.json`). Supports High-Order Thinking Skills (HOTS) questions, detailed step-by-step solutions, and chapter-wise difficulty filtering.
+- **Chapter-Wise PYQ Drill Ladders (`ChapterPyqDrill.tsx`)**: Sourced from official board papers (`chapter-pyqs.generated.json`). Displays authentic previous year questions organized by difficulty ladder, exam year, and set codes with step-by-step marking rubrics.
+
+## Grounded AI Snap & Grade Written Evaluator
+
+- `grade-answer.ts` in `apps/api/src/lib/evaluator/` powers AI marking of student handwritten and typed answers against official CBSE step-marking schemes.
+- Employs heuristic keyword/formula symbol matching combined with LLM validation, awarding step marks and calculating specific deductions for missing steps, wrong units, or incomplete calculations.
+- `AiAnswerEvaluatorModal.tsx` provides the camera snapshot / upload and instant evaluation interface on chapter notes and PYQ practice pages.
+
+

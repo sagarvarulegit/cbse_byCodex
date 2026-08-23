@@ -121,14 +121,32 @@ without a Chapter 1 branch in the component or API.
 3. The API aggregates `ProgressEvent` engagement and feedback records for decision-making surfaces.
 4. Learning help uses a `stuck` feedback category with five fixed reasons. These stay in the manual pilot-review queue; no AI tutor or automated answer generation is attached.
 
-### Sample test papers (Maths 041 pilot)
+### Sample test papers & multi-subject mock series
 
 1. The paper engine lives in `apps/api/src/lib/exam-papers/`: a sourced section layout, a seeded demand planner that holds every unit to its exact official weightage, and a coverage-aware selector that fails loudly instead of emitting an invalid paper.
-2. The single source of truth for the Maths 041 blueprint is the web curriculum registry. `npm run exam:snapshot` regenerates `apps/api/src/lib/exam-papers/maths-041-blueprint.generated.ts`, and a drift-guard test prevents silent divergence. Only blueprint-ready subjects (`blueprintStatus: ready`) can generate papers.
-3. The curated question bank lives in the `QuestionBankQuestion` table. Seeded rows start in `review`; only `verified` questions enter papers (`npm run seed:bank`, `seed:bank:validate`, `seed:bank:analyze` -w apps/api).
-4. `POST /v1/exam-papers/generate` assembles a paper from verified bank rows, runs advisory AI verification (Gemini, clean pass only), persists `ExamPaper` + `ExamPaperQuestion` snapshots, and returns the paper. `GET /v1/exam-papers/:id` is owner/admin scoped.
-5. Admin review surfaces in `apps/api/src/routes/exam-papers.ts`: paper approve/reject and bank verify/approve/reject. AI verdicts never auto-publish; only an admin approve marks a paper `published`.
-6. The student web app generates papers via `/exam-papers` and renders printable papers (with an answer-key toggle) at `/exam-papers/[id]`; subject pages link to the generator only for blueprint-ready subjects.
+2. The single source of truth for subject blueprints is the web curriculum registry (`apps/web/lib/curriculum/subjects/class-10/`). `npm run exam:snapshot` regenerates blueprint files for all supported subjects:
+   - **Mathematics Standard (041)**: 38 Qs, 80 marks (MCQ, VSA, SA, LA, Case Studies).
+   - **Mathematics Basic (241)**: 38 Qs, 80 marks (simpler direct application questions, 5 deterministic mock papers).
+   - **Science (086)**: 39 Qs, 80 marks (MCQ, VSA, SA, LA, Case Studies).
+   - **Social Science (087)**: 37 Qs, 80 marks (includes Map Skill section).
+   - **English Language & Literature (184)**: 34 Qs, 80 marks (Reading, Grammar/Writing, Literature).
+   - **Hindi Course A (002) & Hindi Course B (085)**: Full 80-mark board layouts with unseen prose/poetry, grammar, and literature sections.
+3. The curated question bank lives in `QuestionBankQuestion` (seeded via `apps/api/src/lib/exam-papers/seed/*`). Seeded rows start in `review`; only `verified` questions enter generated papers.
+4. **CBSE Step-Marking Rubrics**: `apps/web/components/MarkingSchemeRubric.tsx` displays step-wise value points with partial half-mark allocations, common examiner deductions, and exact formula/step expectations.
+5. Student web app generates and runs papers via `/exam-papers` with CBT timer, answer key toggle, and interactive printable formats at `/exam-papers/[id]`.
+
+### Exemplar HOTS Arena & Chapter PYQ Drill Ladders
+
+1. **Exemplar HOTS Arena (`/quizzes` & `apps/web/components/QuizArenaClient.tsx`)**: High-Order Thinking Skills (HOTS) questions extracted from official NCERT Exemplar problems (`apps/web/lib/exemplar-questions.generated.json`), categorized by chapter, question type (MCQ, Short Answer, Long Answer), and verified CBSE solution steps.
+2. **Chapter-Wise PYQ Drill Ladders (`apps/web/components/ChapterPyqDrill.tsx`)**: Embedded in `/chapters/[slug]/notes`, offering previous-year board questions (`apps/web/lib/chapter-pyqs.generated.json`) tagged with exact exam year, set/code, and difficulty ratings.
+
+### Grounded AI Snap & Grade Written Evaluator
+
+1. **Backend Evaluator Engine (`apps/api/src/lib/evaluator/grade-answer.ts` & `apps/api/src/routes/evaluator.ts`)**:
+   - `POST /v1/evaluator/grade-written-answer`: Accepts student answers (typed text or uploaded image of handwritten work via OCR) along with question metadata, marks, and reference solution.
+   - **Grounded Verification**: Evaluates answers strictly against CBSE marking schemes, identifying key terms, formula symbol matching, step completion, and calculating half-mark deductions.
+   - **Constructive Feedback**: Emits itemized step breakdown, earned marks, missing keywords/steps, and board examiner advice.
+2. **Web Evaluator Modal (`apps/web/components/AiAnswerEvaluatorModal.tsx`)**: Interactive camera capture / image upload and text entry modal integrated into PYQ Drill and written practice components.
 
 ### AI Tutor "Tara-Firefly"
 

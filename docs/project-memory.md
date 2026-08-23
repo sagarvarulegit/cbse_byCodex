@@ -3,12 +3,12 @@ type: ProjectMemory
 title: Project Memory Index
 description: Lightweight routing index for durable CBSE learning-platform knowledge.
 tags: ['memory', 'routing', 'onboarding']
-timestamp: 2026-08-20T00:00:00Z
+timestamp: 2026-08-23T00:00:00Z
 ---
 
 # Project Memory Index
 
-Last updated: 2026-08-20
+Last updated: 2026-08-23
 
 This file is intentionally short. Before implementation, read `docs/architecture.md`, then load only the memory topics that match the task. Repository source remains authoritative.
 

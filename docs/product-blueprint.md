@@ -385,22 +385,15 @@ Admin features:
 - Token-authenticated streaming first; DRM video download later if needed
 - Progress sync after reconnect
 
-## First Content Pilot
+## Live Product Capabilities & Milestones (2026)
 
-Build one chapter end-to-end before producing the full catalog.
+- **10-Section Intent-First Landing Page**: Goal selector ("Learn a Chapter", "Practice Questions", "Prepare for Boards"), 5-step method, and interactive explore grid.
+- **7-Subject Board Exam Mock Series (Milestone 2 & 3)**: Deterministic 5-paper assembly with official CBSE layouts for Maths Standard (041), Maths Basic (241), Science (086), Social Science (087), English (184), Hindi Course A (002), and Hindi Course B (085).
+- **CBSE Step-Marking Rubrics (Milestone 2)**: Exact step-wise half-mark allocation breakdown and examiner deduction rules.
+- **Exemplar HOTS Arena & PYQ Drill Ladders (Milestone 3)**: High-order thinking skills question bank from NCERT Exemplar and chapter-wise authentic previous year board questions tagged by year and set.
+- **Grounded AI Snap & Grade Written Evaluator (Milestone 4)**: Multimodal/text answer grading against official CBSE marking schemes with formula matching and constructive feedback.
+- **27-Chapter Formula & Reaction Cheatsheets**: Complete printable and interactive summary sheets for all Class 10 Maths and Science chapters.
+- **Fun&Games Arcade**: 3-minute active recall power breaks featuring Formula Rush (60s Blitz, 3-Lives Survival, Topic Focus) with Web Audio sound effects.
+- **Tara AI Coach**: Socratic RAG-powered tutor with pgvector retrieval and strict NCERT single-source grounding.
+- **Knowledge Base Pipeline (`cbse_KB`)**: Clean extraction pipelines, PDF parsers, and automated dataset quality gates.
 
-Recommended pilot:
-
-- Mathematics: Real Numbers
-- Science: Chemical Reactions and Equations
-
-For each pilot chapter:
-
-- 5-8 topic videos
-- Notes for every topic
-- 10-20 quiz questions per topic
-- NCERT exercise mapping
-- One chapter test
-- Mastery dashboard integration
-
-This pilot will validate the content structure, video format, student dashboard, and subscription gating before scaling production.

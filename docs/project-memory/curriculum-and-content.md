@@ -20,7 +20,7 @@ Read this file for curriculum registry, lesson publication, textbook-derived not
 - Coverage dimensions use `complete`, `incomplete`, `not-configured`, and `not-applicable`. Empty denominators or absent publication/question evidence never report 100%, and board-paper seed readiness is not applicable to internal HPE.
 - HPE follows the official internal structure and weighting: Games / Sports 50, Health and Fitness 25, SEWA 25, and Health and Activity Card 0. Existing packs are mapped as internal topics or supporting resources rather than board chapters.
 - Words and Expressions - II follows the current local NCERT Reprint 2026-27 workbook source: it has 9 units. Units 1-4 and 7-9 are supporting resources, Units 5-6 are excluded, and the earlier Unit 10-11 placeholders must stay out of the active registry because they belong to an older workbook shape.
-- Mathematics Basic is a hidden `future` subject until a separate activation review is completed.
+- Mathematics Basic (241) is now fully active with complete curriculum registry mappings, blueprint generation, question bank seeding, and 5-paper deterministic mock test series.
 - Subject pages render official curriculum chapter titles, scopes, and topic scopes from the registry; legacy `course-content.ts` topic strings are platform metadata, not official 2026-27 scope.
 - The student subject pages consume the registry instead of hard-coded subject lists: `apps/web/app/subjects/page.tsx` uses `getVisibleCurriculumSubjects()` plus `buildSubjectCatalog()`, and `apps/web/app/subjects/[slug]/page.tsx` resolves a registry subject before rendering mapped chapter routes.
 - Broad library availability is derived from one catalog classifier and must remain explicit: `lesson-wise` means at least one published lesson file, `revision-pack` means pack fallback only, and `coming-soon` means neither is available. Lesson-wise takes precedence when both sources exist.
@@ -81,3 +81,9 @@ Read this file for curriculum registry, lesson publication, textbook-derived not
   - Previous Year Papers & Marking Schemes (2022-2026): `~/Projects/cbse_KB/10th/PreviousYearExamPapers/`.
   - Sample Question Papers (2022-2026): `~/Projects/cbse_KB/10th/SamplePapers/`.
   - Resource Inventories: `CBSE_Class10_Complete_Inventory.xlsx` and `CBSE_NCERT_Class_10_Master_Resource_Directory.xlsx`.
+- **Extraction & Quality Pipeline (`~/Projects/cbse_KB/scripts/`)**:
+  - `parse_exemplar.py`: Extracts MCQs, short answers, and long answers from NCERT Exemplar PDFs with diagram option splitting.
+  - `parse_marking_schemes.py`: Extracts step-by-step marking schemes and value points from board exam PDF archives.
+  - `export_chapter_pyqs.py`: Exports verified previous year questions into web JSON formats (`chapter-pyqs.generated.json`).
+  - `merge_and_export_exemplar.py`: Merges official answer keys with parsed exemplar problems into `exemplar-questions.generated.json`.
+  - `validate_datasets.py`: Automated quality gate asserting dataset validity, answer key coverage, and option bounds.

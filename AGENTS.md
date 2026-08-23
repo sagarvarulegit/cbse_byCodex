@@ -74,6 +74,8 @@ This is an npm workspace for a CBSE Class 10 learning platform. `apps/web` is th
 - `npm run dev:api` starts the API watcher.
 - `npm run build` builds web, admin, and API workspaces.
 - `npm run lint` runs TypeScript checks across web, admin, and API.
+- `npm run exam:snapshot` regenerates official subject exam blueprint TypeScript definitions from the curriculum registry.
+- `npm run seed:bank -w apps/api` seeds the exam question bank.
 - `npm run prisma:migrate:deploy -w apps/api` applies Prisma migrations.
 - `cd videos/prime-numbers && npm run check` validates the HyperFrames video.
 
