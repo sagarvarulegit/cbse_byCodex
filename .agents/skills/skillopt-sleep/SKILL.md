@@ -1,3 +1,8 @@
+---
+name: "skillopt-sleep"
+description: "Use Microsoft SkillOpt to inspect or improve project skills when explicitly requested."
+---
+
 # SkillOpt-Sleep
 
 Use this skill when the user asks to run or maintain Microsoft SkillOpt for this project, or when they ask to improve agent/project skills from prior Codex sessions.

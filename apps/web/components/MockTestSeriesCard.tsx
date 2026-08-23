@@ -16,6 +16,7 @@ export type SubjectSeriesEntry = {
 
 const SUBJECT_LABELS: Record<string, string> = {
   'mathematics-standard': 'Maths Standard (041)',
+  'mathematics-basic': 'Maths Basic (241)',
   'science': 'Science (086)',
   'social-science': 'Social Science (087)',
   'english-language-and-literature': 'English (184)',

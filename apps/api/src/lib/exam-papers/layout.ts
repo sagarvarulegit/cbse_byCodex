@@ -259,8 +259,15 @@ export const ENGLISH_184_LAYOUT: PaperLayout = {
   ],
 };
 
+export const MATHS_241_LAYOUT: PaperLayout = {
+  ...MATHS_041_LAYOUT,
+  layoutVersion: 'maths-241-2026-27-design-v1',
+  designSource: 'cbse-mathematics-241-2026-27',
+};
+
 const LAYOUTS: Record<string, PaperLayout> = {
   'mathematics-standard': MATHS_041_LAYOUT,
+  'mathematics-basic': MATHS_241_LAYOUT,
   'science': SCIENCE_086_LAYOUT,
   'social-science': SOCIAL_SCIENCE_087_LAYOUT,
   'english-language-and-literature': ENGLISH_184_LAYOUT,

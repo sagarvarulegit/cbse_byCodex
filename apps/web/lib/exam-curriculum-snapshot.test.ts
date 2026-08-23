@@ -5,16 +5,23 @@ import test from 'node:test';
 import {
   buildEnglish184BlueprintSnapshot,
   buildMaths041BlueprintSnapshot,
+  buildMaths241BlueprintSnapshot,
   buildScience086BlueprintSnapshot,
   buildSocialScience087BlueprintSnapshot,
   renderEnglish184SnapshotModule,
   renderMaths041SnapshotModule,
+  renderMaths241SnapshotModule,
   renderScience086SnapshotModule,
   renderSocialScience087SnapshotModule,
 } from './exam-curriculum-snapshot';
 
 const MATHS_GENERATED_PATH = new URL(
   '../../api/src/lib/exam-papers/maths-041-blueprint.generated.ts',
+  import.meta.url,
+);
+
+const MATHS_241_GENERATED_PATH = new URL(
+  '../../api/src/lib/exam-papers/maths-241-blueprint.generated.ts',
   import.meta.url,
 );
 
@@ -71,6 +78,27 @@ test('Maths 041 excluded topics are recorded so the generator can enforce them',
       `expected excluded topic ${topicId} to be recorded in the snapshot`,
     );
   }
+});
+
+test('committed Maths 241 exam snapshot matches the curriculum registry', async () => {
+  const committed = await readFile(MATHS_241_GENERATED_PATH, 'utf8');
+  const fresh = renderMaths241SnapshotModule(buildMaths241BlueprintSnapshot());
+  assert.equal(
+    fresh,
+    committed,
+    'Run `npm run exam:snapshot` to regenerate the committed snapshot.',
+  );
+});
+
+test('Maths 241 snapshot sums to 80 marks and marks the blueprint ready', () => {
+  const snapshot = buildMaths241BlueprintSnapshot();
+  const unitMarks = snapshot.units.map((unit) => unit.marks ?? 0);
+  assert.equal(unitMarks.reduce((sum, marks) => sum + marks, 0), 80);
+  assert.equal(snapshot.maximumMarks, 80);
+  assert.equal(snapshot.durationMinutes, 180);
+  assert.equal(snapshot.readingTimeMinutes, 15);
+  assert.equal(snapshot.blueprintStatus, 'ready');
+  assert.deepEqual(snapshot.allowedMarkValues, [1, 2, 3, 4, 5, 6]);
 });
 
 test('committed Science 086 exam snapshot matches the curriculum registry', async () => {

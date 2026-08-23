@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { ExamPaper, ExamPaperQuestion } from '../lib/exam-papers';
 import type { ExamPaperQuestionResult } from '../lib/exam-papers';
+import MarkingSchemeRubric from './MarkingSchemeRubric';
 
 type AnswerEntry = {
   mcqOption?: number;
@@ -445,13 +446,12 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
                               <strong>Your answer:</strong>{' '}
                               {entry.written?.trim() ? entry.written : 'Not attempted'}
                             </p>
+                            <MarkingSchemeRubric
+                              valuePoints={question.answerKey.valuePoints ?? []}
+                              totalMarks={question.marks}
+                              modelAnswer={question.answerKey.modelAnswer}
+                            />
                             <div className="exam-value-points-block">
-                              <p className="subtext compact">Marking-scheme value points:</p>
-                              <ul className="exam-value-points">
-                                {question.answerKey.valuePoints.map((point, index) => (
-                                  <li key={index}>{point}</li>
-                                ))}
-                              </ul>
                               <label className="exam-selfmark">
                                 Self-score this answer (0–{question.marks}):
                                 <input

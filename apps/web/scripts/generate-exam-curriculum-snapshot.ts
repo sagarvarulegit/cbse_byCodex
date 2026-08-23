@@ -4,10 +4,12 @@ import path from 'node:path';
 import {
   buildEnglish184BlueprintSnapshot,
   buildMaths041BlueprintSnapshot,
+  buildMaths241BlueprintSnapshot,
   buildScience086BlueprintSnapshot,
   buildSocialScience087BlueprintSnapshot,
   renderEnglish184SnapshotModule,
   renderMaths041SnapshotModule,
+  renderMaths241SnapshotModule,
   renderScience086SnapshotModule,
   renderSocialScience087SnapshotModule,
 } from '../lib/exam-curriculum-snapshot';
@@ -25,6 +27,19 @@ const TARGETS = [
       'maths-041-blueprint.generated.ts',
     ),
     build: () => renderMaths041SnapshotModule(buildMaths041BlueprintSnapshot()),
+  },
+  {
+    name: 'Maths 241',
+    outputPath: path.resolve(
+      process.cwd(),
+      '..',
+      'api',
+      'src',
+      'lib',
+      'exam-papers',
+      'maths-241-blueprint.generated.ts',
+    ),
+    build: () => renderMaths241SnapshotModule(buildMaths241BlueprintSnapshot()),
   },
   {
     name: 'Science 086',

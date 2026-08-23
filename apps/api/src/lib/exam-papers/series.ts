@@ -90,14 +90,34 @@ export const ENGLISH_184_SERIES = {
   ],
 } as const;
 
+export const MATHS_241_SERIES = {
+  key: 'maths-241-board-mock-2026',
+  subjectSlug: 'mathematics-basic',
+  title: 'CBSE Class 10 Maths (Basic 241) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading) ' +
+    'assembled deterministically from the verified question bank, following ' +
+    'the official CBSE Class 10 Mathematics Basic (241) question-paper design. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
 export type MockTestSeriesDefinition =
   | typeof MATHS_041_SERIES
+  | typeof MATHS_241_SERIES
   | typeof SCIENCE_086_SERIES
   | typeof SOCIAL_SCIENCE_087_SERIES
   | typeof ENGLISH_184_SERIES;
 
 export const TEST_SERIES_BY_SUBJECT: Record<string, MockTestSeriesDefinition> = {
   'mathematics-standard': MATHS_041_SERIES,
+  'mathematics-basic': MATHS_241_SERIES,
   'science': SCIENCE_086_SERIES,
   'social-science': SOCIAL_SCIENCE_087_SERIES,
   'english-language-and-literature': ENGLISH_184_SERIES,

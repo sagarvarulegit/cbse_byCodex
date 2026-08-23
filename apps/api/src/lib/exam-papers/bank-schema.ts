@@ -9,6 +9,7 @@ import type { AnswerKey, BankQuestion, BankQuestionVariant } from './types.js';
 
 export const VALID_SUBJECT_SLUGS = [
   'mathematics-standard',
+  'mathematics-basic',
   'science',
   'social-science',
   'english-language-and-literature',

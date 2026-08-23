@@ -7,6 +7,8 @@ import type {
   ExamPaperQuestion,
 } from '../lib/exam-papers';
 
+import MarkingSchemeRubric from './MarkingSchemeRubric';
+
 function VerificationBadge({ paper }: { paper: ExamPaper }) {
   if (paper.verificationStatus === 'verified') {
     return <span className="exam-badge exam-badge-verified">Verified ✓</span>;
@@ -27,6 +29,10 @@ function QuestionCard({
   const isMcq = question.questionType === 'mcq';
   const options = question.answerKey.options ?? [];
   const correctIndex = question.answerKey.correctOptionIndex ?? -1;
+  const correctOptionText =
+    isMcq && correctIndex >= 0 && options[correctIndex]
+      ? `${String.fromCharCode(97 + correctIndex)}. ${options[correctIndex]}`
+      : null;
 
   return (
     <li className="exam-question">
@@ -49,28 +55,13 @@ function QuestionCard({
       )}
 
       {showAnswers && (
-        <details className="exam-answer" open>
-          <summary>Answer</summary>
-          {isMcq ? (
-            <p>
-              Correct option:{' '}
-              <strong>
-                {correctIndex >= 0
-                  ? `${String.fromCharCode(97 + correctIndex)}. ${options[correctIndex] ?? ''}`
-                  : '—'}
-              </strong>
-            </p>
-          ) : (
-            <p className="exam-answer-model">{question.answerKey.modelAnswer}</p>
-          )}
-          {question.answerKey.valuePoints.length > 0 && (
-            <ul className="exam-value-points">
-              {question.answerKey.valuePoints.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-            </ul>
-          )}
-        </details>
+        <MarkingSchemeRubric
+          valuePoints={question.answerKey.valuePoints ?? []}
+          totalMarks={question.marks}
+          modelAnswer={question.answerKey.modelAnswer}
+          isMcq={isMcq}
+          correctOptionText={correctOptionText}
+        />
       )}
     </li>
   );

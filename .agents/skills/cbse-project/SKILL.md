@@ -1,3 +1,8 @@
+---
+name: "cbse-project"
+description: "Repository-specific workflow and operating rules for the CBSE project."
+---
+
 # CBSE Project Work
 
 Use this skill for implementation, review, TODO, content, release, or repo-maintenance work in `C:\Sagar\Projects\CBSE\cbse_byCodex`.

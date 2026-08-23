@@ -4,6 +4,7 @@ import type { Prisma, QuestionVerificationStatus } from '@prisma/client';
 
 import { assertValidBankSeed } from '../lib/exam-papers/bank-schema.js';
 import { MATHS_041_SEED } from '../lib/exam-papers/seed/maths-041-seed.js';
+import { MATHS_241_SEED } from '../lib/exam-papers/seed/maths-241-seed.js';
 import { SCIENCE_086_SEED } from '../lib/exam-papers/seed/science-086-seed.js';
 import { SOCIAL_SCIENCE_087_SEED } from '../lib/exam-papers/seed/social-science-087-seed.js';
 import { ENGLISH_184_SEED } from '../lib/exam-papers/seed/english-184-seed.js';
@@ -17,7 +18,7 @@ const prisma = new PrismaClient({
 });
 
 /**
- * Upserts the curated Maths 041, Science 086, Social Science 087, and English 184 banks into the database.
+ * Upserts the curated Maths 041, Maths 241, Science 086, Social Science 087, and English 184 banks into the database.
  * Rows start in `review` so nothing enters generated papers until it is
  * verified. Set SEED_BANK_AS_VERIFIED=1 to mark seeded rows `verified`
  * (local development).
@@ -25,6 +26,7 @@ const prisma = new PrismaClient({
 async function main(): Promise<void> {
   const allQuestions = [
     ...MATHS_041_SEED,
+    ...MATHS_241_SEED,
     ...SCIENCE_086_SEED,
     ...SOCIAL_SCIENCE_087_SEED,
     ...ENGLISH_184_SEED,

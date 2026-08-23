@@ -125,6 +125,7 @@ async function publishSeriesForSubject(subjectSlug: string): Promise<void> {
 
 async function main(): Promise<void> {
   await publishSeriesForSubject('mathematics-standard');
+  await publishSeriesForSubject('mathematics-basic');
   await publishSeriesForSubject('science');
   await publishSeriesForSubject('social-science');
   await publishSeriesForSubject('english-language-and-literature');

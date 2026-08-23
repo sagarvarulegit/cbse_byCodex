@@ -56,13 +56,11 @@ export const mathematicsBasic: CurriculumSubject = {
   subjectCode: '241',
   slug: 'mathematics-basic',
   title: 'Mathematics Basic',
-  status: 'future',
-  visibleInCatalog: false,
+  status: 'active',
+  visibleInCatalog: true,
   readinessBlockers: [],
-  activationBlockers: [
-    'Activate Mathematics Basic only after its separate paper-generation and student-catalog readiness review is complete.',
-  ],
-  examProfile: examProfile(SOURCE_ID, mathematicsBasicSectionRules),
+  activationBlockers: [],
+  examProfile: examProfile(SOURCE_ID, mathematicsBasicSectionRules, { status: 'ready' }),
   books: mathematicsStandard.books.map((book) => ({ ...book })),
   units: mathematicsStandard.units.map((curriculumUnit) => {
     const section = mathematicsStandard.examProfile?.sectionRules.find(

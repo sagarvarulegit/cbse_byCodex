@@ -1,5 +1,6 @@
 import type { CurriculumSubject } from './curriculum/types';
 import { mathematicsStandard } from './curriculum/subjects/class-10/mathematics-standard';
+import { mathematicsBasic } from './curriculum/subjects/class-10/mathematics-basic';
 import { science } from './curriculum/subjects/class-10/science';
 import { socialScience } from './curriculum/subjects/class-10/social-science';
 import { englishLanguageAndLiterature } from './curriculum/subjects/class-10/english-language-and-literature';
@@ -40,6 +41,7 @@ export type SubjectBlueprintSnapshot = {
 };
 
 export type Maths041BlueprintSnapshot = SubjectBlueprintSnapshot;
+export type Maths241BlueprintSnapshot = SubjectBlueprintSnapshot;
 export type Science086BlueprintSnapshot = SubjectBlueprintSnapshot;
 export type SocialScience087BlueprintSnapshot = SubjectBlueprintSnapshot;
 export type English184BlueprintSnapshot = SubjectBlueprintSnapshot;
@@ -86,6 +88,15 @@ export function buildMaths041BlueprintSnapshot(
 ): Maths041BlueprintSnapshot {
   if (subject.subjectCode !== '041' || subject.slug !== 'mathematics-standard') {
     throw new Error('Expected Mathematics Standard (041).');
+  }
+  return buildSubjectBlueprintSnapshot(subject);
+}
+
+export function buildMaths241BlueprintSnapshot(
+  subject: CurriculumSubject = mathematicsBasic,
+): Maths241BlueprintSnapshot {
+  if (subject.subjectCode !== '241' || subject.slug !== 'mathematics-basic') {
+    throw new Error('Expected Mathematics Basic (241).');
   }
   return buildSubjectBlueprintSnapshot(subject);
 }
@@ -143,6 +154,17 @@ export function renderMaths041SnapshotModule(
     'MATHS_041_BLUEPRINT',
     'Maths041Blueprint',
     'apps/web/lib/curriculum/subjects/class-10/mathematics-standard.ts',
+  );
+}
+
+export function renderMaths241SnapshotModule(
+  blueprint: SubjectBlueprintSnapshot,
+): string {
+  return renderSnapshotModule(
+    blueprint,
+    'MATHS_241_BLUEPRINT',
+    'Maths241Blueprint',
+    'apps/web/lib/curriculum/subjects/class-10/mathematics-basic.ts',
   );
 }
 

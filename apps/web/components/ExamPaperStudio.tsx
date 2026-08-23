@@ -36,6 +36,17 @@ const AVAILABLE_SUBJECTS: SubjectOption[] = [
     description: '38 questions · 80 marks · 3 hours · Sections A–E (20 MCQs, 5 VSA, 6 SA, 4 LA, 3 Case Studies)',
   },
   {
+    slug: 'mathematics-basic',
+    code: '241',
+    title: 'Mathematics Basic',
+    badge: 'Maths 241',
+    questionCount: 38,
+    totalMarks: 80,
+    durationMinutes: 180,
+    readingMinutes: 15,
+    description: '38 questions · 80 marks · 3 hours · Sections A–E (20 MCQs, 5 VSA, 6 SA, 4 LA, 3 Case Studies)',
+  },
+  {
     slug: 'science',
     code: '086',
     title: 'Science',

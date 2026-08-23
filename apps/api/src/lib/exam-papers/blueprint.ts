@@ -1,10 +1,12 @@
 import { MATHS_041_BLUEPRINT } from './maths-041-blueprint.generated.js';
+import { MATHS_241_BLUEPRINT } from './maths-241-blueprint.generated.js';
 import { SCIENCE_086_BLUEPRINT } from './science-086-blueprint.generated.js';
 import { SOCIAL_SCIENCE_087_BLUEPRINT } from './social-science-087-blueprint.generated.js';
 import { ENGLISH_184_BLUEPRINT } from './english-184-blueprint.generated.js';
 
 export type AnyBlueprint =
   | typeof MATHS_041_BLUEPRINT
+  | typeof MATHS_241_BLUEPRINT
   | typeof SCIENCE_086_BLUEPRINT
   | typeof SOCIAL_SCIENCE_087_BLUEPRINT
   | typeof ENGLISH_184_BLUEPRINT;
@@ -14,6 +16,7 @@ export type SnapshotTopic = SnapshotChapter['topics'][number];
 
 export const BLUEPRINTS: Record<string, AnyBlueprint> = {
   [MATHS_041_BLUEPRINT.slug]: MATHS_041_BLUEPRINT,
+  [MATHS_241_BLUEPRINT.slug]: MATHS_241_BLUEPRINT,
   [SCIENCE_086_BLUEPRINT.slug]: SCIENCE_086_BLUEPRINT,
   [SOCIAL_SCIENCE_087_BLUEPRINT.slug]: SOCIAL_SCIENCE_087_BLUEPRINT,
   [ENGLISH_184_BLUEPRINT.slug]: ENGLISH_184_BLUEPRINT,

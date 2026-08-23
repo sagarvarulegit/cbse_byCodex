@@ -1,16 +1,18 @@
 import { validateBankSeed } from '../lib/exam-papers/bank-schema.js';
 import { MATHS_041_SEED } from '../lib/exam-papers/seed/maths-041-seed.js';
+import { MATHS_241_SEED } from '../lib/exam-papers/seed/maths-241-seed.js';
 import { SCIENCE_086_SEED } from '../lib/exam-papers/seed/science-086-seed.js';
 import { SOCIAL_SCIENCE_087_SEED } from '../lib/exam-papers/seed/social-science-087-seed.js';
 import { ENGLISH_184_SEED } from '../lib/exam-papers/seed/english-184-seed.js';
 
 /**
- * Validates the curated Maths 041, Science 086, Social Science 087, and English 184 seeds
+ * Validates the curated Maths 041, Maths 241, Science 086, Social Science 087, and English 184 seeds
  * against curriculum blueprints without touching the database.
  */
 function main(): void {
   const seeds = [
     { name: 'Maths Standard (041)', seed: MATHS_041_SEED },
+    { name: 'Maths Basic (241)', seed: MATHS_241_SEED },
     { name: 'Science (086)', seed: SCIENCE_086_SEED },
     { name: 'Social Science (087)', seed: SOCIAL_SCIENCE_087_SEED },
     { name: 'English Language & Literature (184)', seed: ENGLISH_184_SEED },
