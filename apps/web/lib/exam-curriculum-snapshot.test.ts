@@ -4,11 +4,15 @@ import test from 'node:test';
 
 import {
   buildEnglish184BlueprintSnapshot,
+  buildHindi002BlueprintSnapshot,
+  buildHindi085BlueprintSnapshot,
   buildMaths041BlueprintSnapshot,
   buildMaths241BlueprintSnapshot,
   buildScience086BlueprintSnapshot,
   buildSocialScience087BlueprintSnapshot,
   renderEnglish184SnapshotModule,
+  renderHindi002SnapshotModule,
+  renderHindi085SnapshotModule,
   renderMaths041SnapshotModule,
   renderMaths241SnapshotModule,
   renderScience086SnapshotModule,
@@ -183,6 +187,54 @@ test('committed English 184 exam snapshot matches the curriculum registry', asyn
 
 test('English 184 snapshot sums to 80 marks and marks the blueprint ready', () => {
   const snapshot = buildEnglish184BlueprintSnapshot();
+  const unitMarks = snapshot.units.map((unit) => unit.marks ?? 0);
+  assert.equal(unitMarks.reduce((sum, marks) => sum + marks, 0), 80);
+  assert.equal(snapshot.maximumMarks, 80);
+  assert.equal(snapshot.durationMinutes, 180);
+  assert.equal(snapshot.readingTimeMinutes, 15);
+  assert.equal(snapshot.blueprintStatus, 'ready');
+  assert.deepEqual(snapshot.allowedMarkValues, [1, 2, 3, 4, 5, 6]);
+});
+
+test('committed Hindi 002 exam snapshot matches the curriculum registry', async () => {
+  const committed = await readFile(
+    new URL('../../api/src/lib/exam-papers/hindi-002-blueprint.generated.ts', import.meta.url),
+    'utf8',
+  );
+  const fresh = renderHindi002SnapshotModule(buildHindi002BlueprintSnapshot());
+  assert.equal(
+    fresh,
+    committed,
+    'Run `npm run exam:snapshot` to regenerate the committed snapshot.',
+  );
+});
+
+test('Hindi 002 snapshot sums to 80 marks and marks the blueprint ready', () => {
+  const snapshot = buildHindi002BlueprintSnapshot();
+  const unitMarks = snapshot.units.map((unit) => unit.marks ?? 0);
+  assert.equal(unitMarks.reduce((sum, marks) => sum + marks, 0), 80);
+  assert.equal(snapshot.maximumMarks, 80);
+  assert.equal(snapshot.durationMinutes, 180);
+  assert.equal(snapshot.readingTimeMinutes, 15);
+  assert.equal(snapshot.blueprintStatus, 'ready');
+  assert.deepEqual(snapshot.allowedMarkValues, [1, 2, 3, 4, 5, 6]);
+});
+
+test('committed Hindi 085 exam snapshot matches the curriculum registry', async () => {
+  const committed = await readFile(
+    new URL('../../api/src/lib/exam-papers/hindi-085-blueprint.generated.ts', import.meta.url),
+    'utf8',
+  );
+  const fresh = renderHindi085SnapshotModule(buildHindi085BlueprintSnapshot());
+  assert.equal(
+    fresh,
+    committed,
+    'Run `npm run exam:snapshot` to regenerate the committed snapshot.',
+  );
+});
+
+test('Hindi 085 snapshot sums to 80 marks and marks the blueprint ready', () => {
+  const snapshot = buildHindi085BlueprintSnapshot();
   const unitMarks = snapshot.units.map((unit) => unit.marks ?? 0);
   assert.equal(unitMarks.reduce((sum, marks) => sum + marks, 0), 80);
   assert.equal(snapshot.maximumMarks, 80);

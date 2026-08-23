@@ -3,13 +3,17 @@ import { MATHS_241_BLUEPRINT } from './maths-241-blueprint.generated.js';
 import { SCIENCE_086_BLUEPRINT } from './science-086-blueprint.generated.js';
 import { SOCIAL_SCIENCE_087_BLUEPRINT } from './social-science-087-blueprint.generated.js';
 import { ENGLISH_184_BLUEPRINT } from './english-184-blueprint.generated.js';
+import { HINDI_002_BLUEPRINT } from './hindi-002-blueprint.generated.js';
+import { HINDI_085_BLUEPRINT } from './hindi-085-blueprint.generated.js';
 
 export type AnyBlueprint =
   | typeof MATHS_041_BLUEPRINT
   | typeof MATHS_241_BLUEPRINT
   | typeof SCIENCE_086_BLUEPRINT
   | typeof SOCIAL_SCIENCE_087_BLUEPRINT
-  | typeof ENGLISH_184_BLUEPRINT;
+  | typeof ENGLISH_184_BLUEPRINT
+  | typeof HINDI_002_BLUEPRINT
+  | typeof HINDI_085_BLUEPRINT;
 export type SnapshotUnit = AnyBlueprint['units'][number];
 export type SnapshotChapter = SnapshotUnit['chapters'][number];
 export type SnapshotTopic = SnapshotChapter['topics'][number];
@@ -20,6 +24,8 @@ export const BLUEPRINTS: Record<string, AnyBlueprint> = {
   [SCIENCE_086_BLUEPRINT.slug]: SCIENCE_086_BLUEPRINT,
   [SOCIAL_SCIENCE_087_BLUEPRINT.slug]: SOCIAL_SCIENCE_087_BLUEPRINT,
   [ENGLISH_184_BLUEPRINT.slug]: ENGLISH_184_BLUEPRINT,
+  [HINDI_002_BLUEPRINT.slug]: HINDI_002_BLUEPRINT,
+  [HINDI_085_BLUEPRINT.slug]: HINDI_085_BLUEPRINT,
 };
 
 /**

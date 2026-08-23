@@ -4,9 +4,11 @@ import { MATHS_241_SEED } from '../lib/exam-papers/seed/maths-241-seed.js';
 import { SCIENCE_086_SEED } from '../lib/exam-papers/seed/science-086-seed.js';
 import { SOCIAL_SCIENCE_087_SEED } from '../lib/exam-papers/seed/social-science-087-seed.js';
 import { ENGLISH_184_SEED } from '../lib/exam-papers/seed/english-184-seed.js';
+import { HINDI_002_SEED } from '../lib/exam-papers/seed/hindi-002-seed.js';
+import { HINDI_085_SEED } from '../lib/exam-papers/seed/hindi-085-seed.js';
 
 /**
- * Validates the curated Maths 041, Maths 241, Science 086, Social Science 087, and English 184 seeds
+ * Validates the curated Maths 041, Maths 241, Science 086, Social Science 087, English 184, Hindi 002, and Hindi 085 seeds
  * against curriculum blueprints without touching the database.
  */
 function main(): void {
@@ -16,6 +18,8 @@ function main(): void {
     { name: 'Science (086)', seed: SCIENCE_086_SEED },
     { name: 'Social Science (087)', seed: SOCIAL_SCIENCE_087_SEED },
     { name: 'English Language & Literature (184)', seed: ENGLISH_184_SEED },
+    { name: 'Hindi Course A (002)', seed: HINDI_002_SEED },
+    { name: 'Hindi Course B (085)', seed: HINDI_085_SEED },
   ];
 
   let totalIssues = 0;

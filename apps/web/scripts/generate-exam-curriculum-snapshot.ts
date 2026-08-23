@@ -3,11 +3,15 @@ import path from 'node:path';
 
 import {
   buildEnglish184BlueprintSnapshot,
+  buildHindi002BlueprintSnapshot,
+  buildHindi085BlueprintSnapshot,
   buildMaths041BlueprintSnapshot,
   buildMaths241BlueprintSnapshot,
   buildScience086BlueprintSnapshot,
   buildSocialScience087BlueprintSnapshot,
   renderEnglish184SnapshotModule,
+  renderHindi002SnapshotModule,
+  renderHindi085SnapshotModule,
   renderMaths041SnapshotModule,
   renderMaths241SnapshotModule,
   renderScience086SnapshotModule,
@@ -79,6 +83,32 @@ const TARGETS = [
       'english-184-blueprint.generated.ts',
     ),
     build: () => renderEnglish184SnapshotModule(buildEnglish184BlueprintSnapshot()),
+  },
+  {
+    name: 'Hindi 002',
+    outputPath: path.resolve(
+      process.cwd(),
+      '..',
+      'api',
+      'src',
+      'lib',
+      'exam-papers',
+      'hindi-002-blueprint.generated.ts',
+    ),
+    build: () => renderHindi002SnapshotModule(buildHindi002BlueprintSnapshot()),
+  },
+  {
+    name: 'Hindi 085',
+    outputPath: path.resolve(
+      process.cwd(),
+      '..',
+      'api',
+      'src',
+      'lib',
+      'exam-papers',
+      'hindi-085-blueprint.generated.ts',
+    ),
+    build: () => renderHindi085SnapshotModule(buildHindi085BlueprintSnapshot()),
   },
 ];
 

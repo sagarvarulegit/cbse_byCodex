@@ -13,6 +13,8 @@ export const VALID_SUBJECT_SLUGS = [
   'science',
   'social-science',
   'english-language-and-literature',
+  'hindi-course-a',
+  'hindi-course-b',
 ] as const;
 export const ALLOWED_MARK_VALUES = [1, 2, 3, 4, 5, 6] as const;
 export const VALID_SOURCE_KINDS = ['ncert_exercise', 'verified_pyq', 'board_style'] as const;

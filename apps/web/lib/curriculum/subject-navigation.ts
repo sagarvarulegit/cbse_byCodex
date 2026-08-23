@@ -64,6 +64,8 @@ const SUBJECT_DESCRIPTIONS: Record<string, string> = {
     'Explore Physics, Chemistry, and Biology using visual chemical equations, diagram breakdowns of human systems, and animated physics explainers.',
   'english-language-and-literature':
     'Build reading, grammar, and literature confidence for English Language and Literature with curated summaries, writing support, and chapter-first revision.',
+  'hindi-course-a':
+    'Master comprehension, grammar, Kshitij and Kritika literature for Hindi Course A with authentic board questions, writing formats, and step-wise solutions.',
   'hindi-course-b':
     'Improve comprehension, grammar, and literature performance for Hindi Course B with chapter summaries, writing support, and simple revision guidance.',
   'social-science':
@@ -74,8 +76,10 @@ const SUBJECT_DESCRIPTIONS: Record<string, string> = {
 
 const SUBJECT_ACCENTS: Record<string, 'blue' | 'green'> = {
   'mathematics-standard': 'blue',
+  'mathematics-basic': 'green',
   science: 'green',
   'english-language-and-literature': 'blue',
+  'hindi-course-a': 'blue',
   'hindi-course-b': 'green',
   'social-science': 'blue',
   'health-and-physical-education': 'green',

@@ -16,12 +16,14 @@ export default async function ExamPapersPage() {
     getStudentSessionToken(),
   ]);
 
-  const [mathsData, mathsBasicData, scienceData, socialScienceData, englishData, entitlements] = await Promise.all([
+  const [mathsData, mathsBasicData, scienceData, socialScienceData, englishData, hindiAData, hindiBData, entitlements] = await Promise.all([
     getMockTestSeries(token, 'mathematics-standard'),
     getMockTestSeries(token, 'mathematics-basic'),
     getMockTestSeries(token, 'science'),
     getMockTestSeries(token, 'social-science'),
     getMockTestSeries(token, 'english-language-and-literature'),
+    getMockTestSeries(token, 'hindi-course-a'),
+    getMockTestSeries(token, 'hindi-course-b'),
     fetchStudentEntitlements(token),
   ]);
 
@@ -41,9 +43,15 @@ export default async function ExamPapersPage() {
   if (englishData) {
     seriesList.push(englishData);
   }
+  if (hindiAData) {
+    seriesList.push(hindiAData);
+  }
+  if (hindiBData) {
+    seriesList.push(hindiBData);
+  }
 
   const unlockedSubjects = entitlements?.hasAllSubjects
-    ? ['all', 'mathematics-standard', 'mathematics-basic', 'science', 'social-science', 'english-language-and-literature']
+    ? ['all', 'mathematics-standard', 'mathematics-basic', 'science', 'social-science', 'english-language-and-literature', 'hindi-course-a', 'hindi-course-b']
     : entitlements?.unlockedSubjectSlugs ?? [];
 
   return (

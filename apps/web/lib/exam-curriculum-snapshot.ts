@@ -4,6 +4,8 @@ import { mathematicsBasic } from './curriculum/subjects/class-10/mathematics-bas
 import { science } from './curriculum/subjects/class-10/science';
 import { socialScience } from './curriculum/subjects/class-10/social-science';
 import { englishLanguageAndLiterature } from './curriculum/subjects/class-10/english-language-and-literature';
+import { hindiCourseA } from './curriculum/subjects/class-10/hindi-course-a';
+import { hindiCourseB } from './curriculum/subjects/class-10/hindi-course-b';
 
 /**
  * Machine-readable snapshot of a CBSE curriculum registry that the exam-paper
@@ -198,6 +200,46 @@ export function renderEnglish184SnapshotModule(
     'ENGLISH_184_BLUEPRINT',
     'English184Blueprint',
     'apps/web/lib/curriculum/subjects/class-10/english-language-and-literature.ts',
+  );
+}
+
+export function buildHindi002BlueprintSnapshot(
+  subject: CurriculumSubject = hindiCourseA,
+): SubjectBlueprintSnapshot {
+  if (subject.subjectCode !== '002' || subject.slug !== 'hindi-course-a') {
+    throw new Error('Expected Hindi Course A (002).');
+  }
+  return buildSubjectBlueprintSnapshot(subject);
+}
+
+export function buildHindi085BlueprintSnapshot(
+  subject: CurriculumSubject = hindiCourseB,
+): SubjectBlueprintSnapshot {
+  if (subject.subjectCode !== '085' || subject.slug !== 'hindi-course-b') {
+    throw new Error('Expected Hindi Course B (085).');
+  }
+  return buildSubjectBlueprintSnapshot(subject);
+}
+
+export function renderHindi002SnapshotModule(
+  blueprint: SubjectBlueprintSnapshot,
+): string {
+  return renderSnapshotModule(
+    blueprint,
+    'HINDI_002_BLUEPRINT',
+    'Hindi002Blueprint',
+    'apps/web/lib/curriculum/subjects/class-10/hindi-course-a.ts',
+  );
+}
+
+export function renderHindi085SnapshotModule(
+  blueprint: SubjectBlueprintSnapshot,
+): string {
+  return renderSnapshotModule(
+    blueprint,
+    'HINDI_085_BLUEPRINT',
+    'Hindi085Blueprint',
+    'apps/web/lib/curriculum/subjects/class-10/hindi-course-b.ts',
   );
 }
 

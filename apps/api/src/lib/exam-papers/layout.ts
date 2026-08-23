@@ -265,12 +265,134 @@ export const MATHS_241_LAYOUT: PaperLayout = {
   designSource: 'cbse-mathematics-241-2026-27',
 };
 
+/**
+ * Official CBSE Class X Hindi Course A (002) question-paper layout:
+ * 34 questions, 80 marks, 3 hours across Reading, Grammar, Literature (Kshitij/Kritika),
+ * and Creative Writing.
+ */
+export const HINDI_002_LAYOUT: PaperLayout = {
+  layoutVersion: 'hindi-002-2026-27-design-v1',
+  designSource: 'cbse-hindi-002-2026-27',
+  totalMarks: 80,
+  durationMinutes: 180,
+  readingTimeMinutes: 15,
+  sections: [
+    {
+      id: 'A',
+      title: 'खंड अ: अपठित बोध एवं व्याकरण (वस्तुपरक प्रश्न)',
+      instructions:
+        'इस खंड में अपठित गद्यांश/काव्यांश तथा व्यावहारिक व्याकरण के कुल 20 बहुविकल्पीय/वस्तुपरक प्रश्न (प्र. 1 से 20) हैं। प्रत्येक प्रश्न 1 अंक का है।',
+      questionCount: 20,
+      marksPerQuestion: 1,
+      allowedBankTypes: ['mcq', 'grammar', 'short-answer'],
+    },
+    {
+      id: 'B',
+      title: 'खंड ब: रचनात्मक लेखन',
+      instructions:
+        'इस खंड में अनुच्छेद लेखन, पत्र लेखन, स्ववृत्त/ई-मेल लेखन तथा विज्ञापन/संदेश लेखन के 4 प्रश्न (प्र. 21 से 24) हैं। प्रत्येक प्रश्न 5 अंक का है।',
+      questionCount: 4,
+      marksPerQuestion: 5,
+      allowedBankTypes: ['creative-writing'],
+    },
+    {
+      id: 'C',
+      title: 'खंड स: पाठ्यपुस्तक क्षितिज एवं कृतिका (लघु उत्तरीय प्रश्न)',
+      instructions:
+        'इस खंड में क्षितिज (गद्य व काव्य) एवं कृतिका के 6 लघु उत्तरीय प्रश्न (प्र. 25 से 30) हैं। प्रत्येक प्रश्न 3 अंक का है। उत्तर 40-50 शब्दों में दें।',
+      questionCount: 6,
+      marksPerQuestion: 3,
+      allowedBankTypes: ['short-answer', 'extract-based'],
+    },
+    {
+      id: 'D',
+      title: 'खंड द: पाठ्यपुस्तक दीर्घ उत्तरीय एवं विश्लेषणात्मक प्रश्न',
+      instructions:
+        'इस खंड में क्षितिज व कृतिका के 2 दीर्घ उत्तरीय प्रश्न (प्र. 31 से 32) हैं। प्रत्येक प्रश्न 6 अंक का है। उत्तर 100-120 शब्दों में दें।',
+      questionCount: 2,
+      marksPerQuestion: 6,
+      allowedBankTypes: ['long-answer'],
+    },
+    {
+      id: 'E',
+      title: 'खंड य: पठित गद्यांश एवं काव्यांश आधारित प्रश्न',
+      instructions:
+        'इस खंड में पाठ्यपुस्तक पर आधारित 2 पठित बोध/केस आधारित प्रश्न (प्र. 33 से 34) हैं। प्रत्येक प्रश्न 5 अंक का है।',
+      questionCount: 2,
+      marksPerQuestion: 5,
+      allowedBankTypes: ['case-study', 'source-based', 'extract-based'],
+    },
+  ],
+};
+
+/**
+ * Official CBSE Class X Hindi Course B (085) question-paper layout:
+ * 34 questions, 80 marks, 3 hours across Reading, Grammar, Literature (Sparsh/Sanchayan),
+ * and Creative Writing.
+ */
+export const HINDI_085_LAYOUT: PaperLayout = {
+  layoutVersion: 'hindi-085-2026-27-design-v1',
+  designSource: 'cbse-hindi-085-2026-27',
+  totalMarks: 80,
+  durationMinutes: 180,
+  readingTimeMinutes: 15,
+  sections: [
+    {
+      id: 'A',
+      title: 'खंड अ: अपठित बोध एवं व्याकरण (वस्तुपरक प्रश्न)',
+      instructions:
+        'इस खंड में अपठित गद्यांश/काव्यांश तथा व्यावहारिक व्याकरण के कुल 20 बहुविकल्पीय प्रश्न (प्र. 1 से 20) हैं। प्रत्येक प्रश्न 1 अंक का है।',
+      questionCount: 20,
+      marksPerQuestion: 1,
+      allowedBankTypes: ['mcq', 'grammar', 'short-answer'],
+    },
+    {
+      id: 'B',
+      title: 'खंड ब: रचनात्मक लेखन',
+      instructions:
+        'इस खंड में अनुच्छेद, पत्र, सूचना, विज्ञापन एवं लघुकथा लेखन के 4 प्रश्न (प्र. 21 से 24) हैं। प्रत्येक प्रश्न 5 अंक का है।',
+      questionCount: 4,
+      marksPerQuestion: 5,
+      allowedBankTypes: ['creative-writing'],
+    },
+    {
+      id: 'C',
+      title: 'खंड स: पाठ्यपुस्तक स्पर्श एवं संचयन (लघु उत्तरीय प्रश्न)',
+      instructions:
+        'इस खंड में स्पर्श (गद्य व काव्य) एवं संचयन के 6 लघु उत्तरीय प्रश्न (प्र. 25 से 30) हैं। प्रत्येक प्रश्न 3 अंक का है। उत्तर 40-50 शब्दों में दें।',
+      questionCount: 6,
+      marksPerQuestion: 3,
+      allowedBankTypes: ['short-answer', 'extract-based'],
+    },
+    {
+      id: 'D',
+      title: 'खंड द: पाठ्यपुस्तक दीर्घ उत्तरीय प्रश्न',
+      instructions:
+        'इस खंड में स्पर्श व संचयन के 2 दीर्घ उत्तरीय प्रश्न (प्र. 31 से 32) हैं। प्रत्येक प्रश्न 6 अंक का है। उत्तर 100-120 शब्दों में दें।',
+      questionCount: 2,
+      marksPerQuestion: 6,
+      allowedBankTypes: ['long-answer'],
+    },
+    {
+      id: 'E',
+      title: 'खंड य: पठित गद्यांश एवं काव्यांश',
+      instructions:
+        'इस खंड में पाठ्यपुस्तक पर आधारित 2 पठित बोध प्रश्न (प्र. 33 से 34) हैं। प्रत्येक प्रश्न 5 अंक का है।',
+      questionCount: 2,
+      marksPerQuestion: 5,
+      allowedBankTypes: ['case-study', 'source-based', 'extract-based'],
+    },
+  ],
+};
+
 const LAYOUTS: Record<string, PaperLayout> = {
   'mathematics-standard': MATHS_041_LAYOUT,
   'mathematics-basic': MATHS_241_LAYOUT,
   'science': SCIENCE_086_LAYOUT,
   'social-science': SOCIAL_SCIENCE_087_LAYOUT,
   'english-language-and-literature': ENGLISH_184_LAYOUT,
+  'hindi-course-a': HINDI_002_LAYOUT,
+  'hindi-course-b': HINDI_085_LAYOUT,
 };
 
 export function getPaperLayout(subjectSlug: string = 'mathematics-standard'): PaperLayout {

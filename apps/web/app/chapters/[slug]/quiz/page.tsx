@@ -12,8 +12,19 @@ import { isPilotChapter } from '../../../../lib/pilot';
 import { parseQuizContent, slugifyQuizTopic } from '../../../../lib/quiz-content';
 import { getStudentQuizAttempts } from '../../../../lib/quiz-attempts';
 
-export default async function QuizPage({ params }: { params: Promise<{ slug: string }> }) {
+import { getParsedExemplarQuestions, hasExemplarQuestions } from '../../../../lib/exemplar';
+
+export default async function QuizPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ mode?: string }>;
+}) {
   const { slug } = await params;
+  const { mode } = (await searchParams) ?? {};
+  const isExemplarMode = mode === 'exemplar';
+
   const chapter = getChapter(slug);
   const [quizContent, session] = await Promise.all([
     getQuizContent(slug),
@@ -22,7 +33,7 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
   const isPilot = isPilotChapter(slug);
   const subjectNavigation = getChapterSubjectNavigation(slug);
 
-  if (!chapter || !quizContent) {
+  if (!chapter) {
     notFound();
   }
 
@@ -38,11 +49,25 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
             slug: slugifyQuizTopic(topic),
           }))
           .filter((topic) => topic.slug.length > 0);
-  const quizQuestions = parseQuizContent(
-    quizContent,
-    weakTopicOptions.map((topic) => topic.slug),
-    { strictMetadata: isPilot },
-  );
+
+  let quizQuestions = isExemplarMode
+    ? getParsedExemplarQuestions(slug)
+    : quizContent
+      ? parseQuizContent(
+          quizContent,
+          weakTopicOptions.map((topic) => topic.slug),
+          { strictMetadata: isPilot },
+        )
+      : [];
+
+  // Fallback if exemplar questions not found for this specific chapter
+  if (quizQuestions.length === 0 && quizContent) {
+    quizQuestions = parseQuizContent(
+      quizContent,
+      weakTopicOptions.map((topic) => topic.slug),
+      { strictMetadata: isPilot },
+    );
+  }
 
   if (quizQuestions.length === 0) {
     notFound();
@@ -72,13 +97,34 @@ export default async function QuizPage({ params }: { params: Promise<{ slug: str
             {chapter.title}
           </Link>
           <span>/</span>
-          <span aria-current="page">Quiz</span>
+          <span aria-current="page">
+            {isExemplarMode ? 'NCERT Exemplar Challenge' : 'Quiz'}
+          </span>
         </nav>
 
         <div className="section-heading">
           <div>
-            <p className="eyebrow">{chapter.subject}</p>
-            <h1>{chapter.title} quiz</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+              <p className="eyebrow" style={{ margin: 0 }}>{chapter.subject}</p>
+              {isExemplarMode && (
+                <span style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  background: '#fef2f2',
+                  color: '#dc2626',
+                  border: '1px solid #fecaca',
+                  padding: '0.15rem 0.5rem',
+                  borderRadius: '999px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}>
+                  🔥 NCERT Exemplar HOTS
+                </span>
+              )}
+            </div>
+            <h1>
+              {chapter.title} {isExemplarMode ? 'Exemplar HOTS Challenge' : 'Quiz'}
+            </h1>
           </div>
           <Link
             aria-label={`Back to ${chapter.title} chapter content`}

@@ -108,12 +108,48 @@ export const MATHS_241_SERIES = {
   ],
 } as const;
 
+export const HINDI_002_SERIES = {
+  key: 'hindi-002-board-mock-2026',
+  subjectSlug: 'hindi-course-a',
+  title: 'CBSE Class 10 Hindi Course A (002) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
+    'covering Unseen Comprehension, Grammar, Kshitij & Kritika Literature, and Creative Writing. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
+export const HINDI_085_SERIES = {
+  key: 'hindi-085-board-mock-2026',
+  subjectSlug: 'hindi-course-b',
+  title: 'CBSE Class 10 Hindi Course B (085) — Board Mock Test Series',
+  description:
+    'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
+    'covering Unseen Comprehension, Grammar, Sparsh & Sanchayan Literature, and Creative Writing. Paper 1 is free.',
+  freeSampleNumber: 1,
+  papers: [
+    { number: 1, seed: 101, title: 'Mock Test 1' },
+    { number: 2, seed: 202, title: 'Mock Test 2' },
+    { number: 3, seed: 303, title: 'Mock Test 3' },
+    { number: 4, seed: 404, title: 'Mock Test 4' },
+    { number: 5, seed: 505, title: 'Mock Test 5' },
+  ],
+} as const;
+
 export type MockTestSeriesDefinition =
   | typeof MATHS_041_SERIES
   | typeof MATHS_241_SERIES
   | typeof SCIENCE_086_SERIES
   | typeof SOCIAL_SCIENCE_087_SERIES
-  | typeof ENGLISH_184_SERIES;
+  | typeof ENGLISH_184_SERIES
+  | typeof HINDI_002_SERIES
+  | typeof HINDI_085_SERIES;
 
 export const TEST_SERIES_BY_SUBJECT: Record<string, MockTestSeriesDefinition> = {
   'mathematics-standard': MATHS_041_SERIES,
@@ -121,6 +157,8 @@ export const TEST_SERIES_BY_SUBJECT: Record<string, MockTestSeriesDefinition> = 
   'science': SCIENCE_086_SERIES,
   'social-science': SOCIAL_SCIENCE_087_SERIES,
   'english-language-and-literature': ENGLISH_184_SERIES,
+  'hindi-course-a': HINDI_002_SERIES,
+  'hindi-course-b': HINDI_085_SERIES,
 };
 
 export function getMockTestSeriesForSubject(

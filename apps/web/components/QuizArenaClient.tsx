@@ -15,6 +15,7 @@ export type ChapterQuizCardItem = {
   subjectTitle: string;
   subjectCode: string;
   questionCount: number;
+  exemplarQuestionCount?: number;
   bestScorePercent: number;
   masteryScore: number;
 };
@@ -38,6 +39,7 @@ export default function QuizArenaClient({
 }: QuizArenaClientProps) {
   const router = useRouter();
   const [activeSubject, setActiveSubject] = useState<string>('all');
+  const [activeMode, setActiveMode] = useState<'all' | 'standard' | 'exemplar'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isRolling, setIsRolling] = useState(false);
@@ -51,13 +53,17 @@ export default function QuizArenaClient({
   const filteredChapters = useMemo(() => {
     return chapters.filter((c) => {
       const matchesSubject = activeSubject === 'all' || c.subjectSlug === activeSubject;
+      const matchesMode =
+        activeMode === 'all' ||
+        (activeMode === 'standard' && true) ||
+        (activeMode === 'exemplar' && (c.exemplarQuestionCount ?? 0) > 0);
       const matchesQuery =
         !searchQuery.trim() ||
         c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         c.subjectTitle.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSubject && matchesQuery;
+      return matchesSubject && matchesMode && matchesQuery;
     });
-  }, [chapters, activeSubject, searchQuery]);
+  }, [chapters, activeSubject, activeMode, searchQuery]);
 
   // Surprise Me / Random Challenge handler
   function handleSurpriseMe() {
@@ -171,6 +177,32 @@ export default function QuizArenaClient({
           )}
         </div>
 
+        {/* Mode Selector Tabs */}
+        <div className="mode-filter-row" style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className={`filter-pill ${activeMode === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveMode('all')}
+          >
+            All Quiz Modes
+          </button>
+          <button
+            type="button"
+            className={`filter-pill ${activeMode === 'standard' ? 'active' : ''}`}
+            onClick={() => setActiveMode('standard')}
+          >
+            🎯 Standard NCERT Quizzes
+          </button>
+          <button
+            type="button"
+            className={`filter-pill ${activeMode === 'exemplar' ? 'active' : ''}`}
+            style={activeMode === 'exemplar' ? { background: '#dc2626', color: '#fff', borderColor: '#b91c1c' } : { borderColor: '#fca5a5', color: '#b91c1c' }}
+            onClick={() => setActiveMode('exemplar')}
+          >
+            🔥 Exemplar HOTS Challenge (95%+ Target)
+          </button>
+        </div>
+
         <div className="subject-filter-pills">
           <button
             type="button"
@@ -185,6 +217,13 @@ export default function QuizArenaClient({
             onClick={() => setActiveSubject('mathematics-standard')}
           >
             📐 Maths Standard
+          </button>
+          <button
+            type="button"
+            className={`filter-pill ${activeSubject === 'mathematics-basic' ? 'active' : ''}`}
+            onClick={() => setActiveSubject('mathematics-basic')}
+          >
+            📏 Maths Basic
           </button>
           <button
             type="button"
@@ -214,6 +253,7 @@ export default function QuizArenaClient({
       <div className="chapters-quiz-grid">
         {filteredChapters.map((chapter) => {
           const hasScore = chapter.bestScorePercent > 0;
+          const hasExemplar = (chapter.exemplarQuestionCount ?? 0) > 0;
           return (
             <div className="quiz-chapter-card" key={chapter.slug}>
               <div className="card-topline">
@@ -230,18 +270,49 @@ export default function QuizArenaClient({
               <h3>{chapter.title}</h3>
 
               <div className="quiz-meta-row">
-                <span>📝 {chapter.questionCount || 10} NCERT MCQs</span>
-                <span>•</span>
-                <span>⏱️ ~10 Mins</span>
+                <span>📝 {chapter.questionCount || 10} Standard Qs</span>
+                {hasExemplar && (
+                  <>
+                    <span>•</span>
+                    <span style={{ color: '#dc2626', fontWeight: 600 }}>
+                      🔥 {chapter.exemplarQuestionCount} Exemplar HOTS
+                    </span>
+                  </>
+                )}
               </div>
 
-              <Link
-                href={`/chapters/${chapter.slug}/quiz`}
-                className="btn-start-quiz"
-                onClick={(e) => handleStartQuizClick(e, chapter.slug)}
-              >
-                ⚡ Start Quiz →
-              </Link>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: 'auto' }}>
+                <Link
+                  href={`/chapters/${chapter.slug}/quiz`}
+                  className="btn-start-quiz"
+                  onClick={(e) => handleStartQuizClick(e, chapter.slug)}
+                >
+                  ⚡ Start Standard Quiz →
+                </Link>
+                {hasExemplar && (
+                  <Link
+                    href={`/chapters/${chapter.slug}/quiz?mode=exemplar`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.35rem',
+                      padding: '0.55rem 0.85rem',
+                      borderRadius: '10px',
+                      background: '#fff1f2',
+                      color: '#be123c',
+                      border: '1.5px solid #fda4af',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      textDecoration: 'none',
+                      transition: 'all 0.15s ease',
+                    }}
+                    onClick={(e) => handleStartQuizClick(e, chapter.slug)}
+                  >
+                    🔥 Exemplar HOTS Quiz ({chapter.exemplarQuestionCount} Qs) →
+                  </Link>
+                )}
+              </div>
             </div>
           );
         })}

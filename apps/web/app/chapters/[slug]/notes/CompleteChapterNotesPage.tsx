@@ -12,6 +12,7 @@ import PilotEngagementTracker, {
 } from '../../../../components/PilotEngagementTracker';
 import ReadingCompanion from '../../../../components/ReadingCompanion';
 import SectionFocusHandler from '../../../../components/SectionFocusHandler';
+import ChapterPyqDrill from '../../../../components/ChapterPyqDrill';
 import StudentTopbar from '../../../../components/StudentTopbar';
 import { getStudentSession } from '../../../../lib/auth';
 import {
@@ -242,6 +243,8 @@ export default async function CompleteChapterNotesPage({
                 </div>
               </section>
             )}
+
+            <ChapterPyqDrill chapterSlug={slug} />
           </div>
         </article>
 

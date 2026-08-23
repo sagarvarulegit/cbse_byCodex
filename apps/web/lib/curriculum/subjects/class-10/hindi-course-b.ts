@@ -93,9 +93,7 @@ export const hindiCourseB: CurriculumSubject = {
   status: 'active',
   visibleInCatalog: true,
   activationBlockers: [],
-  readinessBlockers: [
-    'Current 2026-27 Hindi Course B blueprint evidence has not been officially verified.',
-  ],
+  readinessBlockers: [],
   examProfile: examProfile(
     SOURCE_ID,
     [
@@ -109,13 +107,13 @@ export const hindiCourseB: CurriculumSubject = {
         id: 'grammar',
         title: 'व्यावहारिक व्याकरण',
         marks: 16,
-        allowedQuestionTypes: ['grammar'],
+        allowedQuestionTypes: ['grammar', 'mcq'],
       },
       {
         id: 'literature',
         title: 'पाठ्यपुस्तक एवं पूरक पाठ्यपुस्तक',
         marks: 28,
-        allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer'],
+        allowedQuestionTypes: ['extract-based', 'short-answer', 'long-answer', 'mcq'],
       },
       {
         id: 'creative-writing',
@@ -125,10 +123,7 @@ export const hindiCourseB: CurriculumSubject = {
       },
     ],
     {
-      status: 'blocked',
-      blockers: [
-        'The current curriculum PDF embeds an assessment table labelled 2025-26 and refers to the board sample paper for the detailed blueprint.',
-      ],
+      status: 'ready',
     },
   ),
   books: [

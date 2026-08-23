@@ -19,6 +19,8 @@ import {
   fetchStudentEntitlements,
 } from '../../lib/payments';
 
+import { getExemplarCountForChapter } from '../../lib/exemplar';
+
 const INDIA_TIME_ZONE = 'Asia/Kolkata';
 
 function getTodayIndiaDateString(): string {
@@ -85,6 +87,7 @@ export default async function QuizzesPage() {
     if (
       ![
         'mathematics-standard',
+        'mathematics-basic',
         'science',
         'social-science',
         'english-language-and-literature',
@@ -96,6 +99,8 @@ export default async function QuizzesPage() {
     const cards = buildCurriculumChapterCards(subject, chapterEntries);
     for (const card of cards) {
       const chapterMastery = masteryMap.get(card.chapterSlug);
+      const exemplarCount = getExemplarCountForChapter(card.chapterSlug);
+
       chapterItems.push({
         slug: card.chapterSlug,
         title: card.content.title,
@@ -103,6 +108,7 @@ export default async function QuizzesPage() {
         subjectTitle: subject.title,
         subjectCode: subject.subjectCode,
         questionCount: 10,
+        exemplarQuestionCount: exemplarCount,
         bestScorePercent: chapterMastery?.bestQuizScorePercent ?? 0,
         masteryScore: chapterMastery?.masteryScore ?? 0,
       });
