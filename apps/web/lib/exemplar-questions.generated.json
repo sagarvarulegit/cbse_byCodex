@@ -2345,28 +2345,6 @@
       "explanation": "Correct Answer: Option (D) per NCERT Exemplar solution manual.",
       "difficulty": "Hard",
       "sourceCoverage": "NCERT Exemplar Class 10 Science, Chapter 3 (Q35)"
-    },
-    {
-      "id": "exemplar-sci-ch3-q36",
-      "qNo": 36,
-      "chapterSlug": "metals-and-non-metals",
-      "subject": "science",
-      "title": "Exemplar Q36: Which one of the following figures correctly descr...",
-      "prompt": "Which one of the following figures correctly describes the process\nof electrolytic refining?",
-      "options": [
-        {
-          "value": 1,
-          "label": "[Diagram / Visual Option]"
-        },
-        {
-          "value": 2,
-          "label": "[Diagram / Visual Option]"
-        }
-      ],
-      "correctOptionIndex": 2,
-      "explanation": "Correct Answer: Option (C) per NCERT Exemplar solution manual.",
-      "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Science, Chapter 3 (Q36)"
     }
   ],
   "carbon-and-its-compounds": [
@@ -12006,7 +11984,11 @@
         },
         {
           "value": 3,
-          "label": "8 cm            (D)  20 cm"
+          "label": "8 cm"
+        },
+        {
+          "value": 4,
+          "label": "20 cm"
         }
       ],
       "correctOptionIndex": 1,
@@ -12092,7 +12074,11 @@
         },
         {
           "value": 3,
-          "label": "60\u00b0           (D)  100\u00b0"
+          "label": "60\u00b0"
+        },
+        {
+          "value": 4,
+          "label": "100\u00b0"
         }
       ],
       "correctOptionIndex": 3,
@@ -12614,138 +12600,150 @@
         },
         {
           "value": 13,
-          "label": "AP = 1\n3  AB      (B) AP = PB       (C) PB = 1\n3  AB       (D) AP = 1\n2 AB\n13. If P\n,4\na\nis the mid-point of the line segment joining the points Q (\u2013 6, 5) and\nR (\u2013 2, 3), then the value of a is"
+          "label": "AP = 1\n3  AB"
         },
         {
           "value": 14,
-          "label": "\u2013 4"
+          "label": "AP = PB"
         },
         {
           "value": 15,
-          "label": "\u2013 12"
+          "label": "PB = 1\n3  AB"
         },
         {
           "value": 16,
-          "label": "12"
+          "label": "AP = 1\n2 AB\n13. If P\n,4\na\nis the mid-point of the line segment joining the points Q (\u2013 6, 5) and\nR (\u2013 2, 3), then the value of a is"
         },
         {
           "value": 17,
-          "label": "\u2013 6\n14. The perpendicular bisector of the line segment joining the points A (1, 5) and\nB (4, 6) cuts the y-axis at"
+          "label": "\u2013 4"
         },
         {
           "value": 18,
-          "label": "(0, 13)"
+          "label": "\u2013 12"
         },
         {
           "value": 19,
-          "label": "(0, \u201313)"
+          "label": "12"
         },
         {
           "value": 20,
-          "label": "(0, 12)"
+          "label": "\u2013 6\n14. The perpendicular bisector of the line segment joining the points A (1, 5) and\nB (4, 6) cuts the y-axis at"
         },
         {
           "value": 21,
-          "label": "(13, 0)\n15. The coordinates of the point which\nis equidistant from the three verti-\nces of the \u2206 AOB as shown in the\nFig. 7.1 is"
+          "label": "(0, 13)"
         },
         {
           "value": 22,
-          "label": "(x, y)"
+          "label": "(0, \u201313)"
         },
         {
           "value": 23,
-          "label": "(y, x)"
+          "label": "(0, 12)"
         },
         {
           "value": 24,
-          "label": ",\n2 2\nx y"
+          "label": "(13, 0)\n15. The coordinates of the point which\nis equidistant from the three verti-\nces of the \u2206 AOB as shown in the\nFig. 7.1 is"
         },
         {
           "value": 25,
-          "label": ",\n2 2\ny x\n16. A circle drawn with origin as the\ncentre passes through 13\n(\n,0)\n. The\npoint which does not lie in the\ninterior of the circle is\n03/05/18"
+          "label": "(x, y)"
         },
         {
           "value": 26,
-          "label": "\u20133,1"
+          "label": "(y, x)"
         },
         {
           "value": 27,
-          "label": "2, 3"
+          "label": ",\n2 2\nx y"
         },
         {
           "value": 28,
-          "label": "\u20131\n5, 2"
+          "label": ",\n2 2\ny x\n16. A circle drawn with origin as the\ncentre passes through 13\n(\n,0)\n. The\npoint which does not lie in the\ninterior of the circle is\n03/05/18"
         },
         {
           "value": 29,
-          "label": "6, 2\n\uf001\n\uf002\n\u2212\n\uf003\n\uf004\n\uf005\n\uf006\n17. A line intersects the y-axis and x-axis at the points P and Q, respectively. If\n(2, \u20135) is the mid-point of PQ, then the coordinates of P and Q are, respectively"
+          "label": "\u20133,1"
         },
         {
           "value": 30,
-          "label": "(0, \u2013 5) and (2, 0)"
+          "label": "2, 3"
         },
         {
           "value": 31,
-          "label": "(0, 10) and (\u2013 4, 0)"
+          "label": "\u20131\n5, 2"
         },
         {
           "value": 32,
-          "label": "(0, 4) and (\u2013 10, 0)"
+          "label": "6, 2\n\uf001\n\uf002\n\u2212\n\uf003\n\uf004\n\uf005\n\uf006\n17. A line intersects the y-axis and x-axis at the points P and Q, respectively. If\n(2, \u20135) is the mid-point of PQ, then the coordinates of P and Q are, respectively"
         },
         {
           "value": 33,
-          "label": "(0, \u2013 10) and (4, 0)\n18. The area of a  triangle with vertices (a, b + c), (b, c + a) and (c, a + b) is"
+          "label": "(0, \u2013 5) and (2, 0)"
         },
         {
           "value": 34,
-          "label": "(a + b + c)2"
+          "label": "(0, 10) and (\u2013 4, 0)"
         },
         {
           "value": 35,
-          "label": "0"
+          "label": "(0, 4) and (\u2013 10, 0)"
         },
         {
           "value": 36,
-          "label": "a + b + c"
+          "label": "(0, \u2013 10) and (4, 0)\n18. The area of a  triangle with vertices (a, b + c), (b, c + a) and (c, a + b) is"
         },
         {
           "value": 37,
-          "label": "abc\n19. If the distance between the points (4, p) and (1, 0) is 5, then the value of p is"
+          "label": "(a + b + c)2"
         },
         {
           "value": 38,
-          "label": "4 only"
+          "label": "0"
         },
         {
           "value": 39,
-          "label": "\u00b1 4"
+          "label": "a + b + c"
         },
         {
           "value": 40,
-          "label": "\u2013 4 only"
+          "label": "abc\n19. If the distance between the points (4, p) and (1, 0) is 5, then the value of p is"
         },
         {
           "value": 41,
-          "label": "0\n20. If the points A (1, 2), O (0, 0) and C (a, b) are collinear, then"
+          "label": "4 only"
         },
         {
           "value": 42,
-          "label": "a = b"
+          "label": "\u00b1 4"
         },
         {
           "value": 43,
-          "label": "a = 2b"
+          "label": "\u2013 4 only"
         },
         {
           "value": 44,
-          "label": "2a = b"
+          "label": "0\n20. If the points A (1, 2), O (0, 0) and C (a, b) are collinear, then"
         },
         {
           "value": 45,
-          "label": "a = \u2013b"
+          "label": "a = b"
         },
         {
           "value": 46,
+          "label": "a = 2b"
+        },
+        {
+          "value": 47,
+          "label": "2a = b"
+        },
+        {
+          "value": 48,
+          "label": "a = \u2013b"
+        },
+        {
+          "value": 49,
           "label": "Short Answer Questions with Reasoning\nState whether the following statements are true or false. Justify your answer.\nSample Question 1 : The points A (\u20131, 0), B (3, 1), C (2, 2) and D (\u20132, 1) are the\nvertices of a parallelogram.\nSolution : True. The coordinates of the mid-points of both the diagonals AC and BD\nare\n1 ,1\n, i.e., the diagonals bisect each other.\nSample Question 2 : The points (4, 5), (7, 6) and (6, 3) are collinear.\nSolution :  False. Since the area of the triangle formed by the points is 4 sq. units, the\npoints are not collinear.\nSample Question 3 : Point P (0, \u20137) is the point of intersection of y-axis and\nperpendicular bisector of line segment joining the points A (\u20131, 0) and B (7, \u20136).\nSolution : True. P (0, \u20137) lies on the y -axis. It is at a distance of 50  units from both  the\npoints (\u20131, 0) and (7, \u20136)."
         }
       ],
@@ -13228,10 +13226,14 @@
         },
         {
           "value": 2,
-          "label": "65 cm2       (C)  30 cm2"
+          "label": "65 cm2"
         },
         {
           "value": 3,
+          "label": "30 cm2"
+        },
+        {
+          "value": 4,
           "label": "32.5 cm2"
         }
       ],
@@ -13288,7 +13290,11 @@
         },
         {
           "value": 3,
-          "label": "2 3  cm (D)\n4 3  cm"
+          "label": "2 3  cm"
+        },
+        {
+          "value": 4,
+          "label": "4 3  cm"
         }
       ],
       "correctOptionIndex": 2,
@@ -13836,7 +13842,11 @@
         },
         {
           "value": 3,
-          "label": "64\n2  cm2 (D)  64 cm2"
+          "label": "64\n2  cm2"
+        },
+        {
+          "value": 4,
+          "label": "64 cm2"
         }
       ],
       "correctOptionIndex": 1,
@@ -14150,38 +14160,46 @@
         },
         {
           "value": 2,
-          "label": "14cm (C) 15cm"
+          "label": "14cm"
         },
         {
           "value": 3,
-          "label": "18cm\n10. A solid piece of iron in the form of a cuboid of dimensions 49cm \u00d7 33cm \u00d7 24cm,\nis moulded to form a solid sphere. The radius of the sphere is"
+          "label": "15cm"
         },
         {
           "value": 4,
-          "label": "21cm"
+          "label": "18cm\n10. A solid piece of iron in the form of a cuboid of dimensions 49cm \u00d7 33cm \u00d7 24cm,\nis moulded to form a solid sphere. The radius of the sphere is"
         },
         {
           "value": 5,
-          "label": "23cm (C) 25cm"
+          "label": "21cm"
         },
         {
           "value": 6,
-          "label": "19cm\n11. A mason constructs a wall of dimensions 270cm\u00d7 300cm \u00d7 350cm with the bricks\neach of size 22.5cm \u00d7 11.25cm \u00d7 8.75cm and it is assumed that 1\n8  space is\n03/05/18\ncovered by the mortar. Then the number of bricks used to construct the wall is"
+          "label": "23cm"
         },
         {
           "value": 7,
-          "label": "11100"
+          "label": "25cm"
         },
         {
           "value": 8,
-          "label": "11200"
+          "label": "19cm\n11. A mason constructs a wall of dimensions 270cm\u00d7 300cm \u00d7 350cm with the bricks\neach of size 22.5cm \u00d7 11.25cm \u00d7 8.75cm and it is assumed that 1\n8  space is\n03/05/18\ncovered by the mortar. Then the number of bricks used to construct the wall is"
         },
         {
           "value": 9,
-          "label": "11000"
+          "label": "11100"
         },
         {
           "value": 10,
+          "label": "11200"
+        },
+        {
+          "value": 11,
+          "label": "11000"
+        },
+        {
+          "value": 12,
           "label": "11300"
         }
       ],
@@ -14358,7 +14376,11 @@
         },
         {
           "value": 3,
-          "label": "remain unaltered (D) be doubled"
+          "label": "remain unaltered"
+        },
+        {
+          "value": 4,
+          "label": "be doubled"
         }
       ],
       "correctOptionIndex": 2,
@@ -14410,10 +14432,14 @@
         },
         {
           "value": 2,
-          "label": "frustum of a cone (C) sphere"
+          "label": "frustum of a cone"
         },
         {
           "value": 3,
+          "label": "sphere"
+        },
+        {
+          "value": 4,
           "label": "hemisphere"
         }
       ],
@@ -14562,10 +14588,14 @@
         },
         {
           "value": 2,
-          "label": "h (xi \u2013 a)     (C)\n\u2013\nix\na\nh"
+          "label": "h (xi \u2013 a)"
         },
         {
           "value": 3,
+          "label": "\u2013\nix\na\nh"
+        },
+        {
+          "value": 4,
           "label": "\u2013\ni\na\nx\nh\n03/05/18"
         }
       ],

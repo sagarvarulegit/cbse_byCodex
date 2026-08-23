@@ -10,14 +10,24 @@ import {
   SOCIAL_SCIENCE_087_LAYOUT,
 } from './layout.js';
 import { MATHS_041_SEED } from './seed/maths-041-seed.js';
+import { MATHS_241_SEED } from './seed/maths-241-seed.js';
 import { SCIENCE_086_SEED } from './seed/science-086-seed.js';
 import { SOCIAL_SCIENCE_087_SEED } from './seed/social-science-087-seed.js';
 import { ENGLISH_184_SEED } from './seed/english-184-seed.js';
+import { HINDI_002_SEED } from './seed/hindi-002-seed.js';
+import { HINDI_085_SEED } from './seed/hindi-085-seed.js';
 
 const SEEDS = Array.from({ length: 50 }, (_, index) => index + 1);
 
 function verifiedMathsBank() {
   return MATHS_041_SEED.map((question) => ({
+    ...question,
+    verificationStatus: 'verified' as const,
+  }));
+}
+
+function verifiedMathsBasicBank() {
+  return MATHS_241_SEED.map((question) => ({
     ...question,
     verificationStatus: 'verified' as const,
   }));
@@ -39,6 +49,20 @@ function verifiedSocialScienceBank() {
 
 function verifiedEnglishBank() {
   return ENGLISH_184_SEED.map((question) => ({
+    ...question,
+    verificationStatus: 'verified' as const,
+  }));
+}
+
+function verifiedHindi002Bank() {
+  return HINDI_002_SEED.map((question) => ({
+    ...question,
+    verificationStatus: 'verified' as const,
+  }));
+}
+
+function verifiedHindi085Bank() {
+  return HINDI_085_SEED.map((question) => ({
     ...question,
     verificationStatus: 'verified' as const,
   }));
@@ -84,6 +108,21 @@ test('the real Social Science 087 seed assembles a valid paper for seeds 1..50',
     assert.equal(paper.readingTimeMinutes, 15);
     assert.equal(paper.questions.length, 37);
     assert.equal(paper.sections.length, 6);
+    assert.equal(paper.seed, seed);
+    assert.ok(paper.compliance.excludedTopicViolations.length === 0);
+  }
+});
+
+test('the real Maths 241 seed assembles a valid paper for seeds 1..50', () => {
+  const bank = verifiedMathsBasicBank();
+  for (const seed of SEEDS) {
+    const paper = assemblePaper({ subjectSlug: 'mathematics-basic', seed, questions: bank });
+
+    assert.equal(paper.totalMarks, 80);
+    assert.equal(paper.durationMinutes, 180);
+    assert.equal(paper.readingTimeMinutes, 15);
+    assert.equal(paper.questions.length, 38);
+    assert.equal(paper.sections.length, 5);
     assert.equal(paper.seed, seed);
     assert.ok(paper.compliance.excludedTopicViolations.length === 0);
   }
