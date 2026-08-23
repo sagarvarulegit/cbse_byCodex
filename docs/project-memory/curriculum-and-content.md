@@ -72,3 +72,12 @@ Read this file for curriculum registry, lesson publication, textbook-derived not
 - English and Hindi subject pages now use generated chapter-pack fallback notes for broad draft coverage of board skills, first-class English poems, Hindi Sparsh prose/poetry, and Hindi Sanchayan supplementary texts. Keep the packs marked draft until exact textbook question blocks and source-fidelity trackers are built. Hindi Sanchayan Reprint 2026-27 PDFs were downloaded from official NCERT URLs into `textbooks/hindi-sanchayan/` on 2 August 2026 (`jhsy1ps.pdf`, `jhsy101.pdf`, `jhsy102.pdf`, `jhsy103.pdf`); use those files for the next source-fidelity review.
 - Science Chapters 2-13 have live lesson-wise notes, chapter quizzes, source-fidelity trackers, and board-exam evidence records. The cross-chapter gate is in `docs/content/class-10/science/remaining-chapters-board-coverage-audit.md`; archive extraction is only a discovery index and any published PYQ still needs original-paper visual verification.
 - Board archive folder names are not evidence. On 29 July 2026 the local 2022 Science question-paper folder contained a Security paper, while both official CBSE 2022 Science archive links returned HTTP 500. Keep 2022 outside Chapter 2 PYQ claims until original question and marking-scheme pages are rendered and checked.
+
+## Source Materials & Knowledge Base Repository (`cbse_KB`)
+
+- Primary repository for textbooks, exemplar problems, sample papers (SQP), previous year exam papers, and marking schemes: `~/Projects/cbse_KB/10th/`.
+  - Textbooks: `~/Projects/cbse_KB/10th/NCERTTextbooks/` (single-PDF per chapter) and `~/Projects/cbse_KB/10th/textbooks/` (subject-wise archive packs).
+  - Exemplar: `~/Projects/cbse_KB/10th/NCERTExemplar/`.
+  - Previous Year Papers & Marking Schemes (2022-2026): `~/Projects/cbse_KB/10th/PreviousYearExamPapers/`.
+  - Sample Question Papers (2022-2026): `~/Projects/cbse_KB/10th/SamplePapers/`.
+  - Resource Inventories: `CBSE_Class10_Complete_Inventory.xlsx` and `CBSE_NCERT_Class_10_Master_Resource_Directory.xlsx`.
