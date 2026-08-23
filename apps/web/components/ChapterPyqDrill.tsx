@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import MarkingSchemeRubric from './MarkingSchemeRubric';
+import AiAnswerEvaluatorModal from './AiAnswerEvaluatorModal';
 import chapterPyqData from '../lib/chapter-pyqs.generated.json';
 
 export type ChapterPyqItem = {
@@ -25,9 +26,10 @@ export function getPyqsForChapter(chapterSlug: string): ChapterPyqItem[] {
   return ALL_PYQS[chapterSlug] ?? [];
 }
 
-export default function ChapterPyqDrill({ chapterSlug }: { chapterSlug: string }) {
+export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: string; token?: string | null }) {
   const pyqs = getPyqsForChapter(chapterSlug);
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  const [evaluatingQuestion, setEvaluatingQuestion] = useState<ChapterPyqItem | null>(null);
 
   if (pyqs.length === 0) {
     return null;
@@ -51,17 +53,18 @@ export default function ChapterPyqDrill({ chapterSlug }: { chapterSlug: string }
         <div className="pyq-badge-row">
           <span className="pyq-fire-badge">🔥 Board Exam Drill</span>
           <span className="pyq-verified-pill">Official 2026 Marking Schemes</span>
+          <span className="pyq-ai-pill">🤖 AI Snap &amp; Grade Available</span>
         </div>
         <h2>Past Board Questions &amp; Step-by-Step Marking Keys</h2>
         <p className="pyq-subtitle">
-          Practice authentic questions asked in recent CBSE Board Exams. Expand each solution to see the exact step marks allocated by CBSE examiners.
+          Practice authentic questions asked in recent CBSE Board Exams. Test your own written answers against the AI Evaluator grounded in the official CBSE marking scheme.
         </p>
       </div>
 
       <div className="pyq-questions-list">
         {pyqs.map((q, idx) => {
           const isOpen = openIds.has(q.id);
-          const formattedPoints = q.valuePoints.map((p) => p.replace(/^\[\+([0-9.]+) Mark\]\s*/, ''));
+          const stemText = q.mainAnswer.split('\n')[0];
 
           return (
             <div className="pyq-card" key={q.id}>
@@ -75,16 +78,39 @@ export default function ChapterPyqDrill({ chapterSlug }: { chapterSlug: string }
               </div>
 
               <div className="pyq-stem">
-                <p>{q.mainAnswer.split('\n')[0]}</p>
+                <p>{stemText}</p>
               </div>
 
-              <button
-                type="button"
-                className={`btn-toggle-solution ${isOpen ? 'open' : ''}`}
-                onClick={() => toggleOpen(q.id)}
-              >
-                <span>{isOpen ? '▲ Hide CBSE Marking Scheme' : '▼ Reveal Official Step Marking & Rubric'}</span>
-              </button>
+              <div className="pyq-card-action-row" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  className="btn-snap-grade"
+                  style={{
+                    background: '#7c3aed',
+                    color: '#ffffff',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '0.82rem',
+                    padding: '0.45rem 0.85rem',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                  }}
+                  onClick={() => setEvaluatingQuestion(q)}
+                >
+                  <span>🤖 Snap &amp; Grade My Answer →</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`btn-toggle-solution ${isOpen ? 'open' : ''}`}
+                  onClick={() => toggleOpen(q.id)}
+                >
+                  <span>{isOpen ? '▲ Hide CBSE Marking Scheme' : '▼ Reveal Step Marking & Rubric'}</span>
+                </button>
+              </div>
 
               {isOpen && (
                 <div className="pyq-rubric-wrap">
@@ -109,6 +135,19 @@ export default function ChapterPyqDrill({ chapterSlug }: { chapterSlug: string }
           );
         })}
       </div>
+
+      {evaluatingQuestion && (
+        <AiAnswerEvaluatorModal
+          isOpen={Boolean(evaluatingQuestion)}
+          onClose={() => setEvaluatingQuestion(null)}
+          questionId={evaluatingQuestion.id}
+          questionStem={evaluatingQuestion.mainAnswer.split('\n')[0]}
+          maxMarks={evaluatingQuestion.marks}
+          officialValuePoints={evaluatingQuestion.valuePoints}
+          modelAnswer={evaluatingQuestion.mainAnswer}
+          token={token}
+        />
+      )}
 
       <style jsx>{`
         .chapter-pyq-drill-root {

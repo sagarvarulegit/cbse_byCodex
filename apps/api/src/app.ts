@@ -15,6 +15,7 @@ import { recoveryRouter } from './routes/recovery.js';
 import { tutorChatRouter } from './routes/tutor-chat.js';
 import { tutorRouter } from './routes/tutor.js';
 import { videoRouter } from './routes/video.js';
+import { evaluatorRouter } from './routes/evaluator.js';
 
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://www.chapterready.in',
@@ -72,6 +73,7 @@ app.use('/v1/feedback', feedbackRouter);
 app.use('/v1/payments', paymentsRouter);
 app.use('/v1/exam-papers', examPapersRouter);
 app.use('/v1/admin/exam-papers', adminExamPapersRouter);
+app.use('/v1/evaluator', evaluatorRouter);
 
 // Express 4 does not catch rejected promises from async handlers; without this
 // a thrown error would leave the client hanging with no response.

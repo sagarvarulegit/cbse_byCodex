@@ -278,6 +278,13 @@ export default async function CompleteChapterNotesPage({
                 </li>
               ))}
             </ol>
+            <a
+              className="chapter-introduction-link"
+              href="#board-exam-drill"
+              style={{ marginTop: '0.75rem', color: '#7c3aed', fontWeight: 700 }}
+            >
+              🔥 5-Year Board PYQs &amp; AI Evaluator
+            </a>
           </nav>
         </aside>
       </section>
