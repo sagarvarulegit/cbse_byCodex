@@ -410,10 +410,13 @@ export default async function HomePage() {
       {/* 8. Interactive Learning Section ("Don't just read. Explore.") */}
       <section className="home-section home-explore-section" aria-labelledby="explore-title">
         <div className="home-section-heading centered-heading">
-          <p className="eyebrow">Interactive Learning</p>
+          <p className="eyebrow">Interactive Learning &amp; Study Tools</p>
           <h2 id="explore-title">Don’t just read. Explore.</h2>
           <p className="home-section-subtext">
-            Visual experiments, activities, and games designed to make difficult concepts click.
+            Visual experiments, 5-year PYQ trends, formula sheets, and games designed to make difficult concepts click.{' '}
+            <Link href="/tools" style={{ color: '#ea580c', fontWeight: 700, textDecoration: 'underline' }}>
+              View All Study Tools →
+            </Link>
           </p>
         </div>
 

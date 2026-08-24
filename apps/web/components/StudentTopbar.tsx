@@ -42,14 +42,11 @@ export default function StudentTopbar({
 
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
-        <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ Store</Link>
-        <Link href="/pyq-trends">📊 PYQ Trends</Link>
-        <Link href="/activities-and-diagrams">🔬 Activities</Link>
-        <Link href="/formula-cheatsheets">⚡ Formulas</Link>
-        <Link href="/games">🎮 Arcade</Link>
-        <Link href="/quizzes">Quizzes</Link>
-        <Link href="/exam-papers">Mock Papers</Link>
         <Link href="/subjects">Subjects</Link>
+        <Link href="/tools" style={{ fontWeight: 700, color: '#0f172a' }}>🛠️ Tools</Link>
+        <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ Store</Link>
+        <Link href="/exam-papers">Mock Papers</Link>
+        <Link href="/quizzes">Quizzes</Link>
         {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
       </nav>
 
@@ -76,6 +73,8 @@ export default function StudentTopbar({
                 <span>{session.email ?? `Class ${session.classLevel} student`}</span>
               </span>
               <Link href="/dashboard">Today&apos;s mix</Link>
+              <Link href="/tools" style={{ fontWeight: 700 }}>🛠️ Study Tools Hub</Link>
+              <Link href="/pyq-trends">📊 PYQ Trend Analyzer</Link>
               <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ ChapterReady Store</Link>
               <Link href="/activities-and-diagrams">🔬 NCERT Activities (₹99)</Link>
               <Link href="/formula-cheatsheets">⚡ Formula Cheatsheets (₹49)</Link>
