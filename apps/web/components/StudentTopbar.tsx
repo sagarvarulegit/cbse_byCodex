@@ -43,6 +43,7 @@ export default function StudentTopbar({
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ Store</Link>
+        <Link href="/pyq-trends">📊 PYQ Trends</Link>
         <Link href="/activities-and-diagrams">🔬 Activities</Link>
         <Link href="/formula-cheatsheets">⚡ Formulas</Link>
         <Link href="/games">🎮 Arcade</Link>

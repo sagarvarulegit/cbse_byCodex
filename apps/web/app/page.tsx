@@ -96,6 +96,13 @@ const whyChapterReadyBenefits = [
 
 const exploreCards = [
   {
+    icon: '📊',
+    title: 'Board PYQ Trends & Weightage',
+    desc: '5-year chapter weightage heatmaps, 5-mark recurring questions, and CBSE step-marking patterns.',
+    href: '/pyq-trends',
+    badge: 'Exam Analytics',
+  },
+  {
     icon: '🧪',
     title: 'Virtual Labs & Diagrams',
     desc: 'Explore redrawn NCERT experiments, apparatus setups, and observation keys in crystal-clear vector graphics.',
