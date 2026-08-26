@@ -42,12 +42,16 @@ recoveryRouter.post('/forgot-password', recoveryLimiter, async (req: Request, re
     console.log(`[ACCOUNT_RECOVERY] OTP for ${email} (${user.profile?.fullName || 'Student'}): ${otp} (expires ${expiresAt.toISOString()})`);
 
     // Dispatch email to student inbox
-    await sendEmail({
+    const emailResult = await sendEmail({
       to: email,
       subject: `${otp} is your ChapterReady account recovery code`,
       html: buildRecoveryEmailHtml({ otp, studentName: user.profile?.fullName }),
       text: `Your ChapterReady account recovery code is ${otp}. This code is valid for 15 minutes.`,
     });
+
+    if (!emailResult.success) {
+      console.error(`[ACCOUNT_RECOVERY_EMAIL_ERROR] Failed to send recovery email to ${email}:`, emailResult.error);
+    }
 
     return res.json({
       success: true,
@@ -98,12 +102,16 @@ recoveryRouter.post('/find-account', recoveryLimiter, async (req: Request, res: 
   console.log(`[ACCOUNT_RECOVERY] Discovered account for ${result.studentName || 'Student'} (${result.email}): OTP is ${otp} (expires ${expiresAt.toISOString()})`);
 
   // Dispatch email to student inbox
-  await sendEmail({
+  const emailResult = await sendEmail({
     to: result.email,
     subject: `${otp} is your ChapterReady account recovery code`,
     html: buildRecoveryEmailHtml({ otp, studentName: result.studentName }),
     text: `Your ChapterReady account recovery code is ${otp}. This code is valid for 15 minutes.`,
   });
+
+  if (!emailResult.success) {
+    console.error(`[ACCOUNT_RECOVERY_EMAIL_ERROR] Failed to send recovery email to ${result.email}:`, emailResult.error);
+  }
 
   return res.json({
     success: true,
