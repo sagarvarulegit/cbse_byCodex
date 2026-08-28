@@ -42,13 +42,13 @@ must follow this hierarchy:
    for X?", our platform gives ONE answer — the NCERT answer. No competing
    definitions, no "some books say this, others say that." One source of truth.
 
-Knowledge base & Textbook repository: ~/Projects/cbse_KB/
-- Class 10 root: ~/Projects/cbse_KB/10th/
-- NCERT Textbooks: ~/Projects/cbse_KB/10th/NCERTTextbooks/ and ~/Projects/cbse_KB/10th/textbooks/
-- NCERT Exemplar: ~/Projects/cbse_KB/10th/NCERTExemplar/
-- Previous Year Papers & Marking Schemes: ~/Projects/cbse_KB/10th/PreviousYearExamPapers/
-- Sample Papers (SQP): ~/Projects/cbse_KB/10th/SamplePapers/
-- Legacy textbook path: ~/Projects/cbse_class10_textbooks/
+Knowledge base & Textbook repository: `cbse_KB/` (or `~/Projects/CBSE_ChapterReady.in/cbse_KB/`)
+- Class 10 root: `cbse_KB/10th/`
+- NCERT Textbooks: `cbse_KB/10th/NCERTTextbooks/` and `cbse_KB/10th/textbooks/`
+- NCERT Exemplar: `cbse_KB/10th/NCERTExemplar/`
+- Previous Year Papers & Marking Schemes: `cbse_KB/10th/PreviousYearExamPapers/`
+- Sample Papers (SQP): `cbse_KB/10th/SamplePapers/`
+- Legacy textbook path: `~/Projects/cbse_class10_textbooks/`
 
 ## Student-safety and verification rule
 

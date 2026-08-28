@@ -37,14 +37,26 @@ Read this file for API, Prisma, authentication, Bunny, Supabase, and service-bou
 
 ## Backend structure
 
-- `apps/api/src/app.ts` is a small bootstrap file that mounts feature routers. Keep route logic split by feature as new work lands.
+- `apps/api/src/app.ts` is the main Express bootstrap file that mounts feature routers with global CORS and error handling.
 - Feature routes live in:
-  - `apps/api/src/routes/auth.ts`
-  - `apps/api/src/routes/catalog.ts`
-  - `apps/api/src/routes/video.ts`
-  - `apps/api/src/routes/progress.ts`
+  - `apps/api/src/routes/auth.ts`: Student registration, login, profile updates, guardian self-attestation.
+  - `apps/api/src/routes/recovery.ts`: Password recovery token generation, validation, and reset via Resend transactional email.
+  - `apps/api/src/routes/catalog.ts`: Subjects, chapters, and topics metadata.
+  - `apps/api/src/routes/video.ts`: Bunny Stream video playback metadata and sync.
+  - `apps/api/src/routes/progress.ts`: Quiz attempts, written practice, engagement events, mastery aggregates, badges, streaks, and mistake review queue.
+  - `apps/api/src/routes/exam-papers.ts`: 7-subject blueprint mock paper generation, CBT attempts, and seed bank publishing.
+  - `apps/api/src/routes/evaluator.ts`: Grounded AI Snap & Grade written answer evaluation against step-marking schemes.
+  - `apps/api/src/routes/tutor.ts` & `tutor-chat.ts`: Tara AI Socratic tutor chat, pgvector RAG semantic search, SSE streaming, and Bunny attachments.
+  - `apps/api/src/routes/payments.ts`: Cashfree & Razorpay order creation, payment signature verification, and user entitlement provisioning.
+  - `apps/api/src/routes/feedback.ts`: Student pilot feedback and friction signals.
 - Shared auth/session helpers live in:
   - `apps/api/src/lib/session.ts`
   - `apps/api/src/lib/access.ts`
-- Prefer cached or aggregated reads for high-traffic endpoints.
+- Core service modules:
+  - `apps/api/src/lib/tutor/`: Tara persona, prompt engineering, Gemini Flash streaming, and pgvector cosine retrieval.
+  - `apps/api/src/lib/evaluator/`: Step-marking matching, heuristic fallback, and grounded AI written score calculations.
+  - `apps/api/src/lib/payments/`: Cashfree SDK client, Razorpay fallback, and product definitions.
+  - `apps/api/src/lib/exam-papers/`: Generalized demand planner, pure assembler, and Gemini blueprint verification.
+  - `apps/api/src/lib/email/`: Resend email dispatcher for account recovery and support notifications.
 - `MistakeReviewItem` and `ExamReadyChecklist` are owned by the progress API. The former stores bounded learning-recovery evidence and three-day retry dates; the latter stores only student-confirmed checklist fields while automatic readiness is derived at read time.
+

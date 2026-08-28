@@ -66,12 +66,43 @@ Create three Vercel projects from the same Git repository.
 Recommended production values:
 
 ```text
+# Web & Admin Apps
 NEXT_PUBLIC_API_BASE_URL=https://<api-project>.vercel.app
-CORS_ORIGIN=https://<web-project>.vercel.app,https://<admin-project>.vercel.app
+PRIVACY_CONTACT_EMAIL=privacy@chapterready.in
+
+# API Runtime & Database
+PORT=4000
+CORS_ORIGIN=https://www.chapterready.in,https://<web-project>.vercel.app,https://<admin-project>.vercel.app
 DATABASE_URL=postgresql://prisma.<project-ref>:<password>@<region>.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
 DIRECT_URL=postgresql://prisma.<project-ref>:<password>@<region>.pooler.supabase.com:5432/postgres
-ELEVENLABS_API_KEY=<server-only key>
+
+# API Auth & Security
+AUTH_TOKEN_SECRET=<long-random-secret>
+AUTH_SESSION_DAYS=14
+
+# Transactional Email (Resend)
+RESEND_API_KEY=re_...
+EMAIL_FROM=ChapterReady <support@chapterready.in>
+
+# Google Gemini (Tara AI Tutor & Snap & Grade Written Evaluator)
+GEMINI_API_KEY=<server-only-key>
+GEMINI_MODEL=gemini-2.5-flash
+GEMINI_EMBEDDING_MODEL=gemini-embedding-001
+TUTOR_DAILY_LIMIT=30
+TUTOR_RAG_TOP_K=6
+
+# Payments & Store Gateways
+CASHFREE_APP_ID=<cashfree-app-id>
+CASHFREE_SECRET_KEY=<cashfree-secret-key>
+CASHFREE_API_VERSION=2023-08-01
+RAZORPAY_KEY_ID=<razorpay-key-id>
+RAZORPAY_KEY_SECRET=<razorpay-secret>
+
+# Video Narration (ElevenLabs)
+ELEVENLABS_API_KEY=<server-only-key>
 ELEVENLABS_VOICE_ID=g14YnDYCsy3k7XLlcKlO
+
+# Bunny Stream Video & Storage
 BUNNY_STREAM_LIBRARY_ID=<bunny-stream-library-id>
 BUNNY_STREAM_API_KEY=<bunny-stream-library-api-key>
 BUNNY_STREAM_CDN_HOSTNAME=<pull-zone>.b-cdn.net

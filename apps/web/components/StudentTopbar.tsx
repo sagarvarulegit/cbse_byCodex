@@ -74,6 +74,7 @@ export default function StudentTopbar({
               </span>
               <Link href="/dashboard">Today&apos;s mix</Link>
               <Link href="/tools" style={{ fontWeight: 700 }}>🛠️ Study Tools Hub</Link>
+              <Link href="/tools/readiness-predictor" style={{ fontWeight: 700, color: '#f97316' }}>🎯 Score Predictor</Link>
               <Link href="/pyq-trends">📊 PYQ Trend Analyzer</Link>
               <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ ChapterReady Store</Link>
               <Link href="/activities-and-diagrams">🔬 NCERT Activities (₹99)</Link>

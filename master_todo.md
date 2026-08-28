@@ -1,6 +1,8 @@
-# Master Product TODO
+# Master Product TODO (Historical Archive)
 
-Last updated: 2026-07-01
+> **Note**: This document preserves the initial July 2026 Product Owner readiness assessment for historical reference. For the active, maintained sprint backlog, recent shipments (Milestones 1–4, Store, Tools, AI Evaluator), and current tasks, refer directly to [`TODO.md`](file:///home/sagarv/Projects/CBSE_ChapterReady.in/cbse_byCodex/TODO.md) and [`docs/TODO.md`](file:///home/sagarv/Projects/CBSE_ChapterReady.in/cbse_byCodex/docs/TODO.md).
+
+Last updated: 2026-07-01 (Archived)
 
 Role: Product Owner assessment
 

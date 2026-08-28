@@ -22,6 +22,25 @@ export interface StudyToolItem {
 
 export const STUDY_TOOLS: StudyToolItem[] = [
   {
+    id: 'tool-readiness-predictor',
+    category: 'analytics',
+    title: 'AI Board Score Predictor & Readiness Index',
+    badge: '🔥 AI Diagnostic',
+    badgeColor: '#f97316',
+    icon: '🎯',
+    shortDesc: '60-second chapter confidence auditor that predicts your exact CBSE Board Exam score (out of 80), section vulnerabilities, and a custom 14-day revision blueprint.',
+    highlights: [
+      'Covers Science (086), Maths Std (041), Maths Basic (241), SST (087), English & Hindi',
+      'Calculates Board Readiness Score (0-100%) and predicted score error bands',
+      'Section A-E projection (MCQs, VSAs, Long Answers, Case Studies)',
+      'Algorithmic 14-day prioritized revision roadmap + WhatsApp scorecard sharing',
+    ],
+    ctaLabel: 'Predict My Board Score',
+    ctaHref: '/tools/readiness-predictor',
+    isPopular: true,
+    isFree: true,
+  },
+  {
     id: 'tool-pyq-trends',
     category: 'analytics',
     title: 'Board PYQ Trend & Weightage Analyzer',

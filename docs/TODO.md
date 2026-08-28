@@ -8,7 +8,7 @@ timestamp: 2026-07-08T12:00:00Z
 
 # Project TODO
 
-Last updated: 2026-08-23
+Last updated: 2026-08-26
 
 ## Current Priority
 
@@ -16,9 +16,17 @@ Last updated: 2026-08-23
 - [x] Complete Milestone 2: Mathematics Basic (241) 5-paper mock series with step-marking rubrics (`MarkingSchemeRubric.tsx`).
 - [x] Complete Milestone 3: Practice Expansion (Exemplar HOTS mode with 468 verified MCQs, 5-Year PYQ Drill ladders on chapter notes, Hindi Course A 002 & Course B 085 mock series).
 - [x] Complete Milestone 4: AI "Snap & Grade" Written Answer Evaluator API (`POST /v1/evaluator/grade-answer`) & Student Modal (`AiAnswerEvaluatorModal.tsx`).
-- [x] End-to-end live testing of all 4 milestones passed with 100% success.
+- [x] Launch Study Tools Hub (`/tools`) and CBSE Class 10 Board PYQ Trend & Weightage Analyzer (`/tools/pyq-analyzer`).
+- [x] Configure Resend API key for transactional auth & password recovery emails with diagnostic error handling.
 - [x] Deploy to production on Vercel (`apps/web` https://www.chapterready.in, `apps/api` https://cbse-bycodex-api.vercel.app, `apps/admin` https://cbse-bycodex-admin.vercel.app).
-- [ ] Next: Launch parent progress reporting & weekly WhatsApp/email digest for student mock exam performance and AI evaluation history.
+- [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest**:
+  - [ ] Weekly WhatsApp & Email performance digest for student mock exam scores, study streaks, and AI evaluation summaries.
+  - [ ] Server-side attempt detail endpoint (`GET /v1/exam-papers/attempts/:id`) for dedicated parent/tutor shareable review reports.
+- [ ] **Follow-up Tasks**:
+  - [ ] cbse_KB pipeline portability: Make dataset validation and export scripts relative/path-agnostic across `cbse_KB/scripts/`.
+  - [ ] AI Tutor Tara Context: In-context PDF text extraction for student uploads and Bunny CDN download links in chat UI.
+  - [ ] Games Arcade Expansion: Sci-Wordle (Daily NCERT 5-Letter Science Term Game) or Chemical Balancer Blitz.
+
 
 
 ## AI Tutor "Tara-Firefly" — Shipped (2026-08-16)

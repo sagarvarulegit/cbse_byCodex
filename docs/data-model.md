@@ -592,38 +592,273 @@ Fields:
 - last_seen_at
 - created_at
 
-## Admin and Audit Entities
+## Practice and Remediation Entities
 
-### content_audit_logs
+### written_practice_attempts (`WrittenPracticeAttempt`)
 
 Fields:
 
 - id
-- actor_user_id
-- entity_type
-- entity_id
-- action
-- before_json
-- after_json
+- user_id
+- chapter_id
+- lesson_id
+- practice_kind (e.g. `written_practice`, `timed_diagnostic`, `equation_workbench`)
+- client_attempt_id (idempotent upsert key)
+- score_achieved
+- total_score
+- rubric_point_ids (array of passed/failed rubric IDs)
+- weak_skill_slugs
+- answer_length
+- hints_opened
+- time_spent_seconds
+- retention_eligible
 - created_at
 
-Actions:
+### mistake_review_items (`MistakeReviewItem`)
 
-- create
-- update
-- submit_for_review
-- approve
-- publish
-- archive
+Personal revision queue for incorrect quiz questions, weak concepts, and missed written marking points.
+
+Fields:
+
+- id
+- user_id
+- chapter_id
+- kind (`quiz_question`, `weak_concept`, `hint_used`, `written_marking_point`)
+- item_id (stable identifier)
+- question_id
+- concept_slug
+- missed_marking_point_id
+- source_surface
+- mistake_count
+- last_attempted_at
+- next_retry_date
+- is_resolved
+- created_at
+- updated_at
+
+### exam_ready_checklists (`ExamReadyChecklist`)
+
+Student self-confirmed checklist for chapter exam readiness.
+
+Fields:
+
+- id
+- user_id
+- chapter_id
+- concepts_studied
+- ncert_questions_attempted
+- weak_areas_revised
+- confirmed_at
+- created_at
+- updated_at
+
+## AI Tutor and RAG Knowledge Base Entities
+
+### tutor_conversations (`TutorConversation`)
+
+Chat sessions between student and AI Tutor Tara.
+
+Fields:
+
+- id
+- user_id
+- subject_slug
+- chapter_slug
+- title
+- status (`active`, `archived`)
+- created_at
+- updated_at
+
+### tutor_messages (`TutorMessage`)
+
+Individual messages in a tutor conversation.
+
+Fields:
+
+- id
+- conversation_id
+- sender (`user`, `assistant`)
+- content (Markdown / LaTeX formatted text)
+- citations_json (references to RAG source chunks)
+- token_count
+- created_at
+
+### tutor_attachments (`TutorAttachment`)
+
+Files uploaded by students during tutor chat.
+
+Fields:
+
+- id
+- conversation_id
+- message_id
+- file_name
+- file_type
+- storage_path (Bunny Storage / S3 path)
+- public_url
+- extracted_text
+- created_at
+
+### rag_document_chunks (`RAGDocumentChunk`)
+
+Vector embeddings of NCERT textbooks, chapter notes, and blueprints for cosine similarity search.
+
+Fields:
+
+- id
+- document_id
+- subject_slug
+- chapter_slug
+- chunk_index
+- content
+- embedding (3072-dimensional vector via `gemini-embedding-001`)
+- metadata_json
+- created_at
+
+## Exam Papers and Question Bank Entities
+
+### question_bank_questions (`QuestionBankQuestion`)
+
+Curated and verified board examination questions.
+
+Fields:
+
+- id
+- subject_code (e.g. `041`, `241`, `086`, `087`, `184`, `002`, `085`)
+- unit_slug
+- chapter_slug
+- section (`A`, `B`, `C`, `D`, `E`, `F`)
+- question_type (`mcq`, `vsa`, `sa`, `la`, `case_study`, `map_skill`)
+- marks
+- stem (Markdown / LaTeX question text)
+- options_json (for MCQs)
+- correct_answer
+- marking_scheme_rubric (step-wise value points with half-mark allocations)
+- examiner_tips
+- source_paper (e.g. `CBSE-2026-Set-31/1/1`, `NCERT-Exemplar`)
+- verification_status (`draft`, `review`, `verified`)
+- created_at
+- updated_at
+
+### exam_papers (`ExamPaper`)
+
+Generated or published mock examination papers adhering strictly to 80-mark blueprints.
+
+Fields:
+
+- id
+- subject_code
+- paper_title
+- series_id (optional FK to `ExamPaperSeries`)
+- paper_number (1..5)
+- total_marks (80.0)
+- time_allowed_minutes (180)
+- blueprint_version
+- layout_json (ordered list of question IDs and section splits)
+- is_published
+- is_free (Paper 1 is always free)
+- created_at
+
+### exam_paper_attempts (`ExamPaperAttempt`)
+
+Student CBT attempts on 80-mark mock papers.
+
+Fields:
+
+- id
+- user_id
+- exam_paper_id
+- client_attempt_id
+- status (`in_progress`, `submitted`, `evaluated`)
+- time_spent_seconds
+- answers_json (student submitted responses)
+- total_score_achieved
+- mcq_score
+- written_self_score
+- ai_evaluated_score
+- weak_chapters_json
+- submitted_at
+- created_at
+
+## Payment and Entitlement Entities
+
+### payment_orders (`PaymentOrder`)
+
+Cashfree and Razorpay transaction orders.
+
+Fields:
+
+- id
+- user_id
+- gateway (`cashfree`, `razorpay`)
+- order_id
+- gateway_order_id
+- gateway_payment_id
+- product_sku (e.g. `cbse10-formula-cheatsheet-pack`, `cbse10-all-subjects-mock-pack`)
+- amount_paise (e.g. 4900, 9900, 19900)
+- currency (`INR`)
+- status (`pending`, `paid`, `failed`, `refunded`)
+- receipt
+- signature
+- metadata_json
+- created_at
+- updated_at
+
+### user_entitlements (`UserEntitlement`)
+
+Active product unlocks and passes for a student.
+
+Fields:
+
+- id
+- user_id
+- product_sku
+- source_order_id
+- status (`active`, `expired`, `revoked`)
+- valid_from
+- valid_until (optional for lifetime/board-year passes)
+- created_at
+- updated_at
+
+## Auth, Guardian Consent and Recovery Entities
+
+### guardian_consents (`GuardianConsent`)
+
+Minor student onboarding self-attestation.
+
+Fields:
+
+- id
+- user_id
+- guardian_full_name
+- guardian_email
+- relationship
+- policy_version (e.g. `2026-08-04`)
+- verification_status (`self_attested`)
+- consented_at
+- revoked_at
+- created_at
+- updated_at
+
+### account_recovery_tokens (`AccountRecoveryToken`)
+
+Secure password reset tokens dispatched via Resend.
+
+Fields:
+
+- id
+- user_id
+- token_hash
+- expires_at
+- used_at
+- created_at
 
 ## Relationships Summary
 
-- subject has many chapters.
-- chapter has many topics.
-- topic has many lessons.
-- lesson has one or more videos, notes, examples, practice questions, and quizzes.
-- user has one profile.
-- user has many quiz attempts and progress events.
-- user has subscription records from payment providers.
-- user gets access through entitlements.
-- mastery records are derived from progress events and quiz attempts.
+- `User` has one `UserProfile`, one optional `GuardianConsent`, and one optional `StudyStreak`.
+- `User` has many `ProgressEvent`, `QuizAttempt`, `WrittenPracticeAttempt`, `MistakeReviewItem`, `ExamPaperAttempt`, `TutorConversation`, `PaymentOrder`, and `UserEntitlement` records.
+- `Subject` has many `Chapter` records; `Chapter` has many `Topic` records; `Topic` has many `Lesson` records.
+- `Lesson` connects to `Video`, text notes, activity demos, and practice questions.
+- `ExamPaper` references `QuestionBankQuestion` via its structured layout and records `ExamPaperAttempt` entries per student.
+- `TutorConversation` has many `TutorMessage` and `TutorAttachment` records.
+
