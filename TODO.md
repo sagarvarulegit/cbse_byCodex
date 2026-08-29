@@ -1,17 +1,22 @@
-# Current Handoff - AI CBSE Board Exam Score Predictor & Readiness Index Live
+# Current Handoff - Sci-Wordle & Chemical Balancer Blitz Live in Fun & Games Arcade
 
-- [x] Implemented and deployed **AI CBSE Board Exam Score Predictor & Readiness Index (`/tools/readiness-predictor` & `/readiness`)**:
-  - **🎯 60-Second Chapter Confidence Auditor & Prediction Engine**:
-    - Grounded in official CBSE 2026/27 blueprints, 80-mark structure, and unit weightages across all 7 subjects (Science 086, Maths Standard 041, Maths Basic 241, SST 087, English 184, Hindi A 002, Hindi B 085).
-    - Computes live Board Readiness Index (0–100%), predicted board exam marks (out of 80), and percentile performance tiers (Centum Track 95%+, Distinction 85–94%, First Class, Foundation, Critical Catch-up).
-  - **📊 CBSE Section A–E Mark Projection & Risk Heatmap**:
-    - Section-by-section vulnerability meter across Section A (20M MCQs), Section B (VSA), Section C (SA), Section D (5M Long Answers), and Section E (Case Studies).
-  - **🎯 Target Score "What-If" Goalpost Simulator**:
-    - Interactive target mark slider (40–80M) that calculates the exact mark deficit and top high-ROI chapters needed to bridge the gap with minimum effort.
-  - **📅 Algorithmic 14-Day Revision Blueprint**:
-    - Day-by-day prioritized timeline spanning High-Yield Anchors, Section D & Case Studies, Formula & Weak Spot Polish, and Full 80-Mark Mock Simulations with direct 1-click links into ChapterReady tools.
-  - **📲 1-Click WhatsApp Scorecard & Print Report**:
-    - Generates pre-formatted parent/tutor diagnostic report cards for instant WhatsApp sharing and browser printing.
+- [x] Implemented and deployed **Sci-Wordle & Chemical Balancer Blitz Games Expansion (`/games`, `/games/sci-wordle`, `/games/chemical-balancer`)**:
+  - **🧩 Sci-Wordle (Daily NCERT Science & Maths 5-Letter Concept Puzzle)**:
+    - 65+ curated Class 10 NCERT Science (Chemistry, Physics, Biology, Environment) and Mathematics 5-letter terms with definitions, chapter slug links, and board exam trap warnings.
+    - 📅 **Daily Challenge Mode** with deterministic calendar date indexing and 1-click WhatsApp emoji scorecard export (`🧩 Sci-Wordle Day #241 3/6 🟩🟨...`).
+    - ♾️ **Unlimited Practice Mode** with instant random term generator.
+    - Full virtual QWERTY keyboard + physical keyboard input support, color flip animations (🟩 Green / 🟨 Yellow / ⬛ Absent), guess distribution chart, and win streak tracking.
+    - Educational post-puzzle reveal card linking directly to chapter revision notes and formula sheets.
+  - **🧪 Chemical Balancer Blitz (Stoichiometric Reaction Balancer Game)**:
+    - 30+ official CBSE NCERT chemical equations across Chapters 1 to 4 with parsed atom counts, integer stepper coefficient dials (`[-] 1 [+]`), and difficulty tiers.
+    - **⚖️ Real-Time Atom Balance Scale**: Dynamic visual element chips comparing reactant vs product atom counts with instant green/amber balance indicators.
+    - **3 Game Modes**: ⏱️ *60s Speed Blitz* (with combo streak multipliers), ❤️ *3-Lives Survival*, and 🎯 *15-Level NCERT Campaign*.
+    - Post-round review with CBSE board exam observations (e.g., brown NO₂ fumes, white BaSO₄ precipitate, thermite welding notes) and personal best persistence.
+  - **🎮 Hub & Platform Integration**:
+    - Updated `GamesArcadeHub.tsx` to showcase all 3 live games with personal records.
+    - Added dedicated tool cards in `ToolsHubClient.tsx` under the `🎮 Arcade & Power Breaks` section.
+    - Responsive, high-contrast arcade styling and modals in `arcade.css`.
+    - 100% automated test coverage in `arcade-games.test.ts`.
 - [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest**:
   - [ ] Weekly WhatsApp & Email performance digest for student mock exam scores, study streaks, and AI evaluation summaries.
   - [ ] Server-side attempt detail endpoint (`GET /v1/exam-papers/attempts/:id`) for dedicated parent/tutor shareable review reports.
