@@ -242,3 +242,27 @@ Figure labels must remain readable and accessible. Prefer numbered pins on the i
 Remember our Platform notes are simplified version of Textbook + Tip and Trick + Remember these things+ Gamification + Comic style Recap + Question and Answers + Quiz. Our Platform notes objective should be to make student understand the concepts in easy manner, aids in remembering thing, make the all the topic easy to understand even for Dump students.
 
 We should have same numbering for the Topics in Platform as in textbook. Eg: Science chatper 5: 5.1 What are life processes?
+
+---
+
+## Session Learnings (Updated by Agent) — 2026-09-02
+
+### TTS Math-Symbol Pronunciation Fix (Critical — Video Pipeline)
+When generating narration with ElevenLabs (voice TODD, ID: `g14YnDYCsy3k7XLlcKlO`), raw Unicode math symbols in narration scripts cause garbled audio. Confirmed by extracting audio from `ap-confusion-short_2026-09-02_03-21-52-main.mp4` and transcribing with Whisper.
+
+Evidence: Script says `a subscript n = a + (n-1)d`, TODD audio produced `a e plus via n 1 to 4 d` (garbled); `S subscript n` was misread; `a subscript 10` was read as `a e schwarzschild`. Root cause: precomposed Unicode subscript characters (`ₙ` = U+2099) have no phoneme mapping in ElevenLabs.
+
+Solution — Created `/home/sagarv/Projects/CBSE_ChapterReady.in/cbse_byCodex/videos/ap-confusion-short/preprocess_math.py`. It converts: `letterₙ` → `letter subscript n` (e.g., `aₙ` → `a subscript n`); `Sₙ` → `S subscript n`; superscript `²` → `2`; Greek `α`/`β`/`γ`/`Δ` → `alpha`/`beta`/`gamma`/`delta`; operators `×`/`÷`/`√`/`±` → `times`/`divided by`/`square root`/`plus or minus`; fractions `a/b` → `a over b`. Pipeline: preprocess `narration.txt` → generate MP3 with ElevenLabs (TODD, speed 1.0) → mux with `ffmpeg` → verify audio duration ≈ 50s and re-verify with Whisper.
+
+### Browser Remote Debugging Approval
+When Chrome remote debugging is enabled (`--remote-debugging-port=9222`), an explicit user approval via an "Allow" popup click is required. The server runs locally (`127.0.0.1:PORT`) — expected behavior, not an error. Do not proceed with automation until the user confirms.
+
+### Current Model
+This session runs on `openrouter/free` (free-tier OpenRouter model). State model clearly when asked. Default delegation model for video/review work: `mimo-v2.5` (provider: xiaomi), NOT deepseek (HTTP 403).
+
+### Memory Reminder
+- CBSE video rules: TODD voice ONLY (never Jessica); Filename format: `cbse-class-10-<subject>-topic-main.mp4` / `-shorts.mp4`.
+- CBSE content must come from actual NCERT PDFs (PyMuPDF) and be checked against `textbook-map.json` — never from memory/skills.
+- User demands verification before claiming "done" — verify audio duration, frame boundaries, narration match.
+- User accesses via Telegram — never provide local file paths. Use `text_to_speech`, Cloudflare tunnel, or `rclone`.
+- ElevenLabs key grep pattern: use `[^"]+` not `.*`.

@@ -43,6 +43,7 @@ export default function StudentTopbar({
       <nav aria-label="Student shortcuts" className="student-topbar-nav">
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/subjects">Subjects</Link>
+        <Link href="/virtual-lab" style={{ fontWeight: 700, color: '#0284c7' }}>🔬 3D Lab</Link>
         <Link href="/tools" style={{ fontWeight: 700, color: '#0f172a' }}>🛠️ Tools</Link>
         <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ Store</Link>
         <Link href="/exam-papers">Mock Papers</Link>
@@ -77,6 +78,7 @@ export default function StudentTopbar({
               <Link href="/tools/readiness-predictor" style={{ fontWeight: 700, color: '#f97316' }}>🎯 Score Predictor</Link>
               <Link href="/pyq-trends">📊 PYQ Trend Analyzer</Link>
               <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ ChapterReady Store</Link>
+              <Link href="/virtual-lab" style={{ fontWeight: 700, color: '#0284c7' }}>🔬 3D Virtual Science Lab</Link>
               <Link href="/activities-and-diagrams">🔬 NCERT Activities (₹99)</Link>
               <Link href="/formula-cheatsheets">⚡ Formula Cheatsheets (₹49)</Link>
               <Link href="/games">🎮 Fun &amp; Games</Link>

@@ -1,0 +1,1274 @@
+/* ==========================================================================
+   ChapterReady 3D Virtual Science Lab Styles (Study Remix Design System)
+   ========================================================================== */
+
+.vlab-workbench {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid #d9c7b4;
+  background: #ffffff;
+  color: #181612;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 34px rgba(67, 45, 24, 0.08), 0 2px 0 rgba(24, 22, 18, 0.06);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  user-select: none;
+  margin: 1.5rem 0;
+  min-height: 800px;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vlab-workbench.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  border-radius: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  border: none;
+  overflow-y: auto;
+}
+
+/* 1. Header Bar */
+.vlab-header {
+  background: #fffdf8;
+  border-bottom: 2px solid #e8decb;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.vlab-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vlab-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #fff3df;
+  border: 1.5px solid rgba(243, 136, 59, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 6px rgba(243, 136, 59, 0.15);
+}
+
+.vlab-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.vlab-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vlab-title {
+  font-family: "Arial Black", "Segoe UI", Arial, sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #181612;
+  letter-spacing: -0.03em;
+}
+
+.vlab-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #fff3df;
+  color: #bd4f10;
+  border: 1px solid rgba(243, 136, 59, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.vlab-subtitle {
+  font-size: 0.72rem;
+  color: #6f665c;
+  margin: 0;
+}
+
+/* Nav Tabs */
+.vlab-tabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f4ede2;
+  padding: 0.3rem;
+  border-radius: 12px;
+  border: 1px solid #d9c7b4;
+}
+
+.vlab-tab-btn {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #6f665c;
+  transition: all 0.15s ease;
+}
+
+.vlab-tab-btn:hover {
+  color: #181612;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.vlab-tab-btn.is-active {
+  background: #181612;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(24, 22, 18, 0.15);
+}
+
+/* Header Action Controls */
+.vlab-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.vlab-action-btn {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #181612;
+  border: 1.5px solid #d9c7b4;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+
+.vlab-action-btn:hover {
+  background: #f4ede2;
+  border-color: #c9bfb3;
+}
+
+.vlab-action-btn.is-primary {
+  background: #f3883b;
+  color: #ffffff;
+  border-color: #bd4f10;
+}
+
+.vlab-action-btn.is-danger {
+  background: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+/* 2. Main Workbench Layout */
+.vlab-main-body {
+  height: 660px;
+  min-height: 660px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+}
+
+.vlab-workbench.is-fullscreen .vlab-main-body {
+  height: calc(100vh - 65px);
+  min-height: calc(100vh - 65px);
+}
+
+/* 3. Left Controls Sidebar */
+.vlab-sidebar {
+  width: 330px;
+  background: #faf7f2;
+  border-right: 2px solid #e8decb;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  overflow-y: auto;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.vlab-sidebar.is-collapsed {
+  display: none;
+}
+
+.vlab-section-label {
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6f665c;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Experiment Cards */
+.vlab-exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vlab-exp-card {
+  padding: 0.75rem 0.85rem;
+  border-radius: 14px;
+  border: 1.5px solid #e8decb;
+  background: #ffffff;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.vlab-exp-card:hover {
+  background: #fffdf8;
+  border-color: #d9c7b4;
+  transform: translateY(-1px);
+}
+
+.vlab-exp-card.is-active {
+  background: #ffffff;
+  border-color: #f3883b;
+  box-shadow: 0 4px 14px rgba(243, 136, 59, 0.18);
+  outline: 2px solid #f3883b;
+}
+
+.vlab-exp-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #fff3df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.vlab-exp-info {
+  flex: 1;
+}
+
+.vlab-exp-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #181612;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vlab-exp-desc {
+  font-size: 0.68rem;
+  color: #6f665c;
+  margin-top: 0.15rem;
+}
+
+/* Step Timeline Panel */
+.vlab-timeline-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 0.85rem;
+  border: 1.5px solid #e8decb;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vlab-timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vlab-timeline-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #bd4f10;
+}
+
+.vlab-timeline-badge {
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #f4ede2;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  color: #6f665c;
+  border: 1px solid #d9c7b4;
+}
+
+.vlab-step-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+.vlab-step-btn {
+  padding: 0.55rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  border-radius: 8px;
+  border: 1.5px solid #d9c7b4;
+  background: #fbf8f3;
+  color: #6f665c;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.vlab-step-btn:hover {
+  background: #f4ede2;
+  color: #181612;
+}
+
+.vlab-step-btn.is-active {
+  background: #f3883b;
+  color: #ffffff;
+  border-color: #bd4f10;
+  box-shadow: 0 2px 6px rgba(243, 136, 59, 0.25);
+}
+
+.vlab-step-btn.is-active.stage-1 {
+  background: #0f172a;
+  border-color: #0f172a;
+}
+.vlab-step-btn.is-active.stage-2 {
+  background: #f3883b;
+  border-color: #bd4f10;
+}
+.vlab-step-btn.is-active.stage-3 {
+  background: #e11d48;
+  border-color: #be123c;
+}
+.vlab-step-btn.is-active.stage-4 {
+  background: #059669;
+  border-color: #047857;
+}
+
+.vlab-bohr-btn {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 1.5px solid #c7d2fe;
+  background: #f4ede2;
+  color: #3730a3;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vlab-bohr-btn:hover {
+  background: #e0e7ff;
+}
+
+.vlab-bohr-btn.is-active {
+  background: #4f46e5;
+  color: #ffffff;
+  border-color: #4338ca;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+}
+
+/* Board Exam Tip Callout */
+.vlab-exam-tip {
+  margin-top: auto;
+  background: #fff8ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.72rem;
+  color: #9a3412;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.vlab-exam-tip-header {
+  font-weight: 900;
+  color: #c2410c;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.vlab-exam-tip-text {
+  margin: 0;
+  line-height: 1.5;
+  color: #7c2d12;
+}
+
+/* 4. Canvas Viewport Area */
+.vlab-canvas-wrap {
+  flex: 1;
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 60%, #0b1120 100%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.vlab-canvas-element {
+  width: 100% !important;
+  height: 100% !important;
+  cursor: grab;
+}
+
+.vlab-canvas-element:active {
+  cursor: grabbing;
+}
+
+/* Floating Badges & Toolbars */
+.vlab-floating-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #e2e8f0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1e293b;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.vlab-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+  animation: vlabPulse 2s infinite;
+}
+
+@keyframes vlabPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.vlab-floating-toolbar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid #e2e8f0;
+  padding: 0.3rem 0.45rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+}
+
+.vlab-tool-btn {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.vlab-tool-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.vlab-tool-btn.is-active {
+  background: #f3883b;
+  color: #ffffff;
+}
+
+.vlab-tool-divider {
+  width: 1px;
+  height: 18px;
+  background: #cbd5e1;
+  margin: 0 0.15rem;
+}
+
+/* Bottom HUD Card */
+.vlab-hud-card {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid #e2e8f0;
+  padding: 0.85rem 1.1rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+}
+
+.vlab-hud-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vlab-hud-name {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #181612;
+}
+
+.vlab-hud-cat {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #fff3df;
+  color: #bd4f10;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 136, 59, 0.3);
+}
+
+.vlab-hud-desc {
+  font-size: 0.72rem;
+  color: #475569;
+  margin-top: 0.2rem;
+  line-height: 1.45;
+  max-width: 680px;
+}
+
+.vlab-hud-formula {
+  background: #faf7f2;
+  border: 1.5px solid #d9c7b4;
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  font-family: monospace;
+  font-weight: 900;
+  font-size: 0.78rem;
+  color: #0f172a;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+}
+
+/* 5. 3D Apparatus Catalog Tab */
+.vlab-search-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.2rem;
+  border-radius: 10px;
+  border: 1.5px solid #d9c7b4;
+  background: #ffffff;
+  font-size: 0.75rem;
+  color: #181612;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.vlab-search-input:focus {
+  border-color: #f3883b;
+  box-shadow: 0 0 0 2px rgba(243, 136, 59, 0.2);
+}
+
+.vlab-cat-pill {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  border-radius: 6px;
+  border: 1px solid #d9c7b4;
+  background: #ffffff;
+  color: #6f665c;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all 0.15s ease;
+}
+
+.vlab-cat-pill.is-active {
+  background: #181612;
+  color: #ffffff;
+  border-color: #181612;
+}
+
+.vlab-asset-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 0.25rem;
+}
+
+.vlab-asset-item {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1.5px solid #e8decb;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vlab-asset-item:hover {
+  background: #fffdf8;
+  border-color: #d9c7b4;
+}
+
+.vlab-asset-item.is-selected {
+  background: #ffffff;
+  border-color: #f3883b;
+  outline: 2px solid #f3883b;
+  box-shadow: 0 2px 8px rgba(243, 136, 59, 0.15);
+}
+
+/* 6. Misconceptions & OKF Knowledge Tab */
+.vlab-misconceptions-wrap {
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #fbf8f3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vlab-misconceptions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.1rem;
+}
+
+.vlab-concept-card {
+  background: #ffffff;
+  border: 1.5px solid #d9c7b4;
+  border-radius: 16px;
+  padding: 1.1rem;
+  box-shadow: 0 2px 8px rgba(67, 45, 24, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.vlab-pitfall-box {
+  background: #fff8ed;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.72rem;
+  color: #9a3412;
+}
+
+/* 7. CBSE 5-Year Past Questions Accordion Styles */
+.vlab-board-questions-panel {
+  background: #ffffff;
+  border-top: 2px solid #e8decb;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vlab-bq-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f4ede2;
+}
+
+.vlab-bq-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fff3df;
+  border: 1.5px solid rgba(243, 136, 59, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vlab-bq-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #181612;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.vlab-bq-badge {
+  background: #f4ede2;
+  color: #6f665c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.vlab-bq-subtitle {
+  font-size: 0.8rem;
+  color: #6f665c;
+  margin: 0.2rem 0 0 0;
+  line-height: 1.4;
+}
+
+.vlab-bq-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.vlab-bq-filter-btn {
+  background: #fbf8f3;
+  border: 1.5px solid #d9c7b4;
+  color: #6f665c;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vlab-bq-filter-btn:hover {
+  background: #fff3df;
+  border-color: #f3883b;
+  color: #bd4f10;
+}
+
+.vlab-bq-filter-btn.is-active {
+  background: #1e293b;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+.vlab-bq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vlab-bq-card {
+  background: #fdfbf7;
+  border: 1.5px solid #e8decb;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.18s ease;
+}
+
+.vlab-bq-card:hover {
+  border-color: #d9c7b4;
+  box-shadow: 0 4px 12px rgba(67, 45, 24, 0.05);
+}
+
+.vlab-bq-card.is-expanded {
+  background: #ffffff;
+  border-color: #f3883b;
+  box-shadow: 0 6px 18px rgba(243, 136, 59, 0.08);
+}
+
+.vlab-bq-card-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.vlab-bq-mark-pill {
+  background: #fff3df;
+  border: 1px solid rgba(243, 136, 59, 0.4);
+  color: #bd4f10;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 0.25rem 0.55rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.vlab-bq-year-tag {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+}
+
+.vlab-bq-type-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #6f665c;
+  background: #f4ede2;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+}
+
+.vlab-bq-question-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #181612;
+  margin: 0;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+.vlab-bq-copy-btn {
+  background: #fbf8f3;
+  border: 1px solid #d9c7b4;
+  color: #6f665c;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vlab-bq-copy-btn:hover {
+  background: #fff3df;
+  border-color: #f3883b;
+  color: #bd4f10;
+}
+
+.vlab-bq-toggle-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f4ede2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6f665c;
+}
+
+.vlab-bq-card-body {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border-top: 1px solid #f4ede2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #faf7f2;
+}
+
+.vlab-bq-trap-alert {
+  margin-top: 1rem;
+  background: #fff1f2;
+  border: 1.5px solid #fecdd3;
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.8rem;
+  color: #9f1239;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.45;
+}
+
+.vlab-bq-section-title {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #181612;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+.vlab-bq-answer-content {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.vlab-bq-marking-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.vlab-bq-marking-step-row {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.vlab-bq-step-bullet {
+  font-weight: 900;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.vlab-bq-step-desc {
+  flex: 1;
+  color: #475569;
+  line-height: 1.35;
+}
+
+.vlab-bq-step-score {
+  font-weight: 900;
+  color: #047857;
+  background: #d1fae5;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* 8. 1-Minute Exam Revision Card Styles */
+.vlab-revision-card-wrapper {
+  background: #ffffff;
+  border-top: 2px solid #e8decb;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vlab-rev-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f4ede2;
+}
+
+.vlab-rev-badge-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+}
+
+.vlab-rev-subject-pill {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #bd4f10;
+  background: #fff3df;
+  border: 1px solid rgba(243, 136, 59, 0.3);
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.vlab-rev-activity-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+}
+
+.vlab-rev-time-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.vlab-rev-title {
+  font-size: 1.2rem;
+  font-weight: 950;
+  color: #181612;
+  margin: 0.3rem 0 0 0;
+  letter-spacing: -0.025em;
+}
+
+.vlab-rev-btn {
+  background: #fbf8f3;
+  border: 1.5px solid #d9c7b4;
+  color: #181612;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vlab-rev-btn:hover {
+  background: #fff3df;
+  border-color: #f3883b;
+  color: #bd4f10;
+}
+
+.vlab-rev-print-btn {
+  background: #1e293b;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+.vlab-rev-print-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.vlab-rev-formula-banner {
+  background: #fff8ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.vlab-rev-formula-label {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #c2410c;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vlab-rev-formula-code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #9a3412;
+  background: #ffffff;
+  padding: 0.3rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #fdba74;
+}
+
+.vlab-rev-table-container {
+  overflow-x: auto;
+  border: 1.5px solid #e8decb;
+  border-radius: 14px;
+}
+
+.vlab-rev-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.vlab-rev-table th {
+  background: #f4ede2;
+  color: #181612;
+  font-weight: 900;
+  padding: 0.75rem 1rem;
+  border-bottom: 1.5px solid #e8decb;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vlab-rev-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f4ede2;
+  vertical-align: top;
+}
+
+.vlab-rev-table tr:last-child td {
+  border-bottom: none;
+}
+
+.vlab-rev-param-cell {
+  font-weight: 800;
+  color: #181612;
+  background: #faf7f2;
+}
+
+.vlab-rev-val-cell {
+  color: #475569;
+  line-height: 1.45;
+}
+
+.is-highlight-row td {
+  background: #fffdf5;
+}
+
+.is-highlight-row .vlab-rev-val-cell {
+  color: #181612;
+  font-weight: 700;
+}
+
+.vlab-rev-star {
+  color: #f97316;
+  font-weight: 900;
+}
+
+.vlab-rev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+
+.vlab-rev-col-card {
+  border-radius: 14px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.col-inferences {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+}
+
+.col-precautions {
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+}
+
+.col-traps {
+  background: #fff7ed;
+  border: 1.5px solid #ffedd5;
+}
+
+.vlab-rev-col-title {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #181612;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.vlab-rev-col-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.vlab-rev-col-list li {
+  margin-bottom: 0.4rem;
+}
+
+.vlab-rev-col-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Print Styles for 1-Minute Cheat Sheet */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .vlab-revision-card-wrapper,
+  .vlab-revision-card-wrapper * {
+    visibility: visible;
+  }
+  .vlab-revision-card-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none !important;
+    padding: 0 !important;
+  }
+  .vlab-rev-btn {
+    display: none !important;
+  }
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 900px) {
+  .vlab-main-body {
+    flex-direction: column;
+  }
+  .vlab-sidebar {
+    width: 100%;
+    max-height: 280px;
+    border-right: none;
+    border-bottom: 2px solid #e8decb;
+  }
+  .vlab-hud-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .vlab-board-questions-panel,
+  .vlab-revision-card-wrapper {
+    padding: 1.1rem;
+  }
+}
+

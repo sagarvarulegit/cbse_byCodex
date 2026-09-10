@@ -7,6 +7,15 @@ import { NCERT_ACTIVITIES_DATA, type NcertActivity, type ActivitySubject } from 
 import ActivityIllustration from './ActivityIllustration';
 import MathText from './MathText';
 const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
+const VirtualLabWorkbench = dynamic(() => import('./virtual-lab/VirtualLabWorkbench'), {
+  ssr: false,
+  loading: () => (
+    <div className="p-8 text-center bg-slate-900 rounded-2xl text-slate-400 border border-slate-800 my-4">
+      <div className="animate-spin inline-block w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full mb-2"></div>
+      <p className="text-xs font-semibold">Loading 3D Laboratory Simulation...</p>
+    </div>
+  ),
+});
 import { NCERT_ACTIVITY_DIAGRAM_PACK_KEY } from '../lib/payments';
 
 export type ActivityDiagramViewerProps = {
@@ -28,6 +37,9 @@ export default function ActivityDiagramViewer({
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [selectedProductKey, setSelectedProductKey] = useState(NCERT_ACTIVITY_DIAGRAM_PACK_KEY);
   const [unlockedState, setUnlockedState] = useState(isUnlocked);
+  const [active3DModes, setActive3DModes] = useState<Record<string, boolean>>({
+    'act-1-1': true, // Enable 3D by default for magnesium preview!
+  });
 
   const filteredActivities = useMemo(() => {
     return NCERT_ACTIVITIES_DATA.filter((act) => {
@@ -209,11 +221,62 @@ export default function ActivityDiagramViewer({
 
               {isItemAccessible ? (
                 <>
-                  {/* Visual Diagram Embed */}
-                  {act.illustrationDemoId && (
-                    <div className="illustration-wrapper">
-                      <ActivityIllustration demoId={act.illustrationDemoId} />
+                  {/* Visual Diagram / 3D Simulation Embed */}
+                  {act.id === 'act-1-1' || act.id === 'act-10-3' ? (
+                    <div className="simulation-section-wrap my-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2 bg-[#fffdf8] border border-[#d9c7b4] p-3 rounded-2xl mb-2 shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-extrabold text-[#181612]">🔬 Practical Simulation Available:</span>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#fff3df] text-[#bd4f10] border border-[#f3883b]/30">
+                            3D Interactive
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 bg-[#f4ede2] p-1 rounded-xl border border-[#d9c7b4]">
+                          <button
+                            type="button"
+                            onClick={() => setActive3DModes((prev) => ({ ...prev, [act.id]: false }))}
+                            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                              !active3DModes[act.id]
+                                ? 'bg-[#181612] text-white shadow-sm'
+                                : 'text-[#6f665c] hover:text-[#181612] hover:bg-[#ffffff]/60'
+                            }`}
+                          >
+                            📷 2D NCERT Diagram
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setActive3DModes((prev) => ({ ...prev, [act.id]: true }))}
+                            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                              active3DModes[act.id]
+                                ? 'bg-[#f3883b] text-white shadow-md shadow-[#f3883b]/20'
+                                : 'text-[#bd4f10] hover:text-[#181612] hover:bg-[#ffffff]/60'
+                            }`}
+                          >
+                            🎮 3D Interactive Lab
+                          </button>
+                        </div>
+                      </div>
+
+                      {active3DModes[act.id] ? (
+                        <VirtualLabWorkbench
+                          mode="activity"
+                          initialExperiment={act.id === 'act-1-1' ? 'magnesium' : 'prism'}
+                          onClose={() => setActive3DModes((prev) => ({ ...prev, [act.id]: false }))}
+                        />
+                      ) : (
+                        act.illustrationDemoId && (
+                          <div className="illustration-wrapper">
+                            <ActivityIllustration demoId={act.illustrationDemoId} />
+                          </div>
+                        )
+                      )}
                     </div>
+                  ) : (
+                    act.illustrationDemoId && (
+                      <div className="illustration-wrapper">
+                        <ActivityIllustration demoId={act.illustrationDemoId} />
+                      </div>
+                    )
                   )}
 
                   {/* Materials & Procedure */}
