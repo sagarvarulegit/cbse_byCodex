@@ -31,3 +31,19 @@ test('checkMockPaperAccess blocks Papers 2..5 for unauthenticated guests', async
   assert.equal(result.isFreeSample, false);
   assert.ok(result.reason?.includes('Sign in'));
 });
+
+test('checkMockPaperAccess unlocks Papers 2..5 for test users without a purchase', async () => {
+  process.env.TEST_USER_EMAILS = 'testuser@chapterready.in';
+  try {
+    const result = await checkMockPaperAccess({
+      userId: 'user_without_purchases',
+      subjectSlug: 'science',
+      paperNumber: 3,
+      userEmail: 'TestUser@ChapterReady.in',
+    });
+    assert.equal(result.isUnlocked, true);
+    assert.equal(result.isFreeSample, false);
+  } finally {
+    delete process.env.TEST_USER_EMAILS;
+  }
+});

@@ -31,6 +31,7 @@ import { verifyBankQuestion, verifyPaper } from '../lib/exam-papers/verify.js';
 import { checkMockPaperAccess, getUserActiveEntitlements } from '../lib/payments/entitlements.js';
 import { prisma } from '../lib/prisma.js';
 import { getSessionUser, requireSessionUser } from '../lib/session.js';
+import { isTestUserEmail } from '../lib/test-users.js';
 
 export const examPapersRouter = Router();
 export const adminExamPapersRouter = Router();
@@ -246,7 +247,8 @@ examPapersRouter.get('/series', async (req, res) => {
       definition.number === series.freeSampleNumber ||
       hasAll ||
       hasSubject ||
-      user?.role === UserRole.admin;
+      user?.role === UserRole.admin ||
+      isTestUserEmail(user?.email);
     return seriesPaperView(definition, bySeed.get(definition.seed), series, isUnlocked);
   });
 
@@ -295,8 +297,9 @@ examPapersRouter.post('/:id/attempt', async (req, res) => {
       userId: user.id,
       subjectSlug: paper.subjectSlug,
       paperNumber,
+      userEmail: user.email,
     });
-    if (!access.isUnlocked && user.role !== UserRole.admin) {
+    if (!access.isUnlocked && user.role !== UserRole.admin && !isTestUserEmail(user.email)) {
       return res.status(403).json({
         code: 'PAYWALL_LOCKED',
         message: 'Unlock the Mock Test Series to submit attempts for Papers 2–5.',
@@ -571,8 +574,9 @@ examPapersRouter.get('/:id', async (req, res) => {
       userId: user.id,
       subjectSlug: paper.subjectSlug,
       paperNumber,
+      userEmail: user.email,
     });
-    if (!access.isUnlocked && user.role !== UserRole.admin) {
+    if (!access.isUnlocked && user.role !== UserRole.admin && !isTestUserEmail(user.email)) {
       return res.status(403).json({
         code: 'PAYWALL_LOCKED',
         message: 'Unlock the Mock Test Series to view Paper 2–5.',

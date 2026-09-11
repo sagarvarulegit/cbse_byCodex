@@ -18,10 +18,13 @@ import {
   verifyCashfreeWebhookSignature,
 } from '../lib/payments/cashfree.js';
 import {
+  getTestBypassEntitlements,
   getUserActiveEntitlements,
   grantEntitlement,
   revokeEntitlement,
 } from '../lib/payments/entitlements.js';
+import { CORE_BOARD_SUBJECTS } from '../lib/payments/products.js';
+import { isTestUserEmail } from '../lib/test-users.js';
 import {
   evaluateRefundEligibility,
   executeAutoRefund,
@@ -204,6 +207,16 @@ paymentsRouter.get('/entitlements', async (req: Request, res: Response) => {
   }
 
   res.setHeader('Cache-Control', 'private, max-age=30, stale-while-revalidate=60');
+
+  // Test users get every pack without buying anything.
+  if (isTestUserEmail(user.email)) {
+    return res.json({
+      entitlements: getTestBypassEntitlements(),
+      hasAllSubjects: true,
+      unlockedSubjectSlugs: [...CORE_BOARD_SUBJECTS],
+    });
+  }
+
   const entitlements = await getUserActiveEntitlements(user.id);
   const hasAllSubjects = entitlements.some(
     (e) => e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,

@@ -1,5 +1,11 @@
 import { prisma } from '../prisma.js';
-import { ALL_SUBJECTS_MOCK_PACK_KEY, SINGLE_SUBJECT_MOCK_PASS_PREFIX } from './products.js';
+import { isTestUserEmail } from '../test-users.js';
+import {
+  ACTIVITY_FORMULA_COMBO_PACK_KEY,
+  ALL_SUBJECTS_MOCK_PACK_KEY,
+  SINGLE_SUBJECT_MOCK_PASS_PREFIX,
+  UNLIMITED_QUIZ_PASS_KEY,
+} from './products.js';
 
 export type UserEntitlementSummary = {
   id: string;
@@ -39,6 +45,31 @@ export async function getUserActiveEntitlements(
 }
 
 /**
+ * Synthetic full-access entitlements for test users: every commercial pack
+ * without a purchase. The combo pack covers both the activity-diagram and
+ * formula-cheatsheet gates; the all-subjects pack covers mocks and quizzes.
+ */
+export function getTestBypassEntitlements(): UserEntitlementSummary[] {
+  const now = new Date();
+  const row = (productKey: string, scope: string): UserEntitlementSummary => ({
+    id: `test-bypass-${productKey}`,
+    productKey,
+    subjectSlug: null,
+    scope,
+    status: 'active',
+    validFrom: now,
+    validUntil: null,
+    isAllSubjects: productKey === ALL_SUBJECTS_MOCK_PACK_KEY,
+  });
+
+  return [
+    row(ALL_SUBJECTS_MOCK_PACK_KEY, 'mock_test_series'),
+    row(UNLIMITED_QUIZ_PASS_KEY, 'quiz'),
+    row(ACTIVITY_FORMULA_COMBO_PACK_KEY, 'content_pack'),
+  ];
+}
+
+/**
  * Checks if a student is entitled to access a specific mock test paper.
  * - Paper 1 (freeSampleNumber === 1): Always true (free sample).
  * - Papers 2..5: True if student has active all-subjects pack or matching single-subject pass.
@@ -47,10 +78,12 @@ export async function checkMockPaperAccess({
   userId,
   subjectSlug,
   paperNumber,
+  userEmail,
 }: {
   userId?: string | null;
   subjectSlug: string;
   paperNumber: number;
+  userEmail?: string | null;
 }): Promise<{
   isUnlocked: boolean;
   isFreeSample: boolean;
@@ -59,6 +92,11 @@ export async function checkMockPaperAccess({
   // Paper 1 is free for everyone (even guests)
   if (paperNumber === 1) {
     return { isUnlocked: true, isFreeSample: true };
+  }
+
+  // Test users bypass every paywall without buying anything.
+  if (isTestUserEmail(userEmail)) {
+    return { isUnlocked: true, isFreeSample: false };
   }
 
   if (!userId) {
