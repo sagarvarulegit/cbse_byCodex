@@ -1974,6 +1974,11 @@ summary:focus-visible {
   background: var(--remix-white);
 }
 
+.student-topbar-nav a[aria-current="page"] {
+  background: var(--remix-ink);
+  color: #ffffff;
+}
+
 .student-topbar-tools,
 .student-topbar-auth {
   display: inline-flex;

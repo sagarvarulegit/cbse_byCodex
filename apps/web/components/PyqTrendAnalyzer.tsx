@@ -477,7 +477,7 @@ export default function PyqTrendAnalyzer({
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <Link
-                      href={`/chapters/${ch.slug}/notes`}
+                      href={`/chapters/${ch.slug}/notes#board-exam-drill`}
                       style={{
                         background: '#f3883b',
                         color: '#ffffff',
