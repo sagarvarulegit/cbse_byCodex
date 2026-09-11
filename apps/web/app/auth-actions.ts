@@ -1,29 +1,29 @@
 'use server';
 
-import { redirect } from 'next/navigation';
-
 import { clearStudentSession, loginStudent, registerStudent } from '../lib/auth';
 import { PILOT_PRIVACY_NOTICE_VERSION } from '../lib/privacy';
+import type { AuthActionState } from './auth-state';
 
-function buildErrorRedirect(path: string, message: string) {
-  return `${path}?error=${encodeURIComponent(message)}`;
-}
-
-export async function loginAction(formData: FormData) {
+export async function loginAction(
+  _prevState: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
   const email = String(formData.get('email') ?? '').trim();
   const password = String(formData.get('password') ?? '');
 
   try {
     await loginStudent(email, password);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unable to log in right now.';
-    redirect(buildErrorRedirect('/login', message));
+    return { error: error instanceof Error ? error.message : 'Unable to log in right now.', ok: false };
   }
 
-  redirect('/dashboard');
+  return { error: null, ok: true };
 }
 
-export async function registerAction(formData: FormData) {
+export async function registerAction(
+  _prevState: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
   const fullName = String(formData.get('fullName') ?? '').trim();
   const email = String(formData.get('email') ?? '').trim();
   const classLevel = Number(formData.get('classLevel') ?? '');
@@ -36,7 +36,7 @@ export async function registerAction(formData: FormData) {
   const consentConfirmed = formData.get('consentConfirmed') === 'on';
 
   if (password !== confirmPassword) {
-    redirect(buildErrorRedirect('/register', 'Passwords do not match.'));
+    return { error: 'Passwords do not match.', ok: false };
   }
 
   try {
@@ -49,14 +49,12 @@ export async function registerAction(formData: FormData) {
       relationship,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unable to create the account right now.';
-    redirect(buildErrorRedirect('/register', message));
+    return { error: error instanceof Error ? error.message : 'Unable to create the account right now.', ok: false };
   }
 
-  redirect('/dashboard');
+  return { error: null, ok: true };
 }
 
 export async function logoutAction() {
   await clearStudentSession();
-  redirect('/');
 }

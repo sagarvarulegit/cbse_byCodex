@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
-import { logoutAction } from '../app/auth-actions';
 import type { SessionUser } from '../lib/auth';
 import BrandLockup from './BrandLockup';
+import { LogoutButton } from './LogoutButton';
+import { StudentTopbarNav } from './StudentTopbarNav';
 
 type StudentTopbarProps = {
   contextLabel?: string;
@@ -40,16 +41,7 @@ export default function StudentTopbar({
         <span className="student-topbar-context">{contextLabel}</span>
       ) : null}
 
-      <nav aria-label="Student shortcuts" className="student-topbar-nav">
-        <Link href="/dashboard">Dashboard</Link>
-        <Link href="/subjects">Subjects</Link>
-        <Link href="/virtual-lab" style={{ fontWeight: 700, color: '#0284c7' }}>🔬 3D Lab</Link>
-        <Link href="/tools" style={{ fontWeight: 700, color: '#0f172a' }}>🛠️ Tools</Link>
-        <Link href="/store" style={{ fontWeight: 800, color: '#c95014' }}>🛍️ Store</Link>
-        <Link href="/exam-papers">Mock Papers</Link>
-        <Link href="/quizzes">Quizzes</Link>
-        {session ? <Link href="/my-mistakes">My Mistakes</Link> : null}
-      </nav>
+      <StudentTopbarNav showMistakes={Boolean(session)} />
 
       {session ? (
         <div className="student-topbar-tools">
@@ -86,9 +78,7 @@ export default function StudentTopbar({
               <Link href="/my-mistakes">My Mistakes</Link>
               <Link href="/orders">📦 My Purchases &amp; Receipts</Link>
               <Link href="/profile">⚙️ Edit Profile &amp; Phone</Link>
-              <form action={logoutAction}>
-                <button type="submit">Logout</button>
-              </form>
+              <LogoutButton />
             </div>
           </details>
         </div>
