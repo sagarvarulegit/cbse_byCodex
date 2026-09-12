@@ -26,6 +26,71 @@ export function getPyqsForChapter(chapterSlug: string): ChapterPyqItem[] {
   return ALL_PYQS[chapterSlug] ?? [];
 }
 
+export function drillTopic(mainAnswer: string): string {
+  // Marking keys open with bullets or answer-part labels ("(a) (i)"), never
+  // with the question itself — strip those so the row reads as a topic.
+  // Some keys open with a bare part label, so scan past empty openers.
+  const lines = mainAnswer.split('\n');
+  for (const line of lines.slice(0, 4)) {
+    const cleaned = line
+      .trim()
+      .replace(/^[•\-\*]\s*/, '')
+      .replace(/^(\([a-z0-9]+\)\s*)+/i, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (cleaned.length > 0) {
+      return cleaned.length > 90 ? `${cleaned.slice(0, 87).trim()}…` : cleaned;
+    }
+  }
+  return 'Official marking key';
+}
+export function drillDemandLines(mainAnswer: string, maxLines = 4): string[] {
+  // Marking keys never quote the official paper wording, so the card exposes
+  // the full answer demand (every cleaned key line) instead of only the
+  // first-line topic. Examiner instructions like "(any two responses)" are
+  // marking guidance, not student content, so they are skipped.
+  const out: string[] = [];
+  for (const line of mainAnswer.split('\n')) {
+    if (/^\(any\b/i.test(line.trim())) {
+      continue;
+    }
+    const cleaned = line
+      .trim()
+      .replace(/^[•\-\*]\s*/, '')
+      .replace(/^(\([a-z0-9]+\)\s*)+/i, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (cleaned.length === 0) {
+      continue;
+    }
+    out.push(cleaned);
+    if (out.length >= maxLines) {
+      break;
+    }
+  }
+  return out;
+}
+
+export function drillPaperRef(q: ChapterPyqItem): string {
+  return `${q.year} Set ${q.paperSet}, Q${q.qNo}`;
+}
+
+export type DrillWeightage = { set: string; questions: number; marks: number };
+export function drillWeightage(pyqs: ChapterPyqItem[]): DrillWeightage[] {
+  // Per-paper weightage: a question shared across sets counts toward each
+  // set that carried it, so every row matches a real paper's total.
+  const bySet: Record<string, { questions: number; marks: number }> = {};
+  for (const q of pyqs) {
+    for (const s of q.sets) {
+      const entry = (bySet[s] ??= { questions: 0, marks: 0 });
+      entry.questions += 1;
+      entry.marks += q.marks;
+    }
+  }
+  return Object.entries(bySet)
+    .map(([set, v]) => ({ set, questions: v.questions, marks: v.marks }))
+    .sort((a, b) => (a.set < b.set ? -1 : a.set > b.set ? 1 : 0));
+}
 export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: string; token?: string | null }) {
   const pyqs = getPyqsForChapter(chapterSlug);
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
@@ -55,16 +120,33 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           <span className="pyq-verified-pill">Official 2026 Marking Schemes</span>
           <span className="pyq-ai-pill">🤖 AI Snap &amp; Grade Available</span>
         </div>
-        <h2>Past Board Questions &amp; Step-by-Step Marking Keys</h2>
+        <h2>Board Drill: Official Marking Keys</h2>
         <p className="pyq-subtitle">
-          Practice authentic questions asked in recent CBSE Board Exams. Test your own written answers against the AI Evaluator grounded in the official CBSE marking scheme.
+          Each card is a real CBSE question&apos;s official checking scheme — the exact points
+          the examiner awards marks for, written out on the card so you can attempt
+          without hunting down the paper. Official 2026 paper citation on every card.
         </p>
+        <p className="pyq-weightage-strip">
+          <strong>Chapter weightage:</strong>{' '}
+          {drillWeightage(pyqs)
+            .map(
+              (w) =>
+                `${w.set}: ${Number.isInteger(w.marks) ? w.marks : w.marks.toFixed(1)} marks (${w.questions} Qs)`,
+            )
+            .join(' · ')}
+        </p>
+        <ol className="pyq-steps">
+          <li><strong>1. Attempt.</strong> Cover the card and write every point under “Write” from memory in your notebook.</li>
+          <li><strong>2. Check.</strong> Snap a photo to get it AI-graded, or reveal the step marking yourself.</li>
+          <li><strong>3. Fix.</strong> Add every value point you missed, then re-attempt from memory.</li>
+        </ol>
       </div>
 
       <div className="pyq-questions-list">
         {pyqs.map((q, idx) => {
           const isOpen = openIds.has(q.id);
-          const stemText = q.mainAnswer.split('\n')[0];
+          const topic = drillTopic(q.mainAnswer);
+          const demand = drillDemandLines(q.mainAnswer);
 
           return (
             <div className="pyq-card" key={q.id}>
@@ -77,9 +159,22 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
                 <span className="pyq-section-label">{q.section.replace(/^SECTION\s*–\s*/i, '')}</span>
               </div>
 
-              <div className="pyq-stem">
-                <p>{stemText}</p>
+              <div className="pyq-topic-row">
+                <span className="pyq-topic-label">Topic</span>
+                <p>{topic}</p>
               </div>
+              <div className="pyq-demand-box">
+                <span className="pyq-topic-label">Write</span>
+                <ul>
+                  {demand.map((d, dIdx) => (
+                    <li key={dIdx}>{d}</li>
+                  ))}
+                </ul>
+              </div>
+              <p className="pyq-find-row">
+                Attempt these points from memory, then reveal the step marking below.
+                Official source: <strong>{q.officialBoardRef}</strong>.
+              </p>
 
               <div className="pyq-card-action-row" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
                 <button
@@ -141,7 +236,7 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           isOpen={Boolean(evaluatingQuestion)}
           onClose={() => setEvaluatingQuestion(null)}
           questionId={evaluatingQuestion.id}
-          questionStem={evaluatingQuestion.mainAnswer.split('\n')[0]}
+          questionStem={`Topic: ${drillTopic(evaluatingQuestion.mainAnswer)} — ${drillDemandLines(evaluatingQuestion.mainAnswer).join('; ')} (${drillPaperRef(evaluatingQuestion)}, ${evaluatingQuestion.marks} marks). The student attempted the official value points from memory. Grade against the official value points.`}
           maxMarks={evaluatingQuestion.marks}
           officialValuePoints={evaluatingQuestion.valuePoints}
           modelAnswer={evaluatingQuestion.mainAnswer}
@@ -232,8 +327,78 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           padding: 0.15rem 0.45rem;
           border-radius: 4px;
         }
+        .pyq-steps {
+          margin: 0.8rem 0 0;
+          padding-left: 1.2rem;
+          color: #92400e;
+          font-size: 0.88rem;
+          line-height: 1.6;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+        .pyq-weightage-strip {
+          margin: 0.7rem 0 0;
+          font-size: 0.88rem;
+          color: #0f172a;
+          background: #f0fdf4;
+          border: 1px solid #bbf7d0;
+          border-radius: 8px;
+          padding: 0.6rem 0.9rem;
+          line-height: 1.6;
+        }
+        .pyq-topic-row {
+          display: flex;
+          align-items: baseline;
+          gap: 0.6rem;
+          background: #f8fafc;
+          border: 1px solid #f1f5f9;
+          border-radius: 8px;
+          padding: 0.7rem 0.9rem;
+          margin-bottom: 0.6rem;
+        }
+        .pyq-topic-row p {
+          margin: 0;
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #0f172a;
+          line-height: 1.5;
+        }
+        .pyq-topic-label {
+          flex-shrink: 0;
+          font-size: 0.7rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #7c3aed;
+          background: #ede9fe;
+          padding: 0.15rem 0.45rem;
+          border-radius: 4px;
+        }
+        .pyq-demand-box {
+          display: flex;
+          align-items: baseline;
+          gap: 0.6rem;
+          background: #fffbeb;
+          border: 1px solid #fde68a;
+          border-radius: 8px;
+          padding: 0.7rem 0.9rem;
+          margin-bottom: 0.6rem;
+        }
+        .pyq-demand-box ul {
+          margin: 0;
+          padding-left: 1.1rem;
+          font-size: 0.9rem;
+          color: #0f172a;
+          line-height: 1.55;
+        }
+        .pyq-find-row {
+          font-size: 0.88rem;
+          color: #475569;
+          line-height: 1.55;
+          margin: 0 0 0.85rem;
+        }
         .pyq-set-badge {
-          background: #eff6ff;
           color: #1d4ed8;
           font-size: 0.72rem;
           font-weight: 700;
@@ -254,12 +419,6 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           font-size: 0.75rem;
           color: #64748b;
           font-weight: 600;
-        }
-        .pyq-stem {
-          font-size: 0.95rem;
-          color: #1e293b;
-          line-height: 1.55;
-          margin-bottom: 0.85rem;
         }
         .btn-toggle-solution {
           background: #f8fafc;

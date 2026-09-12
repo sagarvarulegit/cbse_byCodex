@@ -2704,6 +2704,28 @@
   ],
   "chemical-reactions-and-equations": [
     {
+      "id": "cbse-2026-s31-3-2-q26",
+      "year": 2026,
+      "paperSet": "31/3/2",
+      "sets": [
+        "2026 Set 31/3/2"
+      ],
+      "qNo": 26,
+      "section": "SECTION \u2013 B (Chemistry)",
+      "marks": 3.0,
+      "questionType": "short_answer_3m",
+      "mainAnswer": "(i) To prevent the chips from getting oxidised/rancid.\n(ii) During respiration, glucose combines with oxygen in the cells of\nour body and gives energy.\n(iii) To prevent the decomposition of silver chloride into silver and\nchlorine by sunlight.",
+      "valuePoints": [
+        "[+1.0 Mark] (i) To prevent the chips from getting oxidised/rancid.",
+        "[+1.0 Mark] (ii) During respiration, glucose combines with oxygen in the cells of",
+        "[+1.0 Mark] our body and gives energy.",
+        "[+0.6 Mark] (iii) To prevent the decomposition of silver chloride into silver and",
+        "[+0.6 Mark] chlorine by sunlight."
+      ],
+      "examinerNotes": [],
+      "officialBoardRef": "CBSE Board Exam 2026 \u00b7 Class 10 Science (Set 31/3/2, Q26)"
+    },
+    {
       "id": "cbse-2026-s31-1-1-q26",
       "year": 2026,
       "paperSet": "31/1/1",
@@ -5672,28 +5694,6 @@
       ],
       "examinerNotes": [],
       "officialBoardRef": "CBSE Board Exam 2026 \u00b7 Class 10 Science (Set 31/3/2, Q14)"
-    },
-    {
-      "id": "cbse-2026-s31-3-2-q26",
-      "year": 2026,
-      "paperSet": "31/3/2",
-      "sets": [
-        "2026 Set 31/3/2"
-      ],
-      "qNo": 26,
-      "section": "SECTION \u2013 B (Chemistry)",
-      "marks": 3.0,
-      "questionType": "short_answer_3m",
-      "mainAnswer": "(i) To prevent the chips from getting oxidised/rancid.\n(ii) During respiration, glucose combines with oxygen in the cells of\nour body and gives energy.\n(iii) To prevent the decomposition of silver chloride into silver and\nchlorine by sunlight.",
-      "valuePoints": [
-        "[+1.0 Mark] (i) To prevent the chips from getting oxidised/rancid.",
-        "[+1.0 Mark] (ii) During respiration, glucose combines with oxygen in the cells of",
-        "[+1.0 Mark] our body and gives energy.",
-        "[+0.6 Mark] (iii) To prevent the decomposition of silver chloride into silver and",
-        "[+0.6 Mark] chlorine by sunlight."
-      ],
-      "examinerNotes": [],
-      "officialBoardRef": "CBSE Board Exam 2026 \u00b7 Class 10 Science (Set 31/3/2, Q26)"
     },
     {
       "id": "cbse-2026-s31-3-3-q15",
