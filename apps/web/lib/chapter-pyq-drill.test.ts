@@ -4,7 +4,7 @@ import test from 'node:test';
 import { drillDemandLines, drillPaperRef, drillTopic, drillWeightage, getPyqsForChapter } from '../components/ChapterPyqDrill';
 import chapterPyqData from './chapter-pyqs.generated.json';
 
-const ALL_PYQS = chapterPyqData as Record<string, { id: string; year: number; paperSet: string; sets: string[]; qNo: number; section: string; marks: number; questionType: string; mainAnswer: string; valuePoints: string[]; examinerNotes: string[]; officialBoardRef: string }[]>;
+const ALL_PYQS = chapterPyqData as Record<string, { id: string; year: number; paperSet: string; sets: string[]; qNo: number; section: string; marks: number; questionType: string; question: string | null; questionRefs: Record<string, number>; questionSource: string | null; mainAnswer: string; valuePoints: string[]; examinerNotes: string[]; officialBoardRef: string }[]>;
 
 test('Every drill card has the fields the reframe depends on', () => {
   const seenIds = new Set<string>();
@@ -77,4 +77,23 @@ test('Drill weightage totals each paper set honestly', () => {
     life.find((w) => w.set === '2026 Set 31/3/1'),
     { set: '2026 Set 31/3/1', questions: 3, marks: 9 },
   );
+});
+
+test('Life-processes cards carry verbatim board questions', () => {
+  const items = getPyqsForChapter('life-processes');
+  assert.equal(items.length, 5);
+  for (const item of items) {
+    assert.ok(item.question && item.question.length > 20, `${item.id} needs verbatim question text`);
+    assert.ok(item.questionSource?.includes('LKN3M'), `${item.id} must cite its paper series`);
+    for (const [set, qNo] of Object.entries(item.questionRefs)) {
+      assert.ok(
+        item.sets.some((s) => s.endsWith(set)),
+        `${item.id} ref set ${set} must appear in its sets`,
+      );
+      assert.ok(Number.isInteger(qNo) && qNo > 0, `${item.id} ref Q number must be positive`);
+    }
+  }
+  const byId = Object.fromEntries(items.map((i) => [i.id, i]));
+  assert.equal(byId['cbse-2026-s31-3-1-q11'].question, 'What kind of respiration provides more energy and why?');
+  assert.ok(byId['cbse-2026-s31-3-1-q15'].question?.includes('Attempt either (a) or (b):'));
 });

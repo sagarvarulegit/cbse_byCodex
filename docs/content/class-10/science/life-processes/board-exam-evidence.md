@@ -108,3 +108,16 @@ The audit caused concrete repairs before this conclusion:
 Automated platform checks and focused browser review remain intentionally
 deferred until the final integrated Science pass under repository instructions.
 
+
+## Verbatim board-question wording (2026-09-12)
+
+Drill cards now show the exact question as printed, transcribed from the
+official 2026 Science papers (Series LKN3M, Sets 31/3/1, 31/3/2, 31/3/3;
+PDFs archived under `10th/PreviousYearExamPapers/2026/086-science/`).
+Wording stored in `scripts/question_texts_2026_science.json`, merged by
+`export_chapter_pyqs.py`, which refuses to export a life-processes item
+without it. Per-set question numbers differ for shared questions
+(respiration: 31/3/1 Q11 = 31/3/2 Q10 = 31/3/3 Q12); `questionRefs`
+records each set's number. Mixed-part Q26 (31/3/2) stays filed under
+chemical-reactions via `CHAPTER_OVERRIDES` — two of its three sub-parts
+are chemistry.

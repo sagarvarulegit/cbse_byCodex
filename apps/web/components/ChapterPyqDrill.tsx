@@ -14,6 +14,9 @@ export type ChapterPyqItem = {
   section: string;
   marks: number;
   questionType: string;
+  question: string | null;
+  questionRefs: Record<string, number>;
+  questionSource: string | null;
   mainAnswer: string;
   valuePoints: string[];
   examinerNotes: string[];
@@ -159,6 +162,12 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
                 <span className="pyq-section-label">{q.section.replace(/^SECTION\s*–\s*/i, '')}</span>
               </div>
 
+              {q.question ? (
+                <div className="pyq-question-row">
+                  <span className="pyq-topic-label">Question</span>
+                  <p>{q.question}</p>
+                </div>
+              ) : null}
               <div className="pyq-topic-row">
                 <span className="pyq-topic-label">Topic</span>
                 <p>{topic}</p>
@@ -236,7 +245,7 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           isOpen={Boolean(evaluatingQuestion)}
           onClose={() => setEvaluatingQuestion(null)}
           questionId={evaluatingQuestion.id}
-          questionStem={`Topic: ${drillTopic(evaluatingQuestion.mainAnswer)} — ${drillDemandLines(evaluatingQuestion.mainAnswer).join('; ')} (${drillPaperRef(evaluatingQuestion)}, ${evaluatingQuestion.marks} marks). The student attempted the official value points from memory. Grade against the official value points.`}
+          questionStem={`${evaluatingQuestion.question ? `Board question: ${evaluatingQuestion.question} ` : ''}Topic: ${drillTopic(evaluatingQuestion.mainAnswer)} — ${drillDemandLines(evaluatingQuestion.mainAnswer).join('; ')} (${drillPaperRef(evaluatingQuestion)}, ${evaluatingQuestion.marks} marks). The student attempted the official value points from memory. Grade against the official value points.`}
           maxMarks={evaluatingQuestion.marks}
           officialValuePoints={evaluatingQuestion.valuePoints}
           modelAnswer={evaluatingQuestion.mainAnswer}
@@ -374,6 +383,24 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           background: #ede9fe;
           padding: 0.15rem 0.45rem;
           border-radius: 4px;
+        }
+        .pyq-question-row {
+          display: flex;
+          align-items: baseline;
+          gap: 0.6rem;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-left: 4px solid #7c3aed;
+          border-radius: 8px;
+          padding: 0.7rem 0.9rem;
+          margin-bottom: 0.6rem;
+        }
+        .pyq-question-row p {
+          margin: 0;
+          font-size: 0.92rem;
+          color: #0f172a;
+          line-height: 1.6;
+          white-space: pre-line;
         }
         .pyq-demand-box {
           display: flex;
