@@ -136,9 +136,9 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
             .join(' · ')}
         </p>
         <ol className="pyq-steps">
-          <li><strong>1. Attempt.</strong> Cover the card and write every point under “Write” from memory in your notebook.</li>
-          <li><strong>2. Check.</strong> Snap a photo to get it AI-graded, or reveal the step marking yourself.</li>
-          <li><strong>3. Fix.</strong> Add every value point you missed, then re-attempt from memory.</li>
+          <li><strong>Attempt.</strong> Cover the card and write every point under “Write” from memory in your notebook.</li>
+          <li><strong>Check.</strong> Snap a photo to get it AI-graded, or reveal the step marking yourself.</li>
+          <li><strong>Fix.</strong> Add every value point you missed, then re-attempt from memory.</li>
         </ol>
       </div>
 
