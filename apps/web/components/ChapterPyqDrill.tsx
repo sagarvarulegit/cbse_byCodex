@@ -97,6 +97,7 @@ export function drillWeightage(pyqs: ChapterPyqItem[]): DrillWeightage[] {
 export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: string; token?: string | null }) {
   const pyqs = getPyqsForChapter(chapterSlug);
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
   const [evaluatingQuestion, setEvaluatingQuestion] = useState<ChapterPyqItem | null>(null);
 
   if (pyqs.length === 0) {
@@ -113,6 +114,31 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
       }
       return next;
     });
+  }
+
+  function toggleRevealed(id: string) {
+    const hiding = revealedIds.has(id);
+    setRevealedIds((prev) => {
+      const next = new Set(prev);
+      if (hiding) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+    if (hiding) {
+      // Hiding the demand also closes the marking scheme: no answers on
+      // screen while the student is attempting.
+      setOpenIds((prev) => {
+        if (!prev.has(id)) {
+          return prev;
+        }
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }
   }
 
   return (
@@ -139,15 +165,16 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
             .join(' · ')}
         </p>
         <ol className="pyq-steps">
-          <li><strong>Attempt.</strong> Cover the card and write every point under “Write” from memory in your notebook.</li>
-          <li><strong>Check.</strong> Snap a photo to get it AI-graded, or reveal the step marking yourself.</li>
-          <li><strong>Fix.</strong> Add every value point you missed, then re-attempt from memory.</li>
+          <li><strong>Attempt.</strong> Read the board question and write your full answer from memory.</li>
+          <li><strong>Reveal.</strong> Uncover the demand and tick off every point you nailed or missed.</li>
+          <li><strong>Check.</strong> Snap a photo for AI grading, or open the official step marking.</li>
         </ol>
       </div>
 
       <div className="pyq-questions-list">
         {pyqs.map((q, idx) => {
           const isOpen = openIds.has(q.id);
+          const isRevealed = revealedIds.has(q.id);
           const topic = drillTopic(q.mainAnswer);
           const demand = drillDemandLines(q.mainAnswer);
 
@@ -168,22 +195,33 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
                   <p>{q.question}</p>
                 </div>
               ) : null}
-              <div className="pyq-topic-row">
-                <span className="pyq-topic-label">Topic</span>
-                <p>{topic}</p>
-              </div>
-              <div className="pyq-demand-box">
-                <span className="pyq-topic-label">Write</span>
-                <ul>
-                  {demand.map((d, dIdx) => (
-                    <li key={dIdx}>{d}</li>
-                  ))}
-                </ul>
-              </div>
               <p className="pyq-find-row">
-                Attempt these points from memory, then reveal the step marking below.
                 Official source: <strong>{q.officialBoardRef}</strong>.
               </p>
+              {isRevealed ? (
+                <>
+                  <div className="pyq-topic-row">
+                    <span className="pyq-topic-label">Topic</span>
+                    <p>{topic}</p>
+                  </div>
+                  <div className="pyq-demand-box">
+                    <span className="pyq-topic-label">Write</span>
+                    <ul>
+                      {demand.map((d, dIdx) => (
+                        <li key={dIdx}>{d}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <p className="pyq-find-row">
+                    Tick off every point you wrote, then check the step marking below.
+                  </p>
+                </>
+              ) : (
+                <div className="pyq-attempt-hint">
+                  <span className="pyq-topic-label">Attempt</span>
+                  <p>Cover the screen, write your full answer from memory, then reveal the demand.</p>
+                </div>
+              )}
 
               <div className="pyq-card-action-row" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
                 <button
@@ -209,11 +247,20 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
 
                 <button
                   type="button"
-                  className={`btn-toggle-solution ${isOpen ? 'open' : ''}`}
-                  onClick={() => toggleOpen(q.id)}
+                  className="btn-toggle-solution"
+                  onClick={() => toggleRevealed(q.id)}
                 >
-                  <span>{isOpen ? '▲ Hide CBSE Marking Scheme' : '▼ Reveal Step Marking & Rubric'}</span>
+                  <span>{isRevealed ? '▲ Hide Answer Demand' : '👁 Reveal Answer Demand'}</span>
                 </button>
+                {isRevealed && (
+                  <button
+                    type="button"
+                    className={`btn-toggle-solution ${isOpen ? 'open' : ''}`}
+                    onClick={() => toggleOpen(q.id)}
+                  >
+                    <span>{isOpen ? '▲ Hide CBSE Marking Scheme' : '▼ Reveal Step Marking & Rubric'}</span>
+                  </button>
+                )}
               </div>
 
               {isOpen && (
@@ -424,6 +471,22 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
           color: #475569;
           line-height: 1.55;
           margin: 0 0 0.85rem;
+        }
+        .pyq-attempt-hint {
+          display: flex;
+          align-items: baseline;
+          gap: 0.6rem;
+          background: #f8fafc;
+          border: 1px dashed #94a3b8;
+          border-radius: 8px;
+          padding: 0.7rem 0.9rem;
+          margin-bottom: 0.6rem;
+        }
+        .pyq-attempt-hint p {
+          margin: 0;
+          font-size: 0.88rem;
+          color: #475569;
+          line-height: 1.55;
         }
         .pyq-set-badge {
           color: #1d4ed8;

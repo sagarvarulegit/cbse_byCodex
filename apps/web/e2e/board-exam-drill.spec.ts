@@ -7,19 +7,24 @@ test.describe('board exam drill', () => {
     await expect(page.locator('#board-exam-drill')).toBeVisible();
   });
 
-  test('first card exposes the write demand on its face', async ({ page }) => {
-    const cards = page.locator('#board-exam-drill .pyq-card');
-    await expect(cards.first()).toBeVisible();
-    expect(await cards.count()).toBeGreaterThan(0);
+  test('answer demand stays hidden until the student reveals it', async ({ page }) => {
+    const first = page.locator('#board-exam-drill .pyq-card').first();
+    await expect(first).toBeVisible();
 
-    const first = cards.first();
+    await expect(first.locator('.pyq-demand-box')).toBeHidden();
+    await expect(first.locator('.pyq-topic-row')).toBeHidden();
+    await expect(first.locator('.pyq-attempt-hint')).toBeVisible();
+
+    await first.getByRole('button', { name: 'Reveal Answer Demand' }).click();
     await expect(first.locator('.pyq-topic-row')).toContainText('Aerobic Respiration');
-
     const demandItems = first.locator('.pyq-demand-box ul li');
     expect(await demandItems.count()).toBe(3);
     await expect(demandItems.first()).toContainText('Aerobic Respiration');
-
     await expect(first.locator('.pyq-find-row')).toContainText('Official source:');
+
+    await first.getByRole('button', { name: 'Hide Answer Demand' }).click();
+    await expect(first.locator('.pyq-demand-box')).toBeHidden();
+    await expect(first.locator('.pyq-attempt-hint')).toBeVisible();
   });
 
   test('header shows per-set chapter weightage', async ({ page }) => {
@@ -38,7 +43,9 @@ test.describe('board exam drill', () => {
 
   test('reveal toggles the marking rubric', async ({ page }) => {
     const first = page.locator('#board-exam-drill .pyq-card').first();
-    const toggle = first.locator('.btn-toggle-solution');
+    await expect(first.getByRole('button', { name: 'Step Marking' })).toBeHidden();
+    await first.getByRole('button', { name: 'Reveal Answer Demand' }).click();
+    const toggle = first.getByRole('button', { name: 'Step Marking' });
     const rubric = first.locator('.cbse-rubric-card');
 
     await expect(rubric).toBeHidden();
