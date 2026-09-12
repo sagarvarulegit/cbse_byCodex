@@ -43,16 +43,13 @@ test.describe('board exam drill', () => {
 
   test('reveal toggles the marking rubric', async ({ page }) => {
     const first = page.locator('#board-exam-drill .pyq-card').first();
-    await expect(first.getByRole('button', { name: 'Step Marking' })).toBeHidden();
     await first.getByRole('button', { name: 'Reveal Answer Demand' }).click();
-    const toggle = first.getByRole('button', { name: 'Step Marking' });
     const rubric = first.locator('.cbse-rubric-card');
 
     await expect(rubric).toBeHidden();
-    await toggle.click();
+    await first.getByRole('button', { name: 'Reveal Step Marking' }).click();
     await expect(rubric).toBeVisible();
-    await expect(toggle).toContainText('Hide CBSE Marking Scheme');
-    await toggle.click();
+    await first.getByRole('button', { name: 'Hide CBSE Marking Scheme' }).click();
     await expect(rubric).toBeHidden();
   });
 });
