@@ -20,7 +20,7 @@ test.describe('board exam drill', () => {
     const demandItems = first.locator('.pyq-demand-box ul li');
     expect(await demandItems.count()).toBe(3);
     await expect(demandItems.first()).toContainText('Aerobic Respiration');
-    await expect(first.locator('.pyq-find-row')).toContainText('Official source:');
+    await expect(first.locator('.pyq-find-row').first()).toContainText('Official source:');
 
     await first.getByRole('button', { name: 'Hide Answer Demand' }).click();
     await expect(first.locator('.pyq-demand-box')).toBeHidden();
