@@ -91,6 +91,7 @@ export default async function CompleteChapterNotesPage({
       },
       ...item.sections,
     ]),
+    { id: 'board-exam-drill', label: 'Board Exam Drill' },
   ];
 
   return (
@@ -208,19 +209,21 @@ export default async function CompleteChapterNotesPage({
           <div className="complete-chapter-sections">
             {lessonContents.length > 0 ? (
               lessonContents.map((content, index) => (
-                <section
+                <details
                   className="complete-chapter-part"
+                  data-part
                   id={`lesson-${content.lesson.slug}`}
                   key={content.lesson.slug}
+                  open={index === 0}
                 >
-                  <div className="complete-chapter-part-header">
+                  <summary className="complete-chapter-part-header">
                     <span>{String(index + 1).padStart(2, '0')}</span>
                     <div>
                       <p className="eyebrow">{content.lesson.type}</p>
                       <h2>{content.lesson.title}</h2>
-                      <p>{content.lesson.preview}</p>
                     </div>
-                  </div>
+                  </summary>
+                  <p className="complete-chapter-part-preview">{content.lesson.preview}</p>
                   <div className="lesson-prose">
                   <LessonNotesContent
                     blocks={content.blocks}
@@ -228,20 +231,29 @@ export default async function CompleteChapterNotesPage({
                     idPrefix={content.lesson.slug}
                   />
                   </div>
-                </section>
+                </details>
               ))
             ) : (
-              <section
+              <details
                 className="complete-chapter-part"
+                data-part
                 id="lesson-chapter-pack"
+                open
               >
+                <summary className="complete-chapter-part-header">
+                  <span>01</span>
+                  <div>
+                    <p className="eyebrow">Chapter pack</p>
+                    <h2>{chapter.title}</h2>
+                  </div>
+                </summary>
                 <div className="lesson-prose chapter-pack-prose">
                   <LessonNotesContent
                     blocks={packContent!.blocks}
                     idPrefix="chapter-pack"
                   />
                 </div>
-              </section>
+              </details>
             )}
 
             <ChapterPyqDrill chapterSlug={slug} />
