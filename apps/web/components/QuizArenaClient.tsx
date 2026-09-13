@@ -14,6 +14,9 @@ export type ChapterQuizCardItem = {
   subjectSlug: string;
   subjectTitle: string;
   subjectCode: string;
+  unitId?: string;
+  unitTitle?: string;
+  unitMarks?: number;
   questionCount: number;
   exemplarQuestionCount?: number;
   bestScorePercent: number;
@@ -29,6 +32,50 @@ export type QuizArenaClientProps = {
   userEmail?: string;
 };
 
+type SubjectHubMeta = {
+  slug: string;
+  title: string;
+  icon: string;
+  code: string;
+  subtitle: string;
+  examMarks: string;
+};
+
+const SUBJECT_METAS: SubjectHubMeta[] = [
+  {
+    slug: 'science',
+    title: 'Science',
+    icon: '🔬',
+    code: '086',
+    subtitle: 'Physics, Chemistry & Biology',
+    examMarks: '80 Marks Theory',
+  },
+  {
+    slug: 'mathematics',
+    title: 'Mathematics',
+    icon: '📐',
+    code: '041 / 241',
+    subtitle: 'CBSE Standard & Basic',
+    examMarks: '80 Marks Theory',
+  },
+  {
+    slug: 'social-science',
+    title: 'Social Science',
+    icon: '🌍',
+    code: '087',
+    subtitle: 'History, Geo, Civics & Eco',
+    examMarks: '80 Marks Theory',
+  },
+  {
+    slug: 'english-language-and-literature',
+    title: 'English',
+    icon: '📚',
+    code: '184',
+    subtitle: 'First Flight, Footprints & Grammar',
+    examMarks: '80 Marks Theory',
+  },
+];
+
 export default function QuizArenaClient({
   chapters,
   hasUnlimitedQuizzes,
@@ -40,6 +87,7 @@ export default function QuizArenaClient({
   const router = useRouter();
   const [activeSubject, setActiveSubject] = useState<string>('all');
   const [activeMode, setActiveMode] = useState<'all' | 'standard' | 'exemplar'>('all');
+  const [viewMode, setViewMode] = useState<'units' | 'grid'>('units');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isRolling, setIsRolling] = useState(false);
@@ -49,6 +97,30 @@ export default function QuizArenaClient({
   const remainingFreeQuizzes = Math.max(0, FREE_DAILY_QUIZ_LIMIT - quizzesTaken);
   const isFreeLimitReached = !unlimitedUnlocked && remainingFreeQuizzes <= 0;
 
+  // Compute subject overview stats
+  const subjectStats = useMemo(() => {
+    return SUBJECT_METAS.map((meta) => {
+      const subjectChapters = chapters.filter((c) => c.subjectSlug === meta.slug);
+      const totalChapters = subjectChapters.length;
+      const totalStandardQuestions = subjectChapters.reduce((acc, c) => acc + (c.questionCount || 10), 0);
+      const totalExemplarQuestions = subjectChapters.reduce(
+        (acc, c) => acc + (c.exemplarQuestionCount || 0),
+        0,
+      );
+      const attemptedCount = subjectChapters.filter((c) => c.bestScorePercent > 0).length;
+      const percentComplete = totalChapters > 0 ? Math.round((attemptedCount / totalChapters) * 100) : 0;
+
+      return {
+        ...meta,
+        totalChapters,
+        totalStandardQuestions,
+        totalExemplarQuestions,
+        attemptedCount,
+        percentComplete,
+      };
+    });
+  }, [chapters]);
+
   // Filtered chapters list
   const filteredChapters = useMemo(() => {
     return chapters.filter((c) => {
@@ -57,13 +129,95 @@ export default function QuizArenaClient({
         activeMode === 'all' ||
         (activeMode === 'standard' && true) ||
         (activeMode === 'exemplar' && (c.exemplarQuestionCount ?? 0) > 0);
+      const query = searchQuery.trim().toLowerCase();
       const matchesQuery =
-        !searchQuery.trim() ||
-        c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.subjectTitle.toLowerCase().includes(searchQuery.toLowerCase());
+        !query ||
+        c.title.toLowerCase().includes(query) ||
+        c.subjectTitle.toLowerCase().includes(query) ||
+        (c.unitTitle && c.unitTitle.toLowerCase().includes(query));
       return matchesSubject && matchesMode && matchesQuery;
     });
   }, [chapters, activeSubject, activeMode, searchQuery]);
+
+  // Group chapters by syllabus unit or subject
+  const groupedSections = useMemo(() => {
+    if (activeSubject === 'all') {
+      // Group by subject first, then by unit within subject
+      const subjectGroups: Array<{
+        subjectKey: string;
+        subjectTitle: string;
+        subjectIcon: string;
+        units: Array<{
+          unitKey: string;
+          unitTitle: string;
+          unitMarks?: number;
+          chapters: ChapterQuizCardItem[];
+        }>;
+      }> = [];
+
+      for (const meta of SUBJECT_METAS) {
+        const subChapters = filteredChapters.filter((c) => c.subjectSlug === meta.slug);
+        if (subChapters.length === 0) continue;
+
+        const unitMap = new Map<string, { unitTitle: string; unitMarks?: number; chapters: ChapterQuizCardItem[] }>();
+        for (const chap of subChapters) {
+          const uKey = chap.unitTitle || 'General Units';
+          if (!unitMap.has(uKey)) {
+            unitMap.set(uKey, {
+              unitTitle: uKey,
+              unitMarks: chap.unitMarks,
+              chapters: [],
+            });
+          }
+          unitMap.get(uKey)!.chapters.push(chap);
+        }
+
+        subjectGroups.push({
+          subjectKey: meta.slug,
+          subjectTitle: meta.title,
+          subjectIcon: meta.icon,
+          units: Array.from(unitMap.values()).map((u) => ({
+            unitKey: u.unitTitle,
+            unitTitle: u.unitTitle,
+            unitMarks: u.unitMarks,
+            chapters: u.chapters,
+          })),
+        });
+      }
+
+      return subjectGroups;
+    } else {
+      // Single subject active: group directly by unit
+      const unitMap = new Map<string, { unitTitle: string; unitMarks?: number; chapters: ChapterQuizCardItem[] }>();
+      for (const chap of filteredChapters) {
+        const uKey = chap.unitTitle || 'General Units';
+        if (!unitMap.has(uKey)) {
+          unitMap.set(uKey, {
+            unitTitle: uKey,
+            unitMarks: chap.unitMarks,
+            chapters: [],
+          });
+        }
+        unitMap.get(uKey)!.chapters.push(chap);
+      }
+
+      const activeMeta = SUBJECT_METAS.find((m) => m.slug === activeSubject);
+
+      return [
+        {
+          subjectKey: activeSubject,
+          subjectTitle: activeMeta?.title || 'Subject',
+          subjectIcon: activeMeta?.icon || '📖',
+          units: Array.from(unitMap.values()).map((u) => ({
+            unitKey: u.unitTitle,
+            unitTitle: u.unitTitle,
+            unitMarks: u.unitMarks,
+            chapters: u.chapters,
+          })),
+        },
+      ];
+    }
+  }, [filteredChapters, activeSubject]);
 
   // Surprise Me / Random Challenge handler
   function handleSurpriseMe() {
@@ -102,9 +256,10 @@ export default function QuizArenaClient({
       <div className="arena-hero-banner">
         <div className="hero-content">
           <span className="hero-eyebrow">⚡ CBSE Class 10 Knowledge Arena</span>
-          <h1>Instant Chapter Quizzes &amp; Surprise Challenges</h1>
+          <h1>Instant Chapter Quizzes &amp; Board Challenges</h1>
           <p className="hero-description">
-            Test your understanding across all 48 NCERT chapters with instant scoring, step-by-step explanations, and spaced repetition mistake reinforcement.
+            Test your understanding across all 4 core CBSE Class 10 subjects with instant scoring, step-by-step
+            explanations, and challenging HOTS Exemplar practice problems.
           </p>
 
           <div className="hero-actions-row">
@@ -123,28 +278,32 @@ export default function QuizArenaClient({
               {unlimitedUnlocked ? (
                 <div className="allowance-unlocked">
                   <span className="unlocked-icon">🔓</span>
-                  <div>
+                  <div className="allowance-copy">
                     <strong>Unlimited Quizzes Active</strong>
-                    <span>All 48 chapters unlocked for 2025–26</span>
+                    <span>All NCERT chapters &amp; HOTS unlocked</span>
                   </div>
                 </div>
               ) : (
                 <div className="allowance-free">
-                  <span className="free-counter-badge">{remainingFreeQuizzes} / {FREE_DAILY_QUIZ_LIMIT}</span>
-                  <div>
+                  <span className="free-counter-badge">
+                    {remainingFreeQuizzes} / {FREE_DAILY_QUIZ_LIMIT}
+                  </span>
+                  <div className="allowance-copy">
                     <strong>Free Quizzes Left Today</strong>
                     <span>
-                      {remainingFreeQuizzes > 0
-                        ? `Resets at midnight IST`
-                        : `Limit reached · `}
-                      {!remainingFreeQuizzes && (
-                        <button
-                          type="button"
-                          className="btn-unlock-inline"
-                          onClick={() => setIsPaywallOpen(true)}
-                        >
-                          Unlock Unlimited (₹199) →
-                        </button>
+                      {remainingFreeQuizzes > 0 ? (
+                        `Resets at midnight IST`
+                      ) : (
+                        <>
+                          Limit reached ·{' '}
+                          <button
+                            type="button"
+                            className="btn-unlock-inline"
+                            onClick={() => setIsPaywallOpen(true)}
+                          >
+                            Unlock Unlimited (₹199) →
+                          </button>
+                        </>
                       )}
                     </span>
                   </div>
@@ -155,6 +314,56 @@ export default function QuizArenaClient({
         </div>
       </div>
 
+      {/* Subject Hub Deck: Quick Overview & Switcher */}
+      <section className="subject-hub-deck" aria-label="Subject Quick Selection">
+        {subjectStats.map((stat) => {
+          const isSelected = activeSubject === stat.slug;
+          return (
+            <div
+              key={stat.slug}
+              role="button"
+              tabIndex={0}
+              className={`subject-hub-card ${isSelected ? 'active' : ''}`}
+              onClick={() => {
+                setActiveSubject(isSelected ? 'all' : stat.slug);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveSubject(isSelected ? 'all' : stat.slug);
+                }
+              }}
+            >
+              <div className="subject-hub-top">
+                <span className="subject-hub-icon">{stat.icon}</span>
+                <span className="subject-hub-code">Code {stat.code}</span>
+              </div>
+              <h3>{stat.title}</h3>
+              <p className="subject-hub-sub">{stat.subtitle}</p>
+
+              <div className="subject-hub-stats">
+                <span className="subject-hub-stat-pill">📖 {stat.totalChapters} Ch</span>
+                <span className="subject-hub-stat-pill">🎯 {stat.totalStandardQuestions} Qs</span>
+                {stat.totalExemplarQuestions > 0 && (
+                  <span className="subject-hub-stat-pill hots-pill">🔥 {stat.totalExemplarQuestions} HOTS</span>
+                )}
+              </div>
+
+              <div className="subject-hub-progress-track">
+                <div
+                  className="subject-hub-progress-fill"
+                  style={{ width: `${Math.min(100, stat.percentComplete)}%` }}
+                />
+              </div>
+              <div className="subject-hub-progress-text">
+                <span>{stat.attemptedCount} of {stat.totalChapters} Tested</span>
+                <span>{stat.percentComplete}% Done</span>
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
       {/* Filter and Search Bar */}
       <div className="arena-filter-bar">
         <div className="search-input-wrap">
@@ -162,7 +371,7 @@ export default function QuizArenaClient({
           <input
             type="text"
             className="search-field"
-            placeholder="Search any chapter (e.g. Chemical Reactions, Light, Quadratic, Heredity)..."
+            placeholder="Search any chapter or unit (e.g. Chemical Reactions, Light, Quadratic, Heredity, Nationalism)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -171,166 +380,177 @@ export default function QuizArenaClient({
               type="button"
               className="btn-clear-search"
               onClick={() => setSearchQuery('')}
+              aria-label="Clear search query"
             >
               ✕
             </button>
           )}
         </div>
 
-        {/* Mode Selector Tabs */}
-        <div className="mode-filter-row" style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-          <button
-            type="button"
-            className={`filter-pill ${activeMode === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveMode('all')}
-          >
-            All Quiz Modes
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeMode === 'standard' ? 'active' : ''}`}
-            onClick={() => setActiveMode('standard')}
-          >
-            🎯 Standard NCERT Quizzes
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeMode === 'exemplar' ? 'active' : ''}`}
-            style={activeMode === 'exemplar' ? { background: '#dc2626', color: '#fff', borderColor: '#b91c1c' } : { borderColor: '#fca5a5', color: '#b91c1c' }}
-            onClick={() => setActiveMode('exemplar')}
-          >
-            🔥 Exemplar HOTS Challenge (95%+ Target)
-          </button>
-        </div>
+        {/* Filter Controls Row */}
+        <div className="filter-controls-row">
+          {/* Subject Filter Pills */}
+          <div className="subject-filter-pills">
+            <button
+              type="button"
+              className={`filter-pill ${activeSubject === 'all' ? 'active' : ''}`}
+              onClick={() => setActiveSubject('all')}
+            >
+              All Subjects ({chapters.length})
+            </button>
+            <button
+              type="button"
+              className={`filter-pill ${activeSubject === 'science' ? 'active' : ''}`}
+              onClick={() => setActiveSubject('science')}
+            >
+              🔬 Science ({subjectStats.find((s) => s.slug === 'science')?.totalChapters ?? 13})
+            </button>
+            <button
+              type="button"
+              className={`filter-pill ${activeSubject === 'mathematics' ? 'active' : ''}`}
+              onClick={() => setActiveSubject('mathematics')}
+            >
+              📐 Mathematics ({subjectStats.find((s) => s.slug === 'mathematics')?.totalChapters ?? 14})
+            </button>
+            <button
+              type="button"
+              className={`filter-pill ${activeSubject === 'social-science' ? 'active' : ''}`}
+              onClick={() => setActiveSubject('social-science')}
+            >
+              🌍 Social Science ({subjectStats.find((s) => s.slug === 'social-science')?.totalChapters ?? 22})
+            </button>
+            <button
+              type="button"
+              className={`filter-pill ${activeSubject === 'english-language-and-literature' ? 'active' : ''}`}
+              onClick={() => setActiveSubject('english-language-and-literature')}
+            >
+              📚 English ({subjectStats.find((s) => s.slug === 'english-language-and-literature')?.totalChapters ?? 40})
+            </button>
+          </div>
 
-        <div className="subject-filter-pills">
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('all')}
-          >
-            All Subjects ({chapters.length})
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'mathematics-standard' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('mathematics-standard')}
-          >
-            📐 Maths Standard
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'mathematics-basic' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('mathematics-basic')}
-          >
-            📏 Maths Basic
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'science' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('science')}
-          >
-            🔬 Science
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'social-science' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('social-science')}
-          >
-            🌍 Social Science
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${activeSubject === 'english-language-and-literature' ? 'active' : ''}`}
-            onClick={() => setActiveSubject('english-language-and-literature')}
-          >
-            📚 English
-          </button>
-        </div>
-      </div>
-
-      {/* Chapters Grid */}
-      <div className="chapters-quiz-grid">
-        {filteredChapters.map((chapter) => {
-          const hasScore = chapter.bestScorePercent > 0;
-          const hasExemplar = (chapter.exemplarQuestionCount ?? 0) > 0;
-          return (
-            <div className="quiz-chapter-card" key={chapter.slug}>
-              <div className="card-topline">
-                <span className="subject-tag">{chapter.subjectTitle}</span>
-                {hasScore ? (
-                  <span className="score-badge">
-                    🏆 {Math.round(chapter.bestScorePercent)}% Best
-                  </span>
-                ) : (
-                  <span className="unattempted-badge">🌱 Not Attempted</span>
-                )}
-              </div>
-
-              <h3>{chapter.title}</h3>
-
-              <div className="quiz-meta-row">
-                <span>📝 {chapter.questionCount || 10} Standard Qs</span>
-                {hasExemplar && (
-                  <>
-                    <span>•</span>
-                    <span style={{ color: '#dc2626', fontWeight: 600 }}>
-                      🔥 {chapter.exemplarQuestionCount} Exemplar HOTS
-                    </span>
-                  </>
-                )}
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: 'auto' }}>
-                <Link
-                  href={`/chapters/${chapter.slug}/quiz`}
-                  className="btn-start-quiz"
-                  onClick={(e) => handleStartQuizClick(e, chapter.slug)}
-                >
-                  ⚡ Start Standard Quiz →
-                </Link>
-                {hasExemplar && (
-                  <Link
-                    href={`/chapters/${chapter.slug}/quiz?mode=exemplar`}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.35rem',
-                      padding: '0.55rem 0.85rem',
-                      borderRadius: '10px',
-                      background: '#fff1f2',
-                      color: '#be123c',
-                      border: '1.5px solid #fda4af',
-                      fontWeight: 700,
-                      fontSize: '0.85rem',
-                      textDecoration: 'none',
-                      transition: 'all 0.15s ease',
-                    }}
-                    onClick={(e) => handleStartQuizClick(e, chapter.slug)}
-                  >
-                    🔥 Exemplar HOTS Quiz ({chapter.exemplarQuestionCount} Qs) →
-                  </Link>
-                )}
-              </div>
+          {/* Mode Selector & View Mode Switcher */}
+          <div className="secondary-filters-row">
+            <div className="mode-filter-pills">
+              <button
+                type="button"
+                className={`filter-pill mode-pill ${activeMode === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveMode('all')}
+              >
+                All Modes
+              </button>
+              <button
+                type="button"
+                className={`filter-pill mode-pill ${activeMode === 'standard' ? 'active' : ''}`}
+                onClick={() => setActiveMode('standard')}
+              >
+                🎯 Standard
+              </button>
+              <button
+                type="button"
+                className={`filter-pill mode-pill hots-toggle ${activeMode === 'exemplar' ? 'active' : ''}`}
+                onClick={() => setActiveMode('exemplar')}
+              >
+                🔥 Exemplar HOTS
+              </button>
             </div>
-          );
-        })}
+
+            {/* View Mode Switcher */}
+            <div className="view-toggle-wrap">
+              <button
+                type="button"
+                className={`view-toggle-btn ${viewMode === 'units' ? 'active' : ''}`}
+                onClick={() => setViewMode('units')}
+                title="Group chapters by official CBSE syllabus units"
+              >
+                📑 By Units
+              </button>
+              <button
+                type="button"
+                className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                title="View all chapters in a flat grid"
+              >
+                ▦ Grid
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {filteredChapters.length === 0 && (
+      {/* Chapters Content Display */}
+      {filteredChapters.length === 0 ? (
         <div className="no-results-box">
-          <p>No chapters match your search "<strong>{searchQuery}</strong>".</p>
+          <p>
+            No chapters match your search "<strong>{searchQuery}</strong>".
+          </p>
           <button
             type="button"
             className="btn-reset-filters"
             onClick={() => {
               setSearchQuery('');
               setActiveSubject('all');
+              setActiveMode('all');
             }}
           >
             Reset Filters
           </button>
+        </div>
+      ) : viewMode === 'units' ? (
+        /* Unit-Grouped View */
+        <div className="units-grouped-container">
+          {groupedSections.map((sec) => (
+            <div key={sec.subjectKey} className="subject-section-block">
+              {activeSubject === 'all' && (
+                <div className="subject-section-banner">
+                  <div className="subject-banner-left">
+                    <span className="subject-banner-icon">{sec.subjectIcon}</span>
+                    <h2>{sec.subjectTitle}</h2>
+                  </div>
+                  <span className="subject-banner-badge">
+                    {sec.units.reduce((acc, u) => acc + u.chapters.length, 0)} Chapters
+                  </span>
+                </div>
+              )}
+
+              {sec.units.map((unit) => (
+                <div key={unit.unitKey} className="unit-group-section">
+                  <div className="unit-group-header">
+                    <div className="unit-title-row">
+                      <span className="unit-mark-icon">🔖</span>
+                      <h3>{unit.unitTitle}</h3>
+                      {unit.unitMarks ? (
+                        <span className="unit-marks-badge">{unit.unitMarks} Marks CBSE</span>
+                      ) : null}
+                    </div>
+                    <span className="unit-chapters-count">
+                      {unit.chapters.length} Chapter{unit.chapters.length > 1 ? 's' : ''}
+                    </span>
+                  </div>
+
+                  <div className="chapters-quiz-grid">
+                    {unit.chapters.map((chapter) => (
+                      <QuizCard
+                        key={`${chapter.subjectSlug}-${chapter.slug}`}
+                        chapter={chapter}
+                        onStartQuizClick={handleStartQuizClick}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        /* Compact Grid View */
+        <div className="chapters-quiz-grid">
+          {filteredChapters.map((chapter) => (
+            <QuizCard
+              key={`${chapter.subjectSlug}-${chapter.slug}`}
+              chapter={chapter}
+              onStartQuizClick={handleStartQuizClick}
+            />
+          ))}
         </div>
       )}
 
@@ -345,345 +565,65 @@ export default function QuizArenaClient({
         userFullName={userFullName}
         userEmail={userEmail}
       />
+    </div>
+  );
+}
 
-      <style jsx>{`
-        .quiz-arena-root {
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 1.5rem 1rem 4rem;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+function QuizCard({
+  chapter,
+  onStartQuizClick,
+}: {
+  chapter: ChapterQuizCardItem;
+  onStartQuizClick: (e: React.MouseEvent, slug: string) => void;
+}) {
+  const hasScore = chapter.bestScorePercent > 0;
+  const hasExemplar = (chapter.exemplarQuestionCount ?? 0) > 0;
 
-        .arena-hero-banner {
-          background: #ffffff;
-          border: 2px solid #171513;
-          border-radius: 20px;
-          padding: 2rem 2.5rem;
-          box-shadow: 6px 6px 0 #171513;
-          margin-bottom: 2rem;
-        }
+  return (
+    <div className="quiz-chapter-card">
+      <div className="card-topline">
+        <span className="subject-tag">{chapter.subjectTitle}</span>
+        {hasScore ? (
+          <span className="score-badge">
+            🏆 {Math.round(chapter.bestScorePercent)}% Best
+          </span>
+        ) : (
+          <span className="unattempted-badge">🌱 Ready to Practice</span>
+        )}
+      </div>
 
-        .hero-eyebrow {
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          color: #c25e00;
-          display: block;
-          margin-bottom: 0.35rem;
-        }
+      <h3>{chapter.title}</h3>
 
-        h1 {
-          font-size: 1.85rem;
-          font-weight: 800;
-          color: #171513;
-          letter-spacing: -0.02em;
-          margin: 0 0 0.5rem 0;
-        }
+      <div className="quiz-meta-row">
+        <span>📝 {chapter.questionCount || 10} Standard Qs</span>
+        {hasExemplar && (
+          <>
+            <span>•</span>
+            <span className="exemplar-hots-tag">
+              🔥 {chapter.exemplarQuestionCount} HOTS Exemplar
+            </span>
+          </>
+        )}
+      </div>
 
-        .hero-description {
-          font-size: 0.9375rem;
-          color: #5d5750;
-          line-height: 1.5;
-          margin: 0 0 1.5rem 0;
-          max-width: 780px;
-        }
-
-        .hero-actions-row {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          flex-wrap: wrap;
-        }
-
-        .btn-surprise-me {
-          background: #171513;
-          color: #ffffff;
-          border: 2px solid #171513;
-          border-radius: 12px;
-          padding: 0.85rem 1.5rem;
-          font-size: 0.9375rem;
-          font-weight: 800;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          box-shadow: 3px 3px 0 #c25e00;
-          transition: transform 0.15s ease, background 0.15s ease;
-        }
-
-        .btn-surprise-me:hover:not(:disabled) {
-          background: #c25e00;
-          transform: translateY(-2px);
-        }
-
-        .dice-icon {
-          font-size: 1.25rem;
-          display: inline-block;
-        }
-
-        .dice-icon.rolling {
-          animation: spinDice 0.6s linear infinite;
-        }
-
-        @keyframes spinDice {
-          0% { transform: rotate(0deg) scale(1); }
-          50% { transform: rotate(180deg) scale(1.2); }
-          100% { transform: rotate(360deg) scale(1); }
-        }
-
-        .daily-allowance-box {
-          background: #fbf8f3;
-          border: 1.5px solid #e7e2d6;
-          border-radius: 12px;
-          padding: 0.6rem 1rem;
-        }
-
-        .allowance-unlocked,
-        .allowance-free {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-
-        .unlocked-icon {
-          font-size: 1.5rem;
-        }
-
-        .free-counter-badge {
-          background: #171513;
-          color: #ffffff;
-          font-size: 0.875rem;
-          font-weight: 900;
-          padding: 0.35rem 0.65rem;
-          border-radius: 8px;
-        }
-
-        .allowance-unlocked strong,
-        .allowance-free strong {
-          display: block;
-          font-size: 0.875rem;
-          color: #171513;
-        }
-
-        .allowance-unlocked span,
-        .allowance-free span {
-          display: block;
-          font-size: 0.75rem;
-          color: #787168;
-        }
-
-        .btn-unlock-inline {
-          background: transparent;
-          border: none;
-          color: #c25e00;
-          font-weight: 800;
-          text-decoration: underline;
-          cursor: pointer;
-          padding: 0;
-          font-size: 0.75rem;
-        }
-
-        /* Filter and Search */
-        .arena-filter-bar {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          margin-bottom: 2rem;
-        }
-
-        .search-input-wrap {
-          position: relative;
-          width: 100%;
-        }
-
-        .search-icon {
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 1rem;
-          color: #787168;
-        }
-
-        .search-field {
-          width: 100%;
-          background: #ffffff;
-          border: 2px solid #171513;
-          border-radius: 12px;
-          padding: 0.85rem 2.5rem 0.85rem 2.75rem;
-          font-size: 0.9375rem;
-          box-shadow: 3px 3px 0 #171513;
-          box-sizing: border-box;
-        }
-
-        .search-field:focus {
-          outline: none;
-          border-color: #c25e00;
-        }
-
-        .btn-clear-search {
-          position: absolute;
-          right: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          background: transparent;
-          border: none;
-          color: #787168;
-          font-size: 1rem;
-          cursor: pointer;
-        }
-
-        .subject-filter-pills {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-        }
-
-        .filter-pill {
-          background: #ffffff;
-          border: 1.5px solid #d4cebe;
-          border-radius: 999px;
-          padding: 0.45rem 0.9rem;
-          font-size: 0.8125rem;
-          font-weight: 700;
-          color: #5d5750;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .filter-pill:hover {
-          border-color: #171513;
-          color: #171513;
-        }
-
-        .filter-pill.active {
-          background: #171513;
-          color: #ffffff;
-          border-color: #171513;
-          box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
-        }
-
-        /* Chapters Grid */
-        .chapters-quiz-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-          gap: 1.25rem;
-        }
-
-        .quiz-chapter-card {
-          background: #ffffff;
-          border: 2px solid #171513;
-          border-radius: 16px;
-          padding: 1.25rem;
-          box-shadow: 4px 4px 0 #171513;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          transition: transform 0.15s ease;
-        }
-
-        .quiz-chapter-card:hover {
-          transform: translateY(-2px);
-        }
-
-        .card-topline {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.5rem;
-        }
-
-        .subject-tag {
-          font-size: 0.6875rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          color: #787168;
-        }
-
-        .score-badge {
-          font-size: 0.6875rem;
-          font-weight: 800;
-          background: #dcfce7;
-          color: #166534;
-          padding: 0.15rem 0.45rem;
-          border-radius: 6px;
-          border: 1px solid #bbf7d0;
-        }
-
-        .unattempted-badge {
-          font-size: 0.6875rem;
-          color: #8c827a;
-        }
-
-        .quiz-chapter-card h3 {
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #171513;
-          margin: 0 0 0.5rem 0;
-          line-height: 1.35;
-        }
-
-        .quiz-meta-row {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.75rem;
-          color: #787168;
-          margin-bottom: 1.25rem;
-        }
-
-        .btn-start-quiz {
-          display: block;
-          text-align: center;
-          background: #171513;
-          color: #ffffff;
-          border-radius: 8px;
-          padding: 0.65rem 1rem;
-          font-size: 0.8125rem;
-          font-weight: 800;
-          text-decoration: none;
-          transition: background 0.15s ease;
-        }
-
-        .btn-start-quiz:hover {
-          background: #c25e00;
-        }
-
-        .no-results-box {
-          text-align: center;
-          padding: 3rem 1rem;
-          background: #fbf8f3;
-          border: 2px dashed #d4cebe;
-          border-radius: 16px;
-          margin-top: 1rem;
-        }
-
-        .btn-reset-filters {
-          background: #171513;
-          color: #ffffff;
-          border: none;
-          border-radius: 8px;
-          padding: 0.5rem 1rem;
-          font-size: 0.8125rem;
-          font-weight: 700;
-          cursor: pointer;
-          margin-top: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .arena-hero-banner {
-            padding: 1.5rem;
-          }
-          .hero-actions-row {
-            flex-direction: column;
-            align-items: stretch;
-          }
-          .chapters-quiz-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+      <div className="card-actions-col">
+        <Link
+          href={`/chapters/${chapter.slug}/quiz`}
+          className="btn-start-quiz"
+          onClick={(e) => onStartQuizClick(e, chapter.slug)}
+        >
+          ⚡ Start Standard Quiz →
+        </Link>
+        {hasExemplar && (
+          <Link
+            href={`/chapters/${chapter.slug}/quiz?mode=exemplar`}
+            className="btn-exemplar-quiz"
+            onClick={(e) => onStartQuizClick(e, chapter.slug)}
+          >
+            🔥 Exemplar HOTS Quiz ({chapter.exemplarQuestionCount} Qs) →
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

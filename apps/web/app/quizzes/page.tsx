@@ -4,15 +4,11 @@ import Link from 'next/link';
 import QuizArenaClient, { type ChapterQuizCardItem } from '../../components/QuizArenaClient';
 import StudentTopbar from '../../components/StudentTopbar';
 import {
+  getStudentSession,
   getStudentSessionToken,
-  requireStudentSession,
 } from '../../lib/auth';
 import { getChapterEntries } from '../../lib/course-content';
 import { getVisibleCurriculumSubjects } from '../../lib/curriculum/registry';
-import {
-  buildCurriculumChapterCards,
-  buildSubjectCatalog,
-} from '../../lib/curriculum/subject-navigation';
 import { getStudentMastery } from '../../lib/mastery';
 import {
   checkHasUnlimitedQuizzes,
@@ -42,18 +38,13 @@ function getTodayIndiaDateString(): string {
 
 export default async function QuizzesPage() {
   const [session, token, mastery] = await Promise.all([
-    requireStudentSession(),
+    getStudentSession(),
     getStudentSessionToken(),
     getStudentMastery(),
   ]);
 
-  const entitlements = await fetchStudentEntitlements(token);
+  const entitlements = token ? await fetchStudentEntitlements(token) : null;
   const hasUnlimited = checkHasUnlimitedQuizzes(entitlements);
-
-  const subjectCatalog = buildSubjectCatalog(
-    getVisibleCurriculumSubjects(),
-    getChapterEntries(),
-  );
 
   const todayStr = getTodayIndiaDateString();
 
@@ -77,41 +68,98 @@ export default async function QuizzesPage() {
 
   const subjects = getVisibleCurriculumSubjects();
   const chapterEntries = getChapterEntries();
-
-  // Build chapter quiz card items
-  const chapterItems: ChapterQuizCardItem[] = [];
+  const chapterEntryMap = new Map(chapterEntries);
   const masteryMap = new Map(mastery.masteries.map((m) => [m.chapterSlug, m]));
 
-  for (const subject of subjects) {
-    // Focus on the core Class 10 subjects
-    if (
-      ![
-        'mathematics-standard',
-        'mathematics-basic',
-        'science',
-        'social-science',
-        'english-language-and-literature',
-      ].includes(subject.slug)
-    ) {
-      continue;
-    }
+  // Core Class 10 subjects (Mathematics Standard and Basic share the identical 14 NCERT chapters)
+  const targetSubjectConfigs = [
+    {
+      curriculumSlug: 'science',
+      slug: 'science',
+      title: 'Science',
+      code: '086',
+      icon: '🔬',
+    },
+    {
+      curriculumSlug: 'mathematics-standard',
+      slug: 'mathematics',
+      title: 'Mathematics',
+      code: '041 / 241',
+      icon: '📐',
+    },
+    {
+      curriculumSlug: 'social-science',
+      slug: 'social-science',
+      title: 'Social Science',
+      code: '087',
+      icon: '🌍',
+    },
+    {
+      curriculumSlug: 'english-language-and-literature',
+      slug: 'english-language-and-literature',
+      title: 'English Language & Literature',
+      code: '184',
+      icon: '📚',
+    },
+  ];
 
-    const cards = buildCurriculumChapterCards(subject, chapterEntries);
-    for (const card of cards) {
-      const chapterMastery = masteryMap.get(card.chapterSlug);
-      const exemplarCount = getExemplarCountForChapter(card.chapterSlug);
+  const chapterItems: ChapterQuizCardItem[] = [];
+  const seenSlugs = new Set<string>();
 
-      chapterItems.push({
-        slug: card.chapterSlug,
-        title: card.content.title,
-        subjectSlug: subject.slug,
-        subjectTitle: subject.title,
-        subjectCode: subject.subjectCode,
-        questionCount: 10,
-        exemplarQuestionCount: exemplarCount,
-        bestScorePercent: chapterMastery?.bestQuizScorePercent ?? 0,
-        masteryScore: chapterMastery?.masteryScore ?? 0,
-      });
+  for (const config of targetSubjectConfigs) {
+    const subject = subjects.find((s) => s.slug === config.curriculumSlug);
+    if (!subject) continue;
+
+    for (const unit of subject.units) {
+      for (const curriculumChapter of unit.chapters) {
+        if (curriculumChapter.scope === 'excluded') continue;
+
+        for (const chapterSlug of curriculumChapter.platformChapterSlugs) {
+          if (seenSlugs.has(chapterSlug)) continue;
+          seenSlugs.add(chapterSlug);
+
+          const chapterEntry = chapterEntryMap.get(chapterSlug);
+          if (!chapterEntry) continue;
+
+          const chapterMastery = masteryMap.get(chapterSlug);
+          const exemplarCount = getExemplarCountForChapter(chapterSlug);
+
+          let unitTitle = unit.title;
+          const unitMarks = unit.marks;
+
+          // Provide clean sub-unit organization for English literature & language
+          if (subject.slug === 'english-language-and-literature') {
+            if (curriculumChapter.id.startsWith('prose-')) {
+              unitTitle = 'First Flight: Prose & Drama';
+            } else if (curriculumChapter.id.startsWith('poem-')) {
+              unitTitle = 'First Flight: Poetry';
+            } else if (curriculumChapter.id.startsWith('supplementary-')) {
+              unitTitle = 'Footprints Without Feet: Supplementary Reader';
+            } else if (unit.id === 'reading') {
+              unitTitle = 'Reading Comprehension';
+            } else if (unit.id === 'writing-and-grammar') {
+              unitTitle = 'Writing Skills & Grammar';
+            } else if (unit.id === 'words-and-expressions-2') {
+              unitTitle = 'Words & Expressions - II (Workbook)';
+            }
+          }
+
+          chapterItems.push({
+            slug: chapterSlug,
+            title: chapterEntry.title,
+            subjectSlug: config.slug,
+            subjectTitle: config.title,
+            subjectCode: config.code,
+            unitId: unit.id,
+            unitTitle,
+            unitMarks,
+            questionCount: 10,
+            exemplarQuestionCount: exemplarCount,
+            bestScorePercent: chapterMastery?.bestQuizScorePercent ?? 0,
+            masteryScore: chapterMastery?.masteryScore ?? 0,
+          });
+        }
+      }
     }
   }
 
@@ -121,7 +169,7 @@ export default async function QuizzesPage() {
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">
           <nav className="breadcrumb-row" aria-label="Student learning path">
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href={session ? '/dashboard' : '/'}>{session ? 'Dashboard' : 'Home'}</Link>
             <span>/</span>
             <span aria-current="page">Quiz Arena &amp; Challenges</span>
           </nav>
@@ -131,8 +179,8 @@ export default async function QuizzesPage() {
             hasUnlimitedQuizzes={hasUnlimited}
             dailyQuizzesTakenToday={dailyQuizzesTakenToday}
             token={token}
-            userFullName={session.fullName}
-            userEmail={session.email || undefined}
+            userFullName={session?.fullName ?? 'Student'}
+            userEmail={session?.email ?? undefined}
           />
         </div>
       </section>
