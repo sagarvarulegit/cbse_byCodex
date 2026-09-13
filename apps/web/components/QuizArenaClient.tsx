@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -85,17 +85,48 @@ export default function QuizArenaClient({
   userEmail,
 }: QuizArenaClientProps) {
   const router = useRouter();
-  const [activeSubject, setActiveSubject] = useState<string>('all');
+  // Default to single active subject: Science
+  const [activeSubject, setActiveSubject] = useState<string>('science');
   const [activeMode, setActiveMode] = useState<'all' | 'standard' | 'exemplar'>('all');
   const [viewMode, setViewMode] = useState<'units' | 'grid'>('units');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [collapsedUnits, setCollapsedUnits] = useState<Record<string, boolean>>({});
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isRolling, setIsRolling] = useState(false);
   const [unlimitedUnlocked, setUnlimitedUnlocked] = useState(hasUnlimitedQuizzes);
   const [quizzesTaken, setQuizzesTaken] = useState(dailyQuizzesTakenToday);
 
+  // Read ?subject=... from URL on initial client load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const subParam = params.get('subject');
+      if (subParam && SUBJECT_METAS.some((m) => m.slug === subParam)) {
+        setActiveSubject(subParam);
+      }
+    }
+  }, []);
+
+  function handleSelectSubject(slug: string) {
+    setActiveSubject(slug);
+    setSearchQuery('');
+    if (typeof window !== 'undefined' && window.history) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('subject', slug);
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
+
+  function toggleUnitCollapse(unitKey: string) {
+    setCollapsedUnits((prev) => ({
+      ...prev,
+      [unitKey]: !prev[unitKey],
+    }));
+  }
+
   const remainingFreeQuizzes = Math.max(0, FREE_DAILY_QUIZ_LIMIT - quizzesTaken);
   const isFreeLimitReached = !unlimitedUnlocked && remainingFreeQuizzes <= 0;
+  const isSearching = searchQuery.trim().length > 0;
 
   // Compute subject overview stats
   const subjectStats = useMemo(() => {
@@ -121,15 +152,15 @@ export default function QuizArenaClient({
     });
   }, [chapters]);
 
-  // Filtered chapters list
+  // Filtered chapters list: if searching, search across all subjects; otherwise, active subject only
   const filteredChapters = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
     return chapters.filter((c) => {
-      const matchesSubject = activeSubject === 'all' || c.subjectSlug === activeSubject;
+      const matchesSubject = isSearching ? true : c.subjectSlug === activeSubject;
       const matchesMode =
         activeMode === 'all' ||
         (activeMode === 'standard' && true) ||
         (activeMode === 'exemplar' && (c.exemplarQuestionCount ?? 0) > 0);
-      const query = searchQuery.trim().toLowerCase();
       const matchesQuery =
         !query ||
         c.title.toLowerCase().includes(query) ||
@@ -137,12 +168,12 @@ export default function QuizArenaClient({
         (c.unitTitle && c.unitTitle.toLowerCase().includes(query));
       return matchesSubject && matchesMode && matchesQuery;
     });
-  }, [chapters, activeSubject, activeMode, searchQuery]);
+  }, [chapters, activeSubject, activeMode, searchQuery, isSearching]);
 
   // Group chapters by syllabus unit or subject
   const groupedSections = useMemo(() => {
-    if (activeSubject === 'all') {
-      // Group by subject first, then by unit within subject
+    if (isSearching) {
+      // Searching: group results by subject first, then by unit
       const subjectGroups: Array<{
         subjectKey: string;
         subjectTitle: string;
@@ -187,7 +218,7 @@ export default function QuizArenaClient({
 
       return subjectGroups;
     } else {
-      // Single subject active: group directly by unit
+      // Single subject active: group directly by its units
       const unitMap = new Map<string, { unitTitle: string; unitMarks?: number; chapters: ChapterQuizCardItem[] }>();
       for (const chap of filteredChapters) {
         const uKey = chap.unitTitle || 'General Units';
@@ -217,7 +248,7 @@ export default function QuizArenaClient({
         },
       ];
     }
-  }, [filteredChapters, activeSubject]);
+  }, [filteredChapters, activeSubject, isSearching]);
 
   // Surprise Me / Random Challenge handler
   function handleSurpriseMe() {
@@ -228,8 +259,8 @@ export default function QuizArenaClient({
 
     setIsRolling(true);
     const eligibleChapters =
-      activeSubject === 'all'
-        ? chapters
+      isSearching
+        ? filteredChapters
         : chapters.filter((c) => c.subjectSlug === activeSubject);
 
     const pool = eligibleChapters.length > 0 ? eligibleChapters : chapters;
@@ -249,6 +280,8 @@ export default function QuizArenaClient({
       setIsPaywallOpen(true);
     }
   }
+
+  const activeSubjectMeta = SUBJECT_METAS.find((m) => m.slug === activeSubject);
 
   return (
     <div className="quiz-arena-root">
@@ -270,7 +303,11 @@ export default function QuizArenaClient({
               disabled={isRolling}
             >
               <span className={`dice-icon ${isRolling ? 'rolling' : ''}`}>🎲</span>
-              <strong>{isRolling ? 'Picking a Chapter...' : 'Surprise Me: Roll Random Quiz →'}</strong>
+              <strong>
+                {isRolling
+                  ? 'Picking a Chapter...'
+                  : `Surprise Me: Roll Random ${activeSubjectMeta?.title ?? ''} Quiz →`}
+              </strong>
             </button>
 
             {/* Daily Quiz Limit Status Meter */}
@@ -314,29 +351,31 @@ export default function QuizArenaClient({
         </div>
       </div>
 
-      {/* Subject Hub Deck: Quick Overview & Switcher */}
+      {/* Subject Hub Deck: 4 Interactive Textbook Tabs */}
       <section className="subject-hub-deck" aria-label="Subject Quick Selection">
         {subjectStats.map((stat) => {
-          const isSelected = activeSubject === stat.slug;
+          const isSelected = activeSubject === stat.slug && !isSearching;
           return (
             <div
               key={stat.slug}
               role="button"
               tabIndex={0}
               className={`subject-hub-card ${isSelected ? 'active' : ''}`}
-              onClick={() => {
-                setActiveSubject(isSelected ? 'all' : stat.slug);
-              }}
+              onClick={() => handleSelectSubject(stat.slug)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  setActiveSubject(isSelected ? 'all' : stat.slug);
+                  handleSelectSubject(stat.slug);
                 }
               }}
             >
               <div className="subject-hub-top">
                 <span className="subject-hub-icon">{stat.icon}</span>
-                <span className="subject-hub-code">Code {stat.code}</span>
+                {isSelected ? (
+                  <span className="subject-active-tag">✓ Active Subject</span>
+                ) : (
+                  <span className="subject-hub-code">Code {stat.code}</span>
+                )}
               </div>
               <h3>{stat.title}</h3>
               <p className="subject-hub-sub">{stat.subtitle}</p>
@@ -371,7 +410,7 @@ export default function QuizArenaClient({
           <input
             type="text"
             className="search-field"
-            placeholder="Search any chapter or unit (e.g. Chemical Reactions, Light, Quadratic, Heredity, Nationalism)..."
+            placeholder="Search any chapter or unit across all subjects (e.g. Chemical Reactions, Light, Quadratic, Heredity, Nationalism)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -387,42 +426,51 @@ export default function QuizArenaClient({
           )}
         </div>
 
+        {/* Search status notice when searching */}
+        {isSearching && (
+          <div className="search-status-bar">
+            <span>
+              🔍 Found <strong>{filteredChapters.length}</strong> chapter{filteredChapters.length !== 1 ? 's' : ''} matching &ldquo;{searchQuery}&rdquo; across all subjects
+            </span>
+            <button
+              type="button"
+              className="btn-clear-search-link"
+              onClick={() => setSearchQuery('')}
+            >
+              ✕ Clear Search (Back to {activeSubjectMeta?.title})
+            </button>
+          </div>
+        )}
+
         {/* Filter Controls Row */}
         <div className="filter-controls-row">
           {/* Subject Filter Pills */}
           <div className="subject-filter-pills">
             <button
               type="button"
-              className={`filter-pill ${activeSubject === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveSubject('all')}
-            >
-              All Subjects ({chapters.length})
-            </button>
-            <button
-              type="button"
-              className={`filter-pill ${activeSubject === 'science' ? 'active' : ''}`}
-              onClick={() => setActiveSubject('science')}
+              className={`filter-pill ${activeSubject === 'science' && !isSearching ? 'active' : ''}`}
+              onClick={() => handleSelectSubject('science')}
             >
               🔬 Science ({subjectStats.find((s) => s.slug === 'science')?.totalChapters ?? 13})
             </button>
             <button
               type="button"
-              className={`filter-pill ${activeSubject === 'mathematics' ? 'active' : ''}`}
-              onClick={() => setActiveSubject('mathematics')}
+              className={`filter-pill ${activeSubject === 'mathematics' && !isSearching ? 'active' : ''}`}
+              onClick={() => handleSelectSubject('mathematics')}
             >
               📐 Mathematics ({subjectStats.find((s) => s.slug === 'mathematics')?.totalChapters ?? 14})
             </button>
             <button
               type="button"
-              className={`filter-pill ${activeSubject === 'social-science' ? 'active' : ''}`}
-              onClick={() => setActiveSubject('social-science')}
+              className={`filter-pill ${activeSubject === 'social-science' && !isSearching ? 'active' : ''}`}
+              onClick={() => handleSelectSubject('social-science')}
             >
               🌍 Social Science ({subjectStats.find((s) => s.slug === 'social-science')?.totalChapters ?? 22})
             </button>
             <button
               type="button"
-              className={`filter-pill ${activeSubject === 'english-language-and-literature' ? 'active' : ''}`}
-              onClick={() => setActiveSubject('english-language-and-literature')}
+              className={`filter-pill ${activeSubject === 'english-language-and-literature' && !isSearching ? 'active' : ''}`}
+              onClick={() => handleSelectSubject('english-language-and-literature')}
             >
               📚 English ({subjectStats.find((s) => s.slug === 'english-language-and-literature')?.totalChapters ?? 40})
             </button>
@@ -481,18 +529,17 @@ export default function QuizArenaClient({
       {filteredChapters.length === 0 ? (
         <div className="no-results-box">
           <p>
-            No chapters match your search "<strong>{searchQuery}</strong>".
+            No chapters match your search &ldquo;<strong>{searchQuery}</strong>&rdquo;.
           </p>
           <button
             type="button"
             className="btn-reset-filters"
             onClick={() => {
               setSearchQuery('');
-              setActiveSubject('all');
               setActiveMode('all');
             }}
           >
-            Reset Filters
+            Reset Search
           </button>
         </div>
       ) : viewMode === 'units' ? (
@@ -500,44 +547,65 @@ export default function QuizArenaClient({
         <div className="units-grouped-container">
           {groupedSections.map((sec) => (
             <div key={sec.subjectKey} className="subject-section-block">
-              {activeSubject === 'all' && (
+              {isSearching && (
                 <div className="subject-section-banner">
                   <div className="subject-banner-left">
                     <span className="subject-banner-icon">{sec.subjectIcon}</span>
                     <h2>{sec.subjectTitle}</h2>
                   </div>
                   <span className="subject-banner-badge">
-                    {sec.units.reduce((acc, u) => acc + u.chapters.length, 0)} Chapters
+                    {sec.units.reduce((acc, u) => acc + u.chapters.length, 0)} Matches
                   </span>
                 </div>
               )}
 
-              {sec.units.map((unit) => (
-                <div key={unit.unitKey} className="unit-group-section">
-                  <div className="unit-group-header">
-                    <div className="unit-title-row">
-                      <span className="unit-mark-icon">🔖</span>
-                      <h3>{unit.unitTitle}</h3>
-                      {unit.unitMarks ? (
-                        <span className="unit-marks-badge">{unit.unitMarks} Marks CBSE</span>
-                      ) : null}
+              {sec.units.map((unit) => {
+                const isCollapsed = Boolean(collapsedUnits[unit.unitKey]);
+                return (
+                  <div key={unit.unitKey} className="unit-group-section">
+                    <div
+                      className="unit-group-header"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => toggleUnitCollapse(unit.unitKey)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          toggleUnitCollapse(unit.unitKey);
+                        }
+                      }}
+                      title="Click to collapse or expand this unit"
+                    >
+                      <div className="unit-title-row">
+                        <span className={`unit-toggle-chevron ${isCollapsed ? 'collapsed' : ''}`}>▼</span>
+                        <span className="unit-mark-icon">🔖</span>
+                        <h3>{unit.unitTitle}</h3>
+                        {unit.unitMarks ? (
+                          <span className="unit-marks-badge">{unit.unitMarks} Marks CBSE</span>
+                        ) : null}
+                      </div>
+                      <span className="unit-chapters-count">
+                        {unit.chapters.length} Chapter{unit.chapters.length > 1 ? 's' : ''}
+                        <span className="unit-collapse-hint">
+                          {isCollapsed ? ' · Expand' : ' · Collapse'}
+                        </span>
+                      </span>
                     </div>
-                    <span className="unit-chapters-count">
-                      {unit.chapters.length} Chapter{unit.chapters.length > 1 ? 's' : ''}
-                    </span>
-                  </div>
 
-                  <div className="chapters-quiz-grid">
-                    {unit.chapters.map((chapter) => (
-                      <QuizCard
-                        key={`${chapter.subjectSlug}-${chapter.slug}`}
-                        chapter={chapter}
-                        onStartQuizClick={handleStartQuizClick}
-                      />
-                    ))}
+                    {!isCollapsed && (
+                      <div className="chapters-quiz-grid">
+                        {unit.chapters.map((chapter) => (
+                          <QuizCard
+                            key={`${chapter.subjectSlug}-${chapter.slug}`}
+                            chapter={chapter}
+                            onStartQuizClick={handleStartQuizClick}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>
