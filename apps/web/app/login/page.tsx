@@ -7,7 +7,13 @@ import { LoginForm } from './LoginForm';
 
 export const revalidate = false;
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  const registerHref = next ? `/register?next=${encodeURIComponent(next)}` : '/register';
   return (
     <AuthRedirectWrapper>
       <main className="auth-page">
@@ -18,12 +24,14 @@ export default function LoginPage() {
           <Suspense fallback={null}>
             <LoginErrorDisplay />
           </Suspense>
-          <LoginForm />
+          <Suspense fallback={null}>
+            <LoginForm />
+          </Suspense>
           <p className="auth-hint">
             Forgot your registered email? <Link href="/recover-account?mode=find"><strong>Find your account</strong></Link>.
           </p>
           <p className="auth-hint">
-            New here? <Link href="/register">Create your student account</Link>.
+            New here? <Link href={registerHref}>Create your student account</Link>.
           </p>
           <p className="auth-hint">
             Read the <Link href="/privacy">Pilot Privacy Notice</Link>.

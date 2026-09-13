@@ -80,6 +80,20 @@ function renderLessonBlocks(
 ) {
   const rendered: ReactNode[] = [];
 
+  let currentHeading: { type: 'h1' | 'h2' | 'h3'; text: string } | null = null;
+  let currentBody: MarkdownBlock[] = [];
+  let currentHeadingIndex = 0;
+
+  function flushCurrentSection() {
+    if (currentHeading !== null || currentBody.length > 0) {
+      rendered.push(
+        renderConceptSection(currentHeading, currentBody, currentHeadingIndex, idPrefix),
+      );
+      currentHeading = null;
+      currentBody = [];
+    }
+  }
+
   for (let index = 0; index < blocks.length; index += 1) {
     const block = blocks[index];
 
@@ -88,6 +102,7 @@ function renderLessonBlocks(
     }
 
     if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'comic recap') {
+      flushCurrentSection();
       const nextBlock = blocks[index + 1];
       const items = nextBlock?.type === 'unordered-list' ? nextBlock.items : [];
       rendered.push(renderComicRecap(items, index, idPrefix));
@@ -99,6 +114,7 @@ function renderLessonBlocks(
     }
 
     if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'answer check') {
+      flushCurrentSection();
       const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
       rendered.push(renderPracticeAnswerCheck(bodyBlocks, index, idPrefix));
       index = nextIndex - 1;
@@ -106,6 +122,7 @@ function renderLessonBlocks(
     }
 
     if (block.type === 'h2' && normalizeGlossaryKey(block.text) === 'questions and answers') {
+      flushCurrentSection();
       const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
       rendered.push(renderQuestionAnswerCard(block.text, bodyBlocks, index, idPrefix));
       index = nextIndex - 1;
@@ -113,6 +130,7 @@ function renderLessonBlocks(
     }
 
     if (block.type === 'paragraph' && isLessonQuestionMarker(block.text)) {
+      flushCurrentSection();
       const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index);
       const title = /in-text/i.test(block.text)
         ? 'In-text questions and answers'
@@ -125,6 +143,7 @@ function renderLessonBlocks(
     if (block.type === 'h2') {
       const sectionVariant = getLessonSupportSectionVariant(block.text);
       if (sectionVariant) {
+        flushCurrentSection();
         const { bodyBlocks, nextIndex } = collectLessonSectionBody(blocks, index + 1);
         rendered.push(
           renderLessonSupportSection(block.text, bodyBlocks, sectionVariant, index, idPrefix),
@@ -132,12 +151,76 @@ function renderLessonBlocks(
         index = nextIndex - 1;
         continue;
       }
+
+      flushCurrentSection();
+      currentHeading = block;
+      currentHeadingIndex = index;
+      continue;
     }
 
-    rendered.push(renderBlock(block, index, idPrefix));
+    currentBody.push(block);
   }
 
+  flushCurrentSection();
+
   return rendered;
+}
+
+function renderConceptSection(
+  heading: { type: 'h1' | 'h2' | 'h3'; text: string } | null,
+  bodyBlocks: MarkdownBlock[],
+  index: number,
+  idPrefix: string,
+): ReactNode {
+  if (!heading && bodyBlocks.length === 0) {
+    return null;
+  }
+
+  const isIntro = heading === null;
+  const headingText = heading?.text.trim() ?? '';
+  const numberMatch = headingText.match(/^(\d+(?:\.\d+)*(?:-\d+(?:\.\d+)*)?)\s*(.*)$/);
+  const isNumbered = Boolean(!isIntro && numberMatch);
+
+  let sectionClasses = 'concept-block';
+  if (isIntro) {
+    sectionClasses += ' concept-block--intro';
+  } else if (isNumbered) {
+    sectionClasses += ' concept-block--numbered';
+  } else {
+    sectionClasses += ' concept-block--plain';
+  }
+
+  const sectionId = heading ? getLessonSectionId(heading.text, idPrefix) : undefined;
+  const sectionKey = `concept-${idPrefix}-${index}`;
+
+  let headingNode: ReactNode = null;
+  if (heading) {
+    if (numberMatch) {
+      const numberPart = numberMatch[1];
+      const rest = numberMatch[2]?.trim() ?? '';
+      headingNode = (
+        <header className="concept-header">
+          <p className="concept-eyebrow">Section {numberPart}</p>
+          <h3 className="prose-section-heading prose-section-heading--numbered">
+            {renderInline(rest || heading.text)}
+          </h3>
+        </header>
+      );
+    } else {
+      headingNode = (
+        <h3 className="prose-section-heading prose-section-heading--plain">
+          {renderInline(heading.text)}
+        </h3>
+      );
+    }
+  }
+
+  return (
+    <section className={sectionClasses} id={sectionId} key={sectionKey}>
+      {headingNode}
+      {bodyBlocks.map((b, i) => renderBlock(b, index * 1000 + i, idPrefix))}
+    </section>
+  );
 }
 
 type LessonSupportSectionVariant =
@@ -172,13 +255,27 @@ function renderLessonSupportSection(
   index: number,
   idPrefix: string,
 ) {
+  const eyebrowConfig: Record<LessonSupportSectionVariant, { icon: string; label: string }> = {
+    'board-tips': { icon: '💡', label: 'Board tip' },
+    'common-mistakes': { icon: '⚠️', label: 'Common mistake' },
+    'quick-practice': { icon: '✏️', label: 'Quick practice' },
+    'one-minute-revision': { icon: '⏱️', label: '1-Minute revision' },
+  };
+
+  const config = eyebrowConfig[variant];
+
   return (
     <section
       className={`lesson-support-section lesson-support-${variant}`}
       id={getLessonSectionId(title, idPrefix)}
       key={`lesson-support-${variant}-${index}`}
     >
-      <h3>{renderInline(title)}</h3>
+      <header className="lesson-support-header">
+        <p className="eyebrow card-eyebrow">
+          <span>{config.icon}</span> {config.label}
+        </p>
+        <h3>{renderInline(title)}</h3>
+      </header>
       <div>
         {bodyBlocks.map((block, innerIndex) =>
           renderBlock(block, index * 1000 + innerIndex, idPrefix),
@@ -215,7 +312,9 @@ function renderPracticeAnswerCheck(
       id={getLessonSectionId('answer-check', idPrefix)}
       key={`answer-check-${index}`}
     >
-      <p className="eyebrow">Practice feedback</p>
+      <p className="eyebrow card-eyebrow">
+        <span>🔍</span> Practice feedback
+      </p>
       <h3>Answer check</h3>
       <details>
         <summary>Try first, then reveal the answer</summary>
@@ -244,7 +343,9 @@ function renderQuestionAnswerCard(
       key={`questions-and-answers-${index}`}
     >
       <div className="lesson-qa-card-header">
-        <p className="eyebrow">Study questions</p>
+        <p className="eyebrow card-eyebrow">
+          <span>❓</span> Study questions
+        </p>
         <h3>{title}</h3>
       </div>
       <div className="lesson-qa-card-body">
@@ -291,7 +392,7 @@ function renderBlock(block: MarkdownBlock, index: number, idPrefix: string): Rea
     case 'h2':
       return (
         <h3
-          className="prose-section-heading"
+          className="prose-section-heading prose-section-heading--plain"
           id={getLessonSectionId(block.text, idPrefix)}
           key={`${block.type}-${index}`}
         >
@@ -314,20 +415,28 @@ function renderBlock(block: MarkdownBlock, index: number, idPrefix: string): Rea
       const writtenPracticeId = getWrittenPracticeId(block.text);
 
       if (demoId) {
-        return <LessonDemo demoId={demoId} key={`${demoId}-${index}`} />;
+        return (
+          <div className="concept-media" key={`${demoId}-${index}`}>
+            <LessonDemo demoId={demoId} />
+          </div>
+        );
       }
 
       if (writtenPracticeId) {
         const definition = getWrittenPracticeDefinition(writtenPracticeId);
         return definition ? (
-          <WrittenPracticeCard definition={definition} key={`${writtenPracticeId}-${index}`} />
+          <div className="concept-media" key={`${writtenPracticeId}-${index}`}>
+            <WrittenPracticeCard definition={definition} />
+          </div>
         ) : null;
       }
 
       if (examPracticeId) {
         const definition = getExamPracticeDefinition(examPracticeId);
         return definition ? (
-          <ExamPracticeCard definition={definition} key={`${examPracticeId}-${index}`} />
+          <div className="concept-media" key={`${examPracticeId}-${index}`}>
+            <ExamPracticeCard definition={definition} />
+          </div>
         ) : null;
       }
 
@@ -339,7 +448,7 @@ function renderBlock(block: MarkdownBlock, index: number, idPrefix: string): Rea
     }
     case 'code':
       return (
-        <pre className="formula-block" key={`${block.type}-${index}`}>
+        <pre className="formula-block concept-media" key={`${block.type}-${index}`}>
           <code>{block.text}</code>
         </pre>
       );
@@ -361,7 +470,7 @@ function renderBlock(block: MarkdownBlock, index: number, idPrefix: string): Rea
       );
     case 'table':
       return (
-        <div className="prose-table-wrap" key={`${block.type}-${index}`}>
+        <div className="prose-table-wrap concept-media" key={`${block.type}-${index}`}>
           <table className="prose-table">
             <thead>
               <tr>
@@ -394,6 +503,10 @@ function renderComicRecap(items: string[], index: number, idPrefix: string) {
     .map((item, panelIndex) => ({ ...parseComicLine(item), panelIndex }))
     .filter((panel) => panel.dialogue.trim().length > 0);
 
+  if (panels.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className="comic-recap-card"
@@ -402,7 +515,9 @@ function renderComicRecap(items: string[], index: number, idPrefix: string) {
     >
       <div className="comic-recap-header">
         <div>
-          <p className="eyebrow">End-of-section comic recap</p>
+          <p className="eyebrow card-eyebrow">
+            <span>🎭</span> Memory strip
+          </p>
           <h3>Comic recap</h3>
           <p>Quick scene, quick smile, quick memory. Read this once and the idea sticks better.</p>
         </div>
@@ -469,7 +584,7 @@ function normalizeGlossaryKey(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function toSectionId(text: string) {
+export function toSectionId(text: string) {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')

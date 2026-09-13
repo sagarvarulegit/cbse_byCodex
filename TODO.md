@@ -1,3 +1,9 @@
+# Current Handoff - Chapter Notes Accordion + e2e tsconfig Fix Live (2026-09-12)
+
+- [x] Deployed **chapter notes accordion (`0e918ac`, `1ed0756`)** to https://www.chapterready.in: 8 parts render as collapsed native `<details data-part>` (first open), drill finale untouched, deep links open-then-scroll, smoke spec extended (3 passed).
+- [x] Fixed prod build: `e2e/` + `playwright.config.ts` excluded from `apps/web/tsconfig.json` (`@playwright/test` was never a committed dep; `next build` type-check failed on Vercel).
+- [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest** (unchanged — weekly WhatsApp/email digest + `GET /v1/exam-papers/attempts/:id` shareable reports).
+
 # Current Handoff - Sci-Wordle & Chemical Balancer Blitz Live in Fun & Games Arcade
 
 - [x] Implemented and deployed **Sci-Wordle & Chemical Balancer Blitz Games Expansion (`/games`, `/games/sci-wordle`, `/games/chemical-balancer`)**:

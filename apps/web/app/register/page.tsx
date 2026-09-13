@@ -7,7 +7,13 @@ import { RegisterForm } from './RegisterForm';
 
 export const revalidate = false;
 
-export default function RegisterPage() {
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  const loginHref = next ? `/login?next=${encodeURIComponent(next)}` : '/login';
   return (
     <AuthRedirectWrapper loggedInTitle="Account already ready" loggedInDesc="You are already signed in. Open your student hub and continue learning.">
       <main className="auth-page">
@@ -18,9 +24,11 @@ export default function RegisterPage() {
           <Suspense fallback={null}>
             <LoginErrorDisplay />
           </Suspense>
-          <RegisterForm />
+          <Suspense fallback={null}>
+            <RegisterForm />
+          </Suspense>
           <p className="auth-hint">
-            Already registered? <Link href="/login">Login here</Link>.
+            Already registered? <Link href={loginHref}>Login here</Link>.
           </p>
           <p className="auth-hint">
             Account data is handled under the <Link href="/privacy">Pilot Privacy Notice</Link>.

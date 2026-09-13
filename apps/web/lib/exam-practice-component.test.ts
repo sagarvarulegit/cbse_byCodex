@@ -11,12 +11,8 @@ test('timed diagnostic preserves clocks and records integrity separately from sc
   const renderer = fs.readFileSync(
     path.join(
       process.cwd(),
-      'app',
-      'chapters',
-      '[slug]',
-      'lessons',
-      '[lessonSlug]',
-      'page.tsx',
+      'components',
+      'LessonNotesContent.tsx',
     ),
     'utf8',
   );

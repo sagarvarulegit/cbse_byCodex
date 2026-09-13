@@ -1,22 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { registerAction } from '../auth-actions';
 import { initialAuthActionState } from '../auth-state';
 import { useActionState, useEffect } from 'react';
 import { PILOT_PRIVACY_NOTICE_VERSION } from '../../lib/privacy';
+import { getSafeNextPath } from '../../lib/auth-redirect';
 
 export function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [state, formAction, isPending] = useActionState(registerAction, initialAuthActionState);
 
   useEffect(() => {
     if (state.ok) {
-      router.push('/dashboard');
+      router.push(getSafeNextPath(searchParams.get('next')));
       router.refresh();
     }
-  }, [state.ok, router]);
+  }, [state.ok, router, searchParams]);
 
   return (
     <form action={formAction} className="auth-form">

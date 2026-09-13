@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { getSafeNextPath } from '../lib/auth-redirect';
 
 export function AuthRedirectWrapper({
   children,
@@ -12,6 +14,7 @@ export function AuthRedirectWrapper({
   loggedInTitle?: string;
   loggedInDesc?: string;
 }) {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -19,8 +22,14 @@ export function AuthRedirectWrapper({
     setMounted(true);
     if (document.cookie.includes('cbse_student_session')) {
       setIsLoggedIn(true);
+      // Deep links (e.g. a chapter PYQ drill) land here when the session
+      // expired mid-journey — continue instead of stranding the student.
+      const next = new URLSearchParams(window.location.search).get('next');
+      if (next) {
+        router.replace(getSafeNextPath(next));
+      }
     }
-  }, []);
+  }, [router]);
 
   if (!mounted) {
     // Show children on server/first render to allow static HTML generation

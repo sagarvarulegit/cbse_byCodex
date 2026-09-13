@@ -224,7 +224,7 @@ export default async function CompleteChapterNotesPage({
                     </div>
                   </summary>
                   <p className="complete-chapter-part-preview">{content.lesson.preview}</p>
-                  <div className="lesson-prose">
+                  <div className="lesson-prose complete-chapter-part-body">
                   <LessonNotesContent
                     blocks={content.blocks}
                     hideDocumentTitle
@@ -247,7 +247,7 @@ export default async function CompleteChapterNotesPage({
                     <h2>{chapter.title}</h2>
                   </div>
                 </summary>
-                <div className="lesson-prose chapter-pack-prose">
+                <div className="lesson-prose chapter-pack-prose complete-chapter-part-body">
                   <LessonNotesContent
                     blocks={packContent!.blocks}
                     idPrefix="chapter-pack"

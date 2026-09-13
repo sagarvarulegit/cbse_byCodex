@@ -249,13 +249,13 @@ test('lesson callouts and comic recaps use formats supported by the web renderer
 });
 
 test('practice answer checks render as try-first disclosure controls', () => {
-  const lessonPageSource = fs.readFileSync(
-    path.resolve(__dirname, '..', 'app', 'chapters', '[slug]', 'lessons', '[lessonSlug]', 'page.tsx'),
+  const lessonNotesSource = fs.readFileSync(
+    path.resolve(__dirname, '..', 'components', 'LessonNotesContent.tsx'),
     'utf8',
   );
 
   assert.match(
-    lessonPageSource,
+    lessonNotesSource,
     /function renderPracticeAnswerCheck[\s\S]*?<details>[\s\S]*?Try first, then reveal the answer[\s\S]*?<\/details>/,
   );
 });

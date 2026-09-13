@@ -16,10 +16,21 @@ export type PyqTrendAnalyzerProps = {
 
 type ViewFilter = 'all' | 'repeated' | 'weightage' | '5markers' | 'casestudy';
 
+function drillCtaHref(chapterSlug: string, isLoggedIn: boolean) {
+  const drillUrl = `/chapters/${chapterSlug}/notes#board-exam-drill`;
+  // Guests bounce through login (the fragment never reaches the server),
+  // so carry the full drill URL in `next` — the login form restores it
+  // client-side with the anchor intact.
+  if (isLoggedIn) {
+    return drillUrl;
+  }
+  return `/login?next=${encodeURIComponent(drillUrl)}`;
+}
+
 export default function PyqTrendAnalyzer({
-  initialSubject = 'science',
-  isLoggedIn = false,
-}: PyqTrendAnalyzerProps) {
+ initialSubject = 'science',
+ isLoggedIn = false,
+ }: PyqTrendAnalyzerProps) {
   const [selectedSubjectSlug, setSelectedSubjectSlug] = useState<string>(initialSubject);
   const [activeFilter, setActiveFilter] = useState<ViewFilter>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -334,7 +345,8 @@ export default function PyqTrendAnalyzer({
                   <strong>Verified In Sets:</strong> {concept.boardSets.join(', ')} ({concept.frequentYears.join(', ')})
                 </div>
                 <Link
-                  href={`/chapters/${concept.chapterSlug}/notes`}
+                  href={drillCtaHref(concept.chapterSlug, isLoggedIn)}
+                  scroll={false}
                   style={{
                     fontSize: '0.85rem',
                     fontWeight: 700,
@@ -477,7 +489,8 @@ export default function PyqTrendAnalyzer({
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <Link
-                      href={`/chapters/${ch.slug}/notes#board-exam-drill`}
+                      href={drillCtaHref(ch.slug, isLoggedIn)}
+                      scroll={false}
                       style={{
                         background: '#f3883b',
                         color: '#ffffff',
