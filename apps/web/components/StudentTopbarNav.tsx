@@ -22,7 +22,13 @@ const NAV_LINKS: TopbarNavLink[] = [
 
 export function StudentTopbarNav({ showMistakes }: { showMistakes: boolean }) {
   const pathname = usePathname();
-  const links = showMistakes ? [...NAV_LINKS, { href: '/my-mistakes', label: 'My Mistakes' }] : NAV_LINKS;
+  const links = showMistakes
+    ? [
+        ...NAV_LINKS,
+        { href: '/orders', label: '📦 My Purchases', style: { fontWeight: 700, color: '#16a34a' } },
+        { href: '/my-mistakes', label: 'My Mistakes' },
+      ]
+    : NAV_LINKS;
 
   return (
     <nav aria-label="Student shortcuts" className="student-topbar-nav">

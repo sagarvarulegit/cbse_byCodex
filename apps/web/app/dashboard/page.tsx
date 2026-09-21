@@ -15,6 +15,7 @@ import { buildSubjectCatalog } from '../../lib/curriculum/subject-navigation';
 import { listExamPaperAttempts } from '../../lib/exam-papers';
 import { getStudentMastery } from '../../lib/mastery';
 import { buildMasteryRewards } from '../../lib/mastery-rewards';
+import { fetchStudentEntitlements } from '../../lib/payments';
 import { buildStudyRemixDashboardModel } from '../../lib/study-remix';
 
 export default async function DashboardPage() {
@@ -24,7 +25,10 @@ export default async function DashboardPage() {
     getStudentMastery(),
   ]);
 
-  const attemptsData = await listExamPaperAttempts(token).catch(() => null);
+  const [attemptsData, entitlementsData] = await Promise.all([
+    listExamPaperAttempts(token).catch(() => null),
+    token ? fetchStudentEntitlements(token).catch(() => null) : null,
+  ]);
 
   const activeMissions = mastery.revisionMissions
     .filter((mission) => mission.status === 'active')
@@ -140,6 +144,120 @@ export default async function DashboardPage() {
       />
 
       <div className={studioStyles.studioContainer}>
+        {/* ACTIVE PURCHASES QUICK ACCESS BANNER */}
+        {entitlementsData && entitlementsData.entitlements.some((e) => e.status === 'active') ? (
+          <section aria-label="Active Purchases" style={{ marginBottom: '1.5rem' }}>
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                border: '1px solid #86efac',
+                borderRadius: '16px',
+                padding: '1.1rem 1.4rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                boxShadow: '0 2px 8px rgba(22, 101, 52, 0.08)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                <span style={{ fontSize: '2rem' }}>🎉</span>
+                <div>
+                  <strong style={{ color: '#14532d', fontSize: '1.05rem', display: 'block' }}>
+                    Active Study Packs ({entitlementsData.entitlements.filter((e) => e.status === 'active').length})
+                  </strong>
+                  <span style={{ color: '#166534', fontSize: '0.875rem' }}>
+                    Your purchased revision packs and tests are unlocked with lifetime access.
+                  </span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                {entitlementsData.entitlements.some(
+                  (e) =>
+                    (e.productKey === 'cbse10-formula-cheatsheet-pack' ||
+                      e.productKey === 'cbse10-activity-formula-combo') &&
+                    e.status === 'active',
+                ) && (
+                  <Link
+                    href="/formula-cheatsheets"
+                    style={{
+                      background: '#16a34a',
+                      color: '#ffffff',
+                      padding: '0.55rem 1.1rem',
+                      borderRadius: '8px',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      textDecoration: 'none',
+                      boxShadow: '0 2px 4px rgba(22, 163, 74, 0.25)',
+                    }}
+                  >
+                    ⚡ Open Formula Cheatsheets →
+                  </Link>
+                )}
+                {entitlementsData.entitlements.some(
+                  (e) =>
+                    (e.productKey === 'cbse10-activity-diagram-pack' ||
+                      e.productKey === 'cbse10-activity-formula-combo') &&
+                    e.status === 'active',
+                ) && (
+                  <Link
+                    href="/activities-and-diagrams"
+                    style={{
+                      background: '#0284c7',
+                      color: '#ffffff',
+                      padding: '0.55rem 1.1rem',
+                      borderRadius: '8px',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    🔬 Open NCERT Activities →
+                  </Link>
+                )}
+                {entitlementsData.entitlements.some(
+                  (e) =>
+                    (e.productKey === 'cbse10-science-ch1-5-pack' ||
+                      e.productKey === 'cbse10-mock-pass-science' ||
+                      e.isAllSubjects) &&
+                    e.status === 'active',
+                ) && (
+                  <Link
+                    href="/science-pack"
+                    style={{
+                      background: '#c95014',
+                      color: '#ffffff',
+                      padding: '0.55rem 1.1rem',
+                      borderRadius: '8px',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    🧪 Science Ch 1–5 Pack →
+                  </Link>
+                )}
+                <Link
+                  href="/orders"
+                  style={{
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
+                    color: '#334155',
+                    padding: '0.55rem 1rem',
+                    borderRadius: '8px',
+                    fontWeight: 600,
+                    fontSize: '0.85rem',
+                    textDecoration: 'none',
+                  }}
+                >
+                  📦 All Purchases &amp; Receipts
+                </Link>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         {/* HERO: REAL-TIME BOARD EXAM READINESS GAUGE */}
         <section aria-label="Board Readiness Overview">
           <BoardReadinessGauge

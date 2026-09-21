@@ -49,8 +49,30 @@ export default function OrdersClientView({
     return true;
   });
 
-  const hasAllSubjectsPass = entitlements.some(
-    (e) => e.productKey === 'cbse10-all-subjects-mock-pack',
+  const hasFormulaPack = entitlements.some(
+    (e) =>
+      (e.productKey === 'cbse10-formula-cheatsheet-pack' ||
+        e.productKey === 'cbse10-activity-formula-combo') &&
+      e.status === 'active',
+  );
+  const hasActivityPack = entitlements.some(
+    (e) =>
+      (e.productKey === 'cbse10-activity-diagram-pack' ||
+        e.productKey === 'cbse10-activity-formula-combo') &&
+      e.status === 'active',
+  );
+  const hasSciencePack = entitlements.some(
+    (e) =>
+      (e.productKey === 'cbse10-science-ch1-5-pack' ||
+        e.productKey === 'cbse10-mock-pass-science' ||
+        e.isAllSubjects) &&
+      e.status === 'active',
+  );
+  const hasMockPass = entitlements.some(
+    (e) =>
+      (e.productKey === 'cbse10-all-subjects-mock-pack' ||
+        e.productKey.startsWith('cbse10-mock-pass-')) &&
+      e.status === 'active',
   );
 
   return (
@@ -61,15 +83,15 @@ export default function OrdersClientView({
           <p className="eyebrow">Order Management</p>
           <h1>My Purchases &amp; Order History</h1>
           <p className="subtext">
-            Track your active mock test passes, download official tax receipts, and manage your payment transactions.
+            Access your unlocked formula sheets, activity drills, mock test passes, download tax receipts, and manage transactions.
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Link href="/store" className="primary-header-btn" style={{ background: '#c95014', borderColor: '#c95014' }}>
             🛍️ Visit Store →
           </Link>
-          <Link href="/exam-papers" className="primary-header-btn">
-            📄 Browse Mock Papers →
+          <Link href="/formula-cheatsheets" className="primary-header-btn">
+            ⚡ Formula Cheatsheets →
           </Link>
         </div>
       </div>
@@ -78,28 +100,48 @@ export default function OrdersClientView({
       <div className="entitlements-hero-card">
         <div className="entitlement-info">
           <span className="entitlement-badge-icon">
-            {hasAllSubjectsPass || entitlements.length > 0 ? '✨' : '🔒'}
+            {entitlements.length > 0 ? '✨' : '🔒'}
           </span>
           <div>
             <h3>
-              {hasAllSubjectsPass
-                ? 'All-Subjects Board Mock Pack (Active)'
-                : entitlements.length > 0
-                ? `${entitlements.length} Single Subject Pass(es) Active`
+              {entitlements.length > 0
+                ? `You Have ${entitlements.filter((e) => e.status === 'active').length} Active Study Pack(s)`
                 : 'Free Tier (Paper 1 Unlocked)'}
             </h3>
             <p>
-              {hasAllSubjectsPass
-                ? 'You have full unrestricted access to all 20 board mock papers across Maths (041), Science (086), SST (087), and English (184).'
-                : entitlements.length > 0
-                ? 'Your purchased subject papers are unlocked with complete marking schemes.'
-                : 'Mock Paper 1 is free for all subjects. Upgrade to unlock all 20 full-length papers.'}
+              {entitlements.length > 0
+                ? 'Your purchased packs are active with full access across all your devices.'
+                : 'Mock Paper 1 is free for all subjects. Upgrade in the store to unlock formula sheets, activity drills, or mock papers.'}
             </p>
           </div>
         </div>
-        <Link href="/exam-papers" className="action-pill">
-          {hasAllSubjectsPass || entitlements.length > 0 ? 'Practice Now →' : 'Unlock All Papers →'}
-        </Link>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          {hasFormulaPack && (
+            <Link href="/formula-cheatsheets" className="action-pill" style={{ background: '#16a34a', borderColor: '#16a34a' }}>
+              ⚡ Open Formula Cheatsheets →
+            </Link>
+          )}
+          {hasActivityPack && (
+            <Link href="/activities-and-diagrams" className="action-pill" style={{ background: '#0284c7', borderColor: '#0284c7' }}>
+              🔬 Open NCERT Activities →
+            </Link>
+          )}
+          {hasSciencePack && (
+            <Link href="/science-pack" className="action-pill" style={{ background: '#c95014', borderColor: '#c95014' }}>
+              🧪 Science Ch 1–5 Pack →
+            </Link>
+          )}
+          {hasMockPass && (
+            <Link href="/exam-papers" className="action-pill">
+              📄 Practice Mock Papers →
+            </Link>
+          )}
+          {entitlements.length === 0 && (
+            <Link href="/store" className="action-pill">
+              🛍️ Visit Store →
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Guarantee Info Strip */}

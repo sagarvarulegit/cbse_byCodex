@@ -7,6 +7,7 @@ import {
   NCERT_ACTIVITY_DIAGRAM_PACK_KEY,
   FORMULA_CHEATSHEET_PACK_KEY,
   ACTIVITY_FORMULA_COMBO_PACK_KEY,
+  SCIENCE_CH1_5_PACK_KEY,
 } from '../lib/payments';
 
 export type ProductCheckoutModalProps = {
@@ -31,6 +32,43 @@ export default function ProductCheckoutModal({
   const [selectedProductKey, setSelectedProductKey] = useState<string>(initialProductKey);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [purchasedSuccess, setPurchasedSuccess] = useState<{
+    productKey: string;
+    title: string;
+    href: string;
+  } | null>(null);
+
+  function triggerSuccess(key: string) {
+    const destinationHref =
+      key === FORMULA_CHEATSHEET_PACK_KEY
+        ? '/formula-cheatsheets'
+        : key === NCERT_ACTIVITY_DIAGRAM_PACK_KEY
+        ? '/activities-and-diagrams'
+        : key === SCIENCE_CH1_5_PACK_KEY
+        ? '/science-pack'
+        : key === ACTIVITY_FORMULA_COMBO_PACK_KEY
+        ? '/activities-and-diagrams'
+        : '/orders';
+
+    const destinationTitle =
+      key === FORMULA_CHEATSHEET_PACK_KEY
+        ? 'Class 10 Formula & Reaction Cheatsheets'
+        : key === NCERT_ACTIVITY_DIAGRAM_PACK_KEY
+        ? 'NCERT Activity & Diagram Mastery Pack'
+        : key === SCIENCE_CH1_5_PACK_KEY
+        ? 'Science Chapters 1–5 Board Revision Pack'
+        : key === ACTIVITY_FORMULA_COMBO_PACK_KEY
+        ? 'Activity & Formula Super Combo'
+        : 'Class 10 Board Pack';
+
+    setPurchasedSuccess({
+      productKey: key,
+      title: destinationTitle,
+      href: destinationHref,
+    });
+    setLoading(false);
+    onSuccess?.(key);
+  }
 
   useEffect(() => {
     if (initialProductKey) {
@@ -58,6 +96,54 @@ export default function ProductCheckoutModal({
 
   if (!isOpen) {
     return null;
+  }
+
+  if (purchasedSuccess) {
+    return (
+      <div className="paywall-overlay" role="dialog" aria-modal="true">
+        <div className="paywall-card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem', maxWidth: '440px' }}>
+          <span style={{ fontSize: '3.5rem', display: 'block', marginBottom: '0.75rem' }}>🎉</span>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803d', marginBottom: '0.5rem' }}>
+            Payment Successful!
+          </h2>
+          <p style={{ color: '#334155', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            Your pack <strong>{purchasedSuccess.title}</strong> is now active and unlocked for your account.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <a
+              href={purchasedSuccess.href}
+              className="btn-paywall-primary"
+              style={{
+                textDecoration: 'none',
+                background: '#16a34a',
+                borderColor: '#16a34a',
+                padding: '0.85rem 1.5rem',
+                borderRadius: '10px',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: '1.05rem',
+                textAlign: 'center',
+                display: 'block',
+              }}
+            >
+              ⚡ Access Your Material Now →
+            </a>
+            <a
+              href="/orders"
+              style={{
+                color: '#64748b',
+                fontSize: '0.9rem',
+                textDecoration: 'underline',
+                marginTop: '0.25rem',
+                textAlign: 'center',
+              }}
+            >
+              📦 View All Purchases &amp; Invoices
+            </a>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const isActivityPack = selectedProductKey === NCERT_ACTIVITY_DIAGRAM_PACK_KEY;
@@ -105,9 +191,7 @@ export default function ProductCheckoutModal({
             if (simRes.token) {
               document.cookie = `cbse_student_session=${simRes.token}; path=/; max-age=1209600; SameSite=Lax`;
             }
-            setLoading(false);
-            onSuccess?.(selectedProductKey);
-            onClose();
+            triggerSuccess(selectedProductKey);
             return;
           }
         }
@@ -136,9 +220,7 @@ export default function ProductCheckoutModal({
           if (verifyRes.token) {
             document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
           }
-          setLoading(false);
-          onSuccess?.(selectedProductKey);
-          onClose();
+          triggerSuccess(selectedProductKey);
           return;
         } else {
           setLoading(false);
@@ -184,9 +266,7 @@ export default function ProductCheckoutModal({
                 if (verifyRes.token) {
                   document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
                 }
-                setLoading(false);
-                onSuccess?.(selectedProductKey);
-                onClose();
+                triggerSuccess(selectedProductKey);
               } else {
                 setLoading(false);
                 setErrorMessage(verifyRes?.message || 'Verification failed. Please contact support.');
