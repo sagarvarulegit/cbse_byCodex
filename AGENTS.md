@@ -99,7 +99,13 @@ No formal test framework is configured yet. Current verification is `npm run lin
 
 ## Commit & Pull Request Guidelines
 
-History currently only shows `Initial commit`, so use short imperative commit messages such as `Add deployment runbook` or `Implement Bunny video metadata`. Pull requests should include a clear summary, changed areas, verification commands, linked issues if any, and screenshots for visible UI changes.
+### Frequent Git Commit & Remote Push Policy (MANDATORY)
+- Always commit and push progress to the remote Git repository (`origin/main`) whenever meaningful progress is made, a milestone/subtask is completed, or before ending any working session.
+- Do NOT leave uncommitted or unpushed work on the local machine. The developer works across multiple machines (office laptop, home computer). If changes are not committed and pushed to remote, work cannot resume from another machine.
+- Verify working tree status with `git status`, ensure no secrets/passwords are committed, stage the changes, commit with concise imperative messages, and push (`git push origin main`).
+- After every successful git push, update `TODO.md` with the next task before ending the session.
+
+Use short imperative commit messages such as `Add deployment runbook` or `Implement Bunny video metadata`. Pull requests should include a clear summary, changed areas, verification commands, linked issues if any, and screenshots for visible UI changes.
 
 ## Security & Configuration Tips
 

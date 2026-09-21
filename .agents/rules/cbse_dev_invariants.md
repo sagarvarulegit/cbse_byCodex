@@ -30,3 +30,8 @@ description: Core local development, testing, and deployment invariants for CBSE
   2. `cd apps/web && npx vercel deploy --prod --yes`
   3. `cd apps/admin && npx vercel deploy --prod --yes`
 - Update `docs/TODO.md` with the next task after every successful remote push.
+ 
+## 5. Frequent Git Commit & Remote Push Policy (Mandatory)
+- Whenever meaningful progress is made on a task or subtask, commit and push changes to the remote Git repository (`origin/main`).
+- Never leave substantive progress uncommitted or unpushed at the end of a session or work chunk. The developer works across multiple machines (office laptop, home workstation). Unpushed commits block working from home or another machine.
+- Always check `git status` to ensure all relevant files are staged (and secrets sanitized), commit with concise imperative messages, push to remote (`git push origin main`), and update `TODO.md`.
