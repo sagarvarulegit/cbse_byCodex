@@ -36,9 +36,10 @@ export default function ProductCheckoutModal({
     productKey: string;
     title: string;
     href: string;
+    email: string;
   } | null>(null);
 
-  function triggerSuccess(key: string) {
+  function triggerSuccess(key: string, emailUsed: string) {
     const destinationHref =
       key === FORMULA_CHEATSHEET_PACK_KEY
         ? '/formula-cheatsheets'
@@ -65,6 +66,7 @@ export default function ProductCheckoutModal({
       productKey: key,
       title: destinationTitle,
       href: destinationHref,
+      email: emailUsed,
     });
     setLoading(false);
     onSuccess?.(key);
@@ -101,14 +103,47 @@ export default function ProductCheckoutModal({
   if (purchasedSuccess) {
     return (
       <div className="paywall-overlay" role="dialog" aria-modal="true">
-        <div className="paywall-card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem', maxWidth: '440px' }}>
+        <div className="paywall-card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem', maxWidth: '450px' }}>
           <span style={{ fontSize: '3.5rem', display: 'block', marginBottom: '0.75rem' }}>🎉</span>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803d', marginBottom: '0.5rem' }}>
             Payment Successful!
           </h2>
-          <p style={{ color: '#334155', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
-            Your pack <strong>{purchasedSuccess.title}</strong> is now active and unlocked for your account.
+          <p style={{ color: '#334155', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '1.25rem' }}>
+            Your pack <strong>{purchasedSuccess.title}</strong> is active and unlocked!
           </p>
+
+          {/* Email notice callout box */}
+          <div
+            style={{
+              background: '#f0fdf4',
+              border: '1.5px solid #86efac',
+              borderRadius: '12px',
+              padding: '1rem 1.15rem',
+              marginBottom: '1.5rem',
+              textAlign: 'left',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '0.85rem',
+              boxShadow: '0 2px 8px rgba(22, 101, 52, 0.06)',
+            }}
+          >
+            <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>✉️</span>
+            <div style={{ fontSize: '0.875rem', color: '#14532d', lineHeight: 1.45 }}>
+              <strong style={{ display: 'block', marginBottom: '3px', color: '#166534', fontSize: '0.95rem' }}>
+                Please check your email for access!
+              </strong>
+              <span>
+                We just sent your direct 1-click access link and official tax receipt to:
+              </span>
+              <strong style={{ display: 'block', color: '#15803d', wordBreak: 'break-all', marginTop: '3px', fontSize: '0.9rem' }}>
+                {purchasedSuccess.email}
+              </strong>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#15803d', opacity: 0.85, marginTop: '6px' }}>
+                💡 Tip: Check your <strong>Inbox</strong>, <strong>Promotions</strong>, or <strong>Spam</strong> tab to access your pack anytime across your phone and laptop.
+              </span>
+            </div>
+          </div>
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <a
               href={purchasedSuccess.href}
@@ -117,16 +152,17 @@ export default function ProductCheckoutModal({
                 textDecoration: 'none',
                 background: '#16a34a',
                 borderColor: '#16a34a',
-                padding: '0.85rem 1.5rem',
+                padding: '0.9rem 1.5rem',
                 borderRadius: '10px',
                 color: '#fff',
                 fontWeight: 700,
                 fontSize: '1.05rem',
                 textAlign: 'center',
                 display: 'block',
+                boxShadow: '0 4px 12px rgba(22, 163, 74, 0.25)',
               }}
             >
-              ⚡ Access Your Material Now →
+              ⚡ Open Your Material Right Now →
             </a>
             <a
               href="/orders"
@@ -157,7 +193,7 @@ export default function ProductCheckoutModal({
     setLoading(true);
     setErrorMessage(null);
 
-    const emailToUse = token ? userEmail : guestEmail.trim().toLowerCase();
+    const emailToUse: string = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || 'your registered email';
     const phoneToUse = guestPhone.trim();
 
     if (!token && (!emailToUse || !emailToUse.includes('@'))) {
@@ -191,7 +227,7 @@ export default function ProductCheckoutModal({
             if (simRes.token) {
               document.cookie = `cbse_student_session=${simRes.token}; path=/; max-age=1209600; SameSite=Lax`;
             }
-            triggerSuccess(selectedProductKey);
+            triggerSuccess(selectedProductKey, emailToUse);
             return;
           }
         }
@@ -220,7 +256,7 @@ export default function ProductCheckoutModal({
           if (verifyRes.token) {
             document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
           }
-          triggerSuccess(selectedProductKey);
+          triggerSuccess(selectedProductKey, emailToUse);
           return;
         } else {
           setLoading(false);
@@ -266,7 +302,7 @@ export default function ProductCheckoutModal({
                 if (verifyRes.token) {
                   document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
                 }
-                triggerSuccess(selectedProductKey);
+                triggerSuccess(selectedProductKey, emailToUse);
               } else {
                 setLoading(false);
                 setErrorMessage(verifyRes?.message || 'Verification failed. Please contact support.');

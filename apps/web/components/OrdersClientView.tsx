@@ -149,6 +149,30 @@ export default function OrdersClientView({
         <span>🛡️ <strong>ChapterReady 48-Hour Guarantee:</strong> 100% automated refund or free subject swap if you are not completely satisfied.</span>
       </div>
 
+      {/* Email Delivery Notice Banner */}
+      {session?.email && (
+        <div
+          style={{
+            background: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '0.85rem 1.25rem',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem',
+            fontSize: '0.875rem',
+            color: '#334155',
+            lineHeight: 1.5,
+          }}
+        >
+          <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>✉️</span>
+          <span>
+            <strong>Access Links &amp; Invoices Sent:</strong> All purchase access links and official tax receipts are automatically sent to <strong>{session.email}</strong>. Check your inbox (or spam folder) to easily reopen your packs across all your devices.
+          </span>
+        </div>
+      )}
+
       {/* Orders Filter Tabs */}
       <div className="orders-tabs">
         <button
