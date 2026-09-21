@@ -46,7 +46,7 @@ async function fetchAuthApi(path: string, init: RequestInit) {
   }
 }
 
-async function saveSessionToken(token: string) {
+export async function saveSessionToken(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
@@ -93,8 +93,8 @@ export async function registerStudent(
   fullName: string,
   email: string,
   password: string,
-  classLevel: number,
-  guardianConsent: GuardianRegistrationConsent,
+  classLevel = 10,
+  guardianConsent?: Partial<GuardianRegistrationConsent>,
 ) {
   const response = await fetchAuthApi('/v1/auth/register', {
     method: 'POST',
@@ -103,11 +103,11 @@ export async function registerStudent(
     },
     cache: 'no-store',
     body: JSON.stringify({
-      classLevel,
+      classLevel: classLevel || 10,
       email,
       fullName,
       password,
-      ...guardianConsent,
+      ...(guardianConsent || {}),
     }),
   });
 

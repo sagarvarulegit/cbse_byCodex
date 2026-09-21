@@ -26,28 +26,21 @@ export async function registerAction(
 ): Promise<AuthActionState> {
   const fullName = String(formData.get('fullName') ?? '').trim();
   const email = String(formData.get('email') ?? '').trim();
-  const classLevel = Number(formData.get('classLevel') ?? '');
+  const classLevel = Number(formData.get('classLevel') ?? 10) || 10;
   const password = String(formData.get('password') ?? '');
-  const confirmPassword = String(formData.get('confirmPassword') ?? '');
-  const guardianFullName = String(formData.get('guardianFullName') ?? '').trim();
-  const guardianEmail = String(formData.get('guardianEmail') ?? '').trim();
-  const relationship = String(formData.get('relationship') ?? '');
-  const adultConfirmed = formData.get('adultConfirmed') === 'on';
-  const consentConfirmed = formData.get('consentConfirmed') === 'on';
 
-  if (password !== confirmPassword) {
-    return { error: 'Passwords do not match.', ok: false };
+  if (!fullName) {
+    return { error: 'Full name is required.', ok: false };
+  }
+  if (!email || !email.includes('@')) {
+    return { error: 'A valid email is required.', ok: false };
+  }
+  if (password.length < 8) {
+    return { error: 'Password must be at least 8 characters with letters and numbers.', ok: false };
   }
 
   try {
-    await registerStudent(fullName, email, password, classLevel, {
-      adultConfirmed,
-      consentConfirmed,
-      guardianEmail,
-      guardianFullName,
-      policyVersion: PILOT_PRIVACY_NOTICE_VERSION,
-      relationship,
-    });
+    await registerStudent(fullName, email, password, classLevel);
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Unable to create the account right now.', ok: false };
   }

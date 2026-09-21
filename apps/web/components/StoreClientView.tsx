@@ -11,6 +11,7 @@ import {
   FORMULA_CHEATSHEET_PACK_KEY,
   ACTIVITY_FORMULA_COMBO_PACK_KEY,
   UNLIMITED_QUIZ_PASS_KEY,
+  SCIENCE_CH1_5_PACK_KEY,
 } from '../lib/payments';
 const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 const PaywallModal = dynamic(() => import('./PaywallModal'));
@@ -37,6 +38,28 @@ export interface StoreProduct {
 }
 
 export const STORE_PRODUCTS: StoreProduct[] = [
+  // 0. Flagship Science Ch 1-5 Pack
+  {
+    id: 'store-science-ch1-5',
+    productKey: SCIENCE_CH1_5_PACK_KEY,
+    category: 'revision',
+    title: 'Class 10 Science (Ch 1–5) Board Blueprint & PYQ Pack',
+    badge: '🧪 Flagship Pack · ₹99',
+    badgeColor: '#c95014',
+    priceInr: 99,
+    originalPriceInr: 299,
+    discountPercent: 67,
+    shortDesc: '10-Year verified CBSE PYQs with step-wise marking schemes, all 13 NCERT experimental activity breakdowns & 1-page formula cheatsheets for Chapters 1 to 5.',
+    features: [
+      'Verified Previous Year Questions (2015–2026) with official marking points',
+      'All 13 NCERT Science experimental setups, color changes & precipitates',
+      '1-Page dense printable formula & reaction wall sheets',
+      'Instant digital access on all devices for 2026-27',
+    ],
+    launchHref: '/science-pack',
+    launchLabel: 'Open Science Pack',
+    modalType: 'product',
+  },
   // 1. Revision Combo
   {
     id: 'store-combo',

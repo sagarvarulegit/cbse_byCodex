@@ -31,7 +31,12 @@ import {
   executeSubjectSwap,
 } from '../lib/payments/refund-rules.js';
 import { prisma } from '../lib/prisma.js';
-import { getSessionUser, requireSessionUser } from '../lib/session.js';
+import {
+  createUserSessionToken,
+  formatUserResponse,
+  getSessionUser,
+  requireSessionUser,
+} from '../lib/session.js';
 import { UserRole } from '@prisma/client';
 
 export const paymentsRouter = Router();
@@ -240,18 +245,18 @@ paymentsRouter.get('/entitlements', async (req: Request, res: Response) => {
 
 /**
  * POST /v1/payments/create-order
- * Body: { productKey, subjectSlug? }
+ * Body: { productKey, subjectSlug?, guestEmail?, guestPhone?, guestName? }
  * Creates a Cashfree order and a local PaymentOrder record.
  */
 paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
-  const user = await requireSessionUser(req);
-  if (!user) {
-    return res.status(401).json({ message: 'Sign in to purchase mock test papers.' });
-  }
+  let user = await getSessionUser(req);
 
-  const { productKey, subjectSlug } = (req.body as {
+  const { productKey, subjectSlug, guestEmail, guestPhone, guestName } = (req.body as {
     productKey?: string;
     subjectSlug?: string;
+    guestEmail?: string;
+    guestPhone?: string;
+    guestName?: string;
   }) || {};
 
   if (!productKey) {
@@ -263,8 +268,54 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
     return res.status(400).json({ message: `Invalid productKey: ${productKey}` });
   }
 
+  // If unauthenticated, handle guest checkout via email or phone
+  if (!user) {
+    const rawEmail = typeof guestEmail === 'string' && guestEmail.includes('@') ? guestEmail.trim().toLowerCase() : null;
+    const rawPhone = typeof guestPhone === 'string' ? guestPhone.trim().replace(/[^0-9+]/g, '') : null;
+    const normalizedName = typeof guestName === 'string' && guestName.trim().length >= 2 ? guestName.trim() : 'Class 10 Student';
+
+    if (!rawEmail && !rawPhone) {
+      return res.status(400).json({ message: 'Please provide your email address or WhatsApp number to continue.' });
+    }
+
+    if (rawEmail) {
+      user = await prisma.user.findUnique({
+        where: { email: rawEmail },
+        include: { profile: true },
+      });
+    }
+    if (!user && rawPhone) {
+      user = await prisma.user.findUnique({
+        where: { phone: rawPhone },
+        include: { profile: true },
+      });
+    }
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          email: rawEmail || null,
+          phone: rawPhone || null,
+          role: UserRole.student,
+          profile: {
+            create: {
+              fullName: normalizedName,
+              classLevel: 10,
+            },
+          },
+        },
+        include: {
+          profile: true,
+        },
+      });
+    }
+  }
+
   const orderId = `order_${user.id.slice(-6)}_${Date.now().toString(36)}`;
   const receipt = `rcpt_${user.id.slice(-6)}_${Date.now().toString(36)}`;
+  const customerEmail = user.email || (typeof guestEmail === 'string' ? guestEmail.trim() : 'student@chapterready.in');
+  const customerPhone = user.phone || (typeof guestPhone === 'string' ? guestPhone.trim() : '9999999999');
+  const customerName = user.profile?.fullName || (typeof guestName === 'string' ? guestName.trim() : 'Class 10 Student');
 
   try {
     const cashfreeOrder = await createCashfreeOrder({
@@ -272,9 +323,9 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
       amountPaise: product.pricePaise,
       currency: product.currency,
       customerId: user.id,
-      customerName: user.profile?.fullName || 'Class 10 Student',
-      customerEmail: user.email || 'student@chapterready.in',
-      customerPhone: '9999999999',
+      customerName,
+      customerEmail,
+      customerPhone,
       orderNote: product.title,
     });
 
@@ -292,6 +343,8 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
         receipt,
         notesJson: {
           productTitle: product.title,
+          guestEmail: user.email,
+          guestPhone: user.phone,
         },
       },
     });
@@ -326,10 +379,7 @@ paymentsRouter.post('/create-order', async (req: Request, res: Response) => {
  * Verifies payment status and immediately activates user entitlement.
  */
 paymentsRouter.post('/verify', async (req: Request, res: Response) => {
-  const user = await requireSessionUser(req);
-  if (!user) {
-    return res.status(401).json({ message: 'Sign in to verify payment.' });
-  }
+  let user = await getSessionUser(req);
 
   const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = (req.body as {
     orderId?: string;
@@ -345,23 +395,35 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
 
   const paymentOrder = await prisma.paymentOrder.findUnique({
     where: { razorpayOrderId: targetOrderId },
+    include: {
+      user: {
+        include: { profile: true },
+      },
+    },
   });
 
   if (!paymentOrder) {
     return res.status(404).json({ message: 'Order record not found.' });
   }
 
-  if (paymentOrder.userId !== user.id) {
+  if (user && paymentOrder.userId !== user.id) {
     return res.status(403).json({ message: 'Order does not belong to this user.' });
+  }
+
+  if (!user) {
+    user = paymentOrder.user;
   }
 
   // If already paid, return success immediately
   if (paymentOrder.status === 'paid') {
+    const token = createUserSessionToken(user);
     return res.json({
       success: true,
       message: 'Payment already verified.',
       productKey: paymentOrder.productKey,
       subjectSlug: paymentOrder.subjectSlug,
+      token,
+      user: formatUserResponse(user),
     });
   }
 
@@ -394,7 +456,7 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
     await tx.userEntitlement.upsert({
       where: {
         userId_productKey_subjectSlug: {
-          userId: user.id,
+          userId: user!.id,
           productKey: paymentOrder.productKey,
           subjectSlug: paymentOrder.subjectSlug ?? '',
         },
@@ -405,7 +467,7 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
         validFrom: new Date(),
       },
       create: {
-        userId: user.id,
+        userId: user!.id,
         productKey: paymentOrder.productKey,
         subjectSlug: paymentOrder.subjectSlug,
         scope: 'mock_test_series',
@@ -415,11 +477,15 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
     });
   });
 
+  const token = createUserSessionToken(user);
+
   return res.json({
     success: true,
     message: 'Payment verified and entitlement activated successfully.',
     productKey: paymentOrder.productKey,
     subjectSlug: paymentOrder.subjectSlug,
+    token,
+    user: formatUserResponse(user),
   });
 });
 

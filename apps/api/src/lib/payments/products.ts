@@ -141,11 +141,30 @@ export const ACTIVITY_FORMULA_COMBO_PACK: PaymentProduct = {
   badge: 'Best Value Combo · ₹129',
 };
 
+export const SCIENCE_CH1_5_PACK_KEY = 'cbse10-science-ch1-5-pack';
+
+export const SCIENCE_CH1_5_PACK: PaymentProduct = {
+  key: SCIENCE_CH1_5_PACK_KEY,
+  title: 'Class 10 Science (Ch 1–5) Board Blueprint & PYQ Pack',
+  description:
+    'Instant access to 10-year verified CBSE Previous Year Questions (PYQs) with step-wise marking scheme answers, ' +
+    'all NCERT experimental activity breakdowns (color changes, precipitates, gas tests), and 1-page rapid revision cheatsheets ' +
+    'for Chapters 1 to 5 (Chemical Reactions, Acids/Bases, Metals/Non-Metals, Carbon Compounds, and Life Processes).',
+  pricePaise: 9900, // ₹99
+  originalPricePaise: 29900, // ₹299 (67% discount)
+  currency: 'INR',
+  scope: 'all_subjects',
+  includedSubjects: ['science'],
+  paperCount: 25,
+  badge: 'Flagship Pack · ₹99',
+};
+
 export function getAllAvailableProducts(): PaymentProduct[] {
   const singleSubjectProducts = CORE_BOARD_SUBJECTS.map((slug) =>
     buildSingleSubjectProduct(slug),
   );
   return [
+    SCIENCE_CH1_5_PACK,
     ALL_SUBJECTS_MOCK_PACK,
     UNLIMITED_QUIZ_PASS,
     NCERT_ACTIVITY_DIAGRAM_PACK,
@@ -159,6 +178,9 @@ export function findProductByKey(
   productKey: string,
   subjectSlug?: string | null,
 ): PaymentProduct | null {
+  if (productKey === SCIENCE_CH1_5_PACK_KEY) {
+    return SCIENCE_CH1_5_PACK;
+  }
   if (productKey === ALL_SUBJECTS_MOCK_PACK_KEY) {
     return ALL_SUBJECTS_MOCK_PACK;
   }

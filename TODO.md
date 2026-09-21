@@ -1,8 +1,24 @@
+# Current Handoff - P0 Money Path & P1 Single Flagship Product Launch (Active Sprint)
+
+- [ ] **P0: Fix the Money Path (Frictionless Conversion Engine)**:
+  - [ ] Unpause Supabase database project in Supabase dashboard (Owner Action).
+  - [ ] Configure live production Cashfree API credentials in Vercel environment (Owner Action).
+  - [x] Streamline student registration from 10 fields down to 3 (`fullName`, `email`, `password`, preselected `classLevel: 10`) removing guardian friction.
+  - [x] Enable guest checkout in API (`POST /v1/payments/create-order`) and Web modal to allow 1-click UPI purchase with only Phone & Email without prior account creation.
+  - [x] Auto-provision student session upon guest payment verification so students immediately get access to unlocked content.
+  - [x] Guard Cashfree integration against simulated fake `PAID` results when running in production.
+  - [ ] Complete real end-to-end ₹2 test transaction verification.
+- [ ] **P1: Launch Flagship Single Product (Science Ch 1–5 Board Pack — ₹99)**:
+  - [x] Build dedicated high-conversion single product landing page (`/science-pack`) with 1 clear price, 1 CTA, and instant access.
+  - [x] Package 10-year verified PYQs, 13 NCERT activity breakdowns, and 1-page formula cheatsheets for Science Chapters 1–5.
+- [ ] **P2: Acquisition via YouTube Shorts Engine**:
+  - [ ] Script and produce first 3 high-converting hook Shorts ("CBSE repeats this 3-mark question...", etc.) linking to `/science-pack`. Target: First 100 paying students.
+
 # Current Handoff - Chapter Notes Accordion + e2e tsconfig Fix Live (2026-09-12)
 
 - [x] Deployed **chapter notes accordion (`0e918ac`, `1ed0756`)** to https://www.chapterready.in: 8 parts render as collapsed native `<details data-part>` (first open), drill finale untouched, deep links open-then-scroll, smoke spec extended (3 passed).
 - [x] Fixed prod build: `e2e/` + `playwright.config.ts` excluded from `apps/web/tsconfig.json` (`@playwright/test` was never a committed dep; `next build` type-check failed on Vercel).
-- [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest** (unchanged — weekly WhatsApp/email digest + `GET /v1/exam-papers/attempts/:id` shareable reports).
+- [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest** (weekly WhatsApp/email digest + `GET /v1/exam-papers/attempts/:id` shareable reports).
 
 # Current Handoff - Sci-Wordle & Chemical Balancer Blitz Live in Fun & Games Arcade
 

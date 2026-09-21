@@ -71,6 +71,11 @@ export function getCashfreeCredentials(): {
       : 'https://sandbox.cashfree.com/pg';
 
   if (!appId || !secretKey) {
+    if (mode === 'production') {
+      throw new CashfreeConfigError(
+        'Cashfree production credentials missing: CASHFREE_APP_ID and CASHFREE_SECRET_KEY must be configured.',
+      );
+    }
     return {
       appId: appId || 'cf_placeholder_app_id',
       secretKey: secretKey || 'placeholder_secret',
@@ -92,8 +97,11 @@ export async function createCashfreeOrder(
 ): Promise<CashfreeOrderResponse> {
   const { appId, secretKey, mode, baseUrl } = getCashfreeCredentials();
 
-  // Simulated fallback when using placeholder keys
+  // Simulated fallback only in non-production environments with placeholder keys
   if (appId.startsWith('cf_placeholder')) {
+    if (mode === 'production') {
+      throw new CashfreeConfigError('Cannot use simulated Cashfree keys in production mode.');
+    }
     return {
       orderId: params.orderId,
       paymentSessionId: `session_sim_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,

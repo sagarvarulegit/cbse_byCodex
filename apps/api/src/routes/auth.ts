@@ -73,7 +73,10 @@ authRouter.post('/register', authLimiter, async (req, res) => {
     const password = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
     const passwordError = validatePassword(password);
     const { classLevel, error: classLevelError } = normalizeRegistrationClassLevel(req.body?.classLevel);
-    const guardianConsent = normalizeGuardianConsent(req.body);
+    const hasGuardianConsentInput = Boolean(
+      req.body?.guardianFullName || req.body?.guardianEmail || req.body?.relationship,
+    );
+    const guardianConsent = hasGuardianConsentInput ? normalizeGuardianConsent(req.body) : null;
 
     if (!fullName) {
       return res.status(400).json({ message: 'Full name must be at least 2 characters.' });
@@ -91,7 +94,7 @@ authRouter.post('/register', authLimiter, async (req, res) => {
       return res.status(400).json({ message: classLevelError ?? 'Please choose your class to continue.' });
     }
 
-    if (!guardianConsent.data) {
+    if (guardianConsent && !guardianConsent.data) {
       return res.status(400).json({ message: guardianConsent.error });
     }
 
@@ -105,9 +108,13 @@ authRouter.post('/register', authLimiter, async (req, res) => {
       data: {
         email,
         passwordHash,
-        guardianConsent: {
-          create: guardianConsent.data,
-        },
+        ...(guardianConsent?.data
+          ? {
+              guardianConsent: {
+                create: guardianConsent.data,
+              },
+            }
+          : {}),
         profile: {
           create: {
             classLevel,

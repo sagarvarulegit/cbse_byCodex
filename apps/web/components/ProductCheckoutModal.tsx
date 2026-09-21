@@ -64,19 +64,35 @@ export default function ProductCheckoutModal({
   const isFormulaPack = selectedProductKey === FORMULA_CHEATSHEET_PACK_KEY;
   const isComboPack = selectedProductKey === ACTIVITY_FORMULA_COMBO_PACK_KEY;
 
+  const [guestEmail, setGuestEmail] = useState(userEmail || '');
+  const [guestPhone, setGuestPhone] = useState('');
+
   async function handleCheckout() {
     setLoading(true);
     setErrorMessage(null);
 
-    if (!token) {
-      if (typeof window !== 'undefined') {
-        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
-      }
+    const emailToUse = token ? userEmail : guestEmail.trim().toLowerCase();
+    const phoneToUse = guestPhone.trim();
+
+    if (!token && (!emailToUse || !emailToUse.includes('@'))) {
+      setLoading(false);
+      setErrorMessage('Please enter a valid email address for instant access delivery.');
       return;
     }
 
     try {
-      const orderData = await createPaymentOrder(token, selectedProductKey);
+      const orderData = await createPaymentOrder(
+        token,
+        selectedProductKey,
+        undefined,
+        !token
+          ? {
+              guestEmail: emailToUse,
+              guestPhone: phoneToUse || undefined,
+              guestName: userFullName || 'Class 10 Student',
+            }
+          : undefined,
+      );
       if (!orderData) {
         throw new Error('Could not initiate order with server. Please try again.');
       }
@@ -86,6 +102,9 @@ export default function ProductCheckoutModal({
         if (orderData.paymentSessionId.startsWith('session_sim_')) {
           const simRes = await verifyPayment(token, { orderId: orderData.orderId });
           if (simRes?.success) {
+            if (simRes.token) {
+              document.cookie = `cbse_student_session=${simRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+            }
             setLoading(false);
             onSuccess?.(selectedProductKey);
             onClose();
@@ -114,6 +133,9 @@ export default function ProductCheckoutModal({
 
         const verifyRes = await verifyPayment(token, { orderId: orderData.orderId });
         if (verifyRes?.success) {
+          if (verifyRes.token) {
+            document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+          }
           setLoading(false);
           onSuccess?.(selectedProductKey);
           onClose();
@@ -159,6 +181,9 @@ export default function ProductCheckoutModal({
               });
 
               if (verifyRes?.success) {
+                if (verifyRes.token) {
+                  document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+                }
                 setLoading(false);
                 onSuccess?.(selectedProductKey);
                 onClose();
@@ -296,6 +321,30 @@ export default function ProductCheckoutModal({
             </div>
           </div>
         </div>
+
+        {/* Guest Contact Details (only when not logged in) */}
+        {!token && (
+          <div className="guest-fields-box">
+            <p className="guest-fields-label">📬 Where should we send your access link &amp; receipt?</p>
+            <div className="guest-inputs-grid">
+              <input
+                type="email"
+                className="guest-input"
+                placeholder="Email address (e.g. name@gmail.com)"
+                value={guestEmail}
+                onChange={(e) => setGuestEmail(e.target.value)}
+                required
+              />
+              <input
+                type="tel"
+                className="guest-input"
+                placeholder="WhatsApp / Mobile (e.g. 9876543210)"
+                value={guestPhone}
+                onChange={(e) => setGuestPhone(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Feature Checklist */}
         <div className="features-container">
@@ -490,6 +539,38 @@ export default function ProductCheckoutModal({
           font-size: 0.75rem;
           color: #666;
           margin: 0.15rem 0 0;
+        }
+        .guest-fields-box {
+          background: #fff8eb;
+          border: 1.5px solid #e0c896;
+          border-radius: 12px;
+          padding: 0.75rem 0.9rem;
+          margin-bottom: 1.1rem;
+        }
+        .guest-fields-label {
+          font-size: 0.76rem;
+          font-weight: 700;
+          color: #7c4a03;
+          margin: 0 0 0.5rem;
+        }
+        .guest-inputs-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+        .guest-input {
+          width: 100%;
+          padding: 0.55rem 0.75rem;
+          border: 1.5px solid #d4b87d;
+          border-radius: 8px;
+          font-size: 0.85rem;
+          background: #ffffff;
+          color: #171513;
+          outline: none;
+        }
+        .guest-input:focus {
+          border-color: #171513;
+          box-shadow: 0 0 0 2px rgba(23, 21, 19, 0.1);
         }
         .features-container {
           background: #fbf9f4;

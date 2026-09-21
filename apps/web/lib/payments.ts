@@ -13,6 +13,7 @@ export const UNLIMITED_QUIZ_PASS_KEY = 'cbse10-unlimited-quizzes-all';
 export const NCERT_ACTIVITY_DIAGRAM_PACK_KEY = 'cbse10-activity-diagram-pack';
 export const FORMULA_CHEATSHEET_PACK_KEY = 'cbse10-formula-cheatsheet-pack';
 export const ACTIVITY_FORMULA_COMBO_PACK_KEY = 'cbse10-activity-formula-combo';
+export const SCIENCE_CH1_5_PACK_KEY = 'cbse10-science-ch1-5-pack';
 
 export const FREE_DAILY_QUIZ_LIMIT = 3;
 
@@ -73,6 +74,18 @@ export function checkHasFormulaCheatsheetPack(entitlements: StudentEntitlementsR
   );
 }
 
+export function checkHasSciencePack(entitlements: StudentEntitlementsResponse | null): boolean {
+  if (!entitlements) return false;
+  if (entitlements.hasAllSubjects) return true;
+  return entitlements.entitlements.some(
+    (e) =>
+      (e.productKey === SCIENCE_CH1_5_PACK_KEY ||
+        e.productKey === 'cbse10-mock-pass-science' ||
+        e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY) &&
+      e.status === 'active',
+  );
+}
+
 
 export type CreateOrderResponse = {
   gateway?: 'cashfree' | 'razorpay';
@@ -95,6 +108,15 @@ export type VerifyPaymentResponse = {
   message: string;
   productKey?: string;
   subjectSlug?: string | null;
+  token?: string;
+  user?: {
+    id: string;
+    fullName: string;
+    email: string | null;
+    phone: string | null;
+    classLevel: number;
+    role: string;
+  };
 };
 
 async function apiFetch<T>(
@@ -177,10 +199,15 @@ export async function createPaymentOrder(
   token: string | null,
   productKey: string,
   subjectSlug?: string,
+  guestInfo?: {
+    guestEmail?: string;
+    guestPhone?: string;
+    guestName?: string;
+  },
 ): Promise<CreateOrderResponse | null> {
   return apiFetch<CreateOrderResponse>(token, '/v1/payments/create-order', {
     method: 'POST',
-    body: JSON.stringify({ productKey, subjectSlug }),
+    body: JSON.stringify({ productKey, subjectSlug, ...guestInfo }),
   });
 }
 
@@ -199,7 +226,7 @@ export async function verifyPayment(
   });
 
   if (res?.success) {
-    invalidatePaymentsCache(token);
+    invalidatePaymentsCache(token || res.token);
   }
 
   return res;
