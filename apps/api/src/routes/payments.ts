@@ -38,8 +38,73 @@ import {
   requireSessionUser,
 } from '../lib/session.js';
 import { UserRole } from '@prisma/client';
+import { sendEmail, buildPurchaseAccessEmailHtml } from '../lib/email.js';
 
 export const paymentsRouter = Router();
+
+/**
+ * Dispatches transactional email with direct access link to the purchaser.
+ */
+async function dispatchPurchaseAccessEmail({
+  email,
+  studentName,
+  productKey,
+  subjectSlug,
+  orderId,
+  amountPaise,
+  receipt,
+}: {
+  email?: string | null;
+  studentName?: string | null;
+  productKey: string;
+  subjectSlug?: string | null;
+  orderId: string;
+  amountPaise: number;
+  receipt?: string | null;
+}) {
+  if (!email || !email.includes('@')) return;
+
+  const product = findProductByKey(productKey, subjectSlug);
+  const productTitle = product?.title || 'Class 10 Revision Pack';
+
+  let accessUrl = 'https://www.chapterready.in/orders';
+  if (productKey === 'cbse10-formula-cheatsheet-pack') {
+    accessUrl = 'https://www.chapterready.in/formula-cheatsheets';
+  } else if (
+    productKey === 'cbse10-activity-diagram-pack' ||
+    productKey === 'cbse10-activity-formula-combo'
+  ) {
+    accessUrl = 'https://www.chapterready.in/activities-and-diagrams';
+  } else if (productKey === 'cbse10-science-ch1-5-pack') {
+    accessUrl = 'https://www.chapterready.in/science-pack';
+  } else if (
+    productKey === ALL_SUBJECTS_MOCK_PACK_KEY ||
+    productKey.startsWith('cbse10-mock-pass-')
+  ) {
+    accessUrl = 'https://www.chapterready.in/exam-papers';
+  }
+
+  const html = buildPurchaseAccessEmailHtml({
+    studentName: studentName || 'Student',
+    productTitle,
+    accessUrl,
+    orderId,
+    amountInr: Math.round(amountPaise / 100),
+    receiptNo: receipt,
+    userEmail: email,
+  });
+
+  try {
+    await sendEmail({
+      to: email,
+      subject: `🎉 Instant Access: Your ${productTitle} is Ready | ChapterReady`,
+      html,
+      text: `Your ${productTitle} is unlocked! Access your study material directly at: ${accessUrl}. Order ID: ${orderId}`,
+    });
+  } catch (err) {
+    console.error(`[PURCHASE_EMAIL_ERROR] Failed to send access email to ${email}:`, err);
+  }
+}
 
 /**
  * GET /v1/payments/products
@@ -479,6 +544,17 @@ paymentsRouter.post('/verify', async (req: Request, res: Response) => {
 
   const token = createUserSessionToken(user);
 
+  // Trigger instant purchase access email asynchronously
+  dispatchPurchaseAccessEmail({
+    email: user.email,
+    studentName: user.profile?.fullName,
+    productKey: paymentOrder.productKey,
+    subjectSlug: paymentOrder.subjectSlug,
+    orderId: targetOrderId,
+    amountPaise: paymentOrder.amount,
+    receipt: paymentOrder.receipt,
+  }).catch((err) => console.error('[PURCHASE_EMAIL_FAIL]', err));
+
   return res.json({
     success: true,
     message: 'Payment verified and entitlement activated successfully.',
@@ -534,6 +610,21 @@ paymentsRouter.post('/cashfree-webhook', async (req: Request, res: Response) => 
             razorpayPaymentId: data?.payment?.cf_payment_id ? String(data.payment.cf_payment_id) : `cf_${orderId}`,
           },
         });
+
+        const student = await prisma.user.findUnique({
+          where: { id: order.userId },
+          include: { profile: true },
+        });
+
+        dispatchPurchaseAccessEmail({
+          email: student?.email,
+          studentName: student?.profile?.fullName,
+          productKey: order.productKey,
+          subjectSlug: order.subjectSlug,
+          orderId: order.razorpayOrderId || orderId,
+          amountPaise: order.amount,
+          receipt: order.receipt,
+        }).catch((err) => console.error('[WEBHOOK_PURCHASE_EMAIL_FAIL]', err));
       }
     }
   }

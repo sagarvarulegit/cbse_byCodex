@@ -207,9 +207,9 @@ test('completeSatisfiedRevisionMissions completes stale active missions and retu
   const activeMission = { chapterId: 'chapter-2', id: 'mission-2', targetScore: 60 };
   const db = {
     revisionMission: {
-      update: async (args: { data: { completedAt: Date; status: string }; where: { id: string } }) => {
-        updateCalls.push(args);
-        return { ...staleMission, ...args.data };
+      updateMany: async (args: { data: { completedAt: Date; status: string }; where: { id: { in: string[] } } }) => {
+        args.where.id.in.forEach((id) => updateCalls.push({ data: args.data, where: { id } }));
+        return { count: args.where.id.in.length };
       },
     },
   } as unknown as CompleteMissionDb;

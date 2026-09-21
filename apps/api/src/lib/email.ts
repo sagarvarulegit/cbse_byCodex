@@ -369,3 +369,108 @@ export function buildFeedbackEmailHtml({
 </html>
 `;
 }
+
+/**
+ * Builds standard, clean HTML template for purchase confirmation and instant access.
+ */
+export function buildPurchaseAccessEmailHtml({
+  studentName,
+  productTitle,
+  accessUrl,
+  orderId,
+  amountInr,
+  receiptNo,
+  userEmail,
+}: {
+  studentName?: string | null;
+  productTitle: string;
+  accessUrl: string;
+  orderId: string;
+  amountInr: number;
+  receiptNo?: string | null;
+  userEmail: string;
+}): string {
+  const greeting = studentName ? `Hello ${studentName},` : 'Hello Student,';
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your ChapterReady Access is Ready</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fbf8f3; margin: 0; padding: 24px; color: #171513;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e7e2d6; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+    <tr>
+      <td style="padding: 28px 32px; background-color: #171513; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">ChapterReady</h1>
+        <p style="color: #ff8c37; margin: 4px 0 0 0; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">CBSE Class 10 Board Excellence</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 32px 32px 24px 32px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <span style="font-size: 44px; display: block; margin-bottom: 8px;">🎉</span>
+          <h2 style="font-size: 22px; font-weight: 800; color: #15803d; margin: 0 0 8px 0;">Payment Successful &amp; Unlocked!</h2>
+          <p style="font-size: 15px; color: #5d5750; margin: 0;">${greeting} your study pack is now active with instant access.</p>
+        </div>
+
+        <div style="background-color: #f8fbf8; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="6" style="font-size: 14px;">
+            <tr>
+              <td width="35%" style="color: #52525b; font-weight: 600;">Purchased Pack:</td>
+              <td style="color: #15803d; font-weight: 800; font-size: 15px;">${productTitle}</td>
+            </tr>
+            <tr>
+              <td style="color: #52525b; font-weight: 600;">Amount Paid:</td>
+              <td style="color: #171513; font-weight: 700;">₹${amountInr}</td>
+            </tr>
+            <tr>
+              <td style="color: #52525b; font-weight: 600;">Order Reference ID:</td>
+              <td style="color: #171513; font-family: monospace;">${orderId}</td>
+            </tr>
+            ${receiptNo ? `
+            <tr>
+              <td style="color: #52525b; font-weight: 600;">Receipt No:</td>
+              <td style="color: #171513; font-family: monospace;">${receiptNo}</td>
+            </tr>` : ''}
+            <tr>
+              <td style="color: #52525b; font-weight: 600;">Registered Email:</td>
+              <td style="color: #171513;">${userEmail}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 1-Click Access CTA Button -->
+        <div style="text-align: center; margin-bottom: 28px;">
+          <a href="${accessUrl}" style="background-color: #16a34a; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 16px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3);">
+            ⚡ Open Your Material Now →
+          </a>
+          <p style="font-size: 12px; color: #71717a; margin-top: 10px;">Click the button above to view your study sheets directly in your browser.</p>
+        </div>
+
+        <div style="border-top: 1px solid #e7e2d6; padding-top: 20px; font-size: 13px; color: #52525b; line-height: 1.6;">
+          <h3 style="font-size: 14px; font-weight: 700; color: #171513; margin: 0 0 8px 0;">📱 Studying on a Laptop or Tablet?</h3>
+          <p style="margin: 0 0 12px 0;">
+            You can access your purchases across all your devices anytime. Just visit <a href="${accessUrl}" style="color: #16a34a; font-weight: 600; text-decoration: underline;">${accessUrl}</a>. Your access is tied to your email <strong>${userEmail}</strong>.
+          </p>
+          <p style="margin: 0;">
+            🛡️ <strong>ChapterReady 48-Hour Guarantee:</strong> If you need any assistance, have questions, or need a subject swap, simply reply to this email or reach us at <a href="mailto:support@chapterready.in" style="color: #c25e00; text-decoration: none;">support@chapterready.in</a>.
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 16px 32px; background-color: #fbf8f3; border-top: 1px solid #e7e2d6; text-align: center;">
+        <p style="font-size: 12px; color: #8c8276; margin: 0; line-height: 1.4;">
+          ChapterReady India · Official CBSE Class 10 Learning Platform<br>
+          Order Management: <a href="https://www.chapterready.in/orders" style="color: #c25e00; text-decoration: none; font-weight: 600;">chapterready.in/orders</a>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+}
