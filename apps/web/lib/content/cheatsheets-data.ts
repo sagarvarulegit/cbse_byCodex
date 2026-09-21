@@ -1493,7 +1493,7 @@ export const CHAPTER_CHEATSHEETS_DATA: ChapterCheatsheet[] = [
       },
       {
         "label": "Contraception Classification",
-        "formulaLatex": "\\text{Barrier (Condom)}; \\; \\text{Chemical (Hormonal Pills)}; \\; \\text{Intrauterine (Copper-T)}; \\; \\text{Surgical (Vasectomy in } \\mars, \\text{ Tubectomy in } \\venus)"
+        "formulaLatex": "\\text{Barrier (Condom)}; \\; \\text{Chemical (Hormonal Pills)}; \\; \\text{Intrauterine (Copper-T)}; \\; \\text{Surgical (Vasectomy in Males, Tubectomy in Females)}"
       }
     ],
     "flashcards": [

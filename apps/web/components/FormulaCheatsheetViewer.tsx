@@ -269,15 +269,21 @@ export default function FormulaCheatsheetViewer({
             <div className="sheet-section formulas-section">
               <strong className="section-label">⚡ Master Formula Vault:</strong>
               <div className="formulas-grid">
-                {activeChapter.formulas.map((f, idx) => (
-                  <div key={idx} className="formula-card-item">
-                    <span className="formula-card-label">{f.label}</span>
-                    <div className="formula-math-render">
-                      <MathText text={`$$${f.formulaLatex}$$`} />
+                {activeChapter.formulas.map((f, idx) => {
+                  const isLong = (f.formulaLatex && f.formulaLatex.length > 55) || (f.label && f.label.length > 38);
+                  return (
+                    <div
+                      key={idx}
+                      className={`formula-card-item ${isLong ? 'formula-card-wide' : ''}`}
+                    >
+                      <span className="formula-card-label">{f.label}</span>
+                      <div className="formula-math-render">
+                        <MathText text={`$$${f.formulaLatex}$$`} />
+                      </div>
+                      {f.notes && <span className="formula-card-notes">ℹ️ {f.notes}</span>}
                     </div>
-                    {f.notes && <span className="formula-card-notes">ℹ️ {f.notes}</span>}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -701,18 +707,27 @@ export default function FormulaCheatsheetViewer({
         }
         .formulas-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1rem;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 0.85rem;
+        }
+        @media (min-width: 768px) {
+          .formulas-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
         .formula-card-item {
           background: #faf8f5;
           border: 1.5px solid #e7e2d6;
           border-radius: 12px;
-          padding: 0.9rem 1.1rem;
+          padding: 0.85rem 1.1rem;
           display: flex;
           flex-direction: column;
           gap: 0.35rem;
           user-select: none;
+          min-width: 0;
+        }
+        .formula-card-item.formula-card-wide {
+          grid-column: 1 / -1;
         }
         .formula-card-label {
           font-size: 0.82rem;
@@ -720,13 +735,32 @@ export default function FormulaCheatsheetViewer({
           color: #171513;
         }
         .formula-math-render {
-          font-size: 1.15rem;
-          margin: 0.2rem 0;
+          font-size: 1.02rem;
+          margin: 0.25rem 0;
+          width: 100%;
+          min-width: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .formula-math-render :global(.math-formula-display) {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: auto;
+          overflow-y: hidden;
+          padding: 0.2rem 0;
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
+        }
+        .formula-math-render :global(.katex-display) {
+          margin: 0.25em 0;
+          text-align: center;
         }
         .formula-card-notes {
           font-size: 0.75rem;
           color: #666;
           margin-top: auto;
+          line-height: 1.35;
         }
         .traps-section {
           background: #fff8f0;
@@ -948,21 +982,215 @@ export default function FormulaCheatsheetViewer({
           background: #b0410b;
         }
         @media print {
-          .no-print, .controls-toolbar, .chapter-pills-scroll, .cheatsheet-hero, .hero-cta-card, .flashcard-nav-buttons, .flashcard-status-bar {
+          /* 1. Hide all non-printable website chrome, floating widgets & controls */
+          :global(header),
+          :global(footer),
+          :global(nav),
+          :global(.student-topbar),
+          :global(.site-footer),
+          :global(button[aria-label="Give feedback"]),
+          :global([class*="Feedback"]),
+          :global([class*="feedback"]),
+          :global([class*="tara-"]),
+          :global([class*="Tara"]),
+          :global([id*="tara"]),
+          :global([class*="widget"]),
+          .no-print,
+          .controls-toolbar,
+          .chapter-pills-scroll,
+          .cheatsheet-hero,
+          .hero-cta-card,
+          .flashcard-nav-buttons,
+          .flashcard-status-bar {
             display: none !important;
           }
+
+          /* 2. Page & Root Layout: Starts Page 1 immediately at top with zero blank waste */
+          @page {
+            size: A4 portrait;
+            margin: 8mm 10mm;
+          }
+
+          :global(html),
+          :global(body),
+          :global(.cheatsheet-page-shell),
+          :global(main) {
+            background: #ffffff !important;
+            color: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+          }
+
+          .cheatsheet-viewer-container {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+
+          /* 3. Printable Sheet Container: Compact & Break-safe */
           .printable-sheet-card {
-            border: 1.5px solid #000 !important;
+            border: 1.5px solid #171513 !important;
             box-shadow: none !important;
-            padding: 1.25rem !important;
-            page-break-inside: avoid;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            margin: 0 !important;
+            background: #ffffff !important;
+            page-break-inside: auto !important;
+            break-inside: auto !important;
           }
+
           .watermark-overlay {
-            opacity: 0.08 !important;
-            font-size: 2.8rem !important;
+            opacity: 0.04 !important;
+            font-size: 1.8rem !important;
           }
+
+          .student-license-strip {
+            margin-bottom: 6px !important;
+            padding: 3px 8px !important;
+            font-size: 0.65rem !important;
+            border-color: #94a3b8 !important;
+            background: #f8fafc !important;
+          }
+
+          .sheet-header {
+            padding-bottom: 5px !important;
+            margin-bottom: 6px !important;
+            border-bottom: 1.5px solid #171513 !important;
+          }
+
+          .sheet-subject-tag {
+            font-size: 0.65rem !important;
+          }
+
+          .sheet-title {
+            font-size: 1.18rem !important;
+            margin: 0.1rem 0 !important;
+          }
+
+          .sheet-summary {
+            font-size: 0.72rem !important;
+            line-height: 1.25 !important;
+            color: #444 !important;
+          }
+
+          .sheet-section {
+            margin-bottom: 7px !important;
+          }
+
+          .section-label {
+            font-size: 0.78rem !important;
+            margin-bottom: 3px !important;
+          }
+
+          .rules-list, .traps-list {
+            padding-left: 1.1rem !important;
+            font-size: 0.74rem !important;
+            line-height: 1.3 !important;
+          }
+
+          .rules-list li, .traps-list li {
+            margin-bottom: 2px !important;
+          }
+
+          /* 4. Formulas Grid in Print: 2 neat balanced columns, full-width for wide formulas */
+          .formulas-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 6px !important;
+          }
+
+          .formula-card-item {
+            padding: 5px 8px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 6px !important;
+            background: #fafaf9 !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+
+          .formula-card-item.formula-card-wide {
+            grid-column: 1 / -1 !important;
+          }
+
+          .formula-card-label {
+            font-size: 0.68rem !important;
+            font-weight: 800 !important;
+          }
+
+          .formula-math-render {
+            font-size: 0.85rem !important;
+            margin: 1px 0 !important;
+          }
+
+          .formula-card-notes {
+            font-size: 0.62rem !important;
+            color: #555 !important;
+            line-height: 1.2 !important;
+          }
+
+          .traps-section {
+            padding: 5px 8px !important;
+            border: 1px solid #fed7aa !important;
+            border-radius: 6px !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+
           .sheet-print-footer {
             display: flex !important;
+            margin-top: 8px !important;
+            padding-top: 5px !important;
+            border-top: 1.5px dashed #94a3b8 !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+
+          .print-footer-left strong {
+            font-size: 0.75rem !important;
+          }
+
+          .print-footer-left p {
+            font-size: 0.68rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 2px !important;
+          }
+
+          .print-legal-notice {
+            font-size: 0.6rem !important;
+          }
+
+          .qr-badge {
+            font-size: 0.55rem !important;
+            padding: 1px 4px !important;
+          }
+
+          .qr-box-mock {
+            padding: 2px 5px !important;
+            font-size: 0.62rem !important;
+          }
+
+          /* 5. Zero Scrollbars, Zero Clipping in Print: formulas render 100% visible */
+          :global(.math-formula),
+          :global(.math-formula-display),
+          .formula-math-render,
+          .formula-card-item,
+          :global(.katex-display),
+          :global(.katex),
+          :global(.katex-html) {
+            overflow: visible !important;
+            overflow-x: visible !important;
+            overflow-y: visible !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+          }
+
+          :global(.math-formula-display)::-webkit-scrollbar,
+          .formula-math-render::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
           }
         }
       `}</style>
