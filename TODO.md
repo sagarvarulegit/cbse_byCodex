@@ -1,3 +1,13 @@
+# Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
+
+- [x] Established mandatory **Frequent Git Commit & Remote Push Policy** in `AGENTS.md` and `.agents/rules/cbse_dev_invariants.md`.
+  - Guarantees all meaningful progress is committed and pushed to `origin/main` immediately so work can resume seamlessly across machines (e.g., office laptop vs. home machine).
+  - Sanitized scripts to ensure no credentials or plain-text passwords are leaked.
+- [x] Committed and pushed Playwright test infrastructure, audit scripts, specs, and agent skills (`0531e8b`).
+- [ ] **Next Task in Line**:
+  - P0 Money Path verification: complete real ₹2 test transaction once live credentials / Supabase are unpaused.
+  - YouTube Shorts engine: script first 3 high-converting hook Shorts for `/science-pack`.
+
 # Current Handoff - P0 Money Path & P1 Single Flagship Product Launch (Active Sprint)
 
 - [ ] **P0: Fix the Money Path (Frictionless Conversion Engine)**:
