@@ -20,13 +20,248 @@ export type WeakAreaDiagnosticsCardProps = {
     total: number;
     paperTitle: string;
   } | null;
+  deckMode?: boolean;
 };
 
 export default function WeakAreaDiagnosticsCard({
   diagnostics,
   pendingMistakesCount,
   latestMockScore,
+  deckMode = false,
 }: WeakAreaDiagnosticsCardProps) {
+  if (deckMode) {
+    return (
+      <div className="diagnostic-card deck-card">
+        <div>
+          <div className="card-topline">
+            <span className="card-tag">⚠️ Diagnostic Radar</span>
+            <Link href="/my-mistakes" className="deck-vault-link">
+              Spaced Vault ({pendingMistakesCount}) →
+            </Link>
+          </div>
+          <h3 style={{ fontSize: '1.2rem', margin: '0 0 0.25rem 0' }}>Struggling Concepts &amp; Chapter Gaps</h3>
+          <p className="card-subtext" style={{ margin: '0 0 0.85rem 0', fontSize: '0.8125rem' }}>
+            Topics where you missed questions in recent board quizzes or mock papers:
+          </p>
+
+          {diagnostics.length > 0 ? (
+            <div className="weak-items-list" style={{ gap: '0.65rem' }}>
+              {diagnostics.slice(0, 2).map((item) => (
+                <div className="weak-item-row" key={item.chapterSlug} style={{ padding: '0.65rem 0.85rem' }}>
+                  <div className="weak-item-info">
+                    <div className="subject-tag-row">
+                      <span className="subject-pill">{item.subjectName}</span>
+                      {item.priority === 'high' && (
+                        <span className="priority-pill">High Priority</span>
+                      )}
+                    </div>
+                    <strong style={{ fontSize: '0.875rem' }}>{item.chapterTitle}</strong>
+                    <span className="issue-text" style={{ fontSize: '0.72rem' }}>{item.issueReason}</span>
+                  </div>
+                  <Link href={item.remedialHref} className="recap-btn" style={{ fontSize: '0.75rem', padding: '0.4rem 0.7rem' }}>
+                    🚀 Recap →
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="all-clear-state" style={{ padding: '0.85rem 1rem' }}>
+              <span className="all-clear-icon" style={{ fontSize: '1.5rem' }}>🎉</span>
+              <div>
+                <strong style={{ fontSize: '0.875rem' }}>No Major Chapter Weaknesses Detected!</strong>
+                <p style={{ fontSize: '0.75rem' }}>Solid accuracy across recent quizzes. Take Mock Paper 1 to test full board readiness.</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Quick Sub-Actions Strip */}
+        <div className="deck-actions-strip">
+          <div className="deck-vault-chip">
+            <span style={{ fontSize: '1.25rem' }}>🎯</span>
+            <div>
+              <span style={{ fontSize: '0.7rem', color: '#787168', display: 'block', fontWeight: 800, textTransform: 'uppercase' }}>Mistake Vault</span>
+              <strong style={{ fontSize: '0.8125rem', color: '#171513' }}>
+                {pendingMistakesCount > 0 ? `${pendingMistakesCount} Due for Spaced Review` : 'All Caught Up!'}
+              </strong>
+            </div>
+          </div>
+
+          <Link href="/exam-papers" className="btn-deck-mock">
+            {latestMockScore ? `Last Mock: ${latestMockScore.earned}/${latestMockScore.total}` : '📄 Mock Paper 1 (Free) →'}
+          </Link>
+        </div>
+
+        <style jsx>{`
+          .diagnostic-card.deck-card {
+            background: #ffffff;
+            border: 2px solid #171513;
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: 6px 6px 0 #171513;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.85rem;
+          }
+
+          .card-topline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+          }
+
+          .card-tag {
+            font-size: 0.6875rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #fca5a5;
+          }
+
+          .deck-vault-link {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #c25e00;
+            text-decoration: none;
+          }
+
+          .deck-vault-link:hover {
+            text-decoration: underline;
+          }
+
+          .card-subtext {
+            color: #5d5750;
+            line-height: 1.45;
+          }
+
+          .weak-items-list {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .weak-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fbf8f3;
+            border: 1.5px solid #e7e2d6;
+            border-radius: 12px;
+          }
+
+          .weak-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+          }
+
+          .subject-tag-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+          }
+
+          .subject-pill {
+            font-size: 0.6875rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #5d5750;
+          }
+
+          .priority-pill {
+            font-size: 0.625rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: #fef2f2;
+            color: #b91c1c;
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+          }
+
+          .issue-text {
+            color: #787168;
+          }
+
+          .recap-btn {
+            font-weight: 800;
+            color: #ffffff;
+            background: #171513;
+            border-radius: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.15s;
+          }
+
+          .recap-btn:hover {
+            background: #c25e00;
+          }
+
+          .all-clear-state {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #effaf3;
+            border: 1.5px solid #bbf7d0;
+            border-radius: 12px;
+          }
+
+          .all-clear-state strong {
+            color: #166534;
+            display: block;
+            margin-bottom: 0.2rem;
+          }
+
+          .all-clear-state p {
+            color: #15803d;
+            line-height: 1.35;
+            margin: 0;
+          }
+
+          .deck-actions-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            background: #fbf8f3;
+            border: 1.5px solid #e7e2d6;
+            border-radius: 12px;
+            padding: 0.65rem 0.85rem;
+            margin-top: 0.5rem;
+          }
+
+          .deck-vault-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+
+          .btn-deck-mock {
+            background: #171513;
+            color: #ffffff;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.12s;
+          }
+
+          .btn-deck-mock:hover {
+            background: #c25e00;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
     <section className="diagnostics-section" aria-label="Performance Insights & Weak Area Diagnostics">
       <div className="section-header">

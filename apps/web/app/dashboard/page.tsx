@@ -4,8 +4,9 @@ import BoardReadinessGauge from '../../components/BoardReadinessGauge';
 import NewStudentStarterQuest from '../../components/NewStudentStarterQuest';
 import PilotFeedbackForm from '../../components/PilotFeedbackForm';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
+import QuickToolsLaunchpad from '../../components/QuickToolsLaunchpad';
 import StudentTopbar from '../../components/StudentTopbar';
-import StudyRemixDashboard from '../../components/StudyRemixDashboard';
+import TodayStudyMissionCard from '../../components/TodayStudyMissionCard';
 import WeakAreaDiagnosticsCard, { type DiagnosticItem } from '../../components/WeakAreaDiagnosticsCard';
 import remixStyles from '../../components/study-remix.module.css';
 import studioStyles from '../../components/dashboard-studio.module.css';
@@ -151,35 +152,22 @@ export default async function DashboardPage() {
       />
 
       <div className={studioStyles.studioContainer}>
-        {/* ACTIVE PURCHASES QUICK ACCESS BANNER */}
+        {/* COMPACT ACTIVE PURCHASES QUICK ACCESS RIBBON */}
         {entitlementsData && entitlementsData.entitlements.some((e) => e.status === 'active') ? (
-          <section aria-label="Active Purchases" style={{ marginBottom: '1.5rem' }}>
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
-                border: '1px solid #86efac',
-                borderRadius: '16px',
-                padding: '1.1rem 1.4rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '1rem',
-                boxShadow: '0 2px 8px rgba(22, 101, 52, 0.08)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                <span style={{ fontSize: '2rem' }}>🎉</span>
+          <section aria-label="Active Purchases">
+            <div className={studioStyles.activePurchasesBar}>
+              <div className={studioStyles.activePurchasesLeft}>
+                <span style={{ fontSize: '1.25rem' }}>🎉</span>
                 <div>
-                  <strong style={{ color: '#14532d', fontSize: '1.05rem', display: 'block' }}>
-                    Active Study Packs ({entitlementsData.entitlements.filter((e) => e.status === 'active').length})
+                  <strong className={studioStyles.activePurchasesTitle}>
+                    Active Study Packs ({entitlementsData.entitlements.filter((e) => e.status === 'active').length} Unlocked)
                   </strong>
-                  <span style={{ color: '#166534', fontSize: '0.875rem' }}>
-                    Your purchased revision packs and tests are unlocked with lifetime access.
+                  <span className={studioStyles.activePurchasesSubtitle}>
+                    {' '}— Lifetime board revision access active
                   </span>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div className={studioStyles.activePurchasesPills}>
                 {entitlementsData.entitlements.some(
                   (e) =>
                     (e.productKey === 'cbse10-formula-cheatsheet-pack' ||
@@ -188,18 +176,9 @@ export default async function DashboardPage() {
                 ) && (
                   <Link
                     href="/formula-cheatsheets"
-                    style={{
-                      background: '#16a34a',
-                      color: '#ffffff',
-                      padding: '0.55rem 1.1rem',
-                      borderRadius: '8px',
-                      fontWeight: 700,
-                      fontSize: '0.9rem',
-                      textDecoration: 'none',
-                      boxShadow: '0 2px 4px rgba(22, 163, 74, 0.25)',
-                    }}
+                    className={studioStyles.activePillGreen}
                   >
-                    ⚡ Open Formula Cheatsheets →
+                    ⚡ Formula Cheatsheets →
                   </Link>
                 )}
                 {entitlementsData.entitlements.some(
@@ -210,17 +189,9 @@ export default async function DashboardPage() {
                 ) && (
                   <Link
                     href="/activities-and-diagrams"
-                    style={{
-                      background: '#0284c7',
-                      color: '#ffffff',
-                      padding: '0.55rem 1.1rem',
-                      borderRadius: '8px',
-                      fontWeight: 700,
-                      fontSize: '0.9rem',
-                      textDecoration: 'none',
-                    }}
+                    className={studioStyles.activePillBlue}
                   >
-                    🔬 Open NCERT Activities →
+                    🔬 NCERT Activities →
                   </Link>
                 )}
                 {entitlementsData.entitlements.some(
@@ -232,31 +203,14 @@ export default async function DashboardPage() {
                 ) && (
                   <Link
                     href="/science-pack"
-                    style={{
-                      background: '#c95014',
-                      color: '#ffffff',
-                      padding: '0.55rem 1.1rem',
-                      borderRadius: '8px',
-                      fontWeight: 700,
-                      fontSize: '0.9rem',
-                      textDecoration: 'none',
-                    }}
+                    className={studioStyles.activePillOrange}
                   >
                     🧪 Science Ch 1–5 Pack →
                   </Link>
                 )}
                 <Link
                   href="/orders"
-                  style={{
-                    background: '#ffffff',
-                    border: '1px solid #cbd5e1',
-                    color: '#334155',
-                    padding: '0.55rem 1rem',
-                    borderRadius: '8px',
-                    fontWeight: 600,
-                    fontSize: '0.85rem',
-                    textDecoration: 'none',
-                  }}
+                  className={studioStyles.activePillNeutral}
                 >
                   📦 All Purchases &amp; Receipts
                 </Link>
@@ -265,118 +219,14 @@ export default async function DashboardPage() {
           </section>
         ) : null}
 
-        {/* ZONE 0: NEW STUDENT STARTER QUEST (DAY 1 QUICK WIN HERO) */}
+        {/* ZONE 1: MOMENTUM & TODAY'S MISSION HERO */}
         {isNewStudent ? (
           <NewStudentStarterQuest studentName={session.fullName} />
-        ) : null}
+        ) : (
+          <TodayStudyMissionCard studentName={session.fullName} />
+        )}
 
-        {/* HERO: REAL-TIME BOARD EXAM READINESS GAUGE */}
-        <section aria-label="Board Readiness Overview">
-          <BoardReadinessGauge
-            scorePercent={compositeReadinessPercent}
-            quizScorePercent={quizScorePercent}
-            mockScorePercent={mockScorePercent}
-            chaptersCompleted={chaptersCompleted}
-            totalChapters={totalChapters}
-            streakDays={mastery.streak?.currentStreakDays ?? 0}
-            isNewStudent={isNewStudent}
-          />
-        </section>
-
-        {/* ZONE 1: THE SIGNATURE STUDY JUKEBOX (HERO TRACKS) */}
-        <section aria-label="Study Jukebox & Focus Mix">
-          <StudyRemixDashboard model={remixModel} />
-        </section>
-
-        {/* ARCADE POWER BREAK */}
-        <section className="dashboard-arcade-banner" aria-label="Arcade Power Break">
-          <div className="arcade-banner-content">
-            <span className="arcade-banner-badge">🎮 3-MIN STUDY BREAK</span>
-            <h3>Need a fast brain recharge? Play Formula Rush!</h3>
-            <p>Drill high-yield Maths &amp; Science formulas in 60-second blitzes. Build muscle memory for board exams.</p>
-          </div>
-          <Link className="arcade-banner-btn" href="/games/formula-rush">
-            ⚡ Play Formula Rush →
-          </Link>
-        </section>
-
-        {/* ZONE 2: PERFORMANCE INSIGHTS & WEAK AREA DIAGNOSTICS */}
-        <WeakAreaDiagnosticsCard
-          diagnostics={diagnostics}
-          pendingMistakesCount={activeMissions.length}
-          latestMockScore={latestMockScore}
-        />
-
-        {/* BOARD REVISION COMPANIONS HIGHLIGHT */}
-        <section style={{
-          background: 'linear-gradient(135deg, #fffaf0, #feebc8)',
-          border: '2.5px solid #171513',
-          borderRadius: '18px',
-          padding: '1.25rem 1.5rem',
-          margin: '1.5rem 0',
-          boxShadow: '4px 4px 0 #171513',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '1.25rem',
-          flexWrap: 'wrap',
-        }}>
-          <div>
-            <span style={{
-              background: '#c25e00',
-              color: '#fff',
-              fontSize: '0.72rem',
-              fontWeight: 900,
-              padding: '0.15rem 0.55rem',
-              borderRadius: '999px',
-              textTransform: 'uppercase',
-              display: 'inline-block',
-              marginBottom: '0.35rem'
-            }}>
-              ⚡ Micro-Revision Packs
-            </span>
-            <h3 style={{ margin: '0 0 4px', fontSize: '1.15rem', fontWeight: 900, color: '#171513' }}>
-              Master NCERT Activities &amp; 1-Page Formula Sheets
-            </h3>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>
-              Directly targeted tools for rapid board recall under ₹99.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <Link
-              href="/activities-and-diagrams"
-              style={{
-                background: '#171513',
-                color: '#fff',
-                padding: '0.65rem 1.15rem',
-                borderRadius: '10px',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                textDecoration: 'none',
-                boxShadow: '2px 2px 0 rgba(0,0,0,0.2)'
-              }}
-            >
-              🔬 NCERT Activities (₹99) →
-            </Link>
-            <Link
-              href="/formula-cheatsheets"
-              style={{
-                background: '#0b7a48',
-                color: '#fff',
-                padding: '0.65rem 1.15rem',
-                borderRadius: '10px',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                textDecoration: 'none',
-                boxShadow: '2px 2px 0 rgba(0,0,0,0.2)'
-              }}
-            >
-              ⚡ Formula Sheets (₹49) →
-            </Link>
-          </div>
-        </section>
-
-        {/* ZONE 3: 4 CORE BOARD SUBJECT STATIONS */}
+        {/* ZONE 2: 4 CORE BOARD SUBJECTS HUB (PROMOTED TO TOP) */}
         <section className={studioStyles.subjectsSection} aria-label="Core CBSE Board Subjects">
           <div className={studioStyles.sectionHeader}>
             <div className={studioStyles.sectionTitleGroup}>
@@ -389,47 +239,97 @@ export default async function DashboardPage() {
           </div>
 
           <div className={studioStyles.subjectsGrid}>
-            {coreSubjects.map((subject) => (
-              <article className={studioStyles.subjectStationCard} key={subject.slug}>
-                <div>
-                  <div className={studioStyles.subjectTopline}>
-                    <span className={studioStyles.subjectCodeBadge}>Code {subject.subjectCode}</span>
-                    <span className={studioStyles.subjectStatusText}>
-                      {subject.availableCount > 0 ? `${subject.availableCount} Chapters Live` : 'Coming Soon'}
-                    </span>
-                  </div>
-                  <h3>{subject.title}</h3>
-                  <p>{subject.description}</p>
-                </div>
+            {coreSubjects.map((subject) => {
+              const completedCount = mastery.masteries.filter((m) =>
+                m.subjectName.toLowerCase().includes(subject.title.toLowerCase()) && m.masteryScore > 0,
+              ).length;
+              const progressPct = subject.chapterCount > 0 ? Math.min(100, Math.round((completedCount / subject.chapterCount) * 100)) : 0;
 
-                <div>
-                  <div className={studioStyles.subjectMetaRow}>
-                    <span>{subject.chapterCount} Syllabus Units</span>
-                    <span>•</span>
-                    <span>NCERT Aligned</span>
+              return (
+                <article className={studioStyles.subjectStationCard} key={subject.slug}>
+                  <div>
+                    <div className={studioStyles.subjectTopline}>
+                      <span className={studioStyles.subjectCodeBadge}>Code {subject.subjectCode}</span>
+                      <span className={studioStyles.subjectStatusText}>
+                        {completedCount > 0 ? `${completedCount}/${subject.chapterCount} Mastered` : `${subject.availableCount} Chapters Live`}
+                      </span>
+                    </div>
+                    <h3>{subject.title}</h3>
+                    <p>{subject.description}</p>
                   </div>
 
-                  <div className={studioStyles.subjectActionButtons}>
-                    <Link
-                      className={studioStyles.btnNotes}
-                      href={`/subjects/${subject.slug}`}
-                    >
-                      📖 Notes
-                    </Link>
-                    <Link
-                      className={studioStyles.btnMock}
-                      href="/exam-papers"
-                    >
-                      📄 Mock Papers
-                    </Link>
+                  <div>
+                    <div className={studioStyles.subjectMetaRow}>
+                      <span>{subject.chapterCount} Units</span>
+                      <span>•</span>
+                      <span>{progressPct > 0 ? `${progressPct}% Covered` : 'NCERT Aligned'}</span>
+                    </div>
+
+                    <div className={studioStyles.subjectProgressBarWrap}>
+                      <div
+                        className={studioStyles.subjectProgressBarFill}
+                        style={{ width: `${Math.max(progressPct > 0 ? progressPct : 4, 4)}%`, opacity: progressPct > 0 ? 1 : 0.25 }}
+                      />
+                    </div>
+
+                    <div className={studioStyles.subjectActionButtons}>
+                      <Link
+                        className={studioStyles.btnNotes}
+                        href={`/subjects/${subject.slug}`}
+                      >
+                        📖 Notes
+                      </Link>
+                      <Link
+                        className={studioStyles.btnMock}
+                        href="/exam-papers"
+                      >
+                        📄 Mock Papers
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        {/* ZONE 4: STUDIO TROPHIES & MILESTONES SHELF */}
+        {/* ZONE 3: TWO-COLUMN PERFORMANCE & DIAGNOSTICS DECK */}
+        <section className={studioStyles.performanceDeckSection} aria-label="Performance and Diagnostics Deck">
+          <div className={studioStyles.sectionHeader}>
+            <div className={studioStyles.sectionTitleGroup}>
+              <p>Continuous Evaluation</p>
+              <h2>Board Exam Readiness &amp; Action Plan</h2>
+            </div>
+            <Link className={studioStyles.secondaryActionLink} href="/my-mistakes">
+              Open Mistake Vault →
+            </Link>
+          </div>
+
+          <div className={studioStyles.performanceGrid}>
+            <BoardReadinessGauge
+              scorePercent={compositeReadinessPercent}
+              quizScorePercent={quizScorePercent}
+              mockScorePercent={mockScorePercent}
+              chaptersCompleted={chaptersCompleted}
+              totalChapters={totalChapters}
+              streakDays={mastery.streak?.currentStreakDays ?? 0}
+              isNewStudent={isNewStudent}
+              deckMode
+            />
+
+            <WeakAreaDiagnosticsCard
+              diagnostics={diagnostics}
+              pendingMistakesCount={activeMissions.length}
+              latestMockScore={latestMockScore}
+              deckMode
+            />
+          </div>
+        </section>
+
+        {/* ZONE 4: HIGH-YIELD PRACTICE & REVISION BOOSTERS */}
+        <QuickToolsLaunchpad />
+
+        {/* ZONE 5: STUDIO TROPHIES & MILESTONES SHELF */}
         <section className={studioStyles.milestonesShelf} aria-label="Studio Trophies and Milestones">
           <div className={studioStyles.sectionTitleGroup}>
             <p>Personal Mastery</p>
@@ -473,7 +373,7 @@ export default async function DashboardPage() {
           </div>
         </section>
 
-        {/* ZONE 5: ACCOUNT DETAILS & FEEDBACK (COMPACT) */}
+        {/* ZONE 6: ACCOUNT DETAILS & FEEDBACK (COMPACT) */}
         <details className={studioStyles.accountToolsDetails}>
           <summary className={studioStyles.accountToolsSummary}>
             <span>Account Profile &amp; Pilot Feedback</span>

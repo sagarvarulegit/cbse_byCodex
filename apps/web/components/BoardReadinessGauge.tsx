@@ -11,6 +11,7 @@ export type BoardReadinessGaugeProps = {
   totalChapters: number;
   streakDays: number;
   isNewStudent?: boolean;
+  deckMode?: boolean;
 };
 
 export default function BoardReadinessGauge({
@@ -21,6 +22,7 @@ export default function BoardReadinessGauge({
   totalChapters,
   streakDays,
   isNewStudent,
+  deckMode = false,
 }: BoardReadinessGaugeProps) {
   const isBrandNew = isNewStudent || (quizScorePercent === 0 && chaptersCompleted === 0 && mockScorePercent === null);
 
@@ -57,78 +59,156 @@ export default function BoardReadinessGauge({
   const strokeDashoffset = circumference - (Math.min(100, Math.max(5, scorePercent)) / 100) * circumference;
 
   return (
-    <div className="readiness-banner">
-      {/* Left side: Circular Gauge */}
-      <div className="gauge-visual-wrap">
-        <div className="gauge-svg-container">
-          <svg width="130" height="130" viewBox="0 0 130 130" className="gauge-svg">
-            <circle
-              cx="65"
-              cy="65"
-              r={radius}
-              className="gauge-bg-ring"
-              strokeWidth="10"
-            />
-            <circle
-              cx="65"
-              cy="65"
-              r={radius}
-              className="gauge-progress-ring"
-              strokeWidth="10"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              stroke={gaugeColor}
-              strokeLinecap="round"
-              transform="rotate(-90 65 65)"
-            />
-          </svg>
-          <div className="gauge-center-text">
-            <span className="score-number">{isBrandNew ? 'Day 1' : `${Math.round(scorePercent)}%`}</span>
-            <span className="score-subtext">{isBrandNew ? 'Starter' : 'Readiness'}</span>
-          </div>
-        </div>
-      </div>
+    <div className={`readiness-banner ${deckMode ? 'deck-mode' : ''}`}>
+      {deckMode ? (
+        <>
+          <div className="deck-top-row">
+            <div className="gauge-visual-wrap">
+              <div className="gauge-svg-container">
+                <svg width="110" height="110" viewBox="0 0 130 130" className="gauge-svg">
+                  <circle
+                    cx="65"
+                    cy="65"
+                    r={radius}
+                    className="gauge-bg-ring"
+                    strokeWidth="10"
+                  />
+                  <circle
+                    cx="65"
+                    cy="65"
+                    r={radius}
+                    className="gauge-progress-ring"
+                    strokeWidth="10"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    stroke={gaugeColor}
+                    strokeLinecap="round"
+                    transform="rotate(-90 65 65)"
+                  />
+                </svg>
+                <div className="gauge-center-text">
+                  <span className="score-number" style={{ fontSize: '1.85rem' }}>{isBrandNew ? 'Day 1' : `${Math.round(scorePercent)}%`}</span>
+                  <span className="score-subtext">{isBrandNew ? 'Starter' : 'Readiness'}</span>
+                </div>
+              </div>
+            </div>
 
-      {/* Middle side: Main Assessment & Diagnosis */}
-      <div className="readiness-details">
-        <div className="readiness-topline">
-          <span className="assessment-eyebrow">Real-Time Board Exam Readiness</span>
-          <span className={`tier-badge ${tierBadgeClass}`}>{tierLabel}</span>
-        </div>
-        <h2>Class 10 CBSE Board Readiness Index</h2>
-        <p className="tier-desc">{tierDescription}</p>
-
-        {/* 3 Pillar Micro-Stats */}
-        <div className="pillars-grid">
-          <div className="pillar-item">
-            <span className="pillar-label">Quiz Mastery</span>
-            <strong className="pillar-value">{quizScorePercent > 0 ? `${Math.round(quizScorePercent)}%` : 'Not Started'}</strong>
-            <span className="pillar-hint">NCERT Questions</span>
+            <div className="readiness-details">
+              <div className="readiness-topline">
+                <span className="assessment-eyebrow">Board Exam Readiness</span>
+                <span className={`tier-badge ${tierBadgeClass}`}>{tierLabel}</span>
+              </div>
+              <h2 style={{ fontSize: '1.2rem', margin: '0 0 0.25rem 0' }}>Class 10 CBSE Readiness Index</h2>
+              <p className="tier-desc" style={{ margin: 0, fontSize: '0.8125rem' }}>{tierDescription}</p>
+            </div>
           </div>
 
-          <div className="pillar-item">
-            <span className="pillar-label">Mock Exam Avg</span>
-            <strong className="pillar-value">
-              {mockScorePercent !== null ? `${Math.round(mockScorePercent)}%` : 'Paper 1 Free'}
-            </strong>
-            <span className="pillar-hint">80-Mark Board Papers</span>
+          {/* 4 Pillar Micro-Stats in 2x2 Grid */}
+          <div className="pillars-grid">
+            <div className="pillar-item">
+              <span className="pillar-label">Quiz Mastery</span>
+              <strong className="pillar-value">{quizScorePercent > 0 ? `${Math.round(quizScorePercent)}%` : 'Not Started'}</strong>
+              <span className="pillar-hint">NCERT Questions</span>
+            </div>
+
+            <div className="pillar-item">
+              <span className="pillar-label">Mock Exam Avg</span>
+              <strong className="pillar-value">
+                {mockScorePercent !== null ? `${Math.round(mockScorePercent)}%` : 'Paper 1 Free'}
+              </strong>
+              <span className="pillar-hint">80-Mark Papers</span>
+            </div>
+
+            <div className="pillar-item">
+              <span className="pillar-label">Syllabus Covered</span>
+              <strong className="pillar-value">
+                {chaptersCompleted} <small>/ {totalChapters}</small>
+              </strong>
+              <span className="pillar-hint">Core Chapters</span>
+            </div>
+
+            <div className="pillar-item">
+              <span className="pillar-label">Study Streak</span>
+              <strong className="pillar-value">{streakDays} Day{streakDays === 1 ? '' : 's'} 🔥</strong>
+              <span className="pillar-hint">Consistency</span>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Left side: Circular Gauge */}
+          <div className="gauge-visual-wrap">
+            <div className="gauge-svg-container">
+              <svg width="130" height="130" viewBox="0 0 130 130" className="gauge-svg">
+                <circle
+                  cx="65"
+                  cy="65"
+                  r={radius}
+                  className="gauge-bg-ring"
+                  strokeWidth="10"
+                />
+                <circle
+                  cx="65"
+                  cy="65"
+                  r={radius}
+                  className="gauge-progress-ring"
+                  strokeWidth="10"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  stroke={gaugeColor}
+                  strokeLinecap="round"
+                  transform="rotate(-90 65 65)"
+                />
+              </svg>
+              <div className="gauge-center-text">
+                <span className="score-number">{isBrandNew ? 'Day 1' : `${Math.round(scorePercent)}%`}</span>
+                <span className="score-subtext">{isBrandNew ? 'Starter' : 'Readiness'}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="pillar-item">
-            <span className="pillar-label">Syllabus Covered</span>
-            <strong className="pillar-value">
-              {chaptersCompleted} <small>/ {totalChapters}</small>
-            </strong>
-            <span className="pillar-hint">Core Chapters</span>
-          </div>
+          {/* Middle side: Main Assessment & Diagnosis */}
+          <div className="readiness-details">
+            <div className="readiness-topline">
+              <span className="assessment-eyebrow">Real-Time Board Exam Readiness</span>
+              <span className={`tier-badge ${tierBadgeClass}`}>{tierLabel}</span>
+            </div>
+            <h2>Class 10 CBSE Board Readiness Index</h2>
+            <p className="tier-desc">{tierDescription}</p>
 
-          <div className="pillar-item">
-            <span className="pillar-label">Study Streak</span>
-            <strong className="pillar-value">{streakDays} Day{streakDays === 1 ? '' : 's'} 🔥</strong>
-            <span className="pillar-hint">Active Consistency</span>
+            {/* 3 Pillar Micro-Stats */}
+            <div className="pillars-grid">
+              <div className="pillar-item">
+                <span className="pillar-label">Quiz Mastery</span>
+                <strong className="pillar-value">{quizScorePercent > 0 ? `${Math.round(quizScorePercent)}%` : 'Not Started'}</strong>
+                <span className="pillar-hint">NCERT Questions</span>
+              </div>
+
+              <div className="pillar-item">
+                <span className="pillar-label">Mock Exam Avg</span>
+                <strong className="pillar-value">
+                  {mockScorePercent !== null ? `${Math.round(mockScorePercent)}%` : 'Paper 1 Free'}
+                </strong>
+                <span className="pillar-hint">80-Mark Board Papers</span>
+              </div>
+
+              <div className="pillar-item">
+                <span className="pillar-label">Syllabus Covered</span>
+                <strong className="pillar-value">
+                  {chaptersCompleted} <small>/ {totalChapters}</small>
+                </strong>
+                <span className="pillar-hint">Core Chapters</span>
+              </div>
+
+              <div className="pillar-item">
+                <span className="pillar-label">Study Streak</span>
+                <strong className="pillar-value">{streakDays} Day{streakDays === 1 ? '' : 's'} 🔥</strong>
+                <span className="pillar-hint">Active Consistency</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
 
       <style jsx>{`
         .readiness-banner {
@@ -143,6 +223,28 @@ export default function BoardReadinessGauge({
           margin-bottom: 2.5rem;
           position: relative;
           overflow: hidden;
+        }
+
+        .readiness-banner.deck-mode {
+          margin-bottom: 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: space-between;
+          padding: 1.5rem 1.6rem;
+          gap: 1.25rem;
+        }
+
+        .deck-top-row {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+        }
+
+        .readiness-banner.deck-mode .pillars-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.75rem;
         }
 
         .gauge-visual-wrap {
