@@ -474,3 +474,208 @@ export function buildPurchaseAccessEmailHtml({
 </html>
 `;
 }
+
+/**
+ * Builds welcoming onboarding email sent immediately upon student registration.
+ */
+export function buildStudentWelcomeEmailHtml({
+  studentName,
+  userEmail,
+  dashboardUrl = 'https://www.chapterready.in/dashboard',
+}: {
+  studentName?: string | null;
+  userEmail: string;
+  dashboardUrl?: string;
+}): string {
+  const firstName = studentName?.split(/\s+/)[0] || 'Student';
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to ChapterReady Class 10</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fbf8f3; margin: 0; padding: 24px; color: #171513;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e7e2d6; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+    <tr>
+      <td style="padding: 28px 32px; background-color: #171513; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">ChapterReady</h1>
+        <p style="color: #ff8c37; margin: 4px 0 0 0; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">CBSE Class 10 Board Excellence</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 32px 32px 24px 32px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <span style="font-size: 44px; display: block; margin-bottom: 8px;">🎯</span>
+          <h2 style="font-size: 22px; font-weight: 800; color: #171513; margin: 0 0 8px 0;">Welcome to ChapterReady, ${firstName}!</h2>
+          <p style="font-size: 15px; color: #5d5750; margin: 0; line-height: 1.5;">
+            Your free Class 10 board prep hub is now ready. We simplify NCERT textbooks so you can understand concepts faster and score higher in boards.
+          </p>
+        </div>
+
+        <div style="background-color: #fcfbf9; border: 1px solid #e7e2d6; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <h3 style="font-size: 15px; font-weight: 800; color: #171513; margin: 0 0 12px 0;">⚡ Your 3-Minute Quick Start:</h3>
+          <table width="100%" border="0" cellspacing="0" cellpadding="8" style="font-size: 14px;">
+            <tr>
+              <td width="32px" style="vertical-align: top; font-size: 18px;">🧪</td>
+              <td style="color: #2a2622;">
+                <strong>1. Test Recall with a 3-Min Quiz</strong><br>
+                <span style="color: #5d5750; font-size: 13px;">5 high-yield CBSE board questions with instant NCERT explanations.</span>
+              </td>
+            </tr>
+            <tr>
+              <td width="32px" style="vertical-align: top; font-size: 18px;">🤖</td>
+              <td style="color: #2a2622;">
+                <strong>2. Ask Tara AI Any Doubt</strong><br>
+                <span style="color: #5d5750; font-size: 13px;">Stuck on balancing equations or proofs? Tara is trained directly on NCERT.</span>
+              </td>
+            </tr>
+            <tr>
+              <td width="32px" style="vertical-align: top; font-size: 18px;">🔥</td>
+              <td style="color: #2a2622;">
+                <strong>3. Build Your Daily Study Streak</strong><br>
+                <span style="color: #5d5750; font-size: 13px;">Just 10 minutes a day builds unstoppable momentum for CBSE Board exams.</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 28px;">
+          <a href="${dashboardUrl}" style="background-color: #c95014; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: 800; font-size: 16px; display: inline-block; box-shadow: 0 4px 12px rgba(201,80,20,0.3);">
+            🚀 Open Your Study Dashboard →
+          </a>
+        </div>
+
+        <div style="border-top: 1px solid #e7e2d6; padding-top: 20px; font-size: 13px; color: #52525b; line-height: 1.6;">
+          <p style="margin: 0 0 8px 0;">
+            ✉️ <strong>Have any question or feedback?</strong> Just reply directly to this email or write to <a href="mailto:support@chapterready.in" style="color: #c95014; font-weight: 600;">support@chapterready.in</a>. We are here to help you ace your boards.
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 16px 32px; background-color: #fbf8f3; border-top: 1px solid #e7e2d6; text-align: center;">
+        <p style="font-size: 12px; color: #8c8276; margin: 0; line-height: 1.4;">
+          ChapterReady India · Simplified NCERT Textbook — One Source of Truth<br>
+          Account: <strong>${userEmail}</strong>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+}
+
+/**
+ * Builds personalized re-engagement email for inactive registered students.
+ */
+export function buildStudentReengagementEmailHtml({
+  studentName,
+  userEmail,
+  quizUrl = 'https://www.chapterready.in/chapters/chemical-reactions-and-equations/quiz',
+  dashboardUrl = 'https://www.chapterready.in/dashboard',
+}: {
+  studentName?: string | null;
+  userEmail: string;
+  quizUrl?: string;
+  dashboardUrl?: string;
+}): string {
+  const firstName = studentName?.split(/\s+/)[0] || 'there';
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class 10 Science & Maths Board Booster</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fbf8f3; margin: 0; padding: 24px; color: #171513;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e7e2d6; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+    <tr>
+      <td style="padding: 28px 32px; background-color: #171513; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">ChapterReady</h1>
+        <p style="color: #ff8c37; margin: 4px 0 0 0; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">CBSE Class 10 Board Excellence</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 32px 32px 24px 32px;">
+        <p style="font-size: 16px; line-height: 1.6; color: #171513; margin: 0 0 16px 0;">
+          Hi ${firstName},
+        </p>
+        <p style="font-size: 15px; line-height: 1.6; color: #2a2622; margin: 0 0 16px 0;">
+          I'm Sagar, the founder of <strong>ChapterReady.in</strong>.
+        </p>
+        <p style="font-size: 15px; line-height: 1.6; color: #2a2622; margin: 0 0 16px 0;">
+          I noticed you created your free Class 10 account on ChapterReady a few days ago, but you haven't had a chance to test our revision tools yet.
+        </p>
+        <p style="font-size: 15px; line-height: 1.6; color: #2a2622; margin: 0 0 20px 0;">
+          Class 10 Board exams can get overwhelming with massive textbooks and heavy guides. We built ChapterReady with one simple motto: <em>"Simplified NCERT — One Source of Truth"</em>.
+        </p>
+
+        <!-- Value Box -->
+        <div style="background-color: #fff9f5; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <h3 style="font-size: 15px; font-weight: 800; color: #9a3412; margin: 0 0 12px 0;">🎁 3 Free Things to Kickstart Your Board Prep:</h3>
+          
+          <div style="margin-bottom: 14px;">
+            <strong style="color: #171513; font-size: 14px;">1. 3-Minute Diagnostic Quiz (Chemical Reactions)</strong>
+            <p style="font-size: 13px; color: #5d5750; margin: 4px 0 0 0;">
+              Test yourself on 5 high-yield CBSE board questions with instant step-by-step NCERT explanations.
+            </p>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <strong style="color: #171513; font-size: 14px;">2. Tara AI NCERT Tutor (Free Access)</strong>
+            <p style="font-size: 13px; color: #5d5750; margin: 4px 0 0 0;">
+              Got a doubt in Science or Maths? Tara is trained strictly on NCERT textbooks to give 100% curriculum-safe answers.
+            </p>
+          </div>
+
+          <div>
+            <strong style="color: #171513; font-size: 14px;">3. Free 1-Page Formula Summary</strong>
+            <p style="font-size: 13px; color: #5d5750; margin: 4px 0 0 0;">
+              Reply to this email with <strong>"FORMULA"</strong> and I'll personally send you our high-yield Class 10 formula cheatsheet.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 28px;">
+          <a href="${quizUrl}" style="background-color: #16a34a; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 16px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3);">
+            ⚡ Take the 3-Minute Chemical Reactions Quiz →
+          </a>
+          <p style="font-size: 12px; color: #71717a; margin-top: 10px;">
+            Takes only 3 minutes · Instant score &amp; marks breakdown
+          </p>
+        </div>
+
+        <div style="border-top: 1px solid #e7e2d6; padding-top: 20px; font-size: 14px; color: #2a2622; line-height: 1.6;">
+          <p style="margin: 0 0 8px 0;">
+            Which subject is giving you the most difficulty right now — Maths, Science, or Social Science?
+          </p>
+          <p style="margin: 0 0 16px 0;">
+            Just reply directly to this email. I read and answer every student email personally!
+          </p>
+          <p style="margin: 0; font-weight: 600; color: #171513;">
+            Warm regards,<br>
+            <strong>Sagar Varule</strong><br>
+            <span style="font-size: 12px; font-weight: 400; color: #71717a;">Founder, ChapterReady.in</span>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 16px 32px; background-color: #fbf8f3; border-top: 1px solid #e7e2d6; text-align: center;">
+        <p style="font-size: 12px; color: #8c8276; margin: 0; line-height: 1.4;">
+          ChapterReady India · Simplified NCERT Textbook — One Source of Truth<br>
+          Student: <strong>${userEmail}</strong>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+}

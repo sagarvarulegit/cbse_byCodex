@@ -2,6 +2,7 @@ import { UserRole } from '@prisma/client';
 import { Router } from 'express';
 
 import { hashPassword, readSessionToken, verifyPassword } from '../lib/auth.js';
+import { buildStudentWelcomeEmailHtml, sendEmail } from '../lib/email.js';
 import { normalizeGuardianConsent } from '../lib/guardian-consent.js';
 import { prisma } from '../lib/prisma.js';
 import { rateLimit } from '../lib/rate-limiter.js';
@@ -127,6 +128,20 @@ authRouter.post('/register', authLimiter, async (req, res) => {
         profile: true,
       },
     });
+
+    // Asynchronously dispatch welcome email in the background without blocking response
+    if (user.email) {
+      sendEmail({
+        to: user.email,
+        subject: `Welcome to ChapterReady Class 10, ${fullName.split(' ')[0]}! 🎯`,
+        html: buildStudentWelcomeEmailHtml({
+          studentName: fullName,
+          userEmail: user.email,
+        }),
+      }).catch((err) => {
+        console.warn('[AUTH_WELCOME_EMAIL] Failed to send welcome email:', err);
+      });
+    }
 
     return res.status(201).json({ token: createUserSessionToken(user), user: formatUserResponse(user) });
   } catch (error) {

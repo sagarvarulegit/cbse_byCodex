@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import BoardReadinessGauge from '../../components/BoardReadinessGauge';
+import NewStudentStarterQuest from '../../components/NewStudentStarterQuest';
 import PilotFeedbackForm from '../../components/PilotFeedbackForm';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
@@ -85,6 +86,12 @@ export default async function DashboardPage() {
   } else {
     compositeReadinessPercent = Math.max(10, Math.round((chaptersCompleted / totalChapters) * 100 * 0.5));
   }
+
+  // Detect brand new students who haven't completed any quiz or mock test yet
+  const isNewStudent =
+    chaptersCompleted === 0 &&
+    chaptersWithScore.length === 0 &&
+    (attemptsData?.attempts?.length ?? 0) === 0;
 
   // 2. Build Weak Area Diagnostics
   const diagnostics: DiagnosticItem[] = [];
@@ -258,6 +265,11 @@ export default async function DashboardPage() {
           </section>
         ) : null}
 
+        {/* ZONE 0: NEW STUDENT STARTER QUEST (DAY 1 QUICK WIN HERO) */}
+        {isNewStudent ? (
+          <NewStudentStarterQuest studentName={session.fullName} />
+        ) : null}
+
         {/* HERO: REAL-TIME BOARD EXAM READINESS GAUGE */}
         <section aria-label="Board Readiness Overview">
           <BoardReadinessGauge
@@ -267,6 +279,7 @@ export default async function DashboardPage() {
             chaptersCompleted={chaptersCompleted}
             totalChapters={totalChapters}
             streakDays={mastery.streak?.currentStreakDays ?? 0}
+            isNewStudent={isNewStudent}
           />
         </section>
 

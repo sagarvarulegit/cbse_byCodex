@@ -10,6 +10,7 @@ export type BoardReadinessGaugeProps = {
   chaptersCompleted: number;
   totalChapters: number;
   streakDays: number;
+  isNewStudent?: boolean;
 };
 
 export default function BoardReadinessGauge({
@@ -19,28 +20,35 @@ export default function BoardReadinessGauge({
   chaptersCompleted,
   totalChapters,
   streakDays,
+  isNewStudent,
 }: BoardReadinessGaugeProps) {
-  // Determine performance tier
-  let tierLabel = 'Getting Started';
-  let tierBadgeClass = 'badge-learner';
-  let tierDescription = 'Start exploring chapter notes and quizzes to build exam readiness.';
-  let gaugeColor = '#3b82f6'; // Blue
+  const isBrandNew = isNewStudent || (quizScorePercent === 0 && chaptersCompleted === 0 && mockScorePercent === null);
 
-  if (scorePercent >= 90) {
-    tierLabel = 'Topper Track 🏆';
-    tierBadgeClass = 'badge-topper';
-    tierDescription = 'Outstanding mastery! You are performing in the top 5% board percentile.';
-    gaugeColor = '#10b981'; // Emerald
-  } else if (scorePercent >= 70) {
-    tierLabel = 'Exam Ready 🎯';
-    tierBadgeClass = 'badge-ready';
-    tierDescription = 'Strong board preparation. Consistent mock tests will push you to 90%+.';
-    gaugeColor = '#059669'; // Green
-  } else if (scorePercent >= 40) {
-    tierLabel = 'Skilled Learner 🚀';
-    tierBadgeClass = 'badge-skilled';
-    tierDescription = 'Good foundation. Review your weak chapters and take Mock Paper 1.';
-    gaugeColor = '#f59e0b'; // Amber
+  // Determine performance tier
+  let tierLabel = isBrandNew ? 'Day 1 Starter 🎯' : 'Getting Started';
+  let tierBadgeClass = 'badge-learner';
+  let tierDescription = isBrandNew
+    ? 'Take your first 3-minute quiz below to calibrate your CBSE Board readiness index.'
+    : 'Start exploring chapter notes and quizzes to build exam readiness.';
+  let gaugeColor = isBrandNew ? '#f97316' : '#3b82f6'; // Orange / Blue
+
+  if (!isBrandNew) {
+    if (scorePercent >= 90) {
+      tierLabel = 'Topper Track 🏆';
+      tierBadgeClass = 'badge-topper';
+      tierDescription = 'Outstanding mastery! You are performing in the top 5% board percentile.';
+      gaugeColor = '#10b981'; // Emerald
+    } else if (scorePercent >= 70) {
+      tierLabel = 'Exam Ready 🎯';
+      tierBadgeClass = 'badge-ready';
+      tierDescription = 'Strong board preparation. Consistent mock tests will push you to 90%+.';
+      gaugeColor = '#059669'; // Green
+    } else if (scorePercent >= 40) {
+      tierLabel = 'Skilled Learner 🚀';
+      tierBadgeClass = 'badge-skilled';
+      tierDescription = 'Good foundation. Review your weak chapters and take Mock Paper 1.';
+      gaugeColor = '#f59e0b'; // Amber
+    }
   }
 
   // SVG Gauge calculation
@@ -75,8 +83,8 @@ export default function BoardReadinessGauge({
             />
           </svg>
           <div className="gauge-center-text">
-            <span className="score-number">{Math.round(scorePercent)}%</span>
-            <span className="score-subtext">Readiness</span>
+            <span className="score-number">{isBrandNew ? 'Day 1' : `${Math.round(scorePercent)}%`}</span>
+            <span className="score-subtext">{isBrandNew ? 'Starter' : 'Readiness'}</span>
           </div>
         </div>
       </div>

@@ -1,3 +1,19 @@
+# Current Handoff - Student Re-Engagement & Zero-Friction Onboarding (2026-10-06)
+
+- [x] Audited first student registration: Aditya Rathor (`rneeru4600@gmail.com`, Class 10), joined Sep 21, 2026.
+- [x] Identified onboarding friction: zero post-registration activity beyond 1-min dashboard visits, lack of clear first step.
+- [x] Implemented personalized re-engagement engine:
+  - Built `apps/api/src/scripts/reengage-student.ts` with direct 1-click hooks (free formula cheatsheet, 3-min diagnostic quiz, Tara AI tutor).
+  - Added responsive email templates `buildStudentReengagementEmailHtml` and `buildStudentWelcomeEmailHtml` in `apps/api/src/lib/email.ts`.
+- [x] Automated welcome emails upon registration in `apps/api/src/routes/auth.ts`.
+- [x] Overhauled Day 1 onboarding experience on `/dashboard`:
+  - Created `NewStudentStarterQuest.tsx` hero card featuring 3-minute starter quiz, 1-click Tara AI doubt resolver, and Day 1 streak ignition.
+  - Enhanced `BoardReadinessGauge.tsx` to display friendly *"Day 1 Starter 🎯 · Diagnostic Pending"* state for new students instead of a discouraging 10% score.
+- [ ] **Next Task in Line**:
+  - Send direct re-engagement outreach email to Aditya Rathor (`rneeru4600@gmail.com`).
+  - Deploy updated web & API workspaces to Vercel production.
+  - Monitor new student onboarding completion rates.
+
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 
 - [x] Established mandatory **Frequent Git Commit & Remote Push Policy** in `AGENTS.md` and `.agents/rules/cbse_dev_invariants.md`.
