@@ -1,20 +1,33 @@
-# Current Handoff - Student Re-Engagement & Zero-Friction Onboarding (2026-10-06)
+# Current Handoff - Complete /dashboard Redesign & Command Center Architecture (2026-10-06)
 
-- [x] Audited first student registration: Aditya Rathor (`rneeru4600@gmail.com`, Class 10), joined Sep 21, 2026.
-- [x] Identified onboarding friction: zero post-registration activity beyond 1-min dashboard visits, lack of clear first step.
-- [x] Implemented personalized re-engagement engine:
-  - Built `apps/api/src/scripts/reengage-student.ts` with direct 1-click hooks (free formula cheatsheet, 3-min diagnostic quiz, Tara AI tutor).
-  - Added responsive email templates `buildStudentReengagementEmailHtml` and `buildStudentWelcomeEmailHtml` in `apps/api/src/lib/email.ts`.
-- [x] Automated welcome emails upon registration in `apps/api/src/routes/auth.ts`.
-- [x] Overhauled Day 1 onboarding experience on `/dashboard`:
-  - Created `NewStudentStarterQuest.tsx` hero card featuring 3-minute starter quiz, 1-click Tara AI doubt resolver, and Day 1 streak ignition.
-  - Enhanced `BoardReadinessGauge.tsx` to display friendly *"Day 1 Starter 🎯 · Diagnostic Pending"* state for new students instead of a discouraging 10% score.
-- [x] Sent direct re-engagement outreach email in rendered HTML format to Aditya Rathor (`rneeru4600@gmail.com`).
-- [x] Deployed updated web, API, and admin workspaces to Vercel production.
+- [x] Audited live `/dashboard` visual fatigue and clutter from reference screenshot (`tmp.png`):
+  - Identified 11 competing sections, 5000px vertical height, out-of-place 1970s vinyl turntable taking 40% of screen space, and buried 4 core subjects.
+- [x] Architected and implemented **4-Zone Student Command Center**:
+  - **Zone 1: Momentum & Today's Mission Hero** (`TodayStudyMissionCard.tsx`):
+    - Replaced the turntable with a clean study card featuring NCERT 3-step mastery sequence (Notes → Activities/Worked Examples → 5-Question Board Quiz).
+    - Added responsive pill switchers for 4 core subjects (Science, Maths, SST, English) with instant roadmap updates.
+    - Preserved `NewStudentStarterQuest.tsx` for brand-new students with 0 quiz/mock attempts.
+  - **Zone 2: 4 Core Board Subjects Hub**:
+    - Promoted to the top right below Today's Mission (Maths 041, Science 086, SST 087, English 184).
+    - Added real-time syllabus coverage progress bars (`% Covered`) and 1-click `📖 Notes` / `📄 Mock Papers` buttons.
+  - **Zone 3: Two-Column Performance Deck**:
+    - Built responsive 2-column grid pairing `BoardReadinessGauge` (circular score, tier badge, 4 micro-pillars) with `WeakAreaDiagnosticsCard` (diagnostic tracker, weak chapter recaps, spaced mistake vault, and mock exam simulator).
+    - Added `deckMode` responsive support to both components.
+  - **Zone 4: High-Yield Practice & Revision Boosters** (`QuickToolsLaunchpad.tsx`):
+    - Consolidated arcade breaks, formula sheets, 3D practicals, and mock paper simulators into a clean 4-card launchpad:
+      1. 🔬 3D Virtual Science Lab (`/virtual-lab`)
+      2. ⚡ Formula & Reaction Cheatsheets (`/formula-cheatsheets`)
+      3. 🎯 Board Score Predictor / 80-Mark Mock (`/exam-papers`)
+      4. 🎮 Formula Rush Arcade 3-Min Blitz (`/games/formula-rush`)
+  - **Sleek Active Purchases Ribbon**:
+    - Replaced the 300px green block banner with a slim 48px top ribbon with direct 1-click pack links.
+  - Cleaned up redundant standalone sales banners and retired the vinyl jukebox from the dashboard.
+- [x] Verified zero TypeScript errors across `apps/web` (`npx tsc -p apps/web/tsconfig.json --noEmit`).
+- [x] Committed and pushed to `origin/main` (`53724b2`).
 - [ ] **Next Task in Line**:
-  - Monitor new student onboarding completion rates and Aditya's re-engagement response.
-  - YouTube Shorts: Generate dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
-  - P0 Money Path verification: complete real ₹2 test transaction once live credentials / Supabase are unpaused.
+  - Deploy web workspace to Vercel production and verify live `/dashboard`.
+  - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
+  - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are active.
 
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 
