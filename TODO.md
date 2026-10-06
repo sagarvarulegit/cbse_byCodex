@@ -10,10 +10,11 @@
   - Created `NewStudentStarterQuest.tsx` hero card featuring 3-minute starter quiz, 1-click Tara AI doubt resolver, and Day 1 streak ignition.
   - Enhanced `BoardReadinessGauge.tsx` to display friendly *"Day 1 Starter 🎯 · Diagnostic Pending"* state for new students instead of a discouraging 10% score.
 - [x] Sent direct re-engagement outreach email in rendered HTML format to Aditya Rathor (`rneeru4600@gmail.com`).
+- [x] Deployed updated web, API, and admin workspaces to Vercel production.
 - [ ] **Next Task in Line**:
-  - Deploy updated web & API workspaces to Vercel production.
-  - Monitor new student onboarding completion rates.
+  - Monitor new student onboarding completion rates and Aditya's re-engagement response.
   - YouTube Shorts: Generate dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
+  - P0 Money Path verification: complete real ₹2 test transaction once live credentials / Supabase are unpaused.
 
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 
