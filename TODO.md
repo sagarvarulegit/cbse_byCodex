@@ -1,31 +1,26 @@
-# Current Handoff - Complete /dashboard Redesign & Command Center Architecture (2026-10-06)
+# Current Handoff - Dashboard v2: "One Next Step" Student Home Live (2026-10-06)
 
-- [x] Audited live `/dashboard` visual fatigue and clutter from reference screenshot (`tmp.png`):
-  - Identified 11 competing sections, 5000px vertical height, out-of-place 1970s vinyl turntable taking 40% of screen space, and buried 4 core subjects.
-- [x] Architected and implemented **4-Zone Student Command Center**:
-  - **Zone 1: Momentum & Today's Mission Hero** (`TodayStudyMissionCard.tsx`):
-    - Replaced the turntable with a clean study card featuring NCERT 3-step mastery sequence (Notes → Activities/Worked Examples → 5-Question Board Quiz).
-    - Added responsive pill switchers for 4 core subjects (Science, Maths, SST, English) with instant roadmap updates.
-    - Preserved `NewStudentStarterQuest.tsx` for brand-new students with 0 quiz/mock attempts.
-  - **Zone 2: 4 Core Board Subjects Hub**:
-    - Promoted to the top right below Today's Mission (Maths 041, Science 086, SST 087, English 184).
-    - Added real-time syllabus coverage progress bars (`% Covered`) and 1-click `📖 Notes` / `📄 Mock Papers` buttons.
-  - **Zone 3: Two-Column Performance Deck**:
-    - Built responsive 2-column grid pairing `BoardReadinessGauge` (circular score, tier badge, 4 micro-pillars) with `WeakAreaDiagnosticsCard` (diagnostic tracker, weak chapter recaps, spaced mistake vault, and mock exam simulator).
-    - Added `deckMode` responsive support to both components.
-  - **Zone 4: High-Yield Practice & Revision Boosters** (`QuickToolsLaunchpad.tsx`):
-    - Consolidated arcade breaks, formula sheets, 3D practicals, and mock paper simulators into a clean 4-card launchpad:
-      1. 🔬 3D Virtual Science Lab (`/virtual-lab`)
-      2. ⚡ Formula & Reaction Cheatsheets (`/formula-cheatsheets`)
-      3. 🎯 Board Score Predictor / 80-Mark Mock (`/exam-papers`)
-      4. 🎮 Formula Rush Arcade 3-Min Blitz (`/games/formula-rush`)
-  - **Sleek Active Purchases Ribbon**:
-    - Replaced the 300px green block banner with a slim 48px top ribbon with direct 1-click pack links.
-  - Cleaned up redundant standalone sales banners and retired the vinyl jukebox from the dashboard.
-- [x] Verified zero TypeScript errors across `apps/web` (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`53724b2`).
+- [x] Completely redesigned `/dashboard` from the ground up to solve choice overload, empty-panel fatigue, and visual loudness:
+  - Replaced the stacked 7-block layout with **conditional, data-driven sections** based on student activity:
+    1. **Greeting Bar**: Slim greeting with real streak chip and active pack counter chip (replacing the bulky purchases banner).
+    2. **One Next-Step Hero (`DashboardNextStepHero.tsx`)**: The ONLY ink-bordered card on the page. Features a single primary action CTA:
+       - Brand-new student: 3-minute starter quiz (Science Ch 1 / Maths Ch 1 toggle) + quiet "Ask Tara" link.
+       - Student with mistakes due: Focused revision task + "My Mistakes" link.
+       - Student in progress: Direct "Continue chapter" with real mastery score %.
+    3. **Continue Learning Row**: Displays up to 3 recently studied chapters with mastery % and relative timestamps (hidden if 0 chapters touched).
+    4. **4 Core Subject Tiles**: Clean, compact tiles with accurate chapter counts, real progress percentages (fixed the string-match bug), and direct subject links.
+    5. **My Progress Card**: Merges readiness score, mock average, and weak chapters. Hides wall-of-zeros and false praise for new students ("Your readiness score appears after your first quiz").
+    6. **Slim Tools Row**: Compact chips linking to 3D Lab, Formula Cheatsheets, Score Predictor (`/tools/readiness-predictor`), and Formula Rush.
+- [x] Fixed all bugs identified during audit:
+  - Fixed styled-jsx leak on Next `<Link>` by migrating to CSS modules (`dashboard-home.module.css`).
+  - Fixed subject progress calculation using `getCurriculumSubjectChapterEntries` slug matching instead of string `includes`.
+  - Fixed Score Predictor link pointing to `/tools/readiness-predictor`.
+  - Removed unverified marks claims and fake praise for new students.
+- [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
+- [x] Committed and pushed to `origin/main` (`50e534b`).
+- [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
 - [ ] **Next Task in Line**:
-  - Deploy web workspace to Vercel production and verify live `/dashboard`.
+  - Test and verify dashboard appearance live in browser.
   - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
   - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are active.
 
