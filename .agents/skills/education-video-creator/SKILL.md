@@ -150,6 +150,7 @@ Return only the layers the user requested, but keep the underlying source map an
 7. Accuracy and misconception ledger.
 8. Retrieval close and platform CTA if applicable.
 9. Assumptions, unverified items, and production constraints.
+10. Dedicated 9:16 cover/thumbnail for YouTube Shorts (Mandatory from Episode 05 onwards, saved in `thumbnails/` or `.thumbnails/`).
 
 ## Format guidance
 
@@ -171,6 +172,7 @@ Do not call a video ready merely because it is attractive or technically renders
 - Captioned and readable.
 - Honest about analogy limits.
 - Closed with active recall.
+- Accompanied by a dedicated 9:16 vertical thumbnail/cover (mandatory for Shorts from Episode 05 onwards).
 - Integrated into the requested platform path when integration was requested.
 
 Use [review-rubric.md](references/review-rubric.md) for the final review. Report what was inspected or rendered and what verification was intentionally skipped.

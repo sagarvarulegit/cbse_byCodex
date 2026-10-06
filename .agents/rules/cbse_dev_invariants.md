@@ -35,3 +35,8 @@ description: Core local development, testing, and deployment invariants for CBSE
 - Whenever meaningful progress is made on a task or subtask, commit and push changes to the remote Git repository (`origin/main`).
 - Never leave substantive progress uncommitted or unpushed at the end of a session or work chunk. The developer works across multiple machines (office laptop, home workstation). Unpushed commits block working from home or another machine.
 - Always check `git status` to ensure all relevant files are staged (and secrets sanitized), commit with concise imperative messages, push to remote (`git push origin main`), and update `TODO.md`.
+
+## 6. YouTube Shorts Dedicated Thumbnail Invariant (Episode 05+)
+- Starting from Episode 05 onwards, every educational YouTube Short MUST have a dedicated, eye-catching 9:16 vertical cover/thumbnail generated alongside the final video render.
+- Save and track the thumbnail under the video project's `thumbnails/` or `.thumbnails/` directory.
+- Never consider a Short video task complete from Episode 05 onwards without verifying the existence of its dedicated cover image.

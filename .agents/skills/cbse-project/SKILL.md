@@ -22,6 +22,7 @@ Root `TODO.md` is the immediate handoff. `master_todo.md` is the broader backlog
 - Lesson content is live only when the chapter is registered in `lessonDirectories` and each published lesson has a non-empty `fileName`.
 - Gemini lab adaptations should follow the platform path: dependency-free React/canvas component, `LessonDemo.tsx` routing, lesson markdown marker, and targeted test.
 - Textbook-derived notes must preserve textbook examples, problem/activity numbering, topics, and section structure while simplifying the explanation.
+- Onboarding UX must prioritize zero-friction instant wins: new students with zero activity must be presented with an immediate 3-minute starter action (`NewStudentStarterQuest`: 1st quiz, 1-click Tara AI query, Day 1 streak) before exposing complex analytics or choice overload.
 
 ## Completion Loop
 
