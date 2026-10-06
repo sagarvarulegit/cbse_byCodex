@@ -63,6 +63,7 @@ Read this file for lesson rendering, activity and figure assets, accessible labe
 - HyperFrames removes the inner root's authored `data-composition-id` when mounting a sub-composition. Scene registration scripts must resolve the scoped inner root with `document.getElementById("root")` or `document.querySelector("#root")`; a combined `#root[data-composition-id="..."]` selector returns `null` and silently leaves an empty, static timeline. The pilot's `scripts/inline-frame-motion.mjs` normalizes this lookup whenever it regenerates scene motion.
 - ElevenLabs is the selected narration provider. Long lesson narration must be synthesized as approved speech segments, joined with deterministic 4–6 second silence blocks, and accompanied by offset character/word timing data. Pronunciation text such as “M G” and “O two” must normalize to student-facing `Mg` and `O₂` in captions.
 - Generate a short voice sample before the full paid narration request. Keep `ELEVENLABS_API_KEY` server-side and out of committed files and `NEXT_PUBLIC_` variables.
+- Shorts Thumbnail Policy: Starting from Episode 05 onwards, dedicated vertical/cover thumbnails must always be generated for every YouTube Short and tracked under the video project's thumbnails directory (`thumbnails/` or `.thumbnails/`).
 
 ## Chapter-specific figure fidelity
 

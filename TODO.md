@@ -13,6 +13,7 @@
   - Send direct re-engagement outreach email to Aditya Rathor (`rneeru4600@gmail.com`).
   - Deploy updated web & API workspaces to Vercel production.
   - Monitor new student onboarding completion rates.
+  - YouTube Shorts: Generate dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
 
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 

@@ -272,6 +272,7 @@ This session runs on `openrouter/free` (free-tier OpenRouter model). State model
 
 ### Memory Reminder
 - CBSE video rules: TODD voice ONLY (never Jessica); Filename format: `cbse-class-10-<subject>-topic-main.mp4` / `-shorts.mp4`.
+- YouTube Shorts Thumbnail Rule: From Episode 05 onwards, ALWAYS generate a dedicated thumbnail/cover for all Shorts (saved under `thumbnails/` or `.thumbnails/`).
 - CBSE content must come from actual NCERT PDFs (PyMuPDF) and be checked against `textbook-map.json` — never from memory/skills.
 - User demands verification before claiming "done" — verify audio duration, frame boundaries, narration match.
 - User accesses via Telegram — never provide local file paths. Use `text_to_speech`, Cloudflare tunnel, or `rclone`.
