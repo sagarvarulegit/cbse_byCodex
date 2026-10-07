@@ -1,30 +1,31 @@
-# Current Handoff - Dashboard v3: Student Command Center Live (2026-10-07)
+# Current Handoff - Dashboard 10/10 Experience Polished & Verified on Live Production (2026-10-07)
 
-- [x] Complete UI/UX renovation of student `/dashboard` into an elite, high-engagement **Class 10 Student Command Center**:
-  - Replaced the sterile, single-column flat layout with a balanced, desktop-optimized **2-Column Command Grid (~68% workspace / ~32% sticky HUD)**:
+- [x] Complete UI/UX renovation and 10/10 polish of student `/dashboard` into an elite, high-engagement **Class 10 Student Command Center**:
+  - Replaced the sterile layout with a balanced, desktop-optimized **2-Column Command Grid (~68% workspace / ~32% sticky HUD)**:
     1. **Command Header**: Welcoming greeting with "Target: 95%+ Topper Track" mission badge, dynamic study streak badge, live Board readiness score, and core chapter counter.
-    2. **Upgraded Action Hero (`DashboardNextStepHero.tsx`)**:
-       - 4-subject tab switcher (`🧪 Science`, `📐 Maths`, `🌍 Social Science`, `📚 English`) right on the card.
-       - 3-step visual mastery blueprint: 📖 *Read Notes (~12m)* → 🔬 *Key Diagrams (~8m)* → ⚡ *Recall Quiz (~5m)*.
-       - Tactical neo-brutalist CTA with drop shadow: `[▶ Start 3-Min Quiz (+50 XP) →]` + `[📖 Read Chapter Notes]` + `[✨ Ask Tara]`.
-       - Dedicated recovery mode for active revision missions and progress mode for in-progress chapters.
+    2. **Balanced Action Hero (`DashboardNextStepHero.tsx`)**:
+       - 4-subject tab switcher (`🧪 Science`, `📐 Mathematics`, `🌍 Social Science`, `📚 English`) with active indicators.
+       - Clean, centered typography eliminating awkward dead space.
+       - Tactical neo-brutalist CTA: `[▶ Start 3-Min Quiz (+50 XP) →]`, `[📖 Read Notes]`, and `[✨ Ask Tara]`.
     3. **Core Subject Stations (2x2 Grid)**:
        - 4 distinct neo-brutalist subject stations (Science Code 086, Maths Code 041, SST Code 087, English Code 184).
-       - Each station features subject-themed icon badges, real chapter completion meters, next chapter teaser, and **dual 1-click action buttons** (`[📖 Notes]` and `[⚡ Quiz]`).
+       - Modern **"Chapter Spotlight"** containers (`UP NEXT IN SYLLABUS` + chapter title), completely replacing clunky grey labels.
+       - Focused single primary CTA (`Start Chapter 1 →` / `Continue →`) with aligned syllabus count link.
     4. **High-Yield Practice & Revision Deck (2x2 Grid)**:
-       - Transformed the plain text chips into 4 rich feature cards (🔬 3D Virtual Science Lab, ⚡ Formula Cheatsheets, 🎯 Board Score Predictor, 🎮 Formula Rush Arcade).
-       - Featured high-impact banner for 📄 CBSE Official Board Mock Papers & Marking Schemes (`/exam-papers`).
+       - 4 rich feature cards (🔬 3D Virtual Science Lab, ⚡ Formula Cheatsheets, 🎯 Board Score Predictor, 🎮 Formula Rush Arcade) with themed badges and 1-click launch links.
+       - High-impact banner for 📄 CBSE Official Board Mock Papers & Marking Schemes (`/exam-papers`).
     5. **Gamification & Live HUD Sidebar (`DashboardSidebarHud.tsx`)**:
-       - **Streak & Weekly Momentum**: 7-day visual week track (M, T, W, T, F, S, S) with current day glowing/active and daily streak challenge nudge.
-       - **Board Exam Readiness Gauge**: Circular SVG progress ring with percentile target (`Target: 95%+ Topper Track`), breakdown of syllabus covered, quiz accuracy, and mock average; plus an inspiring "Ready to Launch" baseline preview for new students instead of an empty dashed box.
+       - **Streak & Weekly Momentum**: 7-day visual week track (M, T, W, T, F, S, S) with current day glowing/active.
+       - **Board Exam Readiness Gauge**: Circular SVG progress ring with percentile target, syllabus progress, quiz accuracy, and mock average; plus diagnostic quiz launcher.
        - **Daily Quests Checklist**: 3 gamified daily micro-missions with interactive checkboxes and XP rewards.
        - **Tara AI Mascot Launchpad**: Bioluminescent firefly avatar, 1-click prompt triggers (*Redox Reactions*, *Trig Shortcut*, *5-Mark Tips*), and instant chat trigger.
   - Maintained 100% brand consistency: Warm paper canvas (`#fffdf8`, `#faf7f2`), crisp ink borders (`#171513`), neo-brutalist tactile offset shadows (`4px 4px 0 #171513`), and signature orange `#c95014`.
 - [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`4ea6dbd`).
+- [x] Committed and pushed to `origin/main` (`467629f`).
 - [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
+- [x] Verified on live production via headless browser screenshot capture (`C:\Sagar\tmp\dashboard_live_prod.png`). All layout elements, contrast, and alignment confirmed pixel-perfect.
 - [ ] **Next Task in Line**:
-  - Review live user metrics and feedback on the renovated dashboard.
+  - Review live user analytics and feedback on the renovated dashboard.
   - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
   - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are unpaused.
 
