@@ -1,4 +1,22 @@
 import Link from 'next/link';
+import {
+  Flame,
+  Target,
+  Layers,
+  Package,
+  FlaskConical,
+  Calculator,
+  Globe2,
+  BookOpenCheck,
+  Microscope,
+  Zap,
+  TrendingUp,
+  Gamepad2,
+  FileText,
+  ArrowRight,
+  Sparkles,
+  BookOpen,
+} from 'lucide-react';
 
 import DashboardNextStepHero from '../../components/DashboardNextStepHero';
 import DashboardSidebarHud from '../../components/DashboardSidebarHud';
@@ -30,45 +48,50 @@ type WeakChapter = {
 const SUBJECT_META: Record<
   string,
   {
-    icon: string;
+    Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
     accentColor: string;
     accentBg: string;
     nextChapterTitle: string;
     nextChapterSlug: string;
     shortDesc: string;
+    chapterCountLabel: string;
   }
 > = {
   science: {
-    icon: '🧪',
+    Icon: FlaskConical,
     accentColor: '#059669',
     accentBg: '#ecfdf5',
     nextChapterTitle: 'Chemical Reactions & Equations',
     nextChapterSlug: 'chemical-reactions-and-equations',
     shortDesc: 'Physics, Chemistry & Biology',
+    chapterCountLabel: '13 chapters · 16 NCERT Labs',
   },
   'mathematics-standard': {
-    icon: '📐',
+    Icon: Calculator,
     accentColor: '#2563eb',
     accentBg: '#eff6ff',
     nextChapterTitle: 'Real Numbers',
     nextChapterSlug: 'real-numbers',
     shortDesc: 'Algebra, Geometry & Trigonometry',
+    chapterCountLabel: '14 chapters · 160+ Formulas',
   },
   'social-science': {
-    icon: '🌍',
+    Icon: Globe2,
     accentColor: '#d97706',
     accentBg: '#fffbeb',
     nextChapterTitle: 'The Rise of Nationalism in Europe',
     nextChapterSlug: 'rise-of-nationalism-in-europe',
     shortDesc: 'History, Geography, Civics & Economics',
+    chapterCountLabel: '22 chapters · Map & Case Studies',
   },
   'english-language-and-literature': {
-    icon: '📚',
+    Icon: BookOpenCheck,
     accentColor: '#7c3aed',
     accentBg: '#f5f3ff',
     nextChapterTitle: 'A Letter to God',
     nextChapterSlug: 'a-letter-to-god',
-    shortDesc: 'First Flight & Footprints Without Feet',
+    shortDesc: 'First Flight & Footprints',
+    chapterCountLabel: '40 chapters · Literature & Grammar',
   },
 };
 
@@ -77,41 +100,41 @@ const PRACTICE_CARDS = [
     title: '3D Virtual Science Lab',
     desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics.',
     badge: 'Interactive 3D',
-    icon: '🔬',
+    Icon: Microscope,
     accentColor: '#059669',
     accentBg: '#ecfdf5',
     href: '/virtual-lab',
-    cta: 'Launch 3D Lab →',
+    cta: 'Launch 3D Lab',
   },
   {
     title: 'Formula Cheatsheets',
     desc: 'All 14 Maths & Science formula sheets + derivations in 1 click.',
     badge: 'Quick Recall',
-    icon: '⚡',
+    Icon: Zap,
     accentColor: '#d97706',
     accentBg: '#fffbeb',
     href: '/formula-cheatsheets',
-    cta: 'View Formulas →',
+    cta: 'View Formulas',
   },
   {
     title: 'Board Score Predictor',
     desc: 'AI blueprint analysis to estimate your 2026-27 CBSE percentile.',
     badge: 'AI Powered',
-    icon: '🎯',
+    Icon: TrendingUp,
     accentColor: '#2563eb',
     accentBg: '#eff6ff',
     href: '/tools/readiness-predictor',
-    cta: 'Predict Score →',
+    cta: 'Predict Score',
   },
   {
     title: 'Formula Rush Arcade',
     desc: '60-second rapid-fire recall drills to build instant exam speed.',
     badge: 'Gamified Drill',
-    icon: '🎮',
+    Icon: Gamepad2,
     accentColor: '#7c3aed',
     accentBg: '#f5f3ff',
     href: '/games/formula-rush',
-    cta: 'Play Arcade →',
+    cta: 'Play Arcade',
   },
 ] as const;
 
@@ -198,7 +221,7 @@ export default async function DashboardPage() {
         {/* 1. Student Command Header */}
         <header className={styles.commandHeader}>
           <div className={styles.commandHeaderLeft}>
-            <h1 className={styles.commandHeaderTitle}>Welcome back, {firstName} 👋</h1>
+            <h1 className={styles.commandHeaderTitle}>Welcome back, {firstName}</h1>
             <p className={styles.commandHeaderSub}>
               <span>CBSE Class 10 Command Center</span>
               <span className={styles.headerMissionTag}>Target: 95%+ Topper Track</span>
@@ -206,17 +229,21 @@ export default async function DashboardPage() {
           </div>
           <div className={styles.commandHeaderChips}>
             <span className={styles.statChip}>
-              🔥 {streakDays > 0 ? `${streakDays}-Day Streak` : 'Day 1 Streak'}
+              <Flame size={15} color="#ea580c" strokeWidth={2.5} />
+              <span>{streakDays > 0 ? `${streakDays}-Day Streak` : 'Day 1 Streak'}</span>
             </span>
             <span className={styles.statChip}>
-              🎯 {readiness}% Board Readiness
+              <Target size={15} color="#0284c7" strokeWidth={2.5} />
+              <span>{readiness}% Board Readiness</span>
             </span>
             <span className={styles.statChip}>
-              📚 {startedCoreChapters}/{totalCoreChapters} Chapters Underway
+              <Layers size={15} color="#059669" strokeWidth={2.5} />
+              <span>{startedCoreChapters}/{totalCoreChapters} Chapters Underway</span>
             </span>
             {activePackCount > 0 ? (
               <Link className={styles.statChip} href="/orders">
-                📦 My Packs ({activePackCount})
+                <Package size={15} color="#7c3aed" strokeWidth={2.5} />
+                <span>My Packs ({activePackCount})</span>
               </Link>
             ) : null}
           </div>
@@ -234,7 +261,9 @@ export default async function DashboardPage() {
               <section aria-label="Continue learning">
                 <div className={styles.sectionHead}>
                   <div className={styles.sectionTitleRow}>
-                    <span className={styles.sectionIcon}>⚡</span>
+                    <div className={styles.sectionIconBox}>
+                      <Zap size={16} strokeWidth={2.2} color="#c95014" />
+                    </div>
                     <h2 className={styles.sectionTitle}>Continue Learning</h2>
                   </div>
                 </div>
@@ -270,35 +299,44 @@ export default async function DashboardPage() {
             <section aria-label="Core subjects">
               <div className={styles.sectionHead}>
                 <div className={styles.sectionTitleRow}>
-                  <span className={styles.sectionIcon}>📚</span>
+                  <div className={styles.sectionIconBox}>
+                    <BookOpen size={16} strokeWidth={2.2} color="#c95014" />
+                  </div>
                   <h2 className={styles.sectionTitle}>Core Subject Stations</h2>
                   <span className={styles.sectionBadge}>4 Board Subjects</span>
                 </div>
                 <Link className={styles.sectionLink} href="/subjects">
-                  All Subjects Syllabus →
+                  <span>All Subjects Syllabus</span>
+                  <ArrowRight size={13} strokeWidth={2.5} />
                 </Link>
               </div>
 
               <div className={styles.subjectGrid}>
                 {subjectProgress.map((subject) => {
                   const meta = SUBJECT_META[subject.slug] || {
-                    icon: '📖',
+                    Icon: BookOpen,
                     accentColor: '#c95014',
                     accentBg: '#fff4e8',
                     nextChapterTitle: 'Chapter 1',
                     nextChapterSlug: subject.slug,
                     shortDesc: 'Core Curriculum',
+                    chapterCountLabel: `${subject.chapterCount} chapters`,
                   };
+                  const SubjectIcon = meta.Icon;
 
                   return (
-                    <div className={styles.subjectCard} key={subject.slug}>
+                    <div
+                      className={styles.subjectCard}
+                      key={subject.slug}
+                      style={{ borderTopColor: meta.accentColor }}
+                    >
                       <div className={styles.subjectCardTop}>
                         <div className={styles.subjectInfoBlock}>
                           <div
                             className={styles.subjectIconBox}
-                            style={{ backgroundColor: meta.accentBg }}
+                            style={{ backgroundColor: meta.accentBg, color: meta.accentColor }}
                           >
-                            <span>{meta.icon}</span>
+                            <SubjectIcon size={20} strokeWidth={2.2} />
                           </div>
                           <div className={styles.subjectTitleGroup}>
                             <span className={styles.subjectCodeTag}>
@@ -312,6 +350,7 @@ export default async function DashboardPage() {
                           style={{
                             borderColor: subject.progressPercent > 0 ? meta.accentColor : '#e7e2d6',
                             color: subject.progressPercent > 0 ? meta.accentColor : '#6a645d',
+                            backgroundColor: subject.progressPercent > 0 ? meta.accentBg : '#fffdf8',
                           }}
                         >
                           {subject.progressPercent}% Mastered
@@ -332,7 +371,7 @@ export default async function DashboardPage() {
                           <span>
                             {subject.startedCount > 0
                               ? `${subject.startedCount} of ${subject.chapterCount} chapters underway`
-                              : `${subject.chapterCount} chapters · Ready to start`}
+                              : meta.chapterCountLabel}
                           </span>
                         </div>
                       </div>
@@ -358,13 +397,14 @@ export default async function DashboardPage() {
                           href={`/chapters/${meta.nextChapterSlug}`}
                         >
                           <span>{subject.startedCount > 0 ? 'Continue' : 'Start Chapter 1'}</span>
-                          <span className={styles.btnArrow}>→</span>
+                          <ArrowRight size={14} strokeWidth={2.5} />
                         </Link>
                         <Link
                           className={styles.subjectSyllabusLink}
                           href={`/subjects/${subject.slug}`}
                         >
-                          All {subject.chapterCount} chapters
+                          <span>All {subject.chapterCount} chapters</span>
+                          <ArrowRight size={12} strokeWidth={2} />
                         </Link>
                       </div>
                     </div>
@@ -377,51 +417,64 @@ export default async function DashboardPage() {
             <section aria-label="Practice tools">
               <div className={styles.sectionHead}>
                 <div className={styles.sectionTitleRow}>
-                  <span className={styles.sectionIcon}>⚡</span>
+                  <div className={styles.sectionIconBox}>
+                    <Sparkles size={16} strokeWidth={2.2} color="#c95014" />
+                  </div>
                   <h2 className={styles.sectionTitle}>High-Yield Practice & Revision</h2>
                   <span className={styles.sectionBadge}>Interactive Apps</span>
                 </div>
                 <Link className={styles.sectionLink} href="/tools">
-                  All Tools Catalog →
+                  <span>All Tools Catalog</span>
+                  <ArrowRight size={13} strokeWidth={2.5} />
                 </Link>
               </div>
 
               <div className={styles.practiceGrid}>
-                {PRACTICE_CARDS.map((card) => (
-                  <Link className={styles.practiceCard} href={card.href} key={card.title}>
-                    <div>
-                      <div className={styles.practiceCardTop}>
-                        <div
-                          className={styles.practiceIconBox}
-                          style={{ backgroundColor: card.accentBg }}
-                        >
-                          {card.icon}
+                {PRACTICE_CARDS.map((card) => {
+                  const CardIcon = card.Icon;
+                  return (
+                    <Link className={styles.practiceCard} href={card.href} key={card.title}>
+                      <div>
+                        <div className={styles.practiceCardTop}>
+                          <div
+                            className={styles.practiceIconBox}
+                            style={{ backgroundColor: card.accentBg, color: card.accentColor }}
+                          >
+                            <CardIcon size={20} strokeWidth={2.2} />
+                          </div>
+                          <span className={styles.practiceBadge}>{card.badge}</span>
                         </div>
-                        <span className={styles.practiceBadge}>{card.badge}</span>
+                        <h3 className={styles.practiceTitle}>{card.title}</h3>
+                        <p className={styles.practiceDesc}>{card.desc}</p>
                       </div>
-                      <h3 className={styles.practiceTitle}>{card.title}</h3>
-                      <p className={styles.practiceDesc}>{card.desc}</p>
-                    </div>
-                    <div className={styles.practiceActionRow}>
-                      <span>{card.cta}</span>
-                    </div>
-                  </Link>
-                ))}
+                      <div className={styles.practiceActionRow}>
+                        <span>{card.cta}</span>
+                        <ArrowRight size={13} strokeWidth={2.5} />
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Full Mock Paper Featured Banner */}
               <div className={styles.mockBanner}>
                 <div className={styles.mockBannerLeft}>
-                  <span className={styles.mockBannerIcon}>📄</span>
+                  <div className={styles.mockBannerIconBox}>
+                    <FileText size={28} strokeWidth={2.2} color="#c95014" />
+                  </div>
                   <div>
+                    <div className={styles.mockBannerTagRow}>
+                      <span className={styles.mockBannerTag}>OFFICIAL 2026-27 BLUEPRINT</span>
+                    </div>
                     <h3 className={styles.mockBannerTitle}>CBSE Official Board Mock Papers</h3>
                     <p className={styles.mockBannerSub}>
-                      Practice full 80-mark timed papers matching the official 2026-27 blueprint with marking schemes.
+                      Practice full 80-mark timed papers matching the official curriculum with step-wise marking schemes.
                     </p>
                   </div>
                 </div>
                 <Link className={styles.mockBannerBtn} href="/exam-papers">
-                  Solve Mock Papers →
+                  <span>Solve Mock Papers</span>
+                  <ArrowRight size={15} strokeWidth={2.5} />
                 </Link>
               </div>
             </section>

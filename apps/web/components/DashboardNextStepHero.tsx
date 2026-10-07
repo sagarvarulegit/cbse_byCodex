@@ -2,6 +2,20 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import {
+  FlaskConical,
+  Calculator,
+  Globe2,
+  BookOpenCheck,
+  Clock,
+  Play,
+  BookOpen,
+  Sparkles,
+  ArrowRight,
+  RotateCcw,
+  CheckCircle2,
+  Target,
+} from 'lucide-react';
 
 import type { NextStep } from '../lib/dashboard-home';
 import styles from './dashboard-home.module.css';
@@ -9,7 +23,8 @@ import styles from './dashboard-home.module.css';
 const STARTERS = {
   science: {
     id: 'science',
-    tabLabel: '🧪 Science',
+    tabLabel: 'Science',
+    Icon: FlaskConical,
     subjectCode: '086',
     chapter: 'Chemical Reactions and Equations',
     chapterSlug: 'chemical-reactions-and-equations',
@@ -21,11 +36,17 @@ const STARTERS = {
     badgeBg: '#ecfdf5',
     themeGradient: 'radial-gradient(ellipse at top right, rgba(5, 150, 105, 0.08), transparent 70%)',
     summary:
-      'Master chemical equations, balancing rules, redox, and displacement reactions with simplified NCERT breakdowns.',
+      'Master the 5 reaction types, balancing coefficients, redox, and displacement with simplified NCERT breakdowns.',
+    blueprint: [
+      { step: '01', title: 'NCERT Concept Notes', duration: '12 min', desc: '5 Reaction Types & Equations' },
+      { step: '02', title: 'Lab Reactions & Colors', duration: '8 min', desc: '13 Verified NCERT Experiments' },
+      { step: '03', title: 'Board Recall Quiz', duration: '3 min', desc: 'Quick MCQ practice for +50 XP' },
+    ],
   },
   maths: {
     id: 'maths',
-    tabLabel: '📐 Mathematics',
+    tabLabel: 'Mathematics',
+    Icon: Calculator,
     subjectCode: '041',
     chapter: 'Real Numbers',
     chapterSlug: 'real-numbers',
@@ -37,11 +58,17 @@ const STARTERS = {
     badgeBg: '#eff6ff',
     themeGradient: 'radial-gradient(ellipse at top right, rgba(37, 99, 235, 0.08), transparent 70%)',
     summary:
-      'Learn prime factorisation, HCF × LCM formulas, and step-by-step proofs for irrational numbers (√2, √3, √5).',
+      'Learn prime factorisation, HCF × LCM formulas, and step-by-step contradiction proofs for irrational numbers (√2, √3, √5).',
+    blueprint: [
+      { step: '01', title: 'Fundamental Theorem', duration: '10 min', desc: 'Prime factorisation & HCF×LCM' },
+      { step: '02', title: 'Irrationality Proofs', duration: '8 min', desc: 'Contradiction method for √2, √3' },
+      { step: '03', title: 'Board Speed Drill', duration: '3 min', desc: 'Quick MCQ practice for +50 XP' },
+    ],
   },
   sst: {
     id: 'sst',
-    tabLabel: '🌍 Social Science',
+    tabLabel: 'Social Science',
+    Icon: Globe2,
     subjectCode: '087',
     chapter: 'The Rise of Nationalism in Europe',
     chapterSlug: 'rise-of-nationalism-in-europe',
@@ -54,10 +81,16 @@ const STARTERS = {
     themeGradient: 'radial-gradient(ellipse at top right, rgba(217, 119, 6, 0.08), transparent 70%)',
     summary:
       'Understand the French Revolution, Napoleonic Civil Code of 1804, Mazzini, and German & Italian unification simply.',
+    blueprint: [
+      { step: '01', title: 'French Revolution & Ideas', duration: '12 min', desc: 'Civil Code of 1804 & Liberalism' },
+      { step: '02', title: 'German & Italian Unification', duration: '10 min', desc: 'Bismarck, Cavour, Garibaldi' },
+      { step: '03', title: 'Timeline & Dates Quiz', duration: '4 min', desc: 'Quick recall for +50 XP' },
+    ],
   },
   english: {
     id: 'english',
-    tabLabel: '📚 English',
+    tabLabel: 'English',
+    Icon: BookOpenCheck,
     subjectCode: '184',
     chapter: 'A Letter to God',
     chapterSlug: 'a-letter-to-god',
@@ -69,7 +102,12 @@ const STARTERS = {
     badgeBg: '#f5f3ff',
     themeGradient: 'radial-gradient(ellipse at top right, rgba(124, 58, 237, 0.08), transparent 70%)',
     summary:
-      'Explore Lencho’s steadfast faith, the hailstorm destruction, and the bittersweet irony of the postal workers.',
+      'Explore Lencho’s steadfast faith, the devastating hailstorm, and the bittersweet irony of the postal workers.',
+    blueprint: [
+      { step: '01', title: 'Story Summary & Themes', duration: '8 min', desc: 'Lencho’s faith & irony explained' },
+      { step: '02', title: 'Character Analysis', duration: '6 min', desc: 'Postmaster generosity & symbolism' },
+      { step: '03', title: 'Extract & Literature Quiz', duration: '3 min', desc: 'Quick recall for +50 XP' },
+    ],
   },
 } as const;
 
@@ -100,6 +138,8 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
   // 1. Day-1 Starter State
   if (step.kind === 'start') {
     const current = STARTERS[selectedStarter];
+    const SubjectIcon = current.Icon;
+
     return (
       <section
         className={styles.heroCard}
@@ -111,6 +151,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
           <div className={styles.subjectSwitcher} role="tablist" aria-label="Select subject starter">
             {(Object.keys(STARTERS) as StarterKey[]).map((key) => {
               const item = STARTERS[key];
+              const TabIcon = item.Icon;
               const isActive = selectedStarter === key;
               return (
                 <button
@@ -121,7 +162,8 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
                   className={`${styles.switcherTab} ${isActive ? styles.switcherTabActive : ''}`}
                   onClick={() => setSelectedStarter(key)}
                 >
-                  {item.tabLabel}
+                  <TabIcon size={15} strokeWidth={2.2} />
+                  <span>{item.tabLabel}</span>
                 </button>
               );
             })}
@@ -129,35 +171,91 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
 
           <div className={styles.heroPillGroup}>
             <span className={styles.heroMetaPill}>CBSE Code {current.subjectCode}</span>
-            <span className={styles.heroTimePill}>⏱️ {current.timeEst}</span>
+            <span className={styles.heroTimePill}>
+              <Clock size={13} strokeWidth={2} />
+              <span>{current.timeEst}</span>
+            </span>
           </div>
         </div>
 
-        {/* Hero Centerpiece */}
-        <div className={styles.heroMainBody}>
-          <div className={styles.heroHeaderBlock}>
-            <span className={styles.heroEyebrow}>RECOMMENDED FIRST MISSION</span>
-            <h2 className={styles.heroTitle}>{current.chapter}</h2>
-            <p className={styles.heroSummary}>{current.summary}</p>
+        {/* Hero 2-Column Deck: Action Left + Blueprint Right */}
+        <div className={styles.heroSplitGrid}>
+          {/* Left Column: Action Center */}
+          <div className={styles.heroLeftCol}>
+            <div className={styles.heroHeaderBlock}>
+              <div className={styles.heroEyebrowRow}>
+                <span className={styles.heroEyebrow}>RECOMMENDED FIRST MISSION</span>
+                <span
+                  className={styles.heroSubjectMiniTag}
+                  style={{ color: current.badgeColor, backgroundColor: current.badgeBg }}
+                >
+                  <SubjectIcon size={12} strokeWidth={2.2} />
+                  <span>Class 10 NCERT</span>
+                </span>
+              </div>
+              <h2 className={styles.heroTitle}>{current.chapter}</h2>
+              <p className={styles.heroSummary}>{current.summary}</p>
+            </div>
+
+            <div className={styles.heroActionsRow}>
+              <Link className={styles.heroCtaPrimary} href={current.quizHref}>
+                <Play size={15} fill="currentColor" />
+                <span>Start 3-Min Quiz ({current.xp})</span>
+                <ArrowRight size={15} strokeWidth={2.5} />
+              </Link>
+              <Link className={styles.heroCtaSecondary} href={current.notesHref}>
+                <BookOpen size={15} strokeWidth={2} />
+                <span>Read Notes</span>
+              </Link>
+              <button
+                type="button"
+                className={styles.heroAskTaraBtn}
+                onClick={() =>
+                  openTara(`Can you explain the key concepts and formulas of Class 10 ${current.chapter}?`)
+                }
+                title="Ask Tara AI about this chapter"
+              >
+                <Sparkles size={14} strokeWidth={2} />
+                <span>Ask Tara</span>
+              </button>
+            </div>
           </div>
 
-          <div className={styles.heroActionsRow}>
-            <Link className={styles.heroCtaPrimary} href={current.quizHref}>
-              ▶ Start 3-Min Quiz ({current.xp}) →
-            </Link>
-            <Link className={styles.heroCtaSecondary} href={current.notesHref}>
-              📖 Read Notes
-            </Link>
-            <button
-              type="button"
-              className={styles.heroAskTaraBtn}
-              onClick={() =>
-                openTara(`Can you explain the key concepts of Class 10 ${current.chapter}?`)
-              }
-              title="Ask Tara AI about this chapter"
-            >
-              ✨ Ask Tara
-            </button>
+          {/* Right Column: 3-Step NCERT Blueprint */}
+          <div className={styles.heroRightCol}>
+            <div className={styles.blueprintCard}>
+              <div className={styles.blueprintHead}>
+                <div className={styles.blueprintTitleRow}>
+                  <Target size={14} strokeWidth={2.2} color={current.badgeColor} />
+                  <span className={styles.blueprintHeading}>3-Step Chapter Blueprint</span>
+                </div>
+                <span className={styles.blueprintTag}>Topper Method</span>
+              </div>
+
+              <div className={styles.blueprintStepList}>
+                {current.blueprint.map((b, idx) => (
+                  <div key={b.step} className={styles.blueprintStepItem}>
+                    <div
+                      className={styles.blueprintStepNum}
+                      style={{
+                        backgroundColor: idx === 0 ? current.badgeBg : '#f5f2ea',
+                        color: idx === 0 ? current.badgeColor : '#6a645d',
+                        borderColor: idx === 0 ? current.badgeColor : '#e7e2d6',
+                      }}
+                    >
+                      {b.step}
+                    </div>
+                    <div className={styles.blueprintStepInfo}>
+                      <div className={styles.blueprintStepTop}>
+                        <strong className={styles.blueprintStepTitle}>{b.title}</strong>
+                        <span className={styles.blueprintStepTime}>{b.duration}</span>
+                      </div>
+                      <span className={styles.blueprintStepDesc}>{b.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -170,7 +268,8 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
       <section className={`${styles.heroCard} ${styles.heroCardRevise}`} aria-label="Targeted Revision">
         <div className={styles.heroSwitcherRow}>
           <span className={styles.heroSubjectBadgeRevise}>
-            🚨 Targeted Revision · {step.subjectName}
+            <RotateCcw size={14} strokeWidth={2.2} />
+            <span>Targeted Revision · {step.subjectName}</span>
           </span>
           <span className={styles.heroXpPill}>+60 XP Recovery</span>
         </div>
@@ -186,13 +285,17 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
 
           <div className={styles.heroActionsRow}>
             <Link className={styles.heroCtaPrimary} href={step.href}>
-              ▶ Start Revision Mission →
+              <RotateCcw size={15} strokeWidth={2.2} />
+              <span>Start Revision Mission</span>
+              <ArrowRight size={15} strokeWidth={2.5} />
             </Link>
             <Link className={styles.heroCtaSecondary} href={`/chapters/${step.chapterSlug}`}>
-              📖 Open Notes
+              <BookOpen size={15} strokeWidth={2} />
+              <span>Open Notes</span>
             </Link>
             <Link className={styles.heroQuietLink} href="/my-mistakes">
-              View Mistakes →
+              <span>View Mistakes</span>
+              <ArrowRight size={13} strokeWidth={2} />
             </Link>
           </div>
         </div>
@@ -205,7 +308,8 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
     <section className={styles.heroCard} aria-label="Continue Chapter">
       <div className={styles.heroSwitcherRow}>
         <span className={styles.heroSubjectBadge}>
-          ⚡ In Progress · {step.subjectName}
+          <Play size={14} fill="currentColor" />
+          <span>In Progress · {step.subjectName}</span>
         </span>
         <span className={styles.heroXpPill}>+40 XP</span>
       </div>
@@ -235,20 +339,24 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
 
         <div className={styles.heroActionsRow}>
           <Link className={styles.heroCtaPrimary} href={step.href}>
-            ▶ Resume Chapter ({step.masteryScore}%) →
+            <Play size={15} fill="currentColor" />
+            <span>Resume Chapter ({step.masteryScore}%)</span>
+            <ArrowRight size={15} strokeWidth={2.5} />
           </Link>
           <Link
             className={styles.heroCtaSecondary}
             href={`/chapters/${step.chapterSlug}/quiz`}
           >
-            ⚡ Take Quiz
+            <CheckCircle2 size={15} strokeWidth={2} />
+            <span>Take Quiz</span>
           </Link>
           <button
             type="button"
             className={styles.heroAskTaraBtn}
             onClick={() => openTara(`Explain the key formulas and concepts of ${step.chapterTitle}`)}
           >
-            ✨ Ask Tara
+            <Sparkles size={14} strokeWidth={2} />
+            <span>Ask Tara</span>
           </button>
         </div>
       </div>

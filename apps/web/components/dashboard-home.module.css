@@ -4,7 +4,7 @@
    ========================================================================= */
 
 .shell {
-  width: min(1320px, calc(100vw - 40px));
+  width: min(1240px, calc(100vw - 48px));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -234,7 +234,20 @@ a.statChip:hover {
   border: 1px solid #fde68a;
 }
 
-/* Hero Centerpiece */
+/* Hero Centerpiece: 2-Column Deck (Action Left + Blueprint Right) */
+.heroSplitGrid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.heroLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
 .heroMainBody {
   display: flex;
   flex-direction: column;
@@ -247,6 +260,13 @@ a.statChip:hover {
   gap: 0.35rem;
 }
 
+.heroEyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
 .heroEyebrow {
   font-size: 0.74rem;
   font-weight: 850;
@@ -255,9 +275,21 @@ a.statChip:hover {
   color: #c95014;
 }
 
+.heroSubjectMiniTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .heroTitle {
   margin: 0;
-  font-size: 1.95rem;
+  font-size: 1.85rem;
   font-weight: 900;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -266,18 +298,128 @@ a.statChip:hover {
 
 .heroSummary {
   margin: 0.15rem 0 0;
-  font-size: 0.96rem;
+  font-size: 0.94rem;
   line-height: 1.55;
   color: #55514b;
-  max-width: 680px;
+}
+
+/* Blueprint card in Hero Right */
+.heroRightCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.blueprintCard {
+  background: #faf7f2;
+  border: 1px solid #e7e2d6;
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: 0 1px 3px rgba(23, 21, 19, 0.03);
+}
+
+.blueprintHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid #ebe5d8;
+}
+
+.blueprintTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.blueprintHeading {
+  font-size: 0.78rem;
+  font-weight: 850;
+  color: #171513;
+  letter-spacing: -0.01em;
+}
+
+.blueprintTag {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: #f1ede4;
+  color: #6a645d;
+}
+
+.blueprintStepList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blueprintStepItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.blueprintStepNum {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: 1px solid #e7e2d6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.blueprintStepInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.blueprintStepTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.blueprintStepTitle {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #171513;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blueprintStepTime {
+  font-size: 0.68rem;
+  font-weight: 750;
+  color: #8c827a;
+}
+
+.blueprintStepDesc {
+  font-size: 0.7rem;
+  color: #787168;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .heroActionsRow {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  padding-top: 0.25rem;
+  padding-top: 0.15rem;
 }
 
 .heroCtaPrimary {
@@ -390,6 +532,17 @@ a.statChip:hover {
   gap: 0.5rem;
 }
 
+.sectionIconBox {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff4e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .sectionIcon {
   font-size: 1.15rem;
 }
@@ -436,6 +589,7 @@ a.statChip:hover {
 .subjectCard {
   background: #ffffff;
   border: 1px solid #e7e2d6;
+  border-top-width: 3px;
   border-radius: 18px;
   box-shadow: 0 1px 4px rgba(23, 21, 19, 0.04);
   padding: 1.35rem 1.45rem;
@@ -727,11 +881,34 @@ a.statChip:hover {
 .mockBannerLeft {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.15rem;
 }
 
-.mockBannerIcon {
-  font-size: 2rem;
+.mockBannerIconBox {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(201, 80, 20, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(201, 80, 20, 0.3);
+}
+
+.mockBannerTagRow {
+  margin-bottom: 0.35rem;
+}
+
+.mockBannerTag {
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.15);
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid rgba(251, 146, 60, 0.25);
 }
 
 .mockBannerTitle {
@@ -745,6 +922,7 @@ a.statChip:hover {
   margin: 0.2rem 0 0;
   font-size: 0.85rem;
   color: #d6d3d1;
+  line-height: 1.45;
 }
 
 .mockBannerBtn {
@@ -883,6 +1061,18 @@ a.statChip:hover {
   display: flex;
   align-items: center;
   gap: 0.65rem;
+}
+
+.flameIconBox {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fff4e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(234, 88, 12, 0.2);
 }
 
 .flameIcon {
@@ -1251,18 +1441,17 @@ a.statChip:hover {
 }
 
 .questCheckbox {
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
   border: 1.5px solid #a8a29e;
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.74rem;
-  font-weight: 900;
   color: #059669;
   flex-shrink: 0;
+  transition: all 0.15s ease;
 }
 
 .questItemDone .questCheckbox {
@@ -1361,9 +1550,20 @@ a.statChip:hover {
   transform: translateX(2px);
 }
 
+.promptBtnLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .promptArrow {
   font-size: 0.85rem;
   font-weight: 900;
+  transition: transform 0.12s ease;
+}
+
+.taraPromptBtn:hover .promptArrow {
+  transform: translateX(2px);
 }
 
 .taraOpenFullBtn {
@@ -1397,6 +1597,13 @@ a.statChip:hover {
   .sidebarColumn {
     position: static;
     margin-top: 1rem;
+  }
+}
+
+@media (max-width: 960px) {
+  .heroSplitGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
 

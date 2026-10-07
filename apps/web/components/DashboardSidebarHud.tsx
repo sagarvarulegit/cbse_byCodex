@@ -2,6 +2,17 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import {
+  Flame,
+  Target,
+  Check,
+  Sparkles,
+  ArrowRight,
+  FlaskConical,
+  Calculator,
+  Globe2,
+  HelpCircle,
+} from 'lucide-react';
 import TaraFireflyIcon from './TaraFireflyIcon';
 import styles from './dashboard-home.module.css';
 
@@ -28,9 +39,9 @@ export type DashboardSidebarHudProps = {
 const DAY_NAMES = ['M', 'T', 'W', 'T', 'F', 'S', 'S'] as const;
 
 const TARA_PROMPTS = [
-  { text: 'Explain Redox reactions simply with real examples', label: '🧪 Redox Reactions' },
-  { text: 'Trigonometric table 0-90 memory shortcut trick', label: '📐 Trig Shortcut' },
-  { text: 'How to write 5-mark answers in Class 10 SST?', label: '🌍 5-Mark SST Tips' },
+  { text: 'Explain Redox reactions simply with real examples', label: 'Redox Reactions', Icon: FlaskConical },
+  { text: 'Trigonometric table 0-90 memory shortcut trick', label: 'Trig Shortcut', Icon: Calculator },
+  { text: 'How to write 5-mark answers in Class 10 SST?', label: '5-Mark SST Tips', Icon: Globe2 },
 ] as const;
 
 function triggerTara(prompt?: string) {
@@ -107,7 +118,9 @@ export default function DashboardSidebarHud({
         {/* Streak & Weekly Track */}
         <div className={styles.streakHeader}>
           <div className={styles.streakFlame}>
-            <span className={styles.flameIcon}>🔥</span>
+            <div className={styles.flameIconBox}>
+              <Flame size={20} color="#ea580c" strokeWidth={2.5} />
+            </div>
             <div>
               <div className={styles.streakCount}>
                 {streakDays > 0 ? `${streakDays} Days` : 'Day 1'}
@@ -136,7 +149,7 @@ export default function DashboardSidebarHud({
               >
                 <span className={styles.dayLetter}>{name}</span>
                 <span className={styles.dayIndicator}>
-                  {isFilled ? '✓' : isToday ? '•' : ''}
+                  {isFilled ? <Check size={10} strokeWidth={3} /> : isToday ? '•' : ''}
                 </span>
               </div>
             );
@@ -147,7 +160,10 @@ export default function DashboardSidebarHud({
 
         {/* Board Readiness Gauge */}
         <div className={styles.cardHeaderSmall}>
-          <h3 className={styles.hudCardTitle}>Board Exam Readiness</h3>
+          <div className={styles.titleWithIcon}>
+            <Target size={16} color="#c95014" strokeWidth={2.5} />
+            <h3 className={styles.hudCardTitle}>Board Exam Readiness</h3>
+          </div>
           <span className={styles.targetBadge}>Target: 95%+</span>
         </div>
 
@@ -208,7 +224,8 @@ export default function DashboardSidebarHud({
               <div className={styles.weakHeaderRow}>
                 <span className={styles.weakSectionTitle}>Priority Focus</span>
                 <Link className={styles.weakAllLink} href="/my-mistakes">
-                  Mistakes →
+                  <span>Mistakes</span>
+                  <ArrowRight size={12} strokeWidth={2.5} />
                 </Link>
               </div>
               <div className={styles.weakMiniList}>
@@ -219,7 +236,8 @@ export default function DashboardSidebarHud({
                       <span>{item.subjectName}</span>
                     </div>
                     <Link className={styles.miniReviseBtn} href={item.href}>
-                      Revise →
+                      <span>Revise</span>
+                      <ArrowRight size={12} strokeWidth={2.5} />
                     </Link>
                   </div>
                 ))}
@@ -235,7 +253,8 @@ export default function DashboardSidebarHud({
               className={styles.kickoffBtn}
               href="/chapters/chemical-reactions-and-equations/quiz"
             >
-              Start Diagnostic Quiz →
+              <span>Start Diagnostic Quiz</span>
+              <ArrowRight size={14} strokeWidth={2.5} />
             </Link>
           </div>
         )}
@@ -246,7 +265,7 @@ export default function DashboardSidebarHud({
         {/* Quests Header */}
         <div className={styles.cardHeaderSmall}>
           <div className={styles.titleWithIcon}>
-            <span className={styles.titleIcon}>🎯</span>
+            <Target size={16} color="#c95014" strokeWidth={2.5} />
             <h3 className={styles.hudCardTitle}>Daily Missions</h3>
           </div>
           <span className={styles.questCounterBadge}>
@@ -274,7 +293,7 @@ export default function DashboardSidebarHud({
             }}
           >
             <div className={styles.questCheckbox}>
-              {completedQuests.quiz ? '✓' : ''}
+              {completedQuests.quiz ? <Check size={12} strokeWidth={3} /> : null}
             </div>
             <div className={styles.questDetails}>
               <span className={styles.questTitle}>Complete 1 NCERT Quiz</span>
@@ -294,7 +313,7 @@ export default function DashboardSidebarHud({
             }}
           >
             <div className={styles.questCheckbox}>
-              {completedQuests.lab ? '✓' : ''}
+              {completedQuests.lab ? <Check size={12} strokeWidth={3} /> : null}
             </div>
             <div className={styles.questDetails}>
               <span className={styles.questTitle}>Explore 1 Virtual Lab simulation</span>
@@ -314,7 +333,7 @@ export default function DashboardSidebarHud({
             }}
           >
             <div className={styles.questCheckbox}>
-              {completedQuests.tara ? '✓' : ''}
+              {completedQuests.tara ? <Check size={12} strokeWidth={3} /> : null}
             </div>
             <div className={styles.questDetails}>
               <span className={styles.questTitle}>Ask Tara AI a concept question</span>
@@ -337,17 +356,23 @@ export default function DashboardSidebarHud({
         </div>
 
         <div className={styles.taraPromptList}>
-          {TARA_PROMPTS.map((p) => (
-            <button
-              key={p.label}
-              type="button"
-              className={styles.taraPromptBtn}
-              onClick={() => triggerTara(p.text)}
-            >
-              <span>{p.label}</span>
-              <span className={styles.promptArrow}>→</span>
-            </button>
-          ))}
+          {TARA_PROMPTS.map((p) => {
+            const PromptIcon = p.Icon;
+            return (
+              <button
+                key={p.label}
+                type="button"
+                className={styles.taraPromptBtn}
+                onClick={() => triggerTara(p.text)}
+              >
+                <div className={styles.promptBtnLeft}>
+                  <PromptIcon size={14} strokeWidth={2} />
+                  <span>{p.label}</span>
+                </div>
+                <ArrowRight size={13} strokeWidth={2.5} className={styles.promptArrow} />
+              </button>
+            );
+          })}
         </div>
 
         <button
@@ -355,7 +380,8 @@ export default function DashboardSidebarHud({
           className={styles.taraOpenFullBtn}
           onClick={() => triggerTara()}
         >
-          Open Tara Assistant ✨
+          <Sparkles size={15} strokeWidth={2} />
+          <span>Open Tara Assistant</span>
         </button>
       </section>
     </aside>
