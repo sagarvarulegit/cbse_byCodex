@@ -21,7 +21,7 @@
        - **Tara AI Mascot Launchpad**: Bioluminescent firefly avatar, 1-click prompt triggers (*Redox Reactions*, *Trig Shortcut*, *5-Mark Tips*), and instant chat trigger.
   - Maintained 100% brand consistency: Warm paper canvas (`#fffdf8`, `#faf7f2`), crisp ink borders (`#171513`), neo-brutalist tactile offset shadows (`4px 4px 0 #171513`), and signature orange `#c95014`.
 - [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`1983ddd`).
+- [x] Committed and pushed to `origin/main` (`4ea6dbd`).
 - [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
 - [ ] **Next Task in Line**:
   - Review live user metrics and feedback on the renovated dashboard.
