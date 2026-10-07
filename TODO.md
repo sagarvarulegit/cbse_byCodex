@@ -1,28 +1,32 @@
-# Current Handoff - Dashboard v2: "One Next Step" Student Home Live (2026-10-06)
+# Current Handoff - Dashboard v3: Student Command Center Live (2026-10-07)
 
-- [x] Completely redesigned `/dashboard` from the ground up to solve choice overload, empty-panel fatigue, and visual loudness:
-  - Replaced the stacked 7-block layout with **conditional, data-driven sections** based on student activity:
-    1. **Greeting Bar**: Slim greeting with real streak chip and active pack counter chip (replacing the bulky purchases banner).
-    2. **One Next-Step Hero (`DashboardNextStepHero.tsx`)**: The ONLY ink-bordered card on the page. Features a single primary action CTA:
-       - Brand-new student: 3-minute starter quiz (Science Ch 1 / Maths Ch 1 toggle) + quiet "Ask Tara" link.
-       - Student with mistakes due: Focused revision task + "My Mistakes" link.
-       - Student in progress: Direct "Continue chapter" with real mastery score %.
-    3. **Continue Learning Row**: Displays up to 3 recently studied chapters with mastery % and relative timestamps (hidden if 0 chapters touched).
-    4. **4 Core Subject Tiles**: Clean, compact tiles with accurate chapter counts, real progress percentages (fixed the string-match bug), and direct subject links.
-    5. **My Progress Card**: Merges readiness score, mock average, and weak chapters. Hides wall-of-zeros and false praise for new students ("Your readiness score appears after your first quiz").
-    6. **Slim Tools Row**: Compact chips linking to 3D Lab, Formula Cheatsheets, Score Predictor (`/tools/readiness-predictor`), and Formula Rush.
-- [x] Fixed all bugs identified during audit:
-  - Fixed styled-jsx leak on Next `<Link>` by migrating to CSS modules (`dashboard-home.module.css`).
-  - Fixed subject progress calculation using `getCurriculumSubjectChapterEntries` slug matching instead of string `includes`.
-  - Fixed Score Predictor link pointing to `/tools/readiness-predictor`.
-  - Removed unverified marks claims and fake praise for new students.
+- [x] Complete UI/UX renovation of student `/dashboard` into an elite, high-engagement **Class 10 Student Command Center**:
+  - Replaced the sterile, single-column flat layout with a balanced, desktop-optimized **2-Column Command Grid (~68% workspace / ~32% sticky HUD)**:
+    1. **Command Header**: Welcoming greeting with "Target: 95%+ Topper Track" mission badge, dynamic study streak badge, live Board readiness score, and core chapter counter.
+    2. **Upgraded Action Hero (`DashboardNextStepHero.tsx`)**:
+       - 4-subject tab switcher (`🧪 Science`, `📐 Maths`, `🌍 Social Science`, `📚 English`) right on the card.
+       - 3-step visual mastery blueprint: 📖 *Read Notes (~12m)* → 🔬 *Key Diagrams (~8m)* → ⚡ *Recall Quiz (~5m)*.
+       - Tactical neo-brutalist CTA with drop shadow: `[▶ Start 3-Min Quiz (+50 XP) →]` + `[📖 Read Chapter Notes]` + `[✨ Ask Tara]`.
+       - Dedicated recovery mode for active revision missions and progress mode for in-progress chapters.
+    3. **Core Subject Stations (2x2 Grid)**:
+       - 4 distinct neo-brutalist subject stations (Science Code 086, Maths Code 041, SST Code 087, English Code 184).
+       - Each station features subject-themed icon badges, real chapter completion meters, next chapter teaser, and **dual 1-click action buttons** (`[📖 Notes]` and `[⚡ Quiz]`).
+    4. **High-Yield Practice & Revision Deck (2x2 Grid)**:
+       - Transformed the plain text chips into 4 rich feature cards (🔬 3D Virtual Science Lab, ⚡ Formula Cheatsheets, 🎯 Board Score Predictor, 🎮 Formula Rush Arcade).
+       - Featured high-impact banner for 📄 CBSE Official Board Mock Papers & Marking Schemes (`/exam-papers`).
+    5. **Gamification & Live HUD Sidebar (`DashboardSidebarHud.tsx`)**:
+       - **Streak & Weekly Momentum**: 7-day visual week track (M, T, W, T, F, S, S) with current day glowing/active and daily streak challenge nudge.
+       - **Board Exam Readiness Gauge**: Circular SVG progress ring with percentile target (`Target: 95%+ Topper Track`), breakdown of syllabus covered, quiz accuracy, and mock average; plus an inspiring "Ready to Launch" baseline preview for new students instead of an empty dashed box.
+       - **Daily Quests Checklist**: 3 gamified daily micro-missions with interactive checkboxes and XP rewards.
+       - **Tara AI Mascot Launchpad**: Bioluminescent firefly avatar, 1-click prompt triggers (*Redox Reactions*, *Trig Shortcut*, *5-Mark Tips*), and instant chat trigger.
+  - Maintained 100% brand consistency: Warm paper canvas (`#fffdf8`, `#faf7f2`), crisp ink borders (`#171513`), neo-brutalist tactile offset shadows (`4px 4px 0 #171513`), and signature orange `#c95014`.
 - [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`50e534b`).
+- [x] Committed and pushed to `origin/main` (`1983ddd`).
 - [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
 - [ ] **Next Task in Line**:
-  - Test and verify dashboard appearance live in browser.
+  - Review live user metrics and feedback on the renovated dashboard.
   - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
-  - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are active.
+  - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are unpaused.
 
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 
