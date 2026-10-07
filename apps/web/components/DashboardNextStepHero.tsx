@@ -9,15 +9,13 @@ import styles from './dashboard-home.module.css';
 const STARTERS = {
   science: {
     id: 'science',
-    label: '🧪 Science',
+    tabLabel: '🧪 Science',
     subjectCode: '086',
-    title: 'Science · Chapter 1',
     chapter: 'Chemical Reactions and Equations',
     chapterSlug: 'chemical-reactions-and-equations',
     notesHref: '/chapters/chemical-reactions-and-equations',
     quizHref: '/chapters/chemical-reactions-and-equations/quiz',
-    conceptHighlight: 'Balancing, Redox & Precipitation',
-    timeEst: '3 min quiz',
+    timeEst: '3 min',
     xp: '+50 XP',
     badgeColor: '#059669',
     badgeBg: '#ecfdf5',
@@ -26,49 +24,43 @@ const STARTERS = {
   },
   maths: {
     id: 'maths',
-    label: '📐 Maths',
+    tabLabel: '📐 Maths',
     subjectCode: '041',
-    title: 'Mathematics Standard · Chapter 1',
     chapter: 'Real Numbers',
     chapterSlug: 'real-numbers',
     notesHref: '/chapters/real-numbers',
     quizHref: '/chapters/real-numbers/quiz',
-    conceptHighlight: 'Fundamental Theorem of Arithmetic',
-    timeEst: '3 min quiz',
+    timeEst: '3 min',
     xp: '+50 XP',
     badgeColor: '#2563eb',
     badgeBg: '#eff6ff',
     summary:
-      'Learn prime factorisation, HCF × LCM formulas, and step-by-step proofs for irrational numbers (√2, √3, √5).',
+      'Learn prime factorisation, HCF × LCM relations, and step-by-step proofs for irrational numbers (√2, √3, √5).',
   },
   sst: {
     id: 'sst',
-    label: '🌍 Social Science',
+    tabLabel: '🌍 Social',
     subjectCode: '087',
-    title: 'Social Science · History Chapter 1',
     chapter: 'The Rise of Nationalism in Europe',
     chapterSlug: 'rise-of-nationalism-in-europe',
     notesHref: '/chapters/rise-of-nationalism-in-europe',
     quizHref: '/chapters/rise-of-nationalism-in-europe/quiz',
-    conceptHighlight: 'French Revolution & Unification',
-    timeEst: '4 min quiz',
+    timeEst: '4 min',
     xp: '+50 XP',
     badgeColor: '#d97706',
     badgeBg: '#fffbeb',
     summary:
-      'Understand the French Revolution, Civil Code of 1804, Mazzini, and German & Italian unification in memorable story points.',
+      'Understand the French Revolution, Napoleonic Civil Code of 1804, Mazzini, and German & Italian unification simply.',
   },
   english: {
     id: 'english',
-    label: '📚 English',
+    tabLabel: '📚 English',
     subjectCode: '184',
-    title: 'English · First Flight Chapter 1',
     chapter: 'A Letter to God',
     chapterSlug: 'a-letter-to-god',
     notesHref: '/chapters/a-letter-to-god',
     quizHref: '/chapters/a-letter-to-god/quiz',
-    conceptHighlight: 'Lencho & Irony of Faith',
-    timeEst: '3 min quiz',
+    timeEst: '3 min',
     xp: '+50 XP',
     badgeColor: '#7c3aed',
     badgeBg: '#f5f3ff',
@@ -113,13 +105,13 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
               className={styles.heroSubjectBadge}
               style={{ color: current.badgeColor, backgroundColor: current.badgeBg }}
             >
-              {current.label} · Code {current.subjectCode}
+              {current.tabLabel} · Code {current.subjectCode}
             </span>
             <span className={styles.heroXpPill}>{current.xp}</span>
             <span className={styles.heroTimePill}>⏱️ {current.timeEst}</span>
           </div>
 
-          {/* Subject Switcher Tabs */}
+          {/* Subject Switcher Segmented Control */}
           <div className={styles.subjectSwitcher} role="tablist" aria-label="Select subject starter">
             {(Object.keys(STARTERS) as StarterKey[]).map((key) => {
               const item = STARTERS[key];
@@ -133,7 +125,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
                   className={`${styles.switcherTab} ${isActive ? styles.switcherTabActive : ''}`}
                   onClick={() => setSelectedStarter(key)}
                 >
-                  {item.label.split(' ')[0]} {item.label.split(' ')[1]}
+                  {item.tabLabel}
                 </button>
               );
             })}
@@ -146,33 +138,6 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
             <p className={styles.heroEyebrow}>Recommended First Mission</p>
             <h2 className={styles.heroTitle}>{current.chapter}</h2>
             <p className={styles.heroSummary}>{current.summary}</p>
-
-            {/* 3-Step Visual Mastery Blueprint */}
-            <div className={styles.masteryRoadmap}>
-              <div className={`${styles.roadmapStep} ${styles.roadmapStepActive}`}>
-                <div className={styles.roadmapNumber}>1</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Read Notes</strong>
-                  <span>~12 min · NCERT core</span>
-                </div>
-              </div>
-              <div className={styles.roadmapDivider}>→</div>
-              <div className={styles.roadmapStep}>
-                <div className={styles.roadmapNumber}>2</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Key Diagrams</strong>
-                  <span>~8 min · Lab visual</span>
-                </div>
-              </div>
-              <div className={styles.roadmapDivider}>→</div>
-              <div className={`${styles.roadmapStep} ${styles.roadmapStepGoal}`}>
-                <div className={styles.roadmapNumber}>3</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Recall Quiz</strong>
-                  <span>~5 min · Board PYQ</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Action Column */}
@@ -182,7 +147,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
             </Link>
             <div className={styles.heroSecondaryRow}>
               <Link className={styles.heroCtaSecondary} href={current.notesHref}>
-                📖 Read Chapter Notes
+                📖 Read Notes
               </Link>
               <button
                 type="button"
@@ -221,33 +186,6 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
             <p className={styles.heroSummary}>
               <strong>Trigger:</strong> {step.reason}. Revise key concepts and retake the quiz to secure board marks.
             </p>
-
-            {/* 3-Step Recovery Roadmap */}
-            <div className={styles.masteryRoadmap}>
-              <div className={`${styles.roadmapStep} ${styles.roadmapStepActive}`}>
-                <div className={styles.roadmapNumber}>1</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Review Notes</strong>
-                  <span>Fix misconceptions</span>
-                </div>
-              </div>
-              <div className={styles.roadmapDivider}>→</div>
-              <div className={styles.roadmapStep}>
-                <div className={styles.roadmapNumber}>2</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Exemplar Tips</strong>
-                  <span>Board marking rules</span>
-                </div>
-              </div>
-              <div className={styles.roadmapDivider}>→</div>
-              <div className={`${styles.roadmapStep} ${styles.roadmapStepGoal}`}>
-                <div className={styles.roadmapNumber}>3</div>
-                <div className={styles.roadmapContent}>
-                  <strong>Retake Quiz</strong>
-                  <span>Score 80%+ to master</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className={styles.heroActionGroup}>
@@ -259,7 +197,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
                 📖 Open Notes
               </Link>
               <Link className={styles.heroQuietLink} href="/my-mistakes">
-                View All Mistakes →
+                View Mistakes →
               </Link>
             </div>
           </div>
@@ -287,7 +225,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
 
           <div className={styles.heroProgressWrap}>
             <div className={styles.heroProgressText}>
-              <span>Current Chapter Mastery</span>
+              <span>Chapter Mastery</span>
               <strong>{step.masteryScore}% Complete</strong>
             </div>
             <div className={styles.bar}>
@@ -299,7 +237,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
           </div>
 
           <p className={styles.heroSummary}>
-            You’ve already begun this chapter! Finish the remaining topics and test your board readiness.
+            You’ve already started this chapter! Complete remaining topics and lock in your marks.
           </p>
         </div>
 
@@ -312,7 +250,7 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
               className={styles.heroCtaSecondary}
               href={`/chapters/${step.chapterSlug}/quiz`}
             >
-              ⚡ Take Chapter Quiz
+              ⚡ Take Quiz
             </Link>
             <button
               type="button"

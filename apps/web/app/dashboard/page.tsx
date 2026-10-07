@@ -329,28 +329,29 @@ export default async function DashboardPage() {
                         <span className={styles.nextTeaserName}>{meta.nextChapterTitle}</span>
                       </div>
 
-                      {/* Dual 1-Click Action Buttons */}
+                      {/* Refined Action Row */}
                       <div className={styles.subjectActionRow}>
                         <Link
-                          className={styles.subjectNotesBtn}
-                          href={`/chapters/${meta.nextChapterSlug}`}
+                          className={styles.subjectExploreLink}
+                          href={`/subjects/${subject.slug}`}
                         >
-                          📖 Notes
+                          All {subject.chapterCount} chapters →
                         </Link>
-                        <Link
-                          className={styles.subjectQuizBtn}
-                          href={`/chapters/${meta.nextChapterSlug}/quiz`}
-                        >
-                          ⚡ Quiz
-                        </Link>
+                        <div className={styles.subjectActionLinks}>
+                          <Link
+                            className={styles.subjectNotesBtn}
+                            href={`/chapters/${meta.nextChapterSlug}`}
+                          >
+                            📖 Notes
+                          </Link>
+                          <Link
+                            className={styles.subjectQuizBtn}
+                            href={`/chapters/${meta.nextChapterSlug}/quiz`}
+                          >
+                            ⚡ Quiz
+                          </Link>
+                        </div>
                       </div>
-
-                      <Link
-                        className={styles.subjectExploreLink}
-                        href={`/subjects/${subject.slug}`}
-                      >
-                        Explore all {subject.chapterCount} chapters →
-                      </Link>
                     </div>
                   );
                 })}

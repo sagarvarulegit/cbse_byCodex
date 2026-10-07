@@ -28,16 +28,15 @@ export type DashboardSidebarHudProps = {
 const DAY_NAMES = ['M', 'T', 'W', 'T', 'F', 'S', 'S'] as const;
 
 const TARA_PROMPTS = [
-  { text: 'Explain Redox reactions simply', label: '🧪 Redox Reactions' },
-  { text: 'Trigonometric table memory trick', label: '📐 Trig Shortcut' },
-  { text: 'How to write 5-mark answers in SST?', label: '🌍 5-Mark Tips' },
+  { text: 'Explain Redox reactions simply with real examples', label: '🧪 Redox Reactions' },
+  { text: 'Trigonometric table 0-90 memory shortcut trick', label: '📐 Trig Shortcut' },
+  { text: 'How to write 5-mark answers in Class 10 SST?', label: '🌍 5-Mark SST Tips' },
 ] as const;
 
 function triggerTara(prompt?: string) {
   const bubble = document.querySelector('[aria-label*="Tara"]') as HTMLElement | null;
   if (!bubble) return;
 
-  // If chat window is closed, click the bubble to open
   const isExpanded = bubble.getAttribute('aria-expanded') === 'true';
   if (!isExpanded) {
     bubble.click();
@@ -66,10 +65,7 @@ export default function DashboardSidebarHud({
   totalCoreChapters,
   weakChapters,
 }: DashboardSidebarHudProps) {
-  // Weekly days calculation (Monday = 0 ... Sunday = 6)
   const todayIdx = (new Date().getDay() + 6) % 7;
-
-  // Gamified daily missions in client storage
   const [completedQuests, setCompletedQuests] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -80,7 +76,7 @@ export default function DashboardSidebarHud({
         setCompletedQuests(JSON.parse(saved));
       }
     } catch {
-      // ignore storage errors
+      // ignore
     }
   }, []);
 
@@ -100,15 +96,15 @@ export default function DashboardSidebarHud({
   const questsCount = 3;
   const questsDone = Object.values(completedQuests).filter(Boolean).length;
 
-  // SVG Gauge calculations
-  const radius = 44;
-  const circumference = 2 * Math.PI * radius; // ~276.46
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (Math.min(Math.max(readiness, 0), 100) / 100) * circumference;
 
   return (
     <aside className={styles.sidebarHud} aria-label="Student Command HUD">
-      {/* 1. Daily Streak & Momentum Card */}
+      {/* Card 1: Study Momentum & Board Readiness */}
       <section className={styles.hudCard}>
+        {/* Streak & Weekly Track */}
         <div className={styles.streakHeader}>
           <div className={styles.streakFlame}>
             <span className={styles.flameIcon}>🔥</span>
@@ -117,14 +113,13 @@ export default function DashboardSidebarHud({
                 {streakDays > 0 ? `${streakDays} Days` : 'Day 1'}
               </div>
               <div className={styles.streakSub}>
-                {streakDays > 0 ? (streakLabel || 'Active Streak') : 'Start Daily Habit'}
+                {streakDays > 0 ? (streakLabel || 'Study Streak') : 'Start Habit'}
               </div>
             </div>
           </div>
           <span className={styles.streakXpBadge}>+20 XP Today</span>
         </div>
 
-        {/* 7-Day Week Momentum Track */}
         <div className={styles.weekTrack} aria-label="Weekly activity track">
           {DAY_NAMES.map((name, idx) => {
             const isToday = idx === todayIdx;
@@ -148,15 +143,9 @@ export default function DashboardSidebarHud({
           })}
         </div>
 
-        <p className={styles.streakNudge}>
-          {streakDays > 0
-            ? 'Complete 1 quiz or read 1 topic today to keep your streak burning!'
-            : 'Take your first 3-minute quiz today to ignite your study streak!'}
-        </p>
-      </section>
+        <div className={styles.hudDivider} />
 
-      {/* 2. Board Exam Readiness Gauge */}
-      <section className={styles.hudCard}>
+        {/* Board Readiness Gauge */}
         <div className={styles.cardHeaderSmall}>
           <h3 className={styles.hudCardTitle}>Board Exam Readiness</h3>
           <span className={styles.targetBadge}>Target: 95%+</span>
@@ -164,20 +153,20 @@ export default function DashboardSidebarHud({
 
         <div className={styles.gaugeContainer}>
           <div className={styles.gaugeSvgWrap}>
-            <svg className={styles.gaugeSvg} viewBox="0 0 110 110">
+            <svg className={styles.gaugeSvg} viewBox="0 0 100 100">
               <circle
                 className={styles.gaugeBgCircle}
-                cx="55"
-                cy="55"
+                cx="50"
+                cy="50"
                 r={radius}
-                strokeWidth="9"
+                strokeWidth="8"
               />
               <circle
                 className={styles.gaugeFillCircle}
-                cx="55"
-                cy="55"
+                cx="50"
+                cy="50"
                 r={radius}
-                strokeWidth="9"
+                strokeWidth="8"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
               />
@@ -217,9 +206,9 @@ export default function DashboardSidebarHud({
           weakChapters.length > 0 ? (
             <div className={styles.weakSubSection}>
               <div className={styles.weakHeaderRow}>
-                <span className={styles.weakSectionTitle}>High-Priority Focus</span>
+                <span className={styles.weakSectionTitle}>Priority Focus</span>
                 <Link className={styles.weakAllLink} href="/my-mistakes">
-                  My Mistakes →
+                  Mistakes →
                 </Link>
               </div>
               <div className={styles.weakMiniList}>
@@ -236,15 +225,11 @@ export default function DashboardSidebarHud({
                 ))}
               </div>
             </div>
-          ) : (
-            <p className={styles.hudSubNote}>
-              🌟 No weak chapters detected! Take a full mock paper to test full syllabus endurance.
-            </p>
-          )
+          ) : null
         ) : (
           <div className={styles.gaugeKickoffBox}>
             <p className={styles.kickoffText}>
-              Complete your first 3-minute quiz to unlock your personalized Board Score forecast and weak-spot radar.
+              Take a short 3-minute quiz to benchmark your starting board score trajectory.
             </p>
             <Link
               className={styles.kickoffBtn}
@@ -256,12 +241,13 @@ export default function DashboardSidebarHud({
         )}
       </section>
 
-      {/* 3. Daily Quests / Missions */}
+      {/* Card 2: Daily Quests & Ask Tara AI */}
       <section className={styles.hudCard}>
+        {/* Quests Header */}
         <div className={styles.cardHeaderSmall}>
           <div className={styles.titleWithIcon}>
             <span className={styles.titleIcon}>🎯</span>
-            <h3 className={styles.hudCardTitle}>Daily Quests</h3>
+            <h3 className={styles.hudCardTitle}>Daily Missions</h3>
           </div>
           <span className={styles.questCounterBadge}>
             {questsDone}/{questsCount} Done
@@ -276,7 +262,6 @@ export default function DashboardSidebarHud({
         </div>
 
         <div className={styles.questList}>
-          {/* Quest 1 */}
           <div
             className={`${styles.questItem} ${
               completedQuests.quiz ? styles.questItemDone : ''
@@ -293,11 +278,10 @@ export default function DashboardSidebarHud({
             </div>
             <div className={styles.questDetails}>
               <span className={styles.questTitle}>Complete 1 NCERT Quiz</span>
-              <span className={styles.questReward}>+30 XP · Board Practice</span>
+              <span className={styles.questReward}>+30 XP · Board Recall</span>
             </div>
           </div>
 
-          {/* Quest 2 */}
           <div
             className={`${styles.questItem} ${
               completedQuests.lab ? styles.questItemDone : ''
@@ -318,7 +302,6 @@ export default function DashboardSidebarHud({
             </div>
           </div>
 
-          {/* Quest 3 */}
           <div
             className={`${styles.questItem} ${
               completedQuests.tara ? styles.questItemDone : ''
@@ -334,28 +317,24 @@ export default function DashboardSidebarHud({
               {completedQuests.tara ? '✓' : ''}
             </div>
             <div className={styles.questDetails}>
-              <span className={styles.questTitle}>Ask Tara AI 1 concept question</span>
+              <span className={styles.questTitle}>Ask Tara AI a concept question</span>
               <span className={styles.questReward}>+15 XP · Instant Clarity</span>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* 4. Tara AI Doubt Assistant Card */}
-      <section className={styles.taraCard}>
+        <div className={styles.hudDivider} />
+
+        {/* Ask Tara Section */}
         <div className={styles.taraHeader}>
           <div className={styles.taraAvatarBox}>
-            <TaraFireflyIcon size={34} glow animated />
+            <TaraFireflyIcon size={26} glow animated />
           </div>
           <div>
             <h3 className={styles.taraTitle}>Ask Tara AI</h3>
             <p className={styles.taraSub}>Your 24/7 CBSE NCERT Tutor</p>
           </div>
         </div>
-
-        <p className={styles.taraPromptDesc}>
-          Have a doubt or need a tricky concept simplified? Tap a quick prompt:
-        </p>
 
         <div className={styles.taraPromptList}>
           {TARA_PROMPTS.map((p) => (
