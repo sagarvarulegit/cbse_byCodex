@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import DashboardNextStepHero from '../../components/DashboardNextStepHero';
+import DashboardSidebarHud from '../../components/DashboardSidebarHud';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import styles from '../../components/dashboard-home.module.css';
@@ -26,11 +27,79 @@ type WeakChapter = {
   href: string;
 };
 
-const TOOLS = [
-  { href: '/virtual-lab', label: '🔬 3D Science Lab' },
-  { href: '/formula-cheatsheets', label: '⚡ Formula Sheets' },
-  { href: '/tools/readiness-predictor', label: '🎯 Score Predictor' },
-  { href: '/games/formula-rush', label: '🎮 Formula Rush' },
+const SUBJECT_META: Record<
+  string,
+  {
+    icon: string;
+    accentColor: string;
+    accentBg: string;
+    nextChapterTitle: string;
+    nextChapterSlug: string;
+  }
+> = {
+  science: {
+    icon: '🧪',
+    accentColor: '#059669',
+    accentBg: '#ecfdf5',
+    nextChapterTitle: 'Chemical Reactions and Equations',
+    nextChapterSlug: 'chemical-reactions-and-equations',
+  },
+  'mathematics-standard': {
+    icon: '📐',
+    accentColor: '#2563eb',
+    accentBg: '#eff6ff',
+    nextChapterTitle: 'Real Numbers',
+    nextChapterSlug: 'real-numbers',
+  },
+  'social-science': {
+    icon: '🌍',
+    accentColor: '#d97706',
+    accentBg: '#fffbeb',
+    nextChapterTitle: 'The Rise of Nationalism in Europe',
+    nextChapterSlug: 'rise-of-nationalism-in-europe',
+  },
+  'english-language-and-literature': {
+    icon: '📚',
+    accentColor: '#7c3aed',
+    accentBg: '#f5f3ff',
+    nextChapterTitle: 'A Letter to God',
+    nextChapterSlug: 'a-letter-to-god',
+  },
+};
+
+const PRACTICE_CARDS = [
+  {
+    title: '3D Virtual Science Lab',
+    desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics diagrams.',
+    badge: 'Interactive 3D',
+    icon: '🔬',
+    href: '/virtual-lab',
+    cta: 'Launch Lab →',
+  },
+  {
+    title: 'Formula Cheatsheets',
+    desc: 'All 14 Maths & Science formula sheets + derivations in one click.',
+    badge: 'Quick Recall',
+    icon: '⚡',
+    href: '/formula-cheatsheets',
+    cta: 'View Formulas →',
+  },
+  {
+    title: 'Board Score Predictor',
+    desc: 'AI blueprint analysis to estimate your 2026-27 CBSE Board percentile.',
+    badge: 'AI Powered',
+    icon: '🎯',
+    href: '/tools/readiness-predictor',
+    cta: 'Predict Score →',
+  },
+  {
+    title: 'Formula Rush Arcade',
+    desc: '60-second rapid-fire recall drills to build instant exam muscle memory.',
+    badge: 'Gamified Drill',
+    icon: '🎮',
+    href: '/games/formula-rush',
+    cta: 'Play Arcade →',
+  },
 ] as const;
 
 export default async function DashboardPage() {
@@ -48,7 +117,7 @@ export default async function DashboardPage() {
   const remixModel = buildStudyRemixDashboardModel({ mastery, session });
   const firstName = session.fullName?.split(/\s+/)[0] || 'there';
 
-  // ---- Real data only ----
+  // ---- Real student data ----
   const nextStep = pickNextStep(mastery);
   const recentChapters = getRecentChapters(mastery.masteries, 3);
   const subjectProgress = buildCoreSubjectProgress(mastery.masteries);
@@ -61,7 +130,7 @@ export default async function DashboardPage() {
   const attemptCount = attemptsData?.attempts?.length ?? 0;
   const hasProgressData = chaptersWithScore.length > 0 || attemptCount > 0;
 
-  // Readiness estimate, computed over the 4 core subjects only so numbers agree everywhere.
+  // Readiness estimate over the 4 core subjects
   const totalCoreChapters = subjectProgress.reduce((sum, s) => sum + s.chapterCount, 0);
   const startedCoreChapters = subjectProgress.reduce((sum, s) => sum + s.startedCount, 0);
   const quizAvg = chaptersWithScore.length
@@ -78,7 +147,7 @@ export default async function DashboardPage() {
           ? Math.round(mockAvg * 0.8 + coveragePct * 0.2)
           : 0;
 
-  // Weak chapters: active revision missions first, then weak chapters from mock papers.
+  // Weak chapters identification
   const weakChapters: WeakChapter[] = [];
   for (const mission of activeMissions) {
     if (!getChapter(mission.chapterSlug)) continue;
@@ -113,184 +182,245 @@ export default async function DashboardPage() {
       />
 
       <div className={styles.shell}>
-        {/* 1. Greeting */}
-        <header className={styles.greeting}>
-          <div>
-            <h1 className={styles.greetingTitle}>Hi {firstName} 👋</h1>
-            <p className={styles.greetingSub}>
-              {nextStep.kind === 'start'
-                ? 'One small step today. Start below.'
-                : 'Here is your next step for today.'}
+        {/* 1. Student Command Header */}
+        <header className={styles.commandHeader}>
+          <div className={styles.commandHeaderLeft}>
+            <h1 className={styles.commandHeaderTitle}>Welcome back, {firstName} 🎯</h1>
+            <p className={styles.commandHeaderSub}>
+              <span>CBSE Class 10 Command Center</span>
+              <span className={styles.headerMissionTag}>Target: 95%+ Topper Track</span>
             </p>
           </div>
-          <div className={styles.chips}>
-            {streakDays > 0 ? (
-              <span className={styles.chip}>
-                🔥 {streakDays}-day streak
-              </span>
-            ) : null}
+          <div className={styles.commandHeaderChips}>
+            <span className={styles.statChip}>
+              🔥 {streakDays > 0 ? `${streakDays}-Day Streak` : 'Day 1 Streak'}
+            </span>
+            <span className={styles.statChip}>
+              🎯 {readiness}% Board Readiness
+            </span>
+            <span className={styles.statChip}>
+              📚 {startedCoreChapters}/{totalCoreChapters} Chapters
+            </span>
             {activePackCount > 0 ? (
-              <Link className={styles.chip} href="/orders">
-                📦 My packs ({activePackCount})
+              <Link className={styles.statChip} href="/orders">
+                📦 My Packs ({activePackCount})
               </Link>
             ) : null}
           </div>
         </header>
 
-        {/* 2. One next step */}
-        <DashboardNextStepHero step={nextStep} />
+        {/* 2. Main 2-Column Command Center Grid */}
+        <div className={styles.commandGrid}>
+          {/* Main Learning Workspace (~68% on desktop) */}
+          <div className={styles.mainWorkspace}>
+            {/* Action Hero */}
+            <DashboardNextStepHero step={nextStep} />
 
-        {/* 3. Continue learning — only when the student has started chapters */}
-        {recentChapters.length > 0 ? (
-          <section aria-label="Continue learning">
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Continue learning</h2>
-            </div>
-            <div className={styles.grid3}>
-              {recentChapters.map((chapter) => {
-                const score = Math.round(chapter.masteryScore);
-                return (
-                  <Link
-                    className={styles.tile}
-                    href={`/chapters/${chapter.chapterSlug}`}
-                    key={chapter.chapterSlug}
-                  >
-                    <span className={styles.tileMeta}>{chapter.subjectName}</span>
-                    <h3 className={styles.tileTitle}>{chapter.chapterTitle}</h3>
-                    <div className={styles.bar}>
-                      <div className={styles.barFill} style={{ width: `${Math.max(score, 3)}%` }} />
-                    </div>
-                    <div className={styles.tileFoot}>
-                      <span>{score}% mastered</span>
-                      <span>{formatRelativeDay(chapter.lastActivityAt)}</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {/* 4. Subjects — real progress, no marketing copy */}
-        <section aria-label="Your subjects">
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Your subjects</h2>
-            <Link className={styles.sectionLink} href="/subjects">
-              All subjects →
-            </Link>
-          </div>
-          <div className={styles.grid4}>
-            {subjectProgress.map((subject) => (
-              <Link className={styles.tile} href={`/subjects/${subject.slug}`} key={subject.slug}>
-                <span className={styles.tileMeta}>Code {subject.subjectCode}</span>
-                <h3 className={styles.tileTitle}>{subject.title}</h3>
-                <div className={styles.bar}>
-                  <div
-                    className={styles.barFill}
-                    style={{
-                      width: `${Math.max(subject.progressPercent, 3)}%`,
-                      opacity: subject.startedCount > 0 ? 1 : 0.3,
-                    }}
-                  />
+            {/* Continue Learning Strip (shown when student has started chapters) */}
+            {recentChapters.length > 0 ? (
+              <section aria-label="Continue learning">
+                <div className={styles.sectionHead}>
+                  <div className={styles.sectionTitleRow}>
+                    <span className={styles.sectionIcon}>⚡</span>
+                    <h2 className={styles.sectionTitle}>Continue Learning</h2>
+                  </div>
                 </div>
-                <div className={styles.tileFoot}>
-                  <span>
-                    {subject.startedCount > 0
-                      ? `${subject.startedCount} of ${subject.chapterCount} chapters started`
-                      : `${subject.chapterCount} chapters · not started yet`}
-                  </span>
+                <div className={styles.continueGrid}>
+                  {recentChapters.map((chapter) => {
+                    const score = Math.round(chapter.masteryScore);
+                    return (
+                      <Link
+                        className={styles.continueCard}
+                        href={`/chapters/${chapter.chapterSlug}`}
+                        key={chapter.chapterSlug}
+                      >
+                        <span className={styles.continueSubject}>{chapter.subjectName}</span>
+                        <h3 className={styles.continueTitle}>{chapter.chapterTitle}</h3>
+                        <div className={styles.bar}>
+                          <div
+                            className={styles.barFill}
+                            style={{ width: `${Math.max(score, 4)}%` }}
+                          />
+                        </div>
+                        <div className={styles.tileFoot}>
+                          <span>{score}% mastered</span>
+                          <span>{formatRelativeDay(chapter.lastActivityAt)}</span>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* 5. Progress — only once there is real data; never a wall of zeros */}
-        <section aria-label="My progress">
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>My progress</h2>
-            {hasProgressData ? (
-              <Link className={styles.sectionLink} href="/my-mistakes">
-                My mistakes →
-              </Link>
+              </section>
             ) : null}
-          </div>
-          {hasProgressData ? (
-            <div className={styles.progressCard}>
-              <div className={styles.scoreBlock}>
-                <span className={styles.scoreValue}>{readiness}%</span>
-                <span className={styles.scoreLabel}>Board readiness (estimate)</span>
-                <div className={styles.statRow}>
-                  <div>
-                    <strong>{quizAvg !== null ? `${Math.round(quizAvg)}%` : '—'}</strong>
-                    Quiz avg
-                  </div>
-                  <div>
-                    <strong>{mockAvg !== null ? `${Math.round(mockAvg)}%` : '—'}</strong>
-                    Mock avg
-                  </div>
-                  <div>
-                    <strong>
-                      {startedCoreChapters}/{totalCoreChapters}
-                    </strong>
-                    Chapters
-                  </div>
+
+            {/* Core Subject Stations (2x2 Grid) */}
+            <section aria-label="Core subjects">
+              <div className={styles.sectionHead}>
+                <div className={styles.sectionTitleRow}>
+                  <span className={styles.sectionIcon}>📚</span>
+                  <h2 className={styles.sectionTitle}>Core Subject Stations</h2>
+                  <span className={styles.sectionBadge}>4 Board Subjects</span>
                 </div>
+                <Link className={styles.sectionLink} href="/subjects">
+                  All Subjects Syllabus →
+                </Link>
               </div>
-              <div>
-                {weakChapters.length > 0 ? (
-                  <ul className={styles.weakList}>
-                    {weakChapters.slice(0, 3).map((item) => (
-                      <li className={styles.weakItem} key={item.chapterSlug}>
-                        <div>
-                          <strong>{item.chapterTitle}</strong>
+
+              <div className={styles.subjectGrid}>
+                {subjectProgress.map((subject) => {
+                  const meta = SUBJECT_META[subject.slug] || {
+                    icon: '📖',
+                    accentColor: '#c95014',
+                    accentBg: '#fff4e8',
+                    nextChapterTitle: 'Chapter 1',
+                    nextChapterSlug: subject.slug,
+                  };
+
+                  return (
+                    <div className={styles.subjectCard} key={subject.slug}>
+                      <div className={styles.subjectCardTop}>
+                        <div className={styles.subjectInfoBlock}>
+                          <div
+                            className={styles.subjectIconBox}
+                            style={{ backgroundColor: meta.accentBg }}
+                          >
+                            <span>{meta.icon}</span>
+                          </div>
+                          <div className={styles.subjectTitleGroup}>
+                            <span className={styles.subjectCodeTag}>
+                              Code {subject.subjectCode} · NCERT
+                            </span>
+                            <h3 className={styles.subjectTitle}>{subject.title}</h3>
+                          </div>
+                        </div>
+                        <span
+                          className={styles.subjectMasteryPill}
+                          style={{
+                            borderColor: subject.progressPercent > 0 ? meta.accentColor : '#e7e2d6',
+                            color: subject.progressPercent > 0 ? meta.accentColor : '#55514b',
+                          }}
+                        >
+                          {subject.progressPercent}% Mastered
+                        </span>
+                      </div>
+
+                      <div className={styles.subjectProgressSection}>
+                        <div className={styles.subjectProgressBar}>
+                          <div
+                            className={styles.subjectProgressFill}
+                            style={{
+                              width: `${Math.max(subject.progressPercent, 4)}%`,
+                              backgroundColor: meta.accentColor,
+                            }}
+                          />
+                        </div>
+                        <div className={styles.subjectProgressDetails}>
                           <span>
-                            {item.subjectName} · {item.reason}
+                            {subject.startedCount > 0
+                              ? `${subject.startedCount} of ${subject.chapterCount} chapters underway`
+                              : `${subject.chapterCount} chapters · Ready to start`}
                           </span>
                         </div>
-                        <Link className={styles.outlineBtn} href={item.href}>
-                          Revise →
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className={styles.mutedNote}>
-                    No chapters flagged for revision yet. Take a full mock paper to find weak spots
-                    across the syllabus.{' '}
-                    <Link className={styles.sectionLink} href="/exam-papers">
-                      Mock papers →
-                    </Link>
-                  </p>
-                )}
-              </div>
-            </div>
-          ) : (
-            <p className={styles.mutedNote}>
-              Your readiness score and weak chapters will appear here after your first quiz.
-            </p>
-          )}
-        </section>
+                      </div>
 
-        {/* 6. Tools — slim row */}
-        <section aria-label="Study tools">
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Study tools</h2>
-            <Link className={styles.sectionLink} href="/tools">
-              All tools →
-            </Link>
+                      {/* Next Chapter Teaser */}
+                      <div className={styles.subjectNextTeaser}>
+                        <span className={styles.nextTeaserLabel}>Start / Next:</span>
+                        <span className={styles.nextTeaserName}>{meta.nextChapterTitle}</span>
+                      </div>
+
+                      {/* Dual 1-Click Action Buttons */}
+                      <div className={styles.subjectActionRow}>
+                        <Link
+                          className={styles.subjectNotesBtn}
+                          href={`/chapters/${meta.nextChapterSlug}`}
+                        >
+                          📖 Notes
+                        </Link>
+                        <Link
+                          className={styles.subjectQuizBtn}
+                          href={`/chapters/${meta.nextChapterSlug}/quiz`}
+                        >
+                          ⚡ Quiz
+                        </Link>
+                      </div>
+
+                      <Link
+                        className={styles.subjectExploreLink}
+                        href={`/subjects/${subject.slug}`}
+                      >
+                        Explore all {subject.chapterCount} chapters →
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* High-Yield Practice & Revision Hub (2x2 Grid) */}
+            <section aria-label="Practice tools">
+              <div className={styles.sectionHead}>
+                <div className={styles.sectionTitleRow}>
+                  <span className={styles.sectionIcon}>⚡</span>
+                  <h2 className={styles.sectionTitle}>High-Yield Practice & Tools</h2>
+                  <span className={styles.sectionBadge}>NCERT Lab & Drills</span>
+                </div>
+                <Link className={styles.sectionLink} href="/tools">
+                  All Tools Catalog →
+                </Link>
+              </div>
+
+              <div className={styles.practiceGrid}>
+                {PRACTICE_CARDS.map((card) => (
+                  <Link className={styles.practiceCard} href={card.href} key={card.title}>
+                    <div>
+                      <div className={styles.practiceCardTop}>
+                        <div className={styles.practiceIconBox}>{card.icon}</div>
+                        <span className={styles.practiceBadge}>{card.badge}</span>
+                      </div>
+                      <h3 className={styles.practiceTitle}>{card.title}</h3>
+                      <p className={styles.practiceDesc}>{card.desc}</p>
+                    </div>
+                    <div className={styles.practiceActionRow}>
+                      <span>{card.cta}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Full Mock Paper Featured Banner */}
+              <div className={styles.mockBanner}>
+                <div className={styles.mockBannerLeft}>
+                  <span className={styles.mockBannerIcon}>📄</span>
+                  <div>
+                    <h3 className={styles.mockBannerTitle}>CBSE Official Board Mock Papers</h3>
+                    <p className={styles.mockBannerSub}>
+                      Practice full 80-mark timed papers matching the official 2026-27 blueprint with marking schemes.
+                    </p>
+                  </div>
+                </div>
+                <Link className={styles.mockBannerBtn} href="/exam-papers">
+                  Solve Mock Papers →
+                </Link>
+              </div>
+            </section>
           </div>
-          <div className={styles.toolsRow}>
-            {TOOLS.map((tool) => (
-              <Link className={styles.toolChip} href={tool.href} key={tool.href}>
-                {tool.label}
-              </Link>
-            ))}
-            <Link className={styles.toolChip} href="/exam-papers">
-              📄 Mock Papers
-            </Link>
+
+          {/* Right Gamification & Live HUD Column (~32% on desktop) */}
+          <div className={styles.sidebarColumn}>
+            <DashboardSidebarHud
+              streakDays={streakDays}
+              streakLabel={remixModel.student.streakLabel}
+              readiness={readiness}
+              hasProgressData={hasProgressData}
+              quizAvg={quizAvg}
+              mockAvg={mockAvg}
+              startedCoreChapters={startedCoreChapters}
+              totalCoreChapters={totalCoreChapters}
+              weakChapters={weakChapters}
+            />
           </div>
-        </section>
+        </div>
       </div>
     </main>
   );

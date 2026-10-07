@@ -1,79 +1,249 @@
-/* Dashboard v2 — calm cards, one accent, only the hero is "loud". */
+/* =========================================================================
+   CHAPTERREADY DASHBOARD V3 — STUDENT COMMAND CENTER
+   Elite Neo-Brutalist EdTech Architecture: Tactile Shadows, Crisp Ink Borders,
+   Warm Paper Canvas & High-Yield Learning Layout
+   ========================================================================= */
 
 .shell {
-  width: min(1120px, calc(100vw - 32px));
+  width: min(1380px, calc(100vw - 32px));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  padding: 0.5rem 0 3rem;
+  padding: 0.75rem 0 3.5rem;
   color: #171513;
 }
 
-/* ---------- Greeting bar ---------- */
-.greeting {
+/* ---------- 1. Student Command Header ---------- */
+.commandHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #171513;
 }
 
-.greetingTitle {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.greetingSub {
-  margin: 0.15rem 0 0;
-  font-size: 0.9rem;
-  color: #6a645d;
-}
-
-.chips {
+.commandHeaderLeft {
   display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.commandHeaderTitle {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: #171513;
+  line-height: 1.2;
+}
+
+.commandHeaderSub {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #6a645d;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-.chip {
+.headerMissionTag {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #e7e2d6;
-  border-radius: 999px;
-  background: #ffffff;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #3d3832;
-  text-decoration: none;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  background: #fff4e8;
+  color: #c95014;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 1px solid rgba(201, 80, 20, 0.2);
 }
 
-a.chip:hover {
+.commandHeaderChips {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid #171513;
+  border-radius: 999px;
+  background: #fbf8f3;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #171513;
+  box-shadow: 2px 2px 0 #171513;
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+a.statChip:hover {
+  background: #fff4e8;
   border-color: #c95014;
   color: #c95014;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
 }
 
-/* ---------- Hero (the only ink-bordered card) ---------- */
-.hero {
-  background: linear-gradient(135deg, #fffdfa 0%, #fff4e8 100%);
+/* ---------- 2. Command Grid (Desktop 2-Col: 1fr / 360px) ---------- */
+.commandGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.mainWorkspace {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebarColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---------- 3. Next-Step Action Card (Hero) ---------- */
+.heroCard {
+  background: linear-gradient(135deg, #ffffff 0%, #fffbf6 100%);
   border: 2px solid #171513;
   border-radius: 20px;
   box-shadow: 5px 5px 0 #171513;
   padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.heroCardRevise {
+  background: linear-gradient(135deg, #fffafa 0%, #fff3f3 100%);
+  border-color: #b91c1c;
+  box-shadow: 5px 5px 0 #b91c1c;
+}
+
+.heroTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #f1ede4;
+}
+
+.heroBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.heroSubjectBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 1px solid currentColor;
+}
+
+.heroSubjectBadgeRevise {
+  composes: heroSubjectBadge;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.heroXpPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 1px solid #fde68a;
+}
+
+.heroTimePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  background: #f3f4f6;
+  color: #4b5563;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Subject Switcher Tabs */
+.subjectSwitcher {
+  display: inline-flex;
+  padding: 0.2rem;
+  border: 1.5px solid #171513;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 2px 2px 0 #171513;
+}
+
+.switcherTab {
+  border: none;
+  background: transparent;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #6a645d;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+
+.switcherTab:hover {
+  color: #171513;
+}
+
+.switcherTabActive {
+  background: #171513;
+  color: #ffffff !important;
+}
+
+/* Hero Body Layout */
+.heroBody {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
+}
+
+.heroMainInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .heroEyebrow {
-  display: inline-block;
-  margin: 0 0 0.5rem;
-  font-size: 0.75rem;
+  margin: 0;
+  font-size: 0.76rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -82,162 +252,312 @@ a.chip:hover {
 
 .heroTitle {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 900;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.heroText {
-  margin: 0.5rem 0 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #55514b;
-  max-width: 560px;
-}
-
-.heroActions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.6rem;
-}
-
-.primaryBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.9rem 1.6rem;
-  border-radius: 12px;
-  background: #c95014;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 800;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 0 #8f380d;
-  transition: transform 0.12s ease, background 0.12s ease;
-}
-
-.primaryBtn:hover {
-  background: #b14510;
-  transform: translateY(-1px);
-}
-
-.quietLink {
-  border: none;
-  background: none;
-  padding: 0;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #6a645d;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-
-.quietLink:hover {
+  line-height: 1.22;
+  letter-spacing: -0.025em;
   color: #171513;
 }
 
-.toggle {
-  display: inline-flex;
-  margin-top: 1rem;
-  padding: 0.2rem;
+.heroSummary {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #55514b;
+  max-width: 620px;
+}
+
+/* 3-Step Visual Mastery Blueprint */
+.masteryRoadmap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.roadmapStep {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
   border: 1px solid #e7e2d6;
   border-radius: 10px;
   background: #ffffff;
 }
 
-.toggleBtn {
-  border: none;
-  background: transparent;
-  padding: 0.35rem 0.85rem;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #55514b;
-  cursor: pointer;
+.roadmapStepActive {
+  border-color: #171513;
+  background: #fff8f3;
+  border-width: 1.5px;
 }
 
-.toggleBtnActive {
-  composes: toggleBtn;
+.roadmapStepGoal {
+  border-color: #059669;
+  background: #ecfdf5;
+}
+
+.roadmapNumber {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   background: #171513;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
 }
 
-.progressMini {
-  margin-top: 0.85rem;
-  width: min(320px, 100%);
+.roadmapStepGoal .roadmapNumber {
+  background: #059669;
 }
 
-/* ---------- Section headings ---------- */
+.roadmapContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.roadmapContent strong {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #171513;
+  line-height: 1.2;
+}
+
+.roadmapContent span {
+  font-size: 0.72rem;
+  color: #787168;
+}
+
+.roadmapDivider {
+  color: #a8a29e;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Hero Action Column */
+.heroActionGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.heroCtaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.85rem;
+  border-radius: 14px;
+  background: #c95014;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 800;
+  text-decoration: none;
+  border: 2px solid #171513;
+  box-shadow: 4px 4px 0 #171513;
+  white-space: nowrap;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.heroCtaPrimary:hover {
+  background: #b14510;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #171513;
+}
+
+.heroCtaPrimary:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #171513;
+}
+
+.heroSecondaryRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.heroCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #171513;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 #171513;
+  transition: all 0.12s ease;
+}
+
+.heroCtaSecondary:hover {
+  background: #fbf8f3;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
+}
+
+.heroAskTaraBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  background: #fffbeb;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #78350f;
+  box-shadow: 2px 2px 0 #171513;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.heroAskTaraBtn:hover {
+  background: #fef3c7;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
+}
+
+.heroQuietLink {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #b91c1c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.heroProgressWrap {
+  margin: 0.5rem 0;
+  width: min(340px, 100%);
+}
+
+.heroProgressText {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #6a645d;
+  margin-bottom: 0.35rem;
+}
+
+.heroProgressText strong {
+  color: #171513;
+}
+
+/* ---------- 4. Section Headers ---------- */
 .sectionHead {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionIcon {
+  font-size: 1.25rem;
 }
 
 .sectionTitle {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #171513;
+}
+
+.sectionBadge {
+  font-size: 0.76rem;
   font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  background: #f1ede4;
+  color: #55514b;
 }
 
 .sectionLink {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   color: #c95014;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color 0.12s ease;
 }
 
 .sectionLink:hover {
   text-decoration: underline;
 }
 
-/* ---------- Calm card + grids ---------- */
-.card {
+/* ---------- 5. Subject Command Stations (2x2 Grid) ---------- */
+.subjectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.subjectCard {
   background: #ffffff;
-  border: 1px solid #e7e2d6;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(23, 21, 19, 0.06);
-}
-
-.grid3 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
-}
-
-.grid4 {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.85rem;
-}
-
-/* Continue-learning + subject tiles share the clickable card style */
-.tile {
-  composes: card;
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #171513;
+  padding: 1.25rem 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 1rem 1.1rem;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.12s ease, transform 0.12s ease;
+  gap: 0.85rem;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  position: relative;
 }
 
-.tile:hover {
-  border-color: #c95014;
-  transform: translateY(-1px);
+.subjectCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #171513;
 }
 
-.tileMeta {
+.subjectCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.subjectInfoBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.subjectIconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid #171513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 2px 2px 0 #171513;
+  flex-shrink: 0;
+}
+
+.subjectTitleGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.subjectCodeTag {
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -245,20 +565,340 @@ a.chip:hover {
   color: #8c827a;
 }
 
-.tileTitle {
+.subjectTitle {
+  margin: 0.1rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.subjectMasteryPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: 1px solid #e7e2d6;
+  background: #fbf8f3;
+  color: #55514b;
+}
+
+.subjectProgressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.subjectProgressBar {
+  height: 8px;
+  border-radius: 999px;
+  background: #f1ede4;
+  overflow: hidden;
+  border: 1px solid #e7e2d6;
+}
+
+.subjectProgressFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.subjectProgressDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #6a645d;
+  font-weight: 700;
+}
+
+.subjectNextTeaser {
+  background: #faf7f2;
+  border: 1px solid #ebe5d8;
+  border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.nextTeaserLabel {
+  color: #8c827a;
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.nextTeaserName {
+  font-weight: 800;
+  color: #171513;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Subject Dual 1-Click Action Buttons */
+.subjectActionRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.35rem;
+}
+
+.subjectNotesBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #171513;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 #171513;
+  transition: all 0.12s ease;
+}
+
+.subjectNotesBtn:hover {
+  background: #fbf8f3;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
+}
+
+.subjectQuizBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  background: #c95014;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 #171513;
+  transition: all 0.12s ease;
+}
+
+.subjectQuizBtn:hover {
+  background: #b14510;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
+}
+
+.subjectExploreLink {
+  align-self: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #6a645d;
+  text-decoration: none;
+  margin-top: 0.1rem;
+}
+
+.subjectExploreLink:hover {
+  color: #c95014;
+  text-decoration: underline;
+}
+
+/* ---------- 6. High-Yield Practice & Revision Deck (2x2 Grid) ---------- */
+.practiceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.practiceCard {
+  background: #ffffff;
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #171513;
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+.practiceCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #171513;
+}
+
+.practiceCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.practiceIconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid #171513;
+  background: #fff8f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 2px 2px 0 #171513;
+}
+
+.practiceBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f1ede4;
+  color: #55514b;
+}
+
+.practiceTitle {
+  margin: 0.4rem 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #171513;
+  line-height: 1.3;
+}
+
+.practiceDesc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6a645d;
+  line-height: 1.45;
+}
+
+.practiceActionRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #c95014;
+  padding-top: 0.35rem;
+  border-top: 1px solid #f1ede4;
+}
+
+/* Featured Mock Paper Banner */
+.mockBanner {
+  background: linear-gradient(135deg, #171513 0%, #292524 100%);
+  color: #ffffff;
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #c95014;
+  padding: 1.35rem 1.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.mockBannerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mockBannerIcon {
+  font-size: 2rem;
+}
+
+.mockBannerTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+}
+
+.mockBannerSub {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #d6d3d1;
+}
+
+.mockBannerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  background: #c95014;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 0 #8f380d;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.mockBannerBtn:hover {
+  background: #b14510;
+  transform: translateY(-1px);
+}
+
+/* ---------- 7. Continue Learning Strip ---------- */
+.continueGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.continueCard {
+  background: #ffffff;
+  border: 1.5px solid #171513;
+  border-radius: 16px;
+  box-shadow: 3px 3px 0 #171513;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.continueCard:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #171513;
+}
+
+.continueSubject {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #8c827a;
+}
+
+.continueTitle {
   margin: 0;
   font-size: 0.98rem;
   font-weight: 800;
   line-height: 1.3;
 }
 
-.tileFoot {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: #6a645d;
-}
-
+/* Progress Bars */
 .bar {
   height: 6px;
   border-radius: 999px;
@@ -272,165 +912,659 @@ a.chip:hover {
   background: #c95014;
 }
 
-/* ---------- Progress summary ---------- */
-.progressCard {
-  composes: card;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 1.5rem;
-  padding: 1.25rem 1.5rem;
-}
-
-.scoreBlock {
+.tileFoot {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-right: 1.5rem;
-  border-right: 1px solid #f1ede4;
-}
-
-.scoreValue {
-  font-size: 2.25rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.scoreLabel {
-  font-size: 0.82rem;
-  color: #6a645d;
-}
-
-.statRow {
-  display: flex;
-  gap: 1.25rem;
-  margin-top: 0.75rem;
+  justify-content: space-between;
   font-size: 0.8rem;
   color: #6a645d;
 }
 
-.statRow strong {
-  display: block;
-  font-size: 1rem;
-  color: #171513;
-}
-
-.weakList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* ---------- 8. Sidebar HUD Styles ---------- */
+.sidebarHud {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.35rem;
 }
 
-.weakItem {
+.hudCard {
+  background: #ffffff;
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #171513;
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cardHeaderSmall {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 0.8rem;
+  gap: 0.5rem;
+}
+
+.hudCardTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: #171513;
+}
+
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.titleIcon {
+  font-size: 1.15rem;
+}
+
+/* Streak Card Elements */
+.streakHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.streakFlame {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.flameIcon {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(201, 80, 20, 0.3));
+}
+
+.streakCount {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #171513;
+  line-height: 1.1;
+}
+
+.streakSub {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8c827a;
+}
+
+.streakXpBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  background: #fff4e8;
+  color: #c95014;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  border: 1px solid rgba(201, 80, 20, 0.2);
+}
+
+/* 7-Day Week Momentum Track */
+.weekTrack {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.4rem 0;
+}
+
+.dayDot {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.2rem;
   border-radius: 10px;
+  background: #faf7f2;
+  border: 1px solid #ebe5d8;
+  transition: all 0.12s ease;
+}
+
+.dayDotToday {
+  background: #fff4e8;
+  border-color: #c95014;
+  border-width: 1.5px;
+}
+
+.dayDotActive {
+  background: #ecfdf5;
+  border-color: #059669;
+}
+
+.dayLetter {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #8c827a;
+}
+
+.dayDotToday .dayLetter {
+  color: #c95014;
+}
+
+.dayDotActive .dayLetter {
+  color: #059669;
+}
+
+.dayIndicator {
+  font-size: 0.78rem;
+  font-weight: 900;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #059669;
+}
+
+.dayDotToday .dayIndicator {
+  color: #c95014;
+}
+
+.streakNudge {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #6a645d;
+}
+
+/* Circular Gauge Visual */
+.targetBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.gaugeContainer {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.35rem 0;
+}
+
+.gaugeSvgWrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
+.gaugeSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.gaugeBgCircle {
+  fill: none;
+  stroke: #f1ede4;
+}
+
+.gaugeFillCircle {
+  fill: none;
+  stroke: #c95014;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.gaugeCenterText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gaugeNumber {
+  font-size: 1.45rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #171513;
+}
+
+.gaugeLabel {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8c827a;
+  margin-top: 0.15rem;
+}
+
+.gaugeStats {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.gaugeStatRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+}
+
+.statDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statLabel {
+  flex: 1;
+  color: #6a645d;
+}
+
+.statValue {
+  font-weight: 800;
+  color: #171513;
+}
+
+.gaugeKickoffBox {
   background: #fbf8f3;
+  border: 1.5px dashed #d9d2c4;
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
-.weakItem strong {
-  display: block;
-  font-size: 0.9rem;
+.kickoffText {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6a645d;
+  line-height: 1.45;
 }
 
-.weakItem span {
-  font-size: 0.75rem;
+.kickoffBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  border: 1.5px solid #171513;
+  border-radius: 8px;
+  background: #171513;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.kickoffBtn:hover {
+  background: #c95014;
+  border-color: #c95014;
+}
+
+/* Weak chapters mini-list */
+.weakSubSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f1ede4;
+}
+
+.weakHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weakSectionTitle {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #b91c1c;
+}
+
+.weakAllLink {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #c95014;
+  text-decoration: none;
+}
+
+.weakMiniList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.weakMiniItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: #fffafa;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+}
+
+.weakMiniText {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.weakMiniText strong {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #171513;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.weakMiniText span {
+  font-size: 0.7rem;
   color: #787168;
 }
 
-.outlineBtn {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 0.8rem;
+.miniReviseBtn {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: #ffffff;
   border: 1px solid #171513;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 700;
   color: #171513;
   text-decoration: none;
   white-space: nowrap;
 }
 
-.outlineBtn:hover {
+.miniReviseBtn:hover {
   background: #171513;
   color: #ffffff;
 }
 
-.mutedNote {
+.hudSubNote {
   margin: 0;
-  padding: 0.9rem 1.1rem;
-  border: 1px dashed #d9d2c4;
-  border-radius: 12px;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  color: #6a645d;
+  line-height: 1.4;
+}
+
+/* Daily Quests Component */
+.questCounterBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #fff4e8;
+  color: #c95014;
+  border: 1px solid rgba(201, 80, 20, 0.2);
+}
+
+.questProgressBar {
+  height: 6px;
+  border-radius: 999px;
+  background: #f1ede4;
+  overflow: hidden;
+}
+
+.questProgressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: #059669;
+  transition: width 0.3s ease;
+}
+
+.questList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.questItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: #faf7f2;
+  border: 1px solid #ebe5d8;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.questItem:hover {
+  background: #f5efe6;
+  border-color: #ded6c5;
+}
+
+.questItemDone {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.questCheckbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid #171513;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.questItemDone .questCheckbox {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.questDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.questTitle {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #171513;
+  line-height: 1.25;
+}
+
+.questItemDone .questTitle {
+  text-decoration: line-through;
   color: #6a645d;
 }
 
-/* ---------- Tools row ---------- */
-.toolsRow {
+.questReward {
+  font-size: 0.72rem;
+  color: #8c827a;
+}
+
+.questItemDone .questReward {
+  color: #059669;
+}
+
+/* Tara AI Card in HUD */
+.taraCard {
+  background: linear-gradient(135deg, #fffdf8 0%, #fffbeb 100%);
+  border: 2px solid #171513;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #171513;
+  padding: 1.25rem 1.35rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.toolChip {
-  composes: card;
-  display: inline-flex;
+.taraHeader {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 0.95rem;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #171513;
-  text-decoration: none;
+  gap: 0.75rem;
 }
 
-.toolChip:hover {
+.taraAvatarBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid #171513;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 #171513;
+  flex-shrink: 0;
+}
+
+.taraTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: #171513;
+}
+
+.taraSub {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: #78350f;
+  font-weight: 700;
+}
+
+.taraPromptDesc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6a645d;
+  line-height: 1.45;
+}
+
+.taraPromptList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.taraPromptBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #fed7aa;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #78350f;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s ease;
+}
+
+.taraPromptBtn:hover {
+  background: #fff7ed;
   border-color: #c95014;
   color: #c95014;
+  transform: translateX(2px);
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .grid4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.promptArrow {
+  font-size: 0.9rem;
+  font-weight: 900;
+}
 
-  .grid3 {
+.taraOpenFullBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.95rem;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  background: #171513;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #171513;
+  transition: all 0.12s ease;
+}
+
+.taraOpenFullBtn:hover {
+  background: #c95014;
+  border-color: #c95014;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #171513;
+}
+
+/* ---------- 9. Responsive Adjustments ---------- */
+@media (max-width: 1080px) {
+  .commandGrid {
     grid-template-columns: 1fr;
   }
 
-  .progressCard {
-    grid-template-columns: 1fr;
-  }
-
-  .scoreBlock {
-    padding-right: 0;
-    padding-bottom: 1rem;
-    border-right: none;
-    border-bottom: 1px solid #f1ede4;
+  .sidebarColumn {
+    margin-top: 1rem;
   }
 }
 
-@media (max-width: 640px) {
-  .hero {
+@media (max-width: 768px) {
+  .subjectGrid {
     grid-template-columns: 1fr;
+  }
+
+  .practiceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .continueGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroBody {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .heroActionGroup {
+    align-items: stretch;
+  }
+
+  .heroCtaPrimary {
+    width: 100%;
+  }
+
+  .heroCard {
     padding: 1.35rem;
   }
 
   .heroTitle {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
   }
 
-  .heroActions {
-    align-items: stretch;
+  .commandHeader {
+    padding: 1rem;
   }
 
-  .primaryBtn {
-    width: 100%;
+  .commandHeaderTitle {
+    font-size: 1.45rem;
   }
 }
