@@ -19,12 +19,13 @@ const STARTERS = {
     xp: '+50 XP',
     badgeColor: '#059669',
     badgeBg: '#ecfdf5',
+    themeGradient: 'radial-gradient(ellipse at top right, rgba(5, 150, 105, 0.08), transparent 70%)',
     summary:
-      'Master chemical equations, balancing, oxidation-reduction, and displacement reactions with simplified NCERT breakdowns.',
+      'Master chemical equations, balancing rules, redox, and displacement reactions with simplified NCERT breakdowns.',
   },
   maths: {
     id: 'maths',
-    tabLabel: '📐 Maths',
+    tabLabel: '📐 Mathematics',
     subjectCode: '041',
     chapter: 'Real Numbers',
     chapterSlug: 'real-numbers',
@@ -34,12 +35,13 @@ const STARTERS = {
     xp: '+50 XP',
     badgeColor: '#2563eb',
     badgeBg: '#eff6ff',
+    themeGradient: 'radial-gradient(ellipse at top right, rgba(37, 99, 235, 0.08), transparent 70%)',
     summary:
-      'Learn prime factorisation, HCF × LCM relations, and step-by-step proofs for irrational numbers (√2, √3, √5).',
+      'Learn prime factorisation, HCF × LCM formulas, and step-by-step proofs for irrational numbers (√2, √3, √5).',
   },
   sst: {
     id: 'sst',
-    tabLabel: '🌍 Social',
+    tabLabel: '🌍 Social Science',
     subjectCode: '087',
     chapter: 'The Rise of Nationalism in Europe',
     chapterSlug: 'rise-of-nationalism-in-europe',
@@ -49,6 +51,7 @@ const STARTERS = {
     xp: '+50 XP',
     badgeColor: '#d97706',
     badgeBg: '#fffbeb',
+    themeGradient: 'radial-gradient(ellipse at top right, rgba(217, 119, 6, 0.08), transparent 70%)',
     summary:
       'Understand the French Revolution, Napoleonic Civil Code of 1804, Mazzini, and German & Italian unification simply.',
   },
@@ -64,6 +67,7 @@ const STARTERS = {
     xp: '+50 XP',
     badgeColor: '#7c3aed',
     badgeBg: '#f5f3ff',
+    themeGradient: 'radial-gradient(ellipse at top right, rgba(124, 58, 237, 0.08), transparent 70%)',
     summary:
       'Explore Lencho’s steadfast faith, the hailstorm destruction, and the bittersweet irony of the postal workers.',
   },
@@ -97,21 +101,13 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
   if (step.kind === 'start') {
     const current = STARTERS[selectedStarter];
     return (
-      <section className={styles.heroCard} aria-label="Today's Recommended Mission">
-        {/* Top bar with tabs */}
-        <div className={styles.heroTopRow}>
-          <div className={styles.heroBadgeRow}>
-            <span
-              className={styles.heroSubjectBadge}
-              style={{ color: current.badgeColor, backgroundColor: current.badgeBg }}
-            >
-              {current.tabLabel} · Code {current.subjectCode}
-            </span>
-            <span className={styles.heroXpPill}>{current.xp}</span>
-            <span className={styles.heroTimePill}>⏱️ {current.timeEst}</span>
-          </div>
-
-          {/* Subject Switcher Segmented Control */}
+      <section
+        className={styles.heroCard}
+        style={{ backgroundImage: current.themeGradient }}
+        aria-label="Today's Recommended Mission"
+      >
+        {/* Top Segmented Controller */}
+        <div className={styles.heroSwitcherRow}>
           <div className={styles.subjectSwitcher} role="tablist" aria-label="Select subject starter">
             {(Object.keys(STARTERS) as StarterKey[]).map((key) => {
               const item = STARTERS[key];
@@ -130,36 +126,38 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
               );
             })}
           </div>
+
+          <div className={styles.heroPillGroup}>
+            <span className={styles.heroMetaPill}>CBSE Code {current.subjectCode}</span>
+            <span className={styles.heroTimePill}>⏱️ {current.timeEst}</span>
+          </div>
         </div>
 
-        {/* Main Content Info */}
-        <div className={styles.heroBody}>
-          <div className={styles.heroMainInfo}>
-            <p className={styles.heroEyebrow}>Recommended First Mission</p>
+        {/* Hero Centerpiece */}
+        <div className={styles.heroMainBody}>
+          <div className={styles.heroHeaderBlock}>
+            <span className={styles.heroEyebrow}>RECOMMENDED FIRST MISSION</span>
             <h2 className={styles.heroTitle}>{current.chapter}</h2>
             <p className={styles.heroSummary}>{current.summary}</p>
           </div>
 
-          {/* Action Column */}
-          <div className={styles.heroActionGroup}>
+          <div className={styles.heroActionsRow}>
             <Link className={styles.heroCtaPrimary} href={current.quizHref}>
               ▶ Start 3-Min Quiz ({current.xp}) →
             </Link>
-            <div className={styles.heroSecondaryRow}>
-              <Link className={styles.heroCtaSecondary} href={current.notesHref}>
-                📖 Read Notes
-              </Link>
-              <button
-                type="button"
-                className={styles.heroAskTaraBtn}
-                onClick={() =>
-                  openTara(`Can you explain the key concepts of Class 10 ${current.chapter}?`)
-                }
-                title="Ask Tara AI about this chapter"
-              >
-                ✨ Ask Tara
-              </button>
-            </div>
+            <Link className={styles.heroCtaSecondary} href={current.notesHref}>
+              📖 Read Notes
+            </Link>
+            <button
+              type="button"
+              className={styles.heroAskTaraBtn}
+              onClick={() =>
+                openTara(`Can you explain the key concepts of Class 10 ${current.chapter}?`)
+              }
+              title="Ask Tara AI about this chapter"
+            >
+              ✨ Ask Tara
+            </button>
           </div>
         </div>
       </section>
@@ -170,36 +168,32 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
   if (step.kind === 'revise') {
     return (
       <section className={`${styles.heroCard} ${styles.heroCardRevise}`} aria-label="Targeted Revision">
-        <div className={styles.heroTopRow}>
-          <div className={styles.heroBadgeRow}>
-            <span className={styles.heroSubjectBadgeRevise}>
-              🚨 Targeted Revision · {step.subjectName}
-            </span>
-            <span className={styles.heroXpPill}>+60 XP Recovery</span>
-          </div>
+        <div className={styles.heroSwitcherRow}>
+          <span className={styles.heroSubjectBadgeRevise}>
+            🚨 Targeted Revision · {step.subjectName}
+          </span>
+          <span className={styles.heroXpPill}>+60 XP Recovery</span>
         </div>
 
-        <div className={styles.heroBody}>
-          <div className={styles.heroMainInfo}>
-            <p className={styles.heroEyebrow}>Focus Area</p>
+        <div className={styles.heroMainBody}>
+          <div className={styles.heroHeaderBlock}>
+            <span className={styles.heroEyebrow}>FOCUS PRIORITY</span>
             <h2 className={styles.heroTitle}>{step.chapterTitle}</h2>
             <p className={styles.heroSummary}>
               <strong>Trigger:</strong> {step.reason}. Revise key concepts and retake the quiz to secure board marks.
             </p>
           </div>
 
-          <div className={styles.heroActionGroup}>
+          <div className={styles.heroActionsRow}>
             <Link className={styles.heroCtaPrimary} href={step.href}>
               ▶ Start Revision Mission →
             </Link>
-            <div className={styles.heroSecondaryRow}>
-              <Link className={styles.heroCtaSecondary} href={`/chapters/${step.chapterSlug}`}>
-                📖 Open Notes
-              </Link>
-              <Link className={styles.heroQuietLink} href="/my-mistakes">
-                View Mistakes →
-              </Link>
-            </div>
+            <Link className={styles.heroCtaSecondary} href={`/chapters/${step.chapterSlug}`}>
+              📖 Open Notes
+            </Link>
+            <Link className={styles.heroQuietLink} href="/my-mistakes">
+              View Mistakes →
+            </Link>
           </div>
         </div>
       </section>
@@ -209,18 +203,16 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
   // 3. Continue State (Chapter in progress)
   return (
     <section className={styles.heroCard} aria-label="Continue Chapter">
-      <div className={styles.heroTopRow}>
-        <div className={styles.heroBadgeRow}>
-          <span className={styles.heroSubjectBadge}>
-            ⚡ Continue Where You Left Off · {step.subjectName}
-          </span>
-          <span className={styles.heroXpPill}>+40 XP</span>
-        </div>
+      <div className={styles.heroSwitcherRow}>
+        <span className={styles.heroSubjectBadge}>
+          ⚡ In Progress · {step.subjectName}
+        </span>
+        <span className={styles.heroXpPill}>+40 XP</span>
       </div>
 
-      <div className={styles.heroBody}>
-        <div className={styles.heroMainInfo}>
-          <p className={styles.heroEyebrow}>In-Progress Chapter</p>
+      <div className={styles.heroMainBody}>
+        <div className={styles.heroHeaderBlock}>
+          <span className={styles.heroEyebrow}>CONTINUE CHAPTER</span>
           <h2 className={styles.heroTitle}>{step.chapterTitle}</h2>
 
           <div className={styles.heroProgressWrap}>
@@ -241,25 +233,23 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
           </p>
         </div>
 
-        <div className={styles.heroActionGroup}>
+        <div className={styles.heroActionsRow}>
           <Link className={styles.heroCtaPrimary} href={step.href}>
             ▶ Resume Chapter ({step.masteryScore}%) →
           </Link>
-          <div className={styles.heroSecondaryRow}>
-            <Link
-              className={styles.heroCtaSecondary}
-              href={`/chapters/${step.chapterSlug}/quiz`}
-            >
-              ⚡ Take Quiz
-            </Link>
-            <button
-              type="button"
-              className={styles.heroAskTaraBtn}
-              onClick={() => openTara(`Explain the key formulas and concepts of ${step.chapterTitle}`)}
-            >
-              ✨ Ask Tara
-            </button>
-          </div>
+          <Link
+            className={styles.heroCtaSecondary}
+            href={`/chapters/${step.chapterSlug}/quiz`}
+          >
+            ⚡ Take Quiz
+          </Link>
+          <button
+            type="button"
+            className={styles.heroAskTaraBtn}
+            onClick={() => openTara(`Explain the key formulas and concepts of ${step.chapterTitle}`)}
+          >
+            ✨ Ask Tara
+          </button>
         </div>
       </div>
     </section>

@@ -35,14 +35,16 @@ const SUBJECT_META: Record<
     accentBg: string;
     nextChapterTitle: string;
     nextChapterSlug: string;
+    shortDesc: string;
   }
 > = {
   science: {
     icon: '🧪',
     accentColor: '#059669',
     accentBg: '#ecfdf5',
-    nextChapterTitle: 'Chemical Reactions and Equations',
+    nextChapterTitle: 'Chemical Reactions & Equations',
     nextChapterSlug: 'chemical-reactions-and-equations',
+    shortDesc: 'Physics, Chemistry & Biology',
   },
   'mathematics-standard': {
     icon: '📐',
@@ -50,6 +52,7 @@ const SUBJECT_META: Record<
     accentBg: '#eff6ff',
     nextChapterTitle: 'Real Numbers',
     nextChapterSlug: 'real-numbers',
+    shortDesc: 'Algebra, Geometry & Trigonometry',
   },
   'social-science': {
     icon: '🌍',
@@ -57,6 +60,7 @@ const SUBJECT_META: Record<
     accentBg: '#fffbeb',
     nextChapterTitle: 'The Rise of Nationalism in Europe',
     nextChapterSlug: 'rise-of-nationalism-in-europe',
+    shortDesc: 'History, Geography, Civics & Economics',
   },
   'english-language-and-literature': {
     icon: '📚',
@@ -64,39 +68,48 @@ const SUBJECT_META: Record<
     accentBg: '#f5f3ff',
     nextChapterTitle: 'A Letter to God',
     nextChapterSlug: 'a-letter-to-god',
+    shortDesc: 'First Flight & Footprints Without Feet',
   },
 };
 
 const PRACTICE_CARDS = [
   {
     title: '3D Virtual Science Lab',
-    desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics diagrams.',
+    desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics.',
     badge: 'Interactive 3D',
     icon: '🔬',
+    accentColor: '#059669',
+    accentBg: '#ecfdf5',
     href: '/virtual-lab',
-    cta: 'Launch Lab →',
+    cta: 'Launch 3D Lab →',
   },
   {
     title: 'Formula Cheatsheets',
-    desc: 'All 14 Maths & Science formula sheets + derivations in one click.',
+    desc: 'All 14 Maths & Science formula sheets + derivations in 1 click.',
     badge: 'Quick Recall',
     icon: '⚡',
+    accentColor: '#d97706',
+    accentBg: '#fffbeb',
     href: '/formula-cheatsheets',
     cta: 'View Formulas →',
   },
   {
     title: 'Board Score Predictor',
-    desc: 'AI blueprint analysis to estimate your 2026-27 CBSE Board percentile.',
+    desc: 'AI blueprint analysis to estimate your 2026-27 CBSE percentile.',
     badge: 'AI Powered',
     icon: '🎯',
+    accentColor: '#2563eb',
+    accentBg: '#eff6ff',
     href: '/tools/readiness-predictor',
     cta: 'Predict Score →',
   },
   {
     title: 'Formula Rush Arcade',
-    desc: '60-second rapid-fire recall drills to build instant exam muscle memory.',
+    desc: '60-second rapid-fire recall drills to build instant exam speed.',
     badge: 'Gamified Drill',
     icon: '🎮',
+    accentColor: '#7c3aed',
+    accentBg: '#f5f3ff',
     href: '/games/formula-rush',
     cta: 'Play Arcade →',
   },
@@ -185,7 +198,7 @@ export default async function DashboardPage() {
         {/* 1. Student Command Header */}
         <header className={styles.commandHeader}>
           <div className={styles.commandHeaderLeft}>
-            <h1 className={styles.commandHeaderTitle}>Welcome back, {firstName} 🎯</h1>
+            <h1 className={styles.commandHeaderTitle}>Welcome back, {firstName} 👋</h1>
             <p className={styles.commandHeaderSub}>
               <span>CBSE Class 10 Command Center</span>
               <span className={styles.headerMissionTag}>Target: 95%+ Topper Track</span>
@@ -199,7 +212,7 @@ export default async function DashboardPage() {
               🎯 {readiness}% Board Readiness
             </span>
             <span className={styles.statChip}>
-              📚 {startedCoreChapters}/{totalCoreChapters} Chapters
+              📚 {startedCoreChapters}/{totalCoreChapters} Chapters Underway
             </span>
             {activePackCount > 0 ? (
               <Link className={styles.statChip} href="/orders">
@@ -213,7 +226,7 @@ export default async function DashboardPage() {
         <div className={styles.commandGrid}>
           {/* Main Learning Workspace (~68% on desktop) */}
           <div className={styles.mainWorkspace}>
-            {/* Action Hero */}
+            {/* Action Hero Focus */}
             <DashboardNextStepHero step={nextStep} />
 
             {/* Continue Learning Strip (shown when student has started chapters) */}
@@ -274,6 +287,7 @@ export default async function DashboardPage() {
                     accentBg: '#fff4e8',
                     nextChapterTitle: 'Chapter 1',
                     nextChapterSlug: subject.slug,
+                    shortDesc: 'Core Curriculum',
                   };
 
                   return (
@@ -297,7 +311,7 @@ export default async function DashboardPage() {
                           className={styles.subjectMasteryPill}
                           style={{
                             borderColor: subject.progressPercent > 0 ? meta.accentColor : '#e7e2d6',
-                            color: subject.progressPercent > 0 ? meta.accentColor : '#55514b',
+                            color: subject.progressPercent > 0 ? meta.accentColor : '#6a645d',
                           }}
                         >
                           {subject.progressPercent}% Mastered
@@ -323,34 +337,35 @@ export default async function DashboardPage() {
                         </div>
                       </div>
 
-                      {/* Next Chapter Teaser */}
-                      <div className={styles.subjectNextTeaser}>
-                        <span className={styles.nextTeaserLabel}>Start / Next:</span>
-                        <span className={styles.nextTeaserName}>{meta.nextChapterTitle}</span>
+                      {/* Chapter Spotlight */}
+                      <div className={styles.chapterSpotlight}>
+                        <div className={styles.spotlightHeader}>
+                          <span
+                            className={styles.spotlightDot}
+                            style={{ backgroundColor: meta.accentColor }}
+                          />
+                          <span className={styles.spotlightTag}>
+                            {subject.startedCount > 0 ? 'CURRENT TOPIC' : 'UP NEXT IN SYLLABUS'}
+                          </span>
+                        </div>
+                        <div className={styles.spotlightTitle}>{meta.nextChapterTitle}</div>
                       </div>
 
-                      {/* Refined Action Row */}
+                      {/* Clean Action Row */}
                       <div className={styles.subjectActionRow}>
                         <Link
-                          className={styles.subjectExploreLink}
+                          className={styles.subjectPrimaryBtn}
+                          href={`/chapters/${meta.nextChapterSlug}`}
+                        >
+                          <span>{subject.startedCount > 0 ? 'Continue' : 'Start Chapter 1'}</span>
+                          <span className={styles.btnArrow}>→</span>
+                        </Link>
+                        <Link
+                          className={styles.subjectSyllabusLink}
                           href={`/subjects/${subject.slug}`}
                         >
-                          All {subject.chapterCount} chapters →
+                          All {subject.chapterCount} chapters
                         </Link>
-                        <div className={styles.subjectActionLinks}>
-                          <Link
-                            className={styles.subjectNotesBtn}
-                            href={`/chapters/${meta.nextChapterSlug}`}
-                          >
-                            📖 Notes
-                          </Link>
-                          <Link
-                            className={styles.subjectQuizBtn}
-                            href={`/chapters/${meta.nextChapterSlug}/quiz`}
-                          >
-                            ⚡ Quiz
-                          </Link>
-                        </div>
                       </div>
                     </div>
                   );
@@ -363,8 +378,8 @@ export default async function DashboardPage() {
               <div className={styles.sectionHead}>
                 <div className={styles.sectionTitleRow}>
                   <span className={styles.sectionIcon}>⚡</span>
-                  <h2 className={styles.sectionTitle}>High-Yield Practice & Tools</h2>
-                  <span className={styles.sectionBadge}>NCERT Lab & Drills</span>
+                  <h2 className={styles.sectionTitle}>High-Yield Practice & Revision</h2>
+                  <span className={styles.sectionBadge}>Interactive Apps</span>
                 </div>
                 <Link className={styles.sectionLink} href="/tools">
                   All Tools Catalog →
@@ -376,7 +391,12 @@ export default async function DashboardPage() {
                   <Link className={styles.practiceCard} href={card.href} key={card.title}>
                     <div>
                       <div className={styles.practiceCardTop}>
-                        <div className={styles.practiceIconBox}>{card.icon}</div>
+                        <div
+                          className={styles.practiceIconBox}
+                          style={{ backgroundColor: card.accentBg }}
+                        >
+                          {card.icon}
+                        </div>
                         <span className={styles.practiceBadge}>{card.badge}</span>
                       </div>
                       <h3 className={styles.practiceTitle}>{card.title}</h3>
