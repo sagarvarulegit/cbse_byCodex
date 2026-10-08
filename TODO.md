@@ -1,27 +1,18 @@
-# Current Handoff - Co-Founder Dashboard Improvements Live (2026-10-08)
+# Current Handoff - Direction 1: P0 Money Path & Universal Frictionless Checkout (2026-10-08)
 
-- [x] Implemented all 3 co-founder high-leverage enhancements on student `/dashboard`:
-  - **1. Gamification Payoff (Level & Rank Progression)**:
-    - Added deterministic XP calculation and Student Rank system (`calculateStudentRank`) in `apps/web/lib/dashboard-home.ts` spanning 5 levels (Level 1: `Board Aspirant` → Level 5: `95%+ Board Topper`).
-    - Visible Rank Chip with mini progress bar and XP counter in the Command Header (`Level 1 · Board Aspirant · 80 XP`).
-    - Dedicated Student Level & Rank HUD card in the sidebar showing level, progress to next tier (`170 XP to Level 2`), and visual progress track that directly connects with daily quest and quiz XP rewards.
-  - **2. Reframing Day 1 Readiness (From Demoralizing 0% to Calibration Mode)**:
-    - Reframed Day 1 empty state from cold `0% Readiness` with blank dashes into inspiring **"Phase 1: Calibration"**.
-    - Replaced empty circle with an active dashed radar ring displaying `READY / DAY 1 LAUNCH`.
-    - Labeled metrics cleanly (`Quiz Accuracy: Pending Quiz`, `Target Band: 95%+ Topper`).
-    - Added high-converting calibration launcher (`✨ Unlock Live Readiness` → `[Run 3-Min Calibration Quiz (+50 XP) →]`) and header chip `[🎯 Calibrate (+50 XP)]`.
-  - **3. Monetization & Urgency**:
-    - Embedded dynamic Board Exam Countdown chip in the header (`⏰ ~130 Days to Boards` based on CBSE Feb 15, 2027 start date).
-    - Added explicit commercial tier badges to practice cards (`₹49 Pack · Free Sample`, `Free NCERT Labs`, `AI Blueprint Tool`, `Unlimited Free Play`).
-    - Added dual high-converting CTAs to the CBSE Mock Papers banner (`Paper 1 100% Free` + `[✨ 5-Paper Pro Pass (₹199)]` linking to `/store` + `[Solve Free Paper 1 →]`).
-- [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`be2f0f6`).
-- [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
-- [x] Verified live production visual rendering via full-page screenshot (`C:\Sagar\tmp\dashboard_live_prod.png`).
+- [x] **Verified Live Cashfree Gateway & Supabase Database**:
+  - Live API endpoint (`https://cbse-bycodex-api.vercel.app/v1/payments/create-order`) successfully confirmed active with real Cashfree production credentials.
+  - Orders generate valid production session IDs (`session_...`) and persist into live Supabase PostgreSQL (`paymentOrderId`) without errors.
+- [x] **Eliminated Guest Checkout Friction Across All Modals**:
+  - `PaywallModal.tsx` (used for 5-Paper Pro Pass & All-Subjects Mock Pack): Removed `/login` blocking redirect. Added guest email/phone inputs and automatic `cbse_student_session` cookie provisioning upon payment verification.
+  - `QuizPaywallModal.tsx` (used for Unlimited Quiz Pass): Upgraded to Cashfree JS SDK `_modal` checkout as primary PG. Removed `/login` redirect, added guest email/phone inputs and auto-session cookie provisioning.
+  - `ProductCheckoutModal.tsx` (used for Activity & Diagram Pack, Formula Cheatsheets, Super Combo & Science Ch 1-5 Pack): Fully integrated `SCIENCE_CH1_5_PACK_KEY` in headers, descriptions, and plan selector grid.
+- [x] **Zero TypeScript Errors**: Passed `npx tsc -p apps/web/tsconfig.json --noEmit` cleanly.
+- [x] **Pushed to GitHub**: Committed and pushed to `origin/main` (`1bfb727`).
 - [ ] **Next Task in Line**:
-  - Review student conversion funnels from the new `5-Paper Pro Pass (₹199)` and `Calibrate (+50 XP)` entry points.
-  - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
-  - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are unpaused.
+  - Deploy `apps/web` to Vercel production (`npx vercel deploy --prod --yes` from `apps/web`).
+  - Verify live purchase flow in production browser on `/store` and `/exam-papers` with Cashfree UPI modal.
+  - Perform live ₹2 UPI end-to-end transaction test.
 
 # Current Handoff - Remote Git Sync & Mandatory Push Policy (2026-09-21)
 
