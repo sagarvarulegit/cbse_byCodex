@@ -1,4 +1,17 @@
-# Current Handoff - Direction 1: P0 Money Path & Universal Frictionless Checkout (2026-10-08)
+# Current Handoff - YouTube Shorts: Class 10 Science Bulb Brightness Trap Rendered & Verified (2026-10-08)
+
+- [x] **Created Educational YouTube Short**: `cbse-class-10-electricity-bulb-brightness-short`
+  - **Topic**: CBSE Class 10 Science (Chapter 11 — Electricity), Section 11.8: *The Series vs. Parallel Bulb Brightness Trap* ($P = I^2 R$ vs $P = V^2 / R$, 40 W vs 100 W bulb).
+  - **Pedagogy & NCERT Compliance**: Strict alignment with NCERT Sec 11.8 & Exercises Q3, Q15. Clear Frame 2 objective statement. Plain spoken English narration (no formula garbling).
+  - **HyperFrames Composition & Render**: Rendered standard-quality 1080×1920 (9:16 vertical) MP4 (`7.9 MB`, `52.0s` duration — safely below 60s Shorts ceiling) to `renders/cbse-class-10-science-electricity-bulb-brightness-shorts.mp4`.
+  - **3D Asset Integration**: High-resolution 3D incandescent bulb laboratory model integrated from `edu-animation-framework-v2`.
+  - **Dedicated 9:16 Thumbnail (Episode 05+ Invariant)**: High-contrast mobile cover generated and tracked at `thumbnails/thumbnail-9x16.png` and `.thumbnails/thumbnail-9x16.png`.
+  - **YouTube Studio Publishing Kit**: Packaged in `youtube-publishing.html` with 3 title options, SEO tags, timestamped description, and pinned engagement retrieval quiz.
+- [ ] **Next Task in Line**:
+  - Upload `cbse-class-10-science-electricity-bulb-brightness-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
+  - P0 Money Path: Deploy `apps/web` to Vercel production (`npx vercel deploy --prod --yes` from `apps/web`) and complete real ₹2 test transaction.
+
+# Previous Handoff - Direction 1: P0 Money Path & Universal Frictionless Checkout (2026-10-08)
 
 - [x] **Verified Live Cashfree Gateway & Supabase Database**:
   - Live API endpoint (`https://cbse-bycodex-api.vercel.app/v1/payments/create-order`) successfully confirmed active with real Cashfree production credentials.
