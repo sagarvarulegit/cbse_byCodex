@@ -182,6 +182,7 @@ export default function ProductCheckoutModal({
     );
   }
 
+  const isSciencePack = selectedProductKey === SCIENCE_CH1_5_PACK_KEY;
   const isActivityPack = selectedProductKey === NCERT_ACTIVITY_DIAGRAM_PACK_KEY;
   const isFormulaPack = selectedProductKey === FORMULA_CHEATSHEET_PACK_KEY;
   const isComboPack = selectedProductKey === ACTIVITY_FORMULA_COMBO_PACK_KEY;
@@ -337,21 +338,27 @@ export default function ProductCheckoutModal({
 
         <div className="paywall-header">
           <span className="paywall-badge">
-            {isComboPack
+            {isSciencePack
+              ? '🧪 Science Ch 1–5 Board Revision Pack'
+              : isComboPack
               ? '👑 Ultimate Revision Combo'
               : isActivityPack
               ? '🔬 NCERT Activity & Diagram Pack'
               : '⚡ Formula & Reaction Cheatsheets'}
           </span>
           <h2>
-            {isComboPack
+            {isSciencePack
+              ? 'Class 10 Science (Ch 1–5) Board Blueprint & PYQ Pack'
+              : isComboPack
               ? 'Master Every Activity & Formula'
               : isActivityPack
               ? 'Crack 15+ Board Marks from NCERT Activities'
               : 'Never Forget a Formula or Reaction'}
           </h2>
           <p className="paywall-subhead">
-            {isComboPack
+            {isSciencePack
+              ? 'Instant access to 10-year verified CBSE PYQs with step-wise marking scheme answers, NCERT experimental activity breakdowns, and 1-page rapid revision cheatsheets for Chapters 1 to 5.'
+              : isComboPack
               ? 'Instant academic-year access to all NCERT Science Activities, interactive diagram drills, and printable Maths & Science formula sheets.'
               : isActivityPack
               ? 'Step-by-step experimental setups, observations, reactions, diagram-labeling drills, and previous year board questions.'
@@ -367,6 +374,30 @@ export default function ProductCheckoutModal({
 
         {/* Plan Selector */}
         <div className="plan-selection-grid">
+          {/* Option: Science Ch 1-5 Pack (when selected or opened from Science pack page) */}
+          {(isSciencePack || initialProductKey === SCIENCE_CH1_5_PACK_KEY) && (
+            <div
+              className={`plan-item ${isSciencePack ? 'selected' : ''}`}
+              onClick={() => setSelectedProductKey(SCIENCE_CH1_5_PACK_KEY)}
+            >
+              <div className="plan-item-radio">
+                <input
+                  type="radio"
+                  name="productPlan"
+                  checked={isSciencePack}
+                  onChange={() => setSelectedProductKey(SCIENCE_CH1_5_PACK_KEY)}
+                />
+              </div>
+              <div className="plan-item-body">
+                <div className="plan-item-title-row">
+                  <strong>Science Ch 1–5 Blueprint &amp; PYQ Pack</strong>
+                  <span className="price-tag">₹99</span>
+                </div>
+                <p className="plan-item-desc">10-Yr CBSE PYQs, experimental activity breakdowns &amp; revision notes</p>
+              </div>
+            </div>
+          )}
+
           {/* Option 1: Activity & Diagram Pack (₹99) */}
           <div
             className={`plan-item ${isActivityPack ? 'selected' : ''}`}

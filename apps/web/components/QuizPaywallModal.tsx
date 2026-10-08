@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Script from 'next/script';
 
 import {
   createPaymentOrder,
@@ -28,11 +27,24 @@ export default function QuizPaywallModal({
 }: QuizPaywallModalProps) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [razorpayReady, setRazorpayReady] = useState(false);
+  const [guestEmail, setGuestEmail] = useState(userEmail || '');
+  const [guestPhone, setGuestPhone] = useState('');
 
+  // Load Cashfree and Razorpay scripts
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.Razorpay) {
-      setRazorpayReady(true);
+    if (typeof window !== 'undefined') {
+      if (!window.Cashfree) {
+        const cfScript = document.createElement('script');
+        cfScript.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
+        cfScript.async = true;
+        document.body.appendChild(cfScript);
+      }
+      if (!window.Razorpay) {
+        const rzpScript = document.createElement('script');
+        rzpScript.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        rzpScript.async = true;
+        document.body.appendChild(rzpScript);
+      }
     }
   }, []);
 
@@ -44,69 +56,126 @@ export default function QuizPaywallModal({
     setLoading(true);
     setErrorMessage(null);
 
-    if (!token) {
-      if (typeof window !== 'undefined') {
-        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
-      }
+    const emailToUse = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || '';
+    const phoneToUse = guestPhone.trim();
+
+    if (!token && (!emailToUse || !emailToUse.includes('@'))) {
+      setLoading(false);
+      setErrorMessage('Please enter a valid email address for instant pass delivery.');
       return;
     }
 
     try {
-      const order = await createPaymentOrder(token, UNLIMITED_QUIZ_PASS_KEY);
-      if (!order || !order.paymentOrderId) {
+      const orderData = await createPaymentOrder(
+        token,
+        UNLIMITED_QUIZ_PASS_KEY,
+        undefined,
+        !token
+          ? {
+              guestEmail: emailToUse,
+              guestPhone: phoneToUse || undefined,
+              guestName: userFullName || 'Class 10 Student',
+            }
+          : undefined,
+      );
+
+      if (!orderData) {
         throw new Error('Could not initiate payment session. Please try again.');
       }
 
-      if (!window.Razorpay) {
-        throw new Error('Razorpay secure checkout is loading. Please retry in a few seconds.');
+      // 1. Cashfree Checkout (Primary)
+      if (orderData.paymentSessionId) {
+        if (!window.Cashfree) {
+          throw new Error('Payment gateway is loading. Please try again in a moment.');
+        }
+
+        const cashfree = window.Cashfree({
+          mode: orderData.mode || 'production',
+        });
+
+        const checkoutResult = await cashfree.checkout({
+          paymentSessionId: orderData.paymentSessionId,
+          redirectTarget: '_modal',
+        });
+
+        if (checkoutResult?.error) {
+          setLoading(false);
+          setErrorMessage(checkoutResult.error.message || 'Payment was cancelled or closed.');
+          return;
+        }
+
+        const verifyRes = await verifyPayment(token, { orderId: orderData.orderId });
+        if (verifyRes?.success) {
+          if (verifyRes.token) {
+            document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+          }
+          setLoading(false);
+          onSuccess?.();
+          onClose();
+          return;
+        } else {
+          setLoading(false);
+          setErrorMessage(verifyRes?.message || 'Payment verification pending. Please refresh.');
+          return;
+        }
       }
 
-      const options = {
-        key: order.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
-        amount: order.amount,
-        currency: order.currency || 'INR',
-        name: 'ChapterReady',
-        description: 'Class 10 Unlimited CBSE Quiz Pass (All 4 Subjects)',
-        order_id: order.paymentOrderId,
-        prefill: {
-          name: userFullName || '',
-          email: userEmail || '',
-        },
-        theme: {
-          color: '#171513',
-        },
-        handler: async function (response: {
-          razorpay_payment_id: string;
-          razorpay_order_id: string;
-          razorpay_signature: string;
-        }) {
-          try {
-            const verifyRes = await verifyPayment(token, {
-              orderId: order.orderId,
-              razorpayOrderId: response.razorpay_order_id,
-              razorpayPaymentId: response.razorpay_payment_id,
-              razorpaySignature: response.razorpay_signature,
-            });
+      // 2. Razorpay Fallback
+      if (orderData.keyId || orderData.paymentOrderId) {
+        if (!window.Razorpay) {
+          throw new Error('Payment gateway is loading. Please retry in a few seconds.');
+        }
 
-            if (verifyRes?.success) {
-              onSuccess?.();
-              onClose();
-            } else {
-              setErrorMessage(verifyRes?.message || 'Payment verification failed. Please contact support.');
-            }
-          } catch (err) {
-            setErrorMessage(err instanceof Error ? err.message : 'Payment verification error.');
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
+        const options: RazorpayOptions = {
+          key: orderData.keyId || 'rzp_test_placeholder',
+          amount: orderData.amount,
+          currency: orderData.currency || 'INR',
+          name: 'ChapterReady',
+          description: 'Class 10 Unlimited CBSE Quiz Pass (All 4 Subjects)',
+          order_id: orderData.paymentOrderId || orderData.orderId,
+          prefill: {
+            name: userFullName || 'Class 10 Student',
+            email: emailToUse,
+            contact: phoneToUse || undefined,
           },
-        },
-      };
+          theme: {
+            color: '#171513',
+          },
+          handler: async function (response: RazorpayResponse) {
+            try {
+              const verifyRes = await verifyPayment(token, {
+                orderId: orderData.orderId,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              });
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+              if (verifyRes?.success) {
+                if (verifyRes.token) {
+                  document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+                }
+                setLoading(false);
+                onSuccess?.();
+                onClose();
+              } else {
+                setErrorMessage(verifyRes?.message || 'Payment verification failed. Please contact support.');
+                setLoading(false);
+              }
+            } catch (err) {
+              setErrorMessage(err instanceof Error ? err.message : 'Payment verification error.');
+              setLoading(false);
+            }
+          },
+          modal: {
+            ondismiss: function () {
+              setLoading(false);
+            },
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      }
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : 'Checkout failed.');
       setLoading(false);
@@ -115,12 +184,6 @@ export default function QuizPaywallModal({
 
   return (
     <>
-      <Script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"
-        onLoad={() => setRazorpayReady(true)}
-      />
-
       <div className="modal-backdrop" onClick={onClose}>
         <div className="modal-card" onClick={(e) => e.stopPropagation()}>
           <button type="button" className="btn-close" onClick={onClose}>
@@ -169,8 +232,34 @@ export default function QuizPaywallModal({
               <span className="price-orig">₹599</span>
               <span className="discount-badge">66% OFF</span>
             </div>
-            <span className="price-validity">One-time payment · Valid for 2025–26 Board Year</span>
+            <span className="price-validity">One-time payment · Valid for 2026–27 Board Year</span>
           </div>
+
+          {!token && (
+            <div className="guest-checkout-box">
+              <div className="guest-checkout-label">
+                <span>📧 Instant Delivery (No Account Needed)</span>
+                <span className="guest-sub">We’ll deliver your pass &amp; receipt here:</span>
+              </div>
+              <div className="guest-inputs">
+                <input
+                  type="email"
+                  placeholder="Student / Parent Email (e.g. rahul@gmail.com)"
+                  value={guestEmail}
+                  onChange={(e) => setGuestEmail(e.target.value)}
+                  className="guest-input"
+                  required
+                />
+                <input
+                  type="tel"
+                  placeholder="Mobile / WhatsApp (Optional for SMS receipt)"
+                  value={guestPhone}
+                  onChange={(e) => setGuestPhone(e.target.value)}
+                  className="guest-input"
+                />
+              </div>
+            </div>
+          )}
 
           <div className="modal-actions">
             <button
@@ -187,7 +276,7 @@ export default function QuizPaywallModal({
           </div>
 
           <div className="guarantee-footer">
-            <span>🛡️ 100% Satisfaction Guarantee · Verified NCERT Questions</span>
+            <span>🛡️ 100% Satisfaction Guarantee · Instant UPI Unlock · Verified NCERT Questions</span>
           </div>
         </div>
       </div>
@@ -357,6 +446,55 @@ export default function QuizPaywallModal({
           color: #047857;
           font-weight: 600;
           text-align: right;
+        }
+
+        .guest-checkout-box {
+          background: #fbf9f4;
+          border: 1.5px solid #171513;
+          border-radius: 14px;
+          padding: 0.85rem 1rem;
+          margin-bottom: 1.25rem;
+          text-align: left;
+        }
+
+        .guest-checkout-label {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+          margin-bottom: 0.6rem;
+        }
+
+        .guest-checkout-label span:first-child {
+          font-weight: 800;
+          font-size: 0.85rem;
+          color: #171513;
+        }
+
+        .guest-sub {
+          font-size: 0.75rem;
+          color: #787168;
+        }
+
+        .guest-inputs {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .guest-input {
+          width: 100%;
+          padding: 0.65rem 0.85rem;
+          border: 1.5px solid #d4cecb;
+          border-radius: 8px;
+          font-size: 0.88rem;
+          outline: none;
+          background: #ffffff;
+          box-sizing: border-box;
+          transition: border-color 0.15s ease;
+        }
+
+        .guest-input:focus {
+          border-color: #171513;
         }
 
         .modal-actions {

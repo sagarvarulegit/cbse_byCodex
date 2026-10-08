@@ -31,6 +31,8 @@ export default function PaywallModal({
   const [selectedPlan, setSelectedPlan] = useState<'all_subjects' | 'single_subject'>('all_subjects');
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [guestEmail, setGuestEmail] = useState(userEmail || '');
+  const [guestPhone, setGuestPhone] = useState('');
 
   // Load Cashfree & Razorpay checkout scripts on mount
   useEffect(() => {
@@ -58,10 +60,12 @@ export default function PaywallModal({
     setIsProcessing(true);
     setErrorMessage(null);
 
-    if (!token) {
-      if (typeof window !== 'undefined') {
-        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
-      }
+    const emailToUse = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || '';
+    const phoneToUse = guestPhone.trim();
+
+    if (!token && (!emailToUse || !emailToUse.includes('@'))) {
+      setIsProcessing(false);
+      setErrorMessage('Please enter a valid email address for instant access delivery.');
       return;
     }
 
@@ -75,6 +79,13 @@ export default function PaywallModal({
         token,
         productKey,
         selectedPlan === 'single_subject' ? subjectSlug : undefined,
+        !token
+          ? {
+              guestEmail: emailToUse,
+              guestPhone: phoneToUse || undefined,
+              guestName: userFullName || 'Class 10 Student',
+            }
+          : undefined,
       );
 
       if (!orderData) {
@@ -116,6 +127,9 @@ export default function PaywallModal({
         // Verify order on backend
         const verifyRes = await verifyPayment(token, { orderId: orderData.orderId });
         if (verifyRes?.success) {
+          if (verifyRes.token) {
+            document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+          }
           setIsProcessing(false);
           onSuccess(productKey);
           onClose();
@@ -157,6 +171,9 @@ export default function PaywallModal({
               });
 
               if (verifyRes?.success) {
+                if (verifyRes.token) {
+                  document.cookie = `cbse_student_session=${verifyRes.token}; path=/; max-age=1209600; SameSite=Lax`;
+                }
                 setIsProcessing(false);
                 onSuccess(productKey);
                 onClose();
@@ -293,6 +310,32 @@ export default function PaywallModal({
             </div>
           </div>
         </div>
+ 
+        {!token && (
+          <div className="guest-checkout-box">
+            <div className="guest-checkout-label">
+              <span>📧 Instant Delivery (No Account Needed)</span>
+              <span className="guest-sub">We’ll deliver your pass & receipt here:</span>
+            </div>
+            <div className="guest-inputs">
+              <input
+                type="email"
+                placeholder="Student / Parent Email (e.g. rahul@gmail.com)"
+                value={guestEmail}
+                onChange={(e) => setGuestEmail(e.target.value)}
+                className="guest-input"
+                required
+              />
+              <input
+                type="tel"
+                placeholder="Mobile / WhatsApp (Optional for SMS receipt)"
+                value={guestPhone}
+                onChange={(e) => setGuestPhone(e.target.value)}
+                className="guest-input"
+              />
+            </div>
+          </div>
+        )}
 
         {errorMessage && (
           <div className="paywall-error" role="alert">
@@ -469,6 +512,48 @@ export default function PaywallModal({
           color: #787168;
           margin: 0.85rem 0 0 0;
           font-weight: 600;
+        }
+        .guest-checkout-box {
+          background: #fbf9f4;
+          border: 1.5px solid #171513;
+          border-radius: 14px;
+          padding: 0.85rem 1rem;
+          margin-bottom: 1.25rem;
+          text-align: left;
+        }
+        .guest-checkout-label {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+          margin-bottom: 0.6rem;
+        }
+        .guest-checkout-label span:first-child {
+          font-weight: 800;
+          font-size: 0.85rem;
+          color: #171513;
+        }
+        .guest-sub {
+          font-size: 0.75rem;
+          color: #787168;
+        }
+        .guest-inputs {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .guest-input {
+          width: 100%;
+          padding: 0.65rem 0.85rem;
+          border: 1.5px solid #d4cecb;
+          border-radius: 8px;
+          font-size: 0.88rem;
+          outline: none;
+          background: #ffffff;
+          box-sizing: border-box;
+          transition: border-color 0.15s ease;
+        }
+        .guest-input:focus {
+          border-color: #171513;
         }
       `}</style>
     </div>
