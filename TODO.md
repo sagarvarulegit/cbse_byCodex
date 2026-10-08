@@ -1,30 +1,25 @@
-# Current Handoff - Dashboard Elevated to UI/UX Pro Max Standards (2026-10-07)
+# Current Handoff - Co-Founder Dashboard Improvements Live (2026-10-08)
 
-- [x] Complete UI/UX renovation and elevation of student `/dashboard` adhering to **UI/UX Pro Max** design intelligence principles:
-  - **Zero Raw Emojis (`no-emoji-icons` rule)**:
-    - Replaced all raw font-dependent emojis with crisp, accessible vector `lucide-react` icons styled with design tokens and proper stroke weights (`Flame`, `Target`, `Layers`, `FlaskConical`, `Calculator`, `Globe2`, `BookOpenCheck`, `Microscope`, `Zap`, `TrendingUp`, `Gamepad2`, `FileText`, `Sparkles`, `Clock`, `ArrowRight`).
-  - **Action Hero Upgraded to 2-Column Focus Deck**:
-    - Left column: Vector subject switcher tabs, NCERT Class 10 badge, large confident typography, and tactile neo-brutalist CTA row (`Start 3-Min Quiz (+50 XP) →`, `Read Notes`, `Ask Tara`).
-    - Right column: **"3-Step Chapter Blueprint"** card (`01 NCERT Concept Notes (12 min)` → `02 Lab Reactions & Colors (8 min)` → `03 Board Recall Quiz (3 min)` with Topper Method badge) eliminating dead space and establishing a clear study roadmap.
-  - **Subject Stations with Rich Color Personality**:
-    - Distinct colored top accent bars, matching icon containers, and subject-specific stats:
-      - Science (Code 086): Emerald Green (`#059669`), `13 chapters · 16 NCERT Labs`.
-      - Mathematics (Code 041): Cobalt Blue (`#2563eb`), `14 chapters · 160+ Formulas`.
-      - Social Science (Code 087): Golden Amber (`#d97706`), `22 chapters · Map & Case Studies`.
-      - English (Code 184): Deep Violet (`#7c3aed`), `40 chapters · Literature & Grammar`.
-    - Modern Chapter Spotlights with glowing subject accent dots and focused primary action button (`Start Chapter 1 →` / `Continue →`).
-  - **High-Yield Practice Cards & Official Blueprint Banner**:
-    - 4 rich tool cards with category badges and vector icons (`Microscope`, `Zap`, `TrendingUp`, `Gamepad2`).
-    - High-impact dark slate CBSE Mock Papers banner with official blueprint badge.
-  - **Gutter Clearance & Sidebar Polish**:
-    - Constrained `.shell` width to `1240px` on desktop, ensuring the fixed floating Tara firefly button sits cleanly in the right margin without overlapping or colliding with cards.
-    - Custom neo-brutalist interactive checkboxes with smooth check transitions in Daily Missions.
+- [x] Implemented all 3 co-founder high-leverage enhancements on student `/dashboard`:
+  - **1. Gamification Payoff (Level & Rank Progression)**:
+    - Added deterministic XP calculation and Student Rank system (`calculateStudentRank`) in `apps/web/lib/dashboard-home.ts` spanning 5 levels (Level 1: `Board Aspirant` → Level 5: `95%+ Board Topper`).
+    - Visible Rank Chip with mini progress bar and XP counter in the Command Header (`Level 1 · Board Aspirant · 80 XP`).
+    - Dedicated Student Level & Rank HUD card in the sidebar showing level, progress to next tier (`170 XP to Level 2`), and visual progress track that directly connects with daily quest and quiz XP rewards.
+  - **2. Reframing Day 1 Readiness (From Demoralizing 0% to Calibration Mode)**:
+    - Reframed Day 1 empty state from cold `0% Readiness` with blank dashes into inspiring **"Phase 1: Calibration"**.
+    - Replaced empty circle with an active dashed radar ring displaying `READY / DAY 1 LAUNCH`.
+    - Labeled metrics cleanly (`Quiz Accuracy: Pending Quiz`, `Target Band: 95%+ Topper`).
+    - Added high-converting calibration launcher (`✨ Unlock Live Readiness` → `[Run 3-Min Calibration Quiz (+50 XP) →]`) and header chip `[🎯 Calibrate (+50 XP)]`.
+  - **3. Monetization & Urgency**:
+    - Embedded dynamic Board Exam Countdown chip in the header (`⏰ ~130 Days to Boards` based on CBSE Feb 15, 2027 start date).
+    - Added explicit commercial tier badges to practice cards (`₹49 Pack · Free Sample`, `Free NCERT Labs`, `AI Blueprint Tool`, `Unlimited Free Play`).
+    - Added dual high-converting CTAs to the CBSE Mock Papers banner (`Paper 1 100% Free` + `[✨ 5-Paper Pro Pass (₹199)]` linking to `/store` + `[Solve Free Paper 1 →]`).
 - [x] Verified zero TypeScript errors (`npx tsc -p apps/web/tsconfig.json --noEmit`).
-- [x] Committed and pushed to `origin/main` (`4e0db82`).
+- [x] Committed and pushed to `origin/main` (`be2f0f6`).
 - [x] Deployed live to Vercel production: https://www.chapterready.in/dashboard
-- [x] Verified on live production via headless browser screenshot capture (`C:\Sagar\tmp\dashboard_live_prod.png`). All elements, contrast, and alignment verified.
+- [x] Verified live production visual rendering via full-page screenshot (`C:\Sagar\tmp\dashboard_live_prod.png`).
 - [ ] **Next Task in Line**:
-  - Review live student engagement and feedback on the upgraded dashboard.
+  - Review student conversion funnels from the new `5-Paper Pro Pass (₹199)` and `Calibrate (+50 XP)` entry points.
   - YouTube Shorts: Ensure dedicated thumbnails/covers for all Shorts starting from Episode 05 onwards.
   - P0 Money Path: Complete real ₹2 UPI test transaction once live credentials / Supabase are unpaused.
 
