@@ -16,6 +16,8 @@ import {
   ArrowRight,
   Sparkles,
   BookOpen,
+  Award,
+  Clock,
 } from 'lucide-react';
 
 import DashboardNextStepHero from '../../components/DashboardNextStepHero';
@@ -28,7 +30,9 @@ import { getStudentSessionToken, requireStudentSession } from '../../lib/auth';
 import { getChapter } from '../../lib/course-content';
 import {
   buildCoreSubjectProgress,
+  calculateStudentRank,
   formatRelativeDay,
+  getDaysToBoardExams,
   getRecentChapters,
   pickNextStep,
 } from '../../lib/dashboard-home';
@@ -99,7 +103,7 @@ const PRACTICE_CARDS = [
   {
     title: '3D Virtual Science Lab',
     desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics.',
-    badge: 'Interactive 3D',
+    badge: 'Free NCERT Labs',
     Icon: Microscope,
     accentColor: '#059669',
     accentBg: '#ecfdf5',
@@ -109,7 +113,7 @@ const PRACTICE_CARDS = [
   {
     title: 'Formula Cheatsheets',
     desc: 'All 14 Maths & Science formula sheets + derivations in 1 click.',
-    badge: 'Quick Recall',
+    badge: '₹49 Pack · Free Sample',
     Icon: Zap,
     accentColor: '#d97706',
     accentBg: '#fffbeb',
@@ -119,7 +123,7 @@ const PRACTICE_CARDS = [
   {
     title: 'Board Score Predictor',
     desc: 'AI blueprint analysis to estimate your 2026-27 CBSE percentile.',
-    badge: 'AI Powered',
+    badge: 'AI Blueprint Tool',
     Icon: TrendingUp,
     accentColor: '#2563eb',
     accentBg: '#eff6ff',
@@ -129,7 +133,7 @@ const PRACTICE_CARDS = [
   {
     title: 'Formula Rush Arcade',
     desc: '60-second rapid-fire recall drills to build instant exam speed.',
-    badge: 'Gamified Drill',
+    badge: 'Unlimited Free Play',
     Icon: Gamepad2,
     accentColor: '#7c3aed',
     accentBg: '#f5f3ff',
@@ -153,7 +157,9 @@ export default async function DashboardPage() {
   const remixModel = buildStudyRemixDashboardModel({ mastery, session });
   const firstName = session.fullName?.split(/\s+/)[0] || 'there';
 
-  // ---- Real student data ----
+  // ---- Real student data & gamification ----
+  const rank = calculateStudentRank(mastery);
+  const daysToBoards = getDaysToBoardExams();
   const nextStep = pickNextStep(mastery);
   const recentChapters = getRecentChapters(mastery.masteries, 3);
   const subjectProgress = buildCoreSubjectProgress(mastery.masteries);
@@ -228,18 +234,64 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className={styles.commandHeaderChips}>
+            {/* 1. Student Rank & Level Progression */}
+            <div
+              className={styles.rankChip}
+              title={`${rank.totalXp} XP · ${rank.xpToNext} XP to Level ${rank.level + 1}`}
+            >
+              <Award size={15} color="#c95014" strokeWidth={2.5} />
+              <div className={styles.rankChipContent}>
+                <span className={styles.rankChipTitle}>
+                  Lvl {rank.level} · {rank.rankTitle}
+                </span>
+                <div className={styles.rankMiniTrack}>
+                  <div
+                    className={styles.rankMiniFill}
+                    style={{ width: `${Math.max(rank.progressPercent, 8)}%` }}
+                  />
+                </div>
+              </div>
+              <span className={styles.rankChipXp}>{rank.totalXp} XP</span>
+            </div>
+
+            {/* 2. Board Exam Countdown */}
+            <span
+              className={styles.statChipCountdown}
+              title="CBSE Class 10 Board Examinations begin February 15, 2027"
+            >
+              <Clock size={14} color="#dc2626" strokeWidth={2.5} />
+              <span>~{daysToBoards} Days to Boards</span>
+            </span>
+
+            {/* 3. Daily Streak */}
             <span className={styles.statChip}>
               <Flame size={15} color="#ea580c" strokeWidth={2.5} />
               <span>{streakDays > 0 ? `${streakDays}-Day Streak` : 'Day 1 Streak'}</span>
             </span>
-            <span className={styles.statChip}>
-              <Target size={15} color="#0284c7" strokeWidth={2.5} />
-              <span>{readiness}% Board Readiness</span>
-            </span>
+
+            {/* 4. Board Readiness or Calibration Mode */}
+            {hasProgressData ? (
+              <span className={styles.statChip}>
+                <Target size={15} color="#0284c7" strokeWidth={2.5} />
+                <span>{readiness}% Board Readiness</span>
+              </span>
+            ) : (
+              <Link
+                className={styles.statChipCalibrate}
+                href="/chapters/chemical-reactions-and-equations/quiz"
+                title="Take 3-minute diagnostic quiz to benchmark your readiness score"
+              >
+                <Target size={15} color="#c95014" strokeWidth={2.5} />
+                <span>Calibrate (+50 XP)</span>
+              </Link>
+            )}
+
+            {/* 5. Chapters Underway */}
             <span className={styles.statChip}>
               <Layers size={15} color="#059669" strokeWidth={2.5} />
               <span>{startedCoreChapters}/{totalCoreChapters} Chapters Underway</span>
             </span>
+
             {activePackCount > 0 ? (
               <Link className={styles.statChip} href="/orders">
                 <Package size={15} color="#7c3aed" strokeWidth={2.5} />
@@ -465,6 +517,7 @@ export default async function DashboardPage() {
                   <div>
                     <div className={styles.mockBannerTagRow}>
                       <span className={styles.mockBannerTag}>OFFICIAL 2026-27 BLUEPRINT</span>
+                      <span className={styles.mockBannerFreeBadge}>Paper 1 100% Free</span>
                     </div>
                     <h3 className={styles.mockBannerTitle}>CBSE Official Board Mock Papers</h3>
                     <p className={styles.mockBannerSub}>
@@ -472,10 +525,16 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <Link className={styles.mockBannerBtn} href="/exam-papers">
-                  <span>Solve Mock Papers</span>
-                  <ArrowRight size={15} strokeWidth={2.5} />
-                </Link>
+                <div className={styles.mockBannerActions}>
+                  <Link className={styles.mockBannerBtnSecondary} href="/store">
+                    <Sparkles size={14} strokeWidth={2.5} />
+                    <span>5-Paper Pro Pass (₹199)</span>
+                  </Link>
+                  <Link className={styles.mockBannerBtn} href="/exam-papers">
+                    <span>Solve Free Paper 1</span>
+                    <ArrowRight size={15} strokeWidth={2.5} />
+                  </Link>
+                </div>
               </div>
             </section>
           </div>
@@ -492,6 +551,7 @@ export default async function DashboardPage() {
               startedCoreChapters={startedCoreChapters}
               totalCoreChapters={totalCoreChapters}
               weakChapters={weakChapters}
+              rank={rank}
             />
           </div>
         </div>

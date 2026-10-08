@@ -12,8 +12,10 @@ import {
   Calculator,
   Globe2,
   HelpCircle,
+  Award,
 } from 'lucide-react';
 import TaraFireflyIcon from './TaraFireflyIcon';
+import type { StudentRankInfo } from '../lib/dashboard-home';
 import styles from './dashboard-home.module.css';
 
 export type WeakChapterItem = {
@@ -34,6 +36,7 @@ export type DashboardSidebarHudProps = {
   startedCoreChapters: number;
   totalCoreChapters: number;
   weakChapters: WeakChapterItem[];
+  rank?: StudentRankInfo;
 };
 
 const DAY_NAMES = ['M', 'T', 'W', 'T', 'F', 'S', 'S'] as const;
@@ -75,6 +78,7 @@ export default function DashboardSidebarHud({
   startedCoreChapters,
   totalCoreChapters,
   weakChapters,
+  rank,
 }: DashboardSidebarHudProps) {
   const todayIdx = (new Date().getDay() + 6) % 7;
   const [completedQuests, setCompletedQuests] = useState<Record<string, boolean>>({});
@@ -115,6 +119,36 @@ export default function DashboardSidebarHud({
     <aside className={styles.sidebarHud} aria-label="Student Command HUD">
       {/* Card 1: Study Momentum & Board Readiness */}
       <section className={styles.hudCard}>
+        {/* Student Level & Rank Progression */}
+        {rank ? (
+          <div className={styles.rankHudBlock}>
+            <div className={styles.rankHudTop}>
+              <div className={styles.rankHudTitleRow}>
+                <div className={styles.rankIconBox}>
+                  <Award size={16} strokeWidth={2.5} color="#c95014" />
+                </div>
+                <div>
+                  <div className={styles.rankHudLevel}>
+                    Level {rank.level} · {rank.rankTitle}
+                  </div>
+                  <div className={styles.rankHudSub}>
+                    {rank.xpToNext > 0
+                      ? `${rank.xpToNext} XP to Level ${rank.level + 1}`
+                      : 'Top Rank Achieved'}
+                  </div>
+                </div>
+              </div>
+              <span className={styles.rankXpBadge}>{rank.totalXp} XP</span>
+            </div>
+            <div className={styles.rankProgressBar}>
+              <div
+                className={styles.rankProgressFill}
+                style={{ width: `${Math.max(rank.progressPercent, 6)}%` }}
+              />
+            </div>
+          </div>
+        ) : null}
+
         {/* Streak & Weekly Track */}
         <div className={styles.streakHeader}>
           <div className={styles.streakFlame}>
@@ -164,7 +198,9 @@ export default function DashboardSidebarHud({
             <Target size={16} color="#c95014" strokeWidth={2.5} />
             <h3 className={styles.hudCardTitle}>Board Exam Readiness</h3>
           </div>
-          <span className={styles.targetBadge}>Target: 95%+</span>
+          <span className={hasProgressData ? styles.targetBadge : styles.targetBadgeCalibrating}>
+            {hasProgressData ? 'Target: 95%+' : 'Phase 1: Calibration'}
+          </span>
         </div>
 
         <div className={styles.gaugeContainer}>
@@ -178,18 +214,27 @@ export default function DashboardSidebarHud({
                 strokeWidth="8"
               />
               <circle
-                className={styles.gaugeFillCircle}
+                className={hasProgressData ? styles.gaugeFillCircle : styles.gaugeCalibrateCircle}
                 cx="50"
                 cy="50"
                 r={radius}
                 strokeWidth="8"
-                strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
+                strokeDasharray={hasProgressData ? circumference : '6 4'}
+                strokeDashoffset={hasProgressData ? strokeDashoffset : 0}
               />
             </svg>
             <div className={styles.gaugeCenterText}>
-              <span className={styles.gaugeNumber}>{readiness}%</span>
-              <span className={styles.gaugeLabel}>Readiness</span>
+              {hasProgressData ? (
+                <>
+                  <span className={styles.gaugeNumber}>{readiness}%</span>
+                  <span className={styles.gaugeLabel}>Readiness</span>
+                </>
+              ) : (
+                <>
+                  <span className={styles.gaugeCalibrateNumber}>READY</span>
+                  <span className={styles.gaugeCalibrateLabel}>Day 1 Launch</span>
+                </>
+              )}
             </div>
           </div>
 
@@ -205,14 +250,20 @@ export default function DashboardSidebarHud({
               <span className={styles.statDot} style={{ background: '#059669' }} />
               <span className={styles.statLabel}>Quiz Accuracy</span>
               <strong className={styles.statValue}>
-                {quizAvg !== null ? `${Math.round(quizAvg)}%` : '—'}
+                {quizAvg !== null ? (
+                  `${Math.round(quizAvg)}%`
+                ) : (
+                  <span className={styles.statPendingBadge}>Pending Quiz</span>
+                )}
               </strong>
             </div>
             <div className={styles.gaugeStatRow}>
               <span className={styles.statDot} style={{ background: '#2563eb' }} />
-              <span className={styles.statLabel}>Mock Average</span>
+              <span className={styles.statLabel}>
+                {hasProgressData ? 'Mock Average' : 'Target Band'}
+              </span>
               <strong className={styles.statValue}>
-                {mockAvg !== null ? `${Math.round(mockAvg)}%` : '—'}
+                {mockAvg !== null ? `${Math.round(mockAvg)}%` : '95%+ Topper'}
               </strong>
             </div>
           </div>
@@ -245,15 +296,19 @@ export default function DashboardSidebarHud({
             </div>
           ) : null
         ) : (
-          <div className={styles.gaugeKickoffBox}>
-            <p className={styles.kickoffText}>
-              Take a short 3-minute quiz to benchmark your starting board score trajectory.
+          <div className={styles.gaugeCalibrationBox}>
+            <div className={styles.calibrationBoxHead}>
+              <Sparkles size={14} color="#c95014" strokeWidth={2.5} />
+              <strong className={styles.calibrationBoxTitle}>Unlock Live Readiness</strong>
+            </div>
+            <p className={styles.calibrationBoxText}>
+              Run a 3-minute diagnostic quiz to lock your starting accuracy, map weak spots, and earn +50 XP toward Level 2.
             </p>
             <Link
-              className={styles.kickoffBtn}
+              className={styles.calibrationBtn}
               href="/chapters/chemical-reactions-and-equations/quiz"
             >
-              <span>Start Diagnostic Quiz</span>
+              <span>Run 3-Min Calibration Quiz (+50 XP)</span>
               <ArrowRight size={14} strokeWidth={2.5} />
             </Link>
           </div>

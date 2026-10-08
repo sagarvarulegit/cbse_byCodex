@@ -92,6 +92,96 @@ a.statChip:hover {
   transform: translateY(-1px);
 }
 
+/* Student Rank Chip in Command Header */
+.rankChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid #fed7aa;
+  border-radius: 999px;
+  background: #fffbf7;
+  box-shadow: 0 1px 3px rgba(201, 80, 20, 0.08);
+  font-size: 0.84rem;
+  color: #171513;
+}
+
+.rankChipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.rankChipTitle {
+  font-size: 0.76rem;
+  font-weight: 850;
+  color: #9a3412;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.rankMiniTrack {
+  width: 64px;
+  height: 4px;
+  background: #fed7aa;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.rankMiniFill {
+  height: 100%;
+  background: #ea580c;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.rankChipXp {
+  font-size: 0.74rem;
+  font-weight: 850;
+  color: #c95014;
+  background: #ffedd5;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+}
+
+/* Board Exam Countdown Chip */
+.statChipCountdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #fecaca;
+  border-radius: 999px;
+  background: #fef2f2;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #991b1b;
+  box-shadow: 0 1px 3px rgba(185, 28, 28, 0.05);
+}
+
+/* Calibration Mode Chip in Header */
+.statChipCalibrate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #fed7aa;
+  border-radius: 999px;
+  background: #fff7ed;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #c95014;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(201, 80, 20, 0.06);
+  transition: all 0.15s ease;
+}
+
+.statChipCalibrate:hover {
+  background: #ffedd5;
+  border-color: #ea580c;
+  transform: translateY(-1px);
+}
+
 /* ---------- 2. 2-Column Command Grid (~68% / ~32%) ---------- */
 .commandGrid {
   display: grid;
@@ -946,6 +1036,47 @@ a.statChip:hover {
   transform: translateY(-1px);
 }
 
+.mockBannerFreeBadge {
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  margin-left: 0.4rem;
+}
+
+.mockBannerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.mockBannerBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fef08a;
+  border: 1px solid rgba(254, 240, 138, 0.3);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+}
+
+.mockBannerBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #fef08a;
+  transform: translateY(-1px);
+}
+
 /* ---------- 7. Continue Learning Strip ---------- */
 .continueGrid {
   display: grid;
@@ -1048,6 +1179,81 @@ a.statChip:hover {
 
 .titleIcon {
   font-size: 1.15rem;
+}
+
+/* Rank & Level Block in Sidebar HUD */
+.rankHudBlock {
+  background: #fff8f3;
+  border: 1px solid #fed7aa;
+  border-radius: 14px;
+  padding: 0.8rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.rankHudTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rankHudTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.rankIconBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: #ffedd5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(234, 88, 12, 0.2);
+}
+
+.rankHudLevel {
+  font-size: 0.86rem;
+  font-weight: 850;
+  color: #9a3412;
+  line-height: 1.15;
+}
+
+.rankHudSub {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c2410c;
+  margin-top: 0.1rem;
+}
+
+.rankXpBadge {
+  font-size: 0.76rem;
+  font-weight: 850;
+  color: #c95014;
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+}
+
+.rankProgressBar {
+  width: 100%;
+  height: 6px;
+  background: #fed7aa;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.rankProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ea580c 0%, #c95014 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
 }
 
 /* Streak Elements */
@@ -1181,6 +1387,16 @@ a.statChip:hover {
   border: 1px solid #a7f3d0;
 }
 
+.targetBadgeCalibrating {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
 .gaugeContainer {
   display: flex;
   align-items: center;
@@ -1213,6 +1429,12 @@ a.statChip:hover {
   transition: stroke-dashoffset 0.6s ease;
 }
 
+.gaugeCalibrateCircle {
+  fill: none;
+  stroke: #ea580c;
+  stroke-linecap: round;
+}
+
 .gaugeCenterText {
   position: absolute;
   top: 50%;
@@ -1236,6 +1458,23 @@ a.statChip:hover {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #8c827a;
+  margin-top: 0.15rem;
+}
+
+.gaugeCalibrateNumber {
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #c95014;
+  letter-spacing: 0.03em;
+}
+
+.gaugeCalibrateLabel {
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9a3412;
   margin-top: 0.15rem;
 }
 
@@ -1268,6 +1507,17 @@ a.statChip:hover {
 .statValue {
   font-weight: 800;
   color: #171513;
+}
+
+.statPendingBadge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+  font-size: 0.7rem;
+  font-weight: 800;
 }
 
 .gaugeKickoffBox {
@@ -1304,6 +1554,56 @@ a.statChip:hover {
 
 .kickoffBtn:hover {
   background: #c95014;
+}
+
+.gaugeCalibrationBox {
+  background: #fffaf5;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.calibrationBoxHead {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.calibrationBoxTitle {
+  font-size: 0.82rem;
+  font-weight: 850;
+  color: #9a3412;
+}
+
+.calibrationBoxText {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #78350f;
+  line-height: 1.45;
+}
+
+.calibrationBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  background: #c95014;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(201, 80, 20, 0.25);
+  transition: all 0.12s ease;
+}
+
+.calibrationBtn:hover {
+  background: #b14510;
+  transform: translateY(-1px);
 }
 
 /* Weak chapters mini-list */

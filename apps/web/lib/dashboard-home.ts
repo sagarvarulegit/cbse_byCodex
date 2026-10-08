@@ -136,3 +136,81 @@ export function formatRelativeDay(iso: string | null, now: Date = new Date()): s
   if (days < 30) return `${Math.floor(days / 7)} wk ago`;
   return `${Math.floor(days / 30)} mo ago`;
 }
+
+export type StudentRankInfo = {
+  level: number;
+  rankTitle: string;
+  totalXp: number;
+  currentTierBaseXp: number;
+  nextTierXp: number;
+  progressPercent: number;
+  xpToNext: number;
+};
+
+export const RANK_TIERS = [
+  { level: 1, title: 'Board Aspirant', minXp: 0, nextXp: 250 },
+  { level: 2, title: 'Concept Builder', minXp: 250, nextXp: 600 },
+  { level: 3, title: 'Chapter Specialist', minXp: 600, nextXp: 1200 },
+  { level: 4, title: 'Merit Scholar', minXp: 1200, nextXp: 2000 },
+  { level: 5, title: '95%+ Board Topper', minXp: 2000, nextXp: 3500 },
+] as const;
+
+/**
+ * Calculates deterministic XP and Rank progression from the student's mastery profile.
+ * Every student receives a 50 XP starter bonus, plus XP for streak days, quiz scores,
+ * chapter completions, and earned badges.
+ */
+export function calculateStudentRank(mastery: MasteryPayload): StudentRankInfo {
+  let xp = 50; // Starter onboarding bonus
+
+  // Streak bonus: 30 XP per active streak day (or Day 1)
+  const streakDays = mastery.streak?.currentStreakDays ?? 1;
+  xp += Math.max(1, streakDays) * 30;
+
+  // Chapter quiz and mastery bonus
+  for (const m of mastery.masteries ?? []) {
+    if (m.bestQuizScorePercent > 0) {
+      xp += Math.round(m.bestQuizScorePercent * 2);
+    }
+    if (m.masteryScore > 0) {
+      xp += Math.round(m.masteryScore * 1.5);
+    }
+  }
+
+  // Badges bonus: 100 XP per badge
+  xp += (mastery.badges?.length ?? 0) * 100;
+
+  // Find corresponding tier
+  let currentTier: (typeof RANK_TIERS)[number] = RANK_TIERS[0];
+  for (let i = RANK_TIERS.length - 1; i >= 0; i--) {
+    if (xp >= RANK_TIERS[i].minXp) {
+      currentTier = RANK_TIERS[i];
+      break;
+    }
+  }
+
+  const span = currentTier.nextXp - currentTier.minXp;
+  const progressInTier = Math.max(0, Math.min(span, xp - currentTier.minXp));
+  const progressPercent = Math.min(100, Math.round((progressInTier / span) * 100));
+  const xpToNext = Math.max(0, currentTier.nextXp - xp);
+
+  return {
+    level: currentTier.level,
+    rankTitle: currentTier.title,
+    totalXp: xp,
+    currentTierBaseXp: currentTier.minXp,
+    nextTierXp: currentTier.nextXp,
+    progressPercent,
+    xpToNext,
+  };
+}
+
+/**
+ * Computes remaining calendar days until CBSE Class 10 Board Examinations (Feb 15, 2027).
+ */
+export function getDaysToBoardExams(targetDateStr = '2027-02-15T09:00:00+05:30'): number {
+  const target = new Date(targetDateStr).getTime();
+  const now = Date.now();
+  const diffDays = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+  return Math.max(1, diffDays);
+}
