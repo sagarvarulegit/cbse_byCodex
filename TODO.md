@@ -8,7 +8,11 @@
   - **3D Asset Integration**: Photorealistic 3D incandescent bulb laboratory render and circuit models from `edu-animation-framework-v2`.
   - **Dedicated 9:16 Thumbnail (Episode 05+ Invariant)**: High-contrast mobile cover generated and tracked at `thumbnails/thumbnail-9x16.png` and `.thumbnails/thumbnail-9x16.png`.
   - **YouTube Studio Publishing Kit**: Packaged in `youtube-publishing.html` with title variants, SEO tags, timestamped description, and pinned engagement retrieval quiz.
+- [x] **Created second Short**: `cbse-class-10-solenoid-poles-short` (pushed `0fd60de`)
+  - **Topic**: Ch 12 Magnetic Effects §§12.2.3–12.2.4 — solenoid pole trap (clockwise = South, anticlockwise = North) + soft-iron electromagnet; first Ch 12 Short (gap vs Ch 11 bulb short).
+  - **Build**: 9-scene 1080×1920 HyperFrames composition (night-study mode), 3D solenoid + bar-magnet renders from edu-animation-framework, Adam Stone voiceover 9/9 segments (54.09s total, windows synced), captions synced, `youtube-publishing.html` + 9:16 `thumbnail.html` pack.
 - [ ] **Next Task in Line**:
+  - Render `videos/cbse-class-10-solenoid-poles-short` (`lint` → `check` → thumbnail PNG → `render` 55s MP4) and upload `cbse-class-10-science-solenoid-poles-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
   - Upload `cbse-class-10-science-electricity-bulb-brightness-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
   - P0 Money Path: Deploy `apps/web` to Vercel production (`npx vercel deploy --prod --yes` from `apps/web`) and complete real ₹2 test transaction.
 
