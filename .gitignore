@@ -181,6 +181,16 @@ videos/*
 # Reasonix local session artifacts
 .reasonix/
 
-# Large textbook archives/extractions (source of truth lives outside the repo)
-textbooks/textbooks/
+# Large textbook archives/extractions (source of truth lives outside the repo in cbse_KB)
+textbooks/
 textbooks-*.zip
+*.zip
+
+# Temporary scraping, inspection, and extraction dumps
+tmp/
+
+# Regenerable uncompressed audio
+*.wav
+
+# Repomix dumps
+chapterready-codebase.txt
