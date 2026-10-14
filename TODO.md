@@ -7,10 +7,9 @@
     - *Right Column (`1fr`)*: `WeakAreaDiagnosticsCard.tsx` condensed into a 2-item "Daily Recall Dock" (Item 1: Mistake Vault with due badge; Item 2: Weakest Topic Quick-Fix / PYQ drill).
   - **Zone 2 (Clean Subject Progress Grid)**: `DashboardSubjectStations.tsx` with horizontal filter pill bar (`All`, `Science`, `Mathematics`, `Social Science`, `English`, `Hindi`), 3-column responsive layout, and strict 4-data-point cap per card.
   - **Zone 3 (Quick Tools Dock)**: `QuickToolsLaunchpad.tsx` condensed into a compact 4-tile horizontal shortcut strip (`3D Virtual Lab`, `Formula Sheets`, `PYQ Trends`, `3-Hr Mock CBT`).
-  - **Evictions**: Removed redundant `DashboardPracticeHub`, `DashboardSidebarHud`, and bulky `StudyRemixDashboard` panels from `/dashboard`.
-  - **Quality Gates**:
-    - TypeScript: Passed `npx tsc -p apps/web/tsconfig.json --noEmit` with 0 errors.
-    - Playwright E2E: Created `apps/web/e2e/dashboard.spec.ts`, passed cleanly (1 passed).
+  - **Housekeeping & Relocation**:
+    - Deleted orphaned components and stylesheets (`DashboardPracticeHub.tsx`, `DashboardSidebarHud.tsx`, `TodayStudyMissionCard.tsx`, and `dashboard-studio.module.css`).
+    - Mounted `StudyRemixDashboard.tsx` cleanly inside [`apps/web/app/readiness/page.tsx`](file:///C:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/app/readiness/page.tsx), preserving full student access to Study Remix controls when clicking the 🎯 Board Readiness badge.
 - [ ] **Next Task in Line**:
   - Render `videos/cbse-class-10-solenoid-poles-short` (`lint` → `check` → thumbnail PNG → `render` 55s MP4) and upload `cbse-class-10-science-solenoid-poles-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
   - Upload `cbse-class-10-science-electricity-bulb-brightness-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
