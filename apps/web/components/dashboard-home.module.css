@@ -1888,6 +1888,180 @@ a.statChip:hover {
   border-color: #c95014;
 }
 
+/* ---------- 8b. Progressive Disclosure & Tab Controls ---------- */
+.heroSingleCol {
+  display: block;
+}
+
+.blueprintToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.62rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #e7e2d6;
+  background: #faf7f2;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #55514b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.blueprintToggleBtn:hover {
+  background: #f3eee3;
+  color: #171513;
+  border-color: #d8d0c0;
+}
+
+.blueprintToggleChevron {
+  transition: transform 0.2s ease;
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+}
+
+/* Subject Filter Pills */
+.subjectFilterRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.15rem;
+}
+
+.subjectFilterPill {
+  border: 1px solid #e5dfd3;
+  background: #ffffff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  color: #6a645d;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.subjectFilterPill:hover {
+  background: #faf7f2;
+  color: #171513;
+  border-color: #d1c8b8;
+}
+
+.subjectFilterPillActive {
+  background: #171513;
+  color: #ffffff !important;
+  border-color: #171513;
+  font-weight: 850;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.subjectGridSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 680px;
+}
+
+/* Practice Hub Category Tabs */
+.practiceTabRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.3rem;
+  background: #f7f3ec;
+  border: 1px solid #e8e2d5;
+  border-radius: 14px;
+  width: fit-content;
+}
+
+.practiceTab {
+  border: none;
+  background: transparent;
+  padding: 0.45rem 0.95rem;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 750;
+  color: #6a645d;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.practiceTab:hover {
+  color: #171513;
+}
+
+.practiceTabActive {
+  background: #ffffff;
+  color: #171513 !important;
+  font-weight: 850;
+  box-shadow: 0 1px 4px rgba(23, 21, 19, 0.08);
+}
+
+/* HUD Card 2 Tab Selector */
+.hudTabSwitcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  background: #f7f3ec;
+  border: 1px solid #e8e2d5;
+  border-radius: 12px;
+  margin-bottom: 0.85rem;
+}
+
+.hudTabBtn {
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #787168;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.hudTabBtn:hover {
+  color: #171513;
+}
+
+.hudTabBtnActive {
+  background: #ffffff;
+  color: #171513;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.hudTabContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------- 9. Responsive Breakpoints ---------- */
 @media (max-width: 1080px) {
   .commandGrid {

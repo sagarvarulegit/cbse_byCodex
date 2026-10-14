@@ -19,6 +19,7 @@ Last updated: 2026-08-26
 - [x] Launch Study Tools Hub (`/tools`) and CBSE Class 10 Board PYQ Trend & Weightage Analyzer (`/tools/pyq-analyzer`).
 - [x] Configure Resend API key for transactional auth & password recovery emails with diagnostic error handling.
 - [x] Deploy to production on Vercel (`apps/web` https://www.chapterready.in, `apps/api` https://cbse-bycodex-api.vercel.app, `apps/admin` https://cbse-bycodex-admin.vercel.app).
+- [x] Dashboard UI declutter: Reduce visual density & cognitive load via progressive disclosure (tucked 3-step blueprints into collapsible toggle, consolidated topbar nav from 9 tabs to 5 clean pillars, eliminated duplicate metrics in header chips, introduced category tabs for revision tools & arcade drills in DashboardPracticeHub, subject filters in DashboardSubjectStations, and 2-tab progressive disclosure for HUD Daily Missions vs Ask Tara AI).
 - [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest**:
   - [ ] Weekly WhatsApp & Email performance digest for student mock exam scores, study streaks, and AI evaluation summaries.
   - [ ] Server-side attempt detail endpoint (`GET /v1/exam-papers/attempts/:id`) for dedicated parent/tutor shareable review reports.

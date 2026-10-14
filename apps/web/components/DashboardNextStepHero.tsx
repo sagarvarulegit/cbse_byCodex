@@ -15,6 +15,7 @@ import {
   RotateCcw,
   CheckCircle2,
   Target,
+  ChevronDown,
 } from 'lucide-react';
 
 import type { NextStep } from '../lib/dashboard-home';
@@ -134,6 +135,7 @@ function openTara(prompt?: string) {
 
 export default function DashboardNextStepHero({ step }: { step: NextStep }) {
   const [selectedStarter, setSelectedStarter] = useState<StarterKey>('science');
+  const [showBlueprint, setShowBlueprint] = useState(false);
 
   // 1. Day-1 Starter State
   if (step.kind === 'start') {
@@ -178,9 +180,9 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
           </div>
         </div>
 
-        {/* Hero 2-Column Deck: Action Left + Blueprint Right */}
-        <div className={styles.heroSplitGrid}>
-          {/* Left Column: Action Center */}
+        {/* Hero Deck: Action Focused with Progressive Disclosure Blueprint */}
+        <div className={showBlueprint ? styles.heroSplitGrid : styles.heroSingleCol}>
+          {/* Main Action Center */}
           <div className={styles.heroLeftCol}>
             <div className={styles.heroHeaderBlock}>
               <div className={styles.heroEyebrowRow}>
@@ -218,45 +220,62 @@ export default function DashboardNextStepHero({ step }: { step: NextStep }) {
                 <Sparkles size={14} strokeWidth={2} />
                 <span>Ask Tara</span>
               </button>
+              <button
+                type="button"
+                className={styles.blueprintToggleBtn}
+                onClick={() => setShowBlueprint((prev) => !prev)}
+                aria-expanded={showBlueprint}
+                title="Toggle 3-Step Topper Study Method"
+              >
+                <Target size={14} strokeWidth={2.2} color={current.badgeColor} />
+                <span>{showBlueprint ? 'Hide Blueprint' : '3-Step Blueprint'}</span>
+                <ChevronDown
+                  size={14}
+                  strokeWidth={2.5}
+                  className={`${styles.blueprintToggleChevron} ${showBlueprint ? styles.chevronRotated : ''}`}
+                />
+              </button>
             </div>
           </div>
 
-          {/* Right Column: 3-Step NCERT Blueprint */}
-          <div className={styles.heroRightCol}>
-            <div className={styles.blueprintCard}>
-              <div className={styles.blueprintHead}>
-                <div className={styles.blueprintTitleRow}>
-                  <Target size={14} strokeWidth={2.2} color={current.badgeColor} />
-                  <span className={styles.blueprintHeading}>3-Step Chapter Blueprint</span>
-                </div>
-                <span className={styles.blueprintTag}>Topper Method</span>
-              </div>
-
-              <div className={styles.blueprintStepList}>
-                {current.blueprint.map((b, idx) => (
-                  <div key={b.step} className={styles.blueprintStepItem}>
-                    <div
-                      className={styles.blueprintStepNum}
-                      style={{
-                        backgroundColor: idx === 0 ? current.badgeBg : '#f5f2ea',
-                        color: idx === 0 ? current.badgeColor : '#6a645d',
-                        borderColor: idx === 0 ? current.badgeColor : '#e7e2d6',
-                      }}
-                    >
-                      {b.step}
-                    </div>
-                    <div className={styles.blueprintStepInfo}>
-                      <div className={styles.blueprintStepTop}>
-                        <strong className={styles.blueprintStepTitle}>{b.title}</strong>
-                        <span className={styles.blueprintStepTime}>{b.duration}</span>
-                      </div>
-                      <span className={styles.blueprintStepDesc}>{b.desc}</span>
-                    </div>
+          {/* Right Column: 3-Step NCERT Blueprint (Progressive Disclosure) */}
+          {showBlueprint ? (
+            <div className={styles.heroRightCol}>
+              <div className={styles.blueprintCard}>
+                <div className={styles.blueprintHead}>
+                  <div className={styles.blueprintTitleRow}>
+                    <Target size={14} strokeWidth={2.2} color={current.badgeColor} />
+                    <span className={styles.blueprintHeading}>3-Step Chapter Blueprint</span>
                   </div>
-                ))}
+                  <span className={styles.blueprintTag}>Topper Method</span>
+                </div>
+
+                <div className={styles.blueprintStepList}>
+                  {current.blueprint.map((b, idx) => (
+                    <div key={b.step} className={styles.blueprintStepItem}>
+                      <div
+                        className={styles.blueprintStepNum}
+                        style={{
+                          backgroundColor: idx === 0 ? current.badgeBg : '#f5f2ea',
+                          color: idx === 0 ? current.badgeColor : '#6a645d',
+                          borderColor: idx === 0 ? current.badgeColor : '#e7e2d6',
+                        }}
+                      >
+                        {b.step}
+                      </div>
+                      <div className={styles.blueprintStepInfo}>
+                        <div className={styles.blueprintStepTop}>
+                          <strong className={styles.blueprintStepTitle}>{b.title}</strong>
+                          <span className={styles.blueprintStepTime}>{b.duration}</span>
+                        </div>
+                        <span className={styles.blueprintStepDesc}>{b.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
     );

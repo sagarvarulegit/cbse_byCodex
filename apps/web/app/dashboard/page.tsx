@@ -2,26 +2,19 @@ import Link from 'next/link';
 import {
   Flame,
   Target,
-  Layers,
   Package,
   FlaskConical,
   Calculator,
   Globe2,
   BookOpenCheck,
-  Microscope,
   Zap,
-  TrendingUp,
-  Gamepad2,
-  FileText,
-  ArrowRight,
-  Sparkles,
-  BookOpen,
-  Award,
   Clock,
 } from 'lucide-react';
 
 import DashboardNextStepHero from '../../components/DashboardNextStepHero';
+import DashboardPracticeHub from '../../components/DashboardPracticeHub';
 import DashboardSidebarHud from '../../components/DashboardSidebarHud';
+import DashboardSubjectStations from '../../components/DashboardSubjectStations';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import styles from '../../components/dashboard-home.module.css';
@@ -98,49 +91,6 @@ const SUBJECT_META: Record<
     chapterCountLabel: '40 chapters · Literature & Grammar',
   },
 };
-
-const PRACTICE_CARDS = [
-  {
-    title: '3D Virtual Science Lab',
-    desc: 'Hands-on NCERT simulations: pH scale, electrolysis & ray optics.',
-    badge: 'Free NCERT Labs',
-    Icon: Microscope,
-    accentColor: '#059669',
-    accentBg: '#ecfdf5',
-    href: '/virtual-lab',
-    cta: 'Launch 3D Lab',
-  },
-  {
-    title: 'Formula Cheatsheets',
-    desc: 'All 14 Maths & Science formula sheets + derivations in 1 click.',
-    badge: '₹49 Pack · Free Sample',
-    Icon: Zap,
-    accentColor: '#d97706',
-    accentBg: '#fffbeb',
-    href: '/formula-cheatsheets',
-    cta: 'View Formulas',
-  },
-  {
-    title: 'Board Score Predictor',
-    desc: 'AI blueprint analysis to estimate your 2026-27 CBSE percentile.',
-    badge: 'AI Blueprint Tool',
-    Icon: TrendingUp,
-    accentColor: '#2563eb',
-    accentBg: '#eff6ff',
-    href: '/tools/readiness-predictor',
-    cta: 'Predict Score',
-  },
-  {
-    title: 'Formula Rush Arcade',
-    desc: '60-second rapid-fire recall drills to build instant exam speed.',
-    badge: 'Unlimited Free Play',
-    Icon: Gamepad2,
-    accentColor: '#7c3aed',
-    accentBg: '#f5f3ff',
-    href: '/games/formula-rush',
-    cta: 'Play Arcade',
-  },
-] as const;
 
 export default async function DashboardPage() {
   const [session, token, mastery] = await Promise.all([
@@ -234,27 +184,7 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className={styles.commandHeaderChips}>
-            {/* 1. Student Rank & Level Progression */}
-            <div
-              className={styles.rankChip}
-              title={`${rank.totalXp} XP · ${rank.xpToNext} XP to Level ${rank.level + 1}`}
-            >
-              <Award size={15} color="#c95014" strokeWidth={2.5} />
-              <div className={styles.rankChipContent}>
-                <span className={styles.rankChipTitle}>
-                  Lvl {rank.level} · {rank.rankTitle}
-                </span>
-                <div className={styles.rankMiniTrack}>
-                  <div
-                    className={styles.rankMiniFill}
-                    style={{ width: `${Math.max(rank.progressPercent, 8)}%` }}
-                  />
-                </div>
-              </div>
-              <span className={styles.rankChipXp}>{rank.totalXp} XP</span>
-            </div>
-
-            {/* 2. Board Exam Countdown */}
+            {/* 1. Board Exam Countdown */}
             <span
               className={styles.statChipCountdown}
               title="CBSE Class 10 Board Examinations begin February 15, 2027"
@@ -263,19 +193,14 @@ export default async function DashboardPage() {
               <span>~{daysToBoards} Days to Boards</span>
             </span>
 
-            {/* 3. Daily Streak */}
+            {/* 2. Daily Streak */}
             <span className={styles.statChip}>
               <Flame size={15} color="#ea580c" strokeWidth={2.5} />
               <span>{streakDays > 0 ? `${streakDays}-Day Streak` : 'Day 1 Streak'}</span>
             </span>
 
-            {/* 4. Board Readiness or Calibration Mode */}
-            {hasProgressData ? (
-              <span className={styles.statChip}>
-                <Target size={15} color="#0284c7" strokeWidth={2.5} />
-                <span>{readiness}% Board Readiness</span>
-              </span>
-            ) : (
+            {/* 3. Diagnostic Calibration Shortcut if no progress data yet */}
+            {!hasProgressData ? (
               <Link
                 className={styles.statChipCalibrate}
                 href="/chapters/chemical-reactions-and-equations/quiz"
@@ -284,13 +209,7 @@ export default async function DashboardPage() {
                 <Target size={15} color="#c95014" strokeWidth={2.5} />
                 <span>Calibrate (+50 XP)</span>
               </Link>
-            )}
-
-            {/* 5. Chapters Underway */}
-            <span className={styles.statChip}>
-              <Layers size={15} color="#059669" strokeWidth={2.5} />
-              <span>{startedCoreChapters}/{totalCoreChapters} Chapters Underway</span>
-            </span>
+            ) : null}
 
             {activePackCount > 0 ? (
               <Link className={styles.statChip} href="/orders">
@@ -347,196 +266,14 @@ export default async function DashboardPage() {
               </section>
             ) : null}
 
-            {/* Core Subject Stations (2x2 Grid) */}
-            <section aria-label="Core subjects">
-              <div className={styles.sectionHead}>
-                <div className={styles.sectionTitleRow}>
-                  <div className={styles.sectionIconBox}>
-                    <BookOpen size={16} strokeWidth={2.2} color="#c95014" />
-                  </div>
-                  <h2 className={styles.sectionTitle}>Core Subject Stations</h2>
-                  <span className={styles.sectionBadge}>4 Board Subjects</span>
-                </div>
-                <Link className={styles.sectionLink} href="/subjects">
-                  <span>All Subjects Syllabus</span>
-                  <ArrowRight size={13} strokeWidth={2.5} />
-                </Link>
-              </div>
+            {/* Core Subject Stations with Subject Filter Tabs (Progressive Disclosure) */}
+            <DashboardSubjectStations
+              subjectProgress={subjectProgress}
+              subjectMeta={SUBJECT_META}
+            />
 
-              <div className={styles.subjectGrid}>
-                {subjectProgress.map((subject) => {
-                  const meta = SUBJECT_META[subject.slug] || {
-                    Icon: BookOpen,
-                    accentColor: '#c95014',
-                    accentBg: '#fff4e8',
-                    nextChapterTitle: 'Chapter 1',
-                    nextChapterSlug: subject.slug,
-                    shortDesc: 'Core Curriculum',
-                    chapterCountLabel: `${subject.chapterCount} chapters`,
-                  };
-                  const SubjectIcon = meta.Icon;
-
-                  return (
-                    <div
-                      className={styles.subjectCard}
-                      key={subject.slug}
-                      style={{ borderTopColor: meta.accentColor }}
-                    >
-                      <div className={styles.subjectCardTop}>
-                        <div className={styles.subjectInfoBlock}>
-                          <div
-                            className={styles.subjectIconBox}
-                            style={{ backgroundColor: meta.accentBg, color: meta.accentColor }}
-                          >
-                            <SubjectIcon size={20} strokeWidth={2.2} />
-                          </div>
-                          <div className={styles.subjectTitleGroup}>
-                            <span className={styles.subjectCodeTag}>
-                              Code {subject.subjectCode} · NCERT
-                            </span>
-                            <h3 className={styles.subjectTitle}>{subject.title}</h3>
-                          </div>
-                        </div>
-                        <span
-                          className={styles.subjectMasteryPill}
-                          style={{
-                            borderColor: subject.progressPercent > 0 ? meta.accentColor : '#e7e2d6',
-                            color: subject.progressPercent > 0 ? meta.accentColor : '#6a645d',
-                            backgroundColor: subject.progressPercent > 0 ? meta.accentBg : '#fffdf8',
-                          }}
-                        >
-                          {subject.progressPercent}% Mastered
-                        </span>
-                      </div>
-
-                      <div className={styles.subjectProgressSection}>
-                        <div className={styles.subjectProgressBar}>
-                          <div
-                            className={styles.subjectProgressFill}
-                            style={{
-                              width: `${Math.max(subject.progressPercent, 4)}%`,
-                              backgroundColor: meta.accentColor,
-                            }}
-                          />
-                        </div>
-                        <div className={styles.subjectProgressDetails}>
-                          <span>
-                            {subject.startedCount > 0
-                              ? `${subject.startedCount} of ${subject.chapterCount} chapters underway`
-                              : meta.chapterCountLabel}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Chapter Spotlight */}
-                      <div className={styles.chapterSpotlight}>
-                        <div className={styles.spotlightHeader}>
-                          <span
-                            className={styles.spotlightDot}
-                            style={{ backgroundColor: meta.accentColor }}
-                          />
-                          <span className={styles.spotlightTag}>
-                            {subject.startedCount > 0 ? 'CURRENT TOPIC' : 'UP NEXT IN SYLLABUS'}
-                          </span>
-                        </div>
-                        <div className={styles.spotlightTitle}>{meta.nextChapterTitle}</div>
-                      </div>
-
-                      {/* Clean Action Row */}
-                      <div className={styles.subjectActionRow}>
-                        <Link
-                          className={styles.subjectPrimaryBtn}
-                          href={`/chapters/${meta.nextChapterSlug}`}
-                        >
-                          <span>{subject.startedCount > 0 ? 'Continue' : 'Start Chapter 1'}</span>
-                          <ArrowRight size={14} strokeWidth={2.5} />
-                        </Link>
-                        <Link
-                          className={styles.subjectSyllabusLink}
-                          href={`/subjects/${subject.slug}`}
-                        >
-                          <span>All {subject.chapterCount} chapters</span>
-                          <ArrowRight size={12} strokeWidth={2} />
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* High-Yield Practice & Revision Hub (2x2 Grid) */}
-            <section aria-label="Practice tools">
-              <div className={styles.sectionHead}>
-                <div className={styles.sectionTitleRow}>
-                  <div className={styles.sectionIconBox}>
-                    <Sparkles size={16} strokeWidth={2.2} color="#c95014" />
-                  </div>
-                  <h2 className={styles.sectionTitle}>High-Yield Practice & Revision</h2>
-                  <span className={styles.sectionBadge}>Interactive Apps</span>
-                </div>
-                <Link className={styles.sectionLink} href="/tools">
-                  <span>All Tools Catalog</span>
-                  <ArrowRight size={13} strokeWidth={2.5} />
-                </Link>
-              </div>
-
-              <div className={styles.practiceGrid}>
-                {PRACTICE_CARDS.map((card) => {
-                  const CardIcon = card.Icon;
-                  return (
-                    <Link className={styles.practiceCard} href={card.href} key={card.title}>
-                      <div>
-                        <div className={styles.practiceCardTop}>
-                          <div
-                            className={styles.practiceIconBox}
-                            style={{ backgroundColor: card.accentBg, color: card.accentColor }}
-                          >
-                            <CardIcon size={20} strokeWidth={2.2} />
-                          </div>
-                          <span className={styles.practiceBadge}>{card.badge}</span>
-                        </div>
-                        <h3 className={styles.practiceTitle}>{card.title}</h3>
-                        <p className={styles.practiceDesc}>{card.desc}</p>
-                      </div>
-                      <div className={styles.practiceActionRow}>
-                        <span>{card.cta}</span>
-                        <ArrowRight size={13} strokeWidth={2.5} />
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* Full Mock Paper Featured Banner */}
-              <div className={styles.mockBanner}>
-                <div className={styles.mockBannerLeft}>
-                  <div className={styles.mockBannerIconBox}>
-                    <FileText size={28} strokeWidth={2.2} color="#c95014" />
-                  </div>
-                  <div>
-                    <div className={styles.mockBannerTagRow}>
-                      <span className={styles.mockBannerTag}>OFFICIAL 2026-27 BLUEPRINT</span>
-                      <span className={styles.mockBannerFreeBadge}>Paper 1 100% Free</span>
-                    </div>
-                    <h3 className={styles.mockBannerTitle}>CBSE Official Board Mock Papers</h3>
-                    <p className={styles.mockBannerSub}>
-                      Practice full 80-mark timed papers matching the official curriculum with step-wise marking schemes.
-                    </p>
-                  </div>
-                </div>
-                <div className={styles.mockBannerActions}>
-                  <Link className={styles.mockBannerBtnSecondary} href="/store">
-                    <Sparkles size={14} strokeWidth={2.5} />
-                    <span>5-Paper Pro Pass (₹199)</span>
-                  </Link>
-                  <Link className={styles.mockBannerBtn} href="/exam-papers">
-                    <span>Solve Free Paper 1</span>
-                    <ArrowRight size={15} strokeWidth={2.5} />
-                  </Link>
-                </div>
-              </div>
-            </section>
+            {/* High-Yield Practice & Revision Hub with Category Tabs (Progressive Disclosure) */}
+            <DashboardPracticeHub />
           </div>
 
           {/* Right Gamification & Live HUD Column (~32% on desktop) */}

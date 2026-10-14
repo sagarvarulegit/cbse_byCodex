@@ -115,6 +115,8 @@ export default function DashboardSidebarHud({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (Math.min(Math.max(readiness, 0), 100) / 100) * circumference;
 
+  const [cardTab, setCardTab] = useState<'missions' | 'tara'>('missions');
+
   return (
     <aside className={styles.sidebarHud} aria-label="Student Command HUD">
       {/* Card 1: Study Momentum & Board Readiness */}
@@ -315,129 +317,146 @@ export default function DashboardSidebarHud({
         )}
       </section>
 
-      {/* Card 2: Daily Quests & Ask Tara AI */}
+      {/* Card 2: Progressive Disclosure — Daily Missions vs Ask Tara AI */}
       <section className={styles.hudCard}>
-        {/* Quests Header */}
-        <div className={styles.cardHeaderSmall}>
-          <div className={styles.titleWithIcon}>
-            <Target size={16} color="#c95014" strokeWidth={2.5} />
-            <h3 className={styles.hudCardTitle}>Daily Missions</h3>
-          </div>
-          <span className={styles.questCounterBadge}>
-            {questsDone}/{questsCount} Done
-          </span>
-        </div>
-
-        <div className={styles.questProgressBar}>
-          <div
-            className={styles.questProgressFill}
-            style={{ width: `${(questsDone / questsCount) * 100}%` }}
-          />
-        </div>
-
-        <div className={styles.questList}>
-          <div
-            className={`${styles.questItem} ${
-              completedQuests.quiz ? styles.questItemDone : ''
-            }`}
-            onClick={() => toggleQuest('quiz')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === ' ' || e.key === 'Enter') toggleQuest('quiz');
-            }}
+        {/* Card 2 Tab Selector */}
+        <div className={styles.hudTabSwitcher} role="tablist" aria-label="Sidebar interactive tool">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={cardTab === 'missions'}
+            className={`${styles.hudTabBtn} ${cardTab === 'missions' ? styles.hudTabBtnActive : ''}`}
+            onClick={() => setCardTab('missions')}
           >
-            <div className={styles.questCheckbox}>
-              {completedQuests.quiz ? <Check size={12} strokeWidth={3} /> : null}
-            </div>
-            <div className={styles.questDetails}>
-              <span className={styles.questTitle}>Complete 1 NCERT Quiz</span>
-              <span className={styles.questReward}>+30 XP · Board Recall</span>
-            </div>
-          </div>
-
-          <div
-            className={`${styles.questItem} ${
-              completedQuests.lab ? styles.questItemDone : ''
-            }`}
-            onClick={() => toggleQuest('lab')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === ' ' || e.key === 'Enter') toggleQuest('lab');
-            }}
+            <Target size={14} color="#c95014" strokeWidth={2.5} />
+            <span>Daily Missions ({questsDone}/{questsCount})</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={cardTab === 'tara'}
+            className={`${styles.hudTabBtn} ${cardTab === 'tara' ? styles.hudTabBtnActive : ''}`}
+            onClick={() => setCardTab('tara')}
           >
-            <div className={styles.questCheckbox}>
-              {completedQuests.lab ? <Check size={12} strokeWidth={3} /> : null}
-            </div>
-            <div className={styles.questDetails}>
-              <span className={styles.questTitle}>Explore 1 Virtual Lab simulation</span>
-              <span className={styles.questReward}>+25 XP · Visual Concept</span>
-            </div>
-          </div>
-
-          <div
-            className={`${styles.questItem} ${
-              completedQuests.tara ? styles.questItemDone : ''
-            }`}
-            onClick={() => toggleQuest('tara')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === ' ' || e.key === 'Enter') toggleQuest('tara');
-            }}
-          >
-            <div className={styles.questCheckbox}>
-              {completedQuests.tara ? <Check size={12} strokeWidth={3} /> : null}
-            </div>
-            <div className={styles.questDetails}>
-              <span className={styles.questTitle}>Ask Tara AI a concept question</span>
-              <span className={styles.questReward}>+15 XP · Instant Clarity</span>
-            </div>
-          </div>
+            <Sparkles size={14} color="#ea580c" strokeWidth={2.2} />
+            <span>Ask Tara AI</span>
+          </button>
         </div>
 
-        <div className={styles.hudDivider} />
+        {cardTab === 'missions' ? (
+          <div className={styles.hudTabContent}>
+            <div className={styles.questProgressBar}>
+              <div
+                className={styles.questProgressFill}
+                style={{ width: `${(questsDone / questsCount) * 100}%` }}
+              />
+            </div>
 
-        {/* Ask Tara Section */}
-        <div className={styles.taraHeader}>
-          <div className={styles.taraAvatarBox}>
-            <TaraFireflyIcon size={26} glow animated />
-          </div>
-          <div>
-            <h3 className={styles.taraTitle}>Ask Tara AI</h3>
-            <p className={styles.taraSub}>Your 24/7 CBSE NCERT Tutor</p>
-          </div>
-        </div>
-
-        <div className={styles.taraPromptList}>
-          {TARA_PROMPTS.map((p) => {
-            const PromptIcon = p.Icon;
-            return (
-              <button
-                key={p.label}
-                type="button"
-                className={styles.taraPromptBtn}
-                onClick={() => triggerTara(p.text)}
+            <div className={styles.questList}>
+              <div
+                className={`${styles.questItem} ${
+                  completedQuests.quiz ? styles.questItemDone : ''
+                }`}
+                onClick={() => toggleQuest('quiz')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') toggleQuest('quiz');
+                }}
               >
-                <div className={styles.promptBtnLeft}>
-                  <PromptIcon size={14} strokeWidth={2} />
-                  <span>{p.label}</span>
+                <div className={styles.questCheckbox}>
+                  {completedQuests.quiz ? <Check size={12} strokeWidth={3} /> : null}
                 </div>
-                <ArrowRight size={13} strokeWidth={2.5} className={styles.promptArrow} />
-              </button>
-            );
-          })}
-        </div>
+                <div className={styles.questDetails}>
+                  <span className={styles.questTitle}>Complete 1 NCERT Quiz</span>
+                  <span className={styles.questReward}>+30 XP · Board Recall</span>
+                </div>
+              </div>
 
-        <button
-          type="button"
-          className={styles.taraOpenFullBtn}
-          onClick={() => triggerTara()}
-        >
-          <Sparkles size={15} strokeWidth={2} />
-          <span>Open Tara Assistant</span>
-        </button>
+              <div
+                className={`${styles.questItem} ${
+                  completedQuests.lab ? styles.questItemDone : ''
+                }`}
+                onClick={() => toggleQuest('lab')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') toggleQuest('lab');
+                }}
+              >
+                <div className={styles.questCheckbox}>
+                  {completedQuests.lab ? <Check size={12} strokeWidth={3} /> : null}
+                </div>
+                <div className={styles.questDetails}>
+                  <span className={styles.questTitle}>Explore 1 Virtual Lab simulation</span>
+                  <span className={styles.questReward}>+25 XP · Visual Concept</span>
+                </div>
+              </div>
+
+              <div
+                className={`${styles.questItem} ${
+                  completedQuests.tara ? styles.questItemDone : ''
+                }`}
+                onClick={() => toggleQuest('tara')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') toggleQuest('tara');
+                }}
+              >
+                <div className={styles.questCheckbox}>
+                  {completedQuests.tara ? <Check size={12} strokeWidth={3} /> : null}
+                </div>
+                <div className={styles.questDetails}>
+                  <span className={styles.questTitle}>Ask Tara AI a concept question</span>
+                  <span className={styles.questReward}>+15 XP · Instant Clarity</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.hudTabContent}>
+            {/* Ask Tara Section */}
+            <div className={styles.taraHeader}>
+              <div className={styles.taraAvatarBox}>
+                <TaraFireflyIcon size={26} glow animated />
+              </div>
+              <div>
+                <h3 className={styles.taraTitle}>Ask Tara AI</h3>
+                <p className={styles.taraSub}>Your 24/7 CBSE NCERT Tutor</p>
+              </div>
+            </div>
+
+            <div className={styles.taraPromptList}>
+              {TARA_PROMPTS.map((p) => {
+                const PromptIcon = p.Icon;
+                return (
+                  <button
+                    key={p.label}
+                    type="button"
+                    className={styles.taraPromptBtn}
+                    onClick={() => triggerTara(p.text)}
+                  >
+                    <div className={styles.promptBtnLeft}>
+                      <PromptIcon size={14} strokeWidth={2} />
+                      <span>{p.label}</span>
+                    </div>
+                    <ArrowRight size={13} strokeWidth={2.5} className={styles.promptArrow} />
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              className={styles.taraOpenFullBtn}
+              onClick={() => triggerTara()}
+            >
+              <Sparkles size={15} strokeWidth={2} />
+              <span>Open Tara Assistant</span>
+            </button>
+          </div>
+        )}
       </section>
     </aside>
   );
