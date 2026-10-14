@@ -161,19 +161,8 @@ output/
 .vercel/
 **/.vercel/
 .vercel
-# Video work is source controlled: script, storyboard, design system, scene
-# templates, and PAID generated assets (ElevenLabs mp3s, thumbnails, captions)
-# are tracked as our assets. Heavy/regenerable output (renders, node_modules,
-# ffmpeg wav conversions, backups) is ignored via each video folder's local
-# .gitignore — see the canonical template in AGENTS.md (Video folder git policy).
+# Video work lives in its own dedicated repository: cbse_videos
 videos/
-!videos/
-videos/*
-!videos/*/
-# Safety net for any video folder that lacks a local .gitignore yet
-**/renders/
-**/.hyperframes/
-**/snapshots*/
 
 .vercel
 # Local rendering tools copied from system installations
