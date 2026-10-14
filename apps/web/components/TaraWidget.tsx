@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTutorPageContext } from '../contexts/TutorPageContext';
 import MathText from './MathText';
 import TaraFireflyIcon from './TaraFireflyIcon';
+import TaraVisualCanvas from './TaraVisualCanvas';
 
 type Message = {
   id: string;
@@ -98,14 +99,8 @@ function isTableDivider(line: string): boolean {
  * - Inline math, bold, code, and emphasis
  * - Strips any leaked internal source/chunk citations
  */
-function renderTaraContent(content: string, keyPrefix: string): React.ReactNode {
-  // Strip any stray internal citation or chunk markers
-  const cleaned = content
-    .replace(/\[source(?::|\s+id=)[^\]]*\]/gi, '')
-    .replace(/\[(?:chunk|source)_[a-zA-Z0-9_\-]+(?:\s*,\s*(?:chunk|source)_[a-zA-Z0-9_\-]+)*\]/gi, '')
-    .replace(/[ \t]+$/gm, '');
-
-  const lines = cleaned.split('\n');
+function renderTextBlocks(content: string, keyPrefix: string): React.ReactNode[] {
+  const lines = content.split('\n');
   const blocks: React.ReactNode[] = [];
   let i = 0;
 
@@ -230,7 +225,9 @@ function renderTaraContent(content: string, keyPrefix: string): React.ReactNode 
       !lines[i].trim().startsWith('##') &&
       !/^[-*]\s+/.test(lines[i].trim()) &&
       !/^\d+\.\s+/.test(lines[i].trim()) &&
-      !(lines[i].trim().startsWith('$$') && lines[i].trim().endsWith('$$'))
+      !(lines[i].trim().startsWith('$$') && lines[i].trim().endsWith('$$')) &&
+      !lines[i].trim().startsWith('```interactive-canvas') &&
+      !lines[i].trim().startsWith('```visual-canvas')
     ) {
       paraLines.push(lines[i]);
       i++;
@@ -244,6 +241,88 @@ function renderTaraContent(content: string, keyPrefix: string): React.ReactNode 
   }
 
   return blocks;
+}
+
+function renderTaraContent(content: string, keyPrefix: string): React.ReactNode {
+  // Strip any stray internal citation or chunk markers
+  const cleaned = content
+    .replace(/\[source(?::|\s+id=)[^\]]*\]/gi, '')
+    .replace(/\[(?:chunk|source)_[a-zA-Z0-9_\-]+(?:\s*,\s*(?:chunk|source)_[a-zA-Z0-9_\-]+)*\]/gi, '')
+    .replace(/[ \t]+$/gm, '');
+
+  // Check if content contains interactive-canvas code blocks
+  const canvasRegex = /```(?:interactive-canvas|visual-canvas|canvas)([\s\S]*?)(?:```|$)/g;
+  if (!canvasRegex.test(cleaned)) {
+    return renderTextBlocks(cleaned, keyPrefix);
+  }
+
+  canvasRegex.lastIndex = 0;
+  const segments: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let segIndex = 0;
+
+  while ((match = canvasRegex.exec(cleaned)) !== null) {
+    const textBefore = cleaned.slice(lastIndex, match.index).trim();
+    if (textBefore) {
+      segments.push(
+        <div key={`${keyPrefix}-seg-txt-${segIndex}`}>
+          {renderTextBlocks(textBefore, `${keyPrefix}-txt-${segIndex}`)}
+        </div>,
+      );
+      segIndex++;
+    }
+
+    const rawCode = match[1].trim();
+    const isStillStreaming = !match[0].endsWith('```') && match.index + match[0].length === cleaned.length;
+
+    if (rawCode) {
+      segments.push(
+        <TaraVisualCanvas
+          key={`${keyPrefix}-canvas-${segIndex}`}
+          code={rawCode}
+        />,
+      );
+      segIndex++;
+    } else if (isStillStreaming) {
+      segments.push(
+        <div
+          key={`${keyPrefix}-canvas-loading-${segIndex}`}
+          style={{
+            margin: '12px 0',
+            padding: '14px 18px',
+            borderRadius: '12px',
+            border: '2px dashed #f3883b',
+            background: '#fffdf8',
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#d97706',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <span style={{ fontSize: '16px' }}>✨</span>
+          Tara is drawing an interactive visual explanation...
+        </div>,
+      );
+      segIndex++;
+    }
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  const textAfter = cleaned.slice(lastIndex).trim();
+  if (textAfter) {
+    segments.push(
+      <div key={`${keyPrefix}-seg-txt-${segIndex}`}>
+        {renderTextBlocks(textAfter, `${keyPrefix}-txt-${segIndex}`)}
+      </div>,
+    );
+  }
+
+  return segments;
 }
 
 type GroupedConversations = {

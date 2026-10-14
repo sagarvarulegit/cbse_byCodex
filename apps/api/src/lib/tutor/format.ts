@@ -1,7 +1,8 @@
 /**
  * Post-processes Tara's raw answer markdown before it is stored or rendered:
- * - strips any HTML/script (defense against prompt injection),
- * - normalizes math delimiters to the KaTeX-compatible $...$ / $$...$$,
+ * - preserves secure ```interactive-canvas ... ``` blocks for sandboxed iframe execution,
+ * - strips any stray HTML/script in regular prose (defense against prompt injection),
+ * - normalizes math delimiters to KaTeX-compatible $...$ / $$...$$,
  * - collapses excessive whitespace.
  */
 
@@ -39,12 +40,26 @@ function collapseWhitespace(text: string): string {
 }
 
 export function sanitizeTutorMarkdown(raw: string): string {
-  let text = raw;
+  // 1. Temporarily isolate ```interactive-canvas ... ``` blocks so sandboxed simulations remain intact
+  const canvasBlocks: string[] = [];
+  let placeholderCount = 0;
+  let text = raw.replace(/```(?:interactive-canvas|visual-canvas|canvas)[\s\S]*?(?:```|$)/g, (match) => {
+    canvasBlocks.push(match);
+    return `__INTERACTIVE_CANVAS_BLOCK_${placeholderCount++}__`;
+  });
+
+  // 2. Sanitize regular markdown prose
   text = text.replace(SCRIPT_TAG, '').replace(STYLE_TAG, '');
   text = text.replace(HTML_TAG, '');
   text = stripInternalCitations(text);
   text = normalizeDisplayMath(text);
   text = normalizeInlineMath(text);
   text = collapseWhitespace(text);
+
+  // 3. Re-inject interactive canvas blocks for safe rendering in client sandbox
+  text = text.replace(/__INTERACTIVE_CANVAS_BLOCK_(\d+)__/g, (_match, index) => {
+    return canvasBlocks[Number(index)] || '';
+  });
+
   return text;
 }
