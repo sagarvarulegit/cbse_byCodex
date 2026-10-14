@@ -52,6 +52,7 @@ Knowledge base & Textbook repository: `cbse_KB/` (or `~/Projects/CBSE_ChapterRea
 - NCERT Exemplar: `cbse_KB/10th/NCERTExemplar/`
 - Previous Year Papers & Marking Schemes: `cbse_KB/10th/PreviousYearExamPapers/`
 - Sample Papers (SQP): `cbse_KB/10th/SamplePapers/`
+- Video Production Repository: `cbse_videos/` (or `~/Projects/CBSE_ChapterReady.in/cbse_videos/`)
 - Legacy textbook path: `~/Projects/cbse_class10_textbooks/`
 
 ## Student-safety and verification rule
@@ -69,7 +70,7 @@ priority over speed, engagement, or marketing.
 
 ## Project Structure & Module Organization
 
-This is an npm workspace for a CBSE Class 10 learning platform. `apps/web` is the student-facing Next.js app, `apps/admin` is the admin CMS, and `apps/api` is the Express API with Prisma/PostgreSQL. `apps/mobile` is a Flutter placeholder for future Android/iOS work. Product specs, deployment notes, and backlog live in `docs/`. Code-generated lesson video work lives under `videos/prime-numbers`.
+This is an npm workspace for a CBSE Class 10 learning platform. `apps/web` is the student-facing Next.js app, `apps/admin` is the admin CMS, and `apps/api` is the Express API with Prisma/PostgreSQL. `apps/mobile` is a Flutter placeholder for future Android/iOS work. Product specs, deployment notes, and backlog live in `docs/`. Educational video production projects live in the dedicated repository `cbse_videos`.
 
 ## Build, Test, and Development Commands
 

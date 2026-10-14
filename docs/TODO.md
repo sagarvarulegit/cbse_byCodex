@@ -20,7 +20,7 @@ Last updated: 2026-08-26
 - [x] Configure Resend API key for transactional auth & password recovery emails with diagnostic error handling.
 - [x] Deploy to production on Vercel (`apps/web` https://www.chapterready.in, `apps/api` https://cbse-bycodex-api.vercel.app, `apps/admin` https://cbse-bycodex-admin.vercel.app).
 - [x] Dashboard UI declutter: Reduce visual density & cognitive load via progressive disclosure (tucked 3-step blueprints into collapsible toggle, consolidated topbar nav from 9 tabs to 5 clean pillars, eliminated duplicate metrics in header chips, introduced category tabs for revision tools & arcade drills in DashboardPracticeHub, subject filters in DashboardSubjectStations, and 2-tab progressive disclosure for HUD Daily Missions vs Ask Tara AI).
-- [x] Repository size reduction: Purged heavy bloated assets and rewritten git history using `git-filter-repo` (untracking heavy textbook archives, temp scrape dumps, uncompressed audio, preview frame caches, obsolete illustrations, and superpower diffs), reducing remote GitHub repository size from ~1.26 GB down to < 100 MB (98.5 MB fresh clone).
+- [x] Repository size reduction & architecture separation: Separated video production work into dedicated repository (`cbse_videos`) and purged heavy assets via `git-filter-repo`, reducing `cbse_byCodex` total repository size down to ~24 MB (.git) / 41 MB (working tree).
 - [ ] **Next Task in Line: Parent Progress Reporting & Weekly Performance Digest**:
   - [ ] Weekly WhatsApp & Email performance digest for student mock exam scores, study streaks, and AI evaluation summaries.
   - [ ] Server-side attempt detail endpoint (`GET /v1/exam-papers/attempts/:id`) for dedicated parent/tutor shareable review reports.
