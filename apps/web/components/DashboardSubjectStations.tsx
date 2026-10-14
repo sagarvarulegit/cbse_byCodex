@@ -2,7 +2,14 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  FlaskConical,
+  Calculator,
+  Globe2,
+  BookOpenCheck,
+} from 'lucide-react';
 import styles from './dashboard-home.module.css';
 
 export type SubjectProgressItem = {
@@ -15,7 +22,6 @@ export type SubjectProgressItem = {
 };
 
 export type SubjectMetaItem = {
-  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   accentColor: string;
   accentBg: string;
   nextChapterTitle: string;
@@ -24,83 +30,127 @@ export type SubjectMetaItem = {
   chapterCountLabel: string;
 };
 
-type Props = {
-  subjectProgress: SubjectProgressItem[];
-  subjectMeta: Record<string, SubjectMetaItem>;
+const DEFAULT_SUBJECT_META: Record<
+  string,
+  {
+    Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
+    accentColor: string;
+    accentBg: string;
+    nextChapterTitle: string;
+    nextChapterSlug: string;
+    shortDesc: string;
+    chapterCountLabel: string;
+  }
+> = {
+  science: {
+    Icon: FlaskConical,
+    accentColor: '#059669',
+    accentBg: '#ecfdf5',
+    nextChapterTitle: 'Chemical Reactions & Equations',
+    nextChapterSlug: 'chemical-reactions-and-equations',
+    shortDesc: 'Physics, Chemistry & Biology',
+    chapterCountLabel: '13 chapters · 16 NCERT Labs',
+  },
+  'mathematics-standard': {
+    Icon: Calculator,
+    accentColor: '#2563eb',
+    accentBg: '#eff6ff',
+    nextChapterTitle: 'Real Numbers',
+    nextChapterSlug: 'real-numbers',
+    shortDesc: 'Algebra, Geometry & Trigonometry',
+    chapterCountLabel: '14 chapters · 160+ Formulas',
+  },
+  'social-science': {
+    Icon: Globe2,
+    accentColor: '#d97706',
+    accentBg: '#fffbeb',
+    nextChapterTitle: 'The Rise of Nationalism in Europe',
+    nextChapterSlug: 'rise-of-nationalism-in-europe',
+    shortDesc: 'History, Geography, Civics & Economics',
+    chapterCountLabel: '22 chapters · Map & Case Studies',
+  },
+  'english-language-and-literature': {
+    Icon: BookOpenCheck,
+    accentColor: '#7c3aed',
+    accentBg: '#f5f3ff',
+    nextChapterTitle: 'Two Stories about Flying',
+    nextChapterSlug: 'two-stories-about-flying',
+    shortDesc: 'First Flight & Footprints',
+    chapterCountLabel: '40 chapters · Literature & Grammar',
+  },
+  'hindi-course-b': {
+    Icon: BookOpenCheck,
+    accentColor: '#e11d48',
+    accentBg: '#fff1f2',
+    nextChapterTitle: 'बड़े भाई साहब (स्पर्श)',
+    nextChapterSlug: 'hindi-bade-bhai-sahab',
+    shortDesc: 'Sparsh & Sanchayan',
+    chapterCountLabel: '17 chapters · Literature & Grammar',
+  },
 };
 
+type Props = {
+  subjectProgress: SubjectProgressItem[];
+  subjectMeta?: Record<string, Partial<SubjectMetaItem>>;
+};
+
+const FILTER_TABS = [
+  { key: 'all', label: 'All' },
+  { key: 'science', label: 'Science' },
+  { key: 'mathematics-standard', label: 'Mathematics' },
+  { key: 'social-science', label: 'Social Science' },
+  { key: 'english-language-and-literature', label: 'English' },
+  { key: 'hindi-course-b', label: 'Hindi' },
+] as const;
+
 export default function DashboardSubjectStations({ subjectProgress, subjectMeta }: Props) {
-  const [selectedSubject, setSelectedSubject] = useState<string>('all');
+  const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
   const displayedSubjects =
-    selectedSubject === 'all'
+    selectedFilter === 'all'
       ? subjectProgress
-      : subjectProgress.filter((s) => s.slug === selectedSubject);
+      : subjectProgress.filter((s) => {
+          if (selectedFilter === 'science') return s.slug === 'science';
+          if (selectedFilter === 'mathematics-standard') return s.slug.startsWith('math');
+          if (selectedFilter === 'social-science') return s.slug === 'social-science';
+          if (selectedFilter === 'english-language-and-literature') return s.slug.startsWith('english');
+          if (selectedFilter === 'hindi-course-b') return s.slug.startsWith('hindi');
+          return s.slug === selectedFilter;
+        });
 
   return (
-    <section aria-label="Core subjects">
-      <div className={styles.sectionHead}>
-        <div className={styles.sectionTitleRow}>
-          <div className={styles.sectionIconBox}>
-            <BookOpen size={16} strokeWidth={2.2} color="#c95014" />
-          </div>
-          <h2 className={styles.sectionTitle}>Core Subject Stations</h2>
-          <span className={styles.sectionBadge}>4 Board Subjects</span>
+    <section className={styles.zoneSection} aria-label="My Subjects">
+      {/* Header with Title and Filter Pill Bar */}
+      <div className={styles.zoneHeaderRow}>
+        <div className={styles.zoneTitleBlock}>
+          <h2 className={styles.zoneHeading}>My Subjects</h2>
+          <span className={styles.zoneBadge}>Class 10 Syllabus</span>
         </div>
-        <Link className={styles.sectionLink} href="/subjects">
-          <span>All Subjects Syllabus</span>
-          <ArrowRight size={13} strokeWidth={2.5} />
-        </Link>
+
+        {/* Horizontal Filter Pill Bar */}
+        <div className={styles.filterPillBar} role="tablist" aria-label="Filter subjects">
+          {FILTER_TABS.map((tab) => {
+            const isActive = selectedFilter === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                className={`${styles.filterPill} ${isActive ? styles.filterPillActive : ''}`}
+                onClick={() => setSelectedFilter(tab.key)}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Subject Filter Pills (Progressive Disclosure) */}
-      <div className={styles.subjectFilterRow} role="tablist" aria-label="Filter subject stations">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={selectedSubject === 'all'}
-          className={`${styles.subjectFilterPill} ${
-            selectedSubject === 'all' ? styles.subjectFilterPillActive : ''
-          }`}
-          onClick={() => setSelectedSubject('all')}
-        >
-          All 4 Subjects
-        </button>
-        {subjectProgress.map((sub) => {
-          const isActive = selectedSubject === sub.slug;
-          const shortName =
-            sub.slug === 'science'
-              ? 'Science'
-              : sub.slug === 'mathematics-standard'
-                ? 'Maths'
-                : sub.slug === 'social-science'
-                  ? 'Social Science'
-                  : 'English';
-
-          return (
-            <button
-              key={sub.slug}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              className={`${styles.subjectFilterPill} ${
-                isActive ? styles.subjectFilterPillActive : ''
-              }`}
-              onClick={() => setSelectedSubject(sub.slug)}
-            >
-              {shortName}
-            </button>
-          );
-        })}
-      </div>
-
-      <div
-        className={
-          selectedSubject === 'all' ? styles.subjectGrid : styles.subjectGridSingle
-        }
-      >
+      {/* Clean 3-Column Subject Cards Grid */}
+      <div className={styles.subjectGrid}>
         {displayedSubjects.map((subject) => {
-          const meta = subjectMeta[subject.slug] || {
+          const fallback = DEFAULT_SUBJECT_META[subject.slug] || {
             Icon: BookOpen,
             accentColor: '#c95014',
             accentBg: '#fff4e8',
@@ -109,89 +159,58 @@ export default function DashboardSubjectStations({ subjectProgress, subjectMeta 
             shortDesc: 'Core Curriculum',
             chapterCountLabel: `${subject.chapterCount} chapters`,
           };
-          const SubjectIcon = meta.Icon;
+          const override = subjectMeta?.[subject.slug];
+          const accentColor = override?.accentColor ?? fallback.accentColor;
+          const accentBg = override?.accentBg ?? fallback.accentBg;
+          const nextChapterTitle = override?.nextChapterTitle ?? fallback.nextChapterTitle;
+          const nextChapterSlug = override?.nextChapterSlug ?? fallback.nextChapterSlug;
+          const SubjectIcon = fallback.Icon;
 
           return (
-            <div
-              className={styles.subjectCard}
-              key={subject.slug}
-              style={{ borderTopColor: meta.accentColor }}
-            >
-              <div className={styles.subjectCardTop}>
-                <div className={styles.subjectInfoBlock}>
-                  <div
-                    className={styles.subjectIconBox}
-                    style={{ backgroundColor: meta.accentBg, color: meta.accentColor }}
-                  >
-                    <SubjectIcon size={20} strokeWidth={2.2} />
-                  </div>
-                  <div className={styles.subjectTitleGroup}>
-                    <span className={styles.subjectCodeTag}>
-                      Code {subject.subjectCode} · NCERT
-                    </span>
-                    <h3 className={styles.subjectTitle}>{subject.title}</h3>
-                  </div>
-                </div>
-                <span
-                  className={styles.subjectMasteryPill}
-                  style={{
-                    borderColor: subject.progressPercent > 0 ? meta.accentColor : '#e7e2d6',
-                    color: subject.progressPercent > 0 ? meta.accentColor : '#6a645d',
-                    backgroundColor: subject.progressPercent > 0 ? meta.accentBg : '#fffdf8',
-                  }}
+            <div className={styles.subjectStationCard} key={subject.slug}>
+              {/* 1. Subject Icon + Title */}
+              <div className={styles.stationTop}>
+                <div
+                  className={styles.stationIconBox}
+                  style={{ color: accentColor, backgroundColor: accentBg }}
                 >
-                  {subject.progressPercent}% Mastered
+                  <SubjectIcon size={18} strokeWidth={2.2} />
+                </div>
+                <h3 className={styles.stationTitle}>{subject.title}</h3>
+              </div>
+
+              {/* 2. Chapters Mastered Count + Percentage */}
+              <div className={styles.stationMetricsRow}>
+                <span className={styles.stationChaptersCount}>
+                  {subject.startedCount}/{subject.chapterCount} Chapters
+                </span>
+                <span className={styles.stationPctBadge}>
+                  {subject.progressPercent}%
                 </span>
               </div>
 
-              <div className={styles.subjectProgressSection}>
-                <div className={styles.subjectProgressBar}>
-                  <div
-                    className={styles.subjectProgressFill}
-                    style={{
-                      width: `${Math.max(subject.progressPercent, 4)}%`,
-                      backgroundColor: meta.accentColor,
-                    }}
-                  />
-                </div>
-                <div className={styles.subjectProgressDetails}>
-                  <span>
-                    {subject.startedCount > 0
-                      ? `${subject.startedCount} of ${subject.chapterCount} chapters underway`
-                      : meta.chapterCountLabel}
-                  </span>
-                </div>
+              {/* 3. Thin 6px Progress Bar */}
+              <div className={styles.stationThinTrack}>
+                <div
+                  className={styles.stationThinFill}
+                  style={{
+                    width: `${Math.max(subject.progressPercent, 4)}%`,
+                    backgroundColor: accentColor,
+                  }}
+                />
               </div>
 
-              {/* Chapter Spotlight */}
-              <div className={styles.chapterSpotlight}>
-                <div className={styles.spotlightHeader}>
-                  <span
-                    className={styles.spotlightDot}
-                    style={{ backgroundColor: meta.accentColor }}
-                  />
-                  <span className={styles.spotlightTag}>
-                    {subject.startedCount > 0 ? 'CURRENT TOPIC' : 'UP NEXT IN SYLLABUS'}
-                  </span>
-                </div>
-                <div className={styles.spotlightTitle}>{meta.nextChapterTitle}</div>
-              </div>
-
-              {/* Clean Action Row */}
-              <div className={styles.subjectActionRow}>
+              {/* 4. Single Footer Row: Up next + Continue link */}
+              <div className={styles.stationFooter}>
+                <span className={styles.stationUpNext} title={nextChapterTitle}>
+                  Up next: <em>{nextChapterTitle}</em>
+                </span>
                 <Link
-                  className={styles.subjectPrimaryBtn}
-                  href={`/chapters/${meta.nextChapterSlug}`}
+                  href={`/chapters/${nextChapterSlug}`}
+                  className={styles.stationContinueLink}
                 >
-                  <span>{subject.startedCount > 0 ? 'Continue' : 'Start Chapter 1'}</span>
-                  <ArrowRight size={14} strokeWidth={2.5} />
-                </Link>
-                <Link
-                  className={styles.subjectSyllabusLink}
-                  href={`/subjects/${subject.slug}`}
-                >
-                  <span>All {subject.chapterCount} chapters</span>
-                  <ArrowRight size={12} strokeWidth={2} />
+                  <span>Continue</span>
+                  <ArrowRight size={13} strokeWidth={2.4} />
                 </Link>
               </div>
             </div>

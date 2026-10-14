@@ -3,12 +3,13 @@ import { getVisibleCurriculumSubjects } from './curriculum/registry';
 import { getCurriculumSubjectChapterEntries } from './curriculum/subject-navigation';
 import type { ChapterMasterySummary, MasteryPayload } from './mastery';
 
-/** The 4 core CBSE Class 10 board subjects shown on the student dashboard. */
+/** The core CBSE Class 10 board subjects shown on the student dashboard. */
 export const CORE_SUBJECT_SLUGS = [
-  'mathematics-standard',
   'science',
+  'mathematics-standard',
   'social-science',
   'english-language-and-literature',
+  'hindi-course-b',
 ] as const;
 
 export type NextStep =
@@ -19,6 +20,7 @@ export type NextStep =
       subjectName: string;
       reason: string;
       href: string;
+      lessonTitle?: string;
     }
   | {
       kind: 'continue';
@@ -27,6 +29,7 @@ export type NextStep =
       subjectName: string;
       masteryScore: number;
       href: string;
+      lessonTitle?: string;
     }
   | { kind: 'start' };
 
@@ -53,6 +56,7 @@ export function pickNextStep(mastery: MasteryPayload): NextStep {
     if (mission.status !== 'active') continue;
     const href = mission.recommendedActions?.[0]?.href ?? chapterHref(mission.chapterSlug);
     if (!href) continue;
+    const ch = getChapter(mission.chapterSlug);
     return {
       kind: 'revise',
       chapterSlug: mission.chapterSlug,
@@ -60,6 +64,7 @@ export function pickNextStep(mastery: MasteryPayload): NextStep {
       subjectName: mission.subjectName,
       reason: mission.reason,
       href,
+      lessonTitle: ch?.lessons?.[0]?.title,
     };
   }
 
@@ -67,6 +72,7 @@ export function pickNextStep(mastery: MasteryPayload): NextStep {
     if (chapter.masteryScore >= 100) continue;
     const href = chapterHref(chapter.chapterSlug);
     if (!href) continue;
+    const ch = getChapter(chapter.chapterSlug);
     return {
       kind: 'continue',
       chapterSlug: chapter.chapterSlug,
@@ -74,6 +80,7 @@ export function pickNextStep(mastery: MasteryPayload): NextStep {
       subjectName: chapter.subjectName,
       masteryScore: Math.round(chapter.masteryScore),
       href,
+      lessonTitle: ch?.lessons?.[0]?.title,
     };
   }
 

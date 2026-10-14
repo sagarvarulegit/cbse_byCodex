@@ -1,4 +1,22 @@
-# Current Handoff - YouTube Shorts: Class 10 Science Bulb Brightness Trap with ElevenLabs Adam Stone (2026-10-08)
+# Current Handoff - Refactor Dashboard into Calm 3-Zone Command Center (2026-10-14)
+
+- [x] **Refactored Student Dashboard (`apps/web/app/dashboard/page.tsx`) into Calm 3-Zone Command Center**:
+  - **Zone 0 (Compact Header Bar)**: Streamlined student greeting (`Hey {name}!`) with 1-line streak/XP summary, and a single clickable Board Readiness Pill Badge linking directly to `/readiness`.
+  - **Zone 1 (Bento Grid 2fr 1fr)**:
+    - *Left Column (`2fr`)*: `DashboardNextStepHero.tsx` with strict state machine (State A for brand-new students with starter chapter selection; State B for active students with active lesson title and mastery progress bar), exactly ONE solid primary CTA fill, ONE secondary ghost CTA, and a compact 1-line daily mission footer strip.
+    - *Right Column (`1fr`)*: `WeakAreaDiagnosticsCard.tsx` condensed into a 2-item "Daily Recall Dock" (Item 1: Mistake Vault with due badge; Item 2: Weakest Topic Quick-Fix / PYQ drill).
+  - **Zone 2 (Clean Subject Progress Grid)**: `DashboardSubjectStations.tsx` with horizontal filter pill bar (`All`, `Science`, `Mathematics`, `Social Science`, `English`, `Hindi`), 3-column responsive layout, and strict 4-data-point cap per card.
+  - **Zone 3 (Quick Tools Dock)**: `QuickToolsLaunchpad.tsx` condensed into a compact 4-tile horizontal shortcut strip (`3D Virtual Lab`, `Formula Sheets`, `PYQ Trends`, `3-Hr Mock CBT`).
+  - **Evictions**: Removed redundant `DashboardPracticeHub`, `DashboardSidebarHud`, and bulky `StudyRemixDashboard` panels from `/dashboard`.
+  - **Quality Gates**:
+    - TypeScript: Passed `npx tsc -p apps/web/tsconfig.json --noEmit` with 0 errors.
+    - Playwright E2E: Created `apps/web/e2e/dashboard.spec.ts`, passed cleanly (1 passed).
+- [ ] **Next Task in Line**:
+  - Render `videos/cbse-class-10-solenoid-poles-short` (`lint` → `check` → thumbnail PNG → `render` 55s MP4) and upload `cbse-class-10-science-solenoid-poles-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
+  - Upload `cbse-class-10-science-electricity-bulb-brightness-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
+  - P0 Money Path: Deploy `apps/web` to Vercel production (`npx vercel deploy --prod --yes` from `apps/web`) and complete real ₹2 test transaction.
+
+# Previous Handoff - YouTube Shorts: Class 10 Science Bulb Brightness Trap with ElevenLabs Adam Stone (2026-10-08)
 
 - [x] **Created Educational YouTube Short**: `cbse-class-10-electricity-bulb-brightness-short`
   - **Topic**: CBSE Class 10 Science (Chapter 11 — Electricity), Section 11.8: *The Series vs. Parallel Bulb Brightness Trap* ($P = I^2 R$ vs $P = V^2 / R$, 40 W vs 100 W bulb).

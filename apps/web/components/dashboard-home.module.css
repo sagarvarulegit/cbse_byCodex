@@ -1,16 +1,797 @@
 /* =========================================================================
-   CHAPTERREADY DASHBOARD V3 — 10/10 REFINED STUDENT COMMAND CENTER
-   Warm Paper Canvas, Flawless Visual Hierarchy, Editorial Craft & Micro-Polish
+   CHAPTERREADY DASHBOARD V4 — 3-ZONE HIGH-FOCUS COMMAND CENTER
+   Warm Paper Canvas, Flawless Visual Hierarchy, 1 Solid Primary CTA
    ========================================================================= */
 
+.page {
+  min-height: 100vh;
+  padding-bottom: 72px;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(243, 136, 59, 0.12), transparent 28rem),
+    radial-gradient(circle at 92% 20%, rgba(243, 136, 59, 0.08), transparent 30rem),
+    linear-gradient(180deg, #fffdf8, #f4ede2);
+  color: #181612;
+}
+
 .shell {
-  width: min(1240px, calc(100vw - 48px));
+  width: min(1120px, calc(100vw - 48px));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.85rem;
+  gap: 32px;
   padding: 1.25rem 0 3.5rem;
   color: #171513;
+}
+
+/* ---------- Zone 0: Compact Header Bar ---------- */
+.compactHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0.5rem 0 0;
+}
+
+.compactHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.greetingTitle {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: #171513;
+  line-height: 1.2;
+}
+
+.greetingSub {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #736d65;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subDot {
+  color: #cbd5e1;
+}
+
+.compactHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.readinessPillBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #ffffff;
+  border: 1px solid #e5dfd3;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #171513;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(23, 21, 19, 0.05);
+  transition: all 0.15s ease;
+}
+
+.readinessPillBadge:hover {
+  background: #fff8f3;
+  border-color: #c95014;
+  color: #c95014;
+  transform: translateY(-1px);
+}
+
+/* ---------- Zone 1: Bento Grid (2fr 1fr) ---------- */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (max-width: 860px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bentoLeftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.bentoRightCol {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hero Focus Card (Standardized 16px radius, 24px padding, 1px border) */
+.heroCard {
+  background: #ffffff;
+  border: 1px solid #e5dfd3;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(23, 21, 19, 0.04);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.heroCardRevise {
+  border-color: #fed7aa;
+  background: linear-gradient(135deg, #ffffff 0%, #fffbf7 60%, #fff7ed 100%);
+}
+
+.heroTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1ede4;
+}
+
+.starterTabs {
+  display: inline-flex;
+  padding: 3px;
+  background: #f7f3ec;
+  border: 1px solid #e0d9cc;
+  border-radius: 10px;
+  gap: 3px;
+}
+
+.starterTab {
+  border: none;
+  background: transparent;
+  padding: 5px 10px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 750;
+  color: #6a645d;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.starterTabActive {
+  background: #ffffff;
+  color: #171513;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.heroBadgeGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heroTimeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6a645d;
+  background: #f5f2ea;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.heroXpBadge {
+  font-size: 0.75rem;
+  font-weight: 850;
+  color: #c95014;
+  background: #ffedd5;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.heroEyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.heroEyebrow {
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  color: #c95014;
+  text-transform: uppercase;
+}
+
+.heroSubjectPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #171513;
+  line-height: 1.25;
+}
+
+.heroSummary {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #5d5750;
+  line-height: 1.45;
+}
+
+.currentLessonRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #5d5750;
+}
+
+.currentLessonLabel {
+  font-weight: 600;
+}
+
+.currentLessonTitle {
+  font-weight: 800;
+  color: #171513;
+}
+
+.heroProgressWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.heroProgressText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #6a645d;
+}
+
+.heroProgressBar {
+  height: 6px;
+  background: #f1ede4;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.heroProgressFill {
+  height: 100%;
+  background: #ea580c;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.heroActionsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+/* THE 1 SOLID PRIMARY FILL BUTTON PER VIEWPORT */
+.heroPrimaryCta {
+  background: #c95014;
+  color: #ffffff;
+  border: 1px solid #b3420c;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(201, 80, 20, 0.25);
+  transition: all 0.15s ease;
+}
+
+.heroPrimaryCta:hover {
+  background: #b3420c;
+  transform: translateY(-1px);
+}
+
+/* Secondary Ghost CTA */
+.heroSecondaryCta {
+  background: transparent;
+  color: #171513;
+  border: 1px solid #d5cec2;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 750;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.heroSecondaryCta:hover {
+  background: #f7f3ec;
+  border-color: #171513;
+  transform: translateY(-1px);
+}
+
+/* Compact 1-Line Daily Mission Footer Strip */
+.heroMissionFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f1ede4;
+  font-size: 0.8rem;
+  color: #6a645d;
+  flex-wrap: wrap;
+}
+
+.missionFooterLabel {
+  color: #44403c;
+  white-space: nowrap;
+}
+
+.missionSeparator {
+  color: #cbd5e1;
+}
+
+.missionPills {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.missionPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f5f2ea;
+  border: 1px solid #e5dfd3;
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: #5d5750;
+  text-decoration: none;
+  transition: all 0.12s ease;
+}
+
+.missionPill:hover {
+  border-color: #c95014;
+  color: #c95014;
+}
+
+.missionPillDone {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+/* Right Column: Daily Recall Dock */
+.recallCard {
+  background: #ffffff;
+  border: 1px solid #e5dfd3;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(23, 21, 19, 0.04);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  height: 100%;
+}
+
+.recallHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1ede4;
+}
+
+.recallTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recallHeading {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 850;
+  color: #171513;
+}
+
+.recallSub {
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: #787168;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recallItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  justify-content: space-around;
+}
+
+.recallItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recallItemTop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recallItemTitleGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.recallItemLabel {
+  font-size: 0.7rem;
+  font-weight: 850;
+  color: #787168;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.recallBadge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.recallBadgeAlert {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.recallBadgeSuccess {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.recallSubjectTag {
+  font-size: 0.7rem;
+  font-weight: 750;
+  color: #787168;
+  background: #f5f2ea;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.recallItemTitle {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #171513;
+  line-height: 1.3;
+}
+
+.recallItemDesc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6a645d;
+  line-height: 1.4;
+}
+
+.recallDivider {
+  height: 1px;
+  background: #f1ede4;
+}
+
+.recallGhostBtn {
+  background: transparent;
+  border: 1px solid #d5cec2;
+  border-radius: 8px;
+  color: #171513;
+  font-size: 0.82rem;
+  font-weight: 750;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.recallGhostBtn:hover {
+  background: #f7f3ec;
+  border-color: #171513;
+}
+
+/* ---------- Zone 2: Clean Subject Progress Grid ---------- */
+.zoneSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.zoneHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.zoneTitleBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zoneHeading {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #171513;
+}
+
+.zoneBadge {
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: #787168;
+  background: #f5f2ea;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.filterPillBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filterPill {
+  border: 1px solid #e0d9cc;
+  background: #ffffff;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 750;
+  color: #5d5750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filterPill:hover {
+  color: #171513;
+  border-color: #171513;
+}
+
+.filterPillActive {
+  background: #171513;
+  color: #ffffff !important;
+  border-color: #171513;
+}
+
+.subjectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.subjectStationCard {
+  background: #ffffff;
+  border: 1px solid #e5dfd3;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(23, 21, 19, 0.04);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.15s ease;
+}
+
+.subjectStationCard:hover {
+  box-shadow: 0 4px 12px rgba(23, 21, 19, 0.08);
+  border-color: #d5cec2;
+}
+
+.stationTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stationIconBox {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stationTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 850;
+  color: #171513;
+}
+
+.stationMetricsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.stationChaptersCount {
+  color: #787168;
+  font-weight: 650;
+}
+
+.stationPctBadge {
+  font-weight: 850;
+  color: #171513;
+}
+
+.stationThinTrack {
+  height: 6px;
+  background: #f1ede4;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stationThinFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.stationFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 4px;
+  font-size: 0.8rem;
+}
+
+.stationUpNext {
+  color: #787168;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 175px;
+}
+
+.stationUpNext em {
+  font-style: normal;
+  font-weight: 700;
+  color: #44403c;
+}
+
+.stationContinueLink {
+  color: #c95014;
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: transform 0.12s ease;
+}
+
+.stationContinueLink:hover {
+  transform: translateX(2px);
+}
+
+/* ---------- Zone 3: Single-Row Quick Tools Dock ---------- */
+.quickToolsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .quickToolsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .quickToolsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quickToolTile {
+  background: #ffffff;
+  border: 1px solid #e5dfd3;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 4px rgba(23, 21, 19, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: #171513;
+  transition: all 0.15s ease;
+}
+
+.quickToolTile:hover {
+  border-color: #c95014;
+  background: #fffdfa;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(201, 80, 20, 0.08);
+}
+
+.quickToolLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quickToolIcon {
+  font-size: 1.15rem;
+}
+
+.quickToolTitle {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #171513;
+}
+
+.quickToolChevron {
+  color: #a8a29e;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.quickToolTile:hover .quickToolChevron {
+  color: #c95014;
+  transform: translateX(2px);
 }
 
 /* ---------- 1. Open Canvas Greeting Header ---------- */
