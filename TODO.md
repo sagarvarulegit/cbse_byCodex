@@ -1,4 +1,20 @@
-# Current Handoff - YouTube Shorts: Class 10 Maths Axis Division Ratio Hack with ElevenLabs Adam Stone (2026-10-14)
+# Current Handoff - Tara AI Tutor: Generative UI Sandboxed Visual Canvas (2026-10-14)
+
+- [x] **Implemented Generative UI Canvas for Tara AI Tutor (`TaraVisualCanvas.tsx` & `TaraWidget.tsx`)**:
+  - **Concept & Architecture**: Inspired by OpenIntelligentUI, but implemented via a lightweight, production-native Sandboxed Visual Canvas architecture (avoiding heavy external `@copilotkit` runtime dependencies).
+  - **Sandboxed Security**: Sandboxed `<iframe>` (`sandbox="allow-scripts"` without `allow-same-origin`) executing generated dynamic visualizations, simulations, and ray diagrams in complete security isolation (cannot access student cookies, auth tokens, or localStorage).
+  - **NCERT Scientific Fidelity**: System prompt (`apps/api/src/lib/tutor/tara.ts`) instructed with strict CBSE guidelines (standard optical points $P, F, C$, light ray arrows, standard circuit schematics, atomic conservation balances, high-contrast ChapterReady color tokens).
+  - **Interactive Features**: Self-contained simulations with interactive sliders/steppers, KaTeX & Google Fonts injection, clean toolbar with title, simulation reset (`RotateCcw`), and modal fullscreen expansion (`Maximize2`/`Minimize2`).
+  - **Streaming & Parsing Support**: `TaraWidget.tsx` safely parses interleaved ````interactive-canvas ... ```` blocks with loading state skeletons while streaming, and `apps/api/src/lib/tutor/format.ts` preserves canvas code blocks during prompt sanitization.
+  - **Zero TypeScript Errors**: Passed both `apps/web` and `apps/api` type checks cleanly.
+  - **Pushed to GitHub**: Committed and pushed to `origin/main` (`a44997b`).
+- [ ] **Next Task in Line**:
+  - Deploy `apps/api` and `apps/web` to Vercel production (`npx vercel deploy --prod --yes`).
+  - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls and fullscreen modal.
+  - Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
+  - Perform live ₹2 UPI end-to-end transaction test on `https://www.chapterready.in/store`.
+
+# Previous Handoff - YouTube Shorts: Class 10 Maths Axis Division Ratio Hack with ElevenLabs Adam Stone (2026-10-14)
 
 - [x] **Created Educational YouTube Short for Platform Promotion**: `cbse-class-10-maths-section-formula-short`
   - **Topic**: CBSE Class 10 Mathematics (Chapter 7 — Coordinate Geometry, Section 7.2 Section Formula, Ex 7.2 Q5): *3-Second Axis Division Ratio Hack* ($-y_1 : y_2$ for X-axis, $-x_1 : x_2$ for Y-axis).
