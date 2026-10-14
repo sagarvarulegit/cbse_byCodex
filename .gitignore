@@ -194,3 +194,15 @@ tmp/
 
 # Repomix dumps
 chapterready-codebase.txt
+
+# Video renders (always ignored per video policy)
+*.mp4
+
+# HyperFrames generated preview frame snapshots in .thumbnails
+**/.thumbnails/v*
+
+# Superpowers temporary diffs and reports
+.superpowers/
+
+# Temporary sample paper pdf dumps
+ss_*.pdf
