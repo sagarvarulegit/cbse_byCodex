@@ -10,10 +10,12 @@
   - **Housekeeping & Relocation**:
     - Deleted orphaned components and stylesheets (`DashboardPracticeHub.tsx`, `DashboardSidebarHud.tsx`, `TodayStudyMissionCard.tsx`, and `dashboard-studio.module.css`).
     - Mounted `StudyRemixDashboard.tsx` cleanly inside [`apps/web/app/readiness/page.tsx`](file:///C:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/app/readiness/page.tsx), preserving full student access to Study Remix controls when clicking the 🎯 Board Readiness badge.
+  - **Live Production Deployment**:
+    - Successfully deployed `apps/web` to Vercel production (`dpl_DhUzdHWcdfnDi8nPsD9au4ofAkez`, `READY`), aliased to `https://www.chapterready.in`.
 - [ ] **Next Task in Line**:
+  - Perform live ₹2 UPI end-to-end transaction test on `https://www.chapterready.in/store` and `/exam-papers`.
   - Render `videos/cbse-class-10-solenoid-poles-short` (`lint` → `check` → thumbnail PNG → `render` 55s MP4) and upload `cbse-class-10-science-solenoid-poles-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
   - Upload `cbse-class-10-science-electricity-bulb-brightness-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
-  - P0 Money Path: Deploy `apps/web` to Vercel production (`npx vercel deploy --prod --yes` from `apps/web`) and complete real ₹2 test transaction.
 
 # Previous Handoff - YouTube Shorts: Class 10 Science Bulb Brightness Trap with ElevenLabs Adam Stone (2026-10-08)
 
