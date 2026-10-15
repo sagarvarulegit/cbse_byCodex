@@ -1,4 +1,4 @@
-# Current Handoff - Tara AI Tutor: Generative UI Sandboxed Visual Canvas (2026-10-14)
+# Current Handoff - Tara AI Tutor: Generative UI Sandboxed Visual Canvas & Resilience Fallback (2026-10-15)
 
 - [x] **Implemented Generative UI Canvas for Tara AI Tutor (`TaraVisualCanvas.tsx` & `TaraWidget.tsx`)**:
   - **Concept & Architecture**: Inspired by OpenIntelligentUI, but implemented via a lightweight, production-native Sandboxed Visual Canvas architecture (avoiding heavy external `@copilotkit` runtime dependencies).
@@ -6,8 +6,10 @@
   - **NCERT Scientific Fidelity**: System prompt (`apps/api/src/lib/tutor/tara.ts`) instructed with strict CBSE guidelines (standard optical points $P, F, C$, light ray arrows, standard circuit schematics, atomic conservation balances, high-contrast ChapterReady color tokens).
   - **Interactive Features**: Self-contained simulations with interactive sliders/steppers, KaTeX & Google Fonts injection, clean toolbar with title, simulation reset (`RotateCcw`), and modal fullscreen expansion (`Maximize2`/`Minimize2`).
   - **Streaming & Parsing Support**: `TaraWidget.tsx` safely parses interleaved ````interactive-canvas ... ```` blocks with loading state skeletons while streaming, and `apps/api/src/lib/tutor/format.ts` preserves canvas code blocks during prompt sanitization.
+  - **100% Uptime Resilience Fallback**: Added OpenRouter fallback in `apps/api/src/lib/tutor/generate.ts` targeting `google/gemini-2.5-flash` so that Tara answers and simulations never fail even if direct AI Studio keys encounter HTTP 402 prepayment credit limits or rate limits.
   - **Zero TypeScript Errors**: Passed both `apps/web` and `apps/api` type checks cleanly.
-  - **Pushed to GitHub**: Committed and pushed to `origin/main` (`a44997b`).
+  - **Verified End-to-End**: Tested generative simulation for concave mirror ray diagram between $F$ and $P$; verified slider interactivity, dynamic ray tracing, and NCERT labeled canvas generation.
+  - **Pushed to GitHub**: Committed and pushed to `origin/main` (`9c0b211`).
 - [ ] **Next Task in Line**:
   - Deploy `apps/api` and `apps/web` to Vercel production (`npx vercel deploy --prod --yes`).
   - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls and fullscreen modal.
