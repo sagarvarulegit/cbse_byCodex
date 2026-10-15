@@ -9,7 +9,8 @@
   - **100% Uptime Resilience Fallback**: Added OpenRouter fallback in `apps/api/src/lib/tutor/generate.ts` targeting `google/gemini-2.5-flash` so that Tara answers and simulations never fail even if direct AI Studio keys encounter HTTP 402 prepayment credit limits or rate limits.
   - **Zero TypeScript Errors**: Passed both `apps/web` and `apps/api` type checks cleanly.
   - **Verified End-to-End**: Tested generative simulation for concave mirror ray diagram between $F$ and $P$; verified slider interactivity, dynamic ray tracing, and NCERT labeled canvas generation.
-  - **Pushed to GitHub**: Committed and pushed to `origin/main` (`9c0b211`).
+  - **Launcher Visibility & Guest Onboarding**: Removed legacy `if (authed === false) return null;` which was hiding the Tara floating launcher on initial mount or unauthenticated visits; added a welcoming guest card with direct sign-in CTA so Tara is always discoverable across all pages.
+  - **Pushed to GitHub**: Committed and pushed to `origin/main` (`1f986d9`).
 - [ ] **Next Task in Line**:
   - Deploy `apps/api` and `apps/web` to Vercel production (`npx vercel deploy --prod --yes`).
   - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls and fullscreen modal.
