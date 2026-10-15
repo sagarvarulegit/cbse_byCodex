@@ -193,11 +193,59 @@ export function parseTutorAnswer(raw: string): TutorAnswer {
   return { answerMarkdown, citedChunkIds, confidence, refused };
 }
 
+async function generateViaOpenRouter(
+  options: GenerateOptions,
+  openrouterKey: string,
+  fetchImpl: typeof fetch,
+  timeoutMs: number,
+): Promise<TutorAnswer> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const prompt = buildPrompt(options);
+    const response = await fetchImpl('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${openrouterKey}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.3,
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(`OpenRouter responded with HTTP ${response.status}: ${body.slice(0, 200)}`);
+    }
+
+    const data = (await response.json()) as {
+      choices?: Array<{ message?: { content?: string } }>;
+    };
+    const text = data.choices?.[0]?.message?.content ?? '';
+    if (!text.trim()) {
+      throw new Error('OpenRouter returned an empty response.');
+    }
+    return parseTutorAnswer(text);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function generateTutorAnswer(
   options: GenerateOptions,
   fetchImpl: typeof fetch = fetch,
 ): Promise<TutorAnswer> {
   const config = getGeminiConfig();
+  const openrouterKey = process.env.OPENROUTER_API_KEY ?? null;
+
+  if (!config.apiKey && openrouterKey) {
+    return generateViaOpenRouter(options, openrouterKey, fetchImpl, config.requestTimeoutMs);
+  }
+
   if (!config.apiKey) {
     throw new Error('GEMINI_API_KEY is not configured.');
   }
@@ -263,6 +311,12 @@ export async function generateTutorAnswer(
       throw new Error('Tutor API returned an empty response.');
     }
     return parseTutorAnswer(text);
+  } catch (error) {
+    if (openrouterKey) {
+      console.warn('Gemini call failed; falling back to OpenRouter...', error);
+      return generateViaOpenRouter(options, openrouterKey, fetchImpl, config.requestTimeoutMs);
+    }
+    throw error;
   } finally {
     clearTimeout(timer);
   }
