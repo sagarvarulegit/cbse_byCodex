@@ -43,7 +43,7 @@ function buildSandboxDoc(code: string): string {
       overflow-y: auto;
     }
     body {
-      padding: 16px;
+      padding: 10px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -241,7 +241,7 @@ export default function TaraVisualCanvas({ code, title }: TaraVisualCanvasProps)
         </div>
 
         {/* Sandboxed iframe */}
-        <div style={{ width: '100%', height: '340px', position: 'relative', background: '#fff' }}>
+        <div style={{ width: '100%', height: '420px', position: 'relative', background: '#fff' }}>
           <iframe
             key={key}
             ref={iframeRef}

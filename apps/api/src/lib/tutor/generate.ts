@@ -214,6 +214,7 @@ async function generateViaOpenRouter(
         model: 'google/gemini-2.5-flash',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.3,
+        response_format: { type: 'json_object' },
       }),
     });
 

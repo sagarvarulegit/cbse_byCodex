@@ -1,4 +1,22 @@
-# Current Handoff - Tara AI Tutor: Generative UI Sandboxed Visual Canvas & Resilience Fallback (2026-10-15)
+# Current Handoff - Tara AI Tutor: Generative UI Full Reactivity & Dynamic Ray Optics (2026-10-15)
+
+- [x] **Fixed Generative UI Reactivity & Optics Ray Diagrams in Tara AI Tutor**:
+  - **Root Cause Diagnosed**: Previously, when the LLM generated interactive simulations (e.g. concave mirror ray diagram between $F$ and $P$), it used complex/brittle Canvas 2D circle-line collision math that failed or evaluated to static constants. As a result, moving the slider changed only the object arrow, while the incident rays, reflected rays, dashed virtual extensions, and image arrow remained completely frozen.
+  - **Reactivity Invariant Established**: Updated `apps/api/src/lib/tutor/tara.ts` with strict reactivity rules:
+    * **100% Dynamic Reactivity**: Mandated that every slider/button input MUST update all dependent rays, images, dashed virtual extensions, and readout badges in real-time.
+    * **Centralized `update()` Pattern**: Required a clean single `update()` function reading the slider, calculating formulas, updating SVG attributes (`setAttribute('x1', ...)`, etc.), and attached to `input` event listeners with an initial draw call.
+    * **Declarative SVG over Canvas 2D**: Mandated SVG for crispness, mobile responsiveness, arrow markers (`<marker id="rayArrow">`), and dashed lines (`stroke-dasharray="4 4"`).
+    * **Strict NCERT Optics Formulas**: Standardized paraxial mirror & lens formulas ($1/v + 1/u = 1/f \implies v = \frac{u \cdot f}{u - f}$, $m = -v/u$, $h_i = m \cdot h_o$, virtual erect magnified image behind mirror).
+  - **OpenRouter JSON Mode & Exemption**: Enforced `response_format: { type: 'json_object' }` on OpenRouter calls in `apps/api/src/lib/tutor/generate.ts`, and clarified that the ````interactive-canvas```` block is fully exempt from prose word limits and must always be generated in full.
+  - **Enhanced Canvas Viewport**: Increased inline canvas iframe height from 340px to 420px in `TaraVisualCanvas.tsx` and optimized body padding (10px 14px) so that diagrams, sliders, and live calculation badges fit cleanly without awkward inner scrollbars.
+  - **Verified End-to-End**: Tested pipeline directly against the exact user query (*"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"*); verified that generated SVG code dynamically links the object, incident ray, reflected ray through $F$, virtual dashed extensions, and virtual erect magnified image arrow to the slider in real-time.
+- [ ] **Next Task in Line**:
+  - Deploy `apps/api` and `apps/web` to Vercel production (`npx vercel deploy --prod --yes`).
+  - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls and fullscreen modal.
+  - Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
+  - Perform live ₹2 UPI end-to-end transaction test on `https://www.chapterready.in/store`.
+
+# Previous Handoff - Tara AI Tutor: Generative UI Sandboxed Visual Canvas & Resilience Fallback (2026-10-15)
 
 - [x] **Implemented Generative UI Canvas for Tara AI Tutor (`TaraVisualCanvas.tsx` & `TaraWidget.tsx`)**:
   - **Concept & Architecture**: Inspired by OpenIntelligentUI, but implemented via a lightweight, production-native Sandboxed Visual Canvas architecture (avoiding heavy external `@copilotkit` runtime dependencies).
