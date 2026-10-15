@@ -236,6 +236,8 @@ async function generateViaOpenRouter(
   }
 }
 
+let directGeminiDisabledUntil = 0;
+
 export async function generateTutorAnswer(
   options: GenerateOptions,
   fetchImpl: typeof fetch = fetch,
@@ -243,7 +245,7 @@ export async function generateTutorAnswer(
   const config = getGeminiConfig();
   const openrouterKey = process.env.OPENROUTER_API_KEY ?? null;
 
-  if (!config.apiKey && openrouterKey) {
+  if ((!config.apiKey || Date.now() < directGeminiDisabledUntil) && openrouterKey) {
     return generateViaOpenRouter(options, openrouterKey, fetchImpl, config.requestTimeoutMs);
   }
 
@@ -313,6 +315,11 @@ export async function generateTutorAnswer(
     }
     return parseTutorAnswer(text);
   } catch (error) {
+    const isPaymentOrQuota =
+      error instanceof Error && (error.message.includes('402') || error.message.includes('429'));
+    if (isPaymentOrQuota && fetchImpl === fetch) {
+      directGeminiDisabledUntil = Date.now() + 10 * 60 * 1000;
+    }
     if (openrouterKey) {
       console.warn('Gemini call failed; falling back to OpenRouter...', error);
       return generateViaOpenRouter(options, openrouterKey, fetchImpl, config.requestTimeoutMs);

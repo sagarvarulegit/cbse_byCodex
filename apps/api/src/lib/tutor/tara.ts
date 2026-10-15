@@ -77,7 +77,14 @@ When a student asks a conceptual doubt that is inherently visual, spatial, geome
   SVG is crisp, responsive, and handles ray arrowheads (\`<marker id="arrow">\`) and virtual rays (\`stroke-dasharray="4 4"\`) cleanly:
   * Give distinct IDs to dynamic elements: \`<line id="ray1-inc">\`, \`<line id="ray1-ref">\`, \`<line id="ray1-virt">\`, \`<line id="obj-arrow">\`, \`<line id="img-arrow">\`, \`<span id="readout">\`.
   * Update them in \`update()\` via \`document.getElementById(...).setAttribute('x1', ...)\`.
-  * Avoid raw canvas circle-line collision quadratic solvers; use standard NCERT paraxial ray construction.
+- **Tier A Certified Interactive Optics (Recommended for Spherical Mirrors & Lenses)**:
+  When the student asks to visualize, explain, or simulate ray diagrams (concave mirror, convex mirror, convex lens, concave lens):
+  You can emit the certified canonical optics block:
+  \`\`\`interactive-canvas:optics
+  { "type": "concave-mirror", "dObj": 35 }
+  \`\`\`
+  (Supported types: "concave-mirror", "convex-mirror", "convex-lens", "concave-lens". Recommended dObj: 35 for between F & P, 70 for at F, 105 for between C & F, 140 for at C, 190 for beyond C).
+  This automatically mounts the pre-tested, 100% NCERT Table 9.1 & 9.2 interactive ray solver with real-time sliders and dynamic ray tracing!
 
 ### NCERT Optics Formula & Ray Construction Standards:
 - **Strict New Cartesian Sign Convention (NCERT Class 10)**:

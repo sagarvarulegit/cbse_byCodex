@@ -6,6 +6,7 @@ import { useTutorPageContext } from '../contexts/TutorPageContext';
 import MathText from './MathText';
 import TaraFireflyIcon from './TaraFireflyIcon';
 import TaraVisualCanvas from './TaraVisualCanvas';
+import InteractiveOpticsViewer from './InteractiveOpticsViewer';
 
 type Message = {
   id: string;
@@ -243,6 +244,133 @@ function renderTextBlocks(content: string, keyPrefix: string): React.ReactNode[]
   return blocks;
 }
 
+type OpticsDetectionResult = {
+  isOptics: boolean;
+  type: 'concave-mirror' | 'convex-mirror' | 'convex-lens' | 'concave-lens';
+  initialD: number;
+};
+
+function detectOpticsCanvas(tag: string, rawCode: string, contextText: string): OpticsDetectionResult {
+  const isOpticsTag = tag === 'optics' || tag.startsWith('optics');
+  const combined = `${tag} ${rawCode} ${contextText}`.toLowerCase();
+
+  // Try parsing JSON if rawCode starts and ends with braces
+  if (rawCode.trim().startsWith('{') && rawCode.trim().endsWith('}')) {
+    try {
+      const parsed = JSON.parse(rawCode.trim());
+      const typeStr = String(parsed.type || '').toLowerCase();
+      if (
+        typeStr === 'concave-mirror' ||
+        typeStr === 'convex-mirror' ||
+        typeStr === 'convex-lens' ||
+        typeStr === 'concave-lens'
+      ) {
+        return {
+          isOptics: true,
+          type: typeStr as OpticsDetectionResult['type'],
+          initialD: Number(parsed.dObj || parsed.initialObjectDistance || 35),
+        };
+      }
+    } catch {
+      // not valid json, fall through
+    }
+  }
+
+  // Check if tag is optics or if code/text strongly indicates spherical mirror or lens ray diagram
+  const hasOpticsKeywords =
+    (combined.includes('mirror') || combined.includes('lens')) &&
+    (combined.includes('ray') ||
+      combined.includes('focus') ||
+      combined.includes('focal') ||
+      combined.includes('pole') ||
+      combined.includes('principal axis') ||
+      combined.includes('chapterreadyoptics') ||
+      combined.includes('objslider'));
+
+  if (!isOpticsTag && !hasOpticsKeywords) {
+    return { isOptics: false, type: 'concave-mirror', initialD: 35 };
+  }
+
+  // Determine type
+  let type: OpticsDetectionResult['type'] = 'concave-mirror';
+  if (combined.includes('convex lens')) {
+    type = 'convex-lens';
+  } else if (combined.includes('concave lens')) {
+    type = 'concave-lens';
+  } else if (combined.includes('convex mirror')) {
+    type = 'convex-mirror';
+  } else {
+    type = 'concave-mirror';
+  }
+
+  // Determine initial distance
+  let initialD = 35; // Default: Between F and P (Case 6)
+  if (
+    combined.includes('between c and f') ||
+    combined.includes('between f and c') ||
+    combined.includes('between 2f and f')
+  ) {
+    initialD = 105;
+  } else if (combined.includes('at c') || combined.includes('at 2f')) {
+    initialD = 140;
+  } else if (combined.includes('beyond c') || combined.includes('beyond 2f')) {
+    initialD = 190;
+  } else if (combined.includes('at f') || combined.includes('at focus')) {
+    initialD = 70;
+  } else if (
+    combined.includes('between f and p') ||
+    combined.includes('between p and f') ||
+    combined.includes('between f1 and o')
+  ) {
+    initialD = 35;
+  }
+
+  return { isOptics: true, type, initialD };
+}
+
+function OpticsCanvasContainer({
+  type,
+  initialD,
+  rawCode,
+}: {
+  type: 'concave-mirror' | 'convex-mirror' | 'convex-lens' | 'concave-lens';
+  initialD: number;
+  rawCode: string;
+}) {
+  const [showRawSandbox, setShowRawSandbox] = useState(false);
+  const isPureJson = rawCode.trim().startsWith('{') && rawCode.trim().endsWith('}');
+
+  return (
+    <div style={{ margin: '14px 0', width: '100%' }}>
+      <InteractiveOpticsViewer initialType={type} initialObjectDistance={initialD} />
+      {!isPureJson && (
+        <div style={{ marginTop: '8px', textAlign: 'right' }}>
+          <button
+            type="button"
+            onClick={() => setShowRawSandbox((v) => !v)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '11px',
+              fontFamily: "'IBM Plex Mono', monospace",
+              color: '#6b7280',
+              textDecoration: 'underline',
+            }}
+          >
+            {showRawSandbox ? 'Hide AI Draft Sandbox' : 'View AI Draft Sandbox'}
+          </button>
+          {showRawSandbox && (
+            <div style={{ marginTop: '8px' }}>
+              <TaraVisualCanvas code={rawCode} title="AI Draft Canvas" />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function renderTaraContent(content: string, keyPrefix: string): React.ReactNode {
   // Strip any stray internal citation or chunk markers
   const cleaned = content
@@ -251,7 +379,7 @@ function renderTaraContent(content: string, keyPrefix: string): React.ReactNode 
     .replace(/[ \t]+$/gm, '');
 
   // Check if content contains interactive-canvas code blocks
-  const canvasRegex = /```(?:interactive-canvas|visual-canvas|canvas)([\s\S]*?)(?:```|$)/g;
+  const canvasRegex = /```(?:interactive-canvas|visual-canvas|canvas)(?::([a-z0-9_-]+))?([\s\S]*?)(?:```|$)/g;
   if (!canvasRegex.test(cleaned)) {
     return renderTextBlocks(cleaned, keyPrefix);
   }
@@ -273,16 +401,29 @@ function renderTaraContent(content: string, keyPrefix: string): React.ReactNode 
       segIndex++;
     }
 
-    const rawCode = match[1].trim();
+    const tag = (match[1] || '').trim();
+    const rawCode = (match[2] || '').trim();
     const isStillStreaming = !match[0].endsWith('```') && match.index + match[0].length === cleaned.length;
 
     if (rawCode) {
-      segments.push(
-        <TaraVisualCanvas
-          key={`${keyPrefix}-canvas-${segIndex}`}
-          code={rawCode}
-        />,
-      );
+      const opticsInfo = detectOpticsCanvas(tag, rawCode, cleaned);
+      if (opticsInfo.isOptics) {
+        segments.push(
+          <OpticsCanvasContainer
+            key={`${keyPrefix}-optics-${segIndex}`}
+            type={opticsInfo.type}
+            initialD={opticsInfo.initialD}
+            rawCode={rawCode}
+          />,
+        );
+      } else {
+        segments.push(
+          <TaraVisualCanvas
+            key={`${keyPrefix}-canvas-${segIndex}`}
+            code={rawCode}
+          />,
+        );
+      }
       segIndex++;
     } else if (isStillStreaming) {
       segments.push(

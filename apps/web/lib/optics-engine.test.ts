@@ -1,7 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
 
-import { calculateMirrorOptics } from './optics-engine.js';
+import { calculateLensOptics, calculateMirrorOptics } from './optics-engine.js';
 
 test('NCERT Case 6: Object between P and F (u < f) forms Virtual, Erect, Magnified image behind mirror', () => {
   const fMag = 80;
@@ -145,6 +145,79 @@ test('Convex Mirror: Object in front of mirror always forms Virtual, Erect, Dimi
   // For convex mirror: f = +60, u = -90
   // v = (-90 * 60) / (-90 - 60) = -5400 / -150 = +36 cm (behind mirror between P and F)
   assert.equal(result.v, 36);
+  assert.ok(result.isVirtual);
+  assert.ok(result.isErect);
+  assert.ok(result.magnification! > 0 && result.magnification! < 1);
+  assert.equal(result.sizeCategory, 'diminished');
+});
+
+// ── LENS TESTS (NCERT Table 9.2) ──────────────────────────────────────────────
+
+test('Convex Lens Case 6: Object between F1 and O (u < f) forms Virtual, Erect, Magnified image on same side', () => {
+  const fMag = 60;
+  const dObj = 40; // between F1 and O
+  const result = calculateLensOptics({
+    lensType: 'convex',
+    focalLengthMag: fMag,
+    objectDistanceMag: dObj,
+    objectHeight: 30,
+    opticalCenterX: 250,
+  });
+
+  // u = -40, f = +60
+  // Lens formula: 1/v = 1/f + 1/u = 1/60 - 1/40 = -1/120 => v = -120 cm (same side)
+  assert.equal(result.u, -40);
+  assert.equal(result.f, 60);
+  assert.equal(result.v, -120);
+
+  // m = v/u = -120 / -40 = +3.0 (Erect & Magnified)
+  assert.equal(result.magnification, 3);
+  assert.ok(result.isVirtual);
+  assert.ok(result.isErect);
+  assert.equal(result.sizeCategory, 'magnified');
+
+  // Virtual image is on the same side (x < opticalCenterX)
+  assert.ok(result.imageBase !== null && result.imageBase.x < 250);
+  // Image tip points UP (y < axisY)
+  assert.ok(result.imageTip !== null && result.imageTip.y < 140);
+});
+
+test('Convex Lens Case 3: Object at 2F1 (u = 2f) forms Real, Inverted, Same Size image at 2F2', () => {
+  const fMag = 50;
+  const dObj = 100; // at 2F1
+  const result = calculateLensOptics({
+    lensType: 'convex',
+    focalLengthMag: fMag,
+    objectDistanceMag: dObj,
+    objectHeight: 30,
+    opticalCenterX: 250,
+  });
+
+  // v = (u*f)/(u+f) = (-100 * 50) / (-100 + 50) = -5000 / -50 = +100 cm (at 2F2)
+  assert.equal(result.v, 100);
+  assert.ok(!result.isVirtual);
+  assert.ok(!result.isErect);
+  assert.equal(result.magnification, -1);
+  assert.equal(result.sizeCategory, 'same-size');
+
+  // Image is on other side (x > opticalCenterX)
+  assert.ok(result.imageBase !== null && result.imageBase.x > 250);
+});
+
+test('Concave Lens: Object in front of lens always forms Virtual, Erect, Diminished image between O and F1', () => {
+  const fMag = 60;
+  const dObj = 90;
+  const result = calculateLensOptics({
+    lensType: 'concave',
+    focalLengthMag: fMag,
+    objectDistanceMag: dObj,
+    objectHeight: 30,
+    opticalCenterX: 250,
+  });
+
+  // For concave lens: f = -60, u = -90
+  // v = (-90 * -60) / (-90 + -60) = 5400 / -150 = -36 cm (same side between O and F1)
+  assert.equal(result.v, -36);
   assert.ok(result.isVirtual);
   assert.ok(result.isErect);
   assert.ok(result.magnification! > 0 && result.magnification! < 1);
