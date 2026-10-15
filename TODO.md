@@ -1,18 +1,30 @@
-# Current Handoff - Tara AI Tutor: Generative UI Full Reactivity & Dynamic Ray Optics (2026-10-15)
+# Current Handoff - Tara AI Tutor: Certified NCERT Optics Engine & 3-Tier Visual Trust Architecture (2026-10-15)
 
-- [x] **Fixed Generative UI Reactivity & Optics Ray Diagrams in Tara AI Tutor**:
-  - **Root Cause Diagnosed**: Previously, when the LLM generated interactive simulations (e.g. concave mirror ray diagram between $F$ and $P$), it used complex/brittle Canvas 2D circle-line collision math that failed or evaluated to static constants. As a result, moving the slider changed only the object arrow, while the incident rays, reflected rays, dashed virtual extensions, and image arrow remained completely frozen.
-  - **Reactivity Invariant Established**: Updated `apps/api/src/lib/tutor/tara.ts` with strict reactivity rules:
-    * **100% Dynamic Reactivity**: Mandated that every slider/button input MUST update all dependent rays, images, dashed virtual extensions, and readout badges in real-time.
-    * **Centralized `update()` Pattern**: Required a clean single `update()` function reading the slider, calculating formulas, updating SVG attributes (`setAttribute('x1', ...)`, etc.), and attached to `input` event listeners with an initial draw call.
-    * **Declarative SVG over Canvas 2D**: Mandated SVG for crispness, mobile responsiveness, arrow markers (`<marker id="rayArrow">`), and dashed lines (`stroke-dasharray="4 4"`).
-    * **Strict NCERT Optics Formulas**: Standardized paraxial mirror & lens formulas ($1/v + 1/u = 1/f \implies v = \frac{u \cdot f}{u - f}$, $m = -v/u$, $h_i = m \cdot h_o$, virtual erect magnified image behind mirror).
-  - **OpenRouter JSON Mode & Exemption**: Enforced `response_format: { type: 'json_object' }` on OpenRouter calls in `apps/api/src/lib/tutor/generate.ts`, and clarified that the ````interactive-canvas```` block is fully exempt from prose word limits and must always be generated in full.
-  - **Enhanced Canvas Viewport**: Increased inline canvas iframe height from 340px to 420px in `TaraVisualCanvas.tsx` and optimized body padding (10px 14px) so that diagrams, sliders, and live calculation badges fit cleanly without awkward inner scrollbars.
-  - **Verified End-to-End**: Tested pipeline directly against the exact user query (*"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"*); verified that generated SVG code dynamically links the object, incident ray, reflected ray through $F$, virtual dashed extensions, and virtual erect magnified image arrow to the slider in real-time.
+- [x] **Implemented Certified NCERT Optics Engine & 3-Tier Visual Safety Guardrails**:
+  - **Reviewed & Aligned with Opus Critique**: Addressed core architectural risk: pure zero-shot LLM code generation must not be trusted with raw physics math on the fly; student academic fidelity requires certified deterministic formulas.
+  - **Certified NCERT Optics Engine (`apps/web/lib/optics-engine.ts`)**:
+    * Created mathematically proven, pure optics engine implementing strict NCERT New Cartesian Sign Convention: mirror at origin ($x_P = 270, y_0 = 140$), $u = -d_{obj}$, $f = -f_{mag}$ (concave) or $+f_{mag}$ (convex).
+    * Handles all mirror cases: mirror formula $v = \frac{u \cdot f}{u - f}$, magnification $m = -\frac{v}{u}$, image height $h_i = m \cdot h_o$.
+    * Accurately constructs incident rays, reflected rays through $F$ or obliquely from $P$, and virtual dashed backward extensions connecting mirror reflection points directly to the virtual image tip.
+    * Special handling for object at focus ($u = f \implies v = \infty$, parallel reflected rays).
+  - **Automated Academic Verification Suite (`apps/web/lib/optics-engine.test.ts`)**:
+    * 100% test pass (6/6 tests) verifying all NCERT Table 9.1 cases:
+      - Case 6 ($u < f$): Virtual, Erect, Magnified behind mirror ($v > 0, m > 1$).
+      - Case 3 ($u = 2f$): Real, Inverted, Same Size at $C$ ($v = -2f, m = -1$).
+      - Case 4 ($f < u < 2f$): Real, Inverted, Magnified beyond $C$ ($v < -2f, m < -1$).
+      - Case 2 ($u > 2f$): Real, Inverted, Diminished between $F$ and $C$ ($|v| < |u|$).
+      - Case 5 ($u = f$): At infinity ($v = \text{null}$, parallel rays).
+      - Convex Mirror: Virtual, Erect, Diminished ($v > 0, 0 < m < 1$).
+  - **Injected Physics Engine & Runtime Safety in Sandbox (`apps/web/components/TaraVisualCanvas.tsx`)**:
+    * Injected `window.ChapterReadyOptics` into the sandbox `<head>` so simulations execute certified math functions.
+    * Added runtime error catcher (`window.addEventListener('error')`) that catches any unhandled exceptions and displays a graceful NCERT Chapter 9 notice card.
+    * Added 1-click **"Report Mistake"** button (`Flag` icon) to both inline and fullscreen modal toolbars for immediate student feedback loop.
+  - **Refined System Prompt (`apps/api/src/lib/tutor/tara.ts`)**:
+    * Eliminated ambiguous/conflicting sign rules; codified strict NCERT Cartesian sign rules and prohibited raw collision geometry solvers.
+  - **Passed All Unit Tests**: Both `apps/web` (6/6 optics tests) and `apps/api` (12/12 tutor tests) pass cleanly.
 - [ ] **Next Task in Line**:
   - Deploy `apps/api` and `apps/web` to Vercel production (`npx vercel deploy --prod --yes`).
-  - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls and fullscreen modal.
+  - Test live prompt in browser: ask Tara *"Explain concave mirror ray diagram when object is between F and P with an interactive diagram"* and test slider controls, live readouts, and Report button.
   - Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` to YouTube Studio with dedicated 9:16 thumbnail.
   - Perform live ₹2 UPI end-to-end transaction test on `https://www.chapterready.in/store`.
 

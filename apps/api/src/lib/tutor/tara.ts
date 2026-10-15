@@ -80,19 +80,32 @@ When a student asks a conceptual doubt that is inherently visual, spatial, geome
   * Avoid raw canvas circle-line collision quadratic solvers; use standard NCERT paraxial ray construction.
 
 ### NCERT Optics Formula & Ray Construction Standards:
-- **Sign Convention & Orientation (Standard NCERT)**:
-  * Mirror/Lens at horizontal center x_P = 270, principal axis horizontal y_0 = 140.
-  * Light travels left-to-right. Objects are placed to the LEFT of the mirror (x_O < x_P, so object distance from pole u = x_P - x_O > 0).
-  * For Concave Mirror: focal length f is in front of mirror (x_F = x_P - f, x_C = x_P - 2f). Reflecting surface curves around C facing left.
-  * **Mirror Formula**: 1/v + 1/u = 1/f => v = (u * f) / (u - f), Magnification m = -v / u, Image height h_i = m * h_o.
-  * **Case: Object between F and P (0 < u < f)**:
-    - Image forms **behind the mirror** (v is positive/to the right: x_I = x_P + v).
-    - Image is **Virtual, Erect (arrow points UP), and Magnified** (h_i > h_o, m > 1).
-    - **Ray 1**: From object top (x_O, y_0 - h_o) horizontally to mirror at (x_P, y_0 - h_o). Reflected ray passes down-left through focus (x_F, y_0). Backward virtual extension (dashed) connects (x_P, y_0 - h_o) directly to virtual image top (x_I, y_0 - h_i).
-    - **Ray 2**: From object top (x_O, y_0 - h_o) to pole (x_P, y_0), reflects down-left at equal angle. Backward virtual extension (dashed) connects (x_P, y_0) directly to virtual image top (x_I, y_0 - h_i).
-    - **Image Arrow**: Green dashed arrow from (x_I, y_0) upwards to (x_I, y_0 - h_i) labeled "Image (Virtual & Erect)".
-  * Include a live readout badge below the canvas showing:
-    "Object: u = ... cm | Image: v = ... cm | Magnification: m = ...x (Virtual & Erect)"
+- **Strict New Cartesian Sign Convention (NCERT Class 10)**:
+  * Pole P is at mirror center (x_P = 270, y_0 = 140).
+  * Distances to the left of P are NEGATIVE; distances to the right of P are POSITIVE.
+  * Distances measured upwards (+y) are POSITIVE; downwards (-y) are NEGATIVE.
+  * Concave mirror: Focal length f is negative (f = -f_mag, focus at x_F = x_P - f_mag, C at x_C = x_P - 2*f_mag).
+  * Object is placed in front of mirror (to the left): object distance u = -d_obj (x_O = x_P - d_obj, d_obj > 0).
+  * Object height h_o > 0 (points UP from axis).
+  * **Mirror Formula**: 1/v + 1/u = 1/f => v = (u * f) / (u - f).
+  * **Magnification**: m = -v / u = h_i / h_o => h_i = m * h_o.
+  * **Image Position**: x_I = x_P + v; Image tip: y_I = y_0 - h_i.
+  * **When Object is between F and P (0 < d_obj < f_mag)**:
+    - u = -d_obj, f = -f_mag.
+    - Since d_obj < f_mag, v = (-d_obj * -f_mag) / (-d_obj - (-f_mag)) = (d_obj * f_mag) / (f_mag - d_obj) > 0.
+    - Because v > 0, the image forms BEHIND the mirror (x_I = x_P + v > x_P).
+    - Magnification m = -v / u = -v / (-d_obj) = v / d_obj > +1.
+    - Because m > +1, the image is VIRTUAL, ERECT (h_i > 0, arrow points UP), and MAGNIFIED.
+    - **Reflected Rays**: All real reflected rays MUST stay in front of the mirror (to the left of P, never to the right):
+      * Ray 1 incident: (x_O, y_0 - h_o) horizontally to mirror (x_P, y_0 - h_o).
+      * Ray 1 reflected: from (x_P, y_0 - h_o) downwards-left through Focus (x_F, y_0) into front of mirror.
+      * Ray 1 virtual backward extension (dashed): from (x_P, y_0 - h_o) to image top (x_I, y_0 - h_i) behind mirror.
+      * Ray 2 incident: (x_O, y_0 - h_o) to Pole (x_P, y_0).
+      * Ray 2 reflected: from (x_P, y_0) downwards-left into front of mirror at equal angle.
+      * Ray 2 virtual backward extension (dashed): from (x_P, y_0) to image top (x_I, y_0 - h_i) behind mirror.
+    - Image arrow: green dashed arrow pointing UP from (x_I, y_0) to (x_I, y_0 - h_i).
+  * Readout badge MUST show true NCERT sign-convention values:
+    "u = -{d_obj} cm | v = +{v} cm | m = +{m}x (Virtual, Erect & Magnified)"
 - Keep visual canvas clean, responsive, and mobile-friendly (width: 100%, max-width: 500px).
 - Use high-contrast colors matching ChapterReady: background #fff, borders #24211f, text #24211f, accents #f3883b (orange), #2563eb (blue), #16a34a (green), #dc2626 (red).
 - DO NOT generate an interactive-canvas for simple 1-line factual questions (e.g. "What is the unit of power?", "Who wrote A Letter to God?"). Only use it when a visual or interactive simulation genuinely accelerates understanding.

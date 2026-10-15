@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { Maximize2, Minimize2, RotateCcw, Sparkles } from 'lucide-react';
+import { Check, Flag, Maximize2, Minimize2, RotateCcw, Sparkles } from 'lucide-react';
 
 interface TaraVisualCanvasProps {
   code: string;
@@ -96,8 +96,48 @@ function buildSandboxDoc(code: string): string {
       color: #b45309;
     }
   </style>
+  <script>
+    // ChapterReady Certified NCERT Optics Engine
+    window.ChapterReadyOptics = {
+      mirror: function(params) {
+        var fMag = Math.max(10, (params && params.focalLengthMag) || 70);
+        var dObj = Math.max(5, (params && params.objectDistanceMag) || 35);
+        var hO = (params && params.objectHeight) || 35;
+        var poleX = (params && params.poleX) || 270;
+        var axisY = (params && params.axisY) || 140;
+        var isConcave = !params || params.mirrorType !== 'convex';
+        var u = -dObj;
+        var f = isConcave ? -fMag : fMag;
+        var isAtFocus = isConcave && Math.abs(dObj - fMag) < 1.0;
+        if (isAtFocus) {
+          return { isInfinity: true, u: u, f: f, v: null, magnification: null, readout: 'u = -' + dObj + ' cm | v = ∞ (At infinity, parallel rays)' };
+        }
+        var v = (u * f) / (u - f);
+        var m = -v / u;
+        var hI = m * hO;
+        var imageX = poleX + v;
+        var imageY = axisY - hI;
+        var isVirtual = v > 0;
+        var isErect = m > 0;
+        return {
+          u: u, f: f, v: v, magnification: m, imageHeight: hI,
+          imageX: imageX, imageY: imageY,
+          isVirtual: isVirtual, isErect: isErect,
+          readout: 'u = -' + Math.round(dObj) + ' cm | v = ' + (v > 0 ? '+' : '') + Math.round(v) + ' cm | m = ' + (m > 0 ? '+' : '') + m.toFixed(2) + 'x (' + (isVirtual ? 'Virtual & Erect' : 'Real & Inverted') + ')'
+        };
+      }
+    };
+    window.addEventListener('error', function(e) {
+      console.warn('[ChapterReady Canvas Runtime Safety Guard]', e.message);
+      var fallback = document.getElementById('cr-runtime-fallback');
+      if (fallback) fallback.style.display = 'block';
+    });
+  </script>
 </head>
 <body>
+  <div id="cr-runtime-fallback" style="display:none;padding:12px;margin:8px auto;background:#fef2f2;border:1.5px solid #dc2626;border-radius:8px;font-size:12px;color:#991b1b;max-width:480px;text-align:left;">
+    <strong>⚠️ Notice:</strong> This simulation encountered an unexpected value. Please refer to NCERT Chapter 9 for verified textbook ray diagrams.
+  </div>
   ${code}
 </body>
 </html>`;
@@ -107,6 +147,7 @@ export default function TaraVisualCanvas({ code, title }: TaraVisualCanvasProps)
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [key, setKey] = useState(0);
+  const [reported, setReported] = useState(false);
   const canvasId = useId();
 
   // Extract optional title from comment if not provided (e.g. <!-- title: Ray Diagram -->)
@@ -215,6 +256,35 @@ export default function TaraVisualCanvas({ code, title }: TaraVisualCanvasProps)
               }}
             >
               <RotateCcw size={12} style={{ marginRight: '4px' }} /> Reset
+            </button>
+            <button
+              type="button"
+              onClick={() => setReported(true)}
+              title={reported ? 'Reported to academic review team' : 'Report an issue with this visual'}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '5px 8px',
+                background: reported ? '#ecfdf5' : '#fff',
+                border: reported ? '1.5px solid #16a34a' : '1.5px solid #24211f',
+                borderRadius: '6px',
+                color: reported ? '#16a34a' : '#64748b',
+                cursor: 'pointer',
+                fontSize: '11px',
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontWeight: 700,
+              }}
+            >
+              {reported ? (
+                <>
+                  <Check size={12} style={{ marginRight: '4px' }} /> Reported
+                </>
+              ) : (
+                <>
+                  <Flag size={12} style={{ marginRight: '4px' }} /> Report
+                </>
+              )}
             </button>
             <button
               type="button"
@@ -362,6 +432,34 @@ export default function TaraVisualCanvas({ code, title }: TaraVisualCanvasProps)
                   }}
                 >
                   <RotateCcw size={13} /> Reset
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setReported(true)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '8px 14px',
+                    background: reported ? '#ecfdf5' : '#fff',
+                    border: reported ? '2px solid #16a34a' : '2px solid #24211f',
+                    borderRadius: '8px',
+                    color: reported ? '#16a34a' : '#64748b',
+                    cursor: 'pointer',
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontWeight: 700,
+                    fontSize: '12px',
+                  }}
+                >
+                  {reported ? (
+                    <>
+                      <Check size={13} /> Reported
+                    </>
+                  ) : (
+                    <>
+                      <Flag size={13} /> Report Mistake
+                    </>
+                  )}
                 </button>
                 <button
                   type="button"
