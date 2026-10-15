@@ -614,9 +614,7 @@ export default function TaraWidget() {
     [activeId, attachments, context, input, streaming],
   );
 
-  if (authed === false) {
-    return null; // signed-out students don't see the bubble
-  }
+  // Do NOT hide the widget when signed out; let students discover Tara and prompt sign-in when clicked.
 
   const activeConv = conversations.find((c) => c.id === activeId);
 
@@ -802,7 +800,36 @@ export default function TaraWidget() {
               </div>
 
               <div className="tara-body">
-                {conversations.length === 0 && messages.length === 0 ? (
+                {authed === false ? (
+                  <div className="tara-auth-gate" style={{ padding: '24px 16px', textAlign: 'center' }}>
+                    <div style={{ marginBottom: '14px', display: 'flex', justifyContent: 'center' }}>
+                      <TaraFireflyIcon size={56} glow />
+                    </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#171513', margin: '0 0 8px 0' }}>
+                      Meet Tara-Firefly ✨
+                    </h3>
+                    <p style={{ fontSize: '13.5px', color: '#5a4a22', lineHeight: 1.55, margin: '0 0 20px 0' }}>
+                      Your personal AI study companion for CBSE Class 10. Ask any doubt, get step-by-step NCERT explanations, and explore interactive visual simulations!
+                    </p>
+                    <a
+                      href="/login"
+                      style={{
+                        display: 'inline-block',
+                        background: 'linear-gradient(135deg, #ffd66b, #f3883b)',
+                        color: '#171513',
+                        border: '2px solid #171513',
+                        borderRadius: '10px',
+                        padding: '10px 22px',
+                        fontWeight: 800,
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                        boxShadow: '3px 3px 0 #171513',
+                      }}
+                    >
+                      Sign In to Chat with Tara →
+                    </a>
+                  </div>
+                ) : conversations.length === 0 && messages.length === 0 ? (
                   <div className="tara-empty">
                     <p className="tara-greeting">
                       Hi! I&apos;m Tara-Firefly ✨ — I know you are studying{' '}
@@ -878,55 +905,61 @@ export default function TaraWidget() {
                 </div>
               )}
 
-              <div className="tara-input-bar">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,application/pdf"
-                  multiple
-                  hidden
-                  onChange={(event) => setAttachments(Array.from(event.target.files ?? []))}
-                />
-                {attachments.length > 0 && (
-                  <span className="tara-file-chip">
-                    📎 {attachments.length} file{attachments.length > 1 ? 's' : ''}
-                    <button type="button" onClick={() => setAttachments([])} aria-label="Clear files">
-                      ✕
-                    </button>
-                  </span>
-                )}
-                <button
-                  type="button"
-                  className="tara-attach-btn"
-                  onClick={() => fileInputRef.current?.click()}
-                  aria-label="Attach files"
-                  disabled={streaming}
-                >
-                  📎
-                </button>
-                <textarea
-                  className="tara-input"
-                  rows={1}
-                  placeholder="Ask your doubt…"
-                  value={input}
-                  onChange={(event) => setInput(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' && !event.shiftKey) {
-                      event.preventDefault();
-                      void sendMessage();
-                    }
-                  }}
-                  disabled={streaming}
-                />
-                <button
-                  type="button"
-                  className="tara-send"
-                  onClick={() => void sendMessage()}
-                  disabled={streaming || !input.trim()}
-                >
-                  ➤
-                </button>
-              </div>
+              {authed === false ? (
+                <div style={{ padding: '12px 14px', borderTop: '3px solid #171513', background: '#fffdf8', textAlign: 'center', fontSize: '13px', color: '#7a6a4a' }}>
+                  Please <a href="/login" style={{ fontWeight: 800, color: '#d97706', textDecoration: 'underline' }}>sign in</a> to chat with Tara and explore simulations.
+                </div>
+              ) : (
+                <div className="tara-input-bar">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,application/pdf"
+                    multiple
+                    hidden
+                    onChange={(event) => setAttachments(Array.from(event.target.files ?? []))}
+                  />
+                  {attachments.length > 0 && (
+                    <span className="tara-file-chip">
+                      📎 {attachments.length} file{attachments.length > 1 ? 's' : ''}
+                      <button type="button" onClick={() => setAttachments([])} aria-label="Clear files">
+                        ✕
+                      </button>
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    className="tara-attach-btn"
+                    onClick={() => fileInputRef.current?.click()}
+                    aria-label="Attach files"
+                    disabled={streaming}
+                  >
+                    📎
+                  </button>
+                  <textarea
+                    className="tara-input"
+                    rows={1}
+                    placeholder="Ask your doubt…"
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        void sendMessage();
+                      }
+                    }}
+                    disabled={streaming}
+                  />
+                  <button
+                    type="button"
+                    className="tara-send"
+                    onClick={() => void sendMessage()}
+                    disabled={streaming || !input.trim()}
+                  >
+                    ➤
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
