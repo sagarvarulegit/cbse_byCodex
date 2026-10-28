@@ -1,3 +1,21 @@
+# Current Handoff - Schema.org JSON-LD Structured Data Live Deployment (2026-10-28)
+
+- [x] **Implemented & Deployed Schema.org JSON-LD Structured Data**:
+  - **Component Creation (pps/web/components/seo/JsonLd.tsx)**:
+    * Defined comprehensive @graph structured schema adhering to Schema.org standards.
+    * Included EducationalOrganization entity (#organization) with logo, description, sameAs link to github, and India service area.
+    * Included WebSite entity (#website) linking to the publisher and search action.
+    * Included SoftwareApplication entity (#app) with category, pricing tier, and feature breakdown.
+    * Included Course entity (#course-class10) with online delivery mode and workload.
+  - **Root Layout Mounting (pps/web/app/layout.tsx)**:
+    * Mounted <JsonLd /> in the root layout <head> to serve structured data globally across all routes.
+  - **Verification & Deployment**:
+    * Verified 
+pm run lint and 
+pm run build across all workspaces with zero errors.
+    * Deployed to Vercel production (cbse-bycodex-web -> https://www.chapterready.in).
+    * Verified live production endpoint https://www.chapterready.in returns HTTP 200 with all 4 JSON-LD graph entities present and valid.
+
 # Current Handoff - Tara AI Tutor: Canonical Tier A Interactive Optics & 3-Tier Visual Engine (2026-10-15)
 
 - [x] **Implemented Canonical Tier A Interactive Optics & Automated Visual Dispatch**:
