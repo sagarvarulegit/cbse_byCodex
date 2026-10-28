@@ -6,6 +6,7 @@ import BrandLockup from '../components/BrandLockup';
 import FeedbackButton from '../components/FeedbackButton';
 import StudyRemixProvider from '../components/StudyRemixProvider';
 import { TutorPageProvider } from '../contexts/TutorPageContext';
+import JsonLd from '../components/seo/JsonLd';
 
 // Lazy-load TaraWidget (46KB + KaTeX 250KB) — only hydrates when student
 // interacts with the floating Tara button instead of bloating every page.
@@ -28,6 +29,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <JsonLd />
+      </head>
       <body>
         <TutorPageProvider>
           <StudyRemixProvider>{children}</StudyRemixProvider>
