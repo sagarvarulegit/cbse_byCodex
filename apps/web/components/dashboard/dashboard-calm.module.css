@@ -1,0 +1,457 @@
+/* =========================================================================
+   CHAPTERREADY DASHBOARD V5 — "ONE SCREEN, ONE QUESTION"
+   Calm layout for Class 10 students and parents: one primary button,
+   plain words, large type, sections that appear only when they matter.
+   ========================================================================= */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 72px;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(243, 136, 59, 0.1), transparent 28rem),
+    linear-gradient(180deg, #fffdf8, #f6f0e6);
+  color: #181612;
+}
+
+.shell {
+  width: min(880px, calc(100vw - 40px));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 2rem 0 3rem;
+}
+
+/* ---------- Greeting ---------- */
+.greeting {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.greetingTitle {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.greetingLine {
+  margin: 6px 0 0;
+  font-size: 1.05rem;
+  color: #5f574d;
+  line-height: 1.5;
+}
+
+.readinessLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #e7dccd;
+  border-radius: 999px;
+  background: #fff;
+  color: #181612;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.readinessLink strong {
+  color: #bd4f10;
+}
+
+.readinessLink:hover,
+.readinessLink:focus-visible {
+  border-color: #f3883b;
+}
+
+/* ---------- Today's plan ---------- */
+.planCard {
+  padding: 32px;
+  border: 1px solid #eadfce;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(70, 45, 15, 0.08);
+}
+
+.planEyebrow {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #bd4f10;
+}
+
+.planSubject {
+  margin: 0;
+  font-size: 1rem;
+  color: #6f665c;
+}
+
+.planTitle {
+  margin: 4px 0 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.planNote {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  color: #5f574d;
+}
+
+.planSteps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+
+.planStep,
+.planStepDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #3d362e;
+}
+
+.planStepDone {
+  color: #047857;
+}
+
+.planStepDot {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #e2d6c5;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6f665c;
+  flex-shrink: 0;
+}
+
+.planStepDone .planStepDot {
+  border-color: #059669;
+  background: #059669;
+  color: #fff;
+}
+
+.planActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 28px;
+}
+
+.planCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 32px;
+  border-radius: 16px;
+  background: #e0661c;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(224, 102, 28, 0.28);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.planCta:hover,
+.planCta:focus-visible {
+  background: #bd4f10;
+  transform: translateY(-1px);
+}
+
+.planChange {
+  font-size: 0.95rem;
+  color: #6f665c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.planChange:hover,
+.planChange:focus-visible {
+  color: #181612;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* ---------- Subject tiles ---------- */
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  height: 100%;
+  padding: 18px;
+  border: 1px solid #eadfce;
+  border-radius: 18px;
+  background: #fff;
+  color: #181612;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.tile:hover,
+.tile:focus-visible {
+  border-color: #f3883b;
+  transform: translateY(-2px);
+}
+
+.tileIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.tileName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tileProgress {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #6f665c;
+}
+
+.tileRing {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: conic-gradient(var(--ring) var(--pct), #efe6d8 0);
+  -webkit-mask: radial-gradient(circle, transparent 5px, #000 5.5px);
+  mask: radial-gradient(circle, transparent 5px, #000 5.5px);
+  flex-shrink: 0;
+}
+
+/* ---------- Quick fixes (conditional) ---------- */
+.fixList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fixRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1px solid #f2d9c2;
+  border-radius: 16px;
+  background: #fff8f0;
+  color: #181612;
+  text-decoration: none;
+}
+
+.fixRow:hover,
+.fixRow:focus-visible {
+  border-color: #f3883b;
+}
+
+.fixIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #ffe8d4;
+  color: #bd4f10;
+  flex-shrink: 0;
+}
+
+.fixText {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.fixAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #bd4f10;
+  white-space: nowrap;
+}
+
+/* ---------- Footer hint ---------- */
+.toolsHint {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6f665c;
+  text-align: center;
+}
+
+.toolsHint a {
+  color: #bd4f10;
+  font-weight: 700;
+}
+
+/* ---------- XP reward toast ---------- */
+.rewardToast {
+  position: fixed;
+  z-index: 9995;
+  top: 92px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 32px);
+  padding: 12px 14px 12px 16px;
+  border: 1px solid #f6d58a;
+  border-radius: 16px;
+  background: #fffbea;
+  box-shadow: 0 12px 32px rgba(70, 45, 15, 0.16);
+  font-size: 1rem;
+  color: #3d362e;
+  transform: translateX(-50%);
+  animation: rewardIn 0.35s ease-out;
+}
+
+.rewardStar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fbbf24;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.rewardClose {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #6f665c;
+  cursor: pointer;
+}
+
+.rewardClose:hover,
+.rewardClose:focus-visible {
+  background: #f6ecd0;
+}
+
+@keyframes rewardIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rewardToast {
+    animation: none;
+  }
+
+  .planCta,
+  .tile {
+    transition: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .tileGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .shell {
+    gap: 28px;
+    padding-top: 1.25rem;
+  }
+
+  .greetingTitle {
+    font-size: 1.6rem;
+  }
+
+  .planCard {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .planTitle {
+    font-size: 1.45rem;
+  }
+
+  .planSteps {
+    flex-direction: column;
+  }
+
+  .planActions {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .tileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tile {
+    padding: 14px;
+  }
+
+  .fixRow {
+    flex-wrap: wrap;
+  }
+
+  .fixAction {
+    margin-left: 50px;
+  }
+}

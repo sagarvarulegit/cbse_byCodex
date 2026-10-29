@@ -8,9 +8,9 @@ export default function Loading() {
       </div>
       <section className="route-loading-card">
         <p className="eyebrow">Opening your study page</p>
-        <h1>Loading your Study Studio...</h1>
+        <h1>Getting today&apos;s plan ready...</h1>
         <div className="route-loading-bar" />
-        <p>Getting the next screen ready.</p>
+        <p>This will only take a moment.</p>
       </section>
     </main>
   );

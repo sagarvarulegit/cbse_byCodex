@@ -7,8 +7,9 @@ export default function FeedbackButton() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating button (hidden on phones via .feedback-fab; the footer has a Give Feedback link) */}
       <button
+        className="feedback-fab"
         onClick={() => setOpen(!open)}
         style={{
           position: 'fixed',

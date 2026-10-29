@@ -6765,3 +6765,10 @@ h3 {
   }
 }
 
+
+/* Floating feedback button: hidden on phones (footer has a Give Feedback link) to keep one floating button (Tara) on small screens. */
+@media (max-width: 720px) {
+  .feedback-fab {
+    display: none !important;
+  }
+}

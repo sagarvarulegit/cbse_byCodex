@@ -212,6 +212,120 @@ export function calculateStudentRank(mastery: MasteryPayload): StudentRankInfo {
   };
 }
 
+/** Minimum quizzes + mock papers before we show a readiness label at all. */
+export const READINESS_MIN_SIGNALS = 3;
+
+/**
+ * Turns the internal readiness estimate into a plain word that a student or
+ * parent understands. We deliberately avoid showing the raw percentage.
+ */
+export function describeReadiness(score: number): string {
+  if (score >= 80) return 'Exam ready';
+  if (score >= 60) return 'On track';
+  if (score >= 40) return 'Building up';
+  return 'Getting started';
+}
+
+export type TodayPlanStep = {
+  label: string;
+  done: boolean;
+  href: string;
+};
+
+export type TodayPlan = {
+  kind: NextStep['kind'];
+  eyebrow: string;
+  subjectName: string;
+  chapterTitle: string;
+  note: string | null;
+  steps: TodayPlanStep[];
+  cta: { label: string; href: string };
+  changeHref: string;
+};
+
+/** Day-1 starter chapter used when the student has no activity yet. */
+const STARTER_PLAN = {
+  subjectName: 'Science',
+  chapterTitle: 'Chemical Reactions and Equations',
+  chapterSlug: 'chemical-reactions-and-equations',
+} as const;
+
+/**
+ * Builds ONE simple plan for today: a chapter, three small steps and a single
+ * button that always points at the first step that is not done yet.
+ */
+export function buildTodayPlan(
+  step: NextStep,
+  masteries: ChapterMasterySummary[],
+  dueMistakesCount: number,
+): TodayPlan {
+  if (step.kind === 'start') {
+    const slug = STARTER_PLAN.chapterSlug;
+    return {
+      kind: 'start',
+      eyebrow: 'Your first chapter',
+      subjectName: STARTER_PLAN.subjectName,
+      chapterTitle: STARTER_PLAN.chapterTitle,
+      note: null,
+      steps: [
+        { label: 'Read the lesson', done: false, href: `/chapters/${slug}` },
+        { label: 'Take a short quiz', done: false, href: `/chapters/${slug}/quiz` },
+        { label: 'Fix your mistakes', done: false, href: '/my-mistakes' },
+      ],
+      cta: { label: 'Start lesson', href: `/chapters/${slug}` },
+      changeHref: '/subjects',
+    };
+  }
+
+  const quizHref = `/chapters/${step.chapterSlug}/quiz`;
+
+  if (step.kind === 'revise') {
+    return {
+      kind: 'revise',
+      eyebrow: 'Quick revision',
+      subjectName: step.subjectName,
+      chapterTitle: step.chapterTitle,
+      note: step.reason || null,
+      steps: [
+        { label: 'Read the tricky parts', done: false, href: step.href },
+        { label: 'Retake the quiz', done: false, href: quizHref },
+        { label: 'Fix your mistakes', done: dueMistakesCount === 0, href: '/my-mistakes' },
+      ],
+      cta: { label: 'Start revision', href: step.href },
+      changeHref: '/subjects',
+    };
+  }
+
+  const chapter = masteries.find((m) => m.chapterSlug === step.chapterSlug);
+  const lessonDone = Boolean(chapter && (chapter.masteryScore > 0 || chapter.lastActivityAt));
+  const quizDone = Boolean(chapter && chapter.bestQuizScorePercent > 0);
+  const mistakesDone = quizDone && dueMistakesCount === 0;
+
+  const steps: TodayPlanStep[] = [
+    { label: 'Read the lesson', done: lessonDone, href: step.href },
+    { label: 'Take a short quiz', done: quizDone, href: quizHref },
+    { label: 'Fix your mistakes', done: mistakesDone, href: '/my-mistakes' },
+  ];
+
+  const ctaLabels = ['Continue lesson', 'Take the quiz', 'Fix my mistakes'];
+  const nextIndex = steps.findIndex((s) => !s.done);
+  const cta =
+    nextIndex === -1
+      ? { label: 'Keep going', href: step.href }
+      : { label: ctaLabels[nextIndex], href: steps[nextIndex].href };
+
+  return {
+    kind: 'continue',
+    eyebrow: 'Pick up where you left off',
+    subjectName: step.subjectName,
+    chapterTitle: step.chapterTitle,
+    note: null,
+    steps,
+    cta,
+    changeHref: '/subjects',
+  };
+}
+
 /**
  * Computes remaining calendar days until CBSE Class 10 Board Examinations (Feb 15, 2027).
  */

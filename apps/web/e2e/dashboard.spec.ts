@@ -16,7 +16,7 @@ function createMockStudentToken(): string {
   return `${encodedPayload}.${signature}`;
 }
 
-test.describe('Dashboard 3-Zone Command Center', () => {
+test.describe('Dashboard: one screen, one question', () => {
   test.beforeEach(async ({ context }) => {
     const token = createMockStudentToken();
     await context.addCookies([
@@ -32,54 +32,38 @@ test.describe('Dashboard 3-Zone Command Center', () => {
     ]);
   });
 
-  test('dashboard renders Zone 0, Zone 1, Zone 2, and Zone 3 cleanly', async ({ page }) => {
+  test('new student sees a greeting, one plan with one button, and subject tiles', async ({ page }) => {
     const response = await page.goto('/dashboard');
     expect(response?.ok()).toBeTruthy();
 
     // Wait for route loading shell to finish
     await page.waitForSelector('main:not([aria-busy="true"])', { timeout: 15_000 });
 
-    // Zone 0: Header greeting & Board Readiness badge
-    await expect(page.locator('header h1')).toContainText('Hey Aarav!');
-    const readinessBadge = page.locator('a[href="/readiness"]');
-    await expect(readinessBadge).toBeVisible();
-    await expect(readinessBadge).toContainText('Board Readiness:');
+    // Greeting
+    await expect(page.locator('header h1')).toContainText('Hi Aarav');
 
-    // Zone 1: Bento Grid (2fr 1fr)
-    // Left column: NextStep Hero card with exactly 1 solid primary CTA
-    const heroCard = page.locator('section[aria-label*="Starter Mission"], section[aria-label*="Active Chapter"], section[aria-label*="Targeted Revision"]').first();
-    await expect(heroCard).toBeVisible();
-    await expect(heroCard).toContainText("Today's Mission:");
+    // Readiness stays hidden until the student has enough quiz / paper data
+    await expect(page.locator('a[href="/readiness"]')).toHaveCount(0);
 
-    // Right column: Daily Recall Dock
-    const recallDock = page.locator('aside[aria-label="Daily Recall Dock"]');
-    await expect(recallDock).toBeVisible();
-    await expect(recallDock.locator('h3')).toContainText('Daily Recall');
-    await expect(recallDock).toContainText('MISTAKE VAULT');
-    await expect(recallDock.locator('a[href="/my-mistakes"]')).toBeVisible();
+    // Today's plan: three steps and exactly one primary button
+    const plan = page.locator('section[aria-label="Today\'s plan"]');
+    await expect(plan).toBeVisible();
+    await expect(plan.locator('ol li')).toHaveCount(3);
+    await expect(plan.getByRole('link', { name: /Start lesson|Continue lesson|Take the quiz|Fix my mistakes|Start revision|Keep going/ })).toHaveCount(1);
+    await expect(plan.getByRole('link', { name: 'Choose another chapter' })).toBeVisible();
 
-    // Zone 2: My Subjects with horizontal filter pill bar
-    const subjectsSection = page.locator('section[aria-label="My Subjects"]');
-    await expect(subjectsSection).toBeVisible();
-    await expect(subjectsSection.locator('h2')).toContainText('My Subjects');
-    await expect(subjectsSection.getByRole('tab', { name: 'All', exact: true })).toBeVisible();
-    await expect(subjectsSection.getByRole('tab', { name: 'Science', exact: true })).toBeVisible();
-    await expect(subjectsSection.getByRole('tab', { name: 'Mathematics', exact: true })).toBeVisible();
-    await expect(subjectsSection.getByRole('tab', { name: 'Social Science', exact: true })).toBeVisible();
-    await expect(subjectsSection.getByRole('tab', { name: 'English', exact: true })).toBeVisible();
-    await expect(subjectsSection.getByRole('tab', { name: 'Hindi', exact: true })).toBeVisible();
+    // Subject tiles: five core subjects, no filter tabs
+    const subjects = page.locator('section[aria-labelledby="my-subjects-heading"]');
+    await expect(subjects.locator('h2')).toHaveText('My subjects');
+    await expect(subjects.locator('li')).toHaveCount(5);
+    await expect(subjects.getByRole('tab')).toHaveCount(0);
 
-    // Zone 3: Quick Tools Dock
-    const quickToolsSection = page.locator('section[aria-label="Quick Tools Dock"]');
-    await expect(quickToolsSection).toBeVisible();
-    await expect(quickToolsSection.locator('h2')).toContainText('Quick Tools');
-    await expect(quickToolsSection.locator('a[href="/virtual-lab"]')).toBeVisible();
-    await expect(quickToolsSection.locator('a[href="/formula-cheatsheets"]')).toBeVisible();
-    await expect(quickToolsSection.locator('a[href="/pyq-trends"]')).toBeVisible();
-    await expect(quickToolsSection.locator('a[href="/exam-papers"]')).toBeVisible();
+    // Old clutter is gone
+    await expect(page.locator('aside[aria-label="Daily Recall Dock"]')).toHaveCount(0);
+    await expect(page.locator('section[aria-label="Quick Tools Dock"]')).toHaveCount(0);
+    await expect(page.getByText('MISTAKE VAULT')).toHaveCount(0);
 
-    // Verify eviction of redundant hubs
-    await expect(page.locator('section[aria-label="Practice Hub"]')).toHaveCount(0);
-    await expect(page.locator('aside[aria-label="Sidebar HUD"]')).toHaveCount(0);
+    // Tools are one quiet link away
+    await expect(page.locator('main a[href="/tools"]')).toBeVisible();
   });
 });
