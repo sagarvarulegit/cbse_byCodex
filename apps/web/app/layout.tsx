@@ -44,6 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </Link>
           <a href="mailto:support@chapterready.in">✉ support@chapterready.in</a>
           <Link href="/privacy">Privacy and guardian consent</Link>
+          <Link href="/parent-summary">Parent Summary</Link>
           <Link href="/feedback" style={{ fontWeight: 700 }}>💬 Give Feedback</Link>
         </footer>
       </body>

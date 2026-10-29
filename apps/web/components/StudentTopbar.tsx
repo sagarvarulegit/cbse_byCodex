@@ -78,6 +78,7 @@ export default function StudentTopbar({
               <Link href="/my-mistakes">My Mistakes</Link>
               <Link href="/orders">📦 My Purchases &amp; Receipts</Link>
               <Link href="/profile">⚙️ Edit Profile &amp; Phone</Link>
+              <Link href="/parent-summary" style={{ fontWeight: 700, color: '#047857' }}>👨‍👩‍👧 Parent Progress Summary</Link>
               <LogoutButton />
             </div>
           </details>

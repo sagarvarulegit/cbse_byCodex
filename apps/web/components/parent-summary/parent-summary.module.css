@@ -1,0 +1,473 @@
+/* =========================================================================
+   PARENT SUMMARY STYLES — ChapterReady Class 10 Board Companion
+   Calm, high-trust, parent-friendly layout with print & mobile optimizations
+   ========================================================================= */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 80px;
+  background:
+    radial-gradient(circle at 10% 5%, rgba(243, 136, 59, 0.08), transparent 28rem),
+    linear-gradient(180deg, #fffdf8, #f5efe6);
+  color: #181612;
+}
+
+.container {
+  width: min(920px, calc(100vw - 36px));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 1.5rem 0 3rem;
+}
+
+/* ---------- Header & Action Bar ---------- */
+.headerBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ebdccb;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: #fbf0e4;
+  border: 1px solid #ebd4be;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #bd4f10;
+  width: fit-content;
+}
+
+.mainHeading {
+  margin: 0;
+  font-size: 1.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #181612;
+  line-height: 1.2;
+}
+
+.subHeading {
+  margin: 0;
+  font-size: 1rem;
+  color: #6a6155;
+  line-height: 1.5;
+}
+
+.actionButtonGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.actionBtnPrimary {
+  background: #25d366;
+  color: #0b4b20;
+  border: 1px solid #1ebb59;
+}
+
+.actionBtnPrimary:hover {
+  background: #1eb956;
+}
+
+.actionBtnSecondary {
+  background: #fff;
+  color: #3f372d;
+  border: 1px solid #dfd2c0;
+}
+
+.actionBtnSecondary:hover {
+  background: #fdfaf5;
+  border-color: #bd4f10;
+  color: #bd4f10;
+}
+
+/* ---------- Reassurance Banner ---------- */
+.statusBanner {
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-left: 5px solid #bd4f10;
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 28px rgba(70, 45, 15, 0.05);
+}
+
+.statusHeadline {
+  margin: 0 0 8px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #181612;
+  letter-spacing: -0.01em;
+}
+
+.statusSub {
+  margin: 0;
+  font-size: 1rem;
+  color: #5f574d;
+  line-height: 1.5;
+}
+
+/* ---------- Stat Cards Grid ---------- */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.statCard {
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(70, 45, 15, 0.03);
+}
+
+.statLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #8c8273;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.statValue {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #181612;
+  line-height: 1.1;
+}
+
+.statNote {
+  font-size: 0.82rem;
+  color: #6a6155;
+}
+
+/* ---------- Section Layout ---------- */
+.sectionCard {
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-radius: 22px;
+  padding: 26px 28px;
+  box-shadow: 0 8px 24px rgba(70, 45, 15, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #181612;
+}
+
+.sectionSub {
+  font-size: 0.88rem;
+  color: #847a6d;
+}
+
+/* ---------- Subject Progress Rows ---------- */
+.subjectList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subjectRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  background: #fbf7f0;
+  border: 1px solid #f0e4d4;
+  border-radius: 14px;
+}
+
+.subjectRowTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subjectName {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #2b251e;
+}
+
+.subjectMetrics {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #6c6356;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 8px;
+  background: #ebdcc9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: #e0661c;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* ---------- Activity Items ---------- */
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #faf6ef;
+  border: 1px solid #ebdccb;
+  border-radius: 14px;
+}
+
+.activityItemLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.activityTitle {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #181612;
+}
+
+.activitySubject {
+  font-size: 0.82rem;
+  color: #7b7163;
+}
+
+.activityItemRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.scoreBadge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.timeLabel {
+  font-size: 0.82rem;
+  color: #8c8273;
+}
+
+/* ---------- Weak Area Callouts ---------- */
+.weakList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.weakItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 14px;
+}
+
+.weakIcon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #ffedd5;
+  color: #c2410c;
+  flex-shrink: 0;
+}
+
+.weakContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.weakTitle {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #181612;
+}
+
+.weakReason {
+  font-size: 0.88rem;
+  color: #7c2d12;
+  line-height: 1.4;
+}
+
+/* ---------- Parent Guidance Tips ---------- */
+.tipsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tipCard {
+  background: #faf6ef;
+  border: 1px solid #ebdccb;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tipTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #181612;
+}
+
+.tipBody {
+  font-size: 0.86rem;
+  color: #5f574d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- Back Link Strip ---------- */
+.backStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.backLink {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #bd4f10;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tipsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    gap: 20px;
+    padding-top: 1rem;
+  }
+
+  .mainHeading {
+    font-size: 1.5rem;
+  }
+
+  .statusBanner {
+    padding: 18px 20px;
+  }
+
+  .sectionCard {
+    padding: 20px;
+  }
+
+  .activityItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .activityItemRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ---------- Print Stylesheet ---------- */
+@media print {
+  .actionButtonGroup,
+  .backStrip {
+    display: none !important;
+  }
+
+  .page {
+    background: #fff !important;
+    padding: 0 !important;
+  }
+
+  .container {
+    width: 100% !important;
+    padding: 0 !important;
+    gap: 16px !important;
+  }
+
+  .sectionCard,
+  .statusBanner,
+  .statCard {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+}

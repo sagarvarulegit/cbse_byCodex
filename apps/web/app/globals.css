@@ -6772,3 +6772,13 @@ h3 {
     display: none !important;
   }
 }
+
+/* Global print optimizations: hide floating widgets and navigation bars */
+@media print {
+  .student-topbar,
+  .site-footer,
+  .feedback-fab,
+  .tara-trigger-btn {
+    display: none !important;
+  }
+}

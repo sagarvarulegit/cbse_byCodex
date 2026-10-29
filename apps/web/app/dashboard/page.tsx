@@ -143,6 +143,8 @@ export default async function DashboardPage() {
         <p className={styles.toolsHint}>
           Looking for formula sheets, the virtual lab or practice papers?{' '}
           <Link href="/tools">Open study tools</Link>
+          <span aria-hidden="true" style={{ margin: '0 8px', opacity: 0.5 }}>·</span>
+          <Link href="/parent-summary">Parent weekly report</Link>
         </p>
       </div>
     </main>
