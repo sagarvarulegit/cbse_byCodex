@@ -1,3 +1,21 @@
+# Current Handoff - Student Dashboard Redesign: "One Screen, One Question" (2026-10-29)
+
+- [x] **Redesigned Student Dashboard for Class 10 Students & Parents**:
+  - **Replaced Cluttered 3-Zone Dashboard with Calm 1-Screen Architecture**:
+    * **Greeting & Streak**: Removed redundant streak badges and XP clutter from the header. Kept single warm greeting ("Hi [Name] 👋") with personalized encouraging copy.
+    * **Today's Plan Hero Card (`apps/web/components/dashboard/TodayPlanCard.tsx`)**: Replaced 30+ clickable items with a single focused 3-step checklist ("Read lesson", "Take short quiz", "Fix mistakes") with exactly 1 clear primary action button and secondary "Choose another chapter" link.
+    * **Clean Subject Grid (`apps/web/components/dashboard/SubjectTiles.tsx`)**: Compact 5-tile grid for core CBSE Class 10 subjects (Science, Maths, SST, English, Hindi) showing chapter progress rings with no unnecessary filter tabs.
+    * **Conditional Quick Fixes (`apps/web/components/dashboard/NeedsALookStrip.tsx`)**: Shown *only* when mistakes or mock paper weak areas actually exist. Zero empty-state noise for new students.
+    * **Readiness Engine & Gamification Polish (`apps/web/lib/dashboard-home.ts`)**: Hidden Board Readiness until $\ge 3$ quiz/paper data points exist, then formatted in encouraging qualitative terms ("Exam ready", "On track", "Building up").
+    * **XP Reward Toast (`apps/web/components/dashboard/XpRewardToast.tsx`)**: Relocated XP/rank from header distraction into an ephemeral completion celebration toast keyed per student ID in localStorage.
+    * **Mobile Responsive Polish (`apps/web/app/globals.css`, `apps/web/components/FeedbackButton.tsx`)**: Hid duplicate feedback FAB on small screens to eliminate overlay collision with Tara AI.
+    * **Updated E2E Spec (`apps/web/e2e/dashboard.spec.ts`)**: Verified clean single-plan structure and removal of legacy hubs.
+  - **Verification & Git Push**:
+    * Verified TypeScript compilation (`npx tsc --noEmit`) with 0 errors.
+    * Pushed commit `d6cc99a` to `origin/main`.
+- [ ] **Next Task in Line**:
+    * Phase 3: Build dedicated Parent Summary view/digest (`/parent-summary` or WhatsApp/Email weekly digest report) so parents can track their child's consistency without cluttering the student's study flow.
+
 # Current Handoff - Schema.org JSON-LD Structured Data Live Deployment (2026-10-28)
 
 - [x] **Implemented & Deployed Schema.org JSON-LD Structured Data**:
