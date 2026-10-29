@@ -429,6 +429,10 @@
     padding: 18px 20px;
   }
 
+  .statValue {
+    font-size: 1.35rem;
+  }
+
   .sectionCard {
     padding: 20px;
   }

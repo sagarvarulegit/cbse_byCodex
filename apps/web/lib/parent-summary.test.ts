@@ -35,7 +35,7 @@ test('buildParentSummaryModel generates clean baseline for new student', () => {
   assert.equal(model.classLevel, 10);
   assert.equal(model.stats.startedChapters, 0);
   assert.equal(model.stats.quizAccuracy, null);
-  assert.equal(model.readinessLabel, 'Building early study baseline');
+  assert.equal(model.readinessLabel, 'Getting started');
   assert.match(model.consistencyHeadline, /just started preparing/i);
   assert.ok(model.subjectBreakdown.length > 0);
   assert.ok(model.whatsappShareText.length > 0);
@@ -108,4 +108,57 @@ test('buildParentSummaryModel reflects active streak, quiz scores and weak areas
   assert.equal(model.areasNeedingSupport.length, 1);
   assert.equal(model.areasNeedingSupport[0].chapterTitle, 'Chemical Reactions and Equations');
   assert.equal(model.readinessLabel, 'Building up');
+});
+
+test('buildParentSummaryModel surfaces chapters with missed quiz questions from mistakesData', () => {
+  const model = buildParentSummaryModel({
+    session: MOCK_SESSION,
+    mastery: EMPTY_MASTERY,
+    mistakesData: {
+      status: 'active',
+      items: [
+        {
+          id: 'm1',
+          chapterSlug: 'real-numbers',
+          chapterTitle: 'Real Numbers',
+          conceptSlug: null,
+          detail: null,
+          due: true,
+          kind: 'quiz_question',
+          lastSeenAt: '2026-10-29T09:00:00.000Z',
+          metadata: null,
+          occurrenceCount: 1,
+          resolvedAt: null,
+          retryAt: '2026-10-29T09:00:00.000Z',
+          reviewHref: '/my-mistakes',
+          sourceItemId: 'q1',
+          subject: 'Mathematics',
+          title: 'Irrationality proof',
+        },
+        {
+          id: 'm2',
+          chapterSlug: 'real-numbers',
+          chapterTitle: 'Real Numbers',
+          conceptSlug: null,
+          detail: null,
+          due: true,
+          kind: 'quiz_question',
+          lastSeenAt: '2026-10-29T09:05:00.000Z',
+          metadata: null,
+          occurrenceCount: 1,
+          resolvedAt: null,
+          retryAt: '2026-10-29T09:05:00.000Z',
+          reviewHref: '/my-mistakes',
+          sourceItemId: 'q2',
+          subject: 'Mathematics',
+          title: 'HCF and LCM',
+        },
+      ],
+    },
+  });
+
+  assert.equal(model.stats.dueMistakesCount, 2);
+  assert.equal(model.areasNeedingSupport.length, 1);
+  assert.equal(model.areasNeedingSupport[0].chapterSlug, 'real-numbers');
+  assert.equal(model.areasNeedingSupport[0].reason, '2 missed quiz questions ready to retry');
 });

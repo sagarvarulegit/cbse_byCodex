@@ -289,7 +289,7 @@ export function buildTodayPlan(
       steps: [
         { label: 'Read the tricky parts', done: false, href: step.href },
         { label: 'Retake the quiz', done: false, href: quizHref },
-        { label: 'Fix your mistakes', done: dueMistakesCount === 0, href: '/my-mistakes' },
+        { label: 'Fix your mistakes', done: false, href: '/my-mistakes' },
       ],
       cta: { label: 'Start revision', href: step.href },
       changeHref: '/subjects',

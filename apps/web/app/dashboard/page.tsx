@@ -80,9 +80,9 @@ export default async function DashboardPage() {
         ? `You've started ${startedCoreChapters} ${startedCoreChapters === 1 ? 'chapter' : 'chapters'}. Nice work!`
         : "Let's start with one small step today.";
 
-  // Quick fixes: shown only when something actually needs attention.
+  // Quick fixes: shown only when something actually needs attention (and isn't already the primary CTA).
   const quickFixes: NeedsALookItem[] = [];
-  if (dueMistakesCount > 0) {
+  if (dueMistakesCount > 0 && todayPlan.cta.href !== '/my-mistakes') {
     quickFixes.push({
       key: 'mistakes',
       kind: 'mistakes',

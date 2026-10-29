@@ -86,9 +86,15 @@ export default function ParentSummaryView({ model }: { model: ParentSummaryModel
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Syllabus Started</span>
           <strong className={styles.statValue}>
-            {model.stats.startedChapters} / {model.stats.totalChapters}
+            {model.stats.startedChapters > 0
+              ? `${model.stats.startedChapters} / ${model.stats.totalChapters}`
+              : 'Not started'}
           </strong>
-          <span className={styles.statNote}>{model.stats.coveragePercent}% of Class 10 topics</span>
+          <span className={styles.statNote}>
+            {model.stats.startedChapters > 0
+              ? `${model.stats.coveragePercent}% of Class 10 topics`
+              : `${model.stats.totalChapters} chapters in syllabus`}
+          </span>
         </div>
 
         <div className={styles.statCard}>
@@ -127,13 +133,20 @@ export default function ParentSummaryView({ model }: { model: ParentSummaryModel
               <div className={styles.subjectRowTop}>
                 <span className={styles.subjectName}>{subj.title}</span>
                 <span className={styles.subjectMetrics}>
-                  {subj.startedCount} of {subj.chapterCount} chapters ({subj.progressPercent}%)
+                  {subj.startedCount > 0
+                    ? `${subj.startedCount} of ${subj.chapterCount} chapters (${subj.progressPercent}%)`
+                    : `Not started yet (${subj.chapterCount} chapters)`}
                 </span>
               </div>
               <div className={styles.progressBarTrack}>
                 <div
                   className={styles.progressBarFill}
-                  style={{ width: `${Math.max(subj.progressPercent, 4)}%` }}
+                  style={{
+                    width:
+                      subj.startedCount > 0
+                        ? `${Math.max(subj.progressPercent, 6)}%`
+                        : '0%',
+                  }}
                 />
               </div>
             </div>

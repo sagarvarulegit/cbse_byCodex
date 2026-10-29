@@ -123,7 +123,7 @@ export function buildParentSummaryModel({
 
   const readinessLabel = hasEnoughSignals
     ? describeReadiness(readinessScore)
-    : 'Building early study baseline';
+    : 'Getting started';
 
   // Consistency headline
   let consistencyHeadline = `${firstName} has just started preparing`;
@@ -182,6 +182,34 @@ export function buildParentSummaryModel({
       chapterTitle: ch.title,
       chapterSlug: slug,
       reason: 'Marks lost on questions in recent practice exam paper',
+    });
+  }
+
+  // Group active mistakes by chapter so parents see where quiz questions were missed
+  const mistakesByChapter = new Map<
+    string,
+    { subjectName: string; chapterTitle: string; count: number }
+  >();
+  for (const item of mistakesData?.items ?? []) {
+    if (!item.chapterSlug || !getChapter(item.chapterSlug)) continue;
+    const existing = mistakesByChapter.get(item.chapterSlug);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      mistakesByChapter.set(item.chapterSlug, {
+        subjectName: item.subject,
+        chapterTitle: item.chapterTitle,
+        count: 1,
+      });
+    }
+  }
+  for (const [slug, info] of mistakesByChapter) {
+    if (areasNeedingSupport.some((a) => a.chapterSlug === slug)) continue;
+    areasNeedingSupport.push({
+      subjectName: info.subjectName,
+      chapterTitle: info.chapterTitle,
+      chapterSlug: slug,
+      reason: `${info.count} missed quiz ${info.count === 1 ? 'question' : 'questions'} ready to retry`,
     });
   }
 

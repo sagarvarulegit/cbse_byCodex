@@ -65,7 +65,7 @@ export default function StudentTopbar({
                 <strong>{session.fullName}</strong>
                 <span>{session.email ?? `Class ${session.classLevel} student`}</span>
               </span>
-              <Link href="/dashboard">Today&apos;s mix</Link>
+              <Link href="/dashboard">Today&apos;s plan</Link>
               <Link href="/tools" style={{ fontWeight: 700 }}>🛠️ Study Tools Hub</Link>
               <Link href="/tools/readiness-predictor" style={{ fontWeight: 700, color: '#f97316' }}>🎯 Score Predictor</Link>
               <Link href="/pyq-trends">📊 PYQ Trend Analyzer</Link>
