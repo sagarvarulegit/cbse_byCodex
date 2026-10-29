@@ -16,10 +16,10 @@
     * Added menu item in `StudentTopbar.tsx` user dropdown (`👨‍👩‍👧 Parent Progress Summary`).
     * Added link in global site footer (`apps/web/app/layout.tsx`).
   - **Verification & Git Push**:
-    * Verified with unit tests (`apps/web/lib/parent-summary.test.ts` passing 2/2).
+    * Verified with unit tests ([`apps/web/lib/dashboard-home.test.ts`](file:///c:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/lib/dashboard-home.test.ts) and [`apps/web/lib/parent-summary.test.ts`](file:///c:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/lib/parent-summary.test.ts) passing 8/8).
     * Added E2E test suite in `apps/web/e2e/parent-summary.spec.ts`.
     * Verified TypeScript compilation (`npx tsc --noEmit`) with 0 errors.
-    * Pushed commit `dfc5de9` to `origin/main`.
+    * Pushed commits `d6cc99a`, `dfc5de9`, and `371b637` to `origin/main`.
 - [ ] **Next Task in Line**:
     * Automated Weekly Email / WhatsApp notification trigger for parents on Sunday evenings.
 
