@@ -12,6 +12,7 @@
     "seed:bank:analyze": "tsx src/scripts/analyze-bank-coverage.ts",
     "verify:bank": "tsx src/scripts/verify-bank.ts",
     "publish:series": "tsx src/scripts/publish-series.ts",
+    "grant:access": "tsx src/scripts/grant-free-access.ts",
     "rag:build": "tsx src/scripts/build-rag-index.ts",
     "start": "node dist/main.js",
     "lint": "prisma generate && tsc -p tsconfig.json --noEmit",

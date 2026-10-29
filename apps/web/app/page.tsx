@@ -579,6 +579,19 @@ export default async function HomePage() {
               textLoggedOut="🎯 Launch CBT Mock Simulator"
             />
           </div>
+          <div style={{ marginTop: '20px', fontSize: '14px', opacity: 0.9 }}>
+            <Link
+              href="/pitch"
+              style={{
+                color: '#ffcf4a',
+                fontWeight: 700,
+                textDecoration: 'underline',
+                textUnderlineOffset: '4px',
+              }}
+            >
+              🏫 Running a Coaching Institute or CBSE School? View Institutional Pitch Deck &amp; Free 30-Day Batch Pilot →
+            </Link>
+          </div>
         </div>
       </section>
     </main>
