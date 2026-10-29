@@ -1,3 +1,28 @@
+# Current Handoff - Dedicated Parent Progress Summary & Weekly Report (2026-10-29)
+
+- [x] **Implemented Dedicated Parent Progress Summary (`/parent-summary`)**:
+  - **Core Model & Analytics (`apps/web/lib/parent-summary.ts`)**:
+    * Created `buildParentSummaryModel` extracting consistency streak, started chapters, quiz accuracy, and CBSE Board Exam countdown (~109 days).
+    * Integrated qualitative board readiness status (*"Building early study baseline"*, *"Building up"*, *"On track"*, *"Exam ready"*).
+    * Extracted recent chapter completions, active revision areas, and weak mock paper topics with gentle parent framing.
+    * Integrated 3 research-backed guidance tips for parents (20-30 min study windows, celebrating mistakes as learning opportunities, 8h sleep).
+    * Generated pre-formatted WhatsApp weekly digest sharing string.
+  - **Component & View Layout (`apps/web/components/parent-summary/ParentSummaryView.tsx`, `parent-summary.module.css`)**:
+    * Clean, high-trust, calming design optimized for both desktop and mobile.
+    * 1-click **Share on WhatsApp** (`https://api.whatsapp.com/send?text=...`) and **Print Report** (`window.print()`).
+    * Dedicated print stylesheet hiding navigation, floating widgets, and background colors.
+  - **Navigation Touchpoints**:
+    * Added quiet link at the bottom of the student dashboard (`apps/web/app/dashboard/page.tsx`).
+    * Added menu item in `StudentTopbar.tsx` user dropdown (`👨‍👩‍👧 Parent Progress Summary`).
+    * Added link in global site footer (`apps/web/app/layout.tsx`).
+  - **Verification & Git Push**:
+    * Verified with unit tests (`apps/web/lib/parent-summary.test.ts` passing 2/2).
+    * Added E2E test suite in `apps/web/e2e/parent-summary.spec.ts`.
+    * Verified TypeScript compilation (`npx tsc --noEmit`) with 0 errors.
+    * Pushed commit `dfc5de9` to `origin/main`.
+- [ ] **Next Task in Line**:
+    * Automated Weekly Email / WhatsApp notification trigger for parents on Sunday evenings.
+
 # Current Handoff - Student Dashboard Redesign: "One Screen, One Question" (2026-10-29)
 
 - [x] **Redesigned Student Dashboard for Class 10 Students & Parents**:
