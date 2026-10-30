@@ -15,11 +15,12 @@
     * Added quiet link at the bottom of the student dashboard (`apps/web/app/dashboard/page.tsx`).
     * Added menu item in `StudentTopbar.tsx` user dropdown (`👨‍👩‍👧 Parent Progress Summary`).
     * Added link in global site footer (`apps/web/app/layout.tsx`).
-  - **Verification & Git Push**:
+  - **Verification, Git Push & Production Deployment**:
     * Verified with unit tests ([`apps/web/lib/dashboard-home.test.ts`](file:///c:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/lib/dashboard-home.test.ts) and [`apps/web/lib/parent-summary.test.ts`](file:///c:/Sagar/Projects/CBSE/ChapterReady.in/cbse_byCodex/apps/web/lib/parent-summary.test.ts) passing 8/8).
     * Added E2E test suite in `apps/web/e2e/parent-summary.spec.ts`.
     * Verified TypeScript compilation (`npx tsc --noEmit`) with 0 errors.
-    * Pushed commits `d6cc99a`, `dfc5de9`, and `371b637` to `origin/main`.
+    * Pushed commits `d6cc99a`, `dfc5de9`, `371b637`, and `4f3d129` to `origin/main`.
+    * Deployed `apps/web` to Vercel production (`dpl_AiEPtRrzAH1oqirRaRbgW528LcRM`, `READY`) aliased live at [https://www.chapterready.in](https://www.chapterready.in) (`/dashboard` 4.51 kB, `/parent-summary` 5.86 kB).
 - [ ] **Next Task in Line**:
     * Automated Weekly Email / WhatsApp notification trigger for parents on Sunday evenings.
 
