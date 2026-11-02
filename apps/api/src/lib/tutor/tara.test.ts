@@ -47,6 +47,49 @@ test('parses a normal answer with citations', () => {
   assert.ok(parsed.confidence > 0.9);
 });
 
+test('parses generative UI optics canvas config into interactive-canvas:optics fence', () => {
+  const raw = JSON.stringify({
+    answerMarkdown: 'Here is how a concave mirror forms a virtual image when the object is between F and P.',
+    hasInteractiveCanvas: true,
+    interactiveCanvasCode: '{ "type": "concave-mirror", "dObj": 35 }',
+    citedChunkIds: ['chunk-1'],
+    confidence: 0.95,
+    refused: false,
+  });
+  const parsed = parseTutorAnswer(raw);
+  assert.equal(parsed.refused, false);
+  assert.ok(parsed.answerMarkdown.includes('```interactive-canvas:optics'));
+  assert.ok(parsed.answerMarkdown.includes('"type": "concave-mirror"'));
+});
+
+test('parses custom HTML/SVG generative UI widget into interactive-canvas fence', () => {
+  const raw = JSON.stringify({
+    answerMarkdown: 'Here is a simulation of a series circuit.',
+    hasInteractiveCanvas: true,
+    interactiveCanvasCode: "<div class='cr-card'><svg viewBox='0 0 500 280'></svg></div>",
+    citedChunkIds: [],
+    confidence: 0.9,
+    refused: false,
+  });
+  const parsed = parseTutorAnswer(raw);
+  assert.equal(parsed.refused, false);
+  assert.ok(parsed.answerMarkdown.includes("```interactive-canvas\n<div class='cr-card'>"));
+});
+
+test('leaves plain answer intact when hasInteractiveCanvas is false', () => {
+  const raw = JSON.stringify({
+    answerMarkdown: 'Focal length is distance between pole and focus.',
+    hasInteractiveCanvas: false,
+    interactiveCanvasCode: '',
+    citedChunkIds: [],
+    confidence: 0.9,
+    refused: false,
+  });
+  const parsed = parseTutorAnswer(raw);
+  assert.equal(parsed.refused, false);
+  assert.ok(!parsed.answerMarkdown.includes('```interactive-canvas'));
+});
+
 test('marks refused=true for off-scope answers', () => {
   const raw = JSON.stringify({
     answerMarkdown: "My notes don't cover that — it's outside Class 10.",

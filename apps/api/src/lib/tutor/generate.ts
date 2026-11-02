@@ -117,7 +117,7 @@ function buildChunksBlock(chunks: RetrievedChunk[]): string {
   }
   return chunks
     .map(
-      (chunk, index) =>
+      (chunk) =>
         `[source id=${chunk.id}, ${chunk.subject}, ${chunk.chapterSlug}, ${chunk.sectionTitle}]\n${chunk.content}`,
     )
     .join('\n\n---\n\n');
@@ -132,13 +132,11 @@ function buildHistoryBlock(history: TutorHistoryItem[]): string {
     .join('\n');
 }
 
-function buildPrompt(options: GenerateOptions): string {
+export function buildUserPrompt(options: GenerateOptions): string {
   const { chunks, history, question, attachmentText, pageContext } = options;
   const contextBlock = buildPageContextBlock(pageContext);
 
   return [
-    TARA_SYSTEM_PROMPT,
-    '',
     ...(contextBlock ? [contextBlock, ''] : []),
     '## Retrieved study-notes passages',
     buildChunksBlock(chunks),
@@ -151,6 +149,14 @@ function buildPrompt(options: GenerateOptions): string {
     question,
     '',
     'Respond with STRICT JSON per the output contract.',
+  ].join('\n');
+}
+
+export function buildPrompt(options: GenerateOptions): string {
+  return [
+    TARA_SYSTEM_PROMPT,
+    '',
+    buildUserPrompt(options),
   ].join('\n');
 }
 
@@ -177,10 +183,31 @@ export function parseTutorAnswer(raw: string): TutorAnswer {
   }
 
   const record = parsed as Record<string, unknown>;
-  const answerMarkdown =
+  let answerMarkdown =
     typeof record.answerMarkdown === 'string'
       ? record.answerMarkdown.trim()
       : trimmed || 'I could not form an answer. Could you rephrase?';
+
+  // If the model returned an interactive canvas in its own dedicated field, seamlessly merge it
+  const hasCanvas = record.hasInteractiveCanvas === true;
+  const canvasCode =
+    typeof record.interactiveCanvasCode === 'string'
+      ? record.interactiveCanvasCode.trim()
+      : '';
+
+  if (hasCanvas && canvasCode) {
+    const alreadyHasCanvas = /```(?:interactive-canvas|visual-canvas|canvas)/.test(answerMarkdown);
+    if (!alreadyHasCanvas) {
+      if (canvasCode.startsWith('```')) {
+        answerMarkdown = `${answerMarkdown}\n\n${canvasCode}`;
+      } else if (canvasCode.startsWith('{') && canvasCode.endsWith('}')) {
+        answerMarkdown = `${answerMarkdown}\n\n\`\`\`interactive-canvas:optics\n${canvasCode}\n\`\`\``;
+      } else {
+        answerMarkdown = `${answerMarkdown}\n\n\`\`\`interactive-canvas\n${canvasCode}\n\`\`\``;
+      }
+    }
+  }
+
   const citedChunkIds = Array.isArray(record.citedChunkIds)
     ? record.citedChunkIds.filter((id): id is string => typeof id === 'string')
     : [];
@@ -202,7 +229,7 @@ async function generateViaOpenRouter(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const prompt = buildPrompt(options);
+    const userPrompt = buildUserPrompt(options);
     const response = await fetchImpl('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -212,8 +239,12 @@ async function generateViaOpenRouter(
       signal: controller.signal,
       body: JSON.stringify({
         model: 'google/gemini-2.5-flash',
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+          { role: 'system', content: TARA_SYSTEM_PROMPT },
+          { role: 'user', content: userPrompt },
+        ],
         temperature: 0.3,
+        max_tokens: 8192,
         response_format: { type: 'json_object' },
       }),
     });
@@ -261,7 +292,7 @@ export async function generateTutorAnswer(
   const timer = setTimeout(() => controller.abort(), config.requestTimeoutMs);
 
   try {
-    const parts: Array<Record<string, unknown>> = [{ text: buildPrompt(options) }];
+    const parts: Array<Record<string, unknown>> = [{ text: buildUserPrompt(options) }];
     for (const image of options.imageParts ?? []) {
       parts.push({
         inlineData: { mimeType: image.mimeType, data: image.base64Data },
@@ -273,19 +304,44 @@ export async function generateTutorAnswer(
       headers: { 'Content-Type': 'application/json' },
       signal: controller.signal,
       body: JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: TARA_SYSTEM_PROMPT }],
+        },
         contents: [{ role: 'user', parts }],
         generationConfig: {
           temperature: 0.3,
+          maxOutputTokens: 8192,
           responseMimeType: 'application/json',
           responseSchema: {
             type: 'OBJECT',
             properties: {
-              answerMarkdown: { type: 'STRING' },
+              answerMarkdown: {
+                type: 'STRING',
+                description:
+                  'Friendly plain-English explanation (prose and math formulas only; NO HTML or markdown code blocks).',
+              },
+              hasInteractiveCanvas: {
+                type: 'BOOLEAN',
+                description:
+                  'Set to true if an interactive visual diagram, simulation, or ray diagram helps explain this concept.',
+              },
+              interactiveCanvasCode: {
+                type: 'STRING',
+                description:
+                  'If hasInteractiveCanvas is true, the complete self-contained HTML/SVG/JS widget code (without backtick fences) or canonical JSON config { "type": "concave-mirror", "dObj": 35 }. Empty string if false.',
+              },
               citedChunkIds: { type: 'ARRAY', items: { type: 'STRING' } },
               confidence: { type: 'NUMBER' },
               refused: { type: 'BOOLEAN' },
             },
-            required: ['answerMarkdown', 'citedChunkIds', 'confidence', 'refused'],
+            required: [
+              'answerMarkdown',
+              'hasInteractiveCanvas',
+              'interactiveCanvasCode',
+              'citedChunkIds',
+              'confidence',
+              'refused',
+            ],
           },
         },
         safetySettings: [
