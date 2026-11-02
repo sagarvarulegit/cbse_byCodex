@@ -52,7 +52,7 @@ export type GenerateOptions = {
   pageContext?: TutorPageContext | null;
 };
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = process.env.GEMINI_MODEL ?? 'gemini-flash-latest';
 
 function buildPageContextBlock(context?: TutorPageContext | null): string {
   if (!context) {
@@ -238,7 +238,7 @@ async function generateViaOpenRouter(
       },
       signal: controller.signal,
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: process.env.GEMINI_MODEL ? `google/${process.env.GEMINI_MODEL}` : 'google/gemini-flash-latest',
         messages: [
           { role: 'system', content: TARA_SYSTEM_PROMPT },
           { role: 'user', content: userPrompt },

@@ -16,7 +16,7 @@ export type GeminiConfig = {
 export function getGeminiConfig(env: NodeJS.ProcessEnv = process.env): GeminiConfig {
   return {
     apiKey: env.GEMINI_API_KEY ?? null,
-    model: env.GEMINI_MODEL ?? 'gemini-2.5-flash',
+    model: env.GEMINI_MODEL ?? 'gemini-flash-latest',
     requestTimeoutMs: 60_000,
   };
 }
