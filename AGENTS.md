@@ -8,7 +8,7 @@ timestamp: 2026-11-03T14:50:00Z
 
 # Master Repository Operating Rules & Consolidated Project Reference
 
-> **Notice:** This document is the consolidated single source of truth for `cbse_byCodex` (ChapterReady.in). All repository guidelines, architecture maps, database models, curriculum fidelity requirements, portal notes standards, AI systems, video pipelines, monetization models, and sprint backlogs are consolidated here to eliminate documentation fragmentation and simplify maintenance.
+> **Notice:** This document contains deep application-specific guidelines for `cbse_byCodex`. For master cross-repo architecture, multi-machine git sync, and the mandatory proactive knowledge update protocol, always consult and maintain the workspace root [`../AGENTS.md`](file:///c:/Sagar/Projects/CBSE/ChapterReady.in/AGENTS.md).
 
 ---
 
