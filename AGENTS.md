@@ -3,7 +3,7 @@ type: DeveloperGuidelines
 title: Master Repository Operating Rules & Consolidated Project Reference
 description: Unified single source of truth for repository guidelines, system architecture, database models, curriculum fidelity, notes standards, assessment engines, AI tutor, video production pipelines, micro-monetization, and active backlog.
 tags: ['agents', 'guidelines', 'architecture', 'standards', 'curriculum', 'monetization', 'backlog']
-timestamp: 2026-11-03T14:30:00Z
+timestamp: 2026-11-03T14:50:00Z
 ---
 
 # Master Repository Operating Rules & Consolidated Project Reference
@@ -26,6 +26,7 @@ timestamp: 2026-11-03T14:30:00Z
 11. [Business Strategy, Micro-Monetization (< ₹200) & Content Protection DRM](#11-business-strategy-micro-monetization--200--content-protection-drm)
 12. [Active Sprint Handoffs & Master Task Backlog](#12-active-sprint-handoffs--master-task-backlog)
 13. [Session Learnings, Known Gotchas & Pre-Close Checklist](#13-session-learnings-known-gotchas--pre-close-checklist)
+14. [Proactive Maintenance Protocol for AGENTS.md](#14-proactive-maintenance-protocol-for-agentsmd)
 
 ---
 
@@ -77,12 +78,13 @@ Every piece of content on ChapterReady.in — notes, videos, quizzes, revision c
    If a student asks "What is the formula for X?", we provide exactly ONE authoritative NCERT answer. No conflicting academic interpretations.
 
 ### Knowledge Base & Textbooks Repository (`cbse_KB`)
-- Primary storage: `cbse_KB/10th/` (or `~/Projects/CBSE_ChapterReady.in/cbse_KB/10th/`)
-- NCERT Textbooks: `cbse_KB/10th/NCERTTextbooks/` (single-PDF per chapter) and `cbse_KB/10th/textbooks/`
+- Repository path: `../cbse_KB/` (or `c:\Sagar\Projects\CBSE\ChapterReady.in\cbse_KB\`)
+- Class 10 root: `cbse_KB/10th/`
+- Textbooks: `cbse_KB/10th/NCERTTextbooks/` (single-PDF per chapter) and `cbse_KB/10th/textbooks/`
 - NCERT Exemplar: `cbse_KB/10th/NCERTExemplar/`
 - Previous Year Papers & Marking Schemes (2022–2026): `cbse_KB/10th/PreviousYearExamPapers/`
 - Sample Question Papers (SQP): `cbse_KB/10th/SamplePapers/`
-- Pipeline tools: `cbse_KB/scripts/` (`parse_exemplar.py`, `parse_marking_schemes.py`, `export_chapter_pyqs.py`, `validate_datasets.py`)
+- Extraction pipelines: `cbse_KB/scripts/` (`parse_exemplar.py`, `parse_marking_schemes.py`, `export_chapter_pyqs.py`, `merge_and_export_exemplar.py`, `validate_datasets.py`)
 
 ---
 
@@ -92,12 +94,13 @@ Every piece of content on ChapterReady.in — notes, videos, quizzes, revision c
 
 | Workspace / Directory | Framework / Purpose | Key Entry Points & Contents |
 | --- | --- | --- |
-| `apps/web` | Next.js (App Router, TypeScript) student-facing platform | `app/`, `components/`, `lib/`, `content/` |
-| `apps/admin` | Next.js admin CMS & pilot review portal | `app/`, `lib/` |
-| `apps/api` | Express.js REST API + Prisma ORM backend | `src/app.ts`, `src/routes/`, `src/lib/`, `prisma/` |
+| `apps/web` | Next.js 15 (App Router, React 19, TypeScript) student-facing platform | `app/`, `components/`, `lib/`, `content/` |
+| `apps/admin` | Next.js 15 admin CMS & pilot review portal | `app/`, `lib/` |
+| `apps/api` | Express.js REST API + Prisma 6 ORM backend | `src/app.ts`, `src/routes/`, `src/lib/`, `prisma/` |
 | `apps/mobile` | Flutter client placeholder for future Android/iOS | Project scaffolding |
 | `docs/content/` | Maintained Markdown chapter packs for Class 10 subjects | `docs/content/class-10/{subject}/**/chapter-pack.md` |
-| `videos/` | Educational video production projects (HyperFrames / Three.js) | Subfolders per video/short topic |
+| `../cbse_videos/` | Educational video projects (HyperFrames / Three.js / SCRIPT.md) | Dedicated sibling repository `c:\Sagar\Projects\CBSE\ChapterReady.in\cbse_videos\` |
+| `../cbse_KB/` | NCERT PDFs, Exemplars, Marking Schemes, and Extraction Scripts | Dedicated sibling repository `c:\Sagar\Projects\CBSE\ChapterReady.in\cbse_KB\` |
 
 ### 3.2 Production URLs & Deployment Topologies
 
@@ -108,65 +111,69 @@ Every piece of content on ChapterReady.in — notes, videos, quizzes, revision c
 | **Admin Portal**| `https://cbse-bycodex-admin.vercel.app`| `cbse-bycodex-admin`| `NEXT_PUBLIC_API_BASE_URL` |
 
 ### 3.3 Core CLI Commands
-- `npm run dev:web`: Starts student Next.js web app (Port 3000)
-- `npm run dev:admin`: Starts admin Next.js app (Port 3001)
-- `npm run dev:api`: Starts Express API backend (Port 4000)
-- `npm run build`: Builds all workspaces (web, admin, api)
+- `npm run dev:web`: Starts student Next.js web app (`npm run dev -w apps/web`, Port 3000)
+- `npm run dev:admin`: Starts admin Next.js app (`npm run dev -w apps/admin`, Port 3001)
+- `npm run dev:api`: Starts Express API backend (`npm run dev -w apps/api`, Port 4000)
+- `npm run build`: Builds all workspaces (`apps/web`, `apps/admin`, `apps/api`)
 - `npm run lint`: Runs TypeScript checks across web, admin, and api
-- `npm run exam:snapshot`: Regenerates subject blueprint TypeScript definitions from curriculum registry
-- `npm run seed:bank -w apps/api`: Validates and seeds the exam question bank
+- `npm run exam:snapshot`: Regenerates subject blueprint TypeScript definitions from curriculum registry (`npm run exam:snapshot -w apps/web`)
+- `npm run seed:bank -w apps/api`: Validates and seeds the exam question bank across all 7 core subjects
 - `npm run prisma:migrate:deploy -w apps/api`: Applies pending Prisma database migrations
 - `npm run content:generate -w apps/web`: Refreshes `apps/web/lib/chapter-packs.generated.ts` from `docs/content/`
+- `npm run validate:quizzes -w apps/web`: Validates quiz markdown metadata across all chapters
 - `npm run rag:build -w apps/api`: Chunks and embeds chapter packs into pgvector `RagChunk`
 - `npx vercel deploy --prod --yes`: Deploys from individual workspace directories (`apps/api`, `apps/web`, `apps/admin`)
 
 ### 3.4 Media Infrastructure (Bunny Stream & Storage)
 - **Bunny Stream Library ID:** `681662`
 - **CDN Hostname:** `vz-02672d82-a18.b-cdn.net`
-- **Storage Zone:** `cbse-class10` (stores master MP4 archives)
-- **Video Metadata:** PostgreSQL stores metadata only (`providerLibraryId`, `providerVideoId`, `playbackUrl` HLS m3u8, `durationSeconds`, `processingStatus`). Binary media is never committed to Git or stored in SQL.
+- **Storage Zone:** `cbse-class10` (stores master MP4 archives and tutor attachments)
+- **Video Metadata:** PostgreSQL stores metadata only (`providerLibraryId`, `providerVideoId`, `playbackUrl` HLS m3u8, `durationSeconds`, `processingStatus`). Binary media is never committed to Git or stored directly in SQL.
 
 ---
 
 ## 4. Database Schema & Data Models (Prisma / PostgreSQL)
 
-Database models live in `apps/api/prisma/schema.prisma` and are backed by Supabase PostgreSQL.
+Database models live in `apps/api/prisma/schema.prisma` and are backed by Supabase PostgreSQL with the `pgvector` extension enabled.
 
 ### 4.1 Core Entities & Relationships
 1. **`User` & `UserProfile`:**
-   - `User`: Authentication record (`email`, `phone`, `password_hash`, `role` [student, admin, teacher_reviewer, support], `status`).
-   - `UserProfile`: Student details (`full_name`, `class_level`, `school_name`, `target_exam_year`, `preferred_language`, `theme_preference`).
+   - `User`: Authentication record (`email`, `phone`, `passwordHash`, `role` [student, admin, teacher_reviewer, support], `status`, `@default(cuid())`).
+   - `UserProfile`: Student details (`fullName`, `classLevel` default 10, `schoolName`, `targetExamYear`, `preferredLanguage`, `themePreference`).
 2. **`GuardianConsent`:**
-   - Required for student onboarding. Records `guardianName`, `guardianEmail`, `relationship`, `noticeVersion` (authoritative: `2026-08-04`), `consentTimestamp`, and `verificationStatus` (`self_attested`). Validated server-side in `apps/api/src/lib/guardian-consent.ts`.
+   - Required for student onboarding. Records `guardianFullName`, `guardianEmail`, `relationship`, `policyVersion` (authoritative: `2026-08-04`), `consentedAt`, and `verificationStatus` (`self_attested`). Validated server-side in `apps/api/src/lib/guardian-consent.ts`.
 3. **`Subject`, `Chapter`, `Topic`, `Lesson`:**
-   - Hierarchical content catalog with `ncert_chapter_number`, `slug`, `sort_order`, `is_published`.
+   - Hierarchical content catalog with `ncertChapterNumber`, `slug`, `sortOrder`, `isPublished`, `accessLevel` (`free` | `premium`).
 4. **`Quiz` & `Question`:**
    - Multiple choice questions with `optionsJson`, `correctOptionIndex`, `explanation`, `difficulty`, `topicSlug`, `source`.
 5. **`QuizAttempt` (Immutable):**
-   - Stores immutable attempt records (`score`, `totalQuestions`, `answersJson`). Retrying a quiz creates a brand-new attempt record.
+   - Stores immutable attempt records (`scorePercent`, `totalQuestions`, `correctAnswers`, `weakTopicSlugs`, `questionResults`, `attemptNumber`). Retrying a quiz creates a brand-new attempt record.
 6. **`WrittenPracticeAttempt`:**
-   - Structured practice records (`practiceKind`, `scoreHalfMarks`, `maxScoreHalfMarks`, `rubricPointsAwardedJson`, `missedPointIdsJson`, `hintUsed`, `retentionEligible`).
+   - Structured practice records (`practiceKind`, `scoreHalfMarks`, `maxScoreHalfMarks`, `earnedRubricPointIds`, `missedRubricPointIds`, `weakSkillSlugs`, `usedHints`, `retentionEligible`).
    - **D0/D3/D7 Spaced Retention:** First score $\ge 80\%$ triggers D0; separate qualifying attempts on/after Day 3 and Day 7 satisfy D3 and D7. One late attempt cannot satisfy both D3 and D7.
 7. **`MistakeReviewItem`:**
-   - API-owned personal mistake recovery queue. Dedupes incorrect questions, weak concepts, hint uses, and missed marking points. Reopens automatically upon repeated error and reschedules retry to `now() + 3 days`.
+   - API-owned personal mistake recovery queue. Dedupes incorrect questions, weak concepts, hint uses, and missed marking points (`kind`: `quiz_question` | `weak_concept` | `hint_used` | `written_marking_point`). Reopens automatically upon repeated error and reschedules retry to `now() + 3 days`.
 8. **`ExamReadyChecklist`:**
-   - Tracks 3 student-confirmed milestones (concepts studied, NCERT exercises attempted, weak areas revised). 70% quiz accuracy, written practice, and D3 recall are derived strictly from immutable records.
+   - Tracks 3 student-confirmed milestones (`conceptsStudiedConfirmed`, `ncertQuestionsAttempted`, `weakAreasRevised`). 70% quiz accuracy, written practice, and D3 recall are derived strictly from immutable records.
 9. **`StudyStreak` & `Badge`:**
    - Streaks track consecutive India calendar study days (persisted lesson reads, quiz saves, practice saves).
    - Personal V1 badges: first lesson, first quiz, 3-day streak, first written self-check, comeback after low score.
 10. **`QuestionBankQuestion`:**
-    - Curated board-pattern questions (`subjectCode`, `section`, `questionType`, `marks`, `demandCategory`, `verifiedStatus`).
-11. **`RagChunk` (pgvector):**
-    - 3072-dimensional vector embeddings generated by `gemini-embedding-001` with `subject`, `chapterSlug`, `sectionTitle`, `contentHash`.
-12. **`TutorConversation`, `TutorMessage`, `TutorAttachment`:**
+    - Curated board-pattern questions (`subjectSlug`, `bankKey`, `chapterSlug`, `unitId`, `topicId`, `questionType`, `marks`, `difficulty`, `sourceKind`, `verificationStatus` [`unverified`, `review`, `verified`, `rejected`]).
+11. **`ExamPaper` & `ExamPaperQuestion`:**
+    - Snapshots reproducible generated 80-mark mock papers with section layouts, reading times, seeds, and verification verdicts.
+12. **`RagChunk` (pgvector):**
+    - 3072-dimensional vector embeddings generated by `gemini-embedding-001` with `subject`, `chapterSlug`, `sectionTitle`, `contentHash`, `embedding Unsupported("vector(3072)")`.
+13. **`TutorConversation`, `TutorMessage`, `TutorAttachment`:**
     - Tara AI chat sessions, user/assistant messages with cited chunk IDs, and Bunny Storage attachment references.
-13. **`PaymentOrder` & `UserEntitlement`:**
-    - Cashfree / Razorpay transaction records and provisioned feature entitlements (`active`, `expired`).
+14. **`PaymentOrder` & `UserEntitlement`:**
+    - Cashfree / Razorpay transaction records (`amount` in paise, `status`: `created` | `paid` | `failed` | `refunded`) and provisioned feature entitlements (`status`: `active` | `expired` | `revoked`).
+15. **`StudentFeedback`:**
+    - In-app feedback reports (`category`: `suggestion` | `bug` | `content_error` | `general`, rating 1-5, `@default(uuid())`).
 
 ### 4.2 Database Constraints
 - **SQL Quote Escaping:** Single quotes in seed data must be doubled (`'Ohm''s Law'`, `'Gandhiji''s march'`).
 - **XML / SVG Compliance:** Unescaped ampersands (`&`) break browser XML parsers in custom painters. Always use `and` or `&amp;`.
-- **UUID Format:** All table IDs must use valid UUID v4 strings.
 
 ---
 
@@ -177,15 +184,18 @@ The web curriculum registry in `apps/web/lib/curriculum/subjects/class-10/*.ts` 
 
 ### 5.2 Subject Codes & Rationalized Status (Session 2026-27)
 
-| Subject | Code | Board Exam Format | Rationalized Syllabus & Exclusions |
+| Subject | Code | Board Exam Format | Status & Rationalized Syllabus Rules |
 | --- | --- | --- | --- |
-| **Mathematics Standard** | 041 | 38 Qs, 80 Marks, 180 min | **Omitted:** Euclid's division lemma, decimal expansions, polynomial division, cross-multiplication, completing square, coordinate triangle area, frustum, ogives. |
-| **Mathematics Basic** | 241 | 38 Qs, 80 Marks, 180 min | Same blueprint as 041; emphasizes direct formula application and core textbook problems. |
-| **Science** | 086 | 39 Qs, 80 Marks, 180 min | 13 rationalized chapters. **Omitted chapters:** Periodic Classification, Sources of Energy, Sustainable Management. **Internal deletions:** Electric Motor/Generator/Induction (Ch 12), Red Sun at sunrise/sunset (Ch 10). |
-| **Social Science** | 087 | 37 Qs, 80 Marks, 180 min | 22 NCERT chapters (History, Geography, Civics, Economics) + 1 Map Skill section (5 marks). |
-| **English Language & Lit** | 184 | 34 Qs, 80 Marks, 180 min | Reading (20), Writing/Grammar (20), Literature (40). Textbooks: *First Flight*, *Footprints Without Feet*, *Words and Expressions II* (9 units). |
-| **Hindi Course A & B** | 002 / 085 | 80 Marks, 180 min | Course A: *Kshitij II*, *Kritika II*. Course B: *Sparsh II*, *Sanchayan II*. Unseen comprehension, grammar, literature, writing. |
-| **Health & Physical Ed.**| HPE | Internal Assessment (100) | Games/Sports 50, Health/Fitness 25, SEWA 25. No board paper. |
+| **Mathematics Standard** | 041 | 38 Qs, 80 Marks, 180 min | **Active.** Omitted: Euclid's division lemma, decimal expansions, polynomial division, cross-multiplication, completing square, coordinate triangle area, frustum, ogives. |
+| **Mathematics Basic** | 241 | 38 Qs, 80 Marks, 180 min | **Active.** Same blueprint as 041; emphasizes direct formula application and core textbook problems. |
+| **Science** | 086 | 39 Qs, 80 Marks, 180 min | **Active (13 rationalized chapters).** Omitted chapters: Periodic Classification, Sources of Energy, Sustainable Management. Internal deletions: Electric Motor/Generator/Induction (Ch 12), Red Sun at sunrise/sunset (Ch 10). |
+| **Social Science** | 087 | 37 Qs, 80 Marks, 180 min | **Active.** 22 NCERT chapters (History, Geography, Civics, Economics) + 1 Map Skill section (5 marks). |
+| **English Language & Lit** | 184 | 34 Qs, 80 Marks, 180 min | **Active.** Reading (20), Writing/Grammar (20), Literature (40). Textbooks: *First Flight*, *Footprints Without Feet*, *Words and Expressions II* (9 units). |
+| **Hindi Course A** | 002 | 80 Marks, 180 min | **Active.** *Kshitij II*, *Kritika II*. Unseen comprehension, grammar, literature, writing. |
+| **Hindi Course B** | 085 | 80 Marks, 180 min | **Active.** *Sparsh II*, *Sanchayan II*. Unseen comprehension, grammar, literature, writing. |
+| **Health & Physical Ed.**| HPE | Internal Assessment (100) | **Active (Internal).** Games/Sports 50, Health/Fitness 25, SEWA 25. No board paper. |
+| **Information Technology**| 402 | Optional Skill Subject | **Future.** Employability skills + subject-specific skills. `visibleInCatalog: false`. |
+| **Artificial Intelligence**| 417 | Optional Skill Subject | **Future.** AI foundations and ethics. `visibleInCatalog: false`. |
 
 ---
 
@@ -294,7 +304,7 @@ Trigger: 4-panel comic strip dialogue rendered as alternating speech bubbles bet
 - **Marking Scheme Rubric (`MarkingSchemeRubric.tsx`):** Displays CBSE step-marking value points with partial half-mark allocations (e.g. ½ mark formula, 1 mark substitution, ½ mark final answer and units).
 
 ### 8.3 Grounded AI Snap & Grade Written Evaluator
-- **Route:** `POST /v1/evaluator/grade-written-answer` (`apps/api/src/routes/evaluator.ts`)
+- **Route:** `POST /v1/evaluator/grade-answer` (`apps/api/src/routes/evaluator.ts`, called via `apps/web/lib/evaluator.ts`)
 - **Engine (`apps/api/src/lib/evaluator/grade-answer.ts`):** Evaluates typed answers or OCR photos of handwritten student work against CBSE marking schemes.
 - **Verification Contract:** Matches key scientific/mathematical symbols, checks required formula steps, identifies missing keywords, awards partial marks, and offers examiner advice without hallucinating marks.
 - **UI:** `AiAnswerEvaluatorModal.tsx` provides instant camera capture / image upload modal on chapter notes and PYQ drills.
@@ -328,8 +338,9 @@ Trigger: 4-panel comic strip dialogue rendered as alternating speech bubbles bet
 
 ## 10. Educational Video & YouTube Production Pipeline
 
-### 10.1 Anime-Inspired Gen Z Visual Style
-- **Visual Language:** Manga panels, reaction faces, speed lines, chibi science solids, power-up meters, starbursts. Original, commercially safe assets only (no copyrighted characters or living artist imitations).
+### 10.1 Video Repository Location & Structure
+- **Dedicated Repository:** Educational video production lives in `cbse_videos/` (located at `c:\Sagar\Projects\CBSE\ChapterReady.in\cbse_videos\` or `../cbse_videos/`).
+- **Anime-Inspired Gen Z Visual Style:** Manga panels, reaction faces, speed lines, chibi science solids, power-up meters, starbursts. Original, commercially safe assets only (no copyrighted characters or living artist imitations).
 - **Palette Defaults:**
   * Classroom Warm: Paper `#f7f2e7`, Ink `#171513`, Brand `#f3883b`, Deep Orange `#a84a08`, Energy `#ffcf4a`, Success `#2f8f68`.
   * Night Study: Night `#101827`, Paper `#f4f1e8`, Brand `#f3883b`, Electric `#55c7f2`, Violet `#9b7cff`.
@@ -342,7 +353,7 @@ Every educational video **must** state its objective clearly in Frame 2 (right a
 
 ### 10.3 Mandatory Plain Spoken English Narration (TTS Math Rule)
 - **ElevenLabs Pronunciation Rule:** ElevenLabs TTS completely garbles raw math notation (`x²`, `√`, `±`, `ₙ`, `×`, fractions). Raw subscript $\text{a}_n$ turns into gibberish.
-- **Mandatory Translation:** Preprocess narration text with `preprocess_math.py`. Spell out all formulas phonetically in `SCRIPT.md`:
+- **Mandatory Translation:** Preprocess narration text with `cbse_videos/ap-confusion-short/preprocess_math.py`. Spell out all formulas phonetically in `SCRIPT.md`:
   * `x² - 45x + 324 = 0` → *"x squared minus forty-five x plus three hundred twenty-four equals zero"*
   * `aₙ = a + (n-1)d` → *"a subscript n equals a plus n minus one times d"*
   * `a/b` → *"a over b"*
@@ -373,12 +384,12 @@ The YouTube channel is the student acquisition engine; ChapterReady.in is the pl
 | **Activity & Diagram Mastery Pack**| `cbse10-activity-diagram-pack` | **₹99** | All 13 Science experimental setups, observations, reactions, and 3/5-mark CBSE model answers. |
 | **Activity + Formula Super Combo** | `cbse10-activity-formula-combo` | **₹129** | Complete bundled access to both cheatsheets and diagram mastery packs. |
 | **Single Subject Mock Pass** | `cbse10-mock-pass-<subject>` | **₹99** | 5 full-length 80-mark computer-based mock papers with step-marking rubrics. |
-| **All-Subjects Board Mock Pack** | `cbse10-all-subjects-mock-pack` | **₹199** | 20 full-length 80-mark mock papers (Maths, Science, SST, English) with CBT timers. |
+| **All-Subjects Board Mock Pack** | `cbse10-all-subjects-mock-pack` | **₹199** | **35 full-length 80-mark mock papers** (5 papers each across Maths Std, Maths Basic, Science, SST, English, Hindi A, Hindi B) with CBT timers. |
 | **Unlimited CBSE Quiz Pass** | `cbse10-unlimited-quizzes-all` | **₹199** | Removes 3 daily quiz limit across 48 chapters + unlocks Spaced Repetition Mistake Vault. |
 
 ### 11.3 Digital Anti-Piracy DRM
 1. **Dynamic Forensic Watermarking:** Screens and printable sheets bake student identity:
-   `🔐 Licensed to: [Student Name] ([Student Email]) • Official ChapterReady.in™`
+   `🔐 Single-Student License: [Student Name] ([Student Email]) • Official ChapterReady.in™`
 2. **Anti-Scrape DOM Lockdown:** `user-select: none` across formula tables, observation grids, and model answers.
 3. **Viral Print Conversion Footer:** Every printable sheet carries a platform QR badge inviting classmates to test their speed on ChapterReady interactive 3D flashcards.
 
@@ -392,14 +403,14 @@ The YouTube channel is the student acquisition engine; ChapterReady.in is the pl
 - [x] **Schema.org JSON-LD Structured Data**: Global SEO structured data with `EducationalOrganization`, `WebSite`, `SoftwareApplication`, and `Course` schemas mounted in root layout.
 - [x] **Tara AI Tutor Optics Engine**: Certified NCERT Table 9.1 & 9.2 physics engine, interactive ray diagram slider, and automated dispatch inside Tara chat stream.
 - [x] **Fun&Games Arcade & Formula Rush**: 60s Blitz, 3-Lives Survival, and 50+ NCERT-verified formula challenges with Web Audio SFX.
-- [x] **Grounded AI Snap & Grade Evaluator**: OCR/text evaluation against step-marking schemes.
+- [x] **Grounded AI Snap & Grade Evaluator**: OCR/text evaluation against step-marking schemes (`POST /v1/evaluator/grade-answer`).
 - [x] **Multi-Subject Mock Test Generator & Store**: 7-subject blueprint engine, Cashfree/Razorpay UPI integration, dynamic forensic watermarking.
 
 ### 12.2 Active Tasks in Queue
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
 - [ ] **YouTube Section Formula Short Upload**: Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` with dedicated 9:16 thumbnail to YouTube Studio.
 - [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.
-- [ ] **Roll Out Full Lesson-Wise Notes**: Continue expanding lesson-wise notes across Science, Mathematics, and Social Science matching `NOTES_GUIDELINES_STANDARDS.md`.
+- [ ] **Roll Out Full Lesson-Wise Notes**: Continue expanding lesson-wise notes across Science, Mathematics, and Social Science matching notes guidelines.
 
 ---
 
@@ -423,3 +434,26 @@ Before concluding any implementation turn, confirm:
 - [ ] Focused TypeScript check passes (`npx tsc --noEmit`).
 - [ ] Backlog in this document (`AGENTS.md`) is updated with the current state.
 - [ ] Git commit and push to `origin/main` is completed.
+
+---
+
+## 14. Proactive Maintenance Protocol for AGENTS.md
+
+To keep `AGENTS.md` clean, accurate, and truly useful over time, every agent and developer must observe these maintenance rules:
+
+1. **Single Source of Truth Rule:**
+   - Do **NOT** create ad hoc scratch documents, detached `TODO-*.md`, or standalone design notes in the root or `docs/`.
+   - When a design decision, architecture update, or guideline is established, write it directly into its matching section in `AGENTS.md`.
+
+2. **Immediate Task Handoff Updates:**
+   - Whenever completing a feature or milestone, check off the item in **Section 12.1** and specify the exact next queued task in **Section 12.2**.
+   - If new bugs or technical debt are discovered, add them directly to Section 12.2 or Section 13.1.
+
+3. **API & Route Precision:**
+   - Whenever an Express endpoint is added or changed in `apps/api/src/routes/`, update the route list in Sections 3 and 8/9/11 with the exact HTTP method and URI.
+
+4. **Database Model Sync:**
+   - When Prisma migrations are applied, verify that any new models or critical field additions are reflected in Section 4.
+
+5. **Cross-Platform Path Hygiene:**
+   - Always document paths using repository-relative conventions (e.g. `apps/web/`, `../cbse_videos/`, `../cbse_KB/`) or parameterized Windows paths, avoiding machine-specific Linux user home paths.
