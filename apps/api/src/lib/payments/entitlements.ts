@@ -71,8 +71,8 @@ export function getTestBypassEntitlements(): UserEntitlementSummary[] {
 
 /**
  * Checks if a student is entitled to access a specific mock test paper.
- * - Paper 1 (freeSampleNumber === 1): Always true (free sample).
- * - Papers 2..5: True if student has active all-subjects pack or matching single-subject pass.
+ * All mock test papers (Papers 1..5 across all subjects) are 100% free forever
+ * for all students (old, new, registered, and guest learners).
  */
 export async function checkMockPaperAccess({
   userId,
@@ -89,47 +89,8 @@ export async function checkMockPaperAccess({
   isFreeSample: boolean;
   reason?: string;
 }> {
-  // Paper 1 is free for everyone (even guests)
-  if (paperNumber === 1) {
-    return { isUnlocked: true, isFreeSample: true };
-  }
-
-  // Test users bypass every paywall without buying anything.
-  if (isTestUserEmail(userEmail)) {
-    return { isUnlocked: true, isFreeSample: false };
-  }
-
-  if (!userId) {
-    return {
-      isUnlocked: false,
-      isFreeSample: false,
-      reason: 'Sign in to access premium mock test papers.',
-    };
-  }
-
-  const entitlements = await getUserActiveEntitlements(userId);
-
-  const hasAllSubjects = entitlements.some(
-    (e) => e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,
-  );
-  if (hasAllSubjects) {
-    return { isUnlocked: true, isFreeSample: false };
-  }
-
-  const hasSubjectPass = entitlements.some(
-    (e) =>
-      e.subjectSlug === subjectSlug ||
-      e.productKey === `${SINGLE_SUBJECT_MOCK_PASS_PREFIX}-${subjectSlug}`,
-  );
-  if (hasSubjectPass) {
-    return { isUnlocked: true, isFreeSample: false };
-  }
-
-  return {
-    isUnlocked: false,
-    isFreeSample: false,
-    reason: 'Unlock the Mock Test Series to access Papers 2–5.',
-  };
+  // All mock test papers across all subjects are 100% free for all students
+  return { isUnlocked: true, isFreeSample: true };
 }
 
 /**
@@ -199,4 +160,3 @@ export async function revokeEntitlement({
     },
   });
 }
-

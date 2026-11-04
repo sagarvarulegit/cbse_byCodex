@@ -35,7 +35,7 @@ export default function RefundPolicyPage() {
             <h2>🛡️ Our 100% Peace of Mind Promise</h2>
             <p>
               We believe in giving every CBSE Class 10 student and parent complete confidence. 
-              <strong> Mock Paper 1 is 100% Free Forever</strong> across all subjects so you can test our 3-hour CBT simulator, 
+              <strong> All 20 Board Mock Test Papers are 100% Free Forever</strong> across all subjects so you can test our 3-hour CBT simulator, 
               marking scheme solutions, and chapter diagnostics with zero financial commitment.
             </p>
           </section>

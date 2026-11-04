@@ -73,7 +73,8 @@ export default function MockTestSeriesCard({
     allSeries.find((entry) => entry.series.subjectSlug === activeSubject) ?? allSeries[0];
   const activeSeries = current.series;
   const activePapers = current.papers;
-  const isSubjectFullyUnlocked = unlockedSet.has(activeSubject) || unlockedSet.has('all');
+  // All mock test papers across all subjects are 100% free for all students
+  const isSubjectFullyUnlocked = true;
 
   function handleUnlockSuccess(productKey: string) {
     if (productKey.includes('all-subjects')) {
@@ -143,19 +144,17 @@ export default function MockTestSeriesCard({
           <div>
             <span className="mastery-badge">🎯 5-Step Board Mastery Track</span>
             <strong className="mastery-title">
-              {isSubjectFullyUnlocked
-                ? '🏆 Full 5-Step Series Unlocked — You are on the Topper Track!'
-                : '⚡ Step 1 of 5 Ready (20% Complete) — Try Free Paper 1, then unlock all 5 steps!'}
+              🏆 All 5 Board Mock Tests Are 100% Free Forever — You are on the Topper Track!
             </strong>
           </div>
           <span className="mastery-percent">
-            {isSubjectFullyUnlocked ? '100% Unlocked' : '20% Unlocked'}
+            100% Free
           </span>
         </div>
         <div className="mastery-bar-track">
           <div
             className="mastery-bar-fill"
-            style={{ width: isSubjectFullyUnlocked ? '100%' : '20%' }}
+            style={{ width: '100%' }}
           />
         </div>
       </div>
@@ -179,13 +178,7 @@ export default function MockTestSeriesCard({
             >
               <div className="mock-series-paper-head">
                 <span className="mock-series-number">Paper {paper.number}</span>
-                {paper.isFreeSample ? (
-                  <span className="mock-series-tag free-tag">Free sample</span>
-                ) : isPaperUnlocked ? (
-                  <span className="mock-series-tag unlocked-tag">🔓 Unlocked</span>
-                ) : (
-                  <span className="mock-series-tag locked-tag">🔒 Locked</span>
-                )}
+                <span className="mock-series-tag free-tag">100% Free</span>
               </div>
               <p className="mock-series-paper-title">{paper.title}</p>
               <p className="subtext compact">
@@ -240,25 +233,26 @@ export default function MockTestSeriesCard({
       </div>
 
       <div className="mock-series-footer-banner">
-        {!isSubjectFullyUnlocked ? (
-          <div className="paywall-cta-strip">
-            <div>
-              <strong>Want all 20 board mock papers with marking schemes?</strong>
-              <p>Paper 1 is free. Unlock Papers 2–5 for just ₹199 (All 4 Subjects Pack).</p>
-            </div>
-            <button
-              type="button"
-              className="btn-strip-unlock"
-              onClick={() => setIsPaywallOpen(true)}
-            >
-              Unlock Mock Series (₹199) →
-            </button>
+        <div className="free-mocks-announcement-strip" style={{
+          background: '#f0fdf4',
+          border: '2px solid #16a34a',
+          borderRadius: '16px',
+          padding: '1.25rem 1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '1rem',
+          margin: '1.5rem 0'
+        }}>
+          <div>
+            <strong style={{ color: '#15803d', fontSize: '1.1rem', display: 'block' }}>
+              🎉 All Board Mock Test Papers Are 100% Free Forever!
+            </strong>
+            <p style={{ color: '#166534', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>
+              Full 80-mark blueprint matching CBSE 2026-27 pattern, official step-marking rubrics, and instant AI step-checking — zero fees for all students.
+            </p>
           </div>
-        ) : (
-          <p className="subtext compact mock-series-note">
-            ✅ You have full access to all mock test papers for this subject.
-          </p>
-        )}
+        </div>
       </div>
 
       <div className="mock-series-guarantee-row">

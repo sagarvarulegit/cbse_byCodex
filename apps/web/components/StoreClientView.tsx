@@ -135,11 +135,11 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     productKey: ALL_SUBJECTS_MOCK_PACK_KEY,
     category: 'mock_papers',
     title: 'All-Subjects Board Mock Pack (20 Full Papers)',
-    badge: '🏆 Topper Track · 20 Papers',
-    badgeColor: '#c95014',
-    priceInr: 199,
+    badge: '🎁 100% Free Forever · All Subjects',
+    badgeColor: '#16a34a',
+    priceInr: 0,
     originalPriceInr: 499,
-    discountPercent: 60,
+    discountPercent: 100,
     shortDesc: 'All 20 full-length 80-mark mock papers (Papers 1..5) across Maths (041), Science (086), SST (087), and English (184).',
     features: [
       'Exact CBSE board pattern with 15 min reading time & timer',
@@ -182,11 +182,11 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     subjectSlug: 'mathematics-standard',
     category: 'mock_papers',
     title: 'Maths Standard (041) — 5 Board Mock Papers',
-    badge: '📐 Subject Pass',
-    badgeColor: '#475569',
-    priceInr: 99,
+    badge: '🎁 100% Free Pass',
+    badgeColor: '#16a34a',
+    priceInr: 0,
     originalPriceInr: 199,
-    discountPercent: 50,
+    discountPercent: 100,
     shortDesc: 'All 5 official board-format 80-mark mock papers for Mathematics Standard (041) with complete step-wise solutions.',
     features: [
       'Papers 1 to 5 for Mathematics Standard',
@@ -205,11 +205,11 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     subjectSlug: 'science',
     category: 'mock_papers',
     title: 'Science (086) — 5 Board Mock Papers',
-    badge: '🧪 Subject Pass',
-    badgeColor: '#475569',
-    priceInr: 99,
+    badge: '🎁 100% Free Pass',
+    badgeColor: '#16a34a',
+    priceInr: 0,
     originalPriceInr: 199,
-    discountPercent: 50,
+    discountPercent: 100,
     shortDesc: 'All 5 official board-format 80-mark mock papers for Science (086) covering Physics, Chemistry, and Biology.',
     features: [
       'Papers 1 to 5 for Science (086)',
@@ -243,6 +243,14 @@ export default function StoreClientView({
   // Compute unlocked products map
   const unlockedMap = useMemo(() => {
     const map: Record<string, boolean> = {};
+    map[ALL_SUBJECTS_MOCK_PACK_KEY] = true;
+    map['cbse10-mock-pass-mathematics-standard'] = true;
+    map['cbse10-mock-pass-mathematics-basic'] = true;
+    map['cbse10-mock-pass-science'] = true;
+    map['cbse10-mock-pass-social-science'] = true;
+    map['cbse10-mock-pass-english-language-and-literature'] = true;
+    map['cbse10-mock-pass-hindi-course-a'] = true;
+    map['cbse10-mock-pass-hindi-course-b'] = true;
     if (!entitlements) return map;
 
     const hasAllSubjects = entitlements.hasAllSubjects || entitlements.entitlements.some(
@@ -265,13 +273,15 @@ export default function StoreClientView({
       (e) => e.productKey === UNLIMITED_QUIZ_PASS_KEY && e.status === 'active',
     );
 
-    if (hasAllSubjects) {
-      map[ALL_SUBJECTS_MOCK_PACK_KEY] = true;
-      map['cbse10-mock-pass-mathematics-standard'] = true;
-      map['cbse10-mock-pass-science'] = true;
-      map['cbse10-mock-pass-social-science'] = true;
-      map['cbse10-mock-pass-english-language-and-literature'] = true;
-    }
+    // All mock test papers across all subjects are 100% free for all students
+    map[ALL_SUBJECTS_MOCK_PACK_KEY] = true;
+    map['cbse10-mock-pass-mathematics-standard'] = true;
+    map['cbse10-mock-pass-mathematics-basic'] = true;
+    map['cbse10-mock-pass-science'] = true;
+    map['cbse10-mock-pass-social-science'] = true;
+    map['cbse10-mock-pass-english-language-and-literature'] = true;
+    map['cbse10-mock-pass-hindi-course-a'] = true;
+    map['cbse10-mock-pass-hindi-course-b'] = true;
 
     if (hasCombo) {
       map[ACTIVITY_FORMULA_COMBO_PACK_KEY] = true;
@@ -363,7 +373,7 @@ export default function StoreClientView({
           className={`filter-tab ${activeCategory === 'mock_papers' ? 'active' : ''}`}
           onClick={() => setActiveCategory('mock_papers')}
         >
-          📄 80-Mark Mock Papers (₹99 – ₹199)
+          📄 80-Mark Mock Papers (100% Free)
         </button>
         <button
           type="button"

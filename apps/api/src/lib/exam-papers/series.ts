@@ -7,9 +7,7 @@ import type { ExamPaper } from '@prisma/client';
  * once from a fixed seed, verified, and published as a *shared* paper
  * (userId = null) so every student takes the same Paper 1, Paper 2, … .
  *
- * The first paper is the free sample used as the acquisition funnel; the
- * remaining papers are the paid product (gated by entitlement, added when
- * payments land).
+ * All mock test papers across all subjects are 100% free for all students.
  */
 export const MATHS_041_SERIES = {
   key: 'maths-041-board-mock-2026',
@@ -18,7 +16,7 @@ export const MATHS_041_SERIES = {
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading) ' +
     'assembled deterministically from the verified question bank, following ' +
-    'the official question-paper design. Paper 1 is free.',
+    'the official question-paper design. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -39,7 +37,7 @@ export const SCIENCE_086_SERIES = {
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 39 questions) ' +
     'assembled deterministically from the verified question bank, following ' +
-    'the official CBSE Science question-paper design. Paper 1 is free.',
+    'the official CBSE Science question-paper design. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -59,7 +57,7 @@ export const SOCIAL_SCIENCE_087_SERIES = {
   title: 'CBSE Class 10 Social Science (087) — Board Mock Test Series',
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 37 questions across 6 sections) ' +
-    'covering History, Geography, Civics, and Economics from the verified question bank. Paper 1 is free.',
+    'covering History, Geography, Civics, and Economics from the verified question bank. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -79,7 +77,7 @@ export const ENGLISH_184_SERIES = {
   title: 'CBSE Class 10 English (184) — Board Mock Test Series',
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
-    'covering Reading Comprehension, Creative Writing, Grammar, and Literature from the verified question bank. Paper 1 is free.',
+    'covering Reading Comprehension, Creative Writing, Grammar, and Literature from the verified question bank. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -97,7 +95,7 @@ export const MATHS_241_SERIES = {
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading) ' +
     'assembled deterministically from the verified question bank, following ' +
-    'the official CBSE Class 10 Mathematics Basic (241) question-paper design. Paper 1 is free.',
+    'the official CBSE Class 10 Mathematics Basic (241) question-paper design. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -114,7 +112,7 @@ export const HINDI_002_SERIES = {
   title: 'CBSE Class 10 Hindi Course A (002) — Board Mock Test Series',
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
-    'covering Unseen Comprehension, Grammar, Kshitij & Kritika Literature, and Creative Writing. Paper 1 is free.',
+    'covering Unseen Comprehension, Grammar, Kshitij & Kritika Literature, and Creative Writing. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -131,7 +129,7 @@ export const HINDI_085_SERIES = {
   title: 'CBSE Class 10 Hindi Course B (085) — Board Mock Test Series',
   description:
     'Five full board-style papers (80 marks, 3 hours, 15 minutes reading, 34 questions) ' +
-    'covering Unseen Comprehension, Grammar, Sparsh & Sanchayan Literature, and Creative Writing. Paper 1 is free.',
+    'covering Unseen Comprehension, Grammar, Sparsh & Sanchayan Literature, and Creative Writing. All mock test papers are 100% free.',
   freeSampleNumber: 1,
   papers: [
     { number: 1, seed: 101, title: 'Mock Test 1' },
@@ -193,14 +191,14 @@ export function seriesPaperView(
   definition: MockTestSeriesPaper,
   paper?: ExamPaper,
   series: MockTestSeriesDefinition = MATHS_041_SERIES,
-  isUnlocked: boolean = definition.number === series.freeSampleNumber,
+  isUnlocked: boolean = true,
 ): MockTestSeriesPaper {
   return {
     number: definition.number,
     seed: definition.seed,
     title: definition.title,
-    isFreeSample: definition.number === series.freeSampleNumber,
-    isUnlocked,
+    isFreeSample: true, // All mock test papers are 100% free
+    isUnlocked: true,
     ...(paper
       ? {
           id: paper.id,

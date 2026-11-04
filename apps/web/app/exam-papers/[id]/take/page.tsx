@@ -23,7 +23,7 @@ export default async function TakeExamPaperPage({
   if (!data?.paper) {
     return (
       <main>
-        <StudentTopbar contextLabel="Mock Test Paywall" session={session} />
+        <StudentTopbar contextLabel="Mock Test Paper" session={session} />
         <section className="auth-page dashboard-page">
           <div className="dashboard-shell">
             <nav className="breadcrumb-row" aria-label="Student learning path">
@@ -31,7 +31,7 @@ export default async function TakeExamPaperPage({
               <span>/</span>
               <Link href="/exam-papers">Mock Test Series</Link>
               <span>/</span>
-              <span aria-current="page">Locked Paper</span>
+              <span aria-current="page">Mock Paper</span>
             </nav>
             <div
               className="paywall-lock-banner"
@@ -45,10 +45,10 @@ export default async function TakeExamPaperPage({
                 boxShadow: '4px 4px 0 #171513',
               }}
             >
-              <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '0.5rem' }}>🔒</span>
-              <h2 style={{ margin: '0.5rem 0', fontSize: '1.6rem' }}>This Mock Test Paper is Locked</h2>
+              <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '0.5rem' }}>📝</span>
+              <h2 style={{ margin: '0.5rem 0', fontSize: '1.6rem' }}>Mock Test Paper Not Found</h2>
               <p style={{ color: '#555', maxWidth: '500px', margin: '0.5rem auto 1.5rem', lineHeight: '1.5' }}>
-                Mock Paper 1 is 100% free across all 4 subjects. Papers 2–5 require the Class 10 Board Mock Test Pass (₹199 for all 4 subjects).
+                All 20 board mock test papers are 100% free! This specific paper could not be loaded. Please return to the Mock Test Series to select an available paper.
               </p>
               <Link
                 href="/exam-papers"
@@ -63,7 +63,7 @@ export default async function TakeExamPaperPage({
                   fontSize: '0.95rem',
                 }}
               >
-                View Mock Test Series & Unlock →
+                Back to Free Mock Test Series →
               </Link>
             </div>
           </div>

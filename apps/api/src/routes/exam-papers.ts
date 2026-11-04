@@ -243,13 +243,8 @@ examPapersRouter.get('/series', async (req, res) => {
   const hasSubject = userEntitlements.some((e) => e.subjectSlug === series.subjectSlug);
 
   const papers = series.papers.map((definition) => {
-    const isUnlocked =
-      definition.number === series.freeSampleNumber ||
-      hasAll ||
-      hasSubject ||
-      user?.role === UserRole.admin ||
-      isTestUserEmail(user?.email);
-    return seriesPaperView(definition, bySeed.get(definition.seed), series, isUnlocked);
+    // All mock test papers (1..5) are 100% free for all students (old & new)
+    return seriesPaperView(definition, bySeed.get(definition.seed), series, true);
   });
 
   return res.json({

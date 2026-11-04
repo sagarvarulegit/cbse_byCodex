@@ -288,23 +288,13 @@ paymentsRouter.get('/entitlements', async (req: Request, res: Response) => {
   }
 
   const entitlements = await getUserActiveEntitlements(user.id);
-  const hasAllSubjects = entitlements.some(
-    (e) => e.productKey === ALL_SUBJECTS_MOCK_PACK_KEY,
-  );
+  // All mock test papers across all subjects are 100% free for all students
+  const hasAllSubjects = true;
 
   return res.json({
     entitlements,
-    hasAllSubjects,
-    unlockedSubjectSlugs: hasAllSubjects
-      ? [
-          'mathematics-standard',
-          'science',
-          'social-science',
-          'english-language-and-literature',
-        ]
-      : entitlements
-          .map((e) => e.subjectSlug)
-          .filter((slug): slug is string => Boolean(slug)),
+    hasAllSubjects: true,
+    unlockedSubjectSlugs: [...CORE_BOARD_SUBJECTS],
   });
 });
 

@@ -450,7 +450,7 @@ export default async function HomePage() {
           </h2>
           <p className="board-prep-sub">
             Practice under real exam conditions and find out exactly where you stand.
-            <strong> Paper 1 is 100% Free — unlock all 20 full papers for just ₹199!</strong>
+            <strong> All 20 full 80-mark mock papers are 100% Free Forever for all students!</strong>
           </p>
 
           <div className="board-prep-grid">
@@ -490,20 +490,20 @@ export default async function HomePage() {
 
             <div className="mock-pass-pricing-card">
               <div className="pass-pricing-top">
-                <span className="pricing-badge">All 4 Core Subjects Pass</span>
+                <span className="pricing-badge">100% Free · All Subjects</span>
                 <div className="pricing-numbers">
-                  <span className="current-price">₹199</span>
-                  <span className="mrp-price">₹499</span>
+                  <span className="current-price">FREE</span>
+                  <span className="mrp-price" style={{ textDecoration: 'line-through' }}>₹499</span>
                 </div>
-                <p className="unit-cost-tag">🔥 Just ₹10 / Paper · Save ₹1,400+ vs physical books</p>
+                <p className="unit-cost-tag">🪔 100% Free Forever for all Class 10 Students</p>
               </div>
 
               <ul className="pass-features-list">
-                <li>✅ <strong>20 Full 80-Mark Mock Papers</strong> (Maths, Science, SST, English)</li>
+                <li>✅ <strong>20 Full 80-Mark Mock Papers</strong> (Maths, Science, SST, English) — 100% FREE</li>
                 <li>✅ <strong>Real 3-Hour CBT Simulator</strong> with reading clock</li>
                 <li>✅ <strong>Step-by-Step Marking Schemes</strong> & scoring points</li>
                 <li>✅ <strong>Automatic Mistake Vault</strong> & weak-chapter diagnostics</li>
-                <li>🎁 <strong>Paper 1 is 100% Free right now (Try Before You Buy)</strong></li>
+                <li>🎁 <strong>Full AI Step-Marking & Solutions (Zero Paywalls)</strong></li>
               </ul>
 
               <div className="pass-cta-group">
@@ -511,18 +511,11 @@ export default async function HomePage() {
                   className="btn-pass-unlock"
                   hrefLoggedIn="/exam-papers"
                   hrefLoggedOut="/login"
-                  textLoggedIn="Get 20-Paper Board Pass (₹199) →"
-                  textLoggedOut="Get 20-Paper Board Pass (₹199) →"
-                />
-                <AuthAwareCTA
-                  className="btn-pass-free"
-                  hrefLoggedIn="/exam-papers"
-                  hrefLoggedOut="/login"
-                  textLoggedIn="Try Free Sample Paper 1 First"
-                  textLoggedOut="Try Free Sample Paper 1 First"
+                  textLoggedIn="Solve Free 80-Mark Mock Papers →"
+                  textLoggedOut="Start Solving 100% Free →"
                 />
               </div>
-              <p className="pass-security-note">🔒 100% Safe 256-bit UPI / Cards via Cashfree · Instant Unlock</p>
+              <p className="pass-security-note">⚡ No payment needed · Instant access for all students</p>
             </div>
           </div>
         </div>

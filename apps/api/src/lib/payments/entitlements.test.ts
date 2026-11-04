@@ -3,47 +3,55 @@ import { test } from 'node:test';
 
 import { checkMockPaperAccess } from './entitlements.js';
 
-test('checkMockPaperAccess allows Paper 1 as free sample for everyone', async () => {
-  const resultGuest = await checkMockPaperAccess({
+test('checkMockPaperAccess allows all papers (1..5) as 100% free for everyone', async () => {
+  // Paper 1 for unauthenticated guest
+  const resultGuestP1 = await checkMockPaperAccess({
     userId: null,
     subjectSlug: 'mathematics-standard',
     paperNumber: 1,
   });
-  assert.equal(resultGuest.isUnlocked, true);
-  assert.equal(resultGuest.isFreeSample, true);
+  assert.equal(resultGuestP1.isUnlocked, true);
+  assert.equal(resultGuestP1.isFreeSample, true);
 
-  const resultUser = await checkMockPaperAccess({
-    userId: 'user_123',
-    subjectSlug: 'science',
-    paperNumber: 1,
-  });
-  assert.equal(resultUser.isUnlocked, true);
-  assert.equal(resultUser.isFreeSample, true);
-});
-
-test('checkMockPaperAccess blocks Papers 2..5 for unauthenticated guests', async () => {
-  const result = await checkMockPaperAccess({
+  // Paper 2 for unauthenticated guest
+  const resultGuestP2 = await checkMockPaperAccess({
     userId: null,
     subjectSlug: 'mathematics-standard',
     paperNumber: 2,
   });
-  assert.equal(result.isUnlocked, false);
-  assert.equal(result.isFreeSample, false);
-  assert.ok(result.reason?.includes('Sign in'));
-});
+  assert.equal(resultGuestP2.isUnlocked, true);
+  assert.equal(resultGuestP2.isFreeSample, true);
 
-test('checkMockPaperAccess unlocks Papers 2..5 for test users without a purchase', async () => {
-  process.env.TEST_USER_EMAILS = 'testuser@chapterready.in';
-  try {
+  // Papers 3..5 for new or existing user without any purchases
+  for (const paperNumber of [3, 4, 5]) {
     const result = await checkMockPaperAccess({
-      userId: 'user_without_purchases',
+      userId: 'student_new_user',
       subjectSlug: 'science',
-      paperNumber: 3,
-      userEmail: 'TestUser@ChapterReady.in',
+      paperNumber,
     });
     assert.equal(result.isUnlocked, true);
-    assert.equal(result.isFreeSample, false);
-  } finally {
-    delete process.env.TEST_USER_EMAILS;
+    assert.equal(result.isFreeSample, true);
+  }
+});
+
+test('checkMockPaperAccess allows Papers 1..5 across all subjects for all students', async () => {
+  const subjects = [
+    'mathematics-standard',
+    'mathematics-basic',
+    'science',
+    'social-science',
+    'english-language-and-literature',
+    'hindi-course-a',
+    'hindi-course-b',
+  ];
+
+  for (const subjectSlug of subjects) {
+    const result = await checkMockPaperAccess({
+      userId: 'old_student_user',
+      subjectSlug,
+      paperNumber: 4,
+    });
+    assert.equal(result.isUnlocked, true);
+    assert.equal(result.isFreeSample, true);
   }
 });
