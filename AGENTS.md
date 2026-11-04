@@ -222,3 +222,8 @@ To keep `AGENTS.md` clean, accurate, and truly useful over time, every agent and
 6. **Size Budget (Hard Rule):**
    - Before committing, check `AGENTS.md` size. Above **18 KB**, compact first: merge duplicate gotchas, collapse shipped backlog items to one line (git history keeps detail), and move long reference into `docs/agents/` with a link in Section 4.
    - Never exceed 20 KB. Content past 24 KB is silently dropped by agents.
+   - Enforced by `.githooks/pre-commit` (warn > 20 KB, block > 24 KB). On any new machine or fresh clone, run once:
+     ```bash
+     git config core.hooksPath .githooks                  # in ChapterReady.in
+     git -C cbse_byCodex config core.hooksPath .githooks
+     ```
