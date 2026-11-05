@@ -7,6 +7,7 @@ import FeedbackButton from '../components/FeedbackButton';
 import StudyRemixProvider from '../components/StudyRemixProvider';
 import { TutorPageProvider } from '../contexts/TutorPageContext';
 import JsonLd from '../components/seo/JsonLd';
+import GoogleAnalytics from '../components/seo/GoogleAnalytics';
 
 // Lazy-load TaraWidget (46KB + KaTeX 250KB) — only hydrates when student
 // interacts with the floating Tara button instead of bloating every page.
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <JsonLd />
       </head>
       <body>
+        <GoogleAnalytics />
         <TutorPageProvider>
           <StudyRemixProvider>{children}</StudyRemixProvider>
           <FeedbackButton />

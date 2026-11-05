@@ -7,6 +7,7 @@ import TaraFireflyIcon from '../../../components/TaraFireflyIcon';
 import { useTutorPageContext } from '../../../contexts/TutorPageContext';
 import type { SeoQuestionItem } from '../../../lib/seo-questions';
 import '../questions.css';
+import { trackAnalyticsEvent } from '../../../lib/analytics';
 
 interface Props {
   question: SeoQuestionItem;
@@ -23,6 +24,14 @@ export default function QuestionDetailClient({ question, related }: Props) {
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
+    trackAnalyticsEvent('view_question', {
+      question_id: question.id,
+      question_slug: question.slug,
+      subject: question.subjectTitle,
+      chapter: question.chapterTitle,
+      source: question.sourceType,
+      marks: question.marks,
+    });
     setPageContext({
       pageType: 'question',
       pageUrl: `/questions/${question.slug}`,
@@ -42,6 +51,11 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
   const triggerTaraSocraticHint = () => {
     setShowInlineHint(true);
+    trackAnalyticsEvent('tara_socratic_hint_requested', {
+      question_id: question.id,
+      question_slug: question.slug,
+      subject: question.subjectTitle,
+    });
     const socraticPrompt = `Hi Tara, can you guide me through this question with a Socratic hint without revealing the final answer right away?\n\nQuestion: "${question.prompt}"\nConcept: ${question.chapterTitle} (${question.officialRef})`;
     window.dispatchEvent(
       new CustomEvent('tara:open-with-prompt', {
