@@ -672,6 +672,36 @@ export default function TaraWidget() {
     [activeId, attachments, context, input, streaming],
   );
 
+  // Listen for programmatic prompt triggers (e.g. 1-click Socratic hint on question pages)
+  useEffect(() => {
+    const handleOpenWithPrompt = async (e: Event) => {
+      const customEvent = e as CustomEvent<{ prompt?: string }>;
+      const promptText = customEvent.detail?.prompt?.trim();
+      setOpen(true);
+      if (!promptText) return;
+
+      if (authed) {
+        if (!activeId) {
+          const conv = await newConversation();
+          if (conv?.id) {
+            void sendMessage(promptText, conv.id);
+          } else {
+            setInput(promptText);
+          }
+        } else {
+          void sendMessage(promptText);
+        }
+      } else {
+        setInput(promptText);
+      }
+    };
+
+    window.addEventListener('tara:open-with-prompt', handleOpenWithPrompt);
+    return () => {
+      window.removeEventListener('tara:open-with-prompt', handleOpenWithPrompt);
+    };
+  }, [activeId, authed, newConversation, sendMessage]);
+
   // Do NOT hide the widget when signed out; let students discover Tara and prompt sign-in when clicked.
 
   const activeConv = conversations.find((c) => c.id === activeId);

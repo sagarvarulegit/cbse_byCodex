@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import MarkingSchemeRubric from './MarkingSchemeRubric';
 import AiAnswerEvaluatorModal from './AiAnswerEvaluatorModal';
 import chapterPyqData from '../lib/chapter-pyqs.generated.json';
@@ -248,6 +249,16 @@ export default function ChapterPyqDrill({ chapterSlug, token }: { chapterSlug: s
                     <span>{isOpen ? '▲ Hide CBSE Marking Scheme' : '▼ Reveal Step Marking & Rubric'}</span>
                   </button>
                 )}
+
+                <Link
+                  href={`/questions/${q.id}`}
+                  className="btn-toggle-solution"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View full step rubric, examiner deduction traps, and Socratic hints on dedicated landing page"
+                >
+                  <span>🔗 Dedicated Page &amp; Socratic Hint →</span>
+                </Link>
               </div>
 
               {isOpen && (

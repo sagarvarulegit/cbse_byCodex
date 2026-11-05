@@ -24,7 +24,7 @@ export type TutorActiveItem = {
 };
 
 export type TutorPageContextData = {
-  pageType: 'quiz' | 'lesson_notes' | 'written_practice' | 'mistakes' | 'exam_paper' | 'dashboard' | 'general';
+  pageType: 'quiz' | 'lesson_notes' | 'written_practice' | 'mistakes' | 'exam_paper' | 'dashboard' | 'general' | 'question';
   pageUrl: string;
   pageTitle?: string;
   subject?: string;
@@ -145,6 +145,14 @@ function deriveFallbackContextFromPath(pathname: string): TutorPageContextData {
     };
   }
 
+  if (parts[0] === 'questions') {
+    return {
+      pageType: 'question',
+      pageUrl: pathname,
+      pageTitle: parts[1] ? 'CBSE Class 10 Question Practice' : 'CBSE Class 10 Question Bank & Socratic Practice',
+    };
+  }
+
   return {
     pageType: 'general',
     pageUrl: pathname,
@@ -203,6 +211,14 @@ function deriveQuickPrompts(ctx: TutorPageContextData): string[] {
       '🎯 Help me fix my most frequent mistake',
       '💡 Give me a quick practice problem to test this rule',
       '📖 Summarize the concept I got wrong',
+    ];
+  }
+
+  if (ctx.pageType === 'question') {
+    return [
+      '💡 Give me a Socratic hint without revealing the final answer',
+      '✍️ What are the official CBSE step-marking value points for this?',
+      '⚠️ What common deduction mistakes do students make here?',
     ];
   }
 

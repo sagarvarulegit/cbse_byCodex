@@ -10618,7 +10618,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q1)"
     },
     {
       "id": "exemplar-math-ch1-q2",
@@ -10648,7 +10648,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q2)"
     },
     {
       "id": "exemplar-math-ch1-q3",
@@ -10678,7 +10678,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q3)"
     },
     {
       "id": "exemplar-math-ch1-q4",
@@ -10708,7 +10708,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q4)"
     },
     {
       "id": "exemplar-math-ch1-q5",
@@ -10738,7 +10738,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q5)"
     },
     {
       "id": "exemplar-math-ch1-q6",
@@ -10768,7 +10768,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q6)"
     },
     {
       "id": "exemplar-math-ch1-q7",
@@ -10798,7 +10798,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q7)"
     },
     {
       "id": "exemplar-math-ch1-q8",
@@ -10828,7 +10828,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q8)"
     },
     {
       "id": "exemplar-math-ch1-q9",
@@ -10878,7 +10878,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 1 (EXERCISE 1.1, Q9)"
     }
   ],
   "pair-of-linear-equations-in-two-variables": [
@@ -10910,7 +10910,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q1)"
     },
     {
       "id": "exemplar-math-ch3-q2",
@@ -10940,7 +10940,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q2)"
     },
     {
       "id": "exemplar-math-ch3-q3",
@@ -10970,7 +10970,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q3)"
     },
     {
       "id": "exemplar-math-ch3-q4",
@@ -11000,7 +11000,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q4)"
     },
     {
       "id": "exemplar-math-ch3-q5",
@@ -11030,7 +11030,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q5)"
     },
     {
       "id": "exemplar-math-ch3-q6",
@@ -11176,7 +11176,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 3 (EXERCISE 3.1, Q6)"
     }
   ],
   "quadratic-equations": [
@@ -11208,7 +11208,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q1)"
     },
     {
       "id": "exemplar-math-ch4-q2",
@@ -11238,7 +11238,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q2)"
     },
     {
       "id": "exemplar-math-ch4-q3",
@@ -11268,7 +11268,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q3)"
     },
     {
       "id": "exemplar-math-ch4-q4",
@@ -11298,7 +11298,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q4)"
     },
     {
       "id": "exemplar-math-ch4-q5",
@@ -11328,7 +11328,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q5)"
     },
     {
       "id": "exemplar-math-ch4-q6",
@@ -11358,7 +11358,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q6)"
     },
     {
       "id": "exemplar-math-ch4-q7",
@@ -11388,7 +11388,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q7)"
     },
     {
       "id": "exemplar-math-ch4-q8",
@@ -11418,7 +11418,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q8)"
     },
     {
       "id": "exemplar-math-ch4-q9",
@@ -11448,7 +11448,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q9)"
     },
     {
       "id": "exemplar-math-ch4-q10",
@@ -11478,7 +11478,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q10)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q10)"
     },
     {
       "id": "exemplar-math-ch4-q11",
@@ -11512,7 +11512,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (Q11)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 4 (EXERCISE 4.1, Q11)"
     }
   ],
   "arithmetic-progressions": [
@@ -11544,7 +11544,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q1)"
     },
     {
       "id": "exemplar-math-ch5-q2",
@@ -11574,7 +11574,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q2)"
     },
     {
       "id": "exemplar-math-ch5-q3",
@@ -11604,7 +11604,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q3)"
     },
     {
       "id": "exemplar-math-ch5-q4",
@@ -11634,7 +11634,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q4)"
     },
     {
       "id": "exemplar-math-ch5-q5",
@@ -11642,7 +11642,7 @@
       "chapterSlug": "arithmetic-progressions",
       "subject": "mathematics-standard",
       "title": "Exemplar Q5: The first four terms of an AP, whose first term is...",
-      "prompt": "The first four terms of an AP, whose first term is \u20132 and the common difference\nis \u20132, are\n03/05/18",
+      "prompt": "The first four terms of an AP, whose first term is \u20132 and the common difference\nis \u20132, are",
       "options": [
         {
           "value": 1,
@@ -11664,7 +11664,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q5)"
     },
     {
       "id": "exemplar-math-ch5-q6",
@@ -11694,7 +11694,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q6)"
     },
     {
       "id": "exemplar-math-ch5-q7",
@@ -11724,7 +11724,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q7)"
     },
     {
       "id": "exemplar-math-ch5-q8",
@@ -11754,7 +11754,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q8)"
     },
     {
       "id": "exemplar-math-ch5-q9",
@@ -11932,7 +11932,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 5 (EXERCISE 5.1, Q9)"
     }
   ],
   "triangles": [
@@ -11941,8 +11941,8 @@
       "qNo": 1,
       "chapterSlug": "triangles",
       "subject": "mathematics-standard",
-      "title": "Exemplar Q1: In Fig. 6.2,  BAC = 90\u00b0 and AD    BC. Then,\n03/05/...",
-      "prompt": "In Fig. 6.2,  BAC = 90\u00b0 and AD    BC. Then,\n03/05/18",
+      "title": "Exemplar Q1: In Fig. 6.2,  BAC = 90\u00b0 and AD    BC. Then,...",
+      "prompt": "In Fig. 6.2,  BAC = 90\u00b0 and AD    BC. Then,",
       "options": [
         {
           "value": 1,
@@ -11964,7 +11964,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q1)"
     },
     {
       "id": "exemplar-math-ch6-q2",
@@ -11994,7 +11994,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q2)"
     },
     {
       "id": "exemplar-math-ch6-q3",
@@ -12024,7 +12024,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q3)"
     },
     {
       "id": "exemplar-math-ch6-q4",
@@ -12054,7 +12054,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q4)"
     },
     {
       "id": "exemplar-math-ch6-q5",
@@ -12084,7 +12084,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q5)"
     },
     {
       "id": "exemplar-math-ch6-q6",
@@ -12114,7 +12114,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q6)"
     },
     {
       "id": "exemplar-math-ch6-q7",
@@ -12144,7 +12144,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q7)"
     },
     {
       "id": "exemplar-math-ch6-q8",
@@ -12174,7 +12174,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q8)"
     },
     {
       "id": "exemplar-math-ch6-q9",
@@ -12204,7 +12204,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q9)"
     },
     {
       "id": "exemplar-math-ch6-q10",
@@ -12234,7 +12234,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q10)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q10)"
     },
     {
       "id": "exemplar-math-ch6-q11",
@@ -12264,7 +12264,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q11)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q11)"
     },
     {
       "id": "exemplar-math-ch6-q12",
@@ -12298,7 +12298,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (Q12)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 6 (EXERCISE 6.1, Q12)"
     }
   ],
   "coordinate-geometry": [
@@ -12330,7 +12330,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q1)"
     },
     {
       "id": "exemplar-math-ch7-q2",
@@ -12360,7 +12360,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q2)"
     },
     {
       "id": "exemplar-math-ch7-q3",
@@ -12390,7 +12390,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q3)"
     },
     {
       "id": "exemplar-math-ch7-q4",
@@ -12420,7 +12420,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q4)"
     },
     {
       "id": "exemplar-math-ch7-q5",
@@ -12450,7 +12450,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q5)"
     },
     {
       "id": "exemplar-math-ch7-q6",
@@ -12480,7 +12480,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q6)"
     },
     {
       "id": "exemplar-math-ch7-q7",
@@ -12510,7 +12510,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q7)"
     },
     {
       "id": "exemplar-math-ch7-q8",
@@ -12540,7 +12540,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q8)"
     },
     {
       "id": "exemplar-math-ch7-q9",
@@ -12750,7 +12750,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 7 (EXERCISE 7.1, Q9)"
     }
   ],
   "introduction-to-trigonometry": [
@@ -12782,7 +12782,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q1)"
     },
     {
       "id": "exemplar-math-ch8-q2",
@@ -12812,7 +12812,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q2)"
     },
     {
       "id": "exemplar-math-ch8-q3",
@@ -12842,7 +12842,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q3)"
     },
     {
       "id": "exemplar-math-ch8-q4",
@@ -12872,7 +12872,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q4)"
     },
     {
       "id": "exemplar-math-ch8-q5",
@@ -12902,7 +12902,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q5)"
     },
     {
       "id": "exemplar-math-ch8-q6",
@@ -12932,7 +12932,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q6)"
     },
     {
       "id": "exemplar-math-ch8-q7",
@@ -12962,7 +12962,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q7)"
     },
     {
       "id": "exemplar-math-ch8-q8",
@@ -12992,7 +12992,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q8)"
     },
     {
       "id": "exemplar-math-ch8-q9",
@@ -13118,7 +13118,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 8 (EXERCISE 8.1, Q9)"
     }
   ],
   "some-applications-of-trigonometry": [
@@ -13150,7 +13150,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q1)"
     },
     {
       "id": "exemplar-math-ch9-q2",
@@ -13180,7 +13180,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q2)"
     },
     {
       "id": "exemplar-math-ch9-q3",
@@ -13210,7 +13210,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q3)"
     },
     {
       "id": "exemplar-math-ch9-q4",
@@ -13240,7 +13240,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q4)"
     },
     {
       "id": "exemplar-math-ch9-q5",
@@ -13270,7 +13270,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q5)"
     },
     {
       "id": "exemplar-math-ch9-q6",
@@ -13300,7 +13300,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q6)"
     },
     {
       "id": "exemplar-math-ch9-q7",
@@ -13330,7 +13330,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q7)"
     },
     {
       "id": "exemplar-math-ch9-q8",
@@ -13360,7 +13360,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q8)"
     },
     {
       "id": "exemplar-math-ch9-q9",
@@ -13390,7 +13390,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q9)"
     },
     {
       "id": "exemplar-math-ch9-q10",
@@ -13424,7 +13424,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (Q10)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 9 (EXERCISE 9.1, Q10)"
     }
   ],
   "circles": [
@@ -13456,7 +13456,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q1)"
     },
     {
       "id": "exemplar-math-ch10-q2",
@@ -13486,7 +13486,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q2)"
     },
     {
       "id": "exemplar-math-ch10-q3",
@@ -13516,7 +13516,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q3)"
     },
     {
       "id": "exemplar-math-ch10-q4",
@@ -13546,7 +13546,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q4)"
     },
     {
       "id": "exemplar-math-ch10-q5",
@@ -13576,7 +13576,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q5)"
     },
     {
       "id": "exemplar-math-ch10-q6",
@@ -13610,7 +13610,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 10 (EXERCISE 10.1, Q6)"
     }
   ],
   "constructions": [
@@ -13642,7 +13642,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q1)"
     },
     {
       "id": "exemplar-math-ch11-q2",
@@ -13672,7 +13672,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q2)"
     },
     {
       "id": "exemplar-math-ch11-q3",
@@ -13702,7 +13702,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q3)"
     },
     {
       "id": "exemplar-math-ch11-q4",
@@ -13732,7 +13732,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q4)"
     },
     {
       "id": "exemplar-math-ch11-q5",
@@ -13762,7 +13762,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q5)"
     },
     {
       "id": "exemplar-math-ch11-q6",
@@ -13792,7 +13792,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q6)"
     },
     {
       "id": "exemplar-math-ch11-q7",
@@ -13822,7 +13822,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q7)"
     },
     {
       "id": "exemplar-math-ch11-q8",
@@ -13852,7 +13852,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q8)"
     },
     {
       "id": "exemplar-math-ch11-q9",
@@ -13902,7 +13902,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 11 (EXERCISE 11.1, Q9)"
     }
   ],
   "areas-related-to-circles": [
@@ -13934,7 +13934,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q1)"
     },
     {
       "id": "exemplar-math-ch12-q2",
@@ -13964,7 +13964,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q2)"
     },
     {
       "id": "exemplar-math-ch12-q3",
@@ -13994,7 +13994,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q3)"
     },
     {
       "id": "exemplar-math-ch12-q4",
@@ -14024,7 +14024,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q4)"
     },
     {
       "id": "exemplar-math-ch12-q5",
@@ -14054,7 +14054,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q5)"
     },
     {
       "id": "exemplar-math-ch12-q6",
@@ -14084,7 +14084,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q6)"
     },
     {
       "id": "exemplar-math-ch12-q7",
@@ -14114,7 +14114,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q7)"
     },
     {
       "id": "exemplar-math-ch12-q8",
@@ -14144,7 +14144,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q8)"
     },
     {
       "id": "exemplar-math-ch12-q9",
@@ -14206,7 +14206,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q9)"
     },
     {
       "id": "exemplar-math-ch12-q12",
@@ -14236,7 +14236,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q12)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q12)"
     },
     {
       "id": "exemplar-math-ch12-q13",
@@ -14266,7 +14266,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q13)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q13)"
     },
     {
       "id": "exemplar-math-ch12-q14",
@@ -14296,7 +14296,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q14)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q14)"
     },
     {
       "id": "exemplar-math-ch12-q15",
@@ -14326,7 +14326,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q15)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q15)"
     },
     {
       "id": "exemplar-math-ch12-q16",
@@ -14356,7 +14356,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q16)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q16)"
     },
     {
       "id": "exemplar-math-ch12-q17",
@@ -14386,7 +14386,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q17)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q17)"
     },
     {
       "id": "exemplar-math-ch12-q18",
@@ -14416,7 +14416,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q18)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q18)"
     },
     {
       "id": "exemplar-math-ch12-q19",
@@ -14446,7 +14446,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q19)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q19)"
     },
     {
       "id": "exemplar-math-ch12-q20",
@@ -14480,7 +14480,7 @@
       "correctOptionIndex": 3,
       "explanation": "Correct Answer: Option (D) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (Q20)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 12 (EXERCISE 12.1, Q20)"
     }
   ],
   "surface-areas-and-volumes": [
@@ -14512,7 +14512,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q1)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q1)"
     },
     {
       "id": "exemplar-math-ch13-q2",
@@ -14542,7 +14542,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q2)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q2)"
     },
     {
       "id": "exemplar-math-ch13-q3",
@@ -14572,7 +14572,7 @@
       "correctOptionIndex": 0,
       "explanation": "Correct Answer: Option (A) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q3)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q3)"
     },
     {
       "id": "exemplar-math-ch13-q4",
@@ -14602,7 +14602,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q4)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q4)"
     },
     {
       "id": "exemplar-math-ch13-q5",
@@ -14632,7 +14632,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q5)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q5)"
     },
     {
       "id": "exemplar-math-ch13-q6",
@@ -14662,7 +14662,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q6)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q6)"
     },
     {
       "id": "exemplar-math-ch13-q7",
@@ -14692,7 +14692,7 @@
       "correctOptionIndex": 1,
       "explanation": "Correct Answer: Option (B) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q7)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q7)"
     },
     {
       "id": "exemplar-math-ch13-q8",
@@ -14722,7 +14722,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q8)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q8)"
     },
     {
       "id": "exemplar-math-ch13-q9",
@@ -14730,7 +14730,7 @@
       "chapterSlug": "surface-areas-and-volumes",
       "subject": "mathematics-standard",
       "title": "Exemplar Q9: Consider the data :\nClass\n65-85\n85-105\n105-125 125...",
-      "prompt": "Consider the data :\nClass\n65-85\n85-105\n105-125 125-145 145-165 165-185 185-205\nFrequency\n03/05/18\nThe difference of the upper limit of the median class and the lower limit of the\nmodal class is",
+      "prompt": "Consider the data :\nClass\n65-85\n85-105\n105-125 125-145 145-165 165-185 185-205\nFrequency\n\nThe difference of the upper limit of the median class and the lower limit of the\nmodal class is",
       "options": [
         {
           "value": 1,
@@ -15028,7 +15028,7 @@
       "correctOptionIndex": 2,
       "explanation": "Correct Answer: Option (C) as verified by NCERT Exemplar solutions.",
       "difficulty": "Hard",
-      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (Q9)"
+      "sourceCoverage": "NCERT Exemplar Class 10 Mathematics, Chapter 13 (EXERCISE 13.1, Q9)"
     }
   ]
 }

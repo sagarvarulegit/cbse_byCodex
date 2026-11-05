@@ -160,13 +160,13 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Dedicated Parent Progress Summary (`/parent-summary`)**: High-trust summary model extracting consistency streaks, started chapters, quiz accuracy, board readiness status, 3 parent tips, and 1-click WhatsApp weekly digest sharing.
-- [x] **Student Dashboard Redesign ("One Screen, One Question")**: Clean single-plan daily study card (Read lesson → Take quiz → Fix mistakes), 5-subject compact progress tiles, conditional "Needs a Look" mistake strip, and ephemeral XP celebration toast.
-- [x] **Schema.org JSON-LD Structured Data**: Global SEO structured data with `EducationalOrganization`, `WebSite`, `SoftwareApplication`, and `Course` schemas mounted in root layout.
-- [x] **Tara AI Tutor Optics Engine**: Certified NCERT Table 9.1 & 9.2 physics engine, interactive ray diagram slider, and automated dispatch inside Tara chat stream.
+- [x] **Programmatic Question Bank & Socratic SEO (`/questions` & `/questions/[slug]`)**: 1,669+ questions (NCERT Exemplar HOTS + 2022–2026 Board PYQs) with Schema.org `QAPage` structured data, official value points, step marks, examiner deduction notes, Next.js sitemap, and 1-click `#d9f99d` lime-green Tara Socratic hint triggers.
+- [x] **Dedicated Parent Progress Summary (`/parent-summary`)**: High-trust summary model with 1-click WhatsApp weekly digest sharing.
+- [x] **Student Dashboard Redesign ("One Screen, One Question")**: Clean single-plan daily study card, compact progress tiles, and mistake strip.
+- [x] **Tara AI Tutor Optics Engine**: Certified NCERT Table 9.1 & 9.2 physics engine and interactive ray diagram slider.
 - [x] **Fun&Games Arcade & Formula Rush**: 60s Blitz, 3-Lives Survival, and 50+ NCERT-verified formula challenges with Web Audio SFX.
 - [x] **Grounded AI Snap & Grade Evaluator**: OCR/text evaluation against step-marking schemes (`POST /v1/evaluator/grade-answer`).
-- [x] **Multi-Subject Mock Test Generator & Store**: 7-subject blueprint engine, Cashfree/Razorpay UPI integration, dynamic forensic watermarking.
+- [x] **Multi-Subject Mock Test Generator & Store**: 7-subject blueprint engine, dynamic forensic watermarking, 100% free board mock papers policy.
 
 ### 6.2 Active Tasks in Queue
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.

@@ -344,22 +344,39 @@ export default function PyqTrendAnalyzer({
                 <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
                   <strong>Verified In Sets:</strong> {concept.boardSets.join(', ')} ({concept.frequentYears.join(', ')})
                 </div>
-                <Link
-                  href={drillCtaHref(concept.chapterSlug, isLoggedIn)}
-                  scroll={false}
-                  style={{
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    color: '#c2410c',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3rem',
-                  }}
-                >
-                  <span>Practice Chapter PYQ Drill</span>
-                  <span>→</span>
-                </Link>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                  <Link
+                    href={`/questions/repeated-${concept.id}`}
+                    style={{
+                      fontSize: '0.85rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                    }}
+                  >
+                    <span>💡 Socratic Hint &amp; Step Rubric</span>
+                    <span>→</span>
+                  </Link>
+                  <Link
+                    href={drillCtaHref(concept.chapterSlug, isLoggedIn)}
+                    scroll={false}
+                    style={{
+                      fontSize: '0.85rem',
+                      fontWeight: 700,
+                      color: '#c2410c',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                    }}
+                  >
+                    <span>Practice Chapter PYQ Drill</span>
+                    <span>→</span>
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
