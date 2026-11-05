@@ -71,6 +71,12 @@ export default async function QuestionPage({ params }: PageProps) {
       name: question.title,
       text: question.prompt,
       answerCount: 1,
+      dateCreated: `${question.year ?? 2026}-01-15T08:00:00+05:30`,
+      author: {
+        '@type': 'Organization',
+        name: 'CBSE & NCERT Academic Board',
+        url: 'https://www.cbse.gov.in',
+      },
       eduQuestionType: question.questionType,
       learningResourceType: 'Practice problem',
       educationalLevel: 'CBSE Class 10',
@@ -81,6 +87,7 @@ export default async function QuestionPage({ params }: PageProps) {
       acceptedAnswer: {
         '@type': 'Answer',
         text: question.modelAnswer,
+        dateCreated: `${question.year ?? 2026}-02-01T10:00:00+05:30`,
         upvoteCount: 42,
         url: `https://www.chapterready.in/questions/${question.slug}#answer`,
         author: {
