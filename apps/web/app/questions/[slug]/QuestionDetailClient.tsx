@@ -6,6 +6,7 @@ import MathText from '../../../components/MathText';
 import TaraFireflyIcon from '../../../components/TaraFireflyIcon';
 import { useTutorPageContext } from '../../../contexts/TutorPageContext';
 import type { SeoQuestionItem } from '../../../lib/seo-questions';
+import '../questions.css';
 
 interface Props {
   question: SeoQuestionItem;
@@ -41,7 +42,6 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
   const triggerTaraSocraticHint = () => {
     setShowInlineHint(true);
-    // Dispatch custom event to wake TaraWidget with Socratic guidance prompt
     const socraticPrompt = `Hi Tara, can you guide me through this question with a Socratic hint without revealing the final answer right away?\n\nQuestion: "${question.prompt}"\nConcept: ${question.chapterTitle} (${question.officialRef})`;
     window.dispatchEvent(
       new CustomEvent('tara:open-with-prompt', {
@@ -61,41 +61,37 @@ export default function QuestionDetailClient({ question, related }: Props) {
   const isMcq = question.questionType === 'mcq' && Boolean(question.options?.length);
 
   return (
-    <div className="min-h-screen bg-[#faf7ee] text-[#1e293b] pb-24">
-      {/* Top Breadcrumb & Status Navigation */}
-      <header className="border-b-2 border-[#1e293b] bg-white sticky top-0 z-30 shadow-[0_2px_0_0_#1e293b]">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <nav className="flex items-center gap-2 text-xs md:text-sm font-bold text-gray-600 overflow-x-auto whitespace-nowrap py-1">
-            <Link href="/" className="hover:text-black">Home</Link>
-            <span>/</span>
-            <Link href="/questions" className="hover:text-black">Questions</Link>
-            <span>/</span>
-            <span className="text-gray-900 font-extrabold">{question.subjectTitle}</span>
-            <span>/</span>
-            <Link
-              href={`/chapters/${question.chapterSlug}`}
-              className="text-gray-700 hover:text-black truncate max-w-[160px] md:max-w-none"
-            >
+    <div className="qd-root">
+      {/* Top Header / Breadcrumbs */}
+      <header className="qd-topbar">
+        <div className="qd-topbar-inner">
+          <nav className="qd-breadcrumb" aria-label="Question breadcrumbs">
+            <Link href="/">Home</Link>
+            <span className="qd-breadcrumb-sep">/</span>
+            <Link href="/questions">Questions</Link>
+            <span className="qd-breadcrumb-sep">/</span>
+            <span>{question.subjectTitle}</span>
+            <span className="qd-breadcrumb-sep">/</span>
+            <Link href={`/chapters/${question.chapterSlug}`}>
               {question.chapterTitle}
             </Link>
-            <span>/</span>
-            <span className="text-orange-700 bg-orange-100 px-2 py-0.5 rounded border border-orange-300">
-              {question.displayType}
-            </span>
+            <span className="qd-breadcrumb-sep">/</span>
+            <span className="qd-breadcrumb-current">{question.displayType}</span>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="qd-topbar-actions">
             <button
               onClick={copyShareLink}
               type="button"
-              className="text-xs font-bold px-3 py-1.5 border-2 border-black bg-white rounded shadow-[2px_2px_0_0_#000] hover:bg-gray-100 transition active:translate-x-0.5 active:translate-y-0.5"
-              title="Share question link"
+              className="qd-btn-neutral"
+              title="Copy share link"
             >
               {isCopied ? '✓ Copied' : '🔗 Share'}
             </button>
             <Link
               href="/exam-papers"
-              className="hidden sm:inline-block text-xs font-bold px-3 py-1.5 border-2 border-black bg-amber-200 rounded shadow-[2px_2px_0_0_#000] hover:bg-amber-300 transition"
+              className="qd-btn-neutral"
+              style={{ background: '#fef08a' }}
             >
               Free 80M Papers
             </Link>
@@ -103,103 +99,98 @@ export default function QuestionDetailClient({ question, related }: Props) {
         </div>
       </header>
 
-      {/* Main Question Container */}
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Main Container */}
+      <main className="qd-container">
+        <div className="qd-grid">
           
-          {/* Main Column */}
-          <div className="lg:col-span-8 space-y-6">
-
-            {/* Question Card */}
-            <article className="border-3 border-black bg-white rounded-xl p-6 sm:p-8 shadow-[5px_5px_0_0_#000]">
-              {/* Badges strip */}
-              <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider rounded border-2 border-black bg-blue-100 text-blue-900">
+          {/* Main Question Column */}
+          <div>
+            <article className="qd-card">
+              {/* Badges Strip */}
+              <div className="qd-badges-row">
+                <span className="qd-badge qd-badge-subject">
                   {question.subjectTitle}
                 </span>
-                <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider rounded border-2 border-black bg-yellow-100 text-yellow-900">
+                <span className="qd-badge qd-badge-marks">
                   {question.marks} Mark{question.marks > 1 ? 's' : ''}
                 </span>
-                <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider rounded border-2 border-black bg-emerald-100 text-emerald-900">
+                <span className="qd-badge qd-badge-difficulty">
                   {question.difficulty}
                 </span>
                 {question.frequencyBadge && (
-                  <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider rounded border-2 border-black bg-purple-100 text-purple-900 animate-pulse">
+                  <span className="qd-badge qd-badge-freq">
                     🔥 {question.frequencyBadge}
                   </span>
                 )}
-                <span className="ml-auto text-xs text-gray-500 font-semibold text-right">
+                <span className="qd-ref-tag">
                   {question.officialRef}
                 </span>
               </div>
 
               {/* Title Header */}
-              <h1 className="text-xl sm:text-2xl font-black text-gray-900 leading-snug mb-4">
+              <h1 className="qd-title">
                 {question.title}
               </h1>
 
               {/* Question Statement */}
-              <div className="p-4 sm:p-5 rounded-lg border-2 border-slate-300 bg-[#fdfcfa] text-base sm:text-lg leading-relaxed text-gray-900 font-medium whitespace-pre-line mb-6">
+              <div className="qd-prompt-box">
                 <MathText text={question.prompt} />
               </div>
 
               {/* MCQ Options (if MCQ) */}
               {isMcq && question.options && (
-                <div className="space-y-3 mb-6">
-                  <div className="text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <div className="qd-options-section">
+                  <div className="qd-options-label">
                     Select Your Answer:
                   </div>
-                  {question.options.map((opt, idx) => {
-                    const isSelected = selectedOption === idx;
-                    const isCorrect = question.correctOptionIndex === idx;
-                    let optionStyle = 'border-2 border-black bg-white hover:bg-slate-50';
-                    if (showExplanation) {
-                      if (isCorrect) {
-                        optionStyle = 'border-2 border-emerald-600 bg-emerald-100 font-bold';
-                      } else if (isSelected && !isCorrect) {
-                        optionStyle = 'border-2 border-rose-600 bg-rose-100';
+                  <div className="qd-options-list">
+                    {question.options.map((opt, idx) => {
+                      const isSelected = selectedOption === idx;
+                      const isCorrect = question.correctOptionIndex === idx;
+                      let optionClass = 'qd-option-btn';
+                      if (showExplanation) {
+                        if (isCorrect) optionClass += ' correct';
+                        else if (isSelected) optionClass += ' incorrect';
+                      } else if (isSelected) {
+                        optionClass += ' selected';
                       }
-                    } else if (isSelected) {
-                      optionStyle = 'border-2 border-black bg-yellow-200 font-bold';
-                    }
 
-                    return (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => {
-                          setSelectedOption(idx);
-                          setShowExplanation(true);
-                        }}
-                        className={`w-full text-left p-3.5 rounded-lg flex items-start gap-3 transition shadow-[2px_2px_0_0_#000] active:translate-x-0.5 active:translate-y-0.5 ${optionStyle}`}
-                      >
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded border border-black bg-white text-xs font-black shrink-0">
-                          {String.fromCharCode(65 + idx)}
-                        </span>
-                        <div className="pt-0.5 text-sm sm:text-base leading-snug">
-                          <MathText text={opt.label} />
-                        </div>
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setSelectedOption(idx);
+                            setShowExplanation(true);
+                          }}
+                          className={optionClass}
+                        >
+                          <span className="qd-option-badge">
+                            {String.fromCharCode(65 + idx)}
+                          </span>
+                          <div style={{ paddingTop: '2px', lineHeight: 1.5 }}>
+                            <MathText text={opt.label} />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
 
               {/* Socratic Hint Trigger Banner (#d9f99d lime green) */}
-              <div className="mb-6 p-4 rounded-xl border-3 border-black bg-[#d9f99d] shadow-[4px_4px_0_0_#000]">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <span className="p-2 rounded-lg bg-black text-white shrink-0">
+              <div className="qd-socratic-banner">
+                <div className="qd-socratic-header">
+                  <div className="qd-socratic-left">
+                    <span className="qd-firefly-box">
                       <TaraFireflyIcon size={24} glow />
                     </span>
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></span>
-                        <span className="text-xs font-black tracking-wide uppercase text-emerald-950">
-                          Tara Socratic AI Active
-                        </span>
+                      <div className="qd-socratic-title">
+                        <span className="qd-socratic-dot"></span>
+                        <span>Tara Socratic AI Active</span>
                       </div>
-                      <p className="text-sm font-extrabold text-slate-900">
+                      <p className="qd-socratic-tagline">
                         Stuck on the first step? Don’t look at the answer yet.
                       </p>
                     </div>
@@ -208,7 +199,7 @@ export default function QuestionDetailClient({ question, related }: Props) {
                   <button
                     type="button"
                     onClick={triggerTaraSocraticHint}
-                    className="w-full sm:w-auto px-4 py-2.5 rounded-lg border-2 border-black bg-white hover:bg-black hover:text-white font-black text-sm transition shadow-[3px_3px_0_0_#000] active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-2"
+                    className="qd-socratic-action-btn"
                   >
                     💡 Ask Tara for a Socratic Hint
                   </button>
@@ -216,47 +207,46 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
                 {/* Instant Inline Socratic Card */}
                 {showInlineHint && (
-                  <div className="mt-4 pt-4 border-t-2 border-dashed border-emerald-800/40 text-slate-900 space-y-2">
-                    <div className="bg-white/90 p-3 rounded-lg border border-black/30">
-                      <div className="text-xs font-black uppercase text-emerald-900 mb-1">
+                  <div className="qd-socratic-drawer">
+                    <div className="qd-socratic-card-white">
+                      <div className="qd-socratic-q-label">
                         🧠 Guiding Question:
                       </div>
-                      <p className="text-sm font-semibold italic text-slate-800">
+                      <p className="qd-socratic-q-text">
                         {question.socraticHint.hintQuestion}
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                      <div className="bg-white/80 p-2.5 rounded border border-black/20">
-                        <span className="font-extrabold text-slate-900">Key Concept: </span>
+                    <div className="qd-socratic-grid">
+                      <div className="qd-socratic-pill-box">
+                        <strong>Key Concept: </strong>
                         <span>{question.socraticHint.guidingConcept}</span>
                       </div>
-                      <div className="bg-white/80 p-2.5 rounded border border-black/20">
-                        <span className="font-extrabold text-slate-900">First Step Clue: </span>
+                      <div className="qd-socratic-pill-box">
+                        <strong>First Step Clue: </strong>
                         <span>{question.socraticHint.firstStepNudge}</span>
                       </div>
                     </div>
 
                     {question.socraticHint.formulaOrKeywordTip && (
-                      <div className="bg-emerald-900 text-white p-2.5 rounded text-xs font-medium flex items-center gap-2">
-                        <span>⚡</span>
-                        <span>{question.socraticHint.formulaOrKeywordTip}</span>
+                      <div className="qd-socratic-tip-banner">
+                        <span>⚡ {question.socraticHint.formulaOrKeywordTip}</span>
                       </div>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Written Practice Callout */}
-              <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-lg border-2 border-black bg-slate-50 mb-6">
+              {/* Written Practice Callout Strip */}
+              <div className="qd-scratchpad-strip">
                 <div>
-                  <div className="text-xs font-bold text-gray-600">Want step-by-step scoring?</div>
-                  <div className="text-sm font-extrabold text-gray-900">Practice writing your answer in exam format</div>
+                  <div className="qd-scratchpad-title">Want step-by-step scoring?</div>
+                  <div className="qd-scratchpad-sub">Practice writing your answer in exam format</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowPracticeDrawer((prev) => !prev)}
-                  className="px-4 py-2 border-2 border-black bg-white hover:bg-slate-100 rounded-lg text-xs font-black shadow-[2px_2px_0_0_#000] transition"
+                  className="qd-btn-neutral"
                 >
                   {showPracticeDrawer ? '▲ Hide Scratchpad' : '✍️ Write & Test My Answer'}
                 </button>
@@ -264,8 +254,8 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
               {/* Practice Scratchpad Drawer */}
               {showPracticeDrawer && (
-                <div className="mb-6 p-4 rounded-xl border-2 border-black bg-amber-50 space-y-3">
-                  <div className="flex items-center justify-between text-xs font-black uppercase text-amber-950">
+                <div className="qd-scratchpad-box">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 800 }}>
                     <span>Student Written Scratchpad</span>
                     <span>Max {question.marks} Mark{question.marks > 1 ? 's' : ''}</span>
                   </div>
@@ -274,10 +264,10 @@ export default function QuestionDetailClient({ question, related }: Props) {
                     value={studentAnswerText}
                     onChange={(e) => setStudentAnswerText(e.target.value)}
                     placeholder="Type your step-by-step points, formulas, or final values here..."
-                    className="w-full p-3 rounded-lg border-2 border-black bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono"
+                    className="qd-scratchpad-textarea"
                   />
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs text-gray-600">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>
                       Compare your drafted points with the official CBSE step markings below!
                     </p>
                     <button
@@ -291,46 +281,42 @@ export default function QuestionDetailClient({ question, related }: Props) {
                           }),
                         );
                       }}
-                      className="px-3 py-1.5 border-2 border-black bg-black text-white hover:bg-gray-800 rounded text-xs font-bold"
+                      className="qd-btn-neutral"
+                      style={{ background: '#181612', color: '#ffffff' }}
                     >
-                      🤖 Snap & Grade via Tara
+                      🤖 Snap &amp; Grade via Tara
                     </button>
                   </div>
                 </div>
               )}
 
               {/* Official CBSE Step-Marking Scheme & Rubric */}
-              <section className="pt-6 border-t-2 border-black space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-black">
-                      CBSE OFFICIAL
-                    </span>
-                    <h2 className="text-base sm:text-lg font-black text-gray-900">
-                      Step-Marking Scheme & Value Points
+              <section className="qd-rubric-section">
+                <div className="qd-rubric-header">
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span className="qd-rubric-tag">CBSE OFFICIAL</span>
+                    <h2 className="qd-rubric-title">
+                      Step-Marking Scheme &amp; Value Points
                     </h2>
                   </div>
-                  <span className="text-xs font-bold text-gray-500">
+                  <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#64748b' }}>
                     Total: {question.marks}m
                   </span>
                 </div>
 
                 {/* Step Breakdown Cards */}
-                <div className="space-y-2.5">
+                <div className="qd-steps-list">
                   {question.valuePoints.map((point, pIdx) => {
                     const match = point.match(/^\[\+?([0-9.]+\s*Marks?)\]\s*(.*)$/i);
                     const markTag = match ? match[1] : null;
                     const pointText = match ? match[2] : point;
 
                     return (
-                      <div
-                        key={pIdx}
-                        className="p-3.5 rounded-lg border-2 border-black bg-[#fdfefe] flex items-start gap-3 shadow-[2px_2px_0_0_#e2e8f0]"
-                      >
-                        <span className="px-2 py-1 rounded border border-emerald-700 bg-emerald-50 text-emerald-900 text-xs font-black shrink-0">
+                      <div key={pIdx} className="qd-step-item">
+                        <span className="qd-step-mark">
                           {markTag ? `+${markTag}` : `Step ${pIdx + 1}`}
                         </span>
-                        <div className="text-sm text-gray-800 font-medium leading-relaxed pt-0.5">
+                        <div className="qd-step-content">
                           <MathText text={pointText} />
                         </div>
                       </div>
@@ -339,22 +325,20 @@ export default function QuestionDetailClient({ question, related }: Props) {
                 </div>
 
                 {/* Full Model Answer */}
-                <div className="p-4 rounded-lg border-2 border-black bg-amber-50/70 space-y-2 mt-4">
-                  <div className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                    Full Ideal Model Answer:
-                  </div>
-                  <div className="text-sm text-gray-900 leading-relaxed font-normal whitespace-pre-line">
+                <div className="qd-model-answer-box">
+                  <div className="qd-box-label">Full Ideal Model Answer:</div>
+                  <div className="qd-box-content">
                     <MathText text={question.modelAnswer} />
                   </div>
                 </div>
 
-                {/* Internal Choice Alternative Option if present */}
+                {/* Alternative choice if present */}
                 {question.orAnswer && (
-                  <div className="p-4 rounded-lg border-2 border-dashed border-gray-400 bg-gray-50 space-y-2 mt-4">
-                    <div className="text-xs font-black uppercase text-gray-700 tracking-wider">
+                  <div className="qd-model-answer-box" style={{ background: '#f8fafc', borderColor: '#cbd5e1', borderStyle: 'dashed' }}>
+                    <div className="qd-box-label" style={{ color: '#475569' }}>
                       OR (Alternative Choice Marking Scheme):
                     </div>
-                    <div className="text-sm text-gray-800 leading-relaxed font-normal whitespace-pre-line">
+                    <div className="qd-box-content">
                       <MathText text={question.orAnswer} />
                     </div>
                   </div>
@@ -362,12 +346,12 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
                 {/* Official Examiner Deduction Notes */}
                 {question.examinerNotes && question.examinerNotes.length > 0 && (
-                  <div className="p-4 rounded-lg border-2 border-rose-500 bg-rose-50/70 space-y-2 mt-4">
-                    <div className="flex items-center gap-2 text-xs font-black uppercase text-rose-900 tracking-wider">
+                  <div className="qd-examiner-box">
+                    <div className="qd-examiner-label">
                       <span>⚠️</span>
                       <span>Official Examiner Deduction Notes:</span>
                     </div>
-                    <ul className="list-disc pl-5 space-y-1 text-xs sm:text-sm text-rose-950 font-medium">
+                    <ul className="qd-examiner-list">
                       {question.examinerNotes.map((note, nIdx) => (
                         <li key={nIdx}>
                           <MathText text={note} />
@@ -379,92 +363,81 @@ export default function QuestionDetailClient({ question, related }: Props) {
               </section>
             </article>
 
-            {/* Quick Curriculum Action Bar */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Link
-                href={`/chapters/${question.chapterSlug}/revision`}
-                className="p-3.5 rounded-xl border-2 border-black bg-white hover:bg-slate-50 transition shadow-[3px_3px_0_0_#000] text-center"
-              >
-                <div className="text-base font-black">📖 Fast Revision</div>
-                <div className="text-xs text-gray-600">Formulas & NCERT bullet points</div>
+            {/* Quick 3-Card Navigation Strip */}
+            <div className="qd-quick-nav-grid">
+              <Link href={`/chapters/${question.chapterSlug}/revision`} className="qd-quick-card">
+                <div className="qd-quick-card-title">📖 Fast Revision</div>
+                <div className="qd-quick-card-sub">Formulas &amp; NCERT bullet points</div>
               </Link>
-              <Link
-                href={`/chapters/${question.chapterSlug}/quiz`}
-                className="p-3.5 rounded-xl border-2 border-black bg-white hover:bg-slate-50 transition shadow-[3px_3px_0_0_#000] text-center"
-              >
-                <div className="text-base font-black">⚡ Chapter Quiz</div>
-                <div className="text-xs text-gray-600">Timed 1-Mark MCQ Sprint</div>
+              <Link href={`/chapters/${question.chapterSlug}/quiz`} className="qd-quick-card">
+                <div className="qd-quick-card-title">⚡ Chapter Quiz</div>
+                <div className="qd-quick-card-sub">Timed 1-Mark MCQ Sprint</div>
               </Link>
-              <Link
-                href="/exam-papers"
-                className="p-3.5 rounded-xl border-2 border-black bg-amber-200 hover:bg-amber-300 transition shadow-[3px_3px_0_0_#000] text-center"
-              >
-                <div className="text-base font-black">📄 Full 80M Paper</div>
-                <div className="text-xs text-gray-800">100% Free 2026 Mock Papers</div>
+              <Link href="/exam-papers" className="qd-quick-card qd-quick-card-amber">
+                <div className="qd-quick-card-title">📄 Full 80M Paper</div>
+                <div className="qd-quick-card-sub">100% Free 2026 Mock Papers</div>
               </Link>
             </div>
           </div>
 
-          {/* Sidebar Column: Related & Chapter Questions */}
-          <aside className="lg:col-span-4 space-y-6">
+          {/* Sidebar Column */}
+          <aside className="qd-sidebar">
             
-            {/* Socratic Tara Sticky Widget Card */}
-            <div className="border-3 border-black bg-[#d9f99d] rounded-xl p-5 shadow-[4px_4px_0_0_#000]">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="p-2 rounded-lg bg-black text-white shrink-0">
+            {/* Sticky Tara AI Card */}
+            <div className="qd-sidebar-card qd-sidebar-tara">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <span className="qd-firefly-box">
                   <TaraFireflyIcon size={28} glow />
                 </span>
                 <div>
-                  <h3 className="text-sm font-black text-slate-900 leading-tight">
+                  <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: '#0f172a' }}>
                     Tara AI Study Buddy
                   </h3>
-                  <p className="text-xs text-slate-700">NCERT & CBSE Verified</p>
+                  <span style={{ fontSize: '0.75rem', color: '#166534', fontWeight: 700 }}>
+                    NCERT &amp; CBSE Verified
+                  </span>
                 </div>
               </div>
-              <p className="text-xs text-slate-800 font-medium leading-relaxed mb-4">
+              <p style={{ margin: '0 0 1rem', fontSize: '0.82rem', color: '#1e293b', lineHeight: 1.55 }}>
                 Have a doubt on this exact step? Tara explains step-by-step logic, points out examiner deduction traps, and guides you to 100% marks.
               </p>
               <button
                 type="button"
                 onClick={triggerTaraSocraticHint}
-                className="w-full py-2.5 rounded-lg border-2 border-black bg-black text-white hover:bg-slate-800 text-xs font-black shadow-[2px_2px_0_0_#fff] transition"
+                className="qd-sidebar-btn-black"
               >
                 Ask Tara About This Question →
               </button>
             </div>
 
-            {/* Related Questions in Chapter */}
-            <div className="border-3 border-black bg-white rounded-xl p-5 shadow-[4px_4px_0_0_#000] space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-black pb-2">
-                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide">
+            {/* Related Questions Card */}
+            <div className="qd-sidebar-card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1.5px solid var(--qd-border-dark)', paddingBottom: '0.5rem' }}>
+                <h3 style={{ margin: 0, fontSize: '0.85rem', fontWeight: 900, textTransform: 'uppercase' }}>
                   More in {question.chapterTitle}
                 </h3>
-                <span className="text-xs font-bold text-gray-500">
-                  {related.length} Questions
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>
+                  {related.length} Qs
                 </span>
               </div>
 
               {related.length === 0 ? (
-                <p className="text-xs text-gray-500 italic">No sibling questions found.</p>
+                <p style={{ fontSize: '0.8rem', color: '#94a3b8', fontStyle: 'italic', margin: '1rem 0' }}>No sibling questions.</p>
               ) : (
-                <div className="space-y-3">
+                <div className="qd-related-list">
                   {related.map((rq) => (
-                    <Link
-                      key={rq.slug}
-                      href={`/questions/${rq.slug}`}
-                      className="block p-3 rounded-lg border-2 border-slate-200 hover:border-black hover:bg-amber-50/50 transition"
-                    >
-                      <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-gray-100 text-gray-800 border border-gray-300">
+                    <Link key={rq.slug} href={`/questions/${rq.slug}`} className="qd-related-item">
+                      <div className="qd-related-item-top">
+                        <span style={{ background: '#e2e8f0', padding: '0.15rem 0.4rem', borderRadius: '4px', fontWeight: 800 }}>
                           {rq.marks}M · {rq.displayType}
                         </span>
-                        <span className="text-[10px] text-gray-500 font-semibold truncate">
+                        <span style={{ color: '#64748b', fontWeight: 600 }}>
                           {rq.sourceType === 'ncert_exemplar' ? 'Exemplar' : 'Board PYQ'}
                         </span>
                       </div>
-                      <p className="text-xs font-bold text-gray-900 line-clamp-2 leading-snug">
+                      <div className="qd-related-item-title">
                         {rq.title}
-                      </p>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -472,26 +445,27 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
               <Link
                 href={`/questions?subject=${question.subjectSlug}`}
-                className="block text-center text-xs font-black text-orange-700 hover:text-orange-800 pt-2 border-t border-slate-200"
+                style={{ display: 'block', textAlign: 'center', fontSize: '0.8rem', fontWeight: 800, color: 'var(--qd-orange)', textDecoration: 'none', paddingTop: '0.5rem', borderTop: '1px solid var(--qd-border)' }}
               >
                 View all {question.subjectTitle} Questions →
               </Link>
             </div>
 
-            {/* Free Exam Mock Test Paper Promotion */}
-            <div className="border-3 border-black bg-amber-100 rounded-xl p-5 shadow-[4px_4px_0_0_#000]">
-              <div className="text-xs font-black uppercase text-amber-900 tracking-wider mb-1">
+            {/* Free Mock Papers Promo Card */}
+            <div className="qd-sidebar-card" style={{ background: '#fef3c7', borderColor: '#f59e0b' }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 900, textTransform: 'uppercase', color: '#92400e', marginBottom: '0.25rem' }}>
                 Forensic Exam Papers
               </div>
-              <h4 className="text-sm font-black text-gray-900 leading-tight mb-2">
+              <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.95rem', fontWeight: 900, color: '#181612' }}>
                 5 Full 80-Mark Mock Test Papers (100% Free)
               </h4>
-              <p className="text-xs text-gray-700 leading-relaxed mb-3">
+              <p style={{ margin: '0 0 0.85rem', fontSize: '0.8rem', color: '#78350f', lineHeight: 1.5 }}>
                 Experience full 3-hour exam simulations with CBSE value points, step marking, and dynamic watermarked answer keys.
               </p>
               <Link
                 href="/exam-papers"
-                className="inline-block text-xs font-black px-3 py-2 border-2 border-black bg-white hover:bg-black hover:text-white rounded shadow-[2px_2px_0_0_#000] transition"
+                className="qd-btn-neutral"
+                style={{ display: 'inline-block', textDecoration: 'none' }}
               >
                 Open Free Exam Papers →
               </Link>
