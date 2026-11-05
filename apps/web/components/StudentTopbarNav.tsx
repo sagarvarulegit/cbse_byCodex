@@ -12,6 +12,7 @@ const BASE_NAV_LINKS: TopbarNavLink[] = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/subjects', label: 'Subjects' },
   { href: '/exam-papers', label: 'Mock Papers' },
+  { href: '/questions', label: 'Question Bank' },
   { href: '/quizzes', label: 'Quizzes' },
   { href: '/tools', label: 'Study Tools' },
 ];

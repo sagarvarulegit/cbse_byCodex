@@ -45,6 +45,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Link aria-label="ChapterReady home" className="footer-brand" href="/">
             <BrandLockup compact showDescriptor={false} />
           </Link>
+          <Link href="/questions" style={{ fontWeight: 700, color: 'var(--accent-text, #ea580c)' }}>
+            📝 Question Bank (PYQs &amp; Exemplar)
+          </Link>
           <a href="mailto:support@chapterready.in">✉ support@chapterready.in</a>
           <Link href="/privacy">Privacy and guardian consent</Link>
           <Link href="/parent-summary">Parent Summary</Link>

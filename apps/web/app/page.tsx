@@ -96,6 +96,13 @@ const whyChapterReadyBenefits = [
 
 const exploreCards = [
   {
+    icon: '📝',
+    title: 'CBSE Question Bank (1,669+ PYQs)',
+    desc: 'Official 2022–2026 Board Exam questions and NCERT Exemplar HOTS with step-wise value points and Tara AI hints.',
+    href: '/questions',
+    badge: '1,669+ Questions',
+  },
+  {
     icon: '📊',
     title: 'Board PYQ Trends & Weightage',
     desc: '5-year chapter weightage heatmaps, 5-mark recurring questions, and CBSE step-marking patterns.',
