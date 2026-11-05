@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   },
   description:
     'Textbook-faithful CBSE Class 10 notes, quizzes, practice, and guided revision.',
+  verification: {
+    google: '776c3bd92fa22c1c',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
