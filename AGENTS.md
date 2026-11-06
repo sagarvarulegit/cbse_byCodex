@@ -160,7 +160,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Question Bank Student Navigation & Auth Fix**: Added StudentTopbar to `/questions` and `/questions/[slug]`, updated breadcrumbs to route logged-in students to `/dashboard`, made session cookies client-readable (`httpOnly: false`), added `/api/auth/session` fallback, and updated `AuthAwareCTA` so students never see logged-out state.
+- [x] **Question Bank Student Navigation & Auth Fix**: Added StudentTopbar to `/questions` and `/questions/[slug]`, updated breadcrumbs to route logged-in students to `/dashboard`, made session cookies client-readable (`httpOnly: false`), added `/api/auth/session` fallback, and updated `AuthAwareCTA` so students never see logged-out state (Vercel deployment `dpl_9GaX4ejSEQEmJaDFUvDBWgc2ZoNC`).
 - [x] **Programmatic Question Bank & Socratic SEO (`/questions` & `/questions/[slug]`)**: 1,669+ questions (NCERT Exemplar HOTS + 2022–2026 Board PYQs) with Schema.org `QAPage` structured data, official value points, step marks, examiner deduction notes, Next.js sitemap, and 1-click `#d9f99d` lime-green Tara Socratic hint triggers.
 - [x] **Dedicated Parent Progress Summary (`/parent-summary`)**: High-trust summary model with 1-click WhatsApp weekly digest sharing.
 - [x] **Student Dashboard Redesign ("One Screen, One Question")**: Clean single-plan daily study card, compact progress tiles, and mistake strip.
