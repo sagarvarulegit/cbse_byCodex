@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { getStudentSessionToken } from '../../../../../lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 
@@ -11,15 +13,22 @@ export async function GET(
 ) {
   const token = await getStudentSessionToken();
   if (!token) {
-    return NextResponse.json({ message: 'Sign in to view your chat.' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Sign in to view your chat.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    );
   }
 
   const { id } = await params;
   const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations/${id}`, {
+    cache: 'no-store',
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await response.json().catch(() => null);
-  return NextResponse.json(data ?? { conversation: null }, { status: response.status });
+  return NextResponse.json(data ?? { conversation: null }, {
+    status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
 }
 
 export async function PATCH(
@@ -28,7 +37,10 @@ export async function PATCH(
 ) {
   const token = await getStudentSessionToken();
   if (!token) {
-    return NextResponse.json({ message: 'Sign in to rename a chat.' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Sign in to rename a chat.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    );
   }
 
   const { id } = await params;
@@ -39,6 +51,7 @@ export async function PATCH(
 
   const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations/${id}`, {
     method: 'PATCH',
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -46,7 +59,10 @@ export async function PATCH(
     body: JSON.stringify(body),
   });
   const data = await response.json().catch(() => null);
-  return NextResponse.json(data ?? { conversation: null }, { status: response.status });
+  return NextResponse.json(data ?? { conversation: null }, {
+    status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
 }
 
 export async function DELETE(
@@ -55,14 +71,21 @@ export async function DELETE(
 ) {
   const token = await getStudentSessionToken();
   if (!token) {
-    return NextResponse.json({ message: 'Sign in to delete a chat.' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Sign in to delete a chat.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    );
   }
 
   const { id } = await params;
   const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations/${id}`, {
     method: 'DELETE',
+    cache: 'no-store',
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await response.json().catch(() => null);
-  return NextResponse.json(data ?? { deleted: false }, { status: response.status });
+  return NextResponse.json(data ?? { deleted: false }, {
+    status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
 }

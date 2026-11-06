@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { getStudentSessionToken } from '../../../../lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 
@@ -10,7 +12,7 @@ export async function GET(request: Request) {
   if (!token) {
     return NextResponse.json(
       { message: 'Sign in to load your mock test attempts.' },
-      { status: 401 },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
     );
   }
 
@@ -24,6 +26,7 @@ export async function GET(request: Request) {
   const response = await fetch(
     `${API_BASE_URL}/v1/exam-papers/attempts?${params.toString()}`,
     {
+      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -32,5 +35,6 @@ export async function GET(request: Request) {
   const data = await response.json().catch(() => null);
   return NextResponse.json(data ?? { attempts: [] }, {
     status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
   });
 }

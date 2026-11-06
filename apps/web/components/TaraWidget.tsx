@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useTutorPageContext } from '../contexts/TutorPageContext';
+import { useStudentSession } from '../lib/use-student-session';
 import MathText from './MathText';
 import TaraFireflyIcon from './TaraFireflyIcon';
 import TaraVisualCanvas from './TaraVisualCanvas';
@@ -424,6 +425,8 @@ function groupConversationsByDate(conversations: ConversationSummary[]): Grouped
 
 export default function TaraWidget() {
   const { context, quickPrompts } = useTutorPageContext();
+  const session = useStudentSession();
+  const currentUserId = session?.id ?? null;
   const [open, setOpen] = useState(false);
   const [maximized, setMaximized] = useState(false);
   const [authed, setAuthed] = useState<boolean | null>(null);
@@ -440,32 +443,79 @@ export default function TaraWidget() {
   const [editTitleInput, setEditTitleInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const prevUserIdRef = useRef<string | null | undefined>(undefined);
 
-  // Check auth once on mount.
+  // Sync conversations whenever the signed-in student changes or logs out.
   useEffect(() => {
-    fetch('/api/tutor/conversations')
+    const userChanged =
+      prevUserIdRef.current !== undefined && prevUserIdRef.current !== currentUserId;
+    prevUserIdRef.current = currentUserId;
+
+    if (userChanged) {
+      setConversations([]);
+      setActiveId(null);
+      setMessages([]);
+      setStreamText('');
+      setStreaming(false);
+      setError(null);
+      setAttachments([]);
+      setEditingId(null);
+      setDrawerOpen(false);
+    }
+
+    if (!currentUserId) {
+      setAuthed(false);
+      setConversations([]);
+      setActiveId(null);
+      setMessages([]);
+      return;
+    }
+
+    let isCancelled = false;
+    fetch('/api/tutor/conversations', { cache: 'no-store' })
       .then((response) => {
-        setAuthed(response.status === 200);
-        if (response.status === 200) {
+        if (isCancelled) return null;
+        const isOk = response.status === 200;
+        setAuthed(isOk);
+        if (isOk) {
           return response.json();
         }
+        setConversations([]);
+        setActiveId(null);
+        setMessages([]);
         return null;
       })
       .then((data) => {
-        if (data?.conversations) {
+        if (isCancelled || !data) return;
+        if (Array.isArray(data.conversations)) {
           setConversations(data.conversations);
+        } else {
+          setConversations([]);
         }
       })
-      .catch(() => setAuthed(false));
-  }, []);
+      .catch(() => {
+        if (!isCancelled) {
+          setAuthed(false);
+          setConversations([]);
+          setActiveId(null);
+          setMessages([]);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [currentUserId]);
 
   const openConversation = useCallback(async (id: string) => {
     setActiveId(id);
     setError(null);
-    const response = await fetch(`/api/tutor/conversations/${id}`);
+    const response = await fetch(`/api/tutor/conversations/${id}`, { cache: 'no-store' });
     if (response.ok) {
       const data = await response.json();
       setMessages(data.conversation?.messages ?? []);
+    } else {
+      setMessages([]);
     }
   }, []);
 
@@ -728,16 +778,18 @@ export default function TaraWidget() {
         <div className={`tara-window${maximized ? ' tara-window-maximized' : ''}`}>
           <div className="tara-header">
             <div className="tara-header-left">
-              <button
-                type="button"
-                className={`tara-sessions-toggle ${drawerOpen ? 'active' : ''}`}
-                onClick={() => setDrawerOpen((prev) => !prev)}
-                title="View All Chat Sessions"
-                aria-label="View All Chat Sessions"
-              >
-                <span className="tara-hamburger-icon">☰</span>
-                <span className="tara-sessions-badge">{conversations.length}</span>
-              </button>
+              {authed !== false && (
+                <button
+                  type="button"
+                  className={`tara-sessions-toggle ${drawerOpen ? 'active' : ''}`}
+                  onClick={() => setDrawerOpen((prev) => !prev)}
+                  title="View All Chat Sessions"
+                  aria-label="View All Chat Sessions"
+                >
+                  <span className="tara-hamburger-icon">☰</span>
+                  <span className="tara-sessions-badge">{conversations.length}</span>
+                </button>
+              )}
               <div className="tara-header-title">
                 {fireflyAvatar(36)}
                 <div>
@@ -750,14 +802,16 @@ export default function TaraWidget() {
             </div>
 
             <div className="tara-header-actions">
-              <button
-                type="button"
-                className="tara-new-chat-btn"
-                onClick={() => void newConversation()}
-                title="Start a new doubt session"
-              >
-                + New
-              </button>
+              {authed !== false && (
+                <button
+                  type="button"
+                  className="tara-new-chat-btn"
+                  onClick={() => void newConversation()}
+                  title="Start a new doubt session"
+                >
+                  + New
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setMaximized((current) => !current)}
@@ -780,91 +834,93 @@ export default function TaraWidget() {
 
           <div className="tara-main-layout">
             {/* Collapsible Session Drawer / Sidebar */}
-            <aside className={`tara-sessions-drawer ${drawerOpen ? 'open' : ''}`}>
-              <div className="tara-drawer-top">
-                <span className="tara-drawer-heading">💬 Chat Sessions</span>
-                <button
-                  type="button"
-                  className="tara-drawer-new-btn"
-                  onClick={() => void newConversation()}
-                >
-                  + New Chat
-                </button>
-              </div>
+            {authed !== false && (
+              <aside className={`tara-sessions-drawer ${drawerOpen ? 'open' : ''}`}>
+                <div className="tara-drawer-top">
+                  <span className="tara-drawer-heading">💬 Chat Sessions</span>
+                  <button
+                    type="button"
+                    className="tara-drawer-new-btn"
+                    onClick={() => void newConversation()}
+                  >
+                    + New Chat
+                  </button>
+                </div>
 
-              <div className="tara-drawer-content">
-                {conversations.length === 0 ? (
-                  <div className="tara-drawer-empty">
-                    <p>No chat sessions yet.</p>
-                    <button type="button" onClick={() => void newConversation()}>
-                      Start your first doubt
-                    </button>
-                  </div>
-                ) : (
-                  groupConversationsByDate(conversations).map((group) => (
-                    <div key={group.label} className="tara-date-group">
-                      <div className="tara-date-label">{group.label}</div>
-                      {group.items.map((conv) => (
-                        <div
-                          key={conv.id}
-                          className={`tara-session-card ${conv.id === activeId ? 'active' : ''}`}
-                          onClick={() => {
-                            void openConversation(conv.id);
-                            if (!maximized) setDrawerOpen(false);
-                          }}
-                        >
-                          {editingId === conv.id ? (
-                            <form
-                              className="tara-rename-form"
-                              onSubmit={(e) => void saveRename(conv.id, e)}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <input
-                                type="text"
-                                className="tara-rename-input"
-                                value={editTitleInput}
-                                onChange={(e) => setEditTitleInput(e.target.value)}
-                                autoFocus
-                              />
-                              <button type="submit" className="tara-rename-btn tara-rename-save" title="Save">
-                                ✓
-                              </button>
-                              <button type="button" className="tara-rename-btn tara-rename-cancel" onClick={cancelRename} title="Cancel">
-                                ✕
-                              </button>
-                            </form>
-                          ) : (
-                            <>
-                              <span className="tara-session-title" title={conv.title}>
-                                {conv.title}
-                              </span>
-                              <div className="tara-session-tools">
-                                <button
-                                  type="button"
-                                  onClick={(e) => startRename(conv, e)}
-                                  title="Rename session"
-                                  aria-label="Rename"
-                                >
-                                  ✏️
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={(e) => void deleteConversationById(conv.id, e)}
-                                  title="Delete session"
-                                  aria-label="Delete"
-                                >
-                                  🗑
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      ))}
+                <div className="tara-drawer-content">
+                  {conversations.length === 0 ? (
+                    <div className="tara-drawer-empty">
+                      <p>No chat sessions yet.</p>
+                      <button type="button" onClick={() => void newConversation()}>
+                        Start your first doubt
+                      </button>
                     </div>
-                  ))
-                )}
-              </div>
-            </aside>
+                  ) : (
+                    groupConversationsByDate(conversations).map((group) => (
+                      <div key={group.label} className="tara-date-group">
+                        <div className="tara-date-label">{group.label}</div>
+                        {group.items.map((conv) => (
+                          <div
+                            key={conv.id}
+                            className={`tara-session-card ${conv.id === activeId ? 'active' : ''}`}
+                            onClick={() => {
+                              void openConversation(conv.id);
+                              if (!maximized) setDrawerOpen(false);
+                            }}
+                          >
+                            {editingId === conv.id ? (
+                              <form
+                                className="tara-rename-form"
+                                onSubmit={(e) => void saveRename(conv.id, e)}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <input
+                                  type="text"
+                                  className="tara-rename-input"
+                                  value={editTitleInput}
+                                  onChange={(e) => setEditTitleInput(e.target.value)}
+                                  autoFocus
+                                />
+                                <button type="submit" className="tara-rename-btn tara-rename-save" title="Save">
+                                  ✓
+                                </button>
+                                <button type="button" className="tara-rename-btn tara-rename-cancel" onClick={cancelRename} title="Cancel">
+                                  ✕
+                                </button>
+                              </form>
+                            ) : (
+                              <>
+                                <span className="tara-session-title" title={conv.title}>
+                                  {conv.title}
+                                </span>
+                                <div className="tara-session-tools">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => startRename(conv, e)}
+                                    title="Rename session"
+                                    aria-label="Rename"
+                                  >
+                                    ✏️
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => void deleteConversationById(conv.id, e)}
+                                    title="Delete session"
+                                    aria-label="Delete"
+                                  >
+                                    🗑
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </aside>
+            )}
 
             {/* Main Chat Workspace */}
             <div className="tara-chat-pane">

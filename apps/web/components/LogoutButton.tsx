@@ -16,6 +16,7 @@ export function LogoutButton() {
       onClick={() => {
         startTransition(async () => {
           await logoutAction();
+          window.dispatchEvent(new Event('cbse:auth-change'));
           router.push('/');
           router.refresh();
         });

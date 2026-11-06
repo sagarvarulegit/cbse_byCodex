@@ -15,6 +15,7 @@ export function RegisterForm() {
 
   useEffect(() => {
     if (state.ok) {
+      window.dispatchEvent(new Event('cbse:auth-change'));
       router.push(getSafeNextPath(searchParams.get('next')));
       router.refresh();
     }

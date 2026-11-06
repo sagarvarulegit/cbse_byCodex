@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import type { SessionUser } from './auth';
 
-function parseSessionCookie(): SessionUser | null {
+export function parseSessionCookie(): SessionUser | null {
   if (typeof document === 'undefined') {
     return null;
   }
@@ -16,7 +17,7 @@ function parseSessionCookie(): SessionUser | null {
     return null;
   }
 
-  const rawToken = cookie.split('=')[1];
+  const rawToken = cookie.slice('cbse_student_session='.length);
   if (!rawToken) {
     return null;
   }
@@ -39,6 +40,9 @@ function parseSessionCookie(): SessionUser | null {
     const payload = JSON.parse(jsonPayload);
 
     if (payload && payload.userId && payload.fullName) {
+      if (typeof payload.exp === 'number' && payload.exp <= Math.floor(Date.now() / 1000)) {
+        return null;
+      }
       return {
         id: payload.userId,
         role: payload.role,
@@ -56,6 +60,7 @@ function parseSessionCookie(): SessionUser | null {
 }
 
 export function useStudentSession(initialSession?: SessionUser | null): SessionUser | null {
+  const pathname = usePathname();
   const [session, setSession] = useState<SessionUser | null>(() => {
     if (initialSession !== undefined) {
       return initialSession;
@@ -64,35 +69,46 @@ export function useStudentSession(initialSession?: SessionUser | null): SessionU
   });
 
   useEffect(() => {
-    if (initialSession !== undefined) {
-      setSession(initialSession);
-      return;
-    }
+    const syncSession = () => {
+      const parsed = parseSessionCookie();
+      if (parsed) {
+        setSession((prev) =>
+          prev?.id === parsed.id && prev?.fullName === parsed.fullName ? prev : parsed,
+        );
+        return;
+      }
 
-    const parsed = parseSessionCookie();
-    if (parsed) {
-      setSession(parsed);
-      return;
-    }
+      if (initialSession !== undefined && initialSession !== null) {
+        setSession(initialSession);
+        return;
+      }
 
-    let isMounted = true;
-    fetch('/api/auth/session')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (isMounted) {
-          setSession(data?.session ?? null);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
+      fetch('/api/auth/session', { cache: 'no-store' })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          const next = data?.session ?? null;
+          setSession((prev) => {
+            if (!prev && !next) return null;
+            if (prev?.id === next?.id && prev?.fullName === next?.fullName) return prev;
+            return next;
+          });
+        })
+        .catch(() => {
           setSession(null);
-        }
-      });
+        });
+    };
+
+    syncSession();
+
+    const handleAuthChange = () => syncSession();
+    window.addEventListener('cbse:auth-change', handleAuthChange);
+    window.addEventListener('focus', handleAuthChange);
 
     return () => {
-      isMounted = false;
+      window.removeEventListener('cbse:auth-change', handleAuthChange);
+      window.removeEventListener('focus', handleAuthChange);
     };
-  }, [initialSession]);
+  }, [initialSession, pathname]);
 
   return session;
 }

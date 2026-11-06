@@ -2,26 +2,38 @@ import { NextResponse } from 'next/server';
 
 import { getStudentSessionToken } from '../../../../lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 
 export async function GET() {
   const token = await getStudentSessionToken();
   if (!token) {
-    return NextResponse.json({ message: 'Sign in to view your chats.' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Sign in to view your chats.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    );
   }
 
   const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations`, {
+    cache: 'no-store',
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await response.json().catch(() => null);
-  return NextResponse.json(data ?? { conversations: [] }, { status: response.status });
+  return NextResponse.json(data ?? { conversations: [] }, {
+    status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
 }
 
 export async function POST(request: Request) {
   const token = await getStudentSessionToken();
   if (!token) {
-    return NextResponse.json({ message: 'Sign in to start a chat with Tara.' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Sign in to start a chat with Tara.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    );
   }
 
   const body = await request.json().catch(() => null);
@@ -31,6 +43,7 @@ export async function POST(request: Request) {
 
   const response = await fetch(`${API_BASE_URL}/v1/tutor/conversations`, {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -38,5 +51,8 @@ export async function POST(request: Request) {
     body: JSON.stringify(body),
   });
   const data = await response.json().catch(() => null);
-  return NextResponse.json(data ?? { conversation: null }, { status: response.status });
+  return NextResponse.json(data ?? { conversation: null }, {
+    status: response.status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
 }

@@ -160,14 +160,11 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Question Bank Student Navigation & Auth Fix**: Added StudentTopbar to `/questions` and `/questions/[slug]`, updated breadcrumbs to route logged-in students to `/dashboard`, made session cookies client-readable (`httpOnly: false`), added `/api/auth/session` fallback, and updated `AuthAwareCTA` so students never see logged-out state (Vercel deployment `dpl_9GaX4ejSEQEmJaDFUvDBWgc2ZoNC`).
-- [x] **Programmatic Question Bank & Socratic SEO (`/questions` & `/questions/[slug]`)**: 1,669+ questions (NCERT Exemplar HOTS + 2022–2026 Board PYQs) with Schema.org `QAPage` structured data, official value points, step marks, examiner deduction notes, Next.js sitemap, and 1-click `#d9f99d` lime-green Tara Socratic hint triggers.
-- [x] **Dedicated Parent Progress Summary (`/parent-summary`)**: High-trust summary model with 1-click WhatsApp weekly digest sharing.
-- [x] **Student Dashboard Redesign ("One Screen, One Question")**: Clean single-plan daily study card, compact progress tiles, and mistake strip.
-- [x] **Tara AI Tutor Optics Engine**: Certified NCERT Table 9.1 & 9.2 physics engine and interactive ray diagram slider.
-- [x] **Fun&Games Arcade & Formula Rush**: 60s Blitz, 3-Lives Survival, and 50+ NCERT-verified formula challenges with Web Audio SFX.
-- [x] **Grounded AI Snap & Grade Evaluator**: OCR/text evaluation against step-marking schemes (`POST /v1/evaluator/grade-answer`).
-- [x] **Multi-Subject Mock Test Generator & Store**: 7-subject blueprint engine, dynamic forensic watermarking, 100% free board mock papers policy.
+- [x] **Tara Chat Session Isolation Fix**: Keyed `TaraWidget` conversation state to `useStudentSession()` (`session?.id`), added `cbse:auth-change` events on login/register/logout, cleared in-memory chat state on user switch, and added `dynamic = 'force-dynamic'` + `cache: 'no-store'` + `Cache-Control: no-store` to `/api/tutor/conversations` routes.
+- [x] **Question Bank Navigation & Auth Fix**: Added `StudentTopbar` to `/questions` & `/questions/[slug]`, routed logged-in breadcrumbs to `/dashboard`, made session cookies client-readable (`httpOnly: false`), and added `/api/auth/session` fallback.
+- [x] **Programmatic Question Bank (`/questions` & `/questions/[slug]`)**: 1,669+ Exemplar & 2022–2026 PYQ pages with Schema.org `QAPage`, step marks, examiner notes, and 1-click `#d9f99d` Tara Socratic hints.
+- [x] **Parent Progress Summary (`/parent-summary`) & Student Dashboard Redesign ("One Screen, One Question")**.
+- [x] **Tara Optics Engine (Tables 9.1 & 9.2), Formula Rush Arcade, Grounded AI Evaluator & Free 80M Mock Papers**.
 
 ### 6.2 Active Tasks in Queue
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
@@ -200,32 +197,11 @@ Before concluding any implementation turn, confirm:
 - [ ] Git commit and push to `origin/main` is completed.
 
 ---
-## 8. Proactive Maintenance Protocol for AGENTS.md
+## 8. Proactive Maintenance Protocol
 
-To keep `AGENTS.md` clean, accurate, and truly useful over time, every agent and developer must observe these maintenance rules:
-
-1. **Single Source of Truth Rule:**
-   - Do **NOT** create ad hoc scratch documents, detached `TODO-*.md`, or standalone design notes in the root or `docs/`.
-   - When a design decision, architecture update, or guideline is established, write it directly into its matching section in `AGENTS.md`.
-
-2. **Immediate Task Handoff Updates:**
-   - Whenever completing a feature or milestone, check off the item in **Section 6.1** and specify the exact next queued task in **Section 6.2**.
-   - If new bugs or technical debt are discovered, add them directly to Section 6.2 or Section 7.1.
-
-3. **API & Route Precision:**
-   - Whenever an Express endpoint is added or changed in `apps/api/src/routes/`, update Section 3 and the matching `docs/agents/` file with the exact HTTP method and URI.
-
-4. **Database Model Sync:**
-   - When Prisma migrations are applied, verify that any new models or critical field additions are reflected in `docs/agents/data-model-summary.md`.
-
-5. **Cross-Platform Path Hygiene:**
-   - Always document paths using repository-relative conventions (e.g. `apps/web/`, `../cbse_videos/`, `../cbse_KB/`) or parameterized Windows paths, avoiding machine-specific Linux user home paths.
-
-6. **Size Budget (Hard Rule):**
-   - Before committing, check `AGENTS.md` size. Above **18 KB**, compact first: merge duplicate gotchas, collapse shipped backlog items to one line (git history keeps detail), and move long reference into `docs/agents/` with a link in Section 4.
-   - Never exceed 20 KB. Content past 24 KB is silently dropped by agents.
-   - Enforced by `.githooks/pre-commit` (warn > 20 KB, block > 24 KB). On any new machine or fresh clone, run once:
-     ```bash
-     git config core.hooksPath .githooks                  # in ChapterReady.in
-     git -C cbse_byCodex config core.hooksPath .githooks
-     ```
+1. **Single Source of Truth:** Do **NOT** create ad hoc scratch documents or standalone design notes. Record architecture updates and gotchas directly in `AGENTS.md` or `docs/agents/`.
+2. **Task Handoff & Route Sync:** Check off completed items in Section 6.1, update queued tasks in Section 6.2, and keep API routes and Prisma models synced in `docs/agents/`.
+3. **Size Budget (< 18 KB):** Never exceed 20 KB (truncated at 24 KB). Compact shipped backlog and move deep reference into `docs/agents/`. Enforced by `.githooks/pre-commit`:
+   ```bash
+   git config core.hooksPath .githooks && git -C cbse_byCodex config core.hooksPath .githooks
+   ```
