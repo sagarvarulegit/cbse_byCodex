@@ -10,6 +10,8 @@ export type PrintableExamPaperProps = {
   initialMode?: 'questions' | 'solutions';
   subjectTitle?: string;
   subjectCode?: string;
+  userFullName?: string;
+  userEmail?: string;
 };
 
 export default function PrintableExamPaper({
@@ -17,6 +19,8 @@ export default function PrintableExamPaper({
   initialMode = 'questions',
   subjectTitle = 'Mathematics Standard',
   subjectCode = '041',
+  userFullName,
+  userEmail,
 }: PrintableExamPaperProps) {
   const [mode, setMode] = useState<'questions' | 'solutions'>(initialMode);
 
@@ -70,10 +74,58 @@ export default function PrintableExamPaper({
 
       {/* The Official Printable Board Exam Sheet */}
       <article className="cbse-paper-document">
+        {/* Dynamic Watermark Background */}
+        <div className="watermark-overlay" aria-hidden="true">
+          <span>{userFullName ? `${userFullName} • ` : ''}www.chapterready.in • CBSE Class 10 Mock Exam</span>
+        </div>
+
+        {/* Top Official ChapterReady Branding Strip */}
+        <div className="paper-top-branding">
+          <div className="branding-brand">
+            <div className="branding-logo-row">
+              <img
+                src="/brand/chapterready-logo.svg"
+                alt="ChapterReady"
+                className="branding-logo-img"
+              />
+              <span className="branding-print-fallback">
+                Chapter<strong>Ready</strong>
+              </span>
+            </div>
+            <span className="branding-tagline">
+              Official CBSE Class 10 Board Mock Examination Series (2025–26)
+            </span>
+          </div>
+
+          <div className="branding-web-col">
+            <div className="branding-url-box">
+              <span className="url-label">Official Exam Portal</span>
+              <a
+                href="https://www.chapterready.in"
+                target="_blank"
+                rel="noreferrer"
+                className="url-link"
+              >
+                www.chapterready.in
+              </a>
+            </div>
+            {userFullName ? (
+              <span className="branding-license-text">
+                🔐 Student: <strong>{userFullName}</strong> {userEmail ? `(${userEmail})` : ''}
+              </span>
+            ) : (
+              <span className="branding-license-text">
+                Free Student Paper · Verified Aligned with NCERT &amp; Official CBSE Sample Paper
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Document Header */}
         <header className="cbse-paper-header">
           <div className="cbse-crest-row">
             <span className="cbse-series-tag">CBSE CLASS 10 BOARD EXAMINATION 2025–26</span>
+            <span className="cbse-center-portal-tag">www.chapterready.in</span>
             <span className="cbse-set-badge">SET · SEED {paper.seed}</span>
           </div>
 
@@ -220,7 +272,7 @@ export default function PrintableExamPaper({
         <footer className="cbse-paper-footer">
           <div className="footer-line">
             <span>CBSE Class 10 Board Mock Series · Verified Aligned with NCERT &amp; Official CBSE Sample Paper 2025–26</span>
-            <span className="page-mark">Page End · ChapterReady.in</span>
+            <span className="page-mark">Official Portal · www.chapterready.in</span>
           </div>
         </footer>
       </article>
@@ -310,15 +362,135 @@ export default function PrintableExamPaper({
 
         /* The Paper Document */
         .cbse-paper-document {
+          position: relative;
           max-width: 850px;
           margin: 0 auto;
           background: #ffffff;
-          padding: 3rem 3.5rem;
+          padding: 2.5rem 3.5rem 3rem;
           box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
           line-height: 1.45;
+          overflow: hidden;
+        }
+
+        /* Dynamic Watermark Background */
+        .watermark-overlay {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.035;
+          transform: rotate(-25deg);
+          font-size: 2.2rem;
+          font-weight: 900;
+          color: #171513;
+          text-align: center;
+          line-height: 1.4;
+          text-transform: uppercase;
+          user-select: none;
+        }
+
+        /* Top ChapterReady Branding Bar */
+        .paper-top-branding {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.65rem 1rem;
+          margin-bottom: 1.5rem;
+          background: #faf8f5;
+          border: 1.5px solid #171513;
+          border-radius: 8px;
+          gap: 1rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .branding-brand {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+        }
+
+        .branding-logo-row {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .branding-logo-img {
+          height: 32px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+        }
+
+        .branding-print-fallback {
+          display: none;
+          font-size: 1.25rem;
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          color: #171513;
+        }
+
+        .branding-print-fallback strong {
+          color: #d26b16;
+        }
+
+        .branding-tagline {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #5d5750;
+        }
+
+        .branding-web-col {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 0.25rem;
+        }
+
+        .branding-url-box {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          background: #ffffff;
+          border: 1px solid #dcd7ce;
+          padding: 0.25rem 0.65rem;
+          border-radius: 6px;
+        }
+
+        .url-label {
+          font-size: 0.5625rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #8c827a;
+        }
+
+        .url-link {
+          font-size: 0.9375rem;
+          font-weight: 800;
+          color: #d26b16;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          font-family: monospace, -apple-system, sans-serif;
+        }
+
+        .url-link:hover {
+          text-decoration: underline;
+        }
+
+        .branding-license-text {
+          font-size: 0.6875rem;
+          color: #64748b;
         }
 
         .cbse-paper-header {
+          position: relative;
+          z-index: 1;
           text-align: center;
           border-bottom: 2px solid #000000;
           padding-bottom: 1.25rem;
@@ -333,6 +505,15 @@ export default function PrintableExamPaper({
           font-weight: bold;
           letter-spacing: 0.05em;
           margin-bottom: 0.75rem;
+          gap: 0.75rem;
+        }
+
+        .cbse-center-portal-tag {
+          font-size: 0.8125rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          color: #171513;
+          font-family: monospace, sans-serif;
         }
 
         .cbse-set-badge {
@@ -433,6 +614,11 @@ export default function PrintableExamPaper({
         }
 
         /* Sections */
+        .cbse-sections-body {
+          position: relative;
+          z-index: 1;
+        }
+
         .cbse-section-block {
           margin-bottom: 2rem;
           page-break-inside: auto;
@@ -564,6 +750,8 @@ export default function PrintableExamPaper({
         }
 
         .cbse-paper-footer {
+          position: relative;
+          z-index: 1;
           margin-top: 3rem;
           border-top: 1px solid #000000;
           padding-top: 0.75rem;
@@ -578,19 +766,78 @@ export default function PrintableExamPaper({
 
         /* Print Media Styles */
         @media print {
-          .no-print {
+          /* Hide non-printable navigation, control bars, feedback & tutor widgets */
+          .no-print,
+          :global(header),
+          :global(footer),
+          :global(nav),
+          :global(.student-topbar),
+          :global(.site-footer),
+          :global(button[aria-label="Give feedback"]),
+          :global([class*="Feedback"]),
+          :global([class*="feedback"]),
+          :global([class*="tara-"]),
+          :global([class*="Tara"]),
+          :global([id*="tara"]),
+          :global([class*="widget"]) {
             display: none !important;
+          }
+
+          @page {
+            size: A4 portrait;
+            margin: 10mm 12mm;
+          }
+
+          :global(html),
+          :global(body) {
+            background: #ffffff !important;
+            color: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
           }
 
           .printable-root {
             background: #ffffff !important;
             padding: 0 !important;
+            min-height: auto !important;
           }
 
           .cbse-paper-document {
             box-shadow: none !important;
             padding: 0 !important;
             max-width: 100% !important;
+            border: none !important;
+          }
+
+          .paper-top-branding {
+            background: #faf8f5 !important;
+            border: 1.5px solid #000000 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            padding: 0.4rem 0.65rem !important;
+            margin-bottom: 1.25rem !important;
+          }
+
+          .branding-logo-img {
+            height: 28px !important;
+          }
+
+          .url-link {
+            color: #000000 !important;
+          }
+
+          .branding-url-box {
+            border-color: #000000 !important;
+          }
+
+          .watermark-overlay {
+            opacity: 0.035 !important;
+            font-size: 2rem !important;
+          }
+
+          .cbse-paper-header {
+            border-bottom: 2px solid #000000 !important;
           }
 
           .question-item {
@@ -600,6 +847,12 @@ export default function PrintableExamPaper({
 
           .cbse-section-block {
             break-inside: auto;
+          }
+
+          .cbse-paper-footer {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border-top: 1px solid #000000 !important;
           }
         }
       `}</style>
