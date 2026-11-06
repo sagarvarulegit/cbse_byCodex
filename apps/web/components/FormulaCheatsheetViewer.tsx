@@ -8,7 +8,9 @@ import {
   type CheatsheetSubject,
   type FlashcardItem,
 } from '../lib/content/cheatsheets-data';
+import Link from 'next/link';
 import MathText from './MathText';
+const TrigMagicHexagonViewer = dynamic(() => import('./TrigMagicHexagonViewer'), { ssr: false });
 const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { FORMULA_CHEATSHEET_PACK_KEY } from '../lib/payments';
 
@@ -32,6 +34,7 @@ export default function FormulaCheatsheetViewer({
   );
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [unlockedState, setUnlockedState] = useState(isUnlocked);
+  const [showTrigHexagon, setShowTrigHexagon] = useState(false);
 
   // Flashcard Drill State
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -264,6 +267,75 @@ export default function FormulaCheatsheetViewer({
                 ))}
               </ul>
             </div>
+
+            {/* Trigonometric Magic Hexagon Spotlight for Chapter 8 */}
+            {activeChapter.id === 'math-ch8' && (
+              <div
+                className="sheet-section trig-hexagon-spotlight no-print"
+                style={{
+                  background: '#fffdf8',
+                  border: '2px solid #d26b16',
+                  borderRadius: '12px',
+                  padding: '1.25rem',
+                  marginBottom: '1.5rem',
+                  boxShadow: '4px 4px 0 #d26b16',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                  <div>
+                    <span style={{ background: '#ffedd5', color: '#c2410c', fontSize: '0.75rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px', textTransform: 'uppercase' }}>
+                      ⚡ 30-Second Mnemonic Hack
+                    </span>
+                    <h3 style={{ margin: '0.35rem 0 0', fontSize: '1.2rem', fontWeight: 900, color: '#171513' }}>
+                      Trigonometric Magic Hexagon (Super Hexagon)
+                    </h3>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowTrigHexagon(!showTrigHexagon)}
+                      style={{
+                        background: '#24211f',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '0.45rem 0.85rem',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {showTrigHexagon ? '▲ Hide Super Hexagon' : '⬡ Open Interactive Super Hexagon'}
+                    </button>
+                    <Link
+                      href="/tools/trig-magic-hexagon"
+                      style={{
+                        background: '#f7f2e7',
+                        border: '1.5px solid #24211f',
+                        color: '#24211f',
+                        borderRadius: '6px',
+                        padding: '0.45rem 0.85rem',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      Full-Screen Micro-Lesson ↗
+                    </Link>
+                  </div>
+                </div>
+                <p style={{ margin: '0 0 0.75rem', fontSize: '0.88rem', color: '#55514b', lineHeight: 1.45 }}>
+                  Derive 20+ formulas without memorization! Use the 5-second rough sheet setup rule, opposite diagonals for reciprocals, clockwise quotients, and the 3 downward Pythagorean triangles.
+                </p>
+                {showTrigHexagon && (
+                  <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1.5px dashed #fed7aa' }}>
+                    <TrigMagicHexagonViewer />
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* High-Yield Formulas Table */}
             <div className="sheet-section formulas-section">
