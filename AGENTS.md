@@ -160,6 +160,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
+- [x] **Question Bank Student Navigation & Auth Fix**: Added StudentTopbar to `/questions` and `/questions/[slug]`, updated breadcrumbs to route logged-in students to `/dashboard`, made session cookies client-readable (`httpOnly: false`), added `/api/auth/session` fallback, and updated `AuthAwareCTA` so students never see logged-out state.
 - [x] **Programmatic Question Bank & Socratic SEO (`/questions` & `/questions/[slug]`)**: 1,669+ questions (NCERT Exemplar HOTS + 2022–2026 Board PYQs) with Schema.org `QAPage` structured data, official value points, step marks, examiner deduction notes, Next.js sitemap, and 1-click `#d9f99d` lime-green Tara Socratic hint triggers.
 - [x] **Dedicated Parent Progress Summary (`/parent-summary`)**: High-trust summary model with 1-click WhatsApp weekly digest sharing.
 - [x] **Student Dashboard Redesign ("One Screen, One Question")**: Clean single-plan daily study card, compact progress tiles, and mistake strip.
@@ -185,6 +186,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 4. **Contrast Rules on Warm Paper:** Orange `#f3883b` on cream paper (`#f7f2e7`) fails WCAG AA (2.24:1). Use `#d26b16` for headings (3.21:1) and `#a84a08` for small labels and equations (5.16:1).
 5. **Vercel Serverless File Tracing:** `apps/web/content/**/*` must be included in serverless function traces so markdown files resolve reliably in deployed lambdas.
 6. **Strict Prisma Interactive Transaction Timeout:** Multi-table transactions (mastery + streaks + missions + badges) can exceed the default 5s timeout. Use explicit `maxWait: 10000` and `timeout: 15000` in `apps/api/src/routes/progress.ts`.
+7. **Student Session Cookie & Navigation Routing:** Client components require client access to `cbse_student_session` (`httpOnly: false`). Fallback endpoint `/api/auth/session` handles legacy sessions. Breadcrumbs across all routes must route logged-in students to `/dashboard` ("Dashboard") and unauthenticated visitors to `/` ("Home").
 
 ### 7.2 Pre-Close Verification Checklist
 Before concluding any implementation turn, confirm:

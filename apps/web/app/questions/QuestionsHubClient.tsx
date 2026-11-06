@@ -3,16 +3,21 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import TaraFireflyIcon from '../../components/TaraFireflyIcon';
+import StudentTopbar from '../../components/StudentTopbar';
+import { useStudentSession } from '../../lib/use-student-session';
+import type { SessionUser } from '../../lib/auth';
 import type { SeoQuestionItem } from '../../lib/seo-questions';
 import './questions.css';
 
 interface Props {
   initialQuestions: SeoQuestionItem[];
+  initialSession?: SessionUser | null;
 }
 
 const ITEMS_PER_PAGE = 24;
 
-export default function QuestionsHubClient({ initialQuestions }: Props) {
+export default function QuestionsHubClient({ initialQuestions, initialSession }: Props) {
+  const session = useStudentSession(initialSession);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
   const [selectedSource, setSelectedSource] = useState<string>('all');
@@ -68,11 +73,16 @@ export default function QuestionsHubClient({ initialQuestions }: Props) {
 
   return (
     <div className="qd-root">
-      {/* Top Header */}
+      {/* Student Global Navigation */}
+      <StudentTopbar contextLabel="📝 Question Bank" session={session} />
+
+      {/* Directory Subheader & Breadcrumbs */}
       <header className="qd-topbar">
         <div className="qd-topbar-inner">
           <nav className="qd-breadcrumb" aria-label="Directory breadcrumbs">
-            <Link href="/">Home</Link>
+            <Link href={session ? '/dashboard' : '/'}>
+              {session ? 'Dashboard' : 'Home'}
+            </Link>
             <span className="qd-breadcrumb-sep">/</span>
             <span className="qd-breadcrumb-current">Questions Directory</span>
           </nav>

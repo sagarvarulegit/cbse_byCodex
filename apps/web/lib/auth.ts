@@ -49,7 +49,7 @@ async function fetchAuthApi(path: string, init: RequestInit) {
 export async function saveSessionToken(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, token, {
-    httpOnly: true,
+    httpOnly: false,
     maxAge: SESSION_MAX_AGE_SECONDS,
     path: '/',
     sameSite: 'lax',
@@ -60,7 +60,7 @@ export async function saveSessionToken(token: string) {
 export async function clearStudentSession() {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, '', {
-    httpOnly: true,
+    httpOnly: false,
     maxAge: 0,
     path: '/',
     sameSite: 'lax',

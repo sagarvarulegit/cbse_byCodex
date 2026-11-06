@@ -215,9 +215,13 @@ export default async function HomePage() {
 
           {/* Primary & Secondary Action */}
           <div className="hero-focused-actions">
-            <a href="#goals" className="hero-btn-primary">
-              Start Learning
-            </a>
+            <AuthAwareCTA
+              className="hero-btn-primary"
+              hrefLoggedIn="/dashboard"
+              hrefLoggedOut="#goals"
+              textLoggedIn="Go to Your Dashboard →"
+              textLoggedOut="Start Learning"
+            />
             <a href="#subjects" className="hero-btn-secondary">
               Explore Subjects
             </a>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useStudentSession } from '../lib/use-student-session';
 
 export function AuthAwareCTA({
   hrefLoggedIn,
@@ -9,28 +10,23 @@ export function AuthAwareCTA({
   textLoggedIn,
   textLoggedOut,
   className,
-  style
+  style,
 }: {
   hrefLoggedIn: string;
   hrefLoggedOut: string;
-  textLoggedIn: string;
-  textLoggedOut: string;
+  textLoggedIn: React.ReactNode;
+  textLoggedOut: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const session = useStudentSession();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Simple check for the session cookie
-    if (document.cookie.includes('cbse_student_session')) {
-      setIsLoggedIn(true);
-    }
   }, []);
 
-  // Before mounting, we can show the logged-out version as a fallback,
-  // or a skeleton. Since it's SSG, the server renders the logged-out version.
+  const isLoggedIn = Boolean(session);
   const href = mounted && isLoggedIn ? hrefLoggedIn : hrefLoggedOut;
   const text = mounted && isLoggedIn ? textLoggedIn : textLoggedOut;
 
@@ -50,15 +46,14 @@ export function AuthAwareText({
   textLoggedOut: React.ReactNode;
   className?: string;
 }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const session = useStudentSession();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (document.cookie.includes('cbse_student_session')) {
-      setIsLoggedIn(true);
-    }
   }, []);
+
+  const isLoggedIn = Boolean(session);
 
   return (
     <span className={className}>

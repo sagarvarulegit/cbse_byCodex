@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import MathText from '../../../components/MathText';
 import TaraFireflyIcon from '../../../components/TaraFireflyIcon';
+import StudentTopbar from '../../../components/StudentTopbar';
+import { useStudentSession } from '../../../lib/use-student-session';
 import { useTutorPageContext } from '../../../contexts/TutorPageContext';
 import type { SeoQuestionItem } from '../../../lib/seo-questions';
 import '../questions.css';
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export default function QuestionDetailClient({ question, related }: Props) {
+  const session = useStudentSession();
   const { setPageContext } = useTutorPageContext();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -76,11 +79,16 @@ export default function QuestionDetailClient({ question, related }: Props) {
 
   return (
     <div className="qd-root">
+      {/* Student Global Navigation */}
+      <StudentTopbar contextLabel="📝 Question Bank" session={session} />
+
       {/* Top Header / Breadcrumbs */}
       <header className="qd-topbar">
         <div className="qd-topbar-inner">
           <nav className="qd-breadcrumb" aria-label="Question breadcrumbs">
-            <Link href="/">Home</Link>
+            <Link href={session ? '/dashboard' : '/'}>
+              {session ? 'Dashboard' : 'Home'}
+            </Link>
             <span className="qd-breadcrumb-sep">/</span>
             <Link href="/questions">Questions</Link>
             <span className="qd-breadcrumb-sep">/</span>

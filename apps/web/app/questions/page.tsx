@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { getAllSeoQuestions } from '../../lib/seo-questions';
+import { getStudentSession } from '../../lib/auth';
 import QuestionsHubClient from './QuestionsHubClient';
 
 export const metadata: Metadata = {
@@ -19,8 +20,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function QuestionsDirectoryPage() {
-  const allQuestions = getAllSeoQuestions();
+export default async function QuestionsDirectoryPage() {
+  const [session, allQuestions] = await Promise.all([
+    getStudentSession(),
+    getAllSeoQuestions(),
+  ]);
 
-  return <QuestionsHubClient initialQuestions={allQuestions} />;
+  return <QuestionsHubClient initialQuestions={allQuestions} initialSession={session} />;
 }

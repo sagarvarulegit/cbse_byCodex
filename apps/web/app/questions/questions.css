@@ -31,11 +31,10 @@
   line-height: 1.6;
 }
 
-/* Topbar Header */
+/* Topbar Subheader */
 .qd-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
+  position: relative;
+  z-index: 20;
   background-color: #ffffff;
   border-bottom: 2px solid var(--qd-border-dark);
   box-shadow: 0 2px 4px rgba(24, 22, 18, 0.05);
