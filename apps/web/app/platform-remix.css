@@ -2105,6 +2105,12 @@ details[data-part].complete-chapter-part[open] > summary.complete-chapter-part-h
   right: 0;
   display: grid;
   width: min(292px, calc(100vw - 28px));
+  max-height: min(calc(100dvh - 110px), 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--remix-line) transparent;
   gap: 5px;
   padding: 10px;
   border: 2px solid var(--remix-ink);
@@ -2114,6 +2120,23 @@ details[data-part].complete-chapter-part[open] > summary.complete-chapter-part-h
     5px 5px 0 var(--remix-ink),
     var(--remix-shadow-mid);
   animation: remix-menu-in 150ms ease-out;
+}
+
+.student-account-popover::-webkit-scrollbar {
+  width: 5px;
+}
+
+.student-account-popover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.student-account-popover::-webkit-scrollbar-thumb {
+  background: var(--remix-line);
+  border-radius: 999px;
+}
+
+.student-account-popover::-webkit-scrollbar-thumb:hover {
+  background: var(--remix-orange-deep);
 }
 
 .student-account-popover-heading {
@@ -2637,6 +2660,7 @@ body.reading-focus-active .lesson-shell[id] {
     position: fixed;
     top: 71px;
     right: 10px;
+    max-height: calc(100dvh - 145px);
   }
 
   .student-topbar-auth {

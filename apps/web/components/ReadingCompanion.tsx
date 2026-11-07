@@ -66,6 +66,33 @@ export default function ReadingCompanion({
     null,
   );
   const hasUserScrolled = useRef(false);
+  const contentsRef = useRef<HTMLDetailsElement>(null);
+  const [contentsOpen, setContentsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!contentsOpen) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (contentsRef.current && !contentsRef.current.contains(event.target as Node)) {
+        setContentsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setContentsOpen(false);
+        contentsRef.current?.querySelector('summary')?.focus();
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [contentsOpen]);
 
   const activeSection =
     availableSections.find((section) => section.id === activeSectionId) ??
@@ -239,8 +266,26 @@ export default function ReadingCompanion({
           </button>
         ) : null}
 
-        <details className="reading-contents-menu">
-          <summary>Contents</summary>
+        <details
+          ref={contentsRef}
+          className="reading-contents-menu"
+          open={contentsOpen}
+          onToggle={(e) => {
+            const isElementOpen = (e.currentTarget as HTMLDetailsElement).open;
+            if (isElementOpen !== contentsOpen) {
+              setContentsOpen(isElementOpen);
+            }
+          }}
+        >
+          <summary
+            aria-expanded={contentsOpen}
+            onClick={(e) => {
+              e.preventDefault();
+              setContentsOpen((prev) => !prev);
+            }}
+          >
+            Contents
+          </summary>
           <nav aria-label={`${chapterTitle} reading sections`}>
             {availableSections.map((section) => (
               <a
@@ -249,7 +294,10 @@ export default function ReadingCompanion({
                 }
                 href={`#${section.id}`}
                 key={section.id}
-                onClick={() => openSection(section)}
+                onClick={() => {
+                  openSection(section);
+                  setContentsOpen(false);
+                }}
               >
                 {section.label}
               </a>
