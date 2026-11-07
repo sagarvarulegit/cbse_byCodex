@@ -452,15 +452,17 @@ export default function TaraWidget() {
       setReportedMessageIds((prev) => ({ ...prev, [messageId]: reason }));
       setReportingMessageId(null);
       try {
+        const pagePath =
+          typeof window !== 'undefined' ? window.location.pathname : context.pageUrl || '/';
+        const chapterLabel = context.chapterTitle || context.pageTitle || 'Class 10';
         await fetch('/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            category: 'ai_tutor_report',
-            message: `[AI Report: ${reason}] Message ID: ${messageId} | Context: ${
-              context.chapterTitle || context.pageTitle || 'Class 10'
-            } | Snippet: ${messageContent.slice(0, 160)}...`,
-            pageUrl: typeof window !== 'undefined' ? window.location.pathname : (context.pageUrl || '/'),
+            category: 'content_error',
+            title: `[Tara AI Report] ${reason}`.slice(0, 200),
+            chapter: chapterLabel.slice(0, 200),
+            description: `Flagged Tara AI response (${reason}) | Message ID: ${messageId} | Page: ${pagePath} | Context: ${chapterLabel}\n\nResponse excerpt:\n${messageContent.slice(0, 600)}`,
             rating: 1,
           }),
         });

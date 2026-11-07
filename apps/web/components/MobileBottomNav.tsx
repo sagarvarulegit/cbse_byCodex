@@ -3,10 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useStudentSession } from '../lib/use-student-session';
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
+  const session = useStudentSession();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const homeHref = session ? '/dashboard' : '/';
 
   // Close sheet on route navigation
   useEffect(() => {
@@ -44,9 +47,9 @@ export default function MobileBottomNav() {
       {/* 5-Tab Mobile Bottom Navigation Bar */}
       <nav className="mobile-bottom-nav" aria-label="Mobile Navigation">
         <Link
-          href="/dashboard"
+          href={homeHref}
           className={`nav-tab ${isHomeActive ? 'active' : ''}`}
-          aria-label="Dashboard"
+          aria-label={session ? 'Dashboard' : 'Home'}
           aria-current={isHomeActive ? 'page' : undefined}
         >
           <span className="tab-icon">🏠</span>

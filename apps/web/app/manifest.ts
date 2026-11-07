@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'ChapterReady',
     description:
       'Textbook-faithful CBSE Class 10 NCERT notes, 1,669+ PYQs & Exemplar questions, 20 free 80-mark mock papers, 3D Science Lab, and Tara AI tutor.',
-    start_url: '/dashboard?utm_source=twa',
+    start_url: '/?utm_source=twa',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',

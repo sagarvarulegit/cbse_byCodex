@@ -119,7 +119,7 @@ export default function OfflinePage() {
           </Link>
 
           <Link
-            href="/dashboard"
+            href="/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -135,7 +135,7 @@ export default function OfflinePage() {
               textDecoration: 'none',
             }}
           >
-            ← Return to Dashboard
+            ← Return to Home
           </Link>
         </div>
       </div>
