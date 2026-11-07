@@ -284,24 +284,8 @@ examPapersRouter.post('/:id/attempt', async (req, res) => {
     return res.status(403).json({ message: 'You do not have access to this paper.' });
   }
 
-  if (isPublishedSeries) {
-    const series = getMockTestSeriesForSubject(paper.subjectSlug);
-    const paperDef = series.papers.find((p) => p.seed === paper.seed);
-    const paperNumber = paperDef?.number ?? 1;
-    const access = await checkMockPaperAccess({
-      userId: user.id,
-      subjectSlug: paper.subjectSlug,
-      paperNumber,
-      userEmail: user.email,
-    });
-    if (!access.isUnlocked && user.role !== UserRole.admin && !isTestUserEmail(user.email)) {
-      return res.status(403).json({
-        code: 'PAYWALL_LOCKED',
-        message: 'Unlock the Mock Test Series to submit attempts for Papers 2–5.',
-        freeSampleAvailable: true,
-      });
-    }
-  }
+  // All mock test papers across all subjects are 100% free forever for all students.
+  // Private student-generated papers are already guarded above (paper.userId !== user.id).
 
   const normalized = normalizeExamPaperAttempt({ ...req.body, examPaperId });
   if (!normalized.data) {
@@ -561,24 +545,8 @@ examPapersRouter.get('/:id', async (req, res) => {
     return res.status(403).json({ message: 'You do not have access to this paper.' });
   }
 
-  if (isPublishedSeries) {
-    const series = getMockTestSeriesForSubject(paper.subjectSlug);
-    const paperDef = series.papers.find((p) => p.seed === paper.seed);
-    const paperNumber = paperDef?.number ?? 1;
-    const access = await checkMockPaperAccess({
-      userId: user.id,
-      subjectSlug: paper.subjectSlug,
-      paperNumber,
-      userEmail: user.email,
-    });
-    if (!access.isUnlocked && user.role !== UserRole.admin && !isTestUserEmail(user.email)) {
-      return res.status(403).json({
-        code: 'PAYWALL_LOCKED',
-        message: 'Unlock the Mock Test Series to view Paper 2–5.',
-        freeSampleAvailable: true,
-      });
-    }
-  }
+  // All mock test papers across all subjects are 100% free forever for all students.
+  // Private student-generated papers are already guarded above (paper.userId !== user.id).
 
   const questions = paper.questions.map((question) => ({
     questionNumber: question.questionNumber,
