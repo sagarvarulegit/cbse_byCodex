@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -8,6 +8,8 @@ import StudyRemixProvider from '../components/StudyRemixProvider';
 import { TutorPageProvider } from '../contexts/TutorPageContext';
 import JsonLd from '../components/seo/JsonLd';
 import GoogleAnalytics from '../components/seo/GoogleAnalytics';
+import MobileBottomNav from '../components/MobileBottomNav';
+import ServiceWorkerRegistrar from '../components/ServiceWorkerRegistrar';
 
 // Lazy-load TaraWidget (46KB + KaTeX 250KB) — only hydrates when student
 // interacts with the floating Tara button instead of bloating every page.
@@ -18,6 +20,14 @@ import './globals.css';
 import './platform-remix.css';
 // arcade.css moved to app/games/layout.tsx — only loaded on game routes
 
+export const viewport: Viewport = {
+  themeColor: '#171513',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+};
+
 export const metadata: Metadata = {
   title: {
     default: 'ChapterReady for CBSE Class 10',
@@ -25,6 +35,16 @@ export const metadata: Metadata = {
   },
   description:
     'Textbook-faithful CBSE Class 10 notes, quizzes, practice, and guided revision.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'ChapterReady',
+  },
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icons/apple-touch-icon.png',
+  },
   verification: {
     google: '776c3bd92fa22c1c',
   },
@@ -38,11 +58,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <GoogleAnalytics />
+        <ServiceWorkerRegistrar />
         <TutorPageProvider>
           <StudyRemixProvider>{children}</StudyRemixProvider>
           <FeedbackButton />
           <TaraWidget />
         </TutorPageProvider>
+        <MobileBottomNav />
         <footer className="site-footer">
           <Link aria-label="ChapterReady home" className="footer-brand" href="/">
             <BrandLockup compact showDescriptor={false} />

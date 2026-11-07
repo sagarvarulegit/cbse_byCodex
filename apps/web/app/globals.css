@@ -3218,9 +3218,9 @@ h3 {
 
   .lesson-mobile-navigation {
     position: fixed;
-    z-index: 30;
+    z-index: 890;
     right: 10px;
-    bottom: 10px;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
     left: 10px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -6779,6 +6779,21 @@ h3 {
   .site-footer,
   .feedback-fab,
   .tara-trigger-btn {
+    display: none !important;
+  }
+}
+
+
+/* Mobile Safe Area and Bottom Navigation Spacing */
+@media (max-width: 760px) {
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media print {
+  .mobile-bottom-nav,
+  .bottom-sheet-overlay {
     display: none !important;
   }
 }

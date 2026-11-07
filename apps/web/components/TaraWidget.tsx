@@ -441,9 +441,35 @@ export default function TaraWidget() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitleInput, setEditTitleInput] = useState('');
+  const [reportingMessageId, setReportingMessageId] = useState<string | null>(null);
+  const [reportedMessageIds, setReportedMessageIds] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const prevUserIdRef = useRef<string | null | undefined>(undefined);
+
+  const submitAiReport = useCallback(
+    async (messageId: string, messageContent: string, reason: string) => {
+      setReportedMessageIds((prev) => ({ ...prev, [messageId]: reason }));
+      setReportingMessageId(null);
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            category: 'ai_tutor_report',
+            message: `[AI Report: ${reason}] Message ID: ${messageId} | Context: ${
+              context.chapterTitle || context.pageTitle || 'Class 10'
+            } | Snippet: ${messageContent.slice(0, 160)}...`,
+            pageUrl: typeof window !== 'undefined' ? window.location.pathname : (context.pageUrl || '/'),
+            rating: 1,
+          }),
+        });
+      } catch (err) {
+        console.error('Failed to submit AI report:', err);
+      }
+    },
+    [context.chapterTitle, context.pageTitle, context.pageUrl],
+  );
 
   // Sync conversations whenever the signed-in student changes or logs out.
   useEffect(() => {
@@ -1013,8 +1039,86 @@ export default function TaraWidget() {
                               📎 {message.attachments.map((a) => a.fileName).join(', ')}
                             </span>
                           )}
-                          {message.role === 'assistant' && message.citedChunkIds && message.citedChunkIds.length > 0 && (
-                            <span className="tara-citations">📖 based on your Class 10 notes</span>
+                          {message.role === 'assistant' && (
+                            <div className="tara-msg-actions">
+                              {message.citedChunkIds && message.citedChunkIds.length > 0 ? (
+                                <span className="tara-citations">📖 based on your Class 10 notes</span>
+                              ) : (
+                                <span />
+                              )}
+                              {reportedMessageIds[message.id] ? (
+                                <span className="tara-reported-badge">
+                                  ✓ Reported ({reportedMessageIds[message.id]})
+                                </span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="tara-report-btn"
+                                  onClick={() =>
+                                    setReportingMessageId((prev) =>
+                                      prev === message.id ? null : message.id,
+                                    )
+                                  }
+                                  title="Report inaccurate or improper AI response"
+                                  aria-label="Report this AI response"
+                                >
+                                  🚩 Report
+                                </button>
+                              )}
+                            </div>
+                          )}
+                          {message.role === 'assistant' && reportingMessageId === message.id && (
+                            <div className="tara-report-pills" role="region" aria-label="Select report reason">
+                              <span style={{ width: '100%', fontSize: '10px', color: '#78716c', fontWeight: 700 }}>
+                                What is the issue with this response?
+                              </span>
+                              <button
+                                type="button"
+                                className="tara-report-pill"
+                                onClick={() =>
+                                  void submitAiReport(
+                                    message.id,
+                                    message.contentMarkdown,
+                                    'Inaccurate formula/fact',
+                                  )
+                                }
+                              >
+                                ⚠️ Inaccurate formula/fact
+                              </button>
+                              <button
+                                type="button"
+                                className="tara-report-pill"
+                                onClick={() =>
+                                  void submitAiReport(
+                                    message.id,
+                                    message.contentMarkdown,
+                                    'Confusing explanation',
+                                  )
+                                }
+                              >
+                                ❓ Confusing explanation
+                              </button>
+                              <button
+                                type="button"
+                                className="tara-report-pill"
+                                onClick={() =>
+                                  void submitAiReport(
+                                    message.id,
+                                    message.contentMarkdown,
+                                    'Inappropriate content',
+                                  )
+                                }
+                              >
+                                🚫 Inappropriate content
+                              </button>
+                              <button
+                                type="button"
+                                className="tara-report-cancel"
+                                onClick={() => setReportingMessageId(null)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -1330,7 +1434,100 @@ export default function TaraWidget() {
         .tara-streaming .tara-typing { animation: taraBlink 1s infinite; }
         @keyframes taraBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
         .tara-attachments { display: block; font-size: 12px; color: #7a5a10; margin-top: 4px; }
-        .tara-citations { display: block; font-size: 11px; color: #8a7a4a; margin-top: 6px; font-style: italic; }
+        .tara-citations { display: block; font-size: 11px; color: #8a7a4a; margin-top: 0; font-style: italic; }
+        .tara-msg-actions {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          margin-top: 6px;
+          padding-top: 4px;
+          border-top: 1px dashed rgba(23, 21, 19, 0.12);
+        }
+        .tara-report-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 11px;
+          color: #a87030;
+          font-weight: 700;
+          padding: 2px 4px;
+          border-radius: 4px;
+          transition: background 120ms;
+        }
+        .tara-report-btn:hover {
+          background: rgba(23, 21, 19, 0.06);
+          color: #8a3010;
+        }
+        .tara-report-pills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          margin-top: 6px;
+          padding: 6px;
+          background: #fff8e6;
+          border: 1px solid #e0c890;
+          border-radius: 8px;
+        }
+        .tara-report-pill {
+          background: #fff;
+          border: 1px solid #171513;
+          border-radius: 6px;
+          padding: 3px 6px;
+          font-size: 10px;
+          font-weight: 700;
+          color: #171513;
+          cursor: pointer;
+        }
+        .tara-report-pill:hover {
+          background: #ffe08a;
+        }
+        .tara-report-cancel {
+          background: transparent;
+          border: none;
+          font-size: 10px;
+          color: #78716c;
+          cursor: pointer;
+          padding: 3px 6px;
+        }
+        .tara-reported-badge {
+          font-size: 10px;
+          color: #15803d;
+          font-weight: 700;
+          background: #f0fdf4;
+          border: 1px solid #86efac;
+          padding: 2px 6px;
+          border-radius: 4px;
+        }
+
+        /* Mobile Viewport Adjustments for TWA and Mobile Devices */
+        @media (max-width: 760px) {
+          .tara-bubble {
+            bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+            right: 14px;
+            width: 56px;
+            height: 56px;
+            z-index: 950;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .tara-window {
+            position: fixed;
+            inset: 0 !important;
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            z-index: 10000 !important;
+          }
+          .tara-input-bar {
+            padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+          }
+        }
         .tara-error { color: #b3261e; font-size: 13px; margin-top: 8px; }
         .tara-input-bar {
           display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px;

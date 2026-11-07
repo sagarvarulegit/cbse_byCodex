@@ -7,6 +7,7 @@ import {
   verifyPayment,
   UNLIMITED_QUIZ_PASS_KEY,
 } from '../lib/payments';
+import { isTwaWebOnlyPaymentMode } from '../lib/twa';
 
 export type QuizPaywallModalProps = {
   isOpen: boolean;
@@ -55,6 +56,12 @@ export default function QuizPaywallModal({
   async function handleCheckout() {
     setLoading(true);
     setErrorMessage(null);
+
+    if (isTwaWebOnlyPaymentMode()) {
+      setLoading(false);
+      setErrorMessage('Unlimited Quiz Passes can be unlocked on www.chapterready.in and will sync automatically to your mobile app.');
+      return;
+    }
 
     const emailToUse = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || '';
     const phoneToUse = guestPhone.trim();

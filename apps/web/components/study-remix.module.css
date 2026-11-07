@@ -1806,15 +1806,16 @@
 
   .miniPlayer {
     right: 10px;
-    bottom: calc(10px + env(safe-area-inset-bottom));
+    bottom: calc(68px + env(safe-area-inset-bottom));
     left: 10px;
     width: auto;
     grid-template-columns: 38px minmax(0, 1fr) auto;
     border-radius: 14px;
+    z-index: 895;
   }
 
   .miniPlayerLessonOffset {
-    bottom: calc(86px + env(safe-area-inset-bottom));
+    bottom: calc(144px + env(safe-area-inset-bottom));
   }
 
   .miniDisc {

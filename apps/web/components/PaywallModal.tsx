@@ -6,6 +6,7 @@ import {
   createPaymentOrder,
   verifyPayment,
 } from '../lib/payments';
+import { isTwaWebOnlyPaymentMode } from '../lib/twa';
 
 export type PaywallModalProps = {
   isOpen: boolean;
@@ -59,6 +60,12 @@ export default function PaywallModal({
   async function handleCheckout() {
     setIsProcessing(true);
     setErrorMessage(null);
+
+    if (isTwaWebOnlyPaymentMode()) {
+      setIsProcessing(false);
+      setErrorMessage('Study packs can be unlocked on www.chapterready.in and will sync automatically to your mobile app.');
+      return;
+    }
 
     const emailToUse = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || '';
     const phoneToUse = guestPhone.trim();

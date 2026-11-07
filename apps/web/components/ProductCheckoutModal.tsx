@@ -9,6 +9,7 @@ import {
   ACTIVITY_FORMULA_COMBO_PACK_KEY,
   SCIENCE_CH1_5_PACK_KEY,
 } from '../lib/payments';
+import { isTwaWebOnlyPaymentMode } from '../lib/twa';
 
 export type ProductCheckoutModalProps = {
   isOpen: boolean;
@@ -193,6 +194,12 @@ export default function ProductCheckoutModal({
   async function handleCheckout() {
     setLoading(true);
     setErrorMessage(null);
+
+    if (isTwaWebOnlyPaymentMode()) {
+      setLoading(false);
+      setErrorMessage('Study packs can be unlocked on www.chapterready.in and will sync automatically to your mobile app.');
+      return;
+    }
 
     const emailToUse: string = (token && userEmail ? userEmail : guestEmail.trim().toLowerCase()) || 'your registered email';
     const phoneToUse = guestPhone.trim();

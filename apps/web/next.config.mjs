@@ -16,6 +16,36 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/.well-known/assetlinks.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400',
+          },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+        ],
+      },
+      {
         source: '/:all*(svg|jpg|png|webp|ico|woff2)',
         headers: [
           {
