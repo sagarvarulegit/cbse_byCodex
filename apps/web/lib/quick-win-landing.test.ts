@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 import {
@@ -31,7 +31,7 @@ test('Post-signup re-routing redirects new students to the Quick Win Chapter Hub
 
 test('Chapter hub contains the two high-contrast Quick Win hero cards and secondary notes option', () => {
   const chapterHub = fs.readFileSync(
-    path.join(process.cwd(), 'app', 'chapters', '[slug]', 'page.tsx'),
+    fileURLToPath(new URL('../app/chapters/[slug]/page.tsx', import.meta.url)),
     'utf8',
   );
 
@@ -55,13 +55,11 @@ test('Chapter hub contains the two high-contrast Quick Win hero cards and second
 
 test('Notes view contains sticky floating pills, top CTA banner, and inline break banner after Section 1', () => {
   const notesPage = fs.readFileSync(
-    path.join(
-      process.cwd(),
-      'app',
-      'chapters',
-      '[slug]',
-      'notes',
-      'CompleteChapterNotesPage.tsx',
+    fileURLToPath(
+      new URL(
+        '../app/chapters/[slug]/notes/CompleteChapterNotesPage.tsx',
+        import.meta.url,
+      ),
     ),
     'utf8',
   );
