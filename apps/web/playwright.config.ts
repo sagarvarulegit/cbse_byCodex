@@ -8,6 +8,7 @@ const AUTH_FILE = './e2e/.auth/user.json';
 // webServer only boots for local runs.
 const BASE_URL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:3000';
 const IS_LOCAL = !process.env.E2E_BASE_URL;
+const BROWSER_CHANNEL = process.env.CI ? undefined : 'chrome';
 
 export default defineConfig({
   testDir: './e2e',
@@ -18,12 +19,17 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: BASE_URL,
+    ...(BROWSER_CHANNEL ? { channel: BROWSER_CHANNEL } : {}),
     trace: 'on-first-retry',
     storageState: fs.existsSync('e2e/.auth/user.json') ? AUTH_FILE : undefined,
   },
   projects: [
     { name: 'setup', testMatch: /auth\.setup\.ts/ },
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, dependencies: ['setup'] },
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], ...(BROWSER_CHANNEL ? { channel: BROWSER_CHANNEL } : {}) },
+      dependencies: ['setup'],
+    },
   ],
   webServer: IS_LOCAL
     ? {
