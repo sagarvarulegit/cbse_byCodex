@@ -191,11 +191,60 @@ export default async function CompleteChapterNotesPage({
         studentId={session?.id ?? 'guest'}
       />
 
+      {/* Sticky Floating Quick Escape Pill Bar at the top */}
+      <div className="notes-sticky-floating-bar" role="navigation" aria-label="Quick escape options">
+        <div className="notes-floating-pills-inner">
+          <span className="floating-pills-label">⚡ QUICK ACTIONS:</span>
+          <Link
+            href={`/formula-cheatsheets?chapter=${slug}`}
+            className="floating-pill-btn pill-formula"
+          >
+            Need quick revision? Switch to the Formula Cheat Sheet &rarr;
+          </Link>
+          <a
+            href="#board-exam-drill"
+            className="floating-pill-btn pill-mock"
+          >
+            Ready to test yourself? Try CBSE Board Mock Questions &rarr;
+          </a>
+        </div>
+      </div>
+
       <section
         className="lesson-shell section-shell complete-chapter-shell"
         id="chapter-notes"
       >
         <article className="lesson-main complete-chapter-notes">
+          {/* High-Visibility Top CTA Banner */}
+          <aside className="notes-top-cta-banner" aria-label="Fast study alternatives">
+            <div className="top-cta-banner-header">
+              <span className="top-cta-badge">⚡ CHAPTER QUICK-LINKS</span>
+              <span className="top-cta-sub">Don&apos;t get stuck in a dead end — switch to rapid revision or real board testing at any time:</span>
+            </div>
+            <div className="top-cta-cards-row">
+              <Link
+                href={`/formula-cheatsheets?chapter=${slug}`}
+                className="notes-shortcut-card shortcut-formula"
+              >
+                <span className="shortcut-icon" aria-hidden="true">⚡</span>
+                <div className="shortcut-info">
+                  <strong>Need quick revision? Switch to the Formula Cheat Sheet &rarr;</strong>
+                  <span>All formulas, theorems &amp; rules in a 1-page printable cheat sheet.</span>
+                </div>
+              </Link>
+              <a
+                href="#board-exam-drill"
+                className="notes-shortcut-card shortcut-mock"
+              >
+                <span className="shortcut-icon" aria-hidden="true">🎯</span>
+                <div className="shortcut-info">
+                  <strong>Ready to test yourself? Try CBSE Board Mock Questions &rarr;</strong>
+                  <span>5-year board PYQs with instant AI step-marking and score points.</span>
+                </div>
+              </a>
+            </div>
+          </aside>
+
           <section className="chapter-notes-introduction" id="introduction">
             <p className="eyebrow">Introduction</p>
             <h2>Learn the whole chapter in one place</h2>
@@ -209,51 +258,128 @@ export default async function CompleteChapterNotesPage({
           <div className="complete-chapter-sections">
             {lessonContents.length > 0 ? (
               lessonContents.map((content, index) => (
+                <div key={content.lesson.slug}>
+                  <details
+                    className="complete-chapter-part"
+                    data-part
+                    id={`lesson-${content.lesson.slug}`}
+                    open={index === 0}
+                  >
+                    <summary className="complete-chapter-part-header">
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      <div>
+                        <p className="eyebrow">{content.lesson.type}</p>
+                        <h2>{content.lesson.title}</h2>
+                      </div>
+                    </summary>
+                    <p className="complete-chapter-part-preview">{content.lesson.preview}</p>
+                    <div className="lesson-prose complete-chapter-part-body">
+                      <LessonNotesContent
+                        blocks={content.blocks}
+                        hideDocumentTitle
+                        idPrefix={content.lesson.slug}
+                      />
+                    </div>
+                  </details>
+
+                  {/* Inline Break Banner After Section 1 */}
+                  {index === 0 && (
+                    <aside className="notes-inline-break-card" aria-label="Mid-chapter study options">
+                      <div className="break-card-badge-row">
+                        <span className="break-pill-tag">💡 SECTION 1 COMPLETED</span>
+                        <span className="break-pill-note">Pause &amp; Test Your Recall</span>
+                      </div>
+                      <h3 className="break-card-title">
+                        Completed Section 1? Choose your next high-impact step:
+                      </h3>
+                      <p className="break-card-sub">
+                        Active recall and formula checks lock in memory 3x faster than passive reading. Don&apos;t let notes feel like an isolated dead end.
+                      </p>
+                      <div className="break-card-actions">
+                        <Link
+                          href={`/formula-cheatsheets?chapter=${slug}`}
+                          className="break-cta-button break-formula-btn"
+                        >
+                          <span className="btn-icon">⚡</span>
+                          <div>
+                            <span className="btn-eyebrow">Quick Revision</span>
+                            <strong>Need quick revision? Switch to the Formula Cheat Sheet &rarr;</strong>
+                          </div>
+                        </Link>
+                        <a
+                          href="#board-exam-drill"
+                          className="break-cta-button break-mock-btn"
+                        >
+                          <span className="btn-icon">🎯</span>
+                          <div>
+                            <span className="btn-eyebrow">Board Practice</span>
+                            <strong>Ready to test yourself? Try CBSE Board Mock Questions &rarr;</strong>
+                          </div>
+                        </a>
+                      </div>
+                    </aside>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div>
                 <details
                   className="complete-chapter-part"
                   data-part
-                  id={`lesson-${content.lesson.slug}`}
-                  key={content.lesson.slug}
-                  open={index === 0}
+                  id="lesson-chapter-pack"
+                  open
                 >
                   <summary className="complete-chapter-part-header">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <span>01</span>
                     <div>
-                      <p className="eyebrow">{content.lesson.type}</p>
-                      <h2>{content.lesson.title}</h2>
+                      <p className="eyebrow">Chapter pack</p>
+                      <h2>{chapter.title}</h2>
                     </div>
                   </summary>
-                  <p className="complete-chapter-part-preview">{content.lesson.preview}</p>
-                  <div className="lesson-prose complete-chapter-part-body">
-                  <LessonNotesContent
-                    blocks={content.blocks}
-                    hideDocumentTitle
-                    idPrefix={content.lesson.slug}
-                  />
+                  <div className="lesson-prose chapter-pack-prose complete-chapter-part-body">
+                    <LessonNotesContent
+                      blocks={packContent!.blocks}
+                      idPrefix="chapter-pack"
+                    />
                   </div>
                 </details>
-              ))
-            ) : (
-              <details
-                className="complete-chapter-part"
-                data-part
-                id="lesson-chapter-pack"
-                open
-              >
-                <summary className="complete-chapter-part-header">
-                  <span>01</span>
-                  <div>
-                    <p className="eyebrow">Chapter pack</p>
-                    <h2>{chapter.title}</h2>
+
+                {/* Inline Break Banner After Section 1 for Pack Content */}
+                <aside className="notes-inline-break-card" aria-label="Mid-chapter study options">
+                  <div className="break-card-badge-row">
+                    <span className="break-pill-tag">💡 SECTION 1 COMPLETED</span>
+                    <span className="break-pill-note">Pause &amp; Test Your Recall</span>
                   </div>
-                </summary>
-                <div className="lesson-prose chapter-pack-prose complete-chapter-part-body">
-                  <LessonNotesContent
-                    blocks={packContent!.blocks}
-                    idPrefix="chapter-pack"
-                  />
-                </div>
-              </details>
+                  <h3 className="break-card-title">
+                    Completed Section 1? Choose your next high-impact step:
+                  </h3>
+                  <p className="break-card-sub">
+                    Active recall and formula checks lock in memory 3x faster than passive reading. Don&apos;t let notes feel like an isolated dead end.
+                  </p>
+                  <div className="break-card-actions">
+                    <Link
+                      href={`/formula-cheatsheets?chapter=${slug}`}
+                      className="break-cta-button break-formula-btn"
+                    >
+                      <span className="btn-icon">⚡</span>
+                      <div>
+                        <span className="btn-eyebrow">Quick Revision</span>
+                        <strong>Need quick revision? Switch to the Formula Cheat Sheet &rarr;</strong>
+                      </div>
+                    </Link>
+                    <a
+                      href="#board-exam-drill"
+                      className="break-cta-button break-mock-btn"
+                    >
+                      <span className="btn-icon">🎯</span>
+                      <div>
+                        <span className="btn-eyebrow">Board Practice</span>
+                        <strong>Ready to test yourself? Try CBSE Board Mock Questions &rarr;</strong>
+                      </div>
+                    </a>
+                  </div>
+                </aside>
+              </div>
             )}
 
             <ChapterPyqDrill chapterSlug={slug} />

@@ -78,27 +78,76 @@ export default async function ChapterProgressPage({
               </>
             ) : null}
             <span>/</span>
-            <span aria-current="page">{chapter.title} progress</span>
+            <span aria-current="page">{chapter.title}</span>
           </nav>
-          <p className="eyebrow">{chapter.subject} · Optional progress view</p>
-          <h1>{chapter.title} progress</h1>
-          <p className="subtext">
-            Check your mastery, milestones, and next revision target. Chapter
-            selections open the learning content directly.
-          </p>
-          <div className="hero-actions">
+          <div className="quick-win-hero-header">
+            <span className="quick-win-badge">⚡ CLASS 10 QUICK WIN HUB</span>
+            <h1>{chapter.title} Quick Win Hub</h1>
+            <p className="subtext">
+              Choose your 5-minute quick win to build instant confidence before diving into deep reading.
+            </p>
+          </div>
+
+          {/* Two High-Contrast Hero Cards */}
+          <div className="quick-win-cards-grid" aria-label="Quick Win Options">
+            {/* Card 1: Download 1-Page Formula Sheet */}
+            <div className="quick-win-card quick-win-formula-card">
+              <div className="quick-win-card-top">
+                <span className="quick-win-card-chip">⚡ 1-PAGE REVISION SHEET</span>
+                <span className="quick-win-free-pill">100% Free</span>
+              </div>
+              <h2 className="quick-win-card-title">
+                Download 1-Page Formula Sheet (Class 10 {chapter.title})
+              </h2>
+              <p className="quick-win-card-desc">
+                High-density summary of all core formulas, rules, theorems, and common traps compressed into 1 printable sheet.
+              </p>
+              <Link
+                className="quick-win-card-btn formula-btn"
+                href={`/formula-cheatsheets?chapter=${slug}`}
+              >
+                Download 1-Page Formula Sheet &rarr;
+              </Link>
+              <span className="quick-win-card-meta">Printable PDF &amp; Interactive Flashcards</span>
+            </div>
+
+            {/* Card 2: Take 10-Min Board Mock Test */}
+            <div className="quick-win-card quick-win-mock-card">
+              <div className="quick-win-card-top">
+                <span className="quick-win-card-chip mock-chip">🎯 ACTIVE RECALL</span>
+                <span className="quick-win-free-pill">Board Aligned</span>
+              </div>
+              <h2 className="quick-win-card-title">
+                Take 10-Min Board Mock Test
+              </h2>
+              <p className="quick-win-card-desc">
+                Test your exam readiness with real CBSE board questions, instant step scoring, and automatic Mistake Vault tracking.
+              </p>
+              <Link
+                className="quick-win-card-btn mock-btn"
+                href={`/chapters/${slug}/quiz`}
+              >
+                Take 10-Min Board Mock Test &rarr;
+              </Link>
+              <span className="quick-win-card-meta">10-Min Timer · CBSE Step-Marking</span>
+            </div>
+          </div>
+
+          {/* Secondary Option: Standard Chapter Notes */}
+          <div className="quick-win-secondary-option">
+            <div className="secondary-option-info">
+              <span className="secondary-option-badge">📖 COMPREHENSIVE STUDY</span>
+              <p className="secondary-option-text">
+                Prefer full textbook reading first? Explore all explanations, diagrams, and step-by-step proofs.
+              </p>
+            </div>
             {hasChapterContent ? (
               <Link
-                className="button-link"
+                className="secondary-notes-button"
                 href={`/chapters/${slug}/notes`}
                 prefetch={false}
               >
-                Continue chapter
-              </Link>
-            ) : null}
-            {quizContent ? (
-              <Link className="ghost-link" href={`/chapters/${slug}/quiz`}>
-                Take chapter quiz
+                Study Standard Chapter Notes ({chapter.title}) &rarr;
               </Link>
             ) : null}
           </div>

@@ -15,6 +15,7 @@ const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { FORMULA_CHEATSHEET_PACK_KEY } from '../lib/payments';
 
 export type FormulaCheatsheetViewerProps = {
+  initialChapterSlug?: string | null;
   isUnlocked: boolean;
   token?: string | null;
   userFullName?: string;
@@ -22,15 +23,25 @@ export type FormulaCheatsheetViewerProps = {
 };
 
 export default function FormulaCheatsheetViewer({
+  initialChapterSlug,
   isUnlocked,
   token = null,
   userFullName,
   userEmail,
 }: FormulaCheatsheetViewerProps) {
+  const initialChapter = useMemo(() => {
+    if (!initialChapterSlug) return null;
+    return CHAPTER_CHEATSHEETS_DATA.find(
+      (ch) => ch.chapterSlug === initialChapterSlug || ch.id === initialChapterSlug,
+    );
+  }, [initialChapterSlug]);
+
   const [viewMode, setViewMode] = useState<'sheets' | 'flashcards'>('sheets');
-  const [activeSubject, setActiveSubject] = useState<CheatsheetSubject | 'all'>('all');
+  const [activeSubject, setActiveSubject] = useState<CheatsheetSubject | 'all'>(
+    initialChapter?.subject || 'all',
+  );
   const [selectedChapterId, setSelectedChapterId] = useState<string>(
-    CHAPTER_CHEATSHEETS_DATA[0]?.id || 'math-ch4',
+    initialChapter?.id || CHAPTER_CHEATSHEETS_DATA[0]?.id || 'math-ch4',
   );
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [unlockedState, setUnlockedState] = useState(isUnlocked);

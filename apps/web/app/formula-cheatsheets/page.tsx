@@ -12,8 +12,13 @@ export const metadata: Metadata = {
     'Ultra-dense 1-page printable summary sheets per chapter for Class 10 Maths & Science + interactive digital flashcards for fast board exam revision.',
 };
 
-export default async function FormulaCheatsheetsPage() {
-  const [session, token] = await Promise.all([
+export default async function FormulaCheatsheetsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ chapter?: string }>;
+}) {
+  const [{ chapter }, session, token] = await Promise.all([
+    searchParams ? searchParams : Promise.resolve({ chapter: undefined }),
     getStudentSession(),
     getStudentSessionToken(),
   ]);
@@ -29,6 +34,7 @@ export default async function FormulaCheatsheetsPage() {
       />
       <main>
         <FormulaCheatsheetViewer
+          initialChapterSlug={chapter}
           isUnlocked={isUnlocked}
           token={token}
           userFullName={session?.fullName}

@@ -94,7 +94,7 @@ export const CHAPTER_CHEATSHEETS_DATA: ChapterCheatsheet[] = [
       "Forgetting to state that a and b are co-prime integers in √2 / √3 / √5 irrationality proofs.",
       "Checking prime factors of denominator q before reducing the fraction p/q to its simplest lowest terms."
     ],
-    "isFreeSample": false
+    "isFreeSample": true
   },
   {
     "id": "math-ch2",

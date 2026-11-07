@@ -24,9 +24,10 @@ test('chapter overview opens one continuous chapter-notes path', () => {
     'utf8',
   );
 
-  assert.match(chapterPage, /href: `\/chapters\/\$\{slug\}\/notes`/);
-  assert.match(chapterPage, /Open complete chapter notes/);
-  assert.match(chapterPage, /One continuous reading path/);
+  assert.match(chapterPage, /href=\{`\/chapters\/\$\{slug\}\/notes`\}/);
+  assert.match(chapterPage, /Study Standard Chapter Notes/);
+  assert.match(chapterPage, /Download 1-Page Formula Sheet/);
+  assert.match(chapterPage, /Take 10-Min Board Mock Test/);
   assert.match(completeNotesPage, /id="introduction"/);
   assert.match(completeNotesPage, /buildChapterOutline\(lessonContents\)/);
   assert.match(completeNotesPage, /LessonNotesContent/);

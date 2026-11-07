@@ -6,7 +6,7 @@ import { registerAction } from '../auth-actions';
 import { initialAuthActionState } from '../auth-state';
 import { useActionState, useEffect } from 'react';
 import { PILOT_PRIVACY_NOTICE_VERSION } from '../../lib/privacy';
-import { getSafeNextPath } from '../../lib/auth-redirect';
+import { getSafePostSignupPath } from '../../lib/auth-redirect';
 
 export function RegisterForm() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export function RegisterForm() {
   useEffect(() => {
     if (state.ok) {
       window.dispatchEvent(new Event('cbse:auth-change'));
-      router.push(getSafeNextPath(searchParams.get('next')));
+      router.push(getSafePostSignupPath(searchParams.get('next')));
       router.refresh();
     }
   }, [state.ok, router, searchParams]);
