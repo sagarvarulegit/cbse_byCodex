@@ -165,6 +165,9 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
     setMarksVisible(true);
     setSaveState('saving');
     startRef.current = Date.now();
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     // Initial save: MCQs auto-scored, written answers scored at 0 until the
     // student self-marks them (write-before-check philosophy, same as the
     // chapter exam-practice flow).
@@ -320,25 +323,43 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
           <div>
             <p className="eyebrow">ChapterReady · Mock Test Result</p>
             <h1>{paper.title}</h1>
-            <p className="subtext compact">
-              Estimated score: <strong>{totalEarned} / {totalPossible} marks</strong>
-            </p>
-            {saveState === 'saving' && (
-              <p className="exam-save-status">Saving your attempt…</p>
-            )}
-            {saveState === 'saved' && savedAttempt && (
-              <p className="exam-save-status exam-save-ok">
-                {saveMessage ??
-                  `Attempt ${savedAttempt.attemptNumber} saved — your weak-area report is updated.`}
-              </p>
-            )}
-            {saveState === 'error' && (
-              <p className="exam-save-status exam-save-error">
-                {saveMessage ??
-                  'This attempt could not be saved (you may be signed out). Your score below is still shown for this session.'}
-              </p>
-            )}
           </div>
+        </div>
+
+        {/* Highlighted Result Score Hero Card */}
+        <div className="exam-result-score-hero" role="region" aria-label="Mock Test Result Score">
+          <div className="exam-result-score-top">
+            <span className="exam-result-tag">MOCK TEST RESULT</span>
+            <span className="exam-result-percentage-badge">
+              {totalPossible > 0 ? Math.round((totalEarned / totalPossible) * 100) : 0}% Score
+            </span>
+          </div>
+
+          <div className="exam-result-score-body">
+            <span className="exam-result-score-label">Result Score</span>
+            <div className="exam-result-score-display">
+              <span className="exam-score-big-number">{totalEarned}</span>
+              <span className="exam-score-divider">/</span>
+              <span className="exam-score-total-number">{totalPossible}</span>
+              <span className="exam-score-marks-label">marks</span>
+            </div>
+          </div>
+
+          {saveState === 'saving' && (
+            <div className="exam-save-pill exam-save-saving">
+              Saving your attempt…
+            </div>
+          )}
+          {saveState === 'saved' && savedAttempt && (
+            <div className="exam-save-pill exam-save-ok">
+              ✓ {saveMessage ?? `Attempt ${savedAttempt.attemptNumber} saved — self-mark written answers below to complete it.`}
+            </div>
+          )}
+          {saveState === 'error' && (
+            <div className="exam-save-pill exam-save-error">
+              ⚠️ {saveMessage ?? 'This attempt could not be saved (you may be signed out). Your score below is still shown for this session.'}
+            </div>
+          )}
         </div>
 
         <div className="exam-result-card">
@@ -484,6 +505,107 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
 
         <style>{`
           .exam-runner-result { max-width: 860px; margin: 0 auto; }
+          .exam-result-score-hero {
+            margin: 1.25rem 0 1.5rem;
+            padding: 1.5rem 1.35rem;
+            background: #fff8eb;
+            border: 2.5px solid #171513;
+            border-radius: 16px;
+            box-shadow: 4px 4px 0 #171513;
+          }
+          .exam-result-score-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.6rem;
+          }
+          .exam-result-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #a84a08;
+          }
+          .exam-result-percentage-badge {
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: #171513;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            letter-spacing: 0.02em;
+          }
+          .exam-result-score-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+          }
+          .exam-result-score-label {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #171513;
+            letter-spacing: -0.01em;
+          }
+          .exam-result-score-display {
+            display: flex;
+            align-items: baseline;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+          }
+          .exam-score-big-number {
+            font-size: 3.25rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #d26b16;
+            letter-spacing: -0.03em;
+          }
+          .exam-score-divider {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #8c827a;
+            line-height: 1;
+          }
+          .exam-score-total-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #171513;
+            line-height: 1;
+          }
+          .exam-score-marks-label {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #736b63;
+            margin-left: 0.2rem;
+          }
+          .exam-save-pill {
+            margin-top: 1rem;
+            padding: 0.6rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+          }
+          .exam-save-ok {
+            background: #e8f5e9;
+            color: #1e7d32;
+            border: 1px solid #c8e6c9;
+          }
+          .exam-save-saving {
+            background: #f5f5f5;
+            color: #616161;
+            border: 1px solid #e0e0e0;
+          }
+          .exam-save-error {
+            background: #ffebee;
+            color: #b71c1c;
+            border: 1px solid #ffcdd2;
+          }
+          @media (max-width: 640px) {
+            .exam-score-big-number { font-size: 2.65rem; }
+            .exam-score-divider, .exam-score-total-number { font-size: 1.85rem; }
+            .exam-score-marks-label { font-size: 1.1rem; }
+            .exam-result-score-hero { padding: 1.2rem 1rem; }
+          }
           .exam-save-status { margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted, #666); }
           .exam-save-ok { color: #1e7d32; }
           .exam-save-error { color: #b3261e; }
