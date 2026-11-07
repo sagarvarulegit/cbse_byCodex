@@ -160,7 +160,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Tara Chat Session Isolation Fix**: Keyed `TaraWidget` conversation state to `useStudentSession()` (`session?.id`), added `cbse:auth-change` events on login/register/logout, cleared in-memory chat state on user switch, and added `dynamic = 'force-dynamic'` + `cache: 'no-store'` + `Cache-Control: no-store` to `/api/tutor/conversations` routes.
+- [x] **Tara Chat Session Isolation Fix**: Keyed `TaraWidget` conversation state to `useStudentSession()` (`session?.id`), added `cbse:auth-change` events on login/register/logout, cleared in-memory chat state on user switch, added `dynamic = 'force-dynamic'` + `cache: 'no-store'` + `Cache-Control: no-store` to `/api/tutor/conversations` routes, and verified via Playwright E2E `tara-session-isolation.spec.ts` (Vercel deployment `dpl_FpLo1v2K41wNM3aMzDZvXrqLjqTk`).
 - [x] **Question Bank Navigation & Auth Fix**: Added `StudentTopbar` to `/questions` & `/questions/[slug]`, routed logged-in breadcrumbs to `/dashboard`, made session cookies client-readable (`httpOnly: false`), and added `/api/auth/session` fallback.
 - [x] **Programmatic Question Bank (`/questions` & `/questions/[slug]`)**: 1,669+ Exemplar & 2022–2026 PYQ pages with Schema.org `QAPage`, step marks, examiner notes, and 1-click `#d9f99d` Tara Socratic hints.
 - [x] **Parent Progress Summary (`/parent-summary`) & Student Dashboard Redesign ("One Screen, One Question")**.
