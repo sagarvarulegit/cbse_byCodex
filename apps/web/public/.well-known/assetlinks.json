@@ -8,8 +8,7 @@
       "namespace": "android_app",
       "package_name": "in.chapterready.app",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_UPLOAD_KEYSTORE_SHA256_IN_PHASE_2",
-        "REPLACE_WITH_PLAY_APP_SIGNING_SHA256_IN_PHASE_2"
+        "64:B1:B8:87:E0:84:C6:EB:E0:3D:8C:1C:21:DA:15:BE:0D:58:06:90:6B:0B:BC:2C:D6:4B:D6:64:A1:AF:EF:9F"
       ]
     }
   }
