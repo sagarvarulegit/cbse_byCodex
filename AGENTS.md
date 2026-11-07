@@ -171,7 +171,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ### 6.2 Active Tasks in Queue
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
 - [ ] **YouTube Section Formula Short Upload**: Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` with dedicated 9:16 thumbnail to YouTube Studio.
-- [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.
+- [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.\r\n- [ ] **Google Play Store App Submission**: Developer Account registered (support@chapterready.in, ID 6699761686534634453). Awaiting Google ID verification to upload app-release-bundle.aab.
 - [ ] **Roll Out Full Lesson-Wise Notes**: Continue expanding lesson-wise notes across Science, Mathematics, and Social Science matching notes guidelines.
 
 ---
