@@ -199,6 +199,16 @@ export default function ExamPracticeCard({
     setMessage('Use the answer check below the paper, then record your total and first weak skill.');
   }
 
+  function forfeitAttempt() {
+    window.localStorage.removeItem(sessionKey(definition.id));
+    setSession(readySession);
+    setScoreHalfMarks(0);
+    setWeakSkillSlug('');
+    setConditions(definition.conditionLabels.map(() => false));
+    setSyncState('idle');
+    setMessage('Attempt forfeited without saving. The timer has been reset.');
+  }
+
   async function saveAttempt() {
     if (scoreHalfMarks < maxScoreHalfMarks && !weakSkillSlug) {
       setMessage('Choose the first weak skill before saving this attempt.');
@@ -353,6 +363,9 @@ export default function ExamPracticeCard({
           <button className="ghost-link" onClick={startCheckingEarly} type="button">
             Finish writing and start checking
           </button>
+          <button className="ghost-link" onClick={forfeitAttempt} type="button">
+            Forfeit / exit attempt without saving
+          </button>
         </div>
       ) : null}
 
@@ -361,6 +374,9 @@ export default function ExamPracticeCard({
           <p>Writing has ended. Check attempted answers only; do not add answers to blank parts.</p>
           <button className="ghost-link" onClick={finishChecking} type="button">
             Finish checking
+          </button>
+          <button className="ghost-link" onClick={forfeitAttempt} type="button">
+            Forfeit / exit attempt without saving
           </button>
         </div>
       ) : null}
@@ -421,6 +437,9 @@ export default function ExamPracticeCard({
           </p>
           <button className="button-link" onClick={saveAttempt} type="button">
             Save honest attempt
+          </button>
+          <button className="ghost-link" onClick={forfeitAttempt} type="button">
+            Forfeit / exit attempt without saving
           </button>
         </div>
       ) : null}

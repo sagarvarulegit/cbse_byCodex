@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { ExamPaper, ExamPaperQuestion } from '../lib/exam-papers';
@@ -69,9 +70,11 @@ function createClientAttemptId() {
 }
 
 export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
+  const router = useRouter();
   const [answers, setAnswers] = useState<Record<number, AnswerEntry>>({});
   const [remainingSeconds, setRemainingSeconds] = useState(paper.durationMinutes * 60);
   const [submitted, setSubmitted] = useState(false);
+  const [showForfeitConfirm, setShowForfeitConfirm] = useState(false);
   const [selfMarks, setSelfMarks] = useState<Record<number, number>>({});
   const [marksVisible, setMarksVisible] = useState(false);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -161,6 +164,7 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
   };
 
   const submit = async () => {
+    setShowForfeitConfirm(false);
     setSubmitted(true);
     setMarksVisible(true);
     setSaveState('saving');
@@ -172,6 +176,11 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
     // student self-marks them (write-before-check philosophy, same as the
     // chapter exam-practice flow).
     await saveAttempt(false);
+  };
+
+  const forfeitExam = () => {
+    setShowForfeitConfirm(false);
+    router.push('/exam-papers');
   };
 
   const saveSelfMarks = async () => {
@@ -190,6 +199,19 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
     }, 1000);
     return () => window.clearInterval(timer);
   }, [paper.durationMinutes]);
+
+  useEffect(() => {
+    if (!showForfeitConfirm) {
+      return;
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShowForfeitConfirm(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showForfeitConfirm]);
 
   const questionsBySection = useMemo(() => {
     const map = new Map<string, ExamPaperQuestion[]>();
@@ -631,7 +653,7 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
   return (
     <div className="exam-runner">
       <div className="exam-runner-header">
-        <div>
+        <div className="exam-runner-title-block">
           <p className="eyebrow">ChapterReady · CBSE Class 10</p>
           <h1>{paper.title}</h1>
           <p className="subtext compact">
@@ -639,9 +661,18 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
             {answeredCount}/{paper.questions.length} answered
           </p>
         </div>
-        <div className="exam-timer" aria-live="polite">
-          <span className="exam-timer-label">Time left</span>
-          <strong>{formatClock(remainingSeconds)}</strong>
+        <div className="exam-runner-header-controls">
+          <div className="exam-timer" aria-live="polite">
+            <span className="exam-timer-label">Time left</span>
+            <strong>{formatClock(remainingSeconds)}</strong>
+          </div>
+          <button
+            type="button"
+            className="exam-forfeit-btn exam-forfeit-header-btn"
+            onClick={() => setShowForfeitConfirm(true)}
+          >
+            Exit / Forfeit Exam
+          </button>
         </div>
       </div>
 
@@ -702,19 +733,71 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
       })}
 
       <div className="exam-submit-bar">
-        <p className="subtext compact">
+        <p className="subtext compact exam-submit-status">
           {answeredCount === paper.questions.length
             ? 'All questions answered.'
             : `${paper.questions.length - answeredCount} question(s) not yet answered.`}
         </p>
-        <button className="card-link" type="button" onClick={submit}>
-          Submit and score
-        </button>
+        <div className="exam-submit-actions">
+          <button
+            className="exam-forfeit-btn"
+            type="button"
+            onClick={() => setShowForfeitConfirm(true)}
+          >
+            Forfeit &amp; Exit
+          </button>
+          <button className="card-link exam-submit-btn" type="button" onClick={submit}>
+            Submit and score
+          </button>
+        </div>
       </div>
+
+      {showForfeitConfirm && (
+        <div
+          className="exam-forfeit-backdrop"
+          role="presentation"
+          onClick={() => setShowForfeitConfirm(false)}
+        >
+          <div
+            className="exam-forfeit-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="forfeit-exam-dialog-title"
+            aria-describedby="forfeit-exam-dialog-desc"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <span className="exam-forfeit-eyebrow">Exit Without Submitting</span>
+            <h2 id="forfeit-exam-dialog-title">Forfeit &amp; Exit This Exam?</h2>
+            <p id="forfeit-exam-dialog-desc">
+              {answeredCount > 0
+                ? `You have answered ${answeredCount} of ${paper.questions.length} questions. Exiting now will discard your unsubmitted answers and will not record an attempt in your score history.`
+                : 'No attempt or score will be recorded in your history. You can start this mock test again anytime.'}
+            </p>
+            <div className="exam-forfeit-modal-actions">
+              <button
+                type="button"
+                className="exam-forfeit-cancel-btn"
+                onClick={() => setShowForfeitConfirm(false)}
+              >
+                Continue Exam
+              </button>
+              <button
+                type="button"
+                className="exam-forfeit-confirm-btn"
+                onClick={forfeitExam}
+              >
+                Yes, Forfeit &amp; Exit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .exam-runner { max-width: 860px; margin: 0 auto; }
         .exam-runner-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+        .exam-runner-title-block { flex: 1 1 320px; min-width: 0; }
+        .exam-runner-header-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
         .exam-timer { text-align: right; background: #fff7e6; border: 1px solid #f0d99a; border-radius: 10px; padding: 0.5rem 0.9rem; }
         .exam-timer-label { display: block; font-size: 0.75rem; color: var(--muted, #666); }
         .exam-timer strong { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
@@ -722,8 +805,121 @@ export default function ExamPaperRunner({ paper }: { paper: ExamPaper }) {
         .exam-option-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.25rem 0; }
         .exam-answer-textarea { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border, #ccc); border-radius: 8px; font: inherit; margin-top: 0.35rem; }
         .exam-take-question { margin-bottom: 1.4rem; }
-        .exam-submit-bar { position: sticky; bottom: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #fff; border: 1px solid var(--border, #ddd); border-radius: 12px; padding: 0.75rem 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-        .exam-submit-bar .card-link { margin: 0; }
+        .exam-submit-bar { position: sticky; bottom: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: #fff; border: 1.5px solid #171513; border-radius: 12px; padding: 0.75rem 1.1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+        .exam-submit-status { margin: 0; }
+        .exam-submit-actions { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin-left: auto; }
+        .exam-submit-bar .exam-submit-btn { width: auto; margin: 0; padding: 0 1.4rem; white-space: nowrap; }
+        .exam-forfeit-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          padding: 0 1rem;
+          border-radius: 8px;
+          border: 1.5px solid #b3261e;
+          background: #fff5f5;
+          color: #b3261e;
+          font: inherit;
+          font-size: 0.9rem;
+          font-weight: 800;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .exam-forfeit-btn:hover {
+          background: #ffebee;
+          border-color: #8c1d18;
+        }
+        .exam-forfeit-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 1200;
+          background: rgba(23, 21, 19, 0.55);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+        .exam-forfeit-modal {
+          background: #fffdf9;
+          border: 2.5px solid #171513;
+          border-radius: 16px;
+          box-shadow: 6px 6px 0 #171513;
+          max-width: 460px;
+          width: 100%;
+          padding: 1.5rem;
+        }
+        .exam-forfeit-eyebrow {
+          display: block;
+          font-size: 0.75rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #b3261e;
+          margin-bottom: 0.35rem;
+        }
+        .exam-forfeit-modal h2 {
+          margin: 0 0 0.6rem;
+          font-size: 1.35rem;
+          color: #171513;
+        }
+        .exam-forfeit-modal p {
+          margin: 0 0 1.25rem;
+          color: #4a4540;
+          line-height: 1.5;
+          font-size: 0.95rem;
+        }
+        .exam-forfeit-modal-actions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.65rem;
+          flex-wrap: wrap;
+        }
+        .exam-forfeit-cancel-btn {
+          min-height: 44px;
+          padding: 0 1.1rem;
+          border-radius: 10px;
+          border: 2px solid #171513;
+          background: #ffffff;
+          color: #171513;
+          font: inherit;
+          font-size: 0.9rem;
+          font-weight: 800;
+          cursor: pointer;
+        }
+        .exam-forfeit-cancel-btn:hover {
+          background: #f5efe6;
+        }
+        .exam-forfeit-confirm-btn {
+          min-height: 44px;
+          padding: 0 1.15rem;
+          border-radius: 10px;
+          border: 2px solid #171513;
+          background: #b3261e;
+          color: #ffffff;
+          font: inherit;
+          font-size: 0.9rem;
+          font-weight: 800;
+          cursor: pointer;
+        }
+        .exam-forfeit-confirm-btn:hover {
+          background: #8c1d18;
+        }
+        @media (max-width: 640px) {
+          .exam-submit-bar {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          .exam-submit-actions {
+            width: 100%;
+            margin-left: 0;
+          }
+          .exam-submit-actions .exam-forfeit-btn,
+          .exam-submit-bar .exam-submit-btn {
+            flex: 1;
+            justify-content: center;
+          }
+        }
       `}</style>
     </div>
   );

@@ -31,7 +31,25 @@ test('timed diagnostic preserves clocks and records integrity separately from sc
   assert.doesNotMatch(component, /primary-button|secondary-button/);
   assert.match(component, /First weak skill/);
   assert.match(component, /getExamSkillOptions/);
+  assert.match(component, /forfeitAttempt/);
+  assert.match(component, /Forfeit \/ exit attempt without saving/);
   assert.match(renderer, /function getExamPracticeId/);
   assert.match(renderer, /getExamPracticeDefinition\(examPracticeId\)/);
   assert.match(renderer, /<ExamPracticeCard/);
+});
+
+test('mock test runner provides forfeit and exit controls without submitting an attempt', () => {
+  const runner = fs.readFileSync(
+    path.join(process.cwd(), 'components', 'ExamPaperRunner.tsx'),
+    'utf8',
+  );
+
+  assert.match(runner, /showForfeitConfirm/);
+  assert.match(runner, /Exit \/ Forfeit Exam/);
+  assert.match(runner, /Forfeit &amp; Exit/);
+  assert.match(runner, /role="dialog"/);
+  assert.match(runner, /aria-modal="true"/);
+  assert.match(runner, /Continue Exam/);
+  assert.match(runner, /Yes, Forfeit &amp; Exit/);
+  assert.match(runner, /router\.push\('\/exam-papers'\)/);
 });
