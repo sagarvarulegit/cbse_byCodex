@@ -79,7 +79,6 @@ async function getPublishedSeriesPapers(): Promise<SeriesPaperRow[]> {
         id: true,
         subjectSlug: true,
         seed: true,
-        title: true,
         totalMarks: true,
         durationMinutes: true,
         verificationStatus: true,
