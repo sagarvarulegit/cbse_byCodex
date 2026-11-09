@@ -11,6 +11,7 @@ import {
   createUserSessionToken,
   formatUserResponse,
   getAuthSecret,
+  invalidateSessionUserCache,
   readBearerToken,
 } from '../lib/session.js';
 
@@ -397,6 +398,7 @@ authRouter.patch('/profile', async (req, res) => {
     }
 
     // Issue refreshed session token with updated profile information
+    invalidateSessionUserCache(updatedUser.id);
     const newToken = createUserSessionToken(updatedUser);
 
     return res.json({

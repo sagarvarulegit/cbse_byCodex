@@ -11,10 +11,12 @@ import { Router } from 'express';
 import { assemblePaper } from '../lib/exam-papers/assembler.js';
 import { getBlueprint } from '../lib/exam-papers/blueprint.js';
 import {
+  ALL_SERIES_SUBJECT_SLUGS,
   getMockTestSeriesForSubject,
   indexSeriesPapers,
   isSeriesPaper,
   seriesPaperView,
+  type SeriesPaperRow,
 } from '../lib/exam-papers/series.js';
 import {
   computeWeakAreas,
@@ -35,6 +37,83 @@ import { isTestUserEmail } from '../lib/test-users.js';
 
 export const examPapersRouter = Router();
 export const adminExamPapersRouter = Router();
+
+const SERIES_CACHE_TTL_MS = 5 * 60 * 1000;
+const PAPER_BY_ID_CACHE_TTL_MS = 10 * 60 * 1000;
+const MAX_PAPER_BY_ID_CACHE_SIZE = 50;
+const VERIFIED_BANK_CACHE_TTL_MS = 10 * 60 * 1000;
+
+let publishedSeriesCache: { rows: SeriesPaperRow[]; expiresAt: number } | null = null;
+let inflightPublishedSeriesPromise: Promise<SeriesPaperRow[]> | null = null;
+
+const publishedPaperByIdCache = new Map<
+  string,
+  { payload: ReturnType<typeof serializePaper>; expiresAt: number }
+>();
+
+const verifiedBankCache = new Map<
+  string,
+  { rows: QuestionBankQuestionRow[]; expiresAt: number }
+>();
+
+export function invalidateExamPapersCaches() {
+  publishedSeriesCache = null;
+  inflightPublishedSeriesPromise = null;
+  publishedPaperByIdCache.clear();
+  verifiedBankCache.clear();
+}
+
+async function getPublishedSeriesPapers(): Promise<SeriesPaperRow[]> {
+  const now = Date.now();
+  if (publishedSeriesCache && publishedSeriesCache.expiresAt > now) {
+    return publishedSeriesCache.rows;
+  }
+  if (inflightPublishedSeriesPromise) {
+    return inflightPublishedSeriesPromise;
+  }
+
+  inflightPublishedSeriesPromise = prisma.examPaper
+    .findMany({
+      where: { userId: null, publishStatus: 'published' },
+      select: {
+        id: true,
+        subjectSlug: true,
+        seed: true,
+        totalMarks: true,
+        durationMinutes: true,
+        verificationStatus: true,
+        publishStatus: true,
+      },
+    })
+    .then((rows) => {
+      publishedSeriesCache = {
+        rows,
+        expiresAt: Date.now() + SERIES_CACHE_TTL_MS,
+      };
+      return rows;
+    })
+    .finally(() => {
+      inflightPublishedSeriesPromise = null;
+    });
+
+  return inflightPublishedSeriesPromise;
+}
+
+async function getVerifiedQuestionBankRows(subjectSlug: string): Promise<QuestionBankQuestionRow[]> {
+  const now = Date.now();
+  const cached = verifiedBankCache.get(subjectSlug);
+  if (cached && cached.expiresAt > now) {
+    return cached.rows;
+  }
+  const rows = await prisma.questionBankQuestion.findMany({
+    where: { subjectSlug, verificationStatus: 'verified' },
+  });
+  verifiedBankCache.set(subjectSlug, {
+    rows,
+    expiresAt: Date.now() + VERIFIED_BANK_CACHE_TTL_MS,
+  });
+  return rows;
+}
 
 function randomSeed(): number {
   return randomInt(1, 2_147_483_647);
@@ -120,9 +199,7 @@ examPapersRouter.post('/generate', async (req, res) => {
   const seed =
     Number.isInteger(rawSeed) && Number(rawSeed) > 0 ? Number(rawSeed) : randomSeed();
 
-  const rows = await prisma.questionBankQuestion.findMany({
-    where: { subjectSlug, verificationStatus: 'verified' },
-  });
+  const rows = await getVerifiedQuestionBankRows(subjectSlug);
   const bankKeyToId = new Map(rows.map((row) => [row.bankKey, row.id]));
 
   let paper: GeneratedPaper;
@@ -186,10 +263,7 @@ examPapersRouter.post('/generate', async (req, res) => {
   });
 
   return res.status(201).json({
-    paper: serializePaper(
-      await prisma.examPaper.findUnique({ where: { id: created.id } }),
-      paper.questions,
-    ),
+    paper: serializePaper(created, paper.questions),
     verificationNote: outcome?.note ?? 'Verification skipped.',
   });
 });
@@ -205,18 +279,19 @@ examPapersRouter.get('/', async (req, res) => {
     where: { userId: user.id },
     orderBy: { createdAt: 'desc' },
     take: 50,
+    select: {
+      id: true,
+      title: true,
+      seed: true,
+      totalMarks: true,
+      verificationStatus: true,
+      publishStatus: true,
+      createdAt: true,
+    },
   });
 
   return res.json({
-    papers: papers.map((paper) => ({
-      id: paper.id,
-      title: paper.title,
-      seed: paper.seed,
-      totalMarks: paper.totalMarks,
-      verificationStatus: paper.verificationStatus,
-      publishStatus: paper.publishStatus,
-      createdAt: paper.createdAt,
-    })),
+    papers,
   });
 });
 
@@ -232,15 +307,40 @@ examPapersRouter.get('/series', async (req, res) => {
       ? req.query.subjectSlug
       : 'mathematics-standard';
 
-  const series = getMockTestSeriesForSubject(subjectSlug);
+  const allPublished = await getPublishedSeriesPapers();
 
-  const published = await prisma.examPaper.findMany({
-    where: { subjectSlug: series.subjectSlug, userId: null, publishStatus: 'published' },
-  });
+  if (subjectSlug === 'all') {
+    const bySubject = new Map<string, SeriesPaperRow[]>();
+    for (const row of allPublished) {
+      const list = bySubject.get(row.subjectSlug) ?? [];
+      list.push(row);
+      bySubject.set(row.subjectSlug, list);
+    }
+
+    const seriesList = ALL_SERIES_SUBJECT_SLUGS.map((slug) => {
+      const series = getMockTestSeriesForSubject(slug);
+      const bySeed = indexSeriesPapers(bySubject.get(series.subjectSlug) ?? []);
+      const papers = series.papers.map((definition) =>
+        seriesPaperView(definition, bySeed.get(definition.seed), series, true),
+      );
+      return {
+        series: {
+          key: series.key,
+          title: series.title,
+          description: series.description,
+          subjectSlug: series.subjectSlug,
+          freeSampleNumber: series.freeSampleNumber,
+        },
+        papers,
+      };
+    });
+
+    return res.json({ seriesList });
+  }
+
+  const series = getMockTestSeriesForSubject(subjectSlug);
+  const published = allPublished.filter((row) => row.subjectSlug === series.subjectSlug);
   const bySeed = indexSeriesPapers(published);
-  const userEntitlements = user ? await getUserActiveEntitlements(user.id) : [];
-  const hasAll = userEntitlements.some((e) => e.isAllSubjects);
-  const hasSubject = userEntitlements.some((e) => e.subjectSlug === series.subjectSlug);
 
   const papers = series.papers.map((definition) => {
     // All mock test papers (1..5) are 100% free for all students (old & new)
@@ -464,6 +564,8 @@ examPapersRouter.get('/attempts', async (req, res) => {
   }
 
   const paperId = typeof req.query.paperId === 'string' ? req.query.paperId : undefined;
+  const summaryOnly = req.query.summary === '1' || req.query.summary === 'true';
+
   const rows = await prisma.examPaperAttempt.findMany({
     where: {
       userId: user.id,
@@ -471,7 +573,20 @@ examPapersRouter.get('/attempts', async (req, res) => {
     },
     orderBy: { createdAt: 'desc' },
     take: 100,
-    include: {
+    select: {
+      id: true,
+      clientAttemptId: true,
+      attemptNumber: true,
+      examPaperId: true,
+      totalMarks: true,
+      earnedMarks: true,
+      mcqCorrect: true,
+      mcqTotal: true,
+      writtenSelfMarked: true,
+      weakChapterSlugs: true,
+      weakQuestionTypes: true,
+      createdAt: true,
+      questionResults: !summaryOnly,
       examPaper: {
         select: {
           title: true,
@@ -483,10 +598,20 @@ examPapersRouter.get('/attempts', async (req, res) => {
     },
   });
 
-  const allResults = rows.flatMap(
-    (row) => (row.questionResults as ExamPaperQuestionResult[] | null) ?? [],
-  );
-  const weakAreas = computeWeakAreas(allResults);
+  const weakAreas = summaryOnly
+    ? {
+        weakChapterSlugs: Array.from(
+          new Set(rows.flatMap((row) => row.weakChapterSlugs ?? [])),
+        ),
+        weakQuestionTypes: Array.from(
+          new Set(rows.flatMap((row) => row.weakQuestionTypes ?? [])),
+        ),
+      }
+    : computeWeakAreas(
+        rows.flatMap(
+          (row) => (row.questionResults as ExamPaperQuestionResult[] | null) ?? [],
+        ),
+      );
 
   return res.json({
     attempts: rows.map((row) => ({
@@ -528,8 +653,15 @@ examPapersRouter.get('/:id', async (req, res) => {
     return res.status(401).json({ message: 'Sign in to view a sample test paper.' });
   }
 
+  const paperId = String(req.params.id);
+  const now = Date.now();
+  const cachedPublished = publishedPaperByIdCache.get(paperId);
+  if (cachedPublished && cachedPublished.expiresAt > now) {
+    return res.json({ paper: cachedPublished.payload });
+  }
+
   const paper = await prisma.examPaper.findUnique({
-    where: { id: String(req.params.id) },
+    where: { id: paperId },
     include: {
       questions: {
         orderBy: { questionNumber: 'asc' },
@@ -561,7 +693,21 @@ examPapersRouter.get('/:id', async (req, res) => {
     provenance: question.provenanceJson ?? null,
   }));
 
-  return res.json({ paper: serializePaper(paper, questions) });
+  const serialized = serializePaper(paper, questions);
+  if (isPublishedSeries && serialized) {
+    if (publishedPaperByIdCache.size >= MAX_PAPER_BY_ID_CACHE_SIZE) {
+      const oldestKey = publishedPaperByIdCache.keys().next().value;
+      if (oldestKey) {
+        publishedPaperByIdCache.delete(oldestKey);
+      }
+    }
+    publishedPaperByIdCache.set(paperId, {
+      payload: serialized,
+      expiresAt: Date.now() + PAPER_BY_ID_CACHE_TTL_MS,
+    });
+  }
+
+  return res.json({ paper: serialized });
 });
 
 // ── Admin endpoints (require an admin session) ───────────────────────────────
@@ -611,6 +757,7 @@ adminExamPapersRouter.post('/:id/approve', async (req, res) => {
     where: { id: paper.id },
     data: { publishStatus: 'published', verificationStatus: 'verified' },
   });
+  invalidateExamPapersCaches();
 
   return res.json({ paper: { id: updated.id, publishStatus: updated.publishStatus, verificationStatus: updated.verificationStatus } });
 });
@@ -631,6 +778,7 @@ adminExamPapersRouter.post('/:id/reject', async (req, res) => {
     where: { id: paper.id },
     data: { publishStatus: 'rejected' },
   });
+  invalidateExamPapersCaches();
 
   return res.json({ paper: { id: updated.id, publishStatus: updated.publishStatus } });
 });
@@ -755,6 +903,7 @@ adminExamPapersRouter.post('/series/publish', async (req, res) => {
     },
   });
   const bySeedFinal = indexSeriesPapers(published);
+  invalidateExamPapersCaches();
 
   return res.status(201).json({
     series: {
@@ -826,6 +975,7 @@ adminExamPapersRouter.post('/bank/:id/verify', async (req, res) => {
       verifiedAt: outcome.status === 'verified' ? new Date() : null,
     },
   });
+  invalidateExamPapersCaches();
 
   return res.json({
     bankKey: updated.bankKey,
@@ -854,6 +1004,7 @@ adminExamPapersRouter.post('/bank/:id/approve', async (req, res) => {
     where: { id: row.id },
     data: { verificationStatus: 'verified', verifiedAt: new Date(), reviewNotes: null },
   });
+  invalidateExamPapersCaches();
 
   return res.json({ bankKey: updated.bankKey, verificationStatus: updated.verificationStatus });
 });
@@ -881,6 +1032,7 @@ adminExamPapersRouter.post('/bank/:id/reject', async (req, res) => {
     where: { id: row.id },
     data: { verificationStatus: 'rejected', reviewNotes: note, verifiedAt: null },
   });
+  invalidateExamPapersCaches();
 
   return res.json({ bankKey: updated.bankKey, verificationStatus: updated.verificationStatus });
 });

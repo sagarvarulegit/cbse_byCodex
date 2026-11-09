@@ -122,11 +122,43 @@ export async function generateExamPaper(
   });
 }
 
+const examPaperDedupCache = new Map<
+  string,
+  { promise: Promise<{ paper: ExamPaper } | null>; expiresAt: number }
+>();
+const EXAM_PAPER_DEDUP_TTL_MS = 5000;
+
 export async function getExamPaper(token: string | null, id: string) {
-  return apiFetch<{ paper: ExamPaper }>(
+  if (!token) {
+    return null;
+  }
+  const cacheKey = `${token}:${id}`;
+  const now = Date.now();
+  const cached = examPaperDedupCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    return cached.promise;
+  }
+  if (examPaperDedupCache.size > 100) {
+    for (const [key, entry] of examPaperDedupCache.entries()) {
+      if (entry.expiresAt <= now) {
+        examPaperDedupCache.delete(key);
+      }
+    }
+  }
+  const promise = apiFetch<{ paper: ExamPaper }>(
     token,
     `/v1/exam-papers/${encodeURIComponent(id)}`,
-  );
+  ).then((result) => {
+    if (!result) {
+      examPaperDedupCache.delete(cacheKey);
+    }
+    return result;
+  });
+  examPaperDedupCache.set(cacheKey, {
+    promise,
+    expiresAt: now + EXAM_PAPER_DEDUP_TTL_MS,
+  });
+  return promise;
 }
 
 export async function listExamPapers(token: string | null) {
@@ -140,6 +172,34 @@ export async function getMockTestSeries(
   return apiFetch<{ series: MockTestSeries; papers: MockTestSeriesPaper[] }>(
     token,
     `/v1/exam-papers/series?subjectSlug=${encodeURIComponent(subjectSlug)}`,
+  );
+}
+
+const DEFAULT_SERIES_SUBJECT_SLUGS = [
+  'mathematics-standard',
+  'mathematics-basic',
+  'science',
+  'social-science',
+  'english-language-and-literature',
+  'hindi-course-a',
+  'hindi-course-b',
+] as const;
+
+export async function getAllMockTestSeries(token: string | null) {
+  const res = await apiFetch<{
+    seriesList: Array<{ series: MockTestSeries; papers: MockTestSeriesPaper[] }>;
+  }>(token, '/v1/exam-papers/series?subjectSlug=all');
+  if (res?.seriesList) {
+    return res.seriesList;
+  }
+
+  // Automatic fallback if talking to an older API instance during a rolling deploy
+  const fallbackResults = await Promise.all(
+    DEFAULT_SERIES_SUBJECT_SLUGS.map((slug) => getMockTestSeries(token, slug)),
+  );
+  return fallbackResults.filter(
+    (entry): entry is { series: MockTestSeries; papers: MockTestSeriesPaper[] } =>
+      Boolean(entry),
   );
 }
 
@@ -225,10 +285,17 @@ export type ExamPaperAttemptsResponse = {
   } | null;
 };
 
-export async function listExamPaperAttempts(token: string | null, paperId?: string) {
+export async function listExamPaperAttempts(
+  token: string | null,
+  paperId?: string,
+  options?: { summaryOnly?: boolean },
+) {
   const params = new URLSearchParams();
   if (paperId) {
     params.set('paperId', paperId);
+  }
+  if (options?.summaryOnly) {
+    params.set('summary', '1');
   }
   const query = params.toString();
   return apiFetch<ExamPaperAttemptsResponse>(

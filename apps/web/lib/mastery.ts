@@ -105,6 +105,24 @@ export function getChapterMasteryDisplay(chapterMastery?: ChapterMasterySummary)
 
 const masteryCache = new Map<string, { data: MasteryPayload; timestamp: number }>();
 const MASTERY_CACHE_TTL_MS = 15 * 1000; // 15s cache
+const MAX_MASTERY_CACHE_ENTRIES = 500;
+
+function setBoundedMasteryCache(key: string, data: MasteryPayload, now: number) {
+  if (masteryCache.size >= MAX_MASTERY_CACHE_ENTRIES) {
+    for (const [k, v] of masteryCache.entries()) {
+      if (now - v.timestamp >= MASTERY_CACHE_TTL_MS) {
+        masteryCache.delete(k);
+      }
+    }
+    if (masteryCache.size >= MAX_MASTERY_CACHE_ENTRIES) {
+      const oldestKey = masteryCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        masteryCache.delete(oldestKey);
+      }
+    }
+  }
+  masteryCache.set(key, { data, timestamp: now });
+}
 
 export function invalidateMasteryCache(token?: string | null) {
   if (token) {
@@ -146,6 +164,6 @@ export async function getStudentMastery(chapterSlug?: string): Promise<MasteryPa
   }
 
   const data = (await response.json().catch(() => EMPTY_MASTERY_PAYLOAD)) as MasteryPayload;
-  masteryCache.set(cacheKey, { data, timestamp: now });
+  setBoundedMasteryCache(cacheKey, data, now);
   return data;
 }

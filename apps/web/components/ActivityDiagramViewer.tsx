@@ -37,9 +37,7 @@ export default function ActivityDiagramViewer({
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [selectedProductKey, setSelectedProductKey] = useState(NCERT_ACTIVITY_DIAGRAM_PACK_KEY);
   const [unlockedState, setUnlockedState] = useState(isUnlocked);
-  const [active3DModes, setActive3DModes] = useState<Record<string, boolean>>({
-    'act-1-1': true, // Enable 3D by default for magnesium preview!
-  });
+  const [active3DModes, setActive3DModes] = useState<Record<string, boolean>>({});
 
   const filteredActivities = useMemo(() => {
     return NCERT_ACTIVITIES_DATA.filter((act) => {

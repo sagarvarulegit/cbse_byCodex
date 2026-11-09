@@ -79,6 +79,7 @@ export function isRevisionMissionSatisfied(
 }
 
 export async function completeSatisfiedRevisionMissions<TMission extends { chapterId: string; id: string; targetScore: number }>(params: {
+  asyncWrite?: boolean;
   completedAt?: Date;
   db?: PrismaExecutor;
   masteries: Array<{
@@ -103,13 +104,20 @@ export async function completeSatisfiedRevisionMissions<TMission extends { chapt
   }
 
   if (satisfiedMissionIds.length > 0) {
-    await db.revisionMission.updateMany({
+    const updatePromise = db.revisionMission.updateMany({
       where: { id: { in: satisfiedMissionIds } },
       data: {
         completedAt,
         status: 'completed',
       },
     });
+    if (params.asyncWrite) {
+      void updatePromise.catch((err) => {
+        console.error('Background revision mission completion failed:', err);
+      });
+    } else {
+      await updatePromise;
+    }
   }
 
   return visibleMissions;

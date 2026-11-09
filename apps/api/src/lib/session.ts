@@ -59,6 +59,7 @@ export function formatUserResponse(user: {
 export function createUserSessionToken(user: {
   email: string | null;
   id: string;
+  phone?: string | null;
   role: UserRole;
   profile: {
     classLevel: number;
@@ -72,10 +73,58 @@ export function createUserSessionToken(user: {
       fullName: user.profile?.fullName ?? 'Student',
       classLevel: user.profile?.classLevel ?? 10,
       email: user.email,
+      phone: user.phone ?? null,
     },
     getAuthSecret(),
     getAuthSessionDurationSeconds(),
   );
+}
+
+type ActiveSessionUser = NonNullable<
+  Awaited<
+    ReturnType<
+      typeof prisma.user.findUnique<{
+        where: { id: string };
+        include: { profile: true };
+      }>
+    >
+  >
+>;
+
+const SESSION_USER_CACHE_TTL_MS = 60 * 1000;
+const MAX_SESSION_USER_CACHE_SIZE = 500;
+const sessionUserCache = new Map<string, { user: ActiveSessionUser; expiresAt: number }>();
+const inflightUserLookups = new Map<string, Promise<ActiveSessionUser | null>>();
+
+export function invalidateSessionUserCache(userId?: string) {
+  if (userId) {
+    sessionUserCache.delete(userId);
+    inflightUserLookups.delete(userId);
+  } else {
+    sessionUserCache.clear();
+    inflightUserLookups.clear();
+  }
+}
+
+function setCachedSessionUser(userId: string, user: ActiveSessionUser) {
+  const now = Date.now();
+  if (sessionUserCache.size >= MAX_SESSION_USER_CACHE_SIZE) {
+    for (const [key, entry] of sessionUserCache.entries()) {
+      if (entry.expiresAt <= now) {
+        sessionUserCache.delete(key);
+      }
+    }
+    if (sessionUserCache.size >= MAX_SESSION_USER_CACHE_SIZE) {
+      const oldestKey = sessionUserCache.keys().next().value;
+      if (oldestKey) {
+        sessionUserCache.delete(oldestKey);
+      }
+    }
+  }
+  sessionUserCache.set(userId, {
+    user,
+    expiresAt: now + SESSION_USER_CACHE_TTL_MS,
+  });
 }
 
 export async function getSessionUser(req: Request) {
@@ -89,21 +138,43 @@ export async function getSessionUser(req: Request) {
     return null;
   }
 
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: session.userId },
-      include: { profile: true },
-    });
-
-    if (!user || user.status !== 'active') {
-      return null;
+  const now = Date.now();
+  const cached = sessionUserCache.get(session.userId);
+  if (cached) {
+    if (cached.expiresAt > now) {
+      return cached.user;
     }
-
-    return user;
-  } catch (error) {
-    console.error('Database connection error in getSessionUser:', error);
-    return null;
+    sessionUserCache.delete(session.userId);
   }
+
+  const existingInflight = inflightUserLookups.get(session.userId);
+  if (existingInflight) {
+    return existingInflight;
+  }
+
+  const lookupPromise = (async (): Promise<ActiveSessionUser | null> => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: session.userId },
+        include: { profile: true },
+      });
+
+      if (!user || user.status !== 'active') {
+        return null;
+      }
+
+      setCachedSessionUser(session.userId, user);
+      return user;
+    } catch (error) {
+      console.error('Database connection error in getSessionUser:', error);
+      return null;
+    } finally {
+      inflightUserLookups.delete(session.userId);
+    }
+  })();
+
+  inflightUserLookups.set(session.userId, lookupPromise);
+  return lookupPromise;
 }
 
 export async function requireSessionUser(req: Request) {

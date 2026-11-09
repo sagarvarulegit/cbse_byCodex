@@ -27,14 +27,11 @@ import { getStudentMistakes } from '../../lib/mistakes';
  * Greeting → Today's plan (one button) → My subjects → Quick fixes (only when needed).
  */
 export default async function DashboardPage() {
-  const [session, token, mastery] = await Promise.all([
+  const token = await getStudentSessionToken();
+  const [session, mastery, attemptsData, mistakesData] = await Promise.all([
     requireStudentSession(),
-    getStudentSessionToken(),
     getStudentMastery(),
-  ]);
-
-  const [attemptsData, mistakesData] = await Promise.all([
-    listExamPaperAttempts(token).catch(() => null),
+    listExamPaperAttempts(token, undefined, { summaryOnly: true }).catch(() => null),
     getStudentMistakes('active').catch(() => null),
   ]);
 
