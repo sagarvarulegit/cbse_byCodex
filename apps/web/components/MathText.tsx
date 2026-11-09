@@ -17,15 +17,37 @@ export default function MathText({ text }: { text: string }) {
   return <>{segments.map(renderSegment)}</>;
 }
 
+const katexCache = new Map<string, string>();
+const MAX_KATEX_CACHE_SIZE = 1000;
+
+function renderCachedKatex(value: string, display: boolean): string {
+  const key = `${display ? 'D' : 'I'}:${value}`;
+  const cached = katexCache.get(key);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const html = katex.renderToString(value, {
+    displayMode: display,
+    throwOnError: false,
+  });
+
+  if (katexCache.size >= MAX_KATEX_CACHE_SIZE) {
+    const oldestKey = katexCache.keys().next().value;
+    if (oldestKey !== undefined) {
+      katexCache.delete(oldestKey);
+    }
+  }
+  katexCache.set(key, html);
+  return html;
+}
+
 function renderSegment(segment: MathSegment, index: number): ReactNode {
   if (segment.type === 'text') {
     return <span key={`text-${index}`}>{segment.value}</span>;
   }
 
-  const html = katex.renderToString(segment.value, {
-    displayMode: segment.display,
-    throwOnError: false,
-  });
+  const html = renderCachedKatex(segment.value, segment.display);
 
   return (
     <span

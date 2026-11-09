@@ -149,6 +149,16 @@ export type MockTestSeriesDefinition =
   | typeof HINDI_002_SERIES
   | typeof HINDI_085_SERIES;
 
+export const ALL_SERIES_SUBJECT_SLUGS = [
+  'mathematics-standard',
+  'mathematics-basic',
+  'science',
+  'social-science',
+  'english-language-and-literature',
+  'hindi-course-a',
+  'hindi-course-b',
+] as const;
+
 export const TEST_SERIES_BY_SUBJECT: Record<string, MockTestSeriesDefinition> = {
   'mathematics-standard': MATHS_041_SERIES,
   'mathematics-basic': MATHS_241_SERIES,
@@ -178,18 +188,23 @@ export type MockTestSeriesPaper = {
   isUnlocked?: boolean;
 };
 
-export function isSeriesPaper(paper: ExamPaper): boolean {
+export type SeriesPaperRow = Pick<
+  ExamPaper,
+  'id' | 'seed' | 'verificationStatus' | 'publishStatus' | 'totalMarks' | 'durationMinutes' | 'subjectSlug'
+>;
+
+export function isSeriesPaper(paper: Pick<ExamPaper, 'userId' | 'publishStatus'>): boolean {
   return paper.userId === null && paper.publishStatus === 'published';
 }
 
 /** Papers already published for the series, keyed by seed. */
-export function indexSeriesPapers(papers: ExamPaper[]): Map<number, ExamPaper> {
+export function indexSeriesPapers<T extends Pick<ExamPaper, 'seed'>>(papers: T[]): Map<number, T> {
   return new Map(papers.map((paper) => [paper.seed, paper]));
 }
 
 export function seriesPaperView(
   definition: MockTestSeriesPaper,
-  paper?: ExamPaper,
+  paper?: Pick<ExamPaper, 'id' | 'seed' | 'verificationStatus' | 'publishStatus' | 'totalMarks' | 'durationMinutes'>,
   series: MockTestSeriesDefinition = MATHS_041_SERIES,
   isUnlocked: boolean = true,
 ): MockTestSeriesPaper {

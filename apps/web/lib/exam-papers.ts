@@ -122,11 +122,38 @@ export async function generateExamPaper(
   });
 }
 
+const examPaperDedupCache = new Map<
+  string,
+  { promise: Promise<{ paper: ExamPaper } | null>; expiresAt: number }
+>();
+const EXAM_PAPER_DEDUP_TTL_MS = 5000;
+
 export async function getExamPaper(token: string | null, id: string) {
-  return apiFetch<{ paper: ExamPaper }>(
+  if (!token) {
+    return null;
+  }
+  const cacheKey = `${token}:${id}`;
+  const now = Date.now();
+  const cached = examPaperDedupCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    return cached.promise;
+  }
+  if (examPaperDedupCache.size > 100) {
+    for (const [key, entry] of examPaperDedupCache.entries()) {
+      if (entry.expiresAt <= now) {
+        examPaperDedupCache.delete(key);
+      }
+    }
+  }
+  const promise = apiFetch<{ paper: ExamPaper }>(
     token,
     `/v1/exam-papers/${encodeURIComponent(id)}`,
   );
+  examPaperDedupCache.set(cacheKey, {
+    promise,
+    expiresAt: now + EXAM_PAPER_DEDUP_TTL_MS,
+  });
+  return promise;
 }
 
 export async function listExamPapers(token: string | null) {
@@ -141,6 +168,13 @@ export async function getMockTestSeries(
     token,
     `/v1/exam-papers/series?subjectSlug=${encodeURIComponent(subjectSlug)}`,
   );
+}
+
+export async function getAllMockTestSeries(token: string | null) {
+  const res = await apiFetch<{
+    seriesList: Array<{ series: MockTestSeries; papers: MockTestSeriesPaper[] }>;
+  }>(token, '/v1/exam-papers/series?subjectSlug=all');
+  return res?.seriesList ?? [];
 }
 
 export type ExamPaperQuestionResult = {
@@ -225,10 +259,17 @@ export type ExamPaperAttemptsResponse = {
   } | null;
 };
 
-export async function listExamPaperAttempts(token: string | null, paperId?: string) {
+export async function listExamPaperAttempts(
+  token: string | null,
+  paperId?: string,
+  options?: { summaryOnly?: boolean },
+) {
   const params = new URLSearchParams();
   if (paperId) {
     params.set('paperId', paperId);
+  }
+  if (options?.summaryOnly) {
+    params.set('summary', '1');
   }
   const query = params.toString();
   return apiFetch<ExamPaperAttemptsResponse>(

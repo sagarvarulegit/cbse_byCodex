@@ -58,12 +58,12 @@ export default function MockTestSeriesCard({
   const [paywallSuccessNotice, setPaywallSuccessNotice] = useState<string | null>(null);
 
   useEffect(() => {
-    if (token) {
+    if (isRefundOpen && token && studentOrders.length === 0) {
       fetchStudentOrders(token).then((orders) => {
         setStudentOrders(orders);
       });
     }
-  }, [token]);
+  }, [isRefundOpen, token, studentOrders.length]);
 
   if (allSeries.length === 0) {
     return null;

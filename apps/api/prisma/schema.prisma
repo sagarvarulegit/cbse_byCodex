@@ -600,6 +600,7 @@ model ExamPaper {
 
   @@index([userId, createdAt])
   @@index([subjectSlug, verificationStatus])
+  @@index([subjectSlug, publishStatus, userId])
 }
 
 model ExamPaperQuestion {

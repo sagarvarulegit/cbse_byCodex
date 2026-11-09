@@ -1320,6 +1320,7 @@ progressRouter.get('/mastery', async (req, res) => {
     ]);
 
     const visibleMissions = await completeSatisfiedRevisionMissions({
+      asyncWrite: true,
       masteries,
       missions,
     });

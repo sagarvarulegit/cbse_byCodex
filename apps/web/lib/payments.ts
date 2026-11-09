@@ -152,6 +152,29 @@ let cachedProducts: { data: PaymentProduct[]; timestamp: number } | null = null;
 const entitlementsCache = new Map<string, { data: StudentEntitlementsResponse; timestamp: number }>();
 const ordersCache = new Map<string, { data: StudentOrder[]; timestamp: number }>();
 const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+const MAX_PAYMENTS_CACHE_ENTRIES = 500;
+
+function setBoundedCache<T>(
+  cache: Map<string, { data: T; timestamp: number }>,
+  key: string,
+  data: T,
+  now: number,
+) {
+  if (cache.size >= MAX_PAYMENTS_CACHE_ENTRIES) {
+    for (const [k, v] of cache.entries()) {
+      if (now - v.timestamp >= CACHE_TTL_MS) {
+        cache.delete(k);
+      }
+    }
+    if (cache.size >= MAX_PAYMENTS_CACHE_ENTRIES) {
+      const oldestKey = cache.keys().next().value;
+      if (oldestKey !== undefined) {
+        cache.delete(oldestKey);
+      }
+    }
+  }
+  cache.set(key, { data, timestamp: now });
+}
 
 export function invalidatePaymentsCache(token?: string | null) {
   if (token) {
@@ -190,7 +213,7 @@ export async function fetchStudentEntitlements(
 
   const data = await apiFetch<StudentEntitlementsResponse>(token, '/v1/payments/entitlements');
   if (data) {
-    entitlementsCache.set(token, { data, timestamp: now });
+    setBoundedCache(entitlementsCache, token, data, now);
   }
   return data;
 }
@@ -274,7 +297,7 @@ export async function fetchStudentOrders(
   const data = await apiFetch<{ orders: StudentOrder[] }>(token, '/v1/payments/orders');
   const orders = data?.orders || [];
   if (orders.length > 0) {
-    ordersCache.set(token, { data: orders, timestamp: now });
+    setBoundedCache(ordersCache, token, orders, now);
   }
   return orders;
 }

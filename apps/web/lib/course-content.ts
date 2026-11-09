@@ -1785,6 +1785,9 @@ const quizDirectories: Partial<Record<keyof typeof chapters, string>> = {
 
 
 
+const generatedChapterCache = new Map<string, ChapterContent | null>();
+let cachedChapterEntries: Array<[string, ChapterContent]> | null = null;
+
 export function getChapter(slug: string): ChapterContent | null {
   return chapters[slug] ?? getGeneratedChapter(slug);
 }
@@ -1794,6 +1797,10 @@ export function getAvailableLessons(chapter: ChapterContent) {
 }
 
 export function getChapterEntries() {
+  if (cachedChapterEntries) {
+    return cachedChapterEntries;
+  }
+
   const entries = new Map<string, ChapterContent>(Object.entries(chapters));
 
   for (const slug of Object.keys(chapterPacks)) {
@@ -1806,7 +1813,8 @@ export function getChapterEntries() {
     }
   }
 
-  return Array.from(entries.entries());
+  cachedChapterEntries = Array.from(entries.entries());
+  return cachedChapterEntries;
 }
 
 export function getSubjectSlug(subject: string) {
@@ -1974,9 +1982,14 @@ function stripFrontmatter(source: string) {
 }
 
 function getGeneratedChapter(slug: string): ChapterContent | null {
+  if (generatedChapterCache.has(slug)) {
+    return generatedChapterCache.get(slug)!;
+  }
+
   const pack = chapterPacks[slug as keyof typeof chapterPacks];
 
   if (!pack) {
+    generatedChapterCache.set(slug, null);
     return null;
   }
 
@@ -1988,7 +2001,7 @@ function getGeneratedChapter(slug: string): ChapterContent | null {
       .find((block) => block && !block.startsWith('#') && !block.startsWith('-')) ??
     `Chapter notes for ${pack.title}.`;
 
-  return {
+  const generated: ChapterContent = {
     subject: pack.subject,
     title: pack.title,
     progress: 0,
@@ -1997,6 +2010,8 @@ function getGeneratedChapter(slug: string): ChapterContent | null {
     summary,
     lessons: [],
   };
+  generatedChapterCache.set(slug, generated);
+  return generated;
 }
 
 export function parseMarkdown(markdown: string): MarkdownBlock[] {

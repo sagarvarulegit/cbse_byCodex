@@ -7,52 +7,27 @@ import {
   getStudentSessionToken,
   requireStudentSession,
 } from '../../lib/auth';
-import { getMockTestSeries } from '../../lib/exam-papers';
-import { fetchStudentEntitlements } from '../../lib/payments';
+import { getAllMockTestSeries } from '../../lib/exam-papers';
+
+const ALL_UNLOCKED_SUBJECT_SLUGS = [
+  'all',
+  'mathematics-standard',
+  'mathematics-basic',
+  'science',
+  'social-science',
+  'english-language-and-literature',
+  'hindi-course-a',
+  'hindi-course-b',
+];
 
 export default async function ExamPapersPage() {
-  const [session, token] = await Promise.all([
+  const token = await getStudentSessionToken();
+  const [session, seriesList] = await Promise.all([
     requireStudentSession(),
-    getStudentSessionToken(),
+    getAllMockTestSeries(token),
   ]);
 
-  const [mathsData, mathsBasicData, scienceData, socialScienceData, englishData, hindiAData, hindiBData, entitlements] = await Promise.all([
-    getMockTestSeries(token, 'mathematics-standard'),
-    getMockTestSeries(token, 'mathematics-basic'),
-    getMockTestSeries(token, 'science'),
-    getMockTestSeries(token, 'social-science'),
-    getMockTestSeries(token, 'english-language-and-literature'),
-    getMockTestSeries(token, 'hindi-course-a'),
-    getMockTestSeries(token, 'hindi-course-b'),
-    fetchStudentEntitlements(token),
-  ]);
-
-  const seriesList: SubjectSeriesEntry[] = [];
-  if (mathsData) {
-    seriesList.push(mathsData);
-  }
-  if (mathsBasicData) {
-    seriesList.push(mathsBasicData);
-  }
-  if (scienceData) {
-    seriesList.push(scienceData);
-  }
-  if (socialScienceData) {
-    seriesList.push(socialScienceData);
-  }
-  if (englishData) {
-    seriesList.push(englishData);
-  }
-  if (hindiAData) {
-    seriesList.push(hindiAData);
-  }
-  if (hindiBData) {
-    seriesList.push(hindiBData);
-  }
-
-  const unlockedSubjects = entitlements?.hasAllSubjects
-    ? ['all', 'mathematics-standard', 'mathematics-basic', 'science', 'social-science', 'english-language-and-literature', 'hindi-course-a', 'hindi-course-b']
-    : entitlements?.unlockedSubjectSlugs ?? [];
+  const validSeriesList: SubjectSeriesEntry[] = seriesList ?? [];
 
   return (
     <main>
@@ -65,13 +40,13 @@ export default async function ExamPapersPage() {
             <span aria-current="page">Mock Test Series</span>
           </nav>
 
-          {seriesList.length > 0 ? (
+          {validSeriesList.length > 0 ? (
             <MockTestSeriesCard
-              seriesList={seriesList}
+              seriesList={validSeriesList}
               token={token}
               userFullName={session.fullName}
               userEmail={session.email || undefined}
-              unlockedSubjects={unlockedSubjects}
+              unlockedSubjects={ALL_UNLOCKED_SUBJECT_SLUGS}
             />
           ) : (
             <p className="subtext compact">
