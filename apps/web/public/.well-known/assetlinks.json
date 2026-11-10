@@ -8,7 +8,8 @@
       "namespace": "android_app",
       "package_name": "in.chapterready.app",
       "sha256_cert_fingerprints": [
-        "64:B1:B8:87:E0:84:C6:EB:E0:3D:8C:1C:21:DA:15:BE:0D:58:06:90:6B:0B:BC:2C:D6:4B:D6:64:A1:AF:EF:9F"
+        "64:B1:B8:87:E0:84:C6:EB:E0:3D:8C:1C:21:DA:15:BE:0D:58:06:90:6B:0B:BC:2C:D6:4B:D6:64:A1:AF:EF:9F",
+        "85:20:5A:18:F7:5F:B8:FD:9F:3A:B6:2D:5B:CA:16:CA:3C:54:3D:9F:4E:20:7E:7C:D1:52:C1:30:CA:A7:64:0B"
       ]
     }
   }
