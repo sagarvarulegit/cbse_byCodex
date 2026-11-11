@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 
 const ExamPaperRunner = dynamic(() => import('../../../../components/ExamPaperRunner'));
+import PilotEngagementTracker from '../../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../../components/StudentTopbar';
 import {
   getStudentSessionToken,
@@ -74,6 +75,12 @@ export default async function TakeExamPaperPage({
 
   return (
     <main>
+      <PilotEngagementTracker
+        eventType="exam_paper_start"
+        lessonSlug={id}
+        path={`/exam-papers/${id}/take`}
+        surface="exam_papers"
+      />
       <StudentTopbar contextLabel="Take Mock Test" session={session} />
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">

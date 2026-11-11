@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import { getStudentSession } from '../../lib/auth';
 
@@ -17,6 +18,11 @@ export default async function PyqTrendsPage() {
 
   return (
     <div className="pyq-trends-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/pyq-trends"
+        surface="pyq_trends"
+      />
       <StudentTopbar
         contextLabel="📊 Board PYQ Trends"
         session={session}

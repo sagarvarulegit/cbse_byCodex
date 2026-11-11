@@ -521,7 +521,7 @@ export default async function HomePage() {
                 <AuthAwareCTA
                   className="btn-pass-unlock"
                   hrefLoggedIn="/exam-papers"
-                  hrefLoggedOut="/login"
+                  hrefLoggedOut="/login?next=%2Fexam-papers"
                   textLoggedIn="Solve Free 80-Mark Mock Papers →"
                   textLoggedOut="Start Solving 100% Free →"
                 />
@@ -578,7 +578,7 @@ export default async function HomePage() {
             <AuthAwareCTA
               className="btn-final-secondary"
               hrefLoggedIn="/exam-papers"
-              hrefLoggedOut="/login"
+              hrefLoggedOut="/login?next=%2Fexam-papers"
               textLoggedIn="🎯 Launch CBT Mock Simulator"
               textLoggedOut="🎯 Launch CBT Mock Simulator"
             />

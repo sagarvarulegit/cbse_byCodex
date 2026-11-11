@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import PilotEngagementTracker from '../../../../components/PilotEngagementTracker';
 import PrintableExamPaper from '../../../../components/PrintableExamPaper';
 import {
   getStudentSessionToken,
@@ -59,13 +60,21 @@ export default async function ExamPaperPrintPage({
   }
 
   return (
-    <PrintableExamPaper
-      paper={data.paper}
-      initialMode={initialMode}
-      subjectTitle={subjectTitle}
-      subjectCode={subjectCode}
-      userFullName={session?.fullName}
-      userEmail={session?.email ?? undefined}
-    />
+    <>
+      <PilotEngagementTracker
+        eventType="resource_open"
+        lessonSlug={id}
+        path={`/exam-papers/${id}/print`}
+        surface="exam_papers"
+      />
+      <PrintableExamPaper
+        paper={data.paper}
+        initialMode={initialMode}
+        subjectTitle={subjectTitle}
+        subjectCode={subjectCode}
+        userFullName={session?.fullName}
+        userEmail={session?.email ?? undefined}
+      />
+    </>
   );
 }

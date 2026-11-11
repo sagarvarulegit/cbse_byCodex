@@ -55,9 +55,7 @@ export default async function LessonPage({
       <a className="skip-link" href="#lesson-notes">
         Skip to lesson notes
       </a>
-      {isPilot ? (
-        <PilotEngagementTracker chapterSlug={slug} eventType="lesson_start" lessonSlug={lessonSlug} surface="lesson" />
-      ) : null}
+      <PilotEngagementTracker chapterSlug={slug} eventType="lesson_start" lessonSlug={lessonSlug} surface="lesson" />
 
       <StudentTopbar
         contextLabel={`${chapter.subject} lesson`}

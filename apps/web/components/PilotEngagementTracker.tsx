@@ -9,13 +9,25 @@ export type PilotEngagementEventType =
   | 'dashboard_view'
   | 'chapter_open'
   | 'focus_mix_start'
-  | 'focus_mix_complete';
+  | 'focus_mix_complete'
+  | 'tool_view'
+  | 'resource_open'
+  | 'exam_paper_start';
 export type PilotEngagementSurface =
   | 'lesson'
   | 'quiz'
   | 'dashboard'
   | 'chapter'
-  | 'study_remix';
+  | 'study_remix'
+  | 'tools'
+  | 'formula_cheatsheets'
+  | 'pyq_trends'
+  | 'exam_papers'
+  | 'games'
+  | 'activities_diagrams'
+  | 'questions'
+  | 'readiness'
+  | 'store';
 
 export type PilotEngagementPayload = {
   chapterSlug?: string;
@@ -57,34 +69,34 @@ export default function PilotEngagementTracker({
   path,
   surface,
 }: PilotEngagementTrackerProps) {
-  const hasPosted = useRef(false);
+  const lastPostedKey = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!auto || hasPosted.current) {
+    if (!auto) {
       return;
     }
 
-    const postWhenIdle = () => {
-      if (hasPosted.current) {
+    const resolvedPath =
+      path ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+    const eventKey = `${eventType}:${surface}:${chapterSlug ?? ''}:${lessonSlug ?? ''}:${resolvedPath}`;
+    if (lastPostedKey.current === eventKey) {
+      return;
+    }
+
+    const timeout = globalThis.setTimeout(() => {
+      if (lastPostedKey.current === eventKey) {
         return;
       }
-
-      hasPosted.current = true;
+      lastPostedKey.current = eventKey;
       void postPilotEngagement({
         chapterSlug,
         eventType,
         lessonSlug,
-        path,
+        path: resolvedPath || path,
         surface,
       }).catch(() => undefined);
-    };
+    }, 120);
 
-    if ('requestIdleCallback' in window) {
-      const idleCallback = window.requestIdleCallback(postWhenIdle, { timeout: 2500 });
-      return () => window.cancelIdleCallback(idleCallback);
-    }
-
-    const timeout = globalThis.setTimeout(postWhenIdle, 1200);
     return () => globalThis.clearTimeout(timeout);
   }, [auto, chapterSlug, eventType, lessonSlug, path, surface]);
 

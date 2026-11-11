@@ -37,14 +37,12 @@ async function LegacyChapterNotesPage({ params }: { params: Promise<{ slug: stri
 
   return (
     <main>
-      {isPilot ? (
-        <PilotEngagementTracker
-          chapterSlug={slug}
-          eventType="lesson_start"
-          lessonSlug="chapter-notes"
-          surface="lesson"
-        />
-      ) : null}
+      <PilotEngagementTracker
+        chapterSlug={slug}
+        eventType="lesson_start"
+        lessonSlug="chapter-notes"
+        surface="lesson"
+      />
 
       <nav className="topbar" aria-label="Chapter notes navigation">
         <Link className="brand" href="/">

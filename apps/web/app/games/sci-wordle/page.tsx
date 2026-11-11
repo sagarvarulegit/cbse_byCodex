@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../components/StudentTopbar';
 import { getStudentSession } from '../../../lib/auth';
 
@@ -17,6 +18,11 @@ export default async function SciWordlePage() {
 
   return (
     <div className="arcade-page-wrapper">
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/games/sci-wordle"
+        surface="games"
+      />
       <StudentTopbar
         contextLabel="🎮 Arcade: Sci-Wordle"
         session={session}

@@ -28,15 +28,21 @@ test('Safe next path falls back for missing or external destinations', () => {
   assert.equal(getSafeNextPath('/notes with space'), DEFAULT_POST_AUTH_PATH);
 });
 
-test('Post-signup path re-routes previous flow from notes to Quick Win Choice Screen / Chapter Hub', () => {
-  // Missing or empty redirects land on Real Numbers chapter hub
+test('Post-signup path routes new registrations to the Dashboard Welcome Choice Modal unless an explicit tool/chapter was requested', () => {
+  assert.equal(DEFAULT_POST_SIGNUP_PATH, '/dashboard?welcome=1');
+
+  // Missing or empty redirects land on /dashboard?welcome=1
   assert.equal(getSafePostSignupPath(null), DEFAULT_POST_SIGNUP_PATH);
   assert.equal(getSafePostSignupPath(''), DEFAULT_POST_SIGNUP_PATH);
   assert.equal(getSafePostSignupPath('/dashboard'), DEFAULT_POST_SIGNUP_PATH);
 
-  // The previous flow: Signup -> /chapters/real-numbers/notes re-routes to /chapters/real-numbers
+  // Legacy Chapter 1 (Real Numbers) redirects re-route to /dashboard?welcome=1
   assert.equal(
     getSafePostSignupPath('/chapters/real-numbers/notes'),
+    DEFAULT_POST_SIGNUP_PATH,
+  );
+  assert.equal(
+    getSafePostSignupPath('/chapters/real-numbers'),
     DEFAULT_POST_SIGNUP_PATH,
   );
 
@@ -46,8 +52,10 @@ test('Post-signup path re-routes previous flow from notes to Quick Win Choice Sc
     '/chapters/chemical-reactions-and-equations',
   );
 
-  // Specific explicit hubs or exam papers remain intact
-  assert.equal(getSafePostSignupPath('/chapters/real-numbers'), '/chapters/real-numbers');
+  // Specific explicit high-value tools or exam papers remain intact
+  assert.equal(getSafePostSignupPath('/tools'), '/tools');
+  assert.equal(getSafePostSignupPath('/formula-cheatsheets'), '/formula-cheatsheets');
+  assert.equal(getSafePostSignupPath('/pyq-trends'), '/pyq-trends');
   assert.equal(getSafePostSignupPath('/exam-papers'), '/exam-papers');
 
   // Dangerous or malicious links fall back safely to DEFAULT_POST_SIGNUP_PATH

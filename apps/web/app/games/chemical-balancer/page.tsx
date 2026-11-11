@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../components/StudentTopbar';
 import { getStudentSession } from '../../../lib/auth';
 
@@ -19,6 +20,11 @@ export default async function ChemicalBalancerPage() {
 
   return (
     <div className="arcade-page-wrapper">
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/games/chemical-balancer"
+        surface="games"
+      />
       <StudentTopbar
         contextLabel="🎮 Arcade: Chemical Balancer"
         session={session}

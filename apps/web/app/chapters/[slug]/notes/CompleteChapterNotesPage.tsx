@@ -101,14 +101,12 @@ export default async function CompleteChapterNotesPage({
         Skip to chapter notes
       </a>
 
-      {isPilot ? (
-        <PilotEngagementTracker
-          chapterSlug={slug}
-          eventType="lesson_start"
-          lessonSlug="chapter-notes"
-          surface="lesson"
-        />
-      ) : null}
+      <PilotEngagementTracker
+        chapterSlug={slug}
+        eventType="lesson_start"
+        lessonSlug="chapter-notes"
+        surface="lesson"
+      />
 
       <StudentTopbar
         contextLabel={`${chapter.subject} notes`}

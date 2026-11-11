@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import { getAllSeoQuestions } from '../../lib/seo-questions';
 import { getStudentSession } from '../../lib/auth';
 import QuestionsHubClient from './QuestionsHubClient';
@@ -26,5 +27,14 @@ export default async function QuestionsDirectoryPage() {
     getAllSeoQuestions(),
   ]);
 
-  return <QuestionsHubClient initialQuestions={allQuestions} initialSession={session} />;
+  return (
+    <>
+      <PilotEngagementTracker
+        eventType="resource_open"
+        path="/questions"
+        surface="questions"
+      />
+      <QuestionsHubClient initialQuestions={allQuestions} initialSession={session} />
+    </>
+  );
 }

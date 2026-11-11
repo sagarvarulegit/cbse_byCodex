@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 const FormulaCheatsheetViewer = dynamic(() => import('../../components/FormulaCheatsheetViewer'));
 import { getStudentSession, getStudentSessionToken } from '../../lib/auth';
@@ -28,6 +29,12 @@ export default async function FormulaCheatsheetsPage({
 
   return (
     <div className="cheatsheet-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        chapterSlug={chapter}
+        eventType="resource_open"
+        path="/formula-cheatsheets"
+        surface="formula_cheatsheets"
+      />
       <StudentTopbar
         contextLabel="⚡ Formula Cheatsheets"
         session={session}

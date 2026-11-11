@@ -10,14 +10,21 @@ import {
 } from './auth-redirect';
 import { CHAPTER_CHEATSHEETS_DATA } from './content/cheatsheets-data';
 
-test('Post-signup re-routing redirects new students to the Quick Win Chapter Hub', () => {
-  // Empty or default post-auth path routes to /chapters/real-numbers
-  assert.equal(getSafePostSignupPath(null), '/chapters/real-numbers');
-  assert.equal(getSafePostSignupPath(''), '/chapters/real-numbers');
-  assert.equal(getSafePostSignupPath(DEFAULT_POST_AUTH_PATH), '/chapters/real-numbers');
+test('Post-signup re-routing redirects new students to the Dashboard Welcome Choice Modal (/dashboard?welcome=1)', () => {
+  // Empty or default post-auth path routes to /dashboard?welcome=1
+  assert.equal(getSafePostSignupPath(null), '/dashboard?welcome=1');
+  assert.equal(getSafePostSignupPath(''), '/dashboard?welcome=1');
+  assert.equal(getSafePostSignupPath(DEFAULT_POST_AUTH_PATH), '/dashboard?welcome=1');
 
-  // The legacy flow: Signup -> /chapters/real-numbers/notes re-routes to the chapter hub
-  assert.equal(getSafePostSignupPath('/chapters/real-numbers/notes'), '/chapters/real-numbers');
+  // The legacy flow: Signup -> /chapters/real-numbers or /chapters/real-numbers/notes re-routes to /dashboard?welcome=1
+  assert.equal(getSafePostSignupPath('/chapters/real-numbers/notes'), '/dashboard?welcome=1');
+  assert.equal(getSafePostSignupPath('/chapters/real-numbers'), '/dashboard?welcome=1');
+
+  // Explicit tool paths remain intact
+  assert.equal(getSafePostSignupPath('/tools'), '/tools');
+  assert.equal(getSafePostSignupPath('/formula-cheatsheets'), '/formula-cheatsheets');
+  assert.equal(getSafePostSignupPath('/pyq-trends'), '/pyq-trends');
+  assert.equal(getSafePostSignupPath('/exam-papers'), '/exam-papers');
 
   // Any other chapter notes link re-routes to its chapter hub
   assert.equal(
@@ -27,6 +34,44 @@ test('Post-signup re-routing redirects new students to the Quick Win Chapter Hub
 
   // Safe external checks
   assert.equal(getSafePostSignupPath('https://malicious.example'), DEFAULT_POST_SIGNUP_PATH);
+});
+
+test('PostSignupWelcomeModal asks "What do you want to do first?" with Formula Sheets, 80-Mark Board Mock, and 5-Year PYQ Trends', () => {
+  const modalSource = fs.readFileSync(
+    fileURLToPath(
+      new URL('../components/dashboard/PostSignupWelcomeModal.tsx', import.meta.url),
+    ),
+    'utf8',
+  );
+
+  assert.match(modalSource, /What do you want to do first\?/);
+  assert.match(modalSource, /Download 1-Page Formula Sheets/);
+  assert.match(modalSource, /\/formula-cheatsheets/);
+  assert.match(modalSource, /Take an 80-Mark Board Mock/);
+  assert.match(modalSource, /\/exam-papers/);
+  assert.match(modalSource, /Check 5-Year PYQ Trends/);
+  assert.match(modalSource, /\/pyq-trends/);
+});
+
+test('High-value pages include PilotEngagementTracker logging for ProgressEvent', () => {
+  const trackedPages = [
+    { file: '../app/formula-cheatsheets/page.tsx', eventType: 'resource_open', surface: 'formula_cheatsheets' },
+    { file: '../app/tools/page.tsx', eventType: 'tool_view', surface: 'tools' },
+    { file: '../app/pyq-trends/page.tsx', eventType: 'tool_view', surface: 'pyq_trends' },
+    { file: '../app/games/formula-rush/page.tsx', eventType: 'tool_view', surface: 'games' },
+    { file: '../app/exam-papers/page.tsx', eventType: 'tool_view', surface: 'exam_papers' },
+    { file: '../app/exam-papers/[id]/take/page.tsx', eventType: 'exam_paper_start', surface: 'exam_papers' },
+  ];
+
+  for (const item of trackedPages) {
+    const source = fs.readFileSync(
+      fileURLToPath(new URL(item.file, import.meta.url)),
+      'utf8',
+    );
+    assert.match(source, /PilotEngagementTracker/, `${item.file} should render PilotEngagementTracker`);
+    assert.match(source, new RegExp(`eventType="${item.eventType}"`), `${item.file} should log ${item.eventType}`);
+    assert.match(source, new RegExp(`surface="${item.surface}"`), `${item.file} should specify surface ${item.surface}`);
+  }
 });
 
 test('Chapter hub contains the two high-contrast Quick Win hero cards and secondary notes option', () => {

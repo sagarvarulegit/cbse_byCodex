@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import { getStudentSession } from '../../lib/auth';
 import { getStudentMastery } from '../../lib/mastery';
@@ -23,6 +24,11 @@ export default async function ShortReadinessPage() {
 
   return (
     <div className="readiness-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/readiness"
+        surface="readiness"
+      />
       <StudentTopbar
         contextLabel="🎯 Score Predictor"
         session={session}

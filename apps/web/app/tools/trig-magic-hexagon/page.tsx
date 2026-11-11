@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../components/StudentTopbar';
 import { getStudentSession } from '../../../lib/auth';
 
@@ -55,6 +56,12 @@ export default async function TrigMagicHexagonPage() {
 
   return (
     <div className="trig-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        chapterSlug="introduction-to-trigonometry"
+        eventType="tool_view"
+        path="/tools/trig-magic-hexagon"
+        surface="tools"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

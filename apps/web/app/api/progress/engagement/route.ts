@@ -2,21 +2,27 @@ import { NextResponse } from 'next/server';
 
 import { getStudentSessionToken } from '../../../../lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 
 export async function POST(request: Request) {
-  const token = await getStudentSessionToken();
-  if (!token) {
-    return NextResponse.json({ message: 'Please log in to save pilot activity.' }, { status: 401 });
-  }
-
   const body = await request.json().catch(() => null);
   if (!body) {
     return NextResponse.json({ message: 'Invalid pilot activity payload.' }, { status: 400 });
   }
 
+  const token = await getStudentSessionToken();
+  if (!token) {
+    if (body.eventType === 'lesson_complete') {
+      return NextResponse.json({ message: 'Please log in to save pilot activity.' }, { status: 401 });
+    }
+    return NextResponse.json({ guest: true, saved: false }, { status: 200 });
+  }
+
   const response = await fetch(`${API_BASE_URL}/v1/progress/engagement`, {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

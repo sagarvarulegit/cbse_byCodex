@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import ExamPaperViewer from '../../../components/ExamPaperViewer';
+import PilotEngagementTracker from '../../../components/PilotEngagementTracker';
 import StudentTopbar from '../../../components/StudentTopbar';
 import {
   getStudentSessionToken,
@@ -25,6 +26,12 @@ export default async function ExamPaperPage({
 
   return (
     <main>
+      <PilotEngagementTracker
+        eventType="resource_open"
+        lessonSlug={id}
+        path={`/exam-papers/${id}`}
+        surface="exam_papers"
+      />
       <StudentTopbar contextLabel="Sample Test Paper" session={session} />
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">

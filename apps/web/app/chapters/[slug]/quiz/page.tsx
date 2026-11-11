@@ -78,7 +78,7 @@ export default async function QuizPage({
       <StudentTopbar contextLabel="Chapter quiz" session={session} />
 
       <section className="section-shell quiz-page">
-        {isPilot ? <PilotEngagementTracker chapterSlug={slug} eventType="quiz_start" surface="quiz" /> : null}
+        <PilotEngagementTracker chapterSlug={slug} eventType="quiz_start" surface="quiz" />
 
         <nav className="breadcrumb-row" aria-label="Student learning path">
           <Link href="/dashboard">Dashboard</Link>

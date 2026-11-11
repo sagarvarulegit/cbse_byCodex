@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import { getStudentSession } from '../../lib/auth';
 import VirtualLabWorkbench from '../../components/virtual-lab/VirtualLabWorkbench';
@@ -16,6 +17,11 @@ export default async function VirtualLabPage() {
 
   return (
     <div className="virtual-lab-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/virtual-lab"
+        surface="activities_diagrams"
+      />
       <StudentTopbar contextLabel="🔬 3D Virtual Science Lab" session={session} />
 
       <main style={{ width: '100%', maxWidth: '1240px', margin: '0 auto', padding: '1.5rem 1rem 4rem 1rem' }}>

@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import QuizArenaClient, { type ChapterQuizCardItem } from '../../components/QuizArenaClient';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import {
   getStudentSession,
@@ -165,6 +166,11 @@ export default async function QuizzesPage() {
 
   return (
     <main>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/quizzes"
+        surface="quiz"
+      />
       <StudentTopbar contextLabel="Quiz Arena" session={session} />
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">

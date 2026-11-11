@@ -53,13 +53,11 @@ export default async function ChapterProgressPage({
 
   return (
     <main>
-      {isPilot ? (
-        <PilotEngagementTracker
-          chapterSlug={slug}
-          eventType="chapter_open"
-          surface="chapter"
-        />
-      ) : null}
+      <PilotEngagementTracker
+        chapterSlug={slug}
+        eventType="chapter_open"
+        surface="chapter"
+      />
 
       <StudentTopbar contextLabel={chapter.subject} session={session} />
 

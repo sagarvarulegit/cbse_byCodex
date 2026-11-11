@@ -1,6 +1,7 @@
 import React from 'react';
 import ClientStudentTopbar from '../../components/ClientStudentTopbar';
 import GamesArcadeHub from '../../components/games/GamesArcadeHub';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 
 export const revalidate = false;
 
@@ -12,6 +13,11 @@ export const metadata = {
 export default function GamesPage() {
   return (
     <div className="arcade-page-wrapper">
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/games"
+        surface="games"
+      />
       <ClientStudentTopbar
         contextLabel="🎮 Fun &amp; Games Arcade"
       />

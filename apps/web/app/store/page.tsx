@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import StoreClientView from '../../components/StoreClientView';
 import { getStudentSession, getStudentSessionToken } from '../../lib/auth';
@@ -21,6 +22,11 @@ export default async function StorePage() {
 
   return (
     <div className="store-page-shell" style={{ minHeight: '100vh', background: '#fbf8f3' }}>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/store"
+        surface="store"
+      />
       <StudentTopbar
         contextLabel="🛍️ ChapterReady Store"
         session={session}

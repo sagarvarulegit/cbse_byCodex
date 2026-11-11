@@ -6,9 +6,26 @@ export const PILOT_ENGAGEMENT_EVENT_TYPES = [
   'chapter_open',
   'focus_mix_start',
   'focus_mix_complete',
+  'tool_view',
+  'resource_open',
+  'exam_paper_start',
 ] as const;
 
 export const PILOT_FEEDBACK_SURFACES = ['lesson', 'quiz', 'dashboard'] as const;
+export const PILOT_ENGAGEMENT_SURFACES = [
+  ...PILOT_FEEDBACK_SURFACES,
+  'chapter',
+  'study_remix',
+  'tools',
+  'formula_cheatsheets',
+  'pyq_trends',
+  'exam_papers',
+  'games',
+  'activities_diagrams',
+  'questions',
+  'readiness',
+  'store',
+] as const;
 export const PILOT_FEEDBACK_CATEGORIES = ['stuck', 'feedback', 'bug'] as const;
 export const PILOT_STUCK_REASONS = [
   'explanation_unclear',
@@ -22,7 +39,7 @@ type PilotEngagementEventType = (typeof PILOT_ENGAGEMENT_EVENT_TYPES)[number];
 type PilotFeedbackSurface = (typeof PILOT_FEEDBACK_SURFACES)[number];
 type PilotFeedbackCategory = (typeof PILOT_FEEDBACK_CATEGORIES)[number];
 type PilotStuckReason = (typeof PILOT_STUCK_REASONS)[number];
-type PilotEngagementSurface = PilotFeedbackSurface | 'chapter' | 'study_remix';
+type PilotEngagementSurface = (typeof PILOT_ENGAGEMENT_SURFACES)[number];
 
 type Result<T> =
   | {
@@ -109,9 +126,7 @@ function isPilotEngagementEventType(value: string): value is PilotEngagementEven
 }
 
 function isPilotEngagementSurface(value: string): value is PilotEngagementSurface {
-  return [...PILOT_FEEDBACK_SURFACES, 'chapter', 'study_remix'].includes(
-    value as PilotEngagementSurface,
-  );
+  return PILOT_ENGAGEMENT_SURFACES.includes(value as PilotEngagementSurface);
 }
 
 function isPilotFeedbackSurface(value: string): value is PilotFeedbackSurface {
@@ -137,7 +152,7 @@ export function normalizePilotEngagementPayload(value: unknown): Result<Normaliz
     return {
       data: null,
       error:
-        'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, or focus_mix_complete.',
+        'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, focus_mix_complete, tool_view, resource_open, or exam_paper_start.',
     };
   }
 
@@ -145,7 +160,8 @@ export function normalizePilotEngagementPayload(value: unknown): Result<Normaliz
   if (!surface || !isPilotEngagementSurface(surface)) {
     return {
       data: null,
-      error: 'surface must be lesson, quiz, dashboard, chapter, or study_remix.',
+      error:
+        'surface must be lesson, quiz, dashboard, chapter, study_remix, tools, formula_cheatsheets, pyq_trends, exam_papers, games, activities_diagrams, questions, readiness, or store.',
     };
   }
 

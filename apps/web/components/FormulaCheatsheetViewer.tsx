@@ -10,6 +10,7 @@ import {
 } from '../lib/content/cheatsheets-data';
 import Link from 'next/link';
 import MathText from './MathText';
+import { postPilotEngagement } from './PilotEngagementTracker';
 const TrigMagicHexagonViewer = dynamic(() => import('./TrigMagicHexagonViewer'), { ssr: false });
 const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { FORMULA_CHEATSHEET_PACK_KEY } from '../lib/payments';
@@ -221,6 +222,12 @@ export default function FormulaCheatsheetViewer({
                 setSelectedChapterId(ch.id);
                 setCurrentCardIndex(0);
                 setIsCardFlipped(false);
+                void postPilotEngagement({
+                  chapterSlug: ch.chapterSlug,
+                  eventType: 'resource_open',
+                  path: `/formula-cheatsheets?chapter=${ch.chapterSlug}`,
+                  surface: 'formula_cheatsheets',
+                }).catch(() => undefined);
               }}
             >
               <span className="pill-ch-num">Ch {ch.chapterNumber}</span>

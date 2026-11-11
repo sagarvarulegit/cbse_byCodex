@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import ExamPaperStudio from '../../components/ExamPaperStudio';
 import MockTestSeriesCard, { type SubjectSeriesEntry } from '../../components/MockTestSeriesCard';
+import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import {
   getStudentSessionToken,
@@ -31,6 +32,11 @@ export default async function ExamPapersPage() {
 
   return (
     <main>
+      <PilotEngagementTracker
+        eventType="tool_view"
+        path="/exam-papers"
+        surface="exam_papers"
+      />
       <StudentTopbar contextLabel="Board Mock Test Series" session={session} />
       <section className="auth-page dashboard-page">
         <div className="dashboard-shell">

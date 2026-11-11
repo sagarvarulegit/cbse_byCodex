@@ -29,8 +29,66 @@ test('normalizePilotEngagementPayload rejects unsupported events', () => {
   assert.deepEqual(normalizePilotEngagementPayload({ eventType: 'share_clicked', surface: 'lesson' }), {
     data: null,
     error:
-      'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, or focus_mix_complete.',
+      'eventType must be lesson_start, lesson_complete, quiz_start, dashboard_view, chapter_open, focus_mix_start, focus_mix_complete, tool_view, resource_open, or exam_paper_start.',
   });
+});
+
+test('normalizePilotEngagementPayload accepts high-value tool_view, resource_open, and exam_paper_start events', () => {
+  assert.deepEqual(
+    normalizePilotEngagementPayload({
+      eventType: 'tool_view',
+      path: '/tools',
+      surface: 'tools',
+    }),
+    {
+      data: {
+        chapterSlug: null,
+        eventType: 'tool_view',
+        lessonSlug: null,
+        path: '/tools',
+        surface: 'tools',
+      },
+      error: null,
+    },
+  );
+
+  assert.deepEqual(
+    normalizePilotEngagementPayload({
+      chapterSlug: 'quadratic-equations',
+      eventType: 'resource_open',
+      path: '/formula-cheatsheets',
+      surface: 'formula_cheatsheets',
+    }),
+    {
+      data: {
+        chapterSlug: 'quadratic-equations',
+        eventType: 'resource_open',
+        lessonSlug: null,
+        path: '/formula-cheatsheets',
+        surface: 'formula_cheatsheets',
+      },
+      error: null,
+    },
+  );
+
+  assert.deepEqual(
+    normalizePilotEngagementPayload({
+      eventType: 'exam_paper_start',
+      lessonSlug: 'paper-id-123',
+      path: '/exam-papers/paper-id-123/take',
+      surface: 'exam_papers',
+    }),
+    {
+      data: {
+        chapterSlug: null,
+        eventType: 'exam_paper_start',
+        lessonSlug: 'paper-id-123',
+        path: '/exam-papers/paper-id-123/take',
+        surface: 'exam_papers',
+      },
+      error: null,
+    },
+  );
 });
 
 test('normalizePilotEngagementPayload accepts Study Remix activity', () => {

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import NeedsALookStrip, { type NeedsALookItem } from '../../components/dashboard/NeedsALookStrip';
+import PostSignupWelcomeModal from '../../components/dashboard/PostSignupWelcomeModal';
 import SubjectTiles from '../../components/dashboard/SubjectTiles';
 import TodayPlanCard from '../../components/dashboard/TodayPlanCard';
 import XpRewardToast from '../../components/dashboard/XpRewardToast';
@@ -26,14 +27,20 @@ import { getStudentMistakes } from '../../lib/mistakes';
  * Student home — "one screen, one question: what should I do today?"
  * Greeting → Today's plan (one button) → My subjects → Quick fixes (only when needed).
  */
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ welcome?: string }>;
+}) {
   const token = await getStudentSessionToken();
-  const [session, mastery, attemptsData, mistakesData] = await Promise.all([
+  const [resolvedParams, session, mastery, attemptsData, mistakesData] = await Promise.all([
+    searchParams ? searchParams : Promise.resolve({ welcome: undefined }),
     requireStudentSession(),
     getStudentMastery(),
     listExamPaperAttempts(token, undefined, { summaryOnly: true }).catch(() => null),
     getStudentMistakes('active').catch(() => null),
   ]);
+  const isWelcomeRedirect = resolvedParams?.welcome === '1';
 
   const firstName = session.fullName?.split(/\s+/)[0] || 'there';
   const streakDays = mastery.streak?.currentStreakDays ?? 0;
@@ -130,6 +137,13 @@ export default async function DashboardPage() {
             </Link>
           ) : null}
         </header>
+
+        <PostSignupWelcomeModal
+          studentId={session.id}
+          firstName={firstName}
+          forceOpen={isWelcomeRedirect}
+          isNewStudent={startedCoreChapters === 0 && attemptCount === 0}
+        />
 
         <TodayPlanCard plan={todayPlan} />
 
