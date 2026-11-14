@@ -140,7 +140,9 @@ export default async function QuizPage({
           <Suspense fallback={<QuizLoading />}>
             <QuizWithHistory
               chapterSlug={slug}
+              chapterTitle={chapter.title}
               questions={quizQuestions}
+              studentFirstName={session?.fullName?.split(/\s+/)[0]}
               weakTopicOptions={weakTopicOptions}
             />
           </Suspense>
@@ -158,11 +160,15 @@ export default async function QuizPage({
 
 async function QuizWithHistory({
   chapterSlug,
+  chapterTitle,
   questions,
+  studentFirstName,
   weakTopicOptions,
 }: {
   chapterSlug: string;
+  chapterTitle: string;
   questions: ReturnType<typeof parseQuizContent>;
+  studentFirstName?: string;
   weakTopicOptions: { label: string; slug: string }[];
 }) {
   const quizAttemptHistory = await getStudentQuizAttempts(chapterSlug);
@@ -170,8 +176,10 @@ async function QuizWithHistory({
   return (
     <QuizScoreForm
       chapterSlug={chapterSlug}
+      chapterTitle={chapterTitle}
       initialAttemptHistory={quizAttemptHistory}
       questions={questions}
+      studentFirstName={studentFirstName}
       weakTopicOptions={weakTopicOptions}
     />
   );

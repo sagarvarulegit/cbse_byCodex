@@ -3,6 +3,8 @@ import Link from 'next/link';
 import BrandLockup from '../components/BrandLockup';
 import { AuthAwareCTA, AuthAwareText } from '../components/AuthAwareCTA';
 import AICoachShowcase from '../components/AICoachShowcase';
+import BoardExamCountdownPill from '../components/BoardExamCountdownPill';
+import HeroBoardTrapChallenge from '../components/HeroBoardTrapChallenge';
 import HomeFAQ from '../components/HomeFAQ';
 
 export const revalidate = false;
@@ -191,53 +193,64 @@ export default async function HomePage() {
         </div>
       </nav>
 
-      {/* 1. Focused Hero Section */}
-      <section className="home-hero-focused" aria-labelledby="hero-title">
-        <div className="hero-focused-inner">
-          <div className="hero-eyebrow-pill">
-            <span className="pill-dot"></span>
-            <AuthAwareText
-              textLoggedIn="Welcome back to your study hub!"
-              textLoggedOut="CBSE CLASS 10 • NCERT ALIGNED"
-            />
+      {/* 1. Split Interactive Hero Section */}
+      <section className="home-hero-focused home-hero-split" aria-labelledby="hero-title">
+        <div className="hero-split-grid">
+          <div className="hero-focused-inner hero-split-copy">
+            <div className="hero-top-pills-row">
+              <div className="hero-eyebrow-pill">
+                <span className="pill-dot"></span>
+                <AuthAwareText
+                  textLoggedIn="Welcome back to your study hub!"
+                  textLoggedOut="CBSE CLASS 10 • 100% NCERT"
+                />
+              </div>
+              <BoardExamCountdownPill />
+            </div>
+
+            <h1 id="hero-title" className="hero-focused-title">
+              Crack CBSE Class 10
+              <br />
+              without the textbook boredom.
+            </h1>
+
+            <p className="hero-focused-subtext">
+              Bite-sized NCERT revision, <strong>1,669+ solved Board PYQs</strong>, <strong>20 free 80-mark mock papers</strong>, 3D science labs, and 60-second recall games—built for fast Pre-Board &amp; Feb 2027 mastery.
+            </p>
+
+            {/* Primary & Secondary Action */}
+            <div className="hero-focused-actions">
+              <AuthAwareCTA
+                className="hero-btn-primary"
+                hrefLoggedIn="/dashboard"
+                hrefLoggedOut="/quizzes"
+                textLoggedIn="Open Your Study Hub →"
+                textLoggedOut="⚡ Start 2-Min Chapter Sprint"
+              />
+              <Link href="/exam-papers" className="hero-btn-secondary">
+                📋 20 Free 80-Mark Mocks
+              </Link>
+            </div>
+
+            {/* Instant Zero-Signup Playground Pills */}
+            <div className="hero-playground-pills" aria-label="Try interactive features instantly">
+              <Link href="/games/sci-wordle" className="hero-play-pill">
+                🧩 Today&apos;s Sci-Wordle
+              </Link>
+              <Link href="/virtual-lab" className="hero-play-pill">
+                🔬 3D Science Lab
+              </Link>
+              <Link href="/questions" className="hero-play-pill">
+                📝 1,669+ PYQ Bank
+              </Link>
+              <Link href="/tools/trig-magic-hexagon" className="hero-play-pill">
+                📐 Trig Super Hexagon
+              </Link>
+            </div>
           </div>
 
-          <h1 id="hero-title" className="hero-focused-title">
-            Master Class 10,
-            <br />
-            one chapter at a time.
-          </h1>
-
-          <p className="hero-focused-subtext">
-            Learn every chapter. Practice what you learned.
-            Revise with confidence and prepare for your CBSE Boards.
-          </p>
-
-          {/* Primary & Secondary Action */}
-          <div className="hero-focused-actions">
-            <AuthAwareCTA
-              className="hero-btn-primary"
-              hrefLoggedIn="/dashboard"
-              hrefLoggedOut="#goals"
-              textLoggedIn="Go to Your Dashboard →"
-              textLoggedOut="Start Learning"
-            />
-            <a href="#subjects" className="hero-btn-secondary">
-              Explore Subjects
-            </a>
-          </div>
-
-          {/* Core Product Journey Visual */}
-          <div className="hero-journey-strip" aria-label="Learning Journey">
-            <span className="journey-node">Learn</span>
-            <span className="journey-arrow">→</span>
-            <span className="journey-node">Practice</span>
-            <span className="journey-arrow">→</span>
-            <span className="journey-node">Master</span>
-            <span className="journey-arrow">→</span>
-            <span className="journey-node">Revise</span>
-            <span className="journey-arrow">→</span>
-            <span className="journey-node journey-highlight">Board Ready</span>
+          <div className="hero-split-interactive">
+            <HeroBoardTrapChallenge />
           </div>
         </div>
       </section>
@@ -540,8 +553,8 @@ export default async function HomePage() {
             <span className="stat-label">Student & Parent Satisfaction</span>
           </div>
           <div className="proof-stat">
-            <span className="stat-number">280+ Qs</span>
-            <span className="stat-label">NCERT & Board Question Bank</span>
+            <span className="stat-number">1,669+ PYQs</span>
+            <span className="stat-label">Official Board &amp; Exemplar Bank</span>
           </div>
           <div className="proof-stat">
             <span className="stat-number">100%</span>

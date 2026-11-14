@@ -3062,6 +3062,376 @@ body.reading-focus-active .lesson-shell[id] {
   margin-top: 14px;
 }
 
+/* Split Interactive Hero & 60s CBSE Board Trap Card */
+.home-hero-split {
+  padding: 28px 16px 36px;
+  text-align: left;
+}
+
+.hero-split-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.hero-split-copy {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 640px;
+}
+
+.hero-split-copy .hero-focused-title {
+  font-size: clamp(2.25rem, 4.1vw, 3.65rem);
+  line-height: 1.07;
+}
+
+.hero-split-copy .hero-focused-actions {
+  justify-content: flex-start;
+}
+
+.hero-top-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-playground-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.hero-play-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1.5px solid #171513;
+  box-shadow: 2px 2px 0 #171513;
+  color: #171513;
+  font-size: 0.83rem;
+  font-weight: 850;
+  text-decoration: none;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.hero-play-pill:hover {
+  background: #fff8eb;
+  transform: translateY(-2px);
+}
+
+.hero-trap-card {
+  background: #fffdfa;
+  border: 2.5px solid #171513;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 6px 6px 0 #171513;
+  text-align: left;
+}
+
+.hero-trap-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.hero-trap-live-pill {
+  background: #ffedd5;
+  color: #a84a08;
+  border: 1.5px solid #171513;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.hero-trap-tabs {
+  display: inline-flex;
+  background: #f3ede2;
+  border: 1.5px solid #171513;
+  border-radius: 10px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.hero-trap-tab {
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  padding: 5px 11px;
+  font-size: 0.8rem;
+  font-weight: 850;
+  color: #55514b;
+  cursor: pointer;
+}
+
+.hero-trap-tab.active {
+  background: #171513;
+  color: #ffffff;
+}
+
+.hero-trap-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #a84a08;
+  margin-bottom: 6px;
+}
+
+.hero-trap-step {
+  color: #44403c;
+}
+
+.hero-trap-progress-track {
+  height: 7px;
+  background: #ece5d8;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid #d6cbb8;
+}
+
+.hero-trap-progress-track > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #d26b16, #059669);
+  transition: width 220ms ease;
+}
+
+.hero-trap-prompt {
+  margin: 0 0 12px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.45;
+  color: #171513;
+}
+
+.hero-trap-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.hero-trap-opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 11px;
+  background: #ffffff;
+  border: 2px solid #171513;
+  border-radius: 11px;
+  box-shadow: 2px 2px 0 #171513;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.88rem;
+  font-weight: 750;
+  color: #171513;
+  transition: transform 110ms ease, background 110ms ease;
+}
+
+.hero-trap-opt:hover:not(:disabled) {
+  background: #fff8eb;
+  transform: translateY(-1px);
+}
+
+.hero-trap-opt-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #f3ede2;
+  border: 1.5px solid #171513;
+  font-size: 0.76rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.hero-trap-opt-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-trap-mark {
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+
+.hero-trap-opt.is-correct {
+  background: #ecfdf5;
+  border-color: #059669;
+  box-shadow: 3px 3px 0 #059669;
+  color: #065f46;
+}
+
+.hero-trap-opt.is-correct .hero-trap-opt-letter {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.hero-trap-opt.is-wrong {
+  background: #fef2f2;
+  border-color: #dc2626;
+  box-shadow: 3px 3px 0 #dc2626;
+  color: #991b1b;
+}
+
+.hero-trap-opt.is-wrong .hero-trap-opt-letter {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+.hero-trap-feedback {
+  margin-top: 12px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1.5px solid #171513;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.hero-trap-feedback.good {
+  background: #ecfdf5;
+}
+
+.hero-trap-feedback.trap {
+  background: #fffbeb;
+}
+
+.hero-trap-feedback strong {
+  display: block;
+  color: #171513;
+  margin-bottom: 4px;
+}
+
+.hero-trap-feedback p {
+  margin: 0 0 10px;
+  color: #3f3f46;
+}
+
+.hero-trap-next-btn {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 2px solid #171513;
+  background: #171513;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.hero-trap-footer-hint {
+  margin: 11px 0 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6b6359;
+  text-align: center;
+}
+
+.hero-trap-complete {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 6px 0 2px;
+}
+
+.hero-trap-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: 950;
+  color: #171513;
+}
+
+.hero-trap-complete-copy {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #44403c;
+  line-height: 1.45;
+}
+
+.hero-trap-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border-radius: 11px;
+  background: #15803d;
+  color: #ffffff;
+  border: 2px solid #171513;
+  box-shadow: 3px 3px 0 #171513;
+  font-weight: 900;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.hero-trap-complete-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero-trap-link-primary {
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: #c95014;
+  color: #ffffff;
+  border: 2px solid #171513;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.hero-trap-link-secondary,
+.hero-trap-link-ghost {
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #171513;
+  border: 1.5px solid #171513;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .hero-split-copy {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-trap-options {
+    grid-template-columns: 1fr;
+  }
+}
+
 .journey-node {
   font-size: 0.85rem;
   font-weight: 850;

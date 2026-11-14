@@ -12,6 +12,7 @@ import {
   type LetterState,
 } from '../../lib/games/sci-wordle-data';
 import { sounds } from '../../lib/games/sound-effects';
+import { openWhatsAppChallenge } from '../../lib/whatsapp-share';
 
 export type WordleMode = 'daily' | 'unlimited';
 
@@ -275,14 +276,14 @@ export default function SciWordleGame() {
       )
       .join('\n');
 
-    const shareBody = `${header}\n\n${grid}\n\nPlay CBSE Class 10 Science & Maths Arcade:\nhttps://www.chapterready.in/games/sci-wordle`;
+    const shareBody = `${header}\n\n${grid}\n\nCan you solve today's CBSE Class 10 NCERT Sci-Wordle in fewer tries?\nhttps://www.chapterready.in/games/sci-wordle`;
 
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(shareBody).then(() => {
-        setCopiedShare(true);
-        setTimeout(() => setCopiedShare(false), 3000);
-      });
-    }
+    setCopiedShare(true);
+    setTimeout(() => setCopiedShare(false), 3000);
+    openWhatsAppChallenge({
+      message: shareBody,
+      surface: 'sci_wordle',
+    });
   };
 
   const winPercentage = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;

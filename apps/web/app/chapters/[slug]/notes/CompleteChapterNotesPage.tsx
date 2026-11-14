@@ -139,12 +139,12 @@ export default async function CompleteChapterNotesPage({
             </a>
             {chapter.subject.toLowerCase().includes('science') && (
               <Link className="ghost-link" href="/activities-and-diagrams">
-                🔬 NCERT Activities &amp; Diagrams (₹99)
+                🔬 NCERT Activities &amp; Diagrams
               </Link>
             )}
             {(chapter.subject.toLowerCase().includes('math') || chapter.subject.toLowerCase().includes('science')) && (
-              <Link className="ghost-link" href="/formula-cheatsheets">
-                ⚡ 1-Page Formula Cheatsheet (₹49)
+              <Link className="ghost-link" href={`/formula-cheatsheets?chapter=${slug}`}>
+                ⚡ 1-Page Formula Cheatsheet
               </Link>
             )}
             {quizContent ? (

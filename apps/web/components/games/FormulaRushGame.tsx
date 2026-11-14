@@ -10,6 +10,7 @@ import {
   type FormulaCategory,
 } from '../../lib/games/formula-rush-data';
 import { sounds } from '../../lib/games/sound-effects';
+import { openWhatsAppChallenge } from '../../lib/whatsapp-share';
 
 export type GameMode = 'blitz' | 'survival' | 'practice';
 
@@ -555,6 +556,19 @@ export default function FormulaRushGame() {
 
           {/* Actions */}
           <div className="gameover-actions">
+            <button
+              type="button"
+              className="play-again-btn"
+              style={{ background: '#15803d', color: '#ffffff', borderColor: '#171513' }}
+              onClick={() =>
+                openWhatsAppChallenge({
+                  message: `⚡ I scored ${score} pts (${maxStreak}🔥 max streak) in CBSE Class 10 Formula Rush!\nDare you to beat my score in 60 seconds (No login needed):\nhttps://www.chapterready.in/games/formula-rush`,
+                  surface: 'formula_rush',
+                })
+              }
+            >
+              📲 Challenge a Friend on WhatsApp
+            </button>
             <button className="play-again-btn" onClick={() => startGame(mode)}>
               🔄 Play Again
             </button>

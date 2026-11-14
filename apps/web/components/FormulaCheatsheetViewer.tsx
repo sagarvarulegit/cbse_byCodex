@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import {
   CHAPTER_CHEATSHEETS_DATA,
@@ -11,6 +11,7 @@ import {
 import Link from 'next/link';
 import MathText from './MathText';
 import { postPilotEngagement } from './PilotEngagementTracker';
+import { openWhatsAppChallenge } from '../lib/whatsapp-share';
 const TrigMagicHexagonViewer = dynamic(() => import('./TrigMagicHexagonViewer'), { ssr: false });
 const ProductCheckoutModal = dynamic(() => import('./ProductCheckoutModal'));
 import { FORMULA_CHEATSHEET_PACK_KEY } from '../lib/payments';
@@ -46,7 +47,22 @@ export default function FormulaCheatsheetViewer({
   );
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [unlockedState, setUnlockedState] = useState(isUnlocked);
+  const [buddyUnlockedIds, setBuddyUnlockedIds] = useState<string[]>([]);
   const [showTrigHexagon, setShowTrigHexagon] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem('cbse_buddy_unlocked_cheatsheets');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setBuddyUnlockedIds(parsed.filter((x): x is string => typeof x === 'string'));
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
 
   // Flashcard Drill State
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -81,7 +97,34 @@ export default function FormulaCheatsheetViewer({
     setIsPaywallOpen(false);
   };
 
-  const isCurrentAccessible = activeChapter?.isFreeSample || unlockedState;
+  const handleBuddyUnlockChapter = (ch: ChapterCheatsheet) => {
+    const next = Array.from(new Set([...buddyUnlockedIds, ch.id]));
+    setBuddyUnlockedIds(next);
+    try {
+      window.localStorage.setItem('cbse_buddy_unlocked_cheatsheets', JSON.stringify(next));
+    } catch {
+      // ignore storage errors
+    }
+    openWhatsAppChallenge({
+      message: `⚡ Revising Class 10 ${ch.chapterTitle}? Here is a super clean 1-Page CBSE Formula Sheet + Flashcard deck on ChapterReady:\nhttps://www.chapterready.in/formula-cheatsheets?chapter=${ch.chapterSlug}`,
+      surface: 'formula_cheatsheet_buddy_unlock',
+      chapterSlug: ch.chapterSlug,
+    });
+  };
+
+  const handleShareSheet = (ch: ChapterCheatsheet) => {
+    openWhatsAppChallenge({
+      message: `⚡ Quick 1-Page CBSE Class 10 ${ch.chapterTitle} Formula & Trap Sheet for Pre-Boards:\nhttps://www.chapterready.in/formula-cheatsheets?chapter=${ch.chapterSlug}`,
+      surface: 'formula_cheatsheet_share',
+      chapterSlug: ch.chapterSlug,
+    });
+  };
+
+  const isSheetAccessible =
+    Boolean(activeChapter?.isFreeSample) ||
+    unlockedState ||
+    (activeChapter ? buddyUnlockedIds.includes(activeChapter.id) : false);
+  const isCurrentAccessible = viewMode === 'flashcards' || isSheetAccessible;
 
   const nextFlashcard = () => {
     setIsCardFlipped(false);
@@ -211,7 +254,11 @@ export default function FormulaCheatsheetViewer({
       <div className="chapter-pills-scroll" role="tablist">
         {filteredChapters.map((ch) => {
           const isSelected = ch.id === activeChapter?.id;
-          const isItemAccessible = ch.isFreeSample || unlockedState;
+          const isItemAccessible =
+            viewMode === 'flashcards' ||
+            ch.isFreeSample ||
+            unlockedState ||
+            buddyUnlockedIds.includes(ch.id);
 
           return (
             <button
@@ -266,14 +313,33 @@ export default function FormulaCheatsheetViewer({
                 <h2 className="sheet-title">{activeChapter.chapterTitle} — Ultra Revision Sheet</h2>
                 <p className="sheet-summary">{activeChapter.summaryNote}</p>
               </div>
-              <button
-                type="button"
-                className="btn-print-mini no-print"
-                onClick={() => window.print()}
-                title="Print or Save PDF Wall-Sheet"
-              >
-                🖨️ Print Sheet
-              </button>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }} className="no-print">
+                <button
+                  type="button"
+                  onClick={() => handleShareSheet(activeChapter)}
+                  style={{
+                    background: '#15803d',
+                    color: '#ffffff',
+                    border: '2px solid #171513',
+                    borderRadius: '10px',
+                    padding: '0.55rem 0.95rem',
+                    fontSize: '0.84rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    boxShadow: '2px 2px 0 #171513',
+                  }}
+                >
+                  📲 Share on WhatsApp
+                </button>
+                <button
+                  type="button"
+                  className="btn-print-mini no-print"
+                  onClick={() => window.print()}
+                  title="Print or Save PDF Wall-Sheet"
+                >
+                  🖨️ Print Sheet
+                </button>
+              </div>
             </div>
 
             {/* Core Rules & Theorems */}
@@ -468,21 +534,70 @@ export default function FormulaCheatsheetViewer({
           </div>
         )
       ) : (
-        /* Paywall Locked Teaser */
+        /* Study Buddy Free Unlock + Full Pack Option */
         <div className="locked-chapter-banner">
-          <span className="lock-icon">🔒</span>
-          <h2>Unlock 1-Page Cheatsheet &amp; Flashcards for {activeChapter.chapterTitle}</h2>
+          <span className="lock-icon">🤝</span>
+          <h2>Unlock 1-Page Printable Sheet for {activeChapter.chapterTitle}</h2>
           <p>
-            Get the full high-density printable sheet, master formula vault, negative-marking trap alerts,
-            and interactive flashcards for just ₹49.
+            <strong>Free Study Buddy Option:</strong> Share this chapter link with 1 classmate on WhatsApp to unlock{' '}
+            <strong>{activeChapter.chapterTitle}</strong> free right now—or switch to{' '}
+            <strong>100% Free Interactive Flashcards</strong> above!
           </p>
-          <button
-            type="button"
-            className="btn-unlock-chapter"
-            onClick={() => setIsPaywallOpen(true)}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '0.75rem',
+              marginTop: '0.75rem',
+            }}
           >
-            ⚡ Unlock All Chapters (₹49) →
-          </button>
+            <button
+              type="button"
+              onClick={() => handleBuddyUnlockChapter(activeChapter)}
+              style={{
+                background: '#15803d',
+                color: '#ffffff',
+                border: '2px solid #171513',
+                borderRadius: '12px',
+                padding: '0.85rem 1.35rem',
+                fontSize: '0.96rem',
+                fontWeight: 900,
+                cursor: 'pointer',
+                boxShadow: '3px 3px 0 #171513',
+              }}
+            >
+              📲 Share on WhatsApp to Unlock Free →
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setViewMode('flashcards');
+                setCurrentCardIndex(0);
+                setIsCardFlipped(false);
+              }}
+              style={{
+                background: '#ffffff',
+                color: '#171513',
+                border: '2px solid #171513',
+                borderRadius: '12px',
+                padding: '0.85rem 1.2rem',
+                fontSize: '0.92rem',
+                fontWeight: 850,
+                cursor: 'pointer',
+                boxShadow: '3px 3px 0 #171513',
+              }}
+            >
+              🗂️ Practice Free Flashcards
+            </button>
+            <button
+              type="button"
+              className="btn-unlock-chapter"
+              onClick={() => setIsPaywallOpen(true)}
+            >
+              ⚡ Unlock All 27 Wall-Charts (₹49)
+            </button>
+          </div>
         </div>
       )}
 

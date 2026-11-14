@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import NeedsALookStrip, { type NeedsALookItem } from '../../components/dashboard/NeedsALookStrip';
+import InteractivePlaygroundStrip from '../../components/dashboard/InteractivePlaygroundStrip';
 import PostSignupWelcomeModal from '../../components/dashboard/PostSignupWelcomeModal';
 import SubjectTiles from '../../components/dashboard/SubjectTiles';
 import TodayPlanCard from '../../components/dashboard/TodayPlanCard';
 import XpRewardToast from '../../components/dashboard/XpRewardToast';
 import styles from '../../components/dashboard/dashboard-calm.module.css';
+import BoardExamCountdownPill from '../../components/BoardExamCountdownPill';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
 import { getStudentSessionToken, requireStudentSession } from '../../lib/auth';
@@ -128,14 +130,17 @@ export default async function DashboardPage({
             <p className={styles.greetingLine}>{greetingLine}</p>
           </div>
 
-          {showReadiness ? (
-            <Link className={styles.readinessLink} href="/readiness">
-              <span>
-                Exam readiness: <strong>{describeReadiness(readiness)}</strong>
-              </span>
-              <ArrowRight size={16} strokeWidth={2.4} />
-            </Link>
-          ) : null}
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px' }}>
+            <BoardExamCountdownPill compact />
+            {showReadiness ? (
+              <Link className={styles.readinessLink} href="/readiness">
+                <span>
+                  Exam readiness: <strong>{describeReadiness(readiness)}</strong>
+                </span>
+                <ArrowRight size={16} strokeWidth={2.4} />
+              </Link>
+            ) : null}
+          </div>
         </header>
 
         <PostSignupWelcomeModal
@@ -146,6 +151,8 @@ export default async function DashboardPage({
         />
 
         <TodayPlanCard plan={todayPlan} />
+
+        <InteractivePlaygroundStrip firstName={firstName} />
 
         <SubjectTiles subjects={subjectProgress} />
 

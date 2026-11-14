@@ -10,6 +10,7 @@ import {
   type ReactionType,
 } from '../../lib/games/chemical-balancer-data';
 import { sounds } from '../../lib/games/sound-effects';
+import { openWhatsAppChallenge } from '../../lib/whatsapp-share';
 
 export type BalancerMode = 'blitz' | 'survival' | 'campaign';
 
@@ -294,16 +295,15 @@ export default function ChemicalBalancerGame() {
     const shareBody = `🧪 Chemical Balancer Blitz (${modeName})
 🏆 Final Score: ${score} pts
 🔥 Max Streak: ${maxStreak}x
-${mode === 'campaign' ? `🎯 Levels Cleared: ${campaignLevel}/15\n` : ''}
-Play CBSE Class 10 Chemistry Arcade on ChapterReady:
+${mode === 'campaign' ? `🎯 Levels Cleared: ${campaignLevel}/15\n` : ''}Can you balance Class 10 CBSE reactions faster? Play free (zero login):
 https://www.chapterready.in/games/chemical-balancer`;
 
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(shareBody).then(() => {
-        setCopiedShare(true);
-        setTimeout(() => setCopiedShare(false), 3000);
-      });
-    }
+    setCopiedShare(true);
+    setTimeout(() => setCopiedShare(false), 3000);
+    openWhatsAppChallenge({
+      message: shareBody,
+      surface: 'chemical_balancer',
+    });
   };
 
   return (
