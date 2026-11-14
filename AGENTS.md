@@ -160,12 +160,11 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Phase 1–3 Student Growth, Bite-Sized Cards & 1-Tap Google Auth**: Shipped Bite-Sized Concept Cards (`BiteSizedNotesController.tsx` with `?view=cards` & print override), 1-Tap Google OAuth (`POST /v1/auth/google` RS256 JWKS verifier + `GoogleSignInButton.tsx` + password show/hide & live rule pills), zero-signup 5-Q Section-A CBT sampler (`GuestMockSampler.tsx` on `/exam-papers`), Split Hero 60s Board Trap, Dashboard Playground, 5-Q Quiz Sprints, free flashcards, and WhatsApp challenge sharing.
+- [x] **Phase 1–3 Student Growth, Bite-Sized Cards & 1-Tap Google Auth (LIVE on Prod)**: Shipped Bite-Sized Concept Cards (`BiteSizedNotesController.tsx`), live 1-Tap Google OAuth (`GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID` deployed on `cbse-bycodex-api` & `cbse-bycodex-web`), password show/hide & live rule pills, zero-signup 5-Q Section-A CBT sampler (`GuestMockSampler.tsx` on `/exam-papers`), Split Hero 60s Board Trap, Dashboard Playground, 5-Q Quiz Sprints, free flashcards, and WhatsApp challenge sharing.
 - [x] **Post-Signup Choice Modal, Exam Forfeit Controls & `perf/core-speed-and-scale`**: `DEFAULT_POST_SIGNUP_PATH = '/dashboard?welcome=1'`, full-funnel `ProgressEvent` tracking, `Forfeit & Exit` exam controls, `bom1` region pinning, session/API dedup caches, and batched `/exam-papers`.
 - [x] **Prior Foundation Releases**: Menu auto-collapse, Android PWA/TWA (`app-release-bundle.aab`), Tara chat session isolation, Question Bank (1,669+ SEO pages), Parent Summary, Tara Optics Engine, Formula Rush Arcade, Grounded AI Evaluator & 20 Free 80M Mock Papers.
 
 ### 6.2 Active Tasks in Queue
-- [ ] **Configure Google OAuth Client ID in Vercel**: Add `GOOGLE_CLIENT_ID` on `cbse-bycodex-api` and `NEXT_PUBLIC_GOOGLE_CLIENT_ID` on `cbse-bycodex-web` so `GoogleSignInButton` goes live in production.
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
 - [ ] **YouTube Section Formula Short Upload**: Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` with dedicated 9:16 thumbnail to YouTube Studio.
 - [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.
