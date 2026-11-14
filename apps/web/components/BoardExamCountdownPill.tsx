@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getDaysToBoardExams } from '../lib/dashboard-home';
+import { getDaysToBoardExams } from '../lib/board-countdown';
 
 export default function BoardExamCountdownPill({ compact = false }: { compact?: boolean }) {
   const [days, setDays] = useState<number | null>(null);
