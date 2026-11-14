@@ -197,6 +197,15 @@ export default function MobileBottomNav() {
                 </div>
               </Link>
             </div>
+
+            <div className="sheet-gov-disclaimer">
+              <strong>Independent Educational App Disclaimer:</strong> ChapterReady does <strong>not</strong> represent a government entity and is not affiliated with CBSE or NCERT. Official curriculum &amp; textbook sources:{' '}
+              <a href="https://www.cbse.gov.in" target="_blank" rel="noopener noreferrer">cbse.gov.in</a>
+              {', '}
+              <a href="https://cbseacademic.nic.in" target="_blank" rel="noopener noreferrer">cbseacademic.nic.in</a>
+              {', '}
+              <a href="https://ncert.nic.in" target="_blank" rel="noopener noreferrer">ncert.nic.in</a>.
+            </div>
           </div>
         </div>
       )}
@@ -380,6 +389,23 @@ export default function MobileBottomNav() {
             font-size: 10px;
             color: #78716c;
             line-height: 1.2;
+          }
+
+          .sheet-gov-disclaimer {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #f5f5f4;
+            border: 1px solid #d6d3d1;
+            border-radius: 10px;
+            font-size: 10.5px;
+            line-height: 1.4;
+            color: #57534e;
+          }
+
+          .sheet-gov-disclaimer a {
+            color: #c25010;
+            font-weight: 700;
+            text-decoration: underline;
           }
         }
 

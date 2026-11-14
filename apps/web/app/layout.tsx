@@ -66,16 +66,26 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </TutorPageProvider>
         <MobileBottomNav />
         <footer className="site-footer">
-          <Link aria-label="ChapterReady home" className="footer-brand" href="/">
-            <BrandLockup compact showDescriptor={false} />
-          </Link>
-          <Link href="/questions" style={{ fontWeight: 700, color: 'var(--accent-text, #ea580c)' }}>
-            📝 Question Bank (PYQs &amp; Exemplar)
-          </Link>
-          <a href="mailto:support@chapterready.in">✉ support@chapterready.in</a>
-          <Link href="/privacy">Privacy and guardian consent</Link>
-          <Link href="/parent-summary">Parent Summary</Link>
-          <Link href="/feedback" style={{ fontWeight: 700 }}>💬 Give Feedback</Link>
+          <div className="site-footer-links">
+            <Link aria-label="ChapterReady home" className="footer-brand" href="/">
+              <BrandLockup compact showDescriptor={false} />
+            </Link>
+            <Link href="/questions" style={{ fontWeight: 700, color: 'var(--accent-text, #ea580c)' }}>
+              📝 Question Bank (PYQs &amp; Exemplar)
+            </Link>
+            <a href="mailto:support@chapterready.in">✉ support@chapterready.in</a>
+            <Link href="/privacy">Privacy &amp; Official Sources</Link>
+            <Link href="/parent-summary">Parent Summary</Link>
+            <Link href="/feedback" style={{ fontWeight: 700 }}>💬 Give Feedback</Link>
+          </div>
+          <div className="site-footer-disclaimer" role="note" aria-label="Government non-affiliation disclaimer and official curriculum sources">
+            <strong>Disclaimer:</strong> ChapterReady is an independent private educational platform and does <strong>not</strong> represent, endorse, or have any affiliation with the Central Board of Secondary Education (CBSE), the National Council of Educational Research and Training (NCERT), or any government entity. Official public curriculum, textbook, and examination sources:{' '}
+            <a href="https://www.cbse.gov.in" target="_blank" rel="noopener noreferrer">cbse.gov.in</a>
+            {' · '}
+            <a href="https://cbseacademic.nic.in" target="_blank" rel="noopener noreferrer">cbseacademic.nic.in</a>
+            {' · '}
+            <a href="https://ncert.nic.in" target="_blank" rel="noopener noreferrer">ncert.nic.in</a>
+          </div>
         </footer>
       </body>
     </html>

@@ -37,6 +37,29 @@ export default function PrivacyPage() {
 
       <div className="privacy-content">
         <section>
+          <h2>Government Non-Affiliation Disclaimer &amp; Official Curriculum Sources</h2>
+          <p>
+            <strong>Disclaimer:</strong> ChapterReady is an independent private educational platform and does <strong>not</strong> represent, endorse, or have any affiliation with the Central Board of Secondary Education (CBSE), the National Council of Educational Research and Training (NCERT), the Ministry of Education, or any government entity.
+          </p>
+          <p>
+            All public curriculum structure, rationalized Class 10 syllabus references, textbook chapters, exemplar problems, and past board examination papers referenced on this platform are sourced from publicly available official government educational portals:
+          </p>
+          <ul>
+            <li>
+              <strong>Central Board of Secondary Education (CBSE):</strong>{' '}
+              <a href="https://www.cbse.gov.in" target="_blank" rel="noopener noreferrer">https://www.cbse.gov.in</a>
+            </li>
+            <li>
+              <strong>CBSE Academic (Syllabus, Sample Question Papers &amp; Marking Schemes):</strong>{' '}
+              <a href="https://cbseacademic.nic.in" target="_blank" rel="noopener noreferrer">https://cbseacademic.nic.in</a>
+            </li>
+            <li>
+              <strong>National Council of Educational Research and Training (NCERT Textbooks &amp; Exemplar):</strong>{' '}
+              <a href="https://ncert.nic.in" target="_blank" rel="noopener noreferrer">https://ncert.nic.in</a>
+            </li>
+          </ul>
+        </section>
+        <section>
           <h2>What we collect</h2>
           <ul>
             <li>Student name, email, class level, and encrypted password.</li>
