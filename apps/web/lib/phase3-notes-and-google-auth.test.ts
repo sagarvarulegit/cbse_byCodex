@@ -24,9 +24,12 @@ test('Phase 3: Chapter notes mount BiteSizedNotesController with ?view=cards tog
   assert.match(chapterHub, /\/chapters\/\$\{slug\}\/notes\?view=cards/);
   assert.match(chapterHub, /Bite-Sized Concept Cards/);
 
-  // Print CSS ensures printing always outputs all hidden cards cleanly
+  // Print CSS ensures printing always outputs all hidden cards cleanly, and layout grid aligns to 1240px without overflow
   assert.match(remixCss, /@media print/);
   assert.match(remixCss, /data-bite-card="hidden"/);
+  assert.match(remixCss, /\.notes-sticky-floating-bar\s*\{[\s\S]*?width:\s*min\(1240px,\s*calc\(100vw - 32px\)\)/);
+  assert.match(remixCss, /\.lesson-main\.complete-chapter-notes\s*\{[\s\S]*?overflow-x:\s*clip/);
+  assert.match(controller, /isSupportOrPracticeSection/);
 });
 
 test('Phase 3: Login and Register forms wire 1-Tap GoogleSignInButton, password toggle, and live validation pills', () => {

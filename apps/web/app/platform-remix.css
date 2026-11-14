@@ -5060,11 +5060,92 @@ body.reading-focus-active .lesson-shell[id] {
    PHASE 3: BITE-SIZED CONCEPT CARDS, GOOGLE 1-TAP AUTH & GUEST MOCK SAMPLER
    ============================================================================ */
 
+.lesson-page .reading-companion {
+  width: min(1240px, calc(100vw - 32px));
+  margin: 14px auto 12px;
+}
+
+.notes-sticky-floating-bar {
+  position: relative;
+  top: auto;
+  z-index: 20;
+  width: min(1240px, calc(100vw - 32px));
+  margin: 0 auto 18px;
+}
+
+.notes-floating-pills-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  padding: 10px 18px;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(24, 22, 18, 0.08), 3px 3px 0 #181612;
+}
+
+.notes-floating-pills-inner .floating-pills-label {
+  margin-right: auto;
+  color: #57524a;
+}
+
+/* Hide redundant second shortcut box when Quick Actions toolbar sits directly above */
+.notes-sticky-floating-bar + .complete-chapter-shell .notes-top-cta-banner {
+  display: none;
+}
+
+.lesson-main.complete-chapter-notes {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.complete-chapter-sidebar .chapter-contents-nav {
+  max-height: calc(100dvh - 116px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 22, 18, 0.28) transparent;
+}
+
+.complete-chapter-sidebar .chapter-contents-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.complete-chapter-sidebar .chapter-contents-nav::-webkit-scrollbar-thumb {
+  background: rgba(24, 22, 18, 0.24);
+  border-radius: 999px;
+}
+
 .bite-sized-notes-shell {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
   gap: 18px;
-  margin-top: 24px;
+  margin-top: 0;
   scroll-margin-top: 96px;
+}
+
+.bite-notes-sections-host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+  gap: 20px;
+}
+
+.bite-notes-sections-host .chapter-notes-introduction {
+  padding: 16px 20px;
+  gap: 6px;
+}
+
+.bite-notes-sections-host .chapter-notes-introduction h2 {
+  font-size: clamp(1.15rem, 2vw, 1.38rem);
+}
+
+.bite-notes-sections-host .chapter-notes-introduction > p:not(.eyebrow) {
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .bite-mode-switcher-bar {
@@ -5072,8 +5153,11 @@ body.reading-focus-active .lesson-shell[id] {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 18px 20px;
+  gap: 14px 18px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 16px 18px;
   border: 2px solid #181612;
   border-radius: 18px;
   background: linear-gradient(135deg, #fffdf8 0%, #fff4e4 100%);
@@ -5082,12 +5166,13 @@ body.reading-focus-active .lesson-shell[id] {
 
 .bite-mode-switcher-copy {
   display: grid;
+  flex: 1 1 260px;
+  min-width: 0;
   gap: 3px;
-  max-width: 560px;
 }
 
 .bite-mode-kicker {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 950;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -5095,20 +5180,23 @@ body.reading-focus-active .lesson-shell[id] {
 }
 
 .bite-mode-switcher-copy strong {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 900;
   color: #181612;
+  line-height: 1.3;
 }
 
 .bite-mode-switcher-copy > span:last-child {
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   color: #4f4a43;
-  line-height: 1.45;
+  line-height: 1.42;
 }
 
 .bite-mode-toggle-group {
   display: inline-flex;
+  flex: 0 1 auto;
   flex-wrap: wrap;
+  max-width: 100%;
   gap: 6px;
   padding: 5px;
   border: 2px solid #181612;
@@ -5119,11 +5207,12 @@ body.reading-focus-active .lesson-shell[id] {
 .bite-mode-toggle-btn {
   border: 1.5px solid transparent;
   border-radius: 10px;
-  padding: 9px 14px;
+  padding: 8px 13px;
   background: transparent;
   color: #3f3a34;
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   font-weight: 850;
+  white-space: nowrap;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
 }
@@ -5223,6 +5312,10 @@ body.reading-focus-active .lesson-shell[id] {
 }
 
 /* DOM isolation rules when Bite-Sized Cards mode is active */
+.bite-sized-notes-shell[data-notes-mode="cards"] .chapter-notes-introduction {
+  display: none !important;
+}
+
 .bite-sized-notes-shell[data-notes-mode="cards"] .complete-chapter-sections {
   margin-top: 0;
   gap: 0;
@@ -5237,19 +5330,20 @@ body.reading-focus-active .lesson-shell[id] {
 }
 
 .bite-sized-notes-shell[data-notes-mode="cards"] details.complete-chapter-part[data-bite-part="active"] {
-  border-top: 0;
-  padding-top: 0;
-  content-visibility: visible;
-  contain-intrinsic-size: none;
-}
-
-.bite-sized-notes-shell[data-notes-mode="cards"] section[data-bite-card="active"] {
   padding: 26px 24px;
   border: 2.5px solid #181612;
   border-radius: 22px;
   background: #fffdfa;
   box-shadow: 5px 5px 0 #181612;
+  content-visibility: visible;
+  contain-intrinsic-size: none;
   animation: biteCardSlideIn 0.18s ease-out;
+}
+
+.bite-sized-notes-shell[data-notes-mode="cards"] section[data-bite-card="active"] + section[data-bite-card="active"] {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1.5px dashed rgba(24, 22, 18, 0.16);
 }
 
 @keyframes biteCardSlideIn {
@@ -5399,6 +5493,7 @@ body.reading-focus-active .lesson-shell[id] {
     display: none !important;
   }
 
+  .bite-sized-notes-shell[data-notes-mode="cards"] .chapter-notes-introduction,
   .bite-sized-notes-shell[data-notes-mode="cards"] details.complete-chapter-part[data-bite-part="hidden"],
   .bite-sized-notes-shell[data-notes-mode="cards"] section[data-bite-card="hidden"] {
     display: block !important;

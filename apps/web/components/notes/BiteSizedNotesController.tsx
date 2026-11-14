@@ -14,6 +14,7 @@ export type BiteCardMeta = {
   partNumber: string;
   partTitle: string;
   sectionId: string;
+  sectionIds: string[];
   eyebrow: string;
   title: string;
   optionLabel: string;
@@ -27,10 +28,28 @@ type BiteSizedNotesControllerProps = {
   children: ReactNode;
 };
 
-const MASTERED_STORAGE_PREFIX = 'cbse:bite-cards-mastered:v1';
+type BiteCardGroup = {
+  meta: BiteCardMeta;
+  elements: HTMLElement[];
+};
+
+const MASTERED_STORAGE_PREFIX = 'cbse:bite-cards-mastered:v2';
 
 function getMasteredStorageKey(chapterSlug: string) {
   return `${MASTERED_STORAGE_PREFIX}:${chapterSlug}`;
+}
+
+function isSupportOrPracticeSection(secEl: HTMLElement): boolean {
+  return (
+    secEl.classList.contains('lesson-support-section') ||
+    secEl.classList.contains('lesson-qa-card') ||
+    secEl.classList.contains('lesson-practice-answer') ||
+    secEl.classList.contains('comic-recap-card')
+  );
+}
+
+function countWords(el: HTMLElement): number {
+  return (el.textContent || '').trim().split(/\s+/).filter(Boolean).length;
 }
 
 export default function BiteSizedNotesController({
@@ -41,7 +60,8 @@ export default function BiteSizedNotesController({
 }: BiteSizedNotesControllerProps) {
   const shellRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
-  const sectionElementsRef = useRef<HTMLElement[]>([]);
+  const cardGroupsRef = useRef<BiteCardGroup[]>([]);
+  const allSectionElementsRef = useRef<HTMLElement[]>([]);
   const partElementsRef = useRef<HTMLDetailsElement[]>([]);
   const savedOpenPartsRef = useRef<Set<string> | null>(null);
   const wasCardsModeRef = useRef(false);
@@ -51,7 +71,7 @@ export default function BiteSizedNotesController({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [masteredIndices, setMasteredIndices] = useState<number[]>([]);
 
-  // Scan rendered NCERT sections inside .complete-chapter-part-body in exact textbook DOM order
+  // Scan rendered NCERT sections inside .complete-chapter-part-body and group into cohesive Topic Cards
   useEffect(() => {
     const container = contentContainerRef.current;
     if (!container) return;
@@ -61,8 +81,8 @@ export default function BiteSizedNotesController({
     );
     partElementsRef.current = partEls;
 
-    const discoveredSections: HTMLElement[] = [];
-    const discoveredMeta: BiteCardMeta[] = [];
+    const allSecEls: HTMLElement[] = [];
+    const groups: BiteCardGroup[] = [];
 
     partEls.forEach((partEl, pIdx) => {
       const partId = partEl.id || `part-${pIdx + 1}`;
@@ -79,45 +99,112 @@ export default function BiteSizedNotesController({
       const directSections = Array.from(body.children).filter(
         (el): el is HTMLElement => el.tagName === 'SECTION',
       );
+      if (directSections.length === 0) return;
 
-      directSections.forEach((secEl) => {
-        const cardIndex = discoveredSections.length;
-        const sectionId = secEl.id || `${partId}-card-${cardIndex + 1}`;
+      allSecEls.push(...directSections);
 
-        const eyebrowEl = secEl.querySelector('.concept-eyebrow, .card-eyebrow');
-        const headingEl = secEl.querySelector('h3, h2');
+      let activePartGroup: {
+        elements: HTMLElement[];
+        sectionIds: string[];
+        primarySection: HTMLElement;
+        isShortIntroPendingMerge: boolean;
+      } | null = null;
+
+      const partLocalGroups: Array<{
+        elements: HTMLElement[];
+        sectionIds: string[];
+        primarySection: HTMLElement;
+      }> = [];
+
+      directSections.forEach((secEl, secIdx) => {
+        const secId = secEl.id || `${partId}-sec-${secIdx + 1}`;
+        const isSupport = isSupportOrPracticeSection(secEl);
+        const isNumberedConcept = secEl.classList.contains('concept-block--numbered');
+        const words = countWords(secEl);
+
+        if (!activePartGroup) {
+          activePartGroup = {
+            elements: [secEl],
+            sectionIds: [secId],
+            primarySection: secEl,
+            isShortIntroPendingMerge: !isNumberedConcept && !isSupport && words < 65,
+          };
+          partLocalGroups.push(activePartGroup);
+          return;
+        }
+
+        // Attach Board Tips, Common Mistakes, In-Text Q&As, Quick Practice, and Comic Recap to their parent Concept Card
+        if (isSupport) {
+          activePartGroup.elements.push(secEl);
+          activePartGroup.sectionIds.push(secId);
+          return;
+        }
+
+        // Merge tiny introductory lead-in (<65 words) into the immediately following numbered NCERT section
+        if (activePartGroup.isShortIntroPendingMerge && isNumberedConcept) {
+          activePartGroup.elements.push(secEl);
+          activePartGroup.sectionIds.push(secId);
+          activePartGroup.primarySection = secEl;
+          activePartGroup.isShortIntroPendingMerge = false;
+          return;
+        }
+
+        // Start a fresh Topic Card for each numbered NCERT section or standalone major concept block
+        activePartGroup = {
+          elements: [secEl],
+          sectionIds: [secId],
+          primarySection: secEl,
+          isShortIntroPendingMerge: false,
+        };
+        partLocalGroups.push(activePartGroup);
+      });
+
+      partLocalGroups.forEach((grp) => {
+        const cardIndex = groups.length;
+        const primaryEl = grp.primarySection;
+        const sectionId = primaryEl.id || grp.sectionIds[0] || `${partId}-card-${cardIndex + 1}`;
+
+        const eyebrowEl = primaryEl.querySelector('.concept-eyebrow, .card-eyebrow');
+        const headingEl = primaryEl.querySelector('h3, h2');
         const rawEyebrow = eyebrowEl?.textContent?.replace(/\s+/g, ' ').trim() || '';
         const rawHeading = headingEl?.textContent?.replace(/\s+/g, ' ').trim() || '';
 
-        const eyebrow = rawEyebrow || (cardIndex === 0 ? 'Overview' : `Part ${partNumber}`);
-        const title = rawHeading || (rawEyebrow ? partTitle : `${partTitle} · Overview`);
+        const eyebrow = rawEyebrow || `Part ${partNumber}`;
+        const title = rawHeading || partTitle;
 
         const secNumMatch = rawEyebrow.match(/^Section\s+([\d.-]+)$/i);
         const optionLabel = secNumMatch
           ? `${secNumMatch[1]} ${title}`
           : rawHeading
-            ? `${eyebrow ? `${eyebrow} · ` : ''}${title}`
-            : `Part ${partNumber} · Overview`;
+            ? title
+            : `Part ${partNumber} · ${partTitle}`;
 
-        const wordCount = (secEl.textContent || '').trim().split(/\s+/).filter(Boolean).length;
-        const estMinutes = Math.max(1, Math.min(5, Math.ceil(wordCount / 165)));
+        const totalWords = grp.elements.reduce((sum, el) => sum + countWords(el), 0);
+        const estMinutes = Math.max(1, Math.min(5, Math.ceil(totalWords / 175)));
 
-        discoveredSections.push(secEl);
-        discoveredMeta.push({
+        const meta: BiteCardMeta = {
           index: cardIndex,
           partId,
           partNumber,
           partTitle,
           sectionId,
+          sectionIds: grp.sectionIds,
           eyebrow,
           title,
           optionLabel,
           estMinutes,
+        };
+
+        groups.push({
+          meta,
+          elements: grp.elements,
         });
       });
     });
 
-    sectionElementsRef.current = discoveredSections;
+    allSectionElementsRef.current = allSecEls;
+    cardGroupsRef.current = groups;
+    const discoveredMeta = groups.map((g) => g.meta);
     setCards(discoveredMeta);
 
     // Load saved card mastery state for this chapter
@@ -154,7 +241,7 @@ export default function BiteSizedNotesController({
           initialIdx = requestedCard;
         } else if (hashId) {
           const matchedBySection = discoveredMeta.findIndex(
-            (c) => c.sectionId === hashId || c.partId === hashId,
+            (c) => c.sectionIds.includes(hashId) || c.partId === hashId,
           );
           if (matchedBySection >= 0) {
             initialIdx = matchedBySection;
@@ -173,8 +260,9 @@ export default function BiteSizedNotesController({
   useEffect(() => {
     const container = contentContainerRef.current;
     const partEls = partElementsRef.current;
-    const secEls = sectionElementsRef.current;
-    if (!container || partEls.length === 0 || secEls.length === 0) return;
+    const allSecEls = allSectionElementsRef.current;
+    const groups = cardGroupsRef.current;
+    if (!container || partEls.length === 0 || groups.length === 0) return;
 
     if (mode === 'cards') {
       if (!wasCardsModeRef.current) {
@@ -184,11 +272,12 @@ export default function BiteSizedNotesController({
         wasCardsModeRef.current = true;
       }
 
-      const safeIndex = Math.min(Math.max(0, currentIndex), secEls.length - 1);
-      const activeSectionEl = secEls[safeIndex];
-      const activePartEl = activeSectionEl?.closest('details.complete-chapter-part') as
-        | HTMLDetailsElement
-        | null;
+      const safeIndex = Math.min(Math.max(0, currentIndex), groups.length - 1);
+      const activeGroup = groups[safeIndex];
+      const activeElementSet = new Set(activeGroup?.elements ?? []);
+      const activePartEl = activeGroup?.elements[0]?.closest(
+        'details.complete-chapter-part',
+      ) as HTMLDetailsElement | null;
 
       partEls.forEach((partEl) => {
         if (partEl === activePartEl) {
@@ -199,8 +288,11 @@ export default function BiteSizedNotesController({
         }
       });
 
-      secEls.forEach((secEl, idx) => {
-        secEl.setAttribute('data-bite-card', idx === safeIndex ? 'active' : 'hidden');
+      allSecEls.forEach((secEl) => {
+        secEl.setAttribute(
+          'data-bite-card',
+          activeElementSet.has(secEl) ? 'active' : 'hidden',
+        );
       });
     } else if (wasCardsModeRef.current) {
       wasCardsModeRef.current = false;
@@ -213,7 +305,7 @@ export default function BiteSizedNotesController({
         }
       });
 
-      secEls.forEach((secEl) => {
+      allSecEls.forEach((secEl) => {
         secEl.removeAttribute('data-bite-card');
       });
     }
@@ -321,7 +413,7 @@ export default function BiteSizedNotesController({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [cards.length, currentIndex, goToCard, mode]);
 
-  // Intercept sidebar contents clicks while in Bite-Sized Cards mode so clicking a section opens its card
+  // Intercept sidebar contents clicks while in Bite-Sized Cards mode so clicking any topic opens its card
   useEffect(() => {
     if (mode !== 'cards' || cards.length === 0) return;
 
@@ -332,12 +424,18 @@ export default function BiteSizedNotesController({
       if (!anchor) return;
 
       const hash = anchor.getAttribute('href')?.replace(/^#/, '') || '';
-      if (!hash || hash === 'board-exam-drill' || hash === 'introduction') {
+      if (!hash || hash === 'board-exam-drill') {
+        return;
+      }
+
+      if (hash === 'introduction') {
+        event.preventDefault();
+        goToCard(0, true);
         return;
       }
 
       const matchedIdx = cards.findIndex(
-        (c) => c.sectionId === hash || c.partId === hash,
+        (c) => c.sectionIds.includes(hash) || c.partId === hash,
       );
       if (matchedIdx >= 0) {
         event.preventDefault();
@@ -364,7 +462,7 @@ export default function BiteSizedNotesController({
     openWhatsAppChallenge({
       surface: 'chapter_bite_card',
       chapterSlug,
-      message: `📚 Quick 90-sec CBSE Class 10 revision card on *${chapterTitle}* (${activeCard.optionLabel})! Read just 1 card & test yourself 👇\n${cardShareUrl}`,
+      message: `📚 Quick 2-min CBSE Class 10 topic card on *${chapterTitle}* (${activeCard.optionLabel})! Read 1 card & test yourself 👇\n${cardShareUrl}`,
     });
   }
 
@@ -374,19 +472,19 @@ export default function BiteSizedNotesController({
       className="bite-sized-notes-shell"
       data-notes-mode={mode}
     >
-      {/* Prominent Study Mode Switcher */}
+      {/* Prominent Study Mode Switcher — Flush at top of left column */}
       <div className="bite-mode-switcher-bar" role="region" aria-label="Notes study mode switcher">
         <div className="bite-mode-switcher-copy">
-          <span className="bite-mode-kicker">🧠 CHOOSE HOW YOU READ</span>
+          <span className="bite-mode-kicker">🧠 CHOOSE HOW YOU STUDY</span>
           <strong>
             {mode === 'cards'
-              ? `⚡ Bite-Sized Concept Cards (${cards.length} Topics)`
-              : 'Skip the Long Scroll — Flip 1 Concept Card at a Time'}
+              ? `⚡ Bite-Sized Topic Cards (${cards.length} NCERT Topics)`
+              : 'Skip the Long Scroll — Flip 1 Topic Card at a Time'}
           </strong>
           <span>
             {mode === 'cards'
-              ? 'Exact NCERT numbering & diagrams preserved — zero wall-of-text fatigue.'
-              : `Break this chapter into ${cards.length || 'short'} focused ~2-min NCERT cards with instant progress tracking.`}
+              ? 'Each card bundles one NCERT section with its diagrams, tips & quick check.'
+              : `Study this chapter in ${cards.length || 'focused'} bite-sized ~2-min NCERT topic cards instead of one long scroll.`}
           </span>
         </div>
 
@@ -419,15 +517,15 @@ export default function BiteSizedNotesController({
           <div className="bite-deck-meta-row">
             <div className="bite-deck-badges">
               <span className="bite-card-counter-pill">
-                Card {currentIndex + 1} of {cards.length}
+                Topic {currentIndex + 1} of {cards.length}
               </span>
               <span className="bite-part-pill">
-                Part {activeCard.partNumber} · {activeCard.partTitle}
+                Part {activeCard.partNumber}
               </span>
-              <span className="bite-time-pill">⏱️ ~{activeCard.estMinutes} min read</span>
+              <span className="bite-time-pill">⏱️ ~{activeCard.estMinutes} min</span>
               {masteredIndices.length > 0 ? (
                 <span className="bite-mastered-pill">
-                  ✓ {masteredIndices.length}/{cards.length} Got It
+                  ✓ {masteredIndices.length}/{cards.length} Mastered
                 </span>
               ) : null}
             </div>
@@ -441,7 +539,7 @@ export default function BiteSizedNotesController({
                 onChange={(e) => goToCard(Number(e.target.value), false)}
               >
                 {cards.map((card) => (
-                  <option key={card.sectionId} value={card.index}>
+                  <option key={`${card.partId}-${card.index}`} value={card.index}>
                     {masteredIndices.includes(card.index) ? '✓ ' : ''}
                     {card.index + 1}/{cards.length} · {card.optionLabel}
                   </option>
@@ -456,7 +554,7 @@ export default function BiteSizedNotesController({
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={progressPercent}
-            aria-label={`Card ${currentIndex + 1} of ${cards.length}`}
+            aria-label={`Topic ${currentIndex + 1} of ${cards.length}`}
           >
             <span style={{ width: `${progressPercent}%` }} />
           </div>
@@ -474,7 +572,7 @@ export default function BiteSizedNotesController({
           {isLastCard ? (
             <div className="bite-deck-complete-banner">
               <div>
-                <strong>🎉 You reached the final card of {chapterTitle}!</strong>
+                <strong>🎉 You completed all {cards.length} Topic Cards in {chapterTitle}!</strong>
                 <span>
                   Lock this chapter into long-term memory with a 2-minute 5-Question Sprint or real 5-year CBSE PYQs below.
                 </span>
@@ -508,7 +606,7 @@ export default function BiteSizedNotesController({
                 className="bite-whatsapp-card-btn"
                 onClick={handleShareCardOnWhatsApp}
               >
-                📲 Share Card on WhatsApp
+                📲 Share Topic on WhatsApp
               </button>
               <span className="bite-keyboard-hint">Use &larr; / &rarr; keys to flip</span>
             </div>
@@ -520,9 +618,9 @@ export default function BiteSizedNotesController({
             >
               {isLastCard
                 ? isCurrentMastered
-                  ? '✓ All Cards Reviewed!'
-                  : '✓ Mark Final Card Got It'
-                : '✓ Got It · Next Card →'}
+                  ? '✓ All Topics Reviewed!'
+                  : '✓ Mark Final Topic Got It'
+                : '✓ Got It · Next Topic →'}
             </button>
           </div>
         </div>

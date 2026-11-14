@@ -244,21 +244,21 @@ export default async function CompleteChapterNotesPage({
             </div>
           </aside>
 
-          <section className="chapter-notes-introduction" id="introduction">
-            <p className="eyebrow">Introduction</p>
-            <h2>Learn the whole chapter in one place</h2>
-            <p>{chapter.summary}</p>
-            <p>
-              Follow the numbered headings in order. Each parent section comes
-              before its child subsections, matching the textbook path.
-            </p>
-          </section>
-
           <BiteSizedNotesController
             chapterSlug={slug}
             chapterTitle={chapter.title}
             hasQuiz={Boolean(quizContent)}
           >
+            <section className="chapter-notes-introduction" id="introduction">
+              <p className="eyebrow">Introduction</p>
+              <h2>Learn the whole chapter in one place</h2>
+              <p>{chapter.summary}</p>
+              <p>
+                Follow the numbered headings in order. Each parent section comes
+                before its child subsections, matching the textbook path.
+              </p>
+            </section>
+
             <div className="complete-chapter-sections">
               {lessonContents.length > 0 ? (
               lessonContents.map((content, index) => (
@@ -403,25 +403,33 @@ export default async function CompleteChapterNotesPage({
               Introduction
             </a>
             <ol>
-              {outline.map((item) => (
-                <li key={item.lessonSlug}>
-                  <a
-                    className="chapter-part-link"
-                    href={`#lesson-${item.lessonSlug}`}
-                  >
-                    {item.title}
-                  </a>
-                  {item.sections.length > 0 ? (
-                    <ol>
-                      {item.sections.map((section) => (
-                        <li key={section.id}>
-                          <a href={`#${section.id}`}>{section.label}</a>
-                        </li>
-                      ))}
-                    </ol>
-                  ) : null}
-                </li>
-              ))}
+              {outline.map((item) => {
+                const nonRedundantSections =
+                  item.sections.length === 1 &&
+                  item.sections[0].label.trim().toLowerCase() ===
+                    item.title.trim().toLowerCase()
+                    ? []
+                    : item.sections;
+                return (
+                  <li key={item.lessonSlug}>
+                    <a
+                      className="chapter-part-link"
+                      href={`#lesson-${item.lessonSlug}`}
+                    >
+                      {item.title}
+                    </a>
+                    {nonRedundantSections.length > 0 ? (
+                      <ol>
+                        {nonRedundantSections.map((section) => (
+                          <li key={section.id}>
+                            <a href={`#${section.id}`}>{section.label}</a>
+                          </li>
+                        ))}
+                      </ol>
+                    ) : null}
+                  </li>
+                );
+              })}
             </ol>
             <a
               className="chapter-introduction-link"
