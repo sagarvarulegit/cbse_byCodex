@@ -13,6 +13,7 @@ import PilotEngagementTracker, {
 import ReadingCompanion from '../../../../components/ReadingCompanion';
 import SectionFocusHandler from '../../../../components/SectionFocusHandler';
 import ChapterPyqDrill from '../../../../components/ChapterPyqDrill';
+import BiteSizedNotesController from '../../../../components/notes/BiteSizedNotesController';
 import StudentTopbar from '../../../../components/StudentTopbar';
 import { getStudentSession } from '../../../../lib/auth';
 import {
@@ -253,8 +254,13 @@ export default async function CompleteChapterNotesPage({
             </p>
           </section>
 
-          <div className="complete-chapter-sections">
-            {lessonContents.length > 0 ? (
+          <BiteSizedNotesController
+            chapterSlug={slug}
+            chapterTitle={chapter.title}
+            hasQuiz={Boolean(quizContent)}
+          >
+            <div className="complete-chapter-sections">
+              {lessonContents.length > 0 ? (
               lessonContents.map((content, index) => (
                 <div key={content.lesson.slug}>
                   <details
@@ -379,7 +385,10 @@ export default async function CompleteChapterNotesPage({
                 </aside>
               </div>
             )}
+            </div>
+          </BiteSizedNotesController>
 
+          <div style={{ marginTop: '28px' }}>
             <ChapterPyqDrill chapterSlug={slug} />
           </div>
         </article>

@@ -18,9 +18,11 @@ export default async function RegisterPage({
     <AuthRedirectWrapper loggedInTitle="Account already ready" loggedInDesc="You are already signed in. Open your student hub and continue learning.">
       <main className="auth-page">
         <section className="auth-card">
-          <p className="eyebrow">Student onboarding</p>
+          <p className="eyebrow">100% Free Class 10 Onboarding</p>
           <h1>Create your free Class 10 account</h1>
-          <p className="subtext compact">Join the live pilot to access clear chapter notes, visual learning flows, and a single place to return for revision.</p>
+          <p className="subtext compact">
+            Unlock all 48 NCERT chapters, 20 full 80-mark CBSE mock papers, 5-Q sprints, 1-page formula sheets, and Tara AI tutor — zero credit card required.
+          </p>
           <Suspense fallback={null}>
             <LoginErrorDisplay />
           </Suspense>

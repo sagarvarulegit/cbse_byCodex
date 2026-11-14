@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import ExamPaperStudio from '../../components/ExamPaperStudio';
+import GuestMockSampler from '../../components/GuestMockSampler';
 import MockTestSeriesCard, { type SubjectSeriesEntry } from '../../components/MockTestSeriesCard';
 import PilotEngagementTracker from '../../components/PilotEngagementTracker';
 import StudentTopbar from '../../components/StudentTopbar';
@@ -159,6 +160,8 @@ export default async function ExamPapersPage() {
               <p style={{ margin: '0 0 22px', fontSize: '1rem', color: '#55514b', maxWidth: '720px', lineHeight: 1.55 }}>
                 Official 2026–27 CBSE 38-question blueprint with 15-minute reading timer, 3-hour CBT clock, printable PDF download, and step-by-step examiner marking schemes.
               </p>
+
+              <GuestMockSampler />
 
               <div
                 style={{

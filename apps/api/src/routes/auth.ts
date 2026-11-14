@@ -3,6 +3,11 @@ import { Router } from 'express';
 
 import { hashPassword, readSessionToken, verifyPassword } from '../lib/auth.js';
 import { buildStudentWelcomeEmailHtml, sendEmail } from '../lib/email.js';
+import {
+  GoogleAuthConfigError,
+  GoogleAuthTokenError,
+  verifyGoogleIdToken,
+} from '../lib/google-auth.js';
 import { normalizeGuardianConsent } from '../lib/guardian-consent.js';
 import { prisma } from '../lib/prisma.js';
 import { rateLimit } from '../lib/rate-limiter.js';
@@ -184,6 +189,117 @@ authRouter.post('/login', authLimiter, async (req, res) => {
   } catch (error) {
     console.error('Login failed', error);
     return res.status(500).json({ message: 'Unable to log in right now.' });
+  }
+});
+
+authRouter.post('/google', authLimiter, async (req, res) => {
+  try {
+    const credential =
+      typeof req.body?.credential === 'string' ? req.body.credential.trim() : '';
+    const identity = await verifyGoogleIdToken(credential);
+    const { classLevel } = normalizeRegistrationClassLevel(req.body?.classLevel ?? 10);
+    const resolvedClassLevel = classLevel ?? 10;
+
+    let existingUser = await prisma.user.findUnique({
+      where: { email: identity.email },
+      include: { profile: true },
+    });
+
+    if (existingUser) {
+      if (existingUser.status !== 'active') {
+        return res.status(403).json({ message: 'This account is not active right now.' });
+      }
+
+      if (!existingUser.profile) {
+        const createdProfile = await prisma.userProfile.create({
+          data: {
+            userId: existingUser.id,
+            classLevel: resolvedClassLevel,
+            fullName: identity.fullName,
+          },
+        });
+        existingUser = {
+          ...existingUser,
+          profile: createdProfile,
+        };
+        invalidateSessionUserCache(existingUser.id);
+      }
+
+      return res.json({
+        token: createUserSessionToken(existingUser),
+        user: formatUserResponse(existingUser),
+        isNewUser: false,
+      });
+    }
+
+    let newUser;
+    try {
+      newUser = await prisma.user.create({
+        data: {
+          email: identity.email,
+          passwordHash: null,
+          role: UserRole.student,
+          profile: {
+            create: {
+              classLevel: resolvedClassLevel,
+              fullName: identity.fullName,
+            },
+          },
+        },
+        include: {
+          profile: true,
+        },
+      });
+    } catch (createErr: unknown) {
+      // Handle rare concurrent double-tap race on unique email
+      if (
+        createErr &&
+        typeof createErr === 'object' &&
+        'code' in createErr &&
+        (createErr as { code?: string }).code === 'P2002'
+      ) {
+        const racedUser = await prisma.user.findUnique({
+          where: { email: identity.email },
+          include: { profile: true },
+        });
+        if (racedUser && racedUser.status === 'active') {
+          return res.json({
+            token: createUserSessionToken(racedUser),
+            user: formatUserResponse(racedUser),
+            isNewUser: false,
+          });
+        }
+      }
+      throw createErr;
+    }
+
+    if (newUser.email) {
+      sendEmail({
+        to: newUser.email,
+        subject: `Welcome to ChapterReady Class 10, ${identity.fullName.split(' ')[0]}! 🎯`,
+        html: buildStudentWelcomeEmailHtml({
+          studentName: identity.fullName,
+          userEmail: newUser.email,
+        }),
+      }).catch((err) => {
+        console.warn('[AUTH_GOOGLE_WELCOME_EMAIL] Failed to send welcome email:', err);
+      });
+    }
+
+    return res.status(201).json({
+      token: createUserSessionToken(newUser),
+      user: formatUserResponse(newUser),
+      isNewUser: true,
+    });
+  } catch (error) {
+    if (error instanceof GoogleAuthConfigError) {
+      return res.status(503).json({ message: error.message });
+    }
+    if (error instanceof GoogleAuthTokenError) {
+      return res.status(401).json({ message: error.message });
+    }
+    console.error('Google authentication failed', error);
+    return res.status(500).json({ message: 'Unable to sign in with Google right now.' });
   }
 });
 

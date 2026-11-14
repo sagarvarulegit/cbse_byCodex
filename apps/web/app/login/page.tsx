@@ -19,8 +19,10 @@ export default async function LoginPage({
       <main className="auth-page">
         <section className="auth-card">
           <p className="eyebrow">Student access</p>
-          <h1>Login to open your study hub</h1>
-          <p className="subtext compact">Use your registered email and password to access the live Class 10 pilot chapters from one place.</p>
+          <h1>Login to open your Class 10 study hub</h1>
+          <p className="subtext compact">
+            Pick up your NCERT chapters, 5-Q sprints, Mistake Vault, and 20 free 80-mark CBSE mock papers right where you left off.
+          </p>
           <Suspense fallback={null}>
             <LoginErrorDisplay />
           </Suspense>

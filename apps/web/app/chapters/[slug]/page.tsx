@@ -140,13 +140,28 @@ export default async function ChapterProgressPage({
               </p>
             </div>
             {hasChapterContent ? (
-              <Link
-                className="secondary-notes-button"
-                href={`/chapters/${slug}/notes`}
-                prefetch={false}
-              >
-                Study Standard Chapter Notes ({chapter.title}) &rarr;
-              </Link>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
+                <Link
+                  className="secondary-notes-button"
+                  href={`/chapters/${slug}/notes?view=cards`}
+                  prefetch={false}
+                  style={{
+                    background: '#fff3e0',
+                    borderColor: '#171513',
+                    color: '#171513',
+                    fontWeight: 900,
+                  }}
+                >
+                  ⚡ Bite-Sized Concept Cards &rarr;
+                </Link>
+                <Link
+                  className="secondary-notes-button"
+                  href={`/chapters/${slug}/notes`}
+                  prefetch={false}
+                >
+                  Study Standard Chapter Notes ({chapter.title}) &rarr;
+                </Link>
+              </div>
             ) : null}
           </div>
         </div>

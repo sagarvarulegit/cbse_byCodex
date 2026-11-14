@@ -160,11 +160,12 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Student Activation, 5-Q Instant Quiz Sprint & WhatsApp Virality Upgrade**: Split Hero with zero-signup 60s Board Trap Challenge (`HeroBoardTrapChallenge.tsx`) + `BoardExamCountdownPill.tsx`, Dashboard Pre-Board jump & Interactive Playground (`InteractivePlaygroundStrip.tsx`), 5-Q Duolingo-style quiz stepper with `?challengeBy=&beat=` WhatsApp challenges & guest `401` score display (`QuizScoreForm.tsx`, `WhatsAppChallengeBar.tsx`), free flashcards + Study Buddy WhatsApp sheet unlock (`FormulaCheatsheetViewer.tsx`), guest 20-paper showcase (`/exam-papers`), and 1-tap `api.whatsapp.com` sharing in all 3 Arcade games.
+- [x] **Phase 1–3 Student Growth, Bite-Sized Cards & 1-Tap Google Auth**: Shipped Bite-Sized Concept Cards (`BiteSizedNotesController.tsx` with `?view=cards` & print override), 1-Tap Google OAuth (`POST /v1/auth/google` RS256 JWKS verifier + `GoogleSignInButton.tsx` + password show/hide & live rule pills), zero-signup 5-Q Section-A CBT sampler (`GuestMockSampler.tsx` on `/exam-papers`), Split Hero 60s Board Trap, Dashboard Playground, 5-Q Quiz Sprints, free flashcards, and WhatsApp challenge sharing.
 - [x] **Post-Signup Choice Modal, Exam Forfeit Controls & `perf/core-speed-and-scale`**: `DEFAULT_POST_SIGNUP_PATH = '/dashboard?welcome=1'`, full-funnel `ProgressEvent` tracking, `Forfeit & Exit` exam controls, `bom1` region pinning, session/API dedup caches, and batched `/exam-papers`.
-- [x] **Prior Foundation Releases**: Student menu scroll/outside-click collapse, Android PWA/TWA release bundle (`app-release-bundle.aab`), Tara chat session isolation, Question Bank (1,669+ SEO pages), Parent Progress Summary, Tara Optics Engine, Formula Rush Arcade, Grounded AI Evaluator & 20 Free 80M Mock Papers.
+- [x] **Prior Foundation Releases**: Menu auto-collapse, Android PWA/TWA (`app-release-bundle.aab`), Tara chat session isolation, Question Bank (1,669+ SEO pages), Parent Summary, Tara Optics Engine, Formula Rush Arcade, Grounded AI Evaluator & 20 Free 80M Mock Papers.
 
 ### 6.2 Active Tasks in Queue
+- [ ] **Configure Google OAuth Client ID in Vercel**: Add `GOOGLE_CLIENT_ID` on `cbse-bycodex-api` and `NEXT_PUBLIC_GOOGLE_CLIENT_ID` on `cbse-bycodex-web` so `GoogleSignInButton` goes live in production.
 - [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
 - [ ] **YouTube Section Formula Short Upload**: Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` with dedicated 9:16 thumbnail to YouTube Studio.
 - [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.
@@ -184,6 +185,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 6. **Strict Prisma Interactive Transaction Timeout:** Multi-table transactions (mastery + streaks + missions + badges) can exceed the default 5s timeout. Use explicit `maxWait: 10000` and `timeout: 15000` in `apps/api/src/routes/progress.ts`.
 7. **Student Session Cookie & Navigation Routing:** Client components require client access to `cbse_student_session` (`httpOnly: false`). Fallback endpoint `/api/auth/session` handles legacy sessions. Breadcrumbs across all routes must route logged-in students to `/dashboard` ("Dashboard") and unauthenticated visitors to `/` ("Home").
 8. **Student Popover & Dropdown Menu Scrolling and Auto-Collapse:** `.student-account-popover` enforces `max-height: min(calc(100dvh - 110px), 520px)` with `overflow-y: auto` and `overscroll-behavior: contain`. `StudentTopbar.tsx` & `ReadingCompanion.tsx` handle `pointerdown` outside clicks, `Escape` key, and route navigation (`usePathname()`).
+9. **Bite-Sized Notes & Google OAuth Gotchas:** `BiteSizedNotesController.tsx` defaults to `'textbook'` unless `?view=cards` or toggled so `smoke.spec.ts` (`details[open]` === 1) passes, and resets `content-visibility: visible` on active cards to prevent 1100px blank space. `POST /v1/auth/google` uses `node:crypto` RS256 JWKS verification (`User.passwordHash` is nullable).
 
 ### 7.2 Pre-Close Verification Checklist
 Before concluding any implementation turn, confirm:

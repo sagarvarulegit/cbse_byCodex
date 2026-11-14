@@ -14,6 +14,7 @@ export type SessionUser = {
 type AuthResponse = {
   token: string;
   user: SessionUser;
+  isNewUser?: boolean;
 };
 
 export type GuardianRegistrationConsent = {
@@ -115,6 +116,28 @@ export async function registerStudent(
   await saveSessionToken(data.token);
 
   return data.user;
+}
+
+export async function loginWithGoogle(credential: string, classLevel = 10) {
+  const response = await fetchAuthApi('/v1/auth/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-store',
+    body: JSON.stringify({
+      credential,
+      classLevel: classLevel || 10,
+    }),
+  });
+
+  const data = (await parseApiResponse(response)) as AuthResponse;
+  await saveSessionToken(data.token);
+
+  return {
+    user: data.user,
+    isNewUser: Boolean(data.isNewUser),
+  };
 }
 
 const AUTH_SECRET = process.env.AUTH_TOKEN_SECRET ?? 'local-dev-auth-secret';

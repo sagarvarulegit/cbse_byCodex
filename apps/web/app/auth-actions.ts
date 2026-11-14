@@ -1,6 +1,11 @@
 'use server';
 
-import { clearStudentSession, loginStudent, registerStudent } from '../lib/auth';
+import {
+  clearStudentSession,
+  loginStudent,
+  loginWithGoogle,
+  registerStudent,
+} from '../lib/auth';
 import { PILOT_PRIVACY_NOTICE_VERSION } from '../lib/privacy';
 import type { AuthActionState } from './auth-state';
 
@@ -46,6 +51,29 @@ export async function registerAction(
   }
 
   return { error: null, ok: true };
+}
+
+export async function googleAuthAction(
+  credential: string,
+  classLevel = 10,
+): Promise<{ error: string | null; ok: boolean; isNewUser?: boolean }> {
+  const trimmed = String(credential ?? '').trim();
+  if (!trimmed) {
+    return { error: 'Missing Google sign-in token. Please try again.', ok: false };
+  }
+
+  try {
+    const result = await loginWithGoogle(trimmed, classLevel);
+    return { error: null, ok: true, isNewUser: result.isNewUser };
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unable to sign in with Google right now.',
+      ok: false,
+    };
+  }
 }
 
 export async function logoutAction() {
