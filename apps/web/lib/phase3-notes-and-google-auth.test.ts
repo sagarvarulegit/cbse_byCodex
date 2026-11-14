@@ -67,3 +67,25 @@ test('Phase 3: /exam-papers mounts interactive GuestMockSampler for zero-signup 
   assert.match(sampler, /Nitrogen dioxide \(NO₂\)/);
   assert.match(sampler, /WhatsAppChallengeBar/);
 });
+
+test('Mobile responsiveness: Notes pills, Bite-Sized deck, Chapter Hub, Auth GSI button, and Guest Sampler avoid narrow-screen overflow', () => {
+  const remixCss = readWebFile('../app/platform-remix.css');
+  const chapterHub = readWebFile('../app/chapters/[slug]/page.tsx');
+  const googleBtn = readWebFile('../components/GoogleSignInButton.tsx');
+
+  // Desktop-only scroll container for sticky sidebar so <=980px stacked mobile layout has no nested scroll trap
+  assert.match(remixCss, /@media \(min-width: 981px\)[\s\S]*?\.complete-chapter-sidebar \.chapter-contents-nav/);
+
+  // Mobile <=680px overrides white-space: nowrap on Quick Actions pills and Bite-Sized segmented tabs
+  assert.match(remixCss, /@media \(max-width: 680px\)[\s\S]*?\.notes-floating-pills-inner \.floating-pill-btn[\s\S]*?white-space:\s*normal/);
+  assert.match(remixCss, /@media \(max-width: 680px\)[\s\S]*?\.bite-mode-toggle-group[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(0,\s*1fr\)/);
+  assert.match(remixCss, /\.bite-jump-select[\s\S]*?font-size:\s*16px/);
+
+  // Chapter Hub secondary notes buttons wrap cleanly on <=768px
+  assert.match(chapterHub, /className="secondary-notes-actions"/);
+  assert.match(remixCss, /@media \(max-width: 768px\)[\s\S]*?\.secondary-notes-button[\s\S]*?white-space:\s*normal/);
+
+  // Google GSI button adapts down to 200px on 320px-360px phones and listens to resize
+  assert.match(googleBtn, /Math\.max\(200,/);
+  assert.match(googleBtn, /addEventListener\('resize'/);
+});

@@ -140,7 +140,7 @@ export default async function ChapterProgressPage({
               </p>
             </div>
             {hasChapterContent ? (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
+              <div className="secondary-notes-actions">
                 <Link
                   className="secondary-notes-button"
                   href={`/chapters/${slug}/notes?view=cards`}

@@ -93,7 +93,6 @@ export function GoogleSignInButton({ mode }: GoogleSignInButtonProps) {
     if (!idApi) return;
 
     const host = buttonHostRef.current;
-    const measuredWidth = Math.min(400, Math.max(250, Math.floor(host.clientWidth || 340)));
 
     idApi.initialize({
       client_id: clientId,
@@ -131,16 +130,37 @@ export function GoogleSignInButton({ mode }: GoogleSignInButtonProps) {
       },
     });
 
-    host.innerHTML = '';
-    idApi.renderButton(host, {
-      type: 'standard',
-      theme: 'outline',
-      size: 'large',
-      text: mode === 'register' ? 'signup_with' : 'continue_with',
-      shape: 'rectangular',
-      logo_alignment: 'left',
-      width: measuredWidth,
-    });
+    let lastRenderedWidth = 0;
+    const renderAtCurrentWidth = () => {
+      const available = Math.floor((host.clientWidth || 320) - 4);
+      const measuredWidth = Math.min(400, Math.max(200, available));
+      if (Math.abs(measuredWidth - lastRenderedWidth) < 8) return;
+      lastRenderedWidth = measuredWidth;
+
+      host.innerHTML = '';
+      idApi.renderButton(host, {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: mode === 'register' ? 'signup_with' : 'continue_with',
+        shape: 'rectangular',
+        logo_alignment: 'left',
+        width: measuredWidth,
+      });
+    };
+
+    renderAtCurrentWidth();
+
+    let resizeTimer: number | undefined;
+    const handleResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(renderAtCurrentWidth, 150);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [clientId, mode, router, sdkReady, searchParams]);
 
   if (!clientId) {

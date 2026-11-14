@@ -1503,6 +1503,56 @@ export default function QuizScoreForm({
           color: #ffffff !important;
           border-color: #dc2626 !important;
         }
+
+        @media (max-width: 560px) {
+          .quiz-mode-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+          }
+
+          .mode-pill {
+            text-align: center;
+            justify-content: center;
+            padding: 8px 8px;
+            font-size: 0.78rem;
+          }
+
+          .quiz-option {
+            gap: 10px;
+            padding: 11px 12px;
+            min-height: 52px;
+          }
+
+          .quiz-option-badge {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            font-size: 0.86rem;
+          }
+
+          .quiz-option-text {
+            font-size: 0.9rem;
+          }
+
+          .sprint-summary-celebration {
+            padding: 16px 14px;
+            border-radius: 16px;
+          }
+
+          .sprint-summary-top h2 {
+            font-size: 1.24rem;
+          }
+
+          .guest-save-btn,
+          .sprint-next-set-btn,
+          .sprint-retry-btn,
+          .sprint-sheet-link {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+          }
+        }
       `}</style>
     </form>
   );

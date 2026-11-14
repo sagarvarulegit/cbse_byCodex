@@ -160,16 +160,15 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 ## 6. Active Sprint Handoffs & Master Task Backlog
 
 ### 6.1 Recently Completed Deployments & Shipments
-- [x] **Phase 1–3 Student Growth, Bite-Sized Cards & 1-Tap Google Auth (LIVE on Prod)**: Shipped Bite-Sized Concept Cards (`BiteSizedNotesController.tsx`), live 1-Tap Google OAuth (`GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID` deployed on `cbse-bycodex-api` & `cbse-bycodex-web`), password show/hide & live rule pills, zero-signup 5-Q Section-A CBT sampler (`GuestMockSampler.tsx` on `/exam-papers`), Split Hero 60s Board Trap, Dashboard Playground, 5-Q Quiz Sprints, free flashcards, and WhatsApp challenge sharing.
-- [x] **Post-Signup Choice Modal, Exam Forfeit Controls & `perf/core-speed-and-scale`**: `DEFAULT_POST_SIGNUP_PATH = '/dashboard?welcome=1'`, full-funnel `ProgressEvent` tracking, `Forfeit & Exit` exam controls, `bom1` region pinning, session/API dedup caches, and batched `/exam-papers`.
-- [x] **Prior Foundation Releases**: Menu auto-collapse, Android PWA/TWA (`app-release-bundle.aab`), Tara chat session isolation, Question Bank (1,669+ SEO pages), Parent Summary, Tara Optics Engine, Formula Rush Arcade, Grounded AI Evaluator & 20 Free 80M Mock Papers.
+- [x] **Phase 1–3 Growth, Bite-Sized Cards, 1-Tap Google Auth & Mobile Polish (LIVE)**: Bite-Sized Topic Cards (BiteSizedNotesController.tsx), 1-Tap Google OAuth, Guest 5-Q Section-A Sampler (GuestMockSampler.tsx), Split Hero 60s Board Trap, Dashboard Playground, 5-Q Quiz Sprints, WhatsApp sharing, and 320px–768px mobile overflow/touch polish.
+- [x] **Post-Signup Modal, Exam Forfeit, perf/core-speed-and-scale & Play Store (1.0.0 In-Review)**: /dashboard?welcome=1 modal, ProgressEvent funnel, Forfeit & Exit controls, om1 pinning, dedup caches, batched /exam-papers, and pp-release-bundle.aab Play submission.
+- [x] **Foundation Releases**: Menu auto-collapse, Tara isolation, 1,669+ PYQ SEO pages, Parent Summary, Optics Engine, Formula Rush, Grounded AI Evaluator & 20 Free 80M Mock Papers.
 
 ### 6.2 Active Tasks in Queue
-- [ ] **Automated Weekly Parent Digest Notification**: Trigger Sunday evening WhatsApp / email digests to parents detailing study consistency and countdown to board exams.
-- [ ] **YouTube Section Formula Short Upload**: Upload `cbse-class-10-maths-section-formula-ratio-shorts.mp4` with dedicated 9:16 thumbnail to YouTube Studio.
-- [ ] **Live ₹2 UPI Transaction Test**: Perform an end-to-end UPI payment test on `https://www.chapterready.in/store` in production.
-- [x] **Google Play Store App Submission**: Developer Account verified (support@chapterready.in, ID 6699761686534634453), store listing & policy declarations completed, and pp-release-bundle.aab (1.0.0) submitted to Google Play review (In-review).
-- [ ] **Roll Out Full Lesson-Wise Notes**: Continue expanding lesson-wise notes across Science, Mathematics, and Social Science matching notes guidelines.
+- [ ] **Automated Weekly Parent Digest**: Sunday evening WhatsApp/email digest to parents.
+- [ ] **YouTube Short Upload**: cbse-class-10-maths-section-formula-ratio-shorts.mp4.
+- [ ] **Live ₹2 UPI Test**: End-to-end UPI verification on https://www.chapterready.in/store.
+- [ ] **Expand Lesson-Wise Notes**: Science, Mathematics & Social Science in cbse_KB.
 
 ---
 
@@ -184,7 +183,7 @@ Source of truth always wins over these summaries: `apps/api/prisma/schema.prisma
 6. **Strict Prisma Interactive Transaction Timeout:** Multi-table transactions (mastery + streaks + missions + badges) can exceed the default 5s timeout. Use explicit `maxWait: 10000` and `timeout: 15000` in `apps/api/src/routes/progress.ts`.
 7. **Student Session Cookie & Navigation Routing:** Client components require client access to `cbse_student_session` (`httpOnly: false`). Fallback endpoint `/api/auth/session` handles legacy sessions. Breadcrumbs across all routes must route logged-in students to `/dashboard` ("Dashboard") and unauthenticated visitors to `/` ("Home").
 8. **Student Popover & Dropdown Menu Scrolling and Auto-Collapse:** `.student-account-popover` enforces `max-height: min(calc(100dvh - 110px), 520px)` with `overflow-y: auto` and `overscroll-behavior: contain`. `StudentTopbar.tsx` & `ReadingCompanion.tsx` handle `pointerdown` outside clicks, `Escape` key, and route navigation (`usePathname()`).
-9. **Bite-Sized Notes Layout & Google OAuth Gotchas:** `BiteSizedNotesController.tsx` groups support sections onto parent NCERT Topic Cards, defaults to `'textbook'` unless `?view=cards` (`details[open]` === 1 for `smoke.spec.ts`), and sets `grid-template-columns: minmax(0, 1fr); overflow-x: clip` + `width: min(1240px, calc(100vw - 32px))` on `.notes-sticky-floating-bar` to prevent right-sidebar bleed. `POST /v1/auth/google` uses `node:crypto` RS256 JWKS (`User.passwordHash` nullable).
+9. **Bite-Sized Notes, Mobile Viewport (`320px–768px`) & Google OAuth Gotchas:** `BiteSizedNotesController.tsx` groups support sections onto parent NCERT Topic Cards, defaults to `'textbook'` unless `?view=cards` (`details[open]` === 1 for `smoke.spec.ts`), and sets `grid-template-columns: minmax(0, 1fr); overflow-x: clip`. Scope `.complete-chapter-sidebar .chapter-contents-nav` `max-height` to `@media (min-width: 981px)` (no mobile nested scroll trap), reset `white-space: normal` on `.floating-pill-btn` & `.secondary-notes-button` under `<=768px`, keep mobile `<select>`/`<input>` at `font-size: 16px` (prevents iOS Safari zoom), and clamp `GoogleSignInButton` width down to `200px` on resize. `POST /v1/auth/google` uses `node:crypto` RS256 JWKS (`User.passwordHash` nullable).
 
 ### 7.2 Pre-Close Verification Checklist
 Before concluding any implementation turn, confirm:
